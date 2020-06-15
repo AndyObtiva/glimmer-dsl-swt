@@ -1,4 +1,4 @@
-# Glimmer DSL for SWT 0.1.0 (Desktop GUI)
+# Glimmer DSL for SWT 0.1.1 (Desktop GUI)
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
 

@@ -10,7 +10,7 @@
 Follow these steps, running mentioned commands in the terminal:
 - Fork project repo
 - Ensure pre-requisites installed (installing JRuby via RVM on the Mac)
-- cd into project again to activate RVM glimmer gemset
+- cd into project again to activate RVM glimmer-dsl-swt gemset
 - gem install bundler
 - bundle
 - rake # runs specs (ensure they finish successfully)
@@ -39,7 +39,7 @@ Note: make sure not to use the keyboard or mouse while tests are running since t
 
 ### build
 
-`rake build` builds the Glimmer gem under the `pkg` directory.
+`rake build` builds the glimmer-dsl-swt gem under the `pkg` directory.
 
 ### glimmer command
 

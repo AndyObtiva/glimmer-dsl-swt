@@ -155,7 +155,6 @@ class Scaffold
       end
       mkdir 'bin'
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
-      FileUtils.chmod 0755, "bin/#{file_name(app_name)}"
       system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
       system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
       # TODO generate rspec test suite
@@ -193,14 +192,14 @@ class Scaffold
       write '.ruby-gemset', gem_name
       write 'VERSION', '1.0.0'
       write 'Gemfile', GEMFILE_GEM      
-      write 'Rakefile', gem_rakefile(custom_shell_name, namespace)
+      write 'Rakefile', gem_rakefile(custom_shell_name, namespace, gem_name)
       append "lib/#{gem_name}.rb", gem_main_file(custom_shell_name, namespace)
       mkdir 'lib/views'
       custom_shell(custom_shell_name, namespace, :gem)
       mkdir 'bin'
       write "bin/#{gem_name}", gem_bin_file(gem_name, custom_shell_name, namespace)
       write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name)
-      FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"      
+      FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
       if OS.mac?
         mkdir_p 'package/macosx'
         icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
@@ -317,8 +316,6 @@ class Scaffold
 
     def app_bin_file(app_name)
       <<~MULTI_LINE_STRING
-        #!/usr/bin/env ruby
-        
         require_relative '../app/#{file_name(app_name)}'
         
         #{class_name(app_name)}.new.open
@@ -327,8 +324,6 @@ class Scaffold
 
     def gem_bin_file(gem_name, custom_shell_name, namespace)
       <<~MULTI_LINE_STRING
-        #!/usr/bin/env ruby
-        
         require_relative '../lib/#{gem_name}'
         
         include Glimmer
@@ -349,7 +344,7 @@ class Scaffold
       MULTI_LINE_STRING
     end
 
-    def gem_rakefile(custom_shell_name = nil, namespace = nil)
+    def gem_rakefile(custom_shell_name = nil, namespace = nil, gem_name = nil)
       rakefile_content = File.read('Rakefile')
       lines = rakefile_content.split("\n")
       require_rake_line_index = lines.index(lines.detect {|l| l.include?("require 'rake'") })
@@ -357,7 +352,7 @@ class Scaffold
       gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
       if custom_shell_name
         lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*.rb', 'bin/**/*']")
-        lines.insert(gem_files_line_index+1, "  gem.executables = ['#{file_name(custom_shell_name)}']")
+        lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
       else
         lines.insert(gem_files_line_index, "  gem.files = Dir['lib/**/*.rb']")
       end

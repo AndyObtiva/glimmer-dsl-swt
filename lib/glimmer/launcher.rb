@@ -33,7 +33,7 @@ module Glimmer
       This runs the Glimmer application samples/hello_world.rb
     MULTI_LINE_STRING
 
-    GLIMMER_LIB_LOCAL = File.expand_path(File.join(__FILE__, '..', '..', 'glimmer-dsl-swt.rb'))
+    GLIMMER_LIB_LOCAL = File.expand_path(File.join('lib', 'glimmer-dsl-swt.rb'))
     GLIMMER_LIB_GEM = 'glimmer-dsl-swt'
     GLIMMER_OPTIONS = %w[--log-level --quiet]
     GLIMMER_OPTION_ENV_VAR_MAPPING = {
