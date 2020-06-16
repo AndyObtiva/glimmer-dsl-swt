@@ -7,6 +7,11 @@
 You may find full setup/usage instructions at the main Glimmer project page: 
 [https://github.com/AndyObtiva/glimmer](https://github.com/AndyObtiva/glimmer)
 
+Other Glimmer DSL gems:
+- [glimmer-dsl-opal](https://github.com/AndyObtiva/glimmer-dsl-opal): Glimmer DSL for Opal (Web GUI Adapter for Desktop Apps)
+- [glimmer-dsl-xml](https://github.com/AndyObtiva/glimmer-dsl-xml): Glimmer DSL for XML (& HTML)
+- [glimmer-dsl-css](https://github.com/AndyObtiva/glimmer-dsl-css): Glimmer DSL for CSS (Cascading Style Sheets)
+
 ## Help
 
 ### Issues
