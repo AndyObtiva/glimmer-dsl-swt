@@ -5,7 +5,7 @@
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for SWT enables desktop development with Glimmer.
 
-You may find full setup/usage instructions at the main [Glimmer project page](https://github.com/AndyObtiva/glimmer)
+You may find full setup/usage instructions at the main [Glimmer project page](https://github.com/AndyObtiva/glimmer).
 
 Other Glimmer DSL gems:
 - [glimmer-dsl-opal](https://github.com/AndyObtiva/glimmer-dsl-opal): Glimmer DSL for Opal (Web GUI Adapter for Desktop Apps)
