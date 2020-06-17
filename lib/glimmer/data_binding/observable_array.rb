@@ -40,61 +40,40 @@ module Glimmer
       def notify_observers
         property_observer_list.each {|observer| observer.call}
       end
-
-      def self.extend_object(array)
-        # TODO consider alias_method, and define_method instead
-
-        array.instance_eval("alias __original_add <<")
-        array.instance_eval <<-end_eval, __FILE__, __LINE__
-        def <<(value)
-          self.__original_add(value)
-          notify_observers
-        end
-        end_eval
-
-        array.instance_eval("alias __original_set_value []=")
-        array.instance_eval <<-end_eval, __FILE__, __LINE__
-        def []=(index, value)
-          old_value = self[index]
-          unregister_dependent_observers(old_value)
-          self.__original_set_value(index, value)
-          notify_observers
-        end
-        end_eval
-
-        array.instance_eval("alias __original_delete delete")
-        array.instance_eval <<-end_eval, __FILE__, __LINE__
-        def delete(value)
-          unregister_dependent_observers(value)
-          self.__original_delete(value)
-          notify_observers
-        end
-        end_eval
-
-        array.instance_eval("alias __original_delete_at delete_at")
-        array.instance_eval <<-end_eval, __FILE__, __LINE__
-        def delete_at(index)
-          old_value = self[index]
-          unregister_dependent_observers(old_value)
-          self.__original_delete_at(index)
-          notify_observers
-        end
-        end_eval
-
-        array.instance_eval("alias __original_clear clear")
-        array.instance_eval <<-end_eval, __FILE__, __LINE__
-        def clear
-          each do |old_value|
-            unregister_dependent_observers(old_value)
-          end
-          self.__original_clear
-          notify_observers
-        end
-        end_eval
-
-        super
+      
+      def <<(element)
+        super(element)
+        notify_observers
       end
-
+      
+      def []=(index, value)
+        old_value = self[index]
+        unregister_dependent_observers(old_value)
+        super(index, value)
+        notify_observers
+      end
+      
+      def delete(element)
+        unregister_dependent_observers(element)
+        super(element)
+        notify_observers
+      end
+      
+      def delete_at(index)
+        old_value = self[index]
+        unregister_dependent_observers(old_value)
+        super(index)
+        notify_observers
+      end
+      
+      def clear
+        each do |old_value|
+          unregister_dependent_observers(old_value)
+        end
+        super()
+        notify_observers
+      end
+      
       def unregister_dependent_observers(old_value)
         # TODO look into optimizing this
         return unless old_value.is_a?(ObservableModel) || old_value.is_a?(ObservableArray)
