@@ -91,6 +91,7 @@ items <=> binding {
 - Ensure support for packaging on Windows (exe file)
 - Ensure support for packaging on Linux
 - Refactor entire codebase to get rid of Java getters/setters in favor of Ruby attributes
+- Support Mac top-menu-bar app-mini-icon
 
 ## Samples
 
@@ -99,11 +100,6 @@ items <=> binding {
 - Business Accounting app
 
 ## Side Projects
-
-### opal-spike branch
-
-- Support web UIs via Opal Ruby (https://github.com/opal/opal)
-- Support porting an existing Glimmer SWT app into a web app with very little effort
 
 ### glimmertalk project
 

@@ -1,4 +1,3 @@
-require 'glimmer'
 require 'glimmer/swt/widget_listener_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'

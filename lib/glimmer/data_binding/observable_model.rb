@@ -60,17 +60,15 @@ module Glimmer
         begin
           method("__original_#{property_writer_name}")
         rescue
-          # TODO consider alias_method or define_method instead
-          instance_eval "alias __original_#{property_writer_name} #{property_writer_name}"
-          instance_eval <<-end_eval, __FILE__, __LINE__
-          def #{property_writer_name}(value)
-            old_value = self.#{property_name}
-            unregister_dependent_observers('#{property_name}', old_value)
-            self.__original_#{property_writer_name}(value)
-            notify_observers('#{property_name}')
-            ensure_array_object_observer('#{property_name}', value, old_value)
+          old_method = self.class.instance_method(property_writer_name)
+          define_singleton_method("__original_#{property_writer_name}", old_method)
+          define_singleton_method(property_writer_name) do |value|
+            old_value = self.send(property_name)
+            unregister_dependent_observers(property_name, old_value)
+            self.send("__original_#{property_writer_name}", value)
+            notify_observers(property_name)
+            ensure_array_object_observer(property_name, value, old_value)
           end
-          end_eval
         end
       rescue => e
         # ignore writing if no property writer exists

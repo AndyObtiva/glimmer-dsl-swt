@@ -1,4 +1,3 @@
-require 'glimmer'
 require_relative 'observable'
 require_relative 'observer'
 
@@ -10,10 +9,10 @@ module Glimmer
       include Observer
 
       attr_reader :widget, :property
-      def initialize(model, property, translator = nil)
-        @widget = model
+      def initialize(widget, property, translator = nil)
+        @widget = widget
         @property = property
-        @translator = translator || proc {|value| value}
+        @translator = translator || proc {|value| value} #TODO check on this it doesn't seem used
 
         if @widget.respond_to?(:dispose)
           @widget.on_widget_disposed do |dispose_event|
@@ -21,10 +20,12 @@ module Glimmer
           end
         end
       end
+      
       def call(value)
         converted_value = translated_value = @translator.call(value)
         @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
       end
+      
       def evaluate_property
         @widget.get_attribute(@property)
       end
