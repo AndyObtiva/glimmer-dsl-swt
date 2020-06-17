@@ -92,6 +92,7 @@ items <=> binding {
 - Ensure support for packaging on Linux
 - Refactor entire codebase to get rid of Java getters/setters in favor of Ruby attributes
 - Support Mac top-menu-bar app-mini-icon
+- Consider namespacing data_binding classes as SWT just like DSL is namespaced
 
 ## Samples
 

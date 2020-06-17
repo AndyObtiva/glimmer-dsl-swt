@@ -1,6 +1,10 @@
 
 # Change Log
 
+## 0.1.2
+
+- Extracted common model data-binding classes into glimmer
+
 ## 0.1.1
 
 - Fixed issue with packaging after generating gemspec

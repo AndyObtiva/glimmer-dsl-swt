@@ -1,5 +1,5 @@
-require_relative 'observable'
-require_relative 'observer'
+require 'glimmer/data_binding/observable'
+require 'glimmer/data_binding/observer'
 
 module Glimmer
   module DataBinding
