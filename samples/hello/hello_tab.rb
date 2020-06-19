@@ -2,7 +2,7 @@ class HelloTab
   include Glimmer
   def launch
     shell {
-      text "Hello Tab"
+      text "Hello, Tab!"
       tab_folder {
         tab_item {
           text "English"
@@ -13,7 +13,7 @@ class HelloTab
         tab_item {
           text "French"
           label {
-            text "Bonjour Univers!"
+            text "Bonjour, Univers!"
           }
         }
       }

@@ -1,4 +1,3 @@
-require 'glimmer'
 require 'glimmer/data_binding/observable'
 require 'glimmer/data_binding/observer'
 
