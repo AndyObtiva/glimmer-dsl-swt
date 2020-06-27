@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-- Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
 - Provide better error messages when on_listener_method fails due to invalid event name
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 - Have glimmer command support a custom-widget-gem/custom-shell-gem lookup task
@@ -12,6 +11,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Add minimum size to Tic Tac Toe sample
 - Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
 - Update icon of scaffolded apps to Glimmer logo
+- Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
+- Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
