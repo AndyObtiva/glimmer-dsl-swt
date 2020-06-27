@@ -37,11 +37,11 @@ class TicTacToe
     display_game_over_message("Draw!")
   end
 
-  def display_game_over_message(message)
-    message_box = MessageBox.new(@shell.swt_widget)
-    message_box.setText("Game Over")
-    message_box.setMessage(message)
-    message_box.open
+  def display_game_over_message(message_text)
+    message_box(@shell) {
+      text 'Game Over'
+      message message_text
+    }.open
     @tic_tac_toe_board.reset
   end
 

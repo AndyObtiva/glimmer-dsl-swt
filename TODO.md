@@ -4,6 +4,14 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
+- Provide better error messages when on_listener_method fails due to invalid event name
+- Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
+- Have glimmer command support a custom-widget-gem/custom-shell-gem lookup task
+- Document drag & drop in Glimmer
+- Add minimum size to Tic Tac Toe sample
+- Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
+- Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
+
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
 - bind_content: an iterator that enables spawning widgets based on a variable collection (e.g. `bind_content('user.addresses').each { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only). Needs further thought on naming and functionality.
