@@ -478,6 +478,24 @@ module Glimmer
               value.to_s
             end
           end,
+          :transfer => lambda do |value|
+            transfer_object_extrapolator = lambda do |transfer_name|
+              transfer_type = "#{transfer_name.to_s.camelcase(:upper)}Transfer".to_sym
+              transfer_type_alternative = "#{transfer_name.to_s.upcase}Transfer".to_sym
+              transfer_class = org.eclipse.swt.dnd.const_get(transfer_type) rescue org.eclipse.swt.dnd.const_get(transfer_type_alternative)
+              transfer_class.getInstance
+            end
+            result = value
+            if value.is_a?(Symbol) || value.is_a?(String)
+              result = [transfer_object_extrapolator.call(value)]
+            elsif value.is_a?(Array)
+              result = value.map do |transfer_name|
+                transfer_object_extrapolator.call(transfer_name)
+              end
+            end
+            result = result.to_java(Transfer) unless result.is_a?(ArrayJavaProxy)
+            result
+          end,
           :visible => lambda do |value|
             !!value
           end,
