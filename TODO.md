@@ -10,7 +10,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Support searching for gems (not just listing them)
 - Add coveralls
 - Document drag & drop in Glimmer
-
 - Provide better error messages when on_listener_method fails due to invalid event name
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 

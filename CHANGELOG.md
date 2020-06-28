@@ -8,6 +8,7 @@
 - Set default style DND::DROP_COPY in DragSource and DropTarget widgets
 - Support Glimmer::SWT::DNDProxy for handling Drop & Drop styles
 - Implemented list:* rake tasks for listing Glimmer custom widget gems, custom shell gems, and dsl gems
+- Support querying for Glimmer gems (not just listing them)
 - Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
 - Update icon of scaffolded apps to Glimmer logo
 

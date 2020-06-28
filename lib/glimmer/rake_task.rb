@@ -65,19 +65,19 @@ namespace :glimmer do
       require_relative 'rake_task/list'
     end
   
-    desc 'List Glimmer custom widget gems available at rubygems.org'
-    task :custom_widget_gems => :list_require do
-      Glimmer::RakeTask::List.custom_widget_gems
+    desc 'List Glimmer custom widget gems available at rubygems.org (query is optional)'
+    task :custom_widget_gems, [:query] => :list_require do |t, args|
+      Glimmer::RakeTask::List.custom_widget_gems(args[:query])
     end
     
-    desc 'List Glimmer custom shell gems available at rubygems.org'
-    task :custom_shell_gems => :list_require do
-      Glimmer::RakeTask::List.custom_shell_gems
+    desc 'List Glimmer custom shell gems available at rubygems.org (query is optional)'
+    task :custom_shell_gems, [:query] => :list_require do |t, args|
+      Glimmer::RakeTask::List.custom_shell_gems(args[:query])
     end
     
-    desc 'List Glimmer DSL gems available at rubygems.org'
-    task :dsl_gems => :list_require do
-      Glimmer::RakeTask::List.dsl_gems
+    desc 'List Glimmer DSL gems available at rubygems.org (query is optional)'
+    task :dsl_gems, [:query] => :list_require do |t, args|
+      Glimmer::RakeTask::List.dsl_gems(args[:query])
     end
     
   end

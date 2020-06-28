@@ -8,31 +8,31 @@ module Glimmer
       class << self
         REGEX_GEM_LINE = /^([^\(]+) \(([^\)]+)\)$/
         
-        def custom_widget_gems
-          list_gems('glimmer-cw-') do |result|
+        def custom_widget_gems(query=nil)
+          list_gems('glimmer-cw-', query) do |result|
             puts
-            puts '  Glimmer Custom Widget Gems:'
+            puts "  Glimmer Custom Widget Gems#{" matching [#{query}]" if query} at rubygems.org:"
             puts result
           end
         end
 
-        def custom_shell_gems
-          list_gems('glimmer-cs-') do |result|
+        def custom_shell_gems(query=nil)
+          list_gems('glimmer-cs-', query) do |result|
             puts
-            puts '  Glimmer Custom Shell Gems:'
+            puts "  Glimmer Custom Shell Gems#{" matching [#{query}]" if query} at rubygems.org:"
             puts result
           end
         end
 
-        def dsl_gems
-          list_gems('glimmer-dsl-') do |result|
+        def dsl_gems(query=nil)
+          list_gems('glimmer-dsl-', query) do |result|
             puts
-            puts '  Glimmer DSL Gems:'
+            puts "  Glimmer DSL Gems#{" matching [#{query}]" if query} at rubygems.org:"
             puts result
           end
         end
         
-        def list_gems(gem_prefix, &printer)
+        def list_gems(gem_prefix, query=nil, &printer)
           lines = `gem search -d #{gem_prefix}`.split("\n")
           gems = lines.slice_before {|l| l.match(REGEX_GEM_LINE) }.to_a
           gems = gems.map do |gem|
@@ -42,6 +42,8 @@ module Glimmer
               author: gem[1].strip,
               description: gem[4..-1].map(&:strip).join(' ')
             }
+          end.select do |gem|
+            query.nil? || "#{gem[:name]} #{gem[:author]} #{gem[:description]}".downcase.include?(query.to_s.downcase)
           end
           printer.call(tablify(gem_prefix, gems))
         end

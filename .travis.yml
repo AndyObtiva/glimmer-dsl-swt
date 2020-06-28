@@ -19,4 +19,5 @@ jobs:
         - bundle exec rspec
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+        - ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- --repo AndyObtiva/glimmer-dsl-swt --commit $TRAVIS_COMMIT --lcov coverage/lcov/glimmer-dsl-swt.lcov
     - os: osx
