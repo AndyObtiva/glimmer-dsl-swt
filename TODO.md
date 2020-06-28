@@ -7,6 +7,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Update icon of scaffolded apps to Glimmer logo
 - Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
 - Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
+- Support searching for gems (not just listing them)
 - Add coveralls
 - Document drag & drop in Glimmer
 
