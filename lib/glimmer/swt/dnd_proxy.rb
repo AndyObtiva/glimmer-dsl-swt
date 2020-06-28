@@ -2,14 +2,14 @@ require 'glimmer/swt/style_constantizable'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.SWT
+    # Proxy for org.eclipse.swt.dnd.DND
     #
     # Follows the Proxy Design Pattern
-    class SWTProxy            
+    class DNDProxy            
       include StyleConstantizable      
 
       class << self
-        JAVA_IMPORT = 'org.eclipse.swt.SWT'
+        JAVA_IMPORT = 'org.eclipse.swt.dnd.DND'
         
         java_import JAVA_IMPORT
         
@@ -18,21 +18,17 @@ module Glimmer
         end
 
         def constant_source_class
-          SWT
+          DND
         end
 
         def constant_value_none
-          SWT::NONE
+          DND::DROP_NONE
         end
         
         def extra_styles
-          EXTRA_STYLES
+          {}
         end
       end
-      
-      EXTRA_STYLES = {
-        NO_RESIZE: self[:shell_trim, :resize!, :max!]
-      }            
     end
   end
 end

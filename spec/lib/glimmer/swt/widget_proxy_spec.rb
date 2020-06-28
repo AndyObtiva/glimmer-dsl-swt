@@ -120,8 +120,6 @@ module GlimmerSpec
     end
 
     context 'drag & drop' do
-      # TODO make DND::DROP_COPY default swt style for drag_source and drop_target, as well as accept symbols like :drop_copy
-      
       describe 'transfer property' do
         it 'accepts transfer property for a drag_source as raw value' do
           @target = shell {

@@ -2,6 +2,7 @@ require 'glimmer/swt/widget_listener_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/swt_proxy'
+require 'glimmer/swt/dnd_proxy'
 require 'glimmer/data_binding/observable_widget'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
@@ -30,6 +31,8 @@ module Glimmer
         "list"        => [:border, :v_scroll],
         "button"      => [:push],
         "menu_item"   => [:push],
+        "drag_source" => DND::DROP_COPY,
+        "drop_target" => DND::DROP_COPY,
       }
 
       DEFAULT_INITIALIZERS = {
@@ -251,7 +254,12 @@ module Glimmer
       end
 
       def has_style?(style)
-        (@swt_widget.style & SWTProxy[style]) == SWTProxy[style]
+        begin
+          comparison = SWTProxy[style]
+        rescue
+          comparison = DNDProxy[style]
+        end
+        (@swt_widget.style & comparison) == comparison
       end
 
       def dispose
@@ -310,7 +318,15 @@ module Glimmer
 
       def style(underscored_widget_name, styles)
         styles = [styles].flatten.compact
-        styles.empty? ? default_style(underscored_widget_name) : SWTProxy[*styles]
+        if styles.empty?
+          default_style(underscored_widget_name) 
+        else         
+          begin
+            SWTProxy[*styles]
+          rescue
+            DNDProxy[*styles]
+          end
+        end
       end
 
       def default_style(underscored_widget_name)

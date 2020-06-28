@@ -13,6 +13,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Update icon of scaffolded apps to Glimmer logo
 - Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
 - Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
+- Add coveralls
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -103,6 +104,7 @@ items <=> binding {
 - Refactor entire codebase to get rid of Java getters/setters in favor of Ruby attributes
 - Support Mac top-menu-bar app-mini-icon
 - Consider namespacing data_binding classes as SWT just like DSL is namespaced
+- Introduce a new level of logging
 
 ## Samples
 

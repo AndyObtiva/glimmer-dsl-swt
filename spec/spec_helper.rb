@@ -129,7 +129,13 @@ RSpec.configure do |config|
 end
 RSpec::Matchers.define :have_style do |style|
   match do |widget|
-    expect(widget.getStyle & Glimmer::SWT::SWTProxy[style]).to eq(Glimmer::SWT::SWTProxy[style])
+    begin
+      style_value = Glimmer::SWT::SWTProxy[style]
+    rescue
+      style_value = Glimmer::SWT::DNDProxy[style]
+    end
+    widget = widget.swt_widget if widget.respond_to?(:swt_widget)
+    expect(widget.getStyle & style_value).to eq(style_value)
   end
 end
 begin
