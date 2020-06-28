@@ -4,7 +4,8 @@ source 'http://rubygems.org'
 gem 'glimmer', '~> 0.9.3'
 gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
-gem "puts_debuggerer", '~> 0.8.1', require: false
+gem 'puts_debuggerer', '~> 0.8.2', require: false
+gem 'text-table', '>= 1.2.4', '< 2.0.0'
 
 # 3rd party gems
 gem 'os', '>= 1.0.0', '< 2.0.0'

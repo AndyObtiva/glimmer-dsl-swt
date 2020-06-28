@@ -2,6 +2,8 @@ require 'fileutils'
 require 'os'
 require 'facets'
 
+# TODO refactor to nest under RakeTask namespace
+
 class Scaffold
   class << self
     include FileUtils

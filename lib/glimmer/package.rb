@@ -1,5 +1,7 @@
 require 'os'
 
+# TODO refactor to nest under RakeTask namespace
+
 module Glimmer
   module Package
     class << self

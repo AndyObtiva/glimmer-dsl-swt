@@ -59,4 +59,26 @@ namespace :glimmer do
       Scaffold.custom_widget_gem(args[:custom_widget_name], args[:namespace])
     end
   end
+  
+  namespace :list do
+    task :list_require do
+      require_relative 'rake_task/list'
+    end
+  
+    desc 'List Glimmer custom widget gems available at rubygems.org'
+    task :custom_widget_gems => :list_require do
+      Glimmer::RakeTask::List.custom_widget_gems
+    end
+    
+    desc 'List Glimmer custom shell gems available at rubygems.org'
+    task :custom_shell_gems => :list_require do
+      Glimmer::RakeTask::List.custom_shell_gems
+    end
+    
+    desc 'List Glimmer DSL gems available at rubygems.org'
+    task :dsl_gems => :list_require do
+      Glimmer::RakeTask::List.dsl_gems
+    end
+    
+  end
 end
