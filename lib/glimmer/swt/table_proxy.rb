@@ -68,6 +68,21 @@ module Glimmer
         })
       end
       
+      # Indicates if table is in edit mode, thus displaying a text widget for a table item cell
+      def edit_mode?
+        !!@edit_mode
+      end
+      
+      def cancel_edit!
+        @cancel_edit&.call if @edit_mode
+      end
+
+      def finish_edit!
+        @finish_edit&.call if @edit_mode
+      end
+
+      # Indicates if table is editing a table item because the user hit ENTER or focused out after making a change in edit mode to a table item cell.
+      # It is set to false once change is saved to model
       def edit_in_progress?
         !!@edit_in_progress
       end
@@ -78,24 +93,32 @@ module Glimmer
             
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
         return if table_item.nil?
+        @cancel_edit&.call if @edit_mode
+        @edit_mode = true
         content {
           @table_editor_text_proxy = text {
             focus true
             text table_item.getText(column_index)
             action_taken = false
-            cancel = lambda {
-              @table_editor_text_proxy.swt_widget.dispose
+            @cancel_edit = lambda do
+              @cancel_in_progress = true
+              @table_editor_text_proxy&.swt_widget&.dispose
               @table_editor_text_proxy = nil
               after_cancel&.call
               @edit_in_progress = false
-            }
-            action = lambda { |event|
-              if !action_taken && !@edit_in_progress
+              @cancel_in_progress = false
+              @cancel_edit = nil
+              @edit_mode = false
+            end
+            @finish_edit = lambda do |event=nil|
+              if table_item.isDisposed
+                @cancel_edit.call
+              elsif !action_taken && !@edit_in_progress && !@cancel_in_progress
                 action_taken = true
                 @edit_in_progress = true
                 new_text = @table_editor_text_proxy.swt_widget.getText
                 if new_text == table_item.getText(column_index)
-                  cancel.call
+                  @cancel_edit.call
                 else
                   before_write&.call
                   table_item.setText(column_index, new_text)
@@ -103,19 +126,19 @@ module Glimmer
                   model.send("#{column_properties[column_index]}=", new_text) # makes table update itself, so must search for selected table item again
                   edited_table_item = search { |ti| ti.getData == model }.first
                   swt_widget.showItem(edited_table_item)
-                  @table_editor_text_proxy.swt_widget.dispose
+                  @table_editor_text_proxy&.swt_widget&.dispose
                   @table_editor_text_proxy = nil
                   after_write&.call(edited_table_item)
                   @edit_in_progress = false
                 end
               end
-            }
-            on_focus_lost(&action)
+            end
+            on_focus_lost(&@finish_edit)
             on_key_pressed { |key_event|
               if key_event.keyCode == swt(:cr)
-                action.call(key_event)
+                @finish_edit.call(key_event)
               elsif key_event.keyCode == swt(:esc)
-                cancel.call
+                @cancel_edit.call
               end
             }
           }

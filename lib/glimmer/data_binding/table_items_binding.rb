@@ -34,11 +34,12 @@ module Glimmer
           observe(new_model_collection, @column_properties)
           @model_collection = new_model_collection
         end
-        populate_table(@model_collection, @table, @column_properties)
+        populate_table(@model_collection, @table, @column_properties)        
       end
-
+      
       def populate_table(model_collection, parent, column_properties)
         selected_table_item_models = parent.swt_widget.getSelection.map(&:getData)
+        parent.finish_edit!
         parent.swt_widget.removeAll
         model_collection.each do |model|
           table_item = TableItem.new(parent.swt_widget, SWT::SWTProxy[:none])

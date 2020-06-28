@@ -7,6 +7,8 @@
 - Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
 - Set default style DND::DROP_COPY in DragSource and DropTarget widgets
 - Support Glimmer::SWT::DNDProxy for handling Drop & Drop styles
+- Implemented list:* rake tasks for listing Glimmer custom widget gems, custom shell gems, and dsl gems
+- Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
 
 ## 0.1.2
 

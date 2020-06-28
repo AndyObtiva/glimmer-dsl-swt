@@ -525,7 +525,7 @@ module GlimmerSpec
       expect(selection.first.getData).to eq(person2)
     end
      
-    it "triggers table widget editing on selected table item and cancels by not making a changing and focusing out" do
+    it "triggers table widget editing on selected table item and cancels by not making a change and focusing out" do
       @target = shell {
         @table = table {
           table_column {
@@ -578,7 +578,7 @@ module GlimmerSpec
       expect(selection.first.getData).to eq(person2)
     end
      
-    it "triggers table widget editing on selected table item and cancels by not making a changing and focusing out" do
+    it "triggers table widget editing on selected table item and cancels by hitting ESCAPE button" do
       @target = shell {
         @table = table {
           table_column {
@@ -623,6 +623,62 @@ module GlimmerSpec
       @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
       
       expect(@table.edit_in_progress?).to eq(false)
+      expect(@write_done).to be_falsey
+      expect(@cancel_done).to eq(true)
+      expect(person2.name).to eq('Julia Fang')
+      
+      # test that it maintains selection
+      selection = @table.swt_widget.getSelection
+      expect(selection.size).to eq(1)
+      expect(selection.first.getData).to eq(person2)
+    end
+     
+    it "triggers table widget editing on selected table item and cancels by triggering edit on another table item" do
+      @target = shell {
+        @table = table {
+          table_column {
+            text "Name"
+            width 120
+          }
+          table_column {
+            text "Age"
+            width 120
+          }
+          table_column {
+            text "Adult"
+            width 120 
+          }
+          items bind(group, :people), column_properties(:name, :age, :adult)
+          selection bind(group, :selected_person)
+        }
+      }
+      
+      expect(@table.table_editor_text_proxy).to be_nil
+      @write_done = false
+      @table.edit_selected_table_item(
+        0,
+        after_write: lambda do |edited_table_item|
+          @write_done = true 
+        end,
+        after_cancel: lambda do
+          @cancel_done = true
+        end
+      )      
+      expect(@table.table_editor_text_proxy).to_not be_nil
+      @table.table_editor_text_proxy.swt_widget.setText('Julie Fan')
+
+      @write2_done = false
+      @table.edit_selected_table_item(
+        1,
+        after_write: lambda do |edited_table_item|
+          @write2_done = true 
+        end,
+        after_cancel: lambda do
+          @cancel2_done = true
+        end
+      )      
+
+      expect(@table.edit_mode?).to eq(true)
       expect(@write_done).to be_falsey
       expect(@cancel_done).to eq(true)
       expect(person2.name).to eq('Julia Fang')
