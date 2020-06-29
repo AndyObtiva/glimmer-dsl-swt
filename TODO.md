@@ -102,6 +102,7 @@ items <=> binding {
 - Support Mac top-menu-bar app-mini-icon
 - Consider namespacing data_binding classes as SWT just like DSL is namespaced
 - Introduce a new level of logging
+- Scaffold a Glimmer DSL
 
 ## Samples
 
