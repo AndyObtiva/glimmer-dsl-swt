@@ -4,13 +4,12 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-- Update icon of scaffolded apps to Glimmer logo
-- Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
-- Fix bug with table edit remaining when sorting table or re-listing (in contact_manager.rb sample)
-- Support searching for gems (not just listing them)
-- Add coveralls
-- Document drag & drop in Glimmer
-- Provide better error messages when on_listener_method fails due to invalid event name
+- Support drag and drop events implicitly on all widgets without explicit drag source and drop target declarations
+- Set drag and drop transfer property to :text by default if not specified
+- Support `dnd` keyword for easily setting `event.detail` (e.g. dnd(:drop_copy)) inside `on_drag_enter` (and consider supporting symbol directly as well)
+- Automatically set `event.detail` inside `on_drag_enter` to match the first operation specified in `drop_target` (make sure it doesn't cause problems if source and target have differnet operations, denying drop gracefully)
+
+- Provide better error messages when on_listener_method fails due to an invalid listener event name
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 
 ## Feature Suggestions

@@ -4,6 +4,7 @@ ${DIR}../../bin/glimmer \
   "${DIR}hello_browser.rb" \
   "${DIR}hello_combo.rb" \
   "${DIR}hello_computed.rb" \
+  "${DIR}hello_drag_and_drop.rb" \
   "${DIR}hello_list_multi_selection.rb" \
   "${DIR}hello_list_single_selection.rb" \
   "${DIR}hello_tab.rb" \
