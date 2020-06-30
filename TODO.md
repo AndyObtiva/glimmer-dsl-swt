@@ -4,8 +4,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-- Provide better error messages when on_listener_method fails due to an invalid listener event name
-- Fix hello_computed.rb sample (convert camelcase to underscore case for layout data properties)
+- Support `dnd` keyword for easily setting `event.detail` (e.g. dnd(:drop_copy)) inside `on_drag_enter` (and consider supporting symbol directly as well)
 
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 

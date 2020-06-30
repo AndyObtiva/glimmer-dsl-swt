@@ -1,19 +1,19 @@
-require_relative "hello_computed/contact"
+require_relative 'hello_computed/contact'
 
 class HelloComputed
   include Glimmer
 
   def initialize
     @contact = Contact.new(
-      first_name: "Barry",
-      last_name: "McKibbin",
+      first_name: 'Barry',
+      last_name: 'McKibbin',
       year_of_birth: 1985
     )
   end
 
   def launch
     shell {
-      text "Hello Computed"
+      text 'Hello, Computed!'
       composite {
         grid_layout {
           num_columns 2
@@ -21,44 +21,44 @@ class HelloComputed
           horizontal_spacing 20
           vertical_spacing 10
         }
-        label {text "First &Name: "}
+        label {text 'First &Name: '}
         text {
           text bind(@contact, :first_name)
           layout_data {
-            horizontalAlignment :fill
-            grabExcessHorizontalSpace true
+            horizontal_alignment :fill
+            grab_excess_horizontal_space true
           }
         }
-        label {text "&Last Name: "}
+        label {text '&Last Name: '}
         text {
           text bind(@contact, :last_name)
           layout_data {
-            horizontalAlignment :fill
-            grabExcessHorizontalSpace true
+            horizontal_alignment :fill
+            grab_excess_horizontal_space true
           }
         }
-        label {text "&Year of Birth: "}
+        label {text '&Year of Birth: '}
         text {
           text bind(@contact, :year_of_birth)
           layout_data {
-            horizontalAlignment :fill
-            grabExcessHorizontalSpace true
+            horizontal_alignment :fill
+            grab_excess_horizontal_space true
           }
         }
-        label {text "Name: "}
+        label {text 'Name: '}
         label {
           text bind(@contact, :name, computed_by: [:first_name, :last_name])
           layout_data {
-            horizontalAlignment :fill
-            grabExcessHorizontalSpace true
+            horizontal_alignment :fill
+            grab_excess_horizontal_space true
           }
         }
-        label {text "Age: "}
+        label {text 'Age: '}
         label {
           text bind(@contact, :age, on_write: :to_i, computed_by: [:year_of_birth])
           layout_data {
-            horizontalAlignment :fill
-            grabExcessHorizontalSpace true
+            horizontal_alignment :fill
+            grab_excess_horizontal_space true
           }
         }
       }
