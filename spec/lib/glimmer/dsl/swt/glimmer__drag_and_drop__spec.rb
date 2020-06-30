@@ -23,34 +23,33 @@ module GlimmerSpec
     context 'explicit drag_source and drop_target' do
       it "creates a DragSource and DropTarget widget with default Style DND::DROP_COPY" do
         @target = shell {
-          label {
-            @drag_source = drag_source {            
-              on_drag_start { |event|
-              }
-              on_drag_set_data { |event|
-              }
-              on_drag_finished { |event|
-              }
+          @drag_source_label = label {
+            on_drag_start { |event|
+            }
+            on_drag_set_data { |event|
+            }
+            on_drag_finished { |event|
             }
           }
-          label {
-            @drop_target = drop_target {            
-              on_drag_enter { |event|
-              }
-              on_drag_leave { |event|
-              }
-              on_drag_operation_changed { |event|
-              }
-              on_drag_over { |event|
-              }
-              on_drop { |event|
-              }
-              on_drop_accept { |event|
-              }
+          @drop_target_label = label {
+            on_drag_enter { |event|
+            }
+            on_drag_leave { |event|
+            }
+            on_drag_operation_changed { |event|
+            }
+            on_drag_over { |event|
+            }
+            on_drop { |event|
+            }
+            on_drop_accept { |event|
             }
           }
         }
   
+        @drag_source = @drag_source_label.drag_source_proxy  
+        @drop_target = @drop_target_label.drop_target_proxy
+
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_COPY)
@@ -62,34 +61,35 @@ module GlimmerSpec
       
       it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK" do
         @target = shell {
-          label {
-            @drag_source = drag_source(DND::DROP_LINK) {
-              on_drag_start { |event|
-              }
-              on_drag_set_data { |event|
-              }
-              on_drag_finished { |event|
-              }
+          @drag_source_label = label {
+            drag_source_style DND::DROP_LINK
+            on_drag_start { |event|
+            }
+            on_drag_set_data { |event|
+            }
+            on_drag_finished { |event|
             }
           }
-          label {
-            @drop_target = drop_target(DND::DROP_LINK) {
-              on_drag_enter { |event|
-              }
-              on_drag_leave { |event|
-              }
-              on_drag_operation_changed { |event|
-              }
-              on_drag_over { |event|
-              }
-              on_drop { |event|
-              }
-              on_drop_accept { |event|
-              }
+          @drop_target_label = label {
+            drop_target_style DND::DROP_LINK
+            on_drag_enter { |event|
+            }
+            on_drag_leave { |event|
+            }
+            on_drag_operation_changed { |event|
+            }
+            on_drag_over { |event|
+            }
+            on_drop { |event|
+            }
+            on_drop_accept { |event|
             }
           }
         }
   
+        @drag_source = @drag_source_label.drag_source_proxy  
+        @drop_target = @drop_target_label.drop_target_proxy
+
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_LINK)
@@ -181,46 +181,6 @@ module GlimmerSpec
     end
 
     context 'auto-generated implicit drag_source and drop_target' do
-      it 'creates an implicit DragSource and DropTarget with default style DND::DROP_COPY by adding on_event handlers for them' do
-        @target = shell {
-          @drag_source_label = label {
-            text 'data'
-            on_drag_start { |event|
-            }
-            on_drag_set_data { |event|
-            }
-            on_drag_finished { |event|
-            }
-          }
-          @drop_target_label = label {
-            on_drag_enter { |event|
-              event.detail = DND::DROP_COPY
-            }
-            on_drag_leave { |event|
-            }
-            on_drag_operation_changed { |event|
-            }
-            on_drag_over { |event|
-            }
-            on_drop { |event|
-            }
-            on_drop_accept { |event|
-            }
-          }
-        }
-        @drag_source = @drag_source_label.drag_source_proxy
-        
-        expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
-        expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
-        expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_COPY)
-  
-        @drop_target = @drop_target_label.drop_target_proxy
-        
-        expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
-        expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
-        expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_COPY)
-        
-      end
       
       # TODO handle case where someone installs dnd listeners directly and inside drag_source
       it "creates an implicit DragSource and DropTarget with default style DND::DROP_COPY and default transfer :text"

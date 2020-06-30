@@ -103,7 +103,6 @@ items <=> binding {
 - Consider namespacing data_binding classes as SWT just like DSL is namespaced
 - Introduce a new level of logging
 - Scaffold a Glimmer DSL
-- Consider merging the concepts of Custom Widget and Custom Shell in the future for simplicity (through clever wrapper delegation logic for shell custom widgets)
 
 ## Samples
 

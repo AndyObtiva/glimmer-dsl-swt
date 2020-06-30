@@ -51,7 +51,7 @@ module Glimmer
         end,
       }
 
-      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy
+      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style
 
       # Initializes a new SWT Widget
       #
@@ -285,6 +285,14 @@ module Glimmer
         # TODO consider implementing if remove_observer is needed (consumers can remove listener via SWT API)
       end
 
+      def ensure_drag_source_proxy(style=[])
+        @drag_source_proxy ||= self.class.new('drag_source', self, style)
+      end
+      
+      def ensure_drop_target_proxy(style=[])
+        @drop_target_proxy ||= self.class.new('drop_target', self, style)
+      end
+      
       # TODO eliminate duplication in the following methods perhaps by relying on exceptions
 
       def can_handle_observation_request?(observation_request)
@@ -301,7 +309,7 @@ module Glimmer
       def can_handle_drag_observation_request?(observation_request)
         return false unless swt_widget.is_a?(Control)
         potential_drag_source = @drag_source_proxy.nil?
-        @drag_source_proxy ||= self.class.new('drag_source', self, [])
+        ensure_drag_source_proxy
         @drag_source_proxy.can_handle_observation_request?(observation_request).tap do |result|
           if potential_drag_source && !result
             @drag_source_proxy.swt_widget.dispose
@@ -458,6 +466,14 @@ module Glimmer
             setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(@swt_widget.getCaretPosition, @swt_widget.getCaretPosition + args.first) if args.first }},
           },
         }
+      end
+
+      def drag_source_style=(style)
+        ensure_drag_source_proxy(style)
+      end
+
+      def drop_target_style=(style)
+        ensure_drop_target_proxy(style)
       end
 
       def apply_property_type_converters(attribute_name, args)

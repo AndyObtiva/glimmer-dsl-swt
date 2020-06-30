@@ -14,10 +14,6 @@ module Glimmer
 
         include_package 'org.eclipse.swt.widgets'
 
-        def can_interpret?(parent, keyword, *args, &block)
-          keyword == 'message_box'
-        end
-
         def interpret(parent, keyword, *args, &block)
           potential_parent = args.first
           parent = args.shift if potential_parent.is_a?(Shell) || (potential_parent.respond_to?(:swt_widget) && potential_parent.swt_widget.is_a?(Shell))
