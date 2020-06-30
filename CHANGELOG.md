@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.0
+
+- Support drag and drop events implicitly on all widgets without explicit drag source and drop target declarations
+- Set drag and drop transfer property to :text by default if not specified
+
 ## 0.1.3
 
 - Added 'org.eclipse.swt.dnd' to glimmer auto-included Java packages

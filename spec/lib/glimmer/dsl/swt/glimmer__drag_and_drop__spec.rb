@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'ostruct'
 
 module GlimmerSpec
   describe "Glimmer Drag & Drop" do
@@ -196,16 +197,62 @@ module GlimmerSpec
         expect(@drop_target.swt_widget.getStyle).to eq(Glimmer::SWT::DNDProxy[:drop_copy, :drop_move])
         expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance, org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
       end
+      
+      it "creates an implicit DragSource and DropTarget with default style DND::DROP_COPY, default transfer :text, default on_drag_enter listener that sets default operation DND::DROP_COPY on_drag_enter in DropTarget" do
+        @target = shell {
+          @drag_source_label = label {
+            drag_source_style 'drop_copy', 'drop_move'
+            drag_source_transfer :file, :html, :image, :rtf, :text, :url
+          }
+          @drop_target_label = label {
+            drop_target_style :drop_copy, :drop_move
+            drop_target_transfer ['file', 'html', 'image', :rtf, :text, :url]
+#             on_drag_enter { |event|
+#                event.detail = DND::DROP_COPY
+#             }
+          }
+        }
+  
+        @drag_source = @drag_source_label.drag_source_proxy  
+        @drop_target = @drop_target_label.drop_target_proxy
+
+        expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
+        expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
+        expect(@drag_source.has_style?([:drop_copy, :drop_move])).to be_truthy
+        expect(@drag_source.swt_widget.getStyle).to eq(Glimmer::SWT::DNDProxy[:drop_copy, :drop_move])
+        expect(@drag_source.swt_widget.getTransfer).to eq([
+          org.eclipse.swt.dnd.FileTransfer.getInstance,
+          org.eclipse.swt.dnd.HTMLTransfer.getInstance,
+          org.eclipse.swt.dnd.ImageTransfer.getInstance,
+          org.eclipse.swt.dnd.RTFTransfer.getInstance,
+          org.eclipse.swt.dnd.TextTransfer.getInstance,
+          org.eclipse.swt.dnd.URLTransfer.getInstance,
+        ].to_java(Transfer))
+  
+        expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
+        expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
+        expect(@drop_target.has_style?([:drop_copy, :drop_move])).to be_truthy
+        expect(@drop_target.swt_widget.getStyle).to eq(Glimmer::SWT::DNDProxy[:drop_copy, :drop_move])
+        expect(@drop_target.swt_widget.getTransfer).to eq([
+          org.eclipse.swt.dnd.FileTransfer.getInstance,
+          org.eclipse.swt.dnd.HTMLTransfer.getInstance,
+          org.eclipse.swt.dnd.ImageTransfer.getInstance,
+          org.eclipse.swt.dnd.RTFTransfer.getInstance,
+          org.eclipse.swt.dnd.TextTransfer.getInstance,
+          org.eclipse.swt.dnd.URLTransfer.getInstance,
+        ].to_java(Transfer))
+        
+        listeners = @drop_target.swt_widget.getDropListeners
+        event = OpenStruct.new
+        listeners.to_a[0].dragEnter(event)
+        expect(event.detail).to eq(DND::DROP_COPY)
+      end
     end
 
     context 'auto-generated implicit drag_source and drop_target' do
       
       # TODO handle case where someone installs dnd listeners directly and inside drag_source
-      it "creates an implicit DragSource and DropTarget with default style DND::DROP_COPY and default transfer :text"
-      it "creates an implicit DragSource and DropTarget with default style DND::DROP_COPY, default transfer :text, default on_drag_enter listener that sets default operation DND::DROP_COPY"
-      it "drag_source_style property"
       it "drag_source_effect property"
-      it "drop_target_style property"
       it "	drop_target_effect property"
     end
   end

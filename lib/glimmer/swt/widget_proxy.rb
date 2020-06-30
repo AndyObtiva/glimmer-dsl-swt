@@ -294,6 +294,9 @@ module Glimmer
       def ensure_drop_target_proxy(style=[])
         @drop_target_proxy ||= self.class.new('drop_target', self, style).tap do |proxy|
           proxy.set_attribute(:transfer, :text)
+          proxy.on_drag_enter { |event|
+            event.detail = DND::DROP_COPY
+          }          
         end
       end
       
@@ -553,6 +556,7 @@ module Glimmer
             end
           end,
           :transfer => lambda do |value|
+            value = value.first if value.is_a?(Array) && value.size == 1 && value.first.is_a?(Array)
             transfer_object_extrapolator = lambda do |transfer_name|
               transfer_type = "#{transfer_name.to_s.camelcase(:upper)}Transfer".to_sym
               transfer_type_alternative = "#{transfer_name.to_s.upcase}Transfer".to_sym
