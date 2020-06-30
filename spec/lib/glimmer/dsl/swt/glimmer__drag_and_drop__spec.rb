@@ -101,34 +101,35 @@ module GlimmerSpec
       
       it "creates a DragSource and DropTarget widget with specified style :drop_link" do
         @target = shell {
-          label {
-            @drag_source = drag_source(:drop_link) {
-              on_drag_start { |event|
-              }
-              on_drag_set_data { |event|
-              }
-              on_drag_finished { |event|
-              }
+          @drag_source_label = label {
+            drag_source_style :drop_link
+            on_drag_start { |event|
+            }
+            on_drag_set_data { |event|
+            }
+            on_drag_finished { |event|
             }
           }
-          label {
-            @drop_target = drop_target('drop_link') {
-              on_drag_enter { |event|
-              }
-              on_drag_leave { |event|
-              }
-              on_drag_operation_changed { |event|
-              }
-              on_drag_over { |event|
-              }
-              on_drop { |event|
-              }
-              on_drop_accept { |event|
-              }
+          @drop_target_label = label {
+            drop_target_style 'drop_link'
+            on_drag_enter { |event|
+            }
+            on_drag_leave { |event|
+            }
+            on_drag_operation_changed { |event|
+            }
+            on_drag_over { |event|
+            }
+            on_drop { |event|
+            }
+            on_drop_accept { |event|
             }
           }
         }
   
+        @drag_source = @drag_source_label.drag_source_proxy  
+        @drop_target = @drop_target_label.drop_target_proxy
+
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_LINK)
