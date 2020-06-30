@@ -51,7 +51,7 @@ module Glimmer
         end,
       }
 
-      attr_reader :swt_widget
+      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy
 
       # Initializes a new SWT Widget
       #
@@ -294,9 +294,31 @@ module Glimmer
           SWTProxy.has_constant?(constant_name)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
-          can_add_listener?(event)
-        else
-          false
+          can_add_listener?(event) || can_handle_drag_observation_request?(observation_request) || can_handle_drop_observation_request?(observation_request)
+        end
+      end
+      
+      def can_handle_drag_observation_request?(observation_request)
+        return false unless swt_widget.is_a?(Control)
+        potential_drag_source = @drag_source_proxy.nil?
+        @drag_source_proxy ||= self.class.new('drag_source', self, [])
+        @drag_source_proxy.can_handle_observation_request?(observation_request).tap do |result|
+          if potential_drag_source && !result
+            @drag_source_proxy.swt_widget.dispose
+            @drag_source_proxy = nil
+          end
+        end
+      end
+
+      def can_handle_drop_observation_request?(observation_request)
+        return false unless swt_widget.is_a?(Control)
+        potential_drop_target = @drop_target_proxy.nil?
+        @drop_target_proxy ||= self.class.new('drop_target', self, [])
+        @drop_target_proxy.can_handle_observation_request?(observation_request).tap do |result|
+          if potential_drop_target && !result
+            @drop_target_proxy.swt_widget.dispose
+            @drop_target_proxy = nil
+          end
         end
       end
 
@@ -307,6 +329,12 @@ module Glimmer
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
           add_listener(event, &block)
+        end
+      rescue
+        if can_handle_drag_observation_request?(observation_request)
+          @drag_source_proxy&.handle_observation_request(observation_request, &block)
+        elsif can_handle_drop_observation_request?(observation_request)
+          @drop_target_proxy&.handle_observation_request(observation_request, &block)
         end
       end
 
