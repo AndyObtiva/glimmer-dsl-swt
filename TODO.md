@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 - Support `dnd` keyword for easily setting `event.detail` (e.g. dnd(:drop_copy)) inside `on_drag_enter` (and consider supporting symbol directly as well)
 - Automatically set `event.detail` inside `on_drag_enter` to match the first operation specified in `drop_target` (make sure it doesn't cause problems if source and target have differnet operations, denying drop gracefully)
+- Add tests relating to custom widget
 
 - Provide better error messages when on_listener_method fails due to an invalid listener event name
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')

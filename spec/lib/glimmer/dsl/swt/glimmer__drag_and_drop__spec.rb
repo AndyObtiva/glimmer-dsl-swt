@@ -1,12 +1,11 @@
-require "spec_helper"
+require 'spec_helper'
 require 'ostruct'
 
 module GlimmerSpec
   describe "Glimmer Drag & Drop" do
     include Glimmer
     
-    include_package 'org.eclipse.swt.dnd'
-
+    # TODO add tests relating to custom widget
     before(:all) do
       class ::RedLabel
         include Glimmer::UI::CustomWidget
@@ -64,11 +63,13 @@ module GlimmerSpec
         expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer))        
       end
       
-      it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
+      xit "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
         @target = shell {
-          @drag_source_label = label {
+          @drag_source_label = label { |drag_source_label_proxy|
             drag_source_style DND::DROP_LINK
-            drag_source_transfer HTMLTransfer.getInstance
+            drag_source_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
+            @drag_source_effect_object = DragSourceEffect.new(drag_source_label_proxy.swt_widget)
+            drag_source_effect drag_source_effect_object
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -76,9 +77,11 @@ module GlimmerSpec
             on_drag_finished { |event|
             }
           }
-          @drop_target_label = label {
+          @drop_target_label = label { |drop_target_label_proxy|
             drop_target_style DND::DROP_LINK
-            drop_target_transfer HTMLTransfer.getInstance
+            drop_target_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
+            @drop_target_effect_object = DropTargetEffect.new(drop_target_label_proxy.swt_widget)
+            drop_target_effect drop_target_effect_object
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -101,11 +104,13 @@ module GlimmerSpec
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_LINK)
         expect(@drag_source.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
+        expect(@drag_source.swt_widget.getDragSourceEffect).to eq(@drag_source_effect_object)
   
         expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
         expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_LINK)
         expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))        
+        expect(@drop_target.swt_widget.getDropTargetEffect).to eq(@drop_target_effect_object)
       end
       
       it "creates a DragSource and DropTarget widget with specified style :drop_link and transfer property of :html value" do
@@ -207,9 +212,6 @@ module GlimmerSpec
           @drop_target_label = label {
             drop_target_style :drop_copy, :drop_move
             drop_target_transfer ['file', 'html', 'image', :rtf, :text, :url]
-#             on_drag_enter { |event|
-#                event.detail = DND::DROP_COPY
-#             }
           }
         }
   

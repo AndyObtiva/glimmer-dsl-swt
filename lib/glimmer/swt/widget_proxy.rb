@@ -484,11 +484,13 @@ module Glimmer
       end
 
       def drag_source_transfer=(args)
+        args = args.first if !args.empty? && args.first.is_a?(ArrayJavaProxy)
         ensure_drag_source_proxy
         @drag_source_proxy.set_attribute(:transfer, args)
       end
 
       def drop_target_transfer=(args)
+        args = args.first if !args.empty? && args.first.is_a?(ArrayJavaProxy)
         ensure_drop_target_proxy
         @drop_target_proxy.set_attribute(:transfer, args)
       end
