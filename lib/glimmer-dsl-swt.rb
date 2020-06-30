@@ -2,9 +2,14 @@ $LOAD_PATH.unshift(File.expand_path('..', __FILE__))
 
 # External requires
 require 'java'
-require 'nested_inherited_jruby_include_package'
-require 'super_module'
-require 'glimmer'
+if ENV['BUNDLER_REQUIRE'].to_s.downcase == 'true'
+  require 'bundler'
+  Bundler.require
+else
+  require 'nested_inherited_jruby_include_package'
+  require 'super_module'
+  require 'glimmer'
+end
 
 # Internal requires
 require 'ext/glimmer/config'

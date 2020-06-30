@@ -345,13 +345,14 @@ module Glimmer
           add_swt_event_listener(constant_name, &block)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
-          add_listener(event, &block)
-        end
-      rescue
-        if can_handle_drag_observation_request?(observation_request)
-          @drag_source_proxy&.handle_observation_request(observation_request, &block)
-        elsif can_handle_drop_observation_request?(observation_request)
-          @drop_target_proxy&.handle_observation_request(observation_request, &block)
+          if can_add_listener?(event)
+            event = observation_request.sub(/^on_/, '')
+            add_listener(event, &block)
+          elsif can_handle_drag_observation_request?(observation_request)
+            @drag_source_proxy&.handle_observation_request(observation_request, &block)
+          elsif can_handle_drop_observation_request?(observation_request)
+            @drop_target_proxy&.handle_observation_request(observation_request, &block)
+          end
         end
       end
 
@@ -404,7 +405,7 @@ module Glimmer
       def add_listener(underscored_listener_name, &block)
         widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)        
         widget_listener_proxy = nil
-        safe_block = lambda { |event| block.call(event) unless @swt_widget.isDisposed }
+        safe_block = lambda { |event| block.call(event) unless @swt_widget.isDisposed }        
         listener = listener_class.new(listener_method => safe_block)
         @swt_widget.send(widget_add_listener_method, listener)
         widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
