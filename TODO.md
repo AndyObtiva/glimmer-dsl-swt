@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-- Support `dnd` keyword for easily setting `event.detail` (e.g. dnd(:drop_copy)) inside `on_drag_enter` (and consider supporting symbol directly as well)
-
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 
 ## Feature Suggestions

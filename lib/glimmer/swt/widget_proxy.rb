@@ -31,8 +31,8 @@ module Glimmer
         "list"        => [:border, :v_scroll],
         "button"      => [:push],
         "menu_item"   => [:push],
-        "drag_source" => DND::DROP_COPY,
-        "drop_target" => DND::DROP_COPY,
+        "drag_source" => [:drop_copy],
+        "drop_target" => [:drop_copy],
       }
 
       DEFAULT_INITIALIZERS = {
@@ -297,7 +297,7 @@ module Glimmer
         @drop_target_proxy ||= self.class.new('drop_target', self, style).tap do |proxy|
           proxy.set_attribute(:transfer, :text)
           proxy.on_drag_enter { |event|
-            event.detail = DND::DROP_COPY
+            event.detail = DNDProxy[:drop_copy]
           }          
         end
       end
@@ -377,7 +377,7 @@ module Glimmer
 
       def default_style(underscored_widget_name)
         styles = DEFAULT_STYLES[underscored_widget_name] || [:none]
-        SWTProxy[styles]
+        SWTProxy[styles] rescue DNDProxy[styles]
       end
 
       def ruby_attribute_setter(attribute_name)

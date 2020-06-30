@@ -6,6 +6,7 @@
 - Support drag and drop events implicitly on all widgets without explicit drag source and drop target declarations
 - Set drag and drop transfer property to :text by default if not specified
 - Automatically set `event.detail` inside `on_drag_enter` to match the first operation specified in `drop_target` (make sure it doesn't cause problems if source and target have differnet operations, denying drop gracefully)
+- Support `dnd` keyword for easily setting `event.detail` (e.g. dnd(:drop_copy)) inside `on_drag_enter` (and consider supporting symbol directly as well)
 - Support Drag and Drop on Custom Widgets
 - Fix hello_computed.rb sample (convert camelcase to underscore case for layout data properties)
 

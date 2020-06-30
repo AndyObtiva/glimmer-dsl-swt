@@ -105,7 +105,7 @@ module GlimmerSpec
       it "creates a DragSource and DropTarget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
         @target = shell {
           @drag_source_label = label { |drag_source_label_proxy|
-            drag_source_style DND::DROP_LINK
+            drag_source_style dnd(:drop_link)
             drag_source_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
             @drag_source_effect_object = DragSourceEffect.new(drag_source_label_proxy.swt_widget)
             drag_source_effect @drag_source_effect_object
@@ -117,7 +117,7 @@ module GlimmerSpec
             }
           }
           @drop_target_label = label { |drop_target_label_proxy|
-            drop_target_style DND::DROP_LINK
+            drop_target_style dnd('drop_link')
             drop_target_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
             @drop_target_effect_object = DropTargetEffect.new(drop_target_label_proxy.swt_widget)
             drop_target_effect @drop_target_effect_object
