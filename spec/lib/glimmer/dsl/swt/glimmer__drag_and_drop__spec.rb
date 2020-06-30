@@ -21,9 +21,10 @@ module GlimmerSpec
     end
     
     context 'explicit drag_source and drop_target' do
-      it "creates a DragSource and DropTarget widget with default Style DND::DROP_COPY" do
+      it "creates a DragSource and DropTarget widget with default Style DND::DROP_COPY and transfer property as raw value" do
         @target = shell {
           @drag_source_label = label {
+            drag_source_transfer [org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer)
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -32,6 +33,7 @@ module GlimmerSpec
             }
           }
           @drop_target_label = label {
+            drop_target_transfer [org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer)
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -53,10 +55,12 @@ module GlimmerSpec
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_COPY)
+        expect(@drag_source.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer))
   
         expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
-        expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_COPY)
+        expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_COPY)        
+        expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer))        
       end
       
       it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK" do

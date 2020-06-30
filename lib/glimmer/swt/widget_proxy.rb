@@ -51,7 +51,7 @@ module Glimmer
         end,
       }
 
-      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style
+      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
 
       # Initializes a new SWT Widget
       #
@@ -474,6 +474,16 @@ module Glimmer
 
       def drop_target_style=(style)
         ensure_drop_target_proxy(style)
+      end
+
+      def drag_source_transfer=(args)
+        ensure_drag_source_proxy
+        @drag_source_proxy.set_attribute('transfer', *args)
+      end
+
+      def drop_target_transfer=(args)
+        ensure_drop_target_proxy
+        @drop_target_proxy.set_attribute('transfer', *args)
       end
 
       def apply_property_type_converters(attribute_name, args)
