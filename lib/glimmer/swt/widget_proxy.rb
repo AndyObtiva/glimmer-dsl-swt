@@ -84,7 +84,7 @@ module Glimmer
         if widget_custom_attribute
           @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
         else
-          @swt_widget.respond_to?(attribute_setter(attribute_name), args)
+          @swt_widget.respond_to?(attribute_setter(attribute_name), args) || respond_to?(ruby_attribute_setter(attribute_name), args)
         end
       end
 
@@ -92,9 +92,11 @@ module Glimmer
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
         if widget_custom_attribute
           widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
-        else
+        elsif @swt_widget.respond_to?(attribute_setter(attribute_name), args)
           apply_property_type_converters(attribute_name, args)
           @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
+        else
+          send(ruby_attribute_setter(attribute_name), args)
         end
       end
 
@@ -375,6 +377,10 @@ module Glimmer
       def default_style(underscored_widget_name)
         styles = DEFAULT_STYLES[underscored_widget_name] || [:none]
         SWTProxy[styles]
+      end
+
+      def ruby_attribute_setter(attribute_name)
+        "#{attribute_name}="
       end
 
       def attribute_setter(attribute_name)
