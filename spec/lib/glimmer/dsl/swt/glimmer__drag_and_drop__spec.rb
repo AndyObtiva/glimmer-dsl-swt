@@ -3,6 +3,8 @@ require "spec_helper"
 module GlimmerSpec
   describe "Glimmer Drag & Drop" do
     include Glimmer
+    
+    include_package 'org.eclipse.swt.dnd'
 
     before(:all) do
       class ::RedLabel
@@ -21,10 +23,9 @@ module GlimmerSpec
     end
     
     context 'explicit drag_source and drop_target' do
-      it "creates a DragSource and DropTarget widget with default Style DND::DROP_COPY and transfer property as raw value" do
+      it "creates a DragSource and DropTarget widget with default Style DND::DROP_COPY and transfer property as default TextTransfer value" do
         @target = shell {
           @drag_source_label = label {
-            drag_source_transfer [org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer)
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -33,7 +34,6 @@ module GlimmerSpec
             }
           }
           @drop_target_label = label {
-            drop_target_transfer [org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer)
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -63,10 +63,11 @@ module GlimmerSpec
         expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer))        
       end
       
-      it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK" do
+      it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
         @target = shell {
           @drag_source_label = label {
             drag_source_style DND::DROP_LINK
+            drag_source_transfer HTMLTransfer.getInstance
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -76,6 +77,7 @@ module GlimmerSpec
           }
           @drop_target_label = label {
             drop_target_style DND::DROP_LINK
+            drop_target_transfer HTMLTransfer.getInstance
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -97,16 +99,19 @@ module GlimmerSpec
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_LINK)
+        expect(@drag_source.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
   
         expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
         expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_LINK)
+        expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))        
       end
       
-      it "creates a DragSource and DropTarget widget with specified style :drop_link" do
+      it "creates a DragSource and DropTarget widget with specified style :drop_link and transfer property of :html value" do
         @target = shell {
           @drag_source_label = label {
             drag_source_style :drop_link
+            drag_source_transfer :html
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -116,6 +121,7 @@ module GlimmerSpec
           }
           @drop_target_label = label {
             drop_target_style 'drop_link'
+            drop_target_transfer :html
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -137,16 +143,19 @@ module GlimmerSpec
         expect(@drag_source).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.swt_widget.getStyle).to eq(DND::DROP_LINK)
+        expect(@drag_source.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
   
         expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
         expect(@drop_target.swt_widget.getStyle).to eq(DND::DROP_LINK)
+        expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))        
       end
       
-      it "creates a DragSource and DropTarget widget with specified styles :drop_copy and :drop_move" do
+      it "creates a DragSource and DropTarget widget with specified styles :drop_copy and :drop_move and transfer property as an array of values" do
         @target = shell {
           @drag_source_label = label {
             drag_source_style 'drop_copy', 'drop_move'
+            drag_source_transfer :text, :html
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -156,6 +165,7 @@ module GlimmerSpec
           }
           @drop_target_label = label {
             drop_target_style :drop_copy, :drop_move
+            drop_target_transfer :text, :html
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -178,11 +188,13 @@ module GlimmerSpec
         expect(@drag_source.swt_widget).to be_a(org.eclipse.swt.dnd.DragSource)
         expect(@drag_source.has_style?([:drop_copy, :drop_move])).to be_truthy
         expect(@drag_source.swt_widget.getStyle).to eq(Glimmer::SWT::DNDProxy[:drop_copy, :drop_move])
+        expect(@drag_source.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance, org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
   
-        expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.swt_widget).to be_a(org.eclipse.swt.dnd.DropTarget)
+        expect(@drop_target).to be_a(Glimmer::SWT::WidgetProxy)
         expect(@drop_target.has_style?([:drop_copy, :drop_move])).to be_truthy
         expect(@drop_target.swt_widget.getStyle).to eq(Glimmer::SWT::DNDProxy[:drop_copy, :drop_move])
+        expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance, org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer))
       end
     end
 

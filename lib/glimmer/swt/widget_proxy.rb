@@ -286,11 +286,15 @@ module Glimmer
       end
 
       def ensure_drag_source_proxy(style=[])
-        @drag_source_proxy ||= self.class.new('drag_source', self, style)
+        @drag_source_proxy ||= self.class.new('drag_source', self, style).tap do |proxy|
+          proxy.set_attribute(:transfer, :text)
+        end
       end
       
       def ensure_drop_target_proxy(style=[])
-        @drop_target_proxy ||= self.class.new('drop_target', self, style)
+        @drop_target_proxy ||= self.class.new('drop_target', self, style).tap do |proxy|
+          proxy.set_attribute(:transfer, :text)
+        end
       end
       
       # TODO eliminate duplication in the following methods perhaps by relying on exceptions
@@ -321,7 +325,7 @@ module Glimmer
       def can_handle_drop_observation_request?(observation_request)
         return false unless swt_widget.is_a?(Control)
         potential_drop_target = @drop_target_proxy.nil?
-        @drop_target_proxy ||= self.class.new('drop_target', self, [])
+        ensure_drop_target_proxy
         @drop_target_proxy.can_handle_observation_request?(observation_request).tap do |result|
           if potential_drop_target && !result
             @drop_target_proxy.swt_widget.dispose
@@ -478,12 +482,12 @@ module Glimmer
 
       def drag_source_transfer=(args)
         ensure_drag_source_proxy
-        @drag_source_proxy.set_attribute('transfer', *args)
+        @drag_source_proxy.set_attribute(:transfer, args)
       end
 
       def drop_target_transfer=(args)
         ensure_drop_target_proxy
-        @drop_target_proxy.set_attribute('transfer', *args)
+        @drop_target_proxy.set_attribute(:transfer, args)
       end
 
       def apply_property_type_converters(attribute_name, args)
