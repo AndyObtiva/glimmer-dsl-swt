@@ -501,6 +501,18 @@ module Glimmer
         @drop_target_proxy.set_attribute(:transfer, args)
       end
 
+      def drag_source_effect=(args)
+        args = args.first if args.is_a?(Array)
+        ensure_drag_source_proxy
+        @drag_source_proxy.set_attribute(:drag_source_effect, args)
+      end
+
+      def drop_target_effect=(args)
+        args = args.first if args.is_a?(Array)
+        ensure_drop_target_proxy
+        @drop_target_proxy.set_attribute(:drop_target_effect, args)
+      end
+
       def apply_property_type_converters(attribute_name, args)
         if args.count == 1
           value = args.first

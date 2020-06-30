@@ -63,13 +63,13 @@ module GlimmerSpec
         expect(@drop_target.swt_widget.getTransfer).to eq([org.eclipse.swt.dnd.TextTransfer.getInstance].to_java(Transfer))        
       end
       
-      xit "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
+      it "creates a DragSource and DropTarget widget with specified style DND::DROP_LINK and transfer property of HTMLTransfer value" do
         @target = shell {
           @drag_source_label = label { |drag_source_label_proxy|
             drag_source_style DND::DROP_LINK
             drag_source_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
             @drag_source_effect_object = DragSourceEffect.new(drag_source_label_proxy.swt_widget)
-            drag_source_effect drag_source_effect_object
+            drag_source_effect @drag_source_effect_object
             on_drag_start { |event|
             }
             on_drag_set_data { |event|
@@ -81,7 +81,7 @@ module GlimmerSpec
             drop_target_style DND::DROP_LINK
             drop_target_transfer [org.eclipse.swt.dnd.HTMLTransfer.getInstance].to_java(Transfer)
             @drop_target_effect_object = DropTargetEffect.new(drop_target_label_proxy.swt_widget)
-            drop_target_effect drop_target_effect_object
+            drop_target_effect @drop_target_effect_object
             on_drag_enter { |event|
             }
             on_drag_leave { |event|
@@ -249,13 +249,6 @@ module GlimmerSpec
         listeners.to_a[0].dragEnter(event)
         expect(event.detail).to eq(DND::DROP_COPY)
       end
-    end
-
-    context 'auto-generated implicit drag_source and drop_target' do
-      
-      # TODO handle case where someone installs dnd listeners directly and inside drag_source
-      it "drag_source_effect property"
-      it "	drop_target_effect property"
     end
   end
 end
