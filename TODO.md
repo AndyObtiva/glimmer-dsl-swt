@@ -100,6 +100,7 @@ items <=> binding {
 
 ## Samples
 
+- Gantt Chart Generator app
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
