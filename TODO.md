@@ -100,10 +100,12 @@ items <=> binding {
 
 ## Samples
 
-- Gantt Chart Generator app
+- Gantt Chart Generator app (named: Are We There Yet?)
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
+- Improve Contact Manager sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
+- Add hello samples for every built-in SWT widget including the custom package
 
 ## Side Projects
 
