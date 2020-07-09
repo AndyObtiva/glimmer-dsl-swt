@@ -22,14 +22,14 @@ module Glimmer
           @table.body_root.column_properties = @column_properties
         end
         call(@model_binding.evaluate_property)
-        model = model_binding.base_model
-        observe(model, model_binding.property_name_expression)
+        observe(model_binding)
         @table.on_widget_disposed do |dispose_event|
           unregister_all_observables
         end
       end
 
       def call(new_model_collection=nil)
+        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)
         if new_model_collection and new_model_collection.is_a?(Array)
           observe(new_model_collection, @column_properties)
           @model_collection = new_model_collection

@@ -5,6 +5,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ## Next
 
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
+- Support Latest JRuby 9.2.12.0
+- Make scaffolding generate a README.md that mentions "Built with Glimmer"
+- Get rid of View in the naming of any scaffolded classes
+- Add DB support for ActiveRecord
+- Test DB support with Derby DB
+- Support auto-java-import all SWT widgets as an option and make it happen automatically if an SWT widget wasn't loaded successfully
+- Add auto-sorting table support
+- Automatically call ActiveSupport::Dependencies.unhook! if ActiveSupport is loaded
+- Add ActiveRecord Observable support automatically
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -100,7 +109,6 @@ items <=> binding {
 
 ## Samples
 
-- Gantt Chart Generator app (named: Are We There Yet?)
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
@@ -109,9 +117,13 @@ items <=> binding {
 
 ## Side Projects
 
+### Are We There Yet?
+
+- Small Project Progress Reporting App
+
 ### glimmertalk project
 
-- Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps without restarting
+- Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
 
 ## Documentation Tasks
 

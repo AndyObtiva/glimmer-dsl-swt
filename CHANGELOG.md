@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.1
+
+- Fix bug with table items data binding ignoring bind converters
+
 ## 0.2.0
 
 - Simplified Drag and Drop API by being able to attach drag and drop event listener handlers directly on widgets
