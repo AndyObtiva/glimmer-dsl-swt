@@ -3,6 +3,7 @@
 ## 0.2.1
 
 - Fix bug with table items data binding ignoring bind converters
+- Support latest JRuby 9.2.12.0
 
 ## 0.2.0
 
