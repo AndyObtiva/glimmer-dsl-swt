@@ -5,8 +5,8 @@
 - Support latest JRuby 9.2.12.0
 - Support extra args (other than style) in WidgetProxy just like ShellProxy
 - Specify additional Java packages to import when including Glimmer via Glimmer::Config::import_swt_packages=(packages)
+- Add compatibility for ActiveSupport (automatically call ActiveSupport::Dependencies.unhook! if ActiveSupport is loaded)
 - Fix bug with table items data binding ignoring bind converters
-
 
 ## 0.2.0
 
