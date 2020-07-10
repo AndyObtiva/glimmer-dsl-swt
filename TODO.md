@@ -4,15 +4,13 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.2.1
-
-- Document changes in glimmer
-
 ### 0.2.2
+
 - Make scaffolding generate a README.md that mentions "Built with Glimmer"
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 - Add auto-sorting table support
+- Remove Gemfile.lock from .gitignore in scaffolding apps/gems
 
 ### 0.3.0
 
