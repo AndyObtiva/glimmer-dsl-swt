@@ -13,7 +13,7 @@ describe Glimmer do
     Glimmer::Config.send(:remove_class_variable, :@@import_swt_packages)
   end
   
-  describe '::import_swt_packages' do
+  describe '.import_swt_packages' do
     it 'enables automatic include of SWT packages in Glimmer apps by default' do
       class SomeApp   
         include Glimmer
