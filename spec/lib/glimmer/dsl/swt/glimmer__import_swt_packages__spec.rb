@@ -13,6 +13,8 @@ describe Glimmer do
       Object.send(:remove_const, constant) if Object.const_defined?(constant)
     end    
     Glimmer::Config.send(:remove_class_variable, :@@import_swt_packages)
+    Glimmer::SWT.send(:remove_const, :Packages)
+    load 'glimmer/swt/packages.rb'
   end
   
   describe '.import_swt_packages' do

@@ -7,7 +7,7 @@ module Glimmer
       class << self
         def included(klass)
           Glimmer::Config.import_swt_packages.to_a.each do |package|
-            klass.send(:include_package, package) if package.is_a?(String)
+            include_package(package) if package.is_a?(String)
           end
         end    
       end

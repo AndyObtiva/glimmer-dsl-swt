@@ -1,7 +1,5 @@
 $LOAD_PATH.unshift(File.expand_path('..', __FILE__))
 
-ActiveSupport::Dependencies.unhook! if Object.const_defined?(:ActiveSupport) && ActiveSupport.const_defined?(:Dependencies)
-
 # External requires
 require 'java'
 if ENV['BUNDLER_REQUIRE'].to_s.downcase == 'true'
