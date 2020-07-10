@@ -7,7 +7,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ### 0.2.1
 
 - Add compatibility with ActiveSupport (automatically call ActiveSupport::Dependencies.unhook! if ActiveSupport is loaded)
-- Support extra args (other than style) in WidgetProxy just like ShellProxy
+- Document changes in glimmer including jruby-9.2.12.0 version change
 
 ### 0.2.2
 - Make scaffolding generate a README.md that mentions "Built with Glimmer"

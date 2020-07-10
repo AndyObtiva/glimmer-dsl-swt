@@ -6,8 +6,8 @@ module Glimmer
       if Config.import_swt_packages
         klass.include(SWT::Packages)
         klass.extend(SWT::Packages)
-        klass.extend(Glimmer)
       end
+      klass.extend(Glimmer)
     end
   end
 end

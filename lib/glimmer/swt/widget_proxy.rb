@@ -75,7 +75,18 @@ module Glimmer
         if @arg_extractor_mapping[underscored_widget_name]
           @arg_extractor_mapping[underscored_widget_name].call(args)
         else
-          [args, []]
+          extra_options = []
+          style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
+          if style_args.any?
+            style_arg_start_index = args.index(style_args.first)
+            style_arg_last_index = args.index(style_args.last)
+            extra_options = args[style_arg_last_index+1..-1]
+            args = args[style_arg_start_index..style_arg_last_index]
+          elsif args.first.is_a?(Integer)
+            extra_options = args[1..-1]
+            args = args[0..0]
+          end
+          [args, extra_options]
         end
       end
 

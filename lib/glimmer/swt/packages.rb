@@ -1,14 +1,16 @@
+require 'ext/glimmer/config'
+
 module Glimmer
   module SWT
     # This contains Java imports of SWT Java packages
     module Packages
-      include_package 'org.eclipse.swt'
-      include_package 'org.eclipse.swt.widgets'
-      include_package 'org.eclipse.swt.layout'
-      include_package 'org.eclipse.swt.graphics'
-      include_package 'org.eclipse.swt.browser'
-      include_package 'org.eclipse.swt.custom'
-      include_package 'org.eclipse.swt.dnd'
+      class << self
+        def included(klass)
+          Glimmer::Config.import_swt_packages.to_a.each do |package|
+            klass.send(:include_package, package) if package.is_a?(String)
+          end
+        end    
+      end
     end
   end
 end
