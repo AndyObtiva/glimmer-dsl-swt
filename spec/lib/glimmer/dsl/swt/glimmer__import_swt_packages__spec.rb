@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Glimmer do
+  include Glimmer
+  
   after do
     Glimmer::Config.import_swt_packages = true
     %w[
@@ -57,6 +59,74 @@ describe Glimmer do
       ])
   
       expect(SomeApp::Label).to eq(org.eclipse.swt.widgets.Label)
+    end
+  
+    it 'enables automatic include of SWT packages in Glimmer custom widgets by specifying extra packages' do
+      Glimmer::Config.import_swt_packages += [
+        'org.eclipse.nebula.widgets.ganttchart'
+      ]
+      
+      class SomeWidget
+        include Glimmer::UI::CustomWidget
+        
+        body {
+          label {
+          }
+        }
+      end
+      
+      expect(Glimmer::Config.import_swt_packages).to eq([
+        'org.eclipse.swt',
+        'org.eclipse.swt.widgets',
+        'org.eclipse.swt.layout',
+        'org.eclipse.swt.graphics',
+        'org.eclipse.swt.browser',
+        'org.eclipse.swt.custom',
+        'org.eclipse.swt.dnd',
+        'org.eclipse.nebula.widgets.ganttchart',
+      ])
+  
+      expect(SomeWidget::Label).to eq(org.eclipse.swt.widgets.Label)
+    
+      shell {
+        some_widget {
+        }
+      }    
+    end
+  
+    it 'enables automatic include of SWT packages in Glimmer custom shells by specifying extra packages' do
+      Glimmer::Config.import_swt_packages += [
+        'org.eclipse.nebula.widgets.ganttchart'
+      ]
+      
+      class SomeShell
+        include Glimmer::UI::CustomShell
+        
+        body {
+          shell {
+            label {
+            }
+          }
+        }
+      end
+      
+      expect(Glimmer::Config.import_swt_packages).to eq([
+        'org.eclipse.swt',
+        'org.eclipse.swt.widgets',
+        'org.eclipse.swt.layout',
+        'org.eclipse.swt.graphics',
+        'org.eclipse.swt.browser',
+        'org.eclipse.swt.custom',
+        'org.eclipse.swt.dnd',
+        'org.eclipse.nebula.widgets.ganttchart',
+      ])
+  
+      expect(SomeShell::Label).to eq(org.eclipse.swt.widgets.Label)
+      
+      some_shell {
+        label {
+        }
+      }
     end
   
     it 'enables automatic include of SWT packages in Glimmer apps by specifying a limited set of packages' do
