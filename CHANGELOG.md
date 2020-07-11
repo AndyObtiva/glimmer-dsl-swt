@@ -3,6 +3,7 @@
 ## 0.2.2
 
 - Support Combo custom-text-entry data-binding
+- Remove Gemfile.lock from .gitignore in scaffolding apps/gems
 
 ## 0.2.1
 
