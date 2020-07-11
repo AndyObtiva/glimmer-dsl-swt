@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ### 0.2.2
 
 - Remove Gemfile.lock from .gitignore in scaffolding apps/gems
-- Support Combo custom-text data-binding
 
 ### 0.3.0
 
