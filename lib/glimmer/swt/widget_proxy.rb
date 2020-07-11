@@ -146,6 +146,13 @@ module Glimmer
               }
             end,
           },
+          Java::OrgEclipseSwtWidgets::Combo => {
+            :text => lambda do |observer|
+              on_modify_text { |modify_event|
+                observer.call(@swt_widget.getText)
+              }
+            end,
+          },
           Java::OrgEclipseSwtWidgets::Text => {
             :text => lambda do |observer|
               on_modify_text { |modify_event|

@@ -29,7 +29,21 @@ module GlimmerSpec
       Object.send(:remove_const, :RedCombo) if Object.const_defined?(:RedCombo)
     end
 
-    it "tests data binding selection property" do
+    it "data-binds text property" do
+      person = Person.new
+
+      @target = shell {
+        @combo = combo {
+          text bind(person, :country)
+        }
+      }
+
+      @combo.swt_widget.setText('Random')
+      @combo.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:modify], nil)
+      expect(person.country).to eq('Random')
+    end
+    
+    it "data-binds selection property" do
       person = Person.new
 
       @target = shell {
