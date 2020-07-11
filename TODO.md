@@ -1,22 +1,22 @@
 # TODO
 
-Here is a list of tasks to do (moved to CHANGELOG.md once done). 
+Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done). 
 
 ## Next
 
 ### 0.2.2
 
-- Make scaffolding generate a README.md that mentions "Built with Glimmer"
-- Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
-- Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
-- Add auto-sorting table support
 - Remove Gemfile.lock from .gitignore in scaffolding apps/gems
+- Support Combo custom-text data-binding
 
 ### 0.3.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Get rid of View in the naming of any scaffolded classes
 - Add DB support for ActiveRecord (bringing in rails migration/schema generation)
+- Make scaffolding generate a README.md that mentions "Built with Glimmer"
+- Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
+- Add auto-sorting table support
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -110,6 +110,7 @@ items <=> binding {
 - Introduce a new level of logging
 - Scaffold a Glimmer DSL
 - Test DB support with Derby DB
+- Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 
 ## Samples
 

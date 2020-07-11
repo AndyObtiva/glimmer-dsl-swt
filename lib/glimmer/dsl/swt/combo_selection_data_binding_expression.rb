@@ -35,6 +35,10 @@ module Glimmer
           parent.on_widget_selected do
             model_binding.call(widget_binding.evaluate_property)
           end
+          
+          parent.on_modify_text do
+            model_binding.call(widget_binding.evaluate_property)
+          end
         end
       end
     end

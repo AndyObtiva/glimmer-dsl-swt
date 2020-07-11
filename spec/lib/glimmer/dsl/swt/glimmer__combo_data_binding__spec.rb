@@ -66,6 +66,10 @@ module GlimmerSpec
       @combo.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
       expect(person.country).to eq("US")
 
+      @combo.swt_widget.setText('Random')
+      @combo.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:modify], nil)
+      expect(person.country).to eq('Random')
+
       person.country = "Canada"
 
       expect(@combo.swt_widget.text).to eq("Canada")
