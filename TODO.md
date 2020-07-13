@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.2.3
-
-- Add a hello_menu.rb sample
-
 ### 0.3.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
