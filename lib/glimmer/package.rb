@@ -15,7 +15,7 @@ module Glimmer
           system('warble config')
           new_config = File.read('config/warble.rb').split("\n").inject('') do |output, line|
             if line.include?('config.dirs =')
-              line = line.sub('# ', '').sub(/=[^=\n]+$/, '= %w(app config db lib script bin docs fonts icons images sounds videos)')
+              line = line.sub('# ', '').sub(/=[^=\n]+$/, '= %w(app config db lib script bin docs fonts icons images sounds videos vendor)')
             end
             if line.include?('config.includes =')
               line = line.sub('# ', '').sub(/=[^=\n]+$/, "= FileList['LICENSE.txt', 'VERSION']")
