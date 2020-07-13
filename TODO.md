@@ -4,8 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.2.2
+### 0.2.3
 
+- Fix issue with observing attributes on classes or singleton classes directly instead of their objects
+- Add glimmer package:clean command
+- Add automatic detection support for selection/modify listeners in new widgets and support data-binding on them
+- Make it reject scaffolding widgets with no namespace by detecting current github username
+- Add a hello_menu.rb sample
+- Document use of sash_form weights in Glimmer
 
 ### 0.3.0
 
@@ -87,9 +93,6 @@ items <=> binding {
 - Support XML DSL comments <!-- COMMENT -->
 - Support XML Document Declaration Tag: <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 - Support HTML Doctype Declaration <!DOCTYPE html>
-- Extract SWT DSL into its own glimmer-dsl-swt gem
-- Extract XML DSL into its own glimmer-dsl-xml gem
-- Extract CSS DSL into its own glimmer-dsl-css gem
 - Log to SysLog using this gem: https://www.rubydoc.info/gems/syslog-logger/1.6.8
 - Implement Glimmer#respond_to? to accommodate method_missing
 - Support the idea of application pre-warm up where an app is preloaded and shows up right away from launched
@@ -109,6 +112,8 @@ items <=> binding {
 - Scaffold a Glimmer DSL
 - Test DB support with Derby DB
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
+- Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
+- Consider the idea of setting default layout data for widgets by detecting their parent widget layout
 
 ## Samples
 

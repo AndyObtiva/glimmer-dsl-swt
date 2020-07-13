@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.3
+
+- Add vendor directory to warble config for glimmer package command.
+- Make WidgetProxy register only the nearest ancestor property observer, calling on_modify_text and on_widget_selected for widgets that support these listeners, or otherwise the widget specific customizations
+
 ## 0.2.2
 
 - Support Combo custom-text-entry data-binding
