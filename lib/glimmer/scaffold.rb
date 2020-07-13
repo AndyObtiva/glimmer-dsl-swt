@@ -179,6 +179,7 @@ class Scaffold
     end
 
     def custom_shell_gem(custom_shell_name, namespace)
+      return puts('Namespace is required! Usage: glimmer scaffold:custom_shell_gem[custom_shell_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
       gem_name = "glimmer-cs-#{compact_name(custom_shell_name)}"
       gem_summary = "#{human_name(custom_shell_name)} - Glimmer Custom Shell"
       if namespace
@@ -218,6 +219,7 @@ class Scaffold
     end
 
     def custom_widget_gem(custom_widget_name, namespace)
+      return puts('Namespace is required! Usage: glimmer scaffold:custom_widget_gem[custom_widget_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
       gem_name = "glimmer-cw-#{compact_name(custom_widget_name)}"
       gem_summary = "#{human_name(custom_widget_name)} - Glimmer Custom Widget"
       if namespace

@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.2.3
 
-- Add automatic detection support for selection/modify listeners in new widgets and support data-binding on them
-- Make it reject scaffolding widgets with no namespace by detecting current github username
 - Add a hello_menu.rb sample
 
 ### 0.3.0
