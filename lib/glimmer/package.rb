@@ -7,6 +7,12 @@ module Glimmer
     class << self
       attr_accessor :javapackager_extra_args
       
+      def clean
+        require 'fileutils'
+        FileUtils.rm_rf('dist')
+        FileUtils.rm_rf('packages')
+      end
+      
       def config
         project_name = File.basename(File.expand_path('.'))
         if !File.exists?('config/warble.rb')

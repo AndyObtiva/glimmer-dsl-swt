@@ -4,6 +4,11 @@ require_relative 'package'
 
 namespace :glimmer do
   namespace :package do
+    desc 'Clean by removing "dist" and "packages" directories'
+    task :clean do
+      Glimmer::Package.clean
+    end
+
     desc 'Generate JAR config file'
     task :config do
       Glimmer::Package.config
