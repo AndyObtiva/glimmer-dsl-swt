@@ -4,6 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.2.4
+
+- Make tables auto-sortable (for types it detects and supports)
+- Configure custom sorters for tables
+- Automatically display table sorting sign
+
 ### 0.3.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
