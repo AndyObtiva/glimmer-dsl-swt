@@ -716,14 +716,10 @@ module GlimmerSpec
               width 120
             }
             @table_column4 = table_column {
-              text "Date of Birth"
-              width 120
-            }
-            @table_column5 = table_column {
               text "Salary"
               width 120
             }
-            items bind(group, :people), column_properties(:name, :age, :adult, :dob, :salary)
+            items bind(group, :people), column_properties(:name, :age, :adult, :salary)
           }
         }
         
@@ -789,33 +785,15 @@ module GlimmerSpec
         event.type = Glimmer::SWT::SWTProxy[:selection]
         @table_column4.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
-        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(['1950-04-17 13:03:55 -0500', '1978-11-27 22:47:25 -0500'])
+        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 133000.5])
 
         @table_column4.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
         
-        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(['1978-11-27 22:47:25 -0500', '1950-04-17 13:03:55 -0500'])
+        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[133000.5 99000.7])
         
         @table_column4.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
-        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(['1950-04-17 13:03:55 -0500', '1978-11-27 22:47:25 -0500'])
-
-        event = Event.new
-        event.doit = true
-        event.display = @table_column5.swt_widget.getDisplay
-        event.item = @table_column5.swt_widget
-        event.widget = @table_column5.swt_widget
-        event.type = Glimmer::SWT::SWTProxy[:selection]
-        @table_column5.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-
-        expect(@table.swt_widget.items.map {|i| i.get_text(4)}).to eq(%w[99000.7 133000.5])
-
-        @table_column5.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-        
-        expect(@table.swt_widget.items.map {|i| i.get_text(4)}).to eq(%w[133000.5 99000.7])
-        
-        @table_column5.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-
-        expect(@table.swt_widget.items.map {|i| i.get_text(4)}).to eq(%w[99000.7 133000.5])
+        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 133000.5])
       end
       
       it 'has sorting disabled' do
