@@ -4,16 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.2.4
+### 0.2.5
 
-- Make tables auto-sortable (for types it detects and supports)
-- Configure custom sorters for tables
 - Automatically display table sorting sign
+- Configure custom sorters for tables
 
 ### 0.3.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
-- Get rid of View in the naming of any scaffolded classes
+- Get rid of "View" suffix in the naming of any scaffolded classes
 - Add DB support for ActiveRecord (bringing in rails migration/schema generation)
 - Make scaffolding generate a README.md that mentions "Built with Glimmer"
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
@@ -107,9 +106,12 @@ items <=> binding {
 - Consider namespacing data_binding classes as SWT just like DSL is namespaced
 - Introduce a new level of logging
 - Scaffold a Glimmer DSL
+- Scaffold a model + view form + data-binding connecting the two
+- Scaffold an ActiveRecord model + migration + view form + data-binding connecting the two
 - Test DB support with Derby DB
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
+- Add shell minimum_size to Tic Tac Toe sample for Linux
 
 ## Samples
 

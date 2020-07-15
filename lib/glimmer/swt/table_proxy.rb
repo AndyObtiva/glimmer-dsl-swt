@@ -33,7 +33,7 @@ module Glimmer
         end   
       end
       
-      attr_reader :table_editor, :table_editor_text_proxy
+      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction
       attr_accessor :column_properties
       
       def initialize(underscored_widget_name, parent, args)
@@ -43,7 +43,53 @@ module Glimmer
         @table_editor.grabHorizontal = true
         @table_editor.minimumHeight = 20
       end
-    
+
+      def model_binding
+        swt_widget.data
+      end      
+      
+      def sort_by_column(table_column_proxy)
+        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
+        @sort_direction = @sort_direction.nil? || @sort_property != column_properties[index] || @sort_direction == :descending ? :ascending : :descending
+        @sort_property = column_properties[index]
+        @sort_type = String
+        detect_sort_type        
+        sort
+      end
+      
+      def detect_sort_type
+        array = model_binding.evaluate_property
+        values = array.map { |object| object.send(sort_property) }
+        value_classes = values.map(&:class).uniq
+        if value_classes.size == 1
+          @sort_type = value_classes.first
+        elsif value_classes.include?(Integer)
+          @sort_type = Integer
+        elsif value_classes.include?(Float)
+          @sort_type = Float
+        end
+      end
+      
+      def sort
+        return unless sort_property && sort_direction
+        array = model_binding.evaluate_property
+        # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
+        sorted_array = array.sort_by do |object|
+          value = object.send(sort_property)
+          # handle nil and difficult to compare types gracefully
+          if @sort_type == Integer
+            value = value.to_i
+          elsif @sort_type == Float
+            value = value.to_f
+          elsif @sort_type == String
+            value = value.to_s
+          end
+          value
+        end
+        sorted_array = sorted_array.reverse if sort_direction == :descending
+        model_binding.call(sorted_array)
+      end
+      
       # Performs a search for table items matching block condition
       # If no condition block is passed, returns all table items
       # Returns a Java TableItem array to easily set as selection on org.eclipse.swt.Table if needed

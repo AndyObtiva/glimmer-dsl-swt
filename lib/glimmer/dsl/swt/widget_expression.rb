@@ -31,5 +31,7 @@ module Glimmer
 end
 
 require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/scrolled_composite_proxy'
 require 'glimmer/swt/tree_proxy'
 require 'glimmer/swt/table_proxy'
+require 'glimmer/swt/table_column_proxy'

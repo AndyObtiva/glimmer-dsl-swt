@@ -15,6 +15,7 @@ module Glimmer
       def initialize(parent, model_binding, column_properties)
         @table = parent
         @model_binding = model_binding
+        @table.swt_widget.data = @model_binding
         @column_properties = column_properties
         if @table.respond_to?(:column_properties=)
           @table.column_properties = @column_properties

@@ -137,6 +137,11 @@ module Glimmer
         execute_hooks('after_body')
         @swt_widget = @body_root.swt_widget
       end
+      
+      # Subclasses may override to perform post initialization work on an added child
+      def post_initialize_child(child)
+        body_root.post_initialize_child(child)
+      end      
 
       def can_handle_observation_request?(observation_request)
         result = false

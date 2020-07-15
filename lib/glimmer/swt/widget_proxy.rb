@@ -61,6 +61,12 @@ module Glimmer
         swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
         @swt_widget = swt_widget_class.new(parent.swt_widget, style(underscored_widget_name, styles), *extra_options)
         DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
+        parent.post_initialize_child(self)
+      end
+      
+      # Subclasses may override to perform post initialization work on an added child
+      def post_initialize_child(child)
+        # No Op by default
       end
 
       def extract_args(underscored_widget_name, args)
@@ -266,11 +272,11 @@ module Glimmer
         end
         swt_widget_class
       rescue NameError => e
-        Glimmer::Config.logger&.debug e.message
+        Glimmer::Config.logger&.debug e.full_message
         # Glimmer::Config.logger&.debug("#{e.message}\n#{e.backtrace.join("\n")}")
         nil
       rescue => e
-        Glimmer::Config.logger&.debug e.message
+        Glimmer::Config.logger&.debug e.full_message
         # Glimmer::Config.logger&.debug("#{e.message}\n#{e.backtrace.join("\n")}")
         nil
       end
