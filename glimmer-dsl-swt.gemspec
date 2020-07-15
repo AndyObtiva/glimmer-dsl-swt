@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/data_binding/widget_binding.rb",
     "lib/glimmer/dsl/swt/async_exec_expression.rb",
     "lib/glimmer/dsl/swt/bind_expression.rb",
+    "lib/glimmer/dsl/swt/block_property_expression.rb",
     "lib/glimmer/dsl/swt/color_expression.rb",
     "lib/glimmer/dsl/swt/column_properties_expression.rb",
     "lib/glimmer/dsl/swt/combo_selection_data_binding_expression.rb",
