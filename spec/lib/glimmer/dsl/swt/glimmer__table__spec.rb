@@ -845,7 +845,103 @@ module GlimmerSpec
         
         expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)
         
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)        
       end      
+      
+      it 'has a custom sort comparator' do
+        @target = shell {
+          @table = table {
+            @table_column1 = table_column {
+              text "Name"
+              width 120
+              sort {|n1, n2| n1.split.last <=> n2.split.last}
+            }
+            items bind(group, :people), column_properties(:name, :age, :adult, :dob)
+          }
+        }
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Bruce Ting', 'Julia Fang'])
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+      end      
+      
+      it 'has a custom sort_by block' do
+        @target = shell {
+          @table = table {
+            @table_column1 = table_column {
+              text "Name"
+              width 120
+              sort_by {|name| name.split.last}
+            }
+            items bind(group, :people), column_properties(:name, :age, :adult, :dob)
+          }
+        }
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Bruce Ting', 'Julia Fang'])
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+      end
+      
+      it 'has a custom sort_property' do
+        @target = shell {
+          @table = table {
+            @table_column1 = table_column {
+              text "Adult"
+              width 120
+              sort_property :dob
+            }
+            items bind(group, :people), column_properties(:adult)
+          }
+        }
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['true', 'false'])
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['false', 'true'])      
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['true', 'false'])        
+      end
     end    
     
   end

@@ -25,6 +25,7 @@ module Glimmer
           table_items_data_binding
           data_binding
           property
+          block_property
           widget
           custom_widget
         ]

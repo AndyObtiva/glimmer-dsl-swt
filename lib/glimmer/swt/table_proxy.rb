@@ -33,7 +33,7 @@ module Glimmer
         end   
       end
       
-      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction
+      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block
       attr_accessor :column_properties
       
       def initialize(underscored_widget_name, parent, args)
@@ -50,14 +50,21 @@ module Glimmer
       
       def sort_by_column(table_column_proxy)
         index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
-        @sort_direction = @sort_direction.nil? || @sort_property != column_properties[index] || @sort_direction == :descending ? :ascending : :descending
-        @sort_property = column_properties[index]
-        @sort_type = String
-        detect_sort_type        
+        new_sort_property = table_column_proxy.sort_property || column_properties[index]
+        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
+        @sort_property = new_sort_property
+        if table_column_proxy.sort_by_block
+          @sort_by_block = table_column_proxy.sort_by_block
+        elsif table_column_proxy.sort_block
+          @sort_block = table_column_proxy.sort_block
+        else
+          detect_sort_type        
+        end
         sort
       end
       
       def detect_sort_type
+        @sort_type = String
         array = model_binding.evaluate_property
         values = array.map { |object| object.send(sort_property) }
         value_classes = values.map(&:class).uniq
@@ -71,20 +78,30 @@ module Glimmer
       end
       
       def sort
-        return unless sort_property && sort_direction
+        return unless sort_property && (sort_type || sort_block || sort_by_block)
         array = model_binding.evaluate_property
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
-        sorted_array = array.sort_by do |object|
-          value = object.send(sort_property)
-          # handle nil and difficult to compare types gracefully
-          if @sort_type == Integer
-            value = value.to_i
-          elsif @sort_type == Float
-            value = value.to_f
-          elsif @sort_type == String
-            value = value.to_s
+        if sort_block
+          sorted_array = array.sort do |object1, object2|
+            value1 = object1.send(sort_property)
+            value2 = object2.send(sort_property)
+            sort_block.call(value1, value2)
           end
-          value
+        else
+          sorted_array = array.sort_by do |object|
+            value = object.send(sort_property)
+            # handle nil and difficult to compare types gracefully
+            if sort_by_block
+              value = sort_by_block.call(value)
+            elsif sort_type == Integer
+              value = value.to_i
+            elsif sort_type == Float
+              value = value.to_f
+            elsif sort_type == String
+              value = value.to_s
+            end
+            value
+          end
         end
         sorted_array = sorted_array.reverse if sort_direction == :descending
         model_binding.call(sorted_array)

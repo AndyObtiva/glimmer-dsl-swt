@@ -2,9 +2,11 @@ require 'glimmer/swt/widget_proxy'
 
 module Glimmer
   module SWT
-    class TableColumnProxy < Glimmer::SWT::WidgetProxy
-      attr_reader :no_sort
+    class TableColumnProxy < Glimmer::SWT::WidgetProxy    
+      attr_reader :no_sort, :sort_property
       alias no_sort? no_sort
+      attr_accessor :sort_block, :sort_by_block
+      
       def initialize(underscored_widget_name, parent, args)
         @no_sort = args.delete(:no_sort)
         super
@@ -12,6 +14,11 @@ module Glimmer
           parent.sort_by_column(self)
         end unless no_sort?
       end
+      
+      def sort_property=(args)
+        @sort_property = args.to_a.first
+      end
+      
     end
   end
 end

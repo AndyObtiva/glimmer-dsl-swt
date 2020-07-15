@@ -4,11 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.2.5
-
-- Automatically display table sorting sign
-- Configure custom sorters for tables
-
 ### 0.3.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
@@ -17,6 +12,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make scaffolding generate a README.md that mentions "Built with Glimmer"
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 - Add auto-sorting table support
+- Automatically display table sorting sign
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -112,6 +108,8 @@ items <=> binding {
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
 - Add shell minimum_size to Tic Tac Toe sample for Linux
+- Support simple syntax for table multi-column sorting via DSL configuration under table_column
+- Support table default sort configuration via DSL
 
 ## Samples
 

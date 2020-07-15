@@ -3,7 +3,8 @@
 ## 0.2.4
 
 - Make table auto-sortable
-- Support for ScrolledComposite smart default behavior
+- Configure custom sorters for table columns
+- Support for ScrolledComposite smart default behavior (auto setting of content, h_scroll/v_scroll styles, and horizontal/vertical expand)
 
 ## 0.2.3
 
