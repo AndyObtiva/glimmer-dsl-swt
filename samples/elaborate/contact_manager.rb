@@ -63,23 +63,14 @@ class ContactManager
           table_column {
             text "First Name"
             width 80
-            on_widget_selected {
-              @contact_manager_presenter.toggle_sort(:first_name)
-            }
           }
           table_column {
             text "Last Name"
             width 80
-            on_widget_selected {
-              @contact_manager_presenter.toggle_sort(:last_name)
-            }
           }
           table_column {
             text "Email"
             width 200
-            on_widget_selected {
-              @contact_manager_presenter.toggle_sort(:email)
-            }
           }
           items bind(@contact_manager_presenter, :results),
           column_properties(:first_name, :last_name, :email)

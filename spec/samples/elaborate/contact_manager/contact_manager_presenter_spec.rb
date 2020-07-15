@@ -86,27 +86,5 @@ class ContactManager
       expect(contacts.size).to eq( 0)
     end
   
-    it "tests sorted results" do
-      contact_manager_presenter.list
-      contact_manager_presenter.toggle_sort(:last_name)
-      contacts = contact_manager_presenter.results
-      expect(contacts[0].first_name).to eq( "Frank")
-      expect(contacts[1].first_name).to eq( "Beatrice")
-      expect(contacts[2].first_name).to eq( "franky")
-      expect(contacts[3].first_name).to eq( "Anne")
-      contact_manager_presenter.toggle_sort(:last_name)
-      contacts = contact_manager_presenter.results
-      expect(contacts[0].first_name).to eq( "Anne")
-      expect(contacts[1].first_name).to eq( "franky")
-      expect(contacts[2].first_name).to eq( "Beatrice")
-      expect(contacts[3].first_name).to eq( "Frank")
-      contact_manager_presenter.toggle_sort(:first_name)
-      contacts = contact_manager_presenter.results
-      expect(contacts[0].first_name).to eq( "Anne")
-      expect(contacts[1].first_name).to eq( "Beatrice")
-      expect(contacts[2].first_name).to eq( "Frank")
-      expect(contacts[3].first_name).to eq( "franky")
-    end
-  
   end
 end
