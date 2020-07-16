@@ -53,6 +53,8 @@ module Glimmer
         new_sort_property = table_column_proxy.sort_property || column_properties[index]
         @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
         @sort_property = new_sort_property
+        @sort_by_block = nil
+        @sort_block = nil
         if table_column_proxy.sort_by_block
           @sort_by_block = table_column_proxy.sort_by_block
         elsif table_column_proxy.sort_block
@@ -82,18 +84,14 @@ module Glimmer
         array = model_binding.evaluate_property
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
         if sort_block
-          sorted_array = array.sort do |object1, object2|
-            value1 = object1.send(sort_property)
-            value2 = object2.send(sort_property)
-            sort_block.call(value1, value2)
-          end
+          sorted_array = array.sort(&sort_block)
+        elsif sort_by_block
+          sorted_array = array.sort_by(&sort_by_block)          
         else
           sorted_array = array.sort_by do |object|
             value = object.send(sort_property)
             # handle nil and difficult to compare types gracefully
-            if sort_by_block
-              value = sort_by_block.call(value)
-            elsif sort_type == Integer
+            if sort_type == Integer
               value = value.to_i
             elsif sort_type == Float
               value = value.to_f

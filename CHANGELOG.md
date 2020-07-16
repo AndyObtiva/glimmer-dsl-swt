@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.0
+
+- Switch API for table column sorting to pass models not properties to sorting blocks
+- Fix issue with different sorting blocks not reseting each other on different table columns
+
 ## 0.2.4
 
 - Make table auto-sortable

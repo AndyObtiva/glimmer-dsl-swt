@@ -834,7 +834,11 @@ module GlimmerSpec
             @table_column1 = table_column {
               text "Name"
               width 120
-              sort {|n1, n2| n1.split.last <=> n2.split.last}
+              sort {|t1, t2| t1.name.split.last <=> t2.name.split.last}
+            }
+            @table_column2 = table_column {
+              text "Age"
+              width 120
             }
             items bind(group, :people), column_properties(:name, :age, :adult, :dob)
           }
@@ -857,6 +861,24 @@ module GlimmerSpec
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
         expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column2.swt_widget.getDisplay
+        event.item = @table_column2.swt_widget
+        event.widget = @table_column2.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
+
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['45', '17'])
+        
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
       end      
       
       it 'has a custom sort_by block' do
@@ -865,7 +887,11 @@ module GlimmerSpec
             @table_column1 = table_column {
               text "Name"
               width 120
-              sort_by {|name| name.split.last}
+              sort_by {|task| task.name.split.last}
+            }
+            @table_column2 = table_column {
+              text "Age"
+              width 120
             }
             items bind(group, :people), column_properties(:name, :age, :adult, :dob)
           }
@@ -888,6 +914,24 @@ module GlimmerSpec
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
         expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column2.swt_widget.getDisplay
+        event.item = @table_column2.swt_widget
+        event.widget = @table_column2.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
+
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['45', '17'])
+        
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
       end
       
       it 'has a custom sort_property' do
@@ -898,7 +942,11 @@ module GlimmerSpec
               width 120
               sort_property :dob
             }
-            items bind(group, :people), column_properties(:adult)
+            @table_column2 = table_column {
+              text "Age"
+              width 120
+            }
+            items bind(group, :people), column_properties(:adult, :age)
           }
         }
         
@@ -919,6 +967,24 @@ module GlimmerSpec
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
         expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['true', 'false'])        
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column2.swt_widget.getDisplay
+        event.item = @table_column2.swt_widget
+        event.widget = @table_column2.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
+
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['45', '17'])
+        
+        @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
       end
     end    
     
