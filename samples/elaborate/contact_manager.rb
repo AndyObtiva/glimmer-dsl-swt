@@ -60,7 +60,7 @@ class ContactManager
             grab_excess_vertical_space true
             height_hint 200
           }
-          tc = table_column {
+          table_column {
             text "First Name"
             width 80
           }
