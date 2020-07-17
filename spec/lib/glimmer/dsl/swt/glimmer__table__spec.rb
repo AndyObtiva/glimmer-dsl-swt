@@ -1007,7 +1007,7 @@ module GlimmerSpec
         expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
       end
       
-      it 'has multiple custom sort_property values' do
+      it 'has multiple custom sort_property values (verifies sort column and direction)' do
         group.people << person3
         
         @target = shell {        
@@ -1029,14 +1029,20 @@ module GlimmerSpec
         event.type = Glimmer::SWT::SWTProxy[:selection]
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
+        expect(@table.swt_widget.getSortColumn()).to eq(@table_column1.swt_widget)
+        expect(@table.swt_widget.getSortDirection()).to eq(swt(:up))
         expect(@table.swt_widget.items.map(&:data)).to eq([person3, person2, person1])
   
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
         
+        expect(@table.swt_widget.getSortColumn()).to eq(@table_column1.swt_widget)
+        expect(@table.swt_widget.getSortDirection()).to eq(swt(:down))
         expect(@table.swt_widget.items.map(&:data)).to eq([person1, person2, person3])      
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
+        expect(@table.swt_widget.getSortColumn()).to eq(@table_column1.swt_widget)
+        expect(@table.swt_widget.getSortDirection()).to eq(swt(:up))
         expect(@table.swt_widget.items.map(&:data)).to eq([person3, person2, person1])
       end
       

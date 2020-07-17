@@ -5,6 +5,7 @@
 - Update API for table column sorting to pass models not properties to sorting blocks
 - Support table multi-column sort_property
 - Support table additional_sort_properties array
+- Display table column sorting direction sign
 - Update Scaffold MessageBox reference to message_box DSL keyword
 - Fix issue with different sorting blocks not reseting each other on different table columns
 

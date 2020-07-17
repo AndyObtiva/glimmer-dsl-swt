@@ -59,8 +59,13 @@ module Glimmer
             new_sort_property += additional_sort_properties
           end
         end
+        
         @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending        
+        swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
+        
         @sort_property = new_sort_property
+        swt_widget.sort_column = table_column_proxy.swt_widget
+        
         @sort_by_block = nil
         @sort_block = nil
         @sort_type = nil
