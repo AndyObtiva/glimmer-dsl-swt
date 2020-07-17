@@ -138,12 +138,8 @@ module Glimmer
         @swt_widget = @body_root.swt_widget
       end
       
-      # Subclasses may override to perform post initialization work on an added child
-      def post_initialize_child(child)
-        body_root.post_initialize_child(child)
-      end      
-
       def can_handle_observation_request?(observation_request)
+        observation_request = observation_request.to_s
         result = false
         if observation_request.start_with?('on_updated_')
           property = observation_request.sub(/^on_updated_/, '')
@@ -153,6 +149,7 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
+        observation_request = observation_request.to_s
         if observation_request.start_with?('on_updated_')
           property = observation_request.sub(/^on_updated_/, '') # TODO look into eliminating duplication from above
           add_observer(DataBinding::Observer.proc(&block), property) if can_add_observer?(property)
@@ -188,7 +185,9 @@ module Glimmer
 
       # This method ensures it has an instance method not coming from Glimmer DSL
       def has_instance_method?(method_name)
-        respond_to?(method_name) && !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb')
+        respond_to?(method_name) && 
+          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') && 
+          !method(method_name)&.source_location&.first&.include?('glimmer/swt/widget_proxy.rb')
       end
 
       def get_attribute(attribute_name)
@@ -229,12 +228,13 @@ module Glimmer
         end
       end
 
-      def dispose
-        body_root.dispose
-      end
-      
       def method_missing(method, *args, &block)
         body_root.send(method, *args, &block)
+      end
+      
+      def respond_to?(method, *args, &block)
+        super or
+          body_root.respond_to?(method, *args, &block)
       end
 
       private

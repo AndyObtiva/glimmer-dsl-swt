@@ -33,6 +33,46 @@ module Glimmer
         end   
       end
       
+      class << self
+        def editors
+          @editors ||= {
+            text: lambda do |args, model, property, finish_edit, cancel_edit|
+              table_editor_widget_proxy = text(*args) {
+                text model.send(property)
+                focus true
+                on_focus_lost(&finish_edit)
+                on_key_pressed { |key_event|
+                  if key_event.keyCode == swt(:cr)
+                    finish_edit.call(key_event)
+                  elsif key_event.keyCode == swt(:esc)
+                    cancel_edit.call
+                  end
+                }              
+              }
+              table_editor_widget_proxy.swt_widget.selectAll          
+              table_editor_widget_proxy
+            end,
+            combo: lambda do |args, model, property, finish_edit, cancel_edit|
+              table_editor_widget_proxy = combo(*args) {
+                items model.send("#{property}_options")
+                text model.send(property)
+                focus true
+                on_focus_lost(&finish_edit)
+                on_key_pressed { |key_event|
+                  if key_event.keyCode == swt(:cr)
+                    finish_edit.call(key_event)
+                  elsif key_event.keyCode == swt(:esc)
+                    cancel_edit.call
+                  end
+                }
+                on_widget_selected(&finish_edit)
+              }
+              table_editor_widget_proxy
+            end,
+          }      
+        end
+      end
+      
       attr_reader :table_editor, :table_editor_text_proxy, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor
       attr_accessor :column_properties
       
@@ -156,7 +196,7 @@ module Glimmer
         })
       end
       
-      def add_table_column_proxy(table_column_proxy)
+      def post_initialize_child(table_column_proxy)
         table_column_proxies << table_column_proxy
       end
       
@@ -226,44 +266,12 @@ module Glimmer
             end
           end
         end
-        editors = {
-          text: lambda do |args|
-            @table_editor_widget_proxy = @table_editor_text_proxy = text(*args) {
-              text model.send(property)
-              focus true
-              on_focus_lost(&@finish_edit)
-              on_key_pressed { |key_event|
-                if key_event.keyCode == swt(:cr)
-                  @finish_edit.call(key_event)
-                elsif key_event.keyCode == swt(:esc)
-                  @cancel_edit.call
-                end
-              }              
-            }
-            @table_editor_widget_proxy.swt_widget.selectAll          
-          end,
-          combo: lambda do |args|
-            @table_editor_widget_proxy = @table_editor_text_proxy = combo(*args) {
-              items model.send("#{property}_options")
-              text model.send(property)
-              focus true
-              on_focus_lost(&@finish_edit)
-              on_key_pressed { |key_event|
-                if key_event.keyCode == swt(:cr)
-                  @finish_edit.call(key_event)
-                elsif key_event.keyCode == swt(:esc)
-                  @cancel_edit.call
-                end
-              }
-              on_widget_selected(&@finish_edit)
-            }
-          end,
-        }
+
         editor_config = table_column_proxies[column_index].editor || editor
         editor_widget = editor_config.to_a[0] || :text
         editor_widget_args = editor_config.to_a[1] || []
         content { 
-          editors[editor_widget].call(editor_widget_args)
+          @table_editor_widget_proxy = @table_editor_text_proxy = TableProxy::editors[editor_widget].call(editor_widget_args, model, property, @finish_edit, @cancel_edit)
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       end

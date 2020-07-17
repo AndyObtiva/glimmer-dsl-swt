@@ -320,10 +320,6 @@ module GlimmerSpec
             }
         }
       }.to raise_error(NoMethodError)
-      Glimmer::DSL::Engine.parent_stacks.values.each do |parent_stack|
-        expect(parent_stack).to be_empty
-      end
-      expect(Glimmer::DSL::Engine.dsl_stack).to be_empty
     end
 
     it "tests shell with invalid parent" do
@@ -334,10 +330,6 @@ module GlimmerSpec
           }
         }
       }.to raise_error(Glimmer::Error)
-      Glimmer::DSL::Engine.parent_stacks.values.each do |parent_stack|
-        expect(parent_stack).to be_empty
-      end
-      expect(Glimmer::DSL::Engine.dsl_stack).to be_empty
     end
 
     it "tests shell with valid shell parent" do

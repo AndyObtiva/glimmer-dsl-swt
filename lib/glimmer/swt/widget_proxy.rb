@@ -271,7 +271,7 @@ module Glimmer
           return nil
         end
         swt_widget_class
-      rescue NameError => e
+      rescue SyntaxError, NameError => e
         Glimmer::Config.logger&.debug e.full_message
         # Glimmer::Config.logger&.debug("#{e.message}\n#{e.backtrace.join("\n")}")
         nil

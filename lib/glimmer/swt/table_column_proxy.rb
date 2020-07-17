@@ -10,7 +10,6 @@ module Glimmer
       def initialize(underscored_widget_name, parent, args)
         @no_sort = args.delete(:no_sort)
         super
-        parent.add_table_column_proxy(self)
         on_widget_selected do |event|
           parent.sort_by_column(self)
         end unless no_sort?
