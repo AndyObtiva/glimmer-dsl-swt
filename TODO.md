@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.3.0
 
-- Support table secondary_sort_properties array
 - Consider adding sash_form children style for having a fixed size when resizing
 - Update Scaffold MessageBox reference to message_box DSL keyword
 

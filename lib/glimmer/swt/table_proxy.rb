@@ -33,7 +33,7 @@ module Glimmer
         end   
       end
       
-      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block
+      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties
       attr_accessor :column_properties
       
       def initialize(underscored_widget_name, parent, args)
@@ -51,7 +51,15 @@ module Glimmer
       def sort_by_column(table_column_proxy)
         index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
         new_sort_property = table_column_proxy.sort_property || [column_properties[index]]
-        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
+        if new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
+          selected_additional_sort_properties = additional_sort_properties.clone
+          if selected_additional_sort_properties.include?(new_sort_property.first)
+            new_sort_property = additional_sort_properties.rotate(additional_sort_properties.index(new_sort_property.first))
+          else
+            new_sort_property += additional_sort_properties
+          end
+        end
+        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending        
         @sort_property = new_sort_property
         @sort_by_block = nil
         @sort_block = nil
@@ -80,6 +88,10 @@ module Glimmer
             @sort_type[i] = Float
           end
         end
+      end
+      
+      def additional_sort_properties=(args)
+        @additional_sort_properties = args unless args.empty?
       end
       
       def sort

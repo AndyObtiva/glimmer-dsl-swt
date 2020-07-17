@@ -79,6 +79,16 @@ module GlimmerSpec
       end
     end
     
+    let(:person4) do
+      Person.new.tap do |person|
+        person.name = "Ava Fang"
+        person.age = 17
+        person.adult = false
+        person.dob = Time.new(1978, 11, 27, 22, 47, 25)
+        person.salary = 89000.7
+      end
+    end
+    
     let(:selected_person) { person2 }
     let(:selected_people) { [person1, person2] }
     
@@ -1028,6 +1038,76 @@ module GlimmerSpec
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
         expect(@table.swt_widget.items.map(&:data)).to eq([person3, person2, person1])
+      end
+      
+      it 'has custom sort_property and secondary_sort_properties not including custom sort_property' do
+        group.people << person3
+        group.people << person4
+        
+        @target = shell {        
+          @table = table {
+            @table_column1 = table_column {
+              text "Date of Birth"
+              width 120
+              sort_property :age
+            }
+            additional_sort_properties :name, :salary
+            items bind(group, :people), column_properties(:age)
+          }
+        }        
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map(&:data)).to eq([person4, person3, person2, person1])
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map(&:data)).to eq([person1, person2, person3, person4])
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map(&:data)).to eq([person4, person3, person2, person1])
+      end
+      
+      it 'has custom sort_property and secondary_sort_properties including custom sort_property' do
+        group.people << person3
+        group.people << person4
+        
+        @target = shell {        
+          @table = table {
+            @table_column1 = table_column {
+              text "Date of Birth"
+              width 120
+              sort_property :age
+            }
+            additional_sort_properties :salary, :age, :name
+            items bind(group, :people), column_properties(:age)
+          }
+        }        
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map(&:data)).to eq([person4, person3, person2, person1])
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map(&:data)).to eq([person1, person2, person3, person4])
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map(&:data)).to eq([person4, person3, person2, person1])
       end
       
     end    
