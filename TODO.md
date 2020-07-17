@@ -6,9 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.3.0
 
-- Consider adding sash_form children style for having a fixed size when resizing
-- Update Scaffold MessageBox reference to message_box DSL keyword
-
 ### 0.4.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
@@ -18,6 +15,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 - Add auto-sorting table support
 - Automatically display table sorting sign
+- Consider adding sash_form children style for having a fixed size when resizing
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)

@@ -485,12 +485,10 @@ class Scaffold
         custom_shell_file_content += <<-MULTI_LINE_STRING
 
     def display_about_dialog
-      message_box = MessageBox.new(swt_widget)
-      message_box.setText("About")
-      message = "#{human_name(namespace)} - #{human_name(custom_shell_name)} \#{VERSION}\n\n"
-      message += LICENSE
-      message_box.setMessage(message)
-      message_box.open
+      message_box(body_root) {
+        text 'About'
+        message "#{human_name(namespace)} - #{human_name(custom_shell_name)} \#{VERSION}\\n\\n\#{LICENSE}"
+      }.open
     end
     
     def display_preferences_dialog
