@@ -1,4 +1,4 @@
-require 'glimmer/swt/widget_proxy'
+  require 'glimmer/swt/widget_proxy'
 
 module Glimmer
   module SWT
@@ -50,11 +50,12 @@ module Glimmer
       
       def sort_by_column(table_column_proxy)
         index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
-        new_sort_property = table_column_proxy.sort_property || column_properties[index]
+        new_sort_property = table_column_proxy.sort_property || [column_properties[index]]
         @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
         @sort_property = new_sort_property
         @sort_by_block = nil
         @sort_block = nil
+        @sort_type = nil
         if table_column_proxy.sort_by_block
           @sort_by_block = table_column_proxy.sort_by_block
         elsif table_column_proxy.sort_block
@@ -66,16 +67,18 @@ module Glimmer
       end
       
       def detect_sort_type
-        @sort_type = String
+        @sort_type = sort_property.size.times.map { String }
         array = model_binding.evaluate_property
-        values = array.map { |object| object.send(sort_property) }
-        value_classes = values.map(&:class).uniq
-        if value_classes.size == 1
-          @sort_type = value_classes.first
-        elsif value_classes.include?(Integer)
-          @sort_type = Integer
-        elsif value_classes.include?(Float)
-          @sort_type = Float
+        sort_property.each_with_index do |a_sort_property, i|
+          values = array.map { |object| object.send(a_sort_property) }
+          value_classes = values.map(&:class).uniq
+          if value_classes.size == 1
+            @sort_type[i] = value_classes.first
+          elsif value_classes.include?(Integer)
+            @sort_type[i] = Integer
+          elsif value_classes.include?(Float)
+            @sort_type[i] = Float
+          end
         end
       end
       
@@ -89,16 +92,18 @@ module Glimmer
           sorted_array = array.sort_by(&sort_by_block)          
         else
           sorted_array = array.sort_by do |object|
-            value = object.send(sort_property)
-            # handle nil and difficult to compare types gracefully
-            if sort_type == Integer
-              value = value.to_i
-            elsif sort_type == Float
-              value = value.to_f
-            elsif sort_type == String
-              value = value.to_s
+            sort_property.each_with_index.map do |a_sort_property, i|
+              value = object.send(a_sort_property)
+              # handle nil and difficult to compare types gracefully
+              if sort_type[i] == Integer
+                value = value.to_i
+              elsif sort_type[i] == Float
+                value = value.to_f
+              elsif sort_type[i] == String
+                value = value.to_s
+              end
+              value
             end
-            value
           end
         end
         sorted_array = sorted_array.reverse if sort_direction == :descending

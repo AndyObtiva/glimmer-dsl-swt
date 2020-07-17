@@ -16,7 +16,7 @@ module Glimmer
       end
       
       def sort_property=(args)
-        @sort_property = args.to_a.first
+        @sort_property = args unless args.empty?
       end
       
     end

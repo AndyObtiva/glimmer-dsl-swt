@@ -2,7 +2,8 @@
 
 ## 0.3.0
 
-- Switch API for table column sorting to pass models not properties to sorting blocks
+- Update API for table column sorting to pass models not properties to sorting blocks
+- Support table multi-column sort_property
 - Fix issue with different sorting blocks not reseting each other on different table columns
 
 ## 0.2.4

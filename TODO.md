@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.3.0
 
+- Support table secondary_sort_properties array
 - Consider adding sash_form children style for having a fixed size when resizing
 - Update Scaffold MessageBox reference to message_box DSL keyword
 
@@ -114,7 +115,7 @@ items <=> binding {
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
 - Add shell minimum_size to Tic Tac Toe sample for Linux
 - Support simple syntax for table multi-column sorting via DSL configuration under table_column
-- Support table default sort configuration via DSL
+- Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
 
 ## Samples
 
