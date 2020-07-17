@@ -11,6 +11,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ### 0.4.0
 
 - Remove Table#table_editor_text_proxy in favor of Table#table_editor_widget_proxy
+- Update table text widget editing to rely on data-binding
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)

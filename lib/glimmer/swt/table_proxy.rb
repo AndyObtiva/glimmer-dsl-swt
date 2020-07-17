@@ -102,7 +102,7 @@ module Glimmer
       
       def editor=(args)
         @editor = args
-      end      
+      end 
       
       def sort
         return unless sort_property && (sort_type || sort_block || sort_by_block)
@@ -156,6 +156,14 @@ module Glimmer
         })
       end
       
+      def add_table_column_proxy(table_column_proxy)
+        table_column_proxies << table_column_proxy
+      end
+      
+      def table_column_proxies
+        @table_column_proxies ||= []
+      end
+      
       # Indicates if table is in edit mode, thus displaying a text widget for a table item cell
       def edit_mode?
         !!@edit_mode
@@ -181,6 +189,8 @@ module Glimmer
             
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
         return if table_item.nil?
+        model = table_item.data
+        property = column_properties[column_index]
         @cancel_edit&.call if @edit_mode
         action_taken = false
         @edit_mode = true
@@ -201,13 +211,12 @@ module Glimmer
             action_taken = true
             @edit_in_progress = true
             new_text = @table_editor_widget_proxy.swt_widget.getText
-            if new_text == table_item.getText(column_index)
+            if new_text == model.send(property)
               @cancel_edit.call
             else
               before_write&.call
               table_item.setText(column_index, new_text)
-              model = table_item.getData
-              model.send("#{column_properties[column_index]}=", new_text) # makes table update itself, so must search for selected table item again
+              model.send("#{property}=", new_text) # makes table update itself, so must search for selected table item again
               edited_table_item = search { |ti| ti.getData == model }.first
               swt_widget.showItem(edited_table_item)
               @table_editor_widget_proxy&.swt_widget&.dispose
@@ -220,7 +229,23 @@ module Glimmer
         editors = {
           text: lambda do |args|
             @table_editor_widget_proxy = @table_editor_text_proxy = text(*args) {
-              text table_item.getText(column_index)
+              text model.send(property)
+              focus true
+              on_focus_lost(&@finish_edit)
+              on_key_pressed { |key_event|
+                if key_event.keyCode == swt(:cr)
+                  @finish_edit.call(key_event)
+                elsif key_event.keyCode == swt(:esc)
+                  @cancel_edit.call
+                end
+              }              
+            }
+            @table_editor_widget_proxy.swt_widget.selectAll          
+          end,
+          combo: lambda do |args|
+            @table_editor_widget_proxy = @table_editor_text_proxy = combo(*args) {
+              items model.send("#{property}_options")
+              text model.send(property)
               focus true
               on_focus_lost(&@finish_edit)
               on_key_pressed { |key_event|
@@ -230,12 +255,13 @@ module Glimmer
                   @cancel_edit.call
                 end
               }
+              on_widget_selected(&@finish_edit)
             }
-            @table_editor_widget_proxy.swt_widget.selectAll          
-          end
+          end,
         }
-        editor_widget = editor.to_a[0] || :text
-        editor_widget_args = editor.to_a[1] || []
+        editor_config = table_column_proxies[column_index].editor || editor
+        editor_widget = editor_config.to_a[0] || :text
+        editor_widget_args = editor_config.to_a[1] || []
         content { 
           editors[editor_widget].call(editor_widget_args)
         }
