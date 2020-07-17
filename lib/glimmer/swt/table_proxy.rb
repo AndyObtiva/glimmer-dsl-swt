@@ -54,7 +54,8 @@ module Glimmer
         if new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
           selected_additional_sort_properties = additional_sort_properties.clone
           if selected_additional_sort_properties.include?(new_sort_property.first)
-            new_sort_property = additional_sort_properties.rotate(additional_sort_properties.index(new_sort_property.first))
+            selected_additional_sort_properties.delete(new_sort_property.first)
+            new_sort_property += selected_additional_sort_properties
           else
             new_sort_property += additional_sort_properties
           end

@@ -1092,7 +1092,7 @@ module GlimmerSpec
               width 120
               sort_property :age
             }
-            additional_sort_properties :salary, :age, :name
+            additional_sort_properties :name, :age, :salary
             items bind(group, :people), column_properties(:age)
           }
         }        
