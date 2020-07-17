@@ -100,8 +100,8 @@ module Glimmer
         @additional_sort_properties = args unless args.empty?
       end
       
-      def editor=(widget, *args)
-        @editor = [widget, args]
+      def editor=(args)
+        @editor = args
       end      
       
       def sort
@@ -218,8 +218,8 @@ module Glimmer
           end
         end
         editors = {
-          text: -> {
-            @table_editor_widget_proxy = @table_editor_text_proxy = text {
+          text: lambda do |args|
+            @table_editor_widget_proxy = @table_editor_text_proxy = text(*args) {
               text table_item.getText(column_index)
               focus true
               on_focus_lost(&@finish_edit)
@@ -232,10 +232,12 @@ module Glimmer
               }
             }
             @table_editor_widget_proxy.swt_widget.selectAll          
-          }
+          end
         }
-        content {
-          editors[:text].call
+        editor_widget = editor.to_a[0] || :text
+        editor_widget_args = editor.to_a[1] || []
+        content { 
+          editors[editor_widget].call(editor_widget_args)
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       end
