@@ -4,14 +4,19 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.3.1
+
+- Support multiple widgets for editing table items
+
 ### 0.4.0
 
-- Add ActiveRecord sort_property support for performing sorts via AR .order method
+- Remove Table#table_editor_text_proxy in favor of Table#table_editor_widget_proxy
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Consider having glimmer always save model/proxy/observer objects to widgets as data('proxy')
 - Consider adding sash_form children style for having a fixed size when resizing
+- Change table editing support to rely on data-binding
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)

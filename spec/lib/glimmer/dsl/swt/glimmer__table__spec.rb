@@ -377,7 +377,7 @@ module GlimmerSpec
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_selected_table_item(
             0,
@@ -389,18 +389,18 @@ module GlimmerSpec
               @write_done = true 
             }
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
-          @table.table_editor_text_proxy.swt_widget.setText('Julie Fan')
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:cr]
           event.doit = true
           event.character = "\n"
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:keydown]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
           expect(@write_done).to eq(true)
           expect(@table.edit_in_progress?).to eq(false)
           expect(@cancel_done).to be_nil
@@ -412,6 +412,152 @@ module GlimmerSpec
           expect(selection.first.getData).to eq(person2)            
         end    
         
+        xit "triggers custom table widget editing on specified table item which is done via ENTER key" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+                editor :combo
+              }
+              # TODO support radio, checkbox, and spinner
+#               table_column {
+#                 text "Age"
+#                 width 120
+#               }
+#               table_column {
+#                 text "Adult"
+#                 width 120
+#               }
+              items bind(group, :people), column_properties(:name, :age, :adult)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.getItems.first,
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('Julie Fan')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
+          # simulate hitting enter to trigger write action
+          event = Event.new
+          event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:keydown]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person1.name).to eq('Julie Fan')
+          
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
+        it "triggers configured table-wide table widget editor on specified table item which is done via ENTER key" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              editor :text
+              items bind(group, :people), column_properties(:name, :age, :adult)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.getItems.first,
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('Julie Fan')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
+          # simulate hitting enter to trigger write action
+          event = Event.new
+          event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:keydown]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person1.name).to eq('Julie Fan')
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.getItems.first,
+            1,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(1)).to eq('32')          
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('32')
+          # simulate hitting enter to trigger write action
+          event = Event.new
+          event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:keydown]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person1.age).to eq('32')
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
         it "triggers table widget editing on specified table item which is done via ENTER key" do
           @target = shell {
             @table = table {
@@ -427,12 +573,13 @@ module GlimmerSpec
                 text "Adult"
                 width 120
               }
+              editor :text
               items bind(group, :people), column_properties(:name, :age, :adult)
               selection bind(group, :selected_person)
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_table_item(
             @table.swt_widget.getItems.first,
@@ -445,24 +592,24 @@ module GlimmerSpec
               @write_done = true 
             }
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
-          @table.table_editor_text_proxy.swt_widget.setText('Julie Fan')
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:cr]
           event.doit = true
           event.character = "\n"
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:keydown]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
           expect(@write_done).to eq(true)
           expect(@table.edit_in_progress?).to eq(false)
           expect(@cancel_done).to be_nil
           expect(person1.name).to eq('Julie Fan')
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_table_item(
             @table.swt_widget.getItems.first,
@@ -475,18 +622,18 @@ module GlimmerSpec
               @write_done = true 
             }
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
-          @table.table_editor_text_proxy.swt_widget.setText('32')
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('32')
           # simulate hitting enter to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:cr]
           event.doit = true
           event.character = "\n"
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:keydown]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
           expect(@write_done).to eq(true)
           expect(@table.edit_in_progress?).to eq(false)
           expect(@cancel_done).to be_nil
@@ -518,7 +665,7 @@ module GlimmerSpec
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_selected_table_item(
             0,
@@ -530,18 +677,18 @@ module GlimmerSpec
               @write_done = true 
             }
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
-          @table.table_editor_text_proxy.swt_widget.setText('Julie Fan')
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:cr]
           event.doit = true
           event.character = "\n"
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:focusout]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:focusout], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:focusout], event)
           expect(@write_done).to eq(true)
           expect(@table.edit_in_progress?).to eq(false)
           expect(@cancel_done).to be_nil
@@ -573,7 +720,7 @@ module GlimmerSpec
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_selected_table_item(
             0,
@@ -584,17 +731,17 @@ module GlimmerSpec
               @cancel_done = true
             end
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy).to_not be_nil
           # simulate hitting enter to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:cr]
           event.doit = true
           event.character = "\n"
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:focusout]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:focusout], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:focusout], event)
           expect(@table.edit_in_progress?).to eq(false)
           expect(@write_done).to be_falsey
           expect(@cancel_done).to eq(true)
@@ -626,7 +773,7 @@ module GlimmerSpec
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_selected_table_item(
             0,
@@ -637,18 +784,18 @@ module GlimmerSpec
               @cancel_done = true
             end
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy).to_not be_nil
     
           # simulate hitting escape to trigger write action
           event = Event.new
           event.keyCode = Glimmer::SWT::SWTProxy[:esc]
           event.doit = true
           event.character = nil
-          event.display = @table.table_editor_text_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_text_proxy.swt_widget
-          event.widget = @table.table_editor_text_proxy.swt_widget
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:keydown]
-          @table.table_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
           
           expect(@table.edit_in_progress?).to eq(false)
           expect(@write_done).to be_falsey
@@ -681,7 +828,7 @@ module GlimmerSpec
             }
           }
           
-          expect(@table.table_editor_text_proxy).to be_nil
+          expect(@table.table_editor_widget_proxy).to be_nil
           @write_done = false
           @table.edit_selected_table_item(
             0,
@@ -692,8 +839,8 @@ module GlimmerSpec
               @cancel_done = true
             end
           )      
-          expect(@table.table_editor_text_proxy).to_not be_nil
-          @table.table_editor_text_proxy.swt_widget.setText('Julie Fan')
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
     
           @write2_done = false
           @table.edit_selected_table_item(

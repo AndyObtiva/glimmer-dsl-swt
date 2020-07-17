@@ -33,7 +33,7 @@ module Glimmer
         end   
       end
       
-      attr_reader :table_editor, :table_editor_text_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties
+      attr_reader :table_editor, :table_editor_text_proxy, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor
       attr_accessor :column_properties
       
       def initialize(underscored_widget_name, parent, args)
@@ -99,6 +99,10 @@ module Glimmer
       def additional_sort_properties=(args)
         @additional_sort_properties = args unless args.empty?
       end
+      
+      def editor=(widget, *args)
+        @editor = [widget, args]
+      end      
       
       def sort
         return unless sort_property && (sort_type || sort_block || sort_by_block)
@@ -178,57 +182,62 @@ module Glimmer
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
         return if table_item.nil?
         @cancel_edit&.call if @edit_mode
+        action_taken = false
         @edit_mode = true
-        content {
-          @table_editor_text_proxy = text {
-            focus true
-            text table_item.getText(column_index)
-            action_taken = false
-            @cancel_edit = lambda do
-              @cancel_in_progress = true
-              @table_editor_text_proxy&.swt_widget&.dispose
-              @table_editor_text_proxy = nil
-              after_cancel&.call
+        @cancel_edit = lambda do
+          @cancel_in_progress = true
+          @table_editor_widget_proxy&.swt_widget&.dispose
+          @table_editor_widget_proxy = nil
+          after_cancel&.call
+          @edit_in_progress = false
+          @cancel_in_progress = false
+          @cancel_edit = nil
+          @edit_mode = false
+        end
+        @finish_edit = lambda do |event=nil|
+          if table_item.isDisposed
+            @cancel_edit.call
+          elsif !action_taken && !@edit_in_progress && !@cancel_in_progress
+            action_taken = true
+            @edit_in_progress = true
+            new_text = @table_editor_widget_proxy.swt_widget.getText
+            if new_text == table_item.getText(column_index)
+              @cancel_edit.call
+            else
+              before_write&.call
+              table_item.setText(column_index, new_text)
+              model = table_item.getData
+              model.send("#{column_properties[column_index]}=", new_text) # makes table update itself, so must search for selected table item again
+              edited_table_item = search { |ti| ti.getData == model }.first
+              swt_widget.showItem(edited_table_item)
+              @table_editor_widget_proxy&.swt_widget&.dispose
+              @table_editor_widget_proxy = nil
+              after_write&.call(edited_table_item)
               @edit_in_progress = false
-              @cancel_in_progress = false
-              @cancel_edit = nil
-              @edit_mode = false
             end
-            @finish_edit = lambda do |event=nil|
-              if table_item.isDisposed
-                @cancel_edit.call
-              elsif !action_taken && !@edit_in_progress && !@cancel_in_progress
-                action_taken = true
-                @edit_in_progress = true
-                new_text = @table_editor_text_proxy.swt_widget.getText
-                if new_text == table_item.getText(column_index)
+          end
+        end
+        editors = {
+          text: -> {
+            @table_editor_widget_proxy = @table_editor_text_proxy = text {
+              text table_item.getText(column_index)
+              focus true
+              on_focus_lost(&@finish_edit)
+              on_key_pressed { |key_event|
+                if key_event.keyCode == swt(:cr)
+                  @finish_edit.call(key_event)
+                elsif key_event.keyCode == swt(:esc)
                   @cancel_edit.call
-                else
-                  before_write&.call
-                  table_item.setText(column_index, new_text)
-                  model = table_item.getData
-                  model.send("#{column_properties[column_index]}=", new_text) # makes table update itself, so must search for selected table item again
-                  edited_table_item = search { |ti| ti.getData == model }.first
-                  swt_widget.showItem(edited_table_item)
-                  @table_editor_text_proxy&.swt_widget&.dispose
-                  @table_editor_text_proxy = nil
-                  after_write&.call(edited_table_item)
-                  @edit_in_progress = false
                 end
-              end
-            end
-            on_focus_lost(&@finish_edit)
-            on_key_pressed { |key_event|
-              if key_event.keyCode == swt(:cr)
-                @finish_edit.call(key_event)
-              elsif key_event.keyCode == swt(:esc)
-                @cancel_edit.call
-              end
+              }
             }
+            @table_editor_widget_proxy.swt_widget.selectAll          
           }
-          @table_editor_text_proxy.swt_widget.selectAll
         }
-        @table_editor.setEditor(@table_editor_text_proxy.swt_widget, table_item, column_index)
+        content {
+          editors[:text].call
+        }
+        @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       end
       
       def add_listener(underscored_listener_name, &block)
