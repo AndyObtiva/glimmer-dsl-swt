@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.3.1
+
+- Support multiple widgets for editing table items
+
 ## 0.3.0
 
 - Update API for table column sorting to pass models not properties to sorting blocks

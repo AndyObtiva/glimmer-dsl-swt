@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.3.1
-
-- Support multiple widgets for editing table items
-
 ### 0.4.0
 
 - Remove Table#table_editor_text_proxy in favor of Table#table_editor_widget_proxy
