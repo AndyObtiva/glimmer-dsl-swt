@@ -130,7 +130,11 @@ module Glimmer
       # This method is not needed except in rare circumstances where there is a need to start the SWT Event Loop before opening the shell.
       def start_event_loop
         until @swt_widget.isDisposed
-          @display.sleep unless @display.readAndDispatch
+          begin
+            @display.sleep unless @display.readAndDispatch
+          rescue => e
+            Glimmer::Config.logger&.debug e.full_message          
+          end
         end
       end
 
