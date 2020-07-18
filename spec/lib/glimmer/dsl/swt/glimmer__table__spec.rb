@@ -29,6 +29,18 @@ module GlimmerSpec
         def name_options
           ["Ava Fang", "Bruce Ting", "Julia Fang"]
         end
+        
+        def last_name_options
+          name_options.map {|n| n.split.last}
+        end
+        
+        def last_name
+          name.split.last
+        end
+        
+        def last_name=(a_last_name)
+          self.name = name_options.detect { |n| n.split.last == a_last_name }
+        end
       end
 
       class ::RedTable
@@ -416,9 +428,9 @@ module GlimmerSpec
           expect(selection.first.getData).to eq(person2)            
         end    
         
-        # TODO support radio, checkbox, and spinner
+        # TODO support editing via radio, checkbox, and spinner
         
-        it "triggers configured column-specific table widget combo editing on specified table item which is done via ENTER key" do
+        it "triggers configured column-specific table widget combo editing on specified table item" do
           @target = shell {
             @table = table {
               table_column {
@@ -480,6 +492,105 @@ module GlimmerSpec
           )      
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
+          @table.table_editor_widget_proxy.swt_widget.select(1)
+           
+          event = Event.new
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:selection]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person2.name).to eq('Bruce Ting')
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
+        it "triggers configured column-specific table widget combo editing with read_only arg on specified table item" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+                editor :combo, :read_only
+              }
+              items bind(group, :people), column_properties(:name)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.items[1],
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('Bruce Ting')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
+          @table.table_editor_widget_proxy.swt_widget.select(1)
+           
+          event = Event.new
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:selection]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person2.name).to eq('Bruce Ting')
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
+        it "triggers configured column-specific table widget combo editing with read_only and custom model editing property args on specified table item" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+                editor :combo, :read_only, :border, property: :last_name
+              }
+              items bind(group, :people), column_properties(:name)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.items[1],
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('Bruce Ting')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
+          expect(@table.table_editor_widget_proxy.swt_widget.items).to eq(person2.last_name_options)
           @table.table_editor_widget_proxy.swt_widget.select(1)
            
           event = Event.new
@@ -691,7 +802,6 @@ module GlimmerSpec
                 text "Adult"
                 width 120
               }
-              editor :text
               items bind(group, :people), column_properties(:name, :age, :adult)
               selection bind(group, :selected_person)
             }

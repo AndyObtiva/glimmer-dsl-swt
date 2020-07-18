@@ -123,6 +123,7 @@ items <=> binding {
 - Business Accounting app
 - Improve Contact Manager sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Add hello samples for every built-in SWT widget including the custom package
+- Tetris Sample
 
 ## Side Projects
 
