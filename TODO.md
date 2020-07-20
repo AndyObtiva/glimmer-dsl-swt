@@ -111,6 +111,7 @@ items <=> binding {
 - Add shell minimum_size to Tic Tac Toe sample for Linux
 - Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" and includes Glimmer logo
+- Make app scaffolding building a full MVP app not just hello world, with database access too
 
 ## Samples
 
