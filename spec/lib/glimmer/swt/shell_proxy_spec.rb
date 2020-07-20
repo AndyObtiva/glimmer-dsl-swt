@@ -8,13 +8,13 @@ module GlimmerSpec
       @target = shell {
       }
       
-      expect(@target.swt_widget.get_data('proxy')).to eq(@target)
+      expect(@target.get_data('proxy')).to eq(@target)
     end
     
     describe '#visible?' do
       it 'returns false before initially opened and true afterwards' do
         @target = described_class.new
-        @target.swt_widget.setAlpha(0) # keep invisible while running specs
+        @target.setAlpha(0) # keep invisible while running specs
         expect(@target.visible?).to eq(false)
         @target.async_exec do
           expect(@target.visible?).to eq(true)
@@ -26,7 +26,7 @@ module GlimmerSpec
 
       it 'returns false if hidden after initially opened (this time with alias method show)' do
         @target = described_class.new
-        @target.swt_widget.setAlpha(0) # keep invisible while running specs
+        @target.setAlpha(0) # keep invisible while running specs
         @target.async_exec do
           expect(@target.visible?).to eq(true)
           @target.hide
@@ -38,12 +38,12 @@ module GlimmerSpec
 
       it 'returns false when visibility is set to false in described_class' do
         @target = described_class.new
-        @target.swt_widget.setAlpha(0) # keep invisible while running specs
+        @target.setAlpha(0) # keep invisible while running specs
         @target.async_exec do
           expect(@target.visible?).to eq(true)
           @target.visible = false
           expect(@target.visible?).to eq(false)
-          expect(@target.swt_widget.isVisible).to eq(false)
+          expect(@target.isVisible).to eq(false)
           @target.close
         end
         @target.visible = true
@@ -61,14 +61,14 @@ module GlimmerSpec
           }
         }
 
-        text_width = @text.swt_widget.getSize.x
-        shell_width = @target.swt_widget.getSize.x
+        text_width = @text.getSize.x
+        shell_width = @target.getSize.x
 
-        @text.swt_widget.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
+        @text.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
         @target.pack # packing shell should resize text widget
  
-        expect(@text.swt_widget.getSize.x > text_width).to eq(true)
-        expect(@target.swt_widget.getSize.x > shell_width).to eq(true)
+        expect(@text.getSize.x > text_width).to eq(true)
+        expect(@target.getSize.x > shell_width).to eq(true)
       end
     end
 
@@ -83,14 +83,14 @@ module GlimmerSpec
           }
         }
  
-        text_width = @text.swt_widget.getSize.x
-        shell_width = @target.swt_widget.getSize.x
+        text_width = @text.getSize.x
+        shell_width = @target.getSize.x
  
-        @text.swt_widget.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
+        @text.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
         @target.pack_same_size # packing shell should resize text widget but keep same shell size
  
-        expect(@text.swt_widget.getSize.x > text_width).to eq(true)
-        expect(@target.swt_widget.getSize.x).to eq(shell_width)
+        expect(@text.getSize.x > text_width).to eq(true)
+        expect(@target.getSize.x).to eq(shell_width)
       end
     end
 
@@ -98,7 +98,7 @@ module GlimmerSpec
       it 'notifies when becoming visible' do
         @shown = false
         @target = described_class.new
-        @target.swt_widget.setAlpha(0) # keep invisible while running specs
+        @target.setAlpha(0) # keep invisible while running specs
         @target.on_swt_show {
           @shown = true
         }
@@ -114,7 +114,7 @@ module GlimmerSpec
 
       it 'notifies when becoming non-visible (observed with alternative syntax)' do
         @target = described_class.new
-        @target.swt_widget.setAlpha(0) # keep invisible while running specs
+        @target.setAlpha(0) # keep invisible while running specs
         @target.on_swt_hide {
           expect(@target.visible?).to eq(false)
           @target.close

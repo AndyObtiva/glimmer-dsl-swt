@@ -26,7 +26,11 @@ module GlimmerSpec
       expect(@foreground_color.getAlpha).to eq(50)
       expect(@foreground_color.getDevice).to eq(Glimmer::SWT::DisplayProxy.instance.swt_display)
 
-      expect(@foreground_color.getDevice).to eq(Glimmer::SWT::DisplayProxy.instance.swt_display)
+      expect(@foreground.getRed).to eq(4)
+      expect(@foreground.getGreen).to eq(40)
+      expect(@foreground.getBlue).to eq(244)
+      expect(@foreground.getAlpha).to eq(50)
+      expect(@foreground.getDevice).to eq(Glimmer::SWT::DisplayProxy.instance.swt_display)
     end
 
     it "tests label with RGB (no alpha) background/foreground color" do

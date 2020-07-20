@@ -48,6 +48,17 @@ module Glimmer
         end
         @swt_color
       end
+      
+      def method_missing(method, *args, &block)
+        swt_color.send(method, *args, &block)
+      rescue => e
+        Glimmer::Config.logger&.debug "Neither ColorProxy nor #{swt_color.class.name} can handle the method ##{method}"
+        super
+      end
+      
+      def respond_to?(method, *args, &block)
+        super || swt_color.respond_to?(method, *args, &block)
+      end      
     end
   end
 end

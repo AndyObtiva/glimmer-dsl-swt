@@ -160,7 +160,7 @@ module Glimmer
       end
 
       def can_add_observer?(attribute_name)
-        has_instance_method?(attribute_name) || respond_to?("#{attribute_name}?") || @body_root.can_add_observer?(attribute_name)
+        has_instance_method?(attribute_name) || has_instance_method?("#{attribute_name}?") || @body_root.can_add_observer?(attribute_name)
       end
 
       def add_observer(observer, attribute_name)
@@ -172,12 +172,12 @@ module Glimmer
       end
 
       def has_attribute?(attribute_name, *args)
-        respond_to?(attribute_setter(attribute_name), args) ||
+        has_instance_method?(attribute_setter(attribute_name)) ||
           @body_root.has_attribute?(attribute_name, *args)
       end
 
       def set_attribute(attribute_name, *args)
-        if respond_to?(attribute_setter(attribute_name), args)
+        if has_instance_method?(attribute_setter(attribute_name))
           send(attribute_setter(attribute_name), *args)
         else
           @body_root.set_attribute(attribute_name, *args)
@@ -187,6 +187,7 @@ module Glimmer
       # This method ensures it has an instance method not coming from Glimmer DSL
       def has_instance_method?(method_name)
         respond_to?(method_name) && 
+          !swt_widget.respond_to?(method_name) &&
           !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') && 
           !method(method_name)&.source_location&.first&.include?('glimmer/swt/widget_proxy.rb')
       end
@@ -202,7 +203,6 @@ module Glimmer
       def attribute_setter(attribute_name)
         "#{attribute_name}="
       end
-
 
       def has_style?(style)
         (swt_style & SWT::SWTProxy[style]) == SWT::SWTProxy[style]
@@ -232,7 +232,8 @@ module Glimmer
       def method_missing(method, *args, &block)
         body_root.send(method, *args, &block)
       end
-      
+
+      alias local_respond_to? respond_to?      
       def respond_to?(method, *args, &block)
         super or
           body_root.respond_to?(method, *args, &block)

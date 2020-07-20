@@ -40,14 +40,15 @@ module Glimmer
         @swt_display.dispose
       end
 
-      # Executes code block asynchronously with respect to SWT UI thread
-      def async_exec(&block)
-        @swt_display.asyncExec(&block)
+      def method_missing(method, *args, &block)
+        swt_display.send(method, *args, &block)
+      rescue => e
+        Glimmer::Config.logger&.debug "Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method}"
+        super
       end
-
-      # Executes code block synchronously with respect to SWT UI thread
-      def sync_exec(&block)
-        @swt_display.syncExec(&block)
+      
+      def respond_to?(method, *args, &block)
+        super || swt_display.respond_to?(method, *args, &block)
       end
 
       def can_handle_observation_request?(observation_request)

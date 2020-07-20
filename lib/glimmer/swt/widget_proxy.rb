@@ -358,6 +358,9 @@ module Glimmer
             @drag_source_proxy = nil
           end
         end
+      rescue => e
+        Glimmer::Config.logger&.debug(e.full_message)
+        false        
       end
 
       def can_handle_drop_observation_request?(observation_request)
@@ -391,6 +394,17 @@ module Glimmer
 
       def content(&block)
         Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::WidgetExpression.new, &block)
+      end
+
+      def method_missing(method, *args, &block)
+        swt_widget.send(method, *args, &block)
+      rescue => e
+        Glimmer::Config.logger&.debug "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"
+        super
+      end
+      
+      def respond_to?(method, *args, &block)
+        super || swt_widget.respond_to?(method, *args, &block)
       end
 
       private

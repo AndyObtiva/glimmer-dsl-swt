@@ -8,6 +8,7 @@
 - Set WidgetProxy/ShellProxy/DisplayProxy data('proxy') objects
 - Set CustomWidget data('custom_widget') objects
 - Set CustomShell data('custom_shell') objects
+- Delegate all WidgetProxy/ShellProxy/DisplayProxy/CustomWidget/CustomShell methods to wrapped SWT object on method_missing
 
 ### 0.3.1
 

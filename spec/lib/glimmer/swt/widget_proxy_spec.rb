@@ -12,8 +12,8 @@ module GlimmerSpec
         }
       }
       
-      expect(@label.swt_widget.get_data('proxy')).to eq(@label)
-      expect(@composite.swt_widget.get_data('proxy')).to eq(@composite)
+      expect(@label.get_data('proxy')).to eq(@label)
+      expect(@composite.get_data('proxy')).to eq(@composite)
     end
     
     it 'adds listener' do
@@ -28,11 +28,11 @@ module GlimmerSpec
         }
       }
 
-      @text.swt_widget.setText("Hi")
-      expect(@text.swt_widget.getText).to eq("Hi")
+      @text.setText("Hi")
+      expect(@text.getText).to eq("Hi")
 
-      @text.swt_widget.setText("Hello")
-      expect(@text.swt_widget.getText).to eq("Hi")
+      @text.setText("Hello")
+      expect(@text.getText).to eq("Hi")
     end
 
     it 'adds content' do
@@ -49,14 +49,14 @@ module GlimmerSpec
         }
       }
 
-      expect(@target.swt_widget.getMinimumSize.x).to eq(300)
-      expect(@target.swt_widget.getMinimumSize.y).to eq(200)
-      expect(@text.swt_widget.getText).to eq("Howdy")
+      expect(@target.getMinimumSize.x).to eq(300)
+      expect(@target.getMinimumSize.y).to eq(200)
+      expect(@text.getText).to eq("Howdy")
     end
 
     context 'UI code execution' do
       after do
-        if @target && !@target.swt_widget.isDisposed
+        if @target && !@target.isDisposed
           @target.async_exec do
             @target.dispose
           end
@@ -72,12 +72,12 @@ module GlimmerSpec
         }
 
         @target.async_exec do
-          expect(@text.swt_widget.getText).to eq("text2")
+          expect(@text.getText).to eq("text2")
         end
 
         # This takes prioerity over async_exec
         @target.sync_exec do
-          @text.swt_widget.setText("text2")
+          @text.setText("text2")
         end
       end
     end
@@ -97,16 +97,16 @@ module GlimmerSpec
 
         @target.pack
 
-        text_width = @text.swt_widget.getSize.x
-        composite_width = @composite.swt_widget.getSize.x
-        shell_width = @target.swt_widget.getSize.x
+        text_width = @text.getSize.x
+        composite_width = @composite.getSize.x
+        shell_width = @target.getSize.x
 
-        @text.swt_widget.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
+        @text.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
         @composite.pack_same_size
 
-        expect(@text.swt_widget.getSize.x).to eq(text_width)
-        expect(@composite.swt_widget.getSize.x).to eq(composite_width)
-        expect(@target.swt_widget.getSize.x).to eq(shell_width)
+        expect(@text.getSize.x).to eq(text_width)
+        expect(@composite.getSize.x).to eq(composite_width)
+        expect(@target.getSize.x).to eq(shell_width)
       end
       it 'packs text widget content while maintaining the same size despite needing more space with more content' do
         @target = shell {
@@ -120,14 +120,14 @@ module GlimmerSpec
 
         @target.pack
 
-        text_width = @text.swt_widget.getSize.x
-        shell_width = @target.swt_widget.getSize.x
+        text_width = @text.getSize.x
+        shell_width = @target.getSize.x
 
-        @text.swt_widget.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
+        @text.setText('A very long text it cannot fit in the screen if you keep reading on' + ' and on'*60)
         @text.pack_same_size
 
-        expect(@text.swt_widget.getSize.x).to eq(text_width)
-        expect(@target.swt_widget.getSize.x).to eq(shell_width)
+        expect(@text.getSize.x).to eq(text_width)
+        expect(@target.getSize.x).to eq(shell_width)
       end
     end
   end
