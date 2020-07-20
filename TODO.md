@@ -154,3 +154,4 @@ items <=> binding {
 - Document different Windows setup alternatives like standard CMD, Git Bash, Cygwin, and Ubuntu Bash Sybsystem
 - Document message_box keyword
 - Add a gif demo of how to scaffold a Glimmer app from scratch
+- Write an article about how you built the Glimmer Calculator sample and share online
