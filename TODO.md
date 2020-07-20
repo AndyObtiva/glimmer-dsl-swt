@@ -129,6 +129,10 @@ items <=> binding {
 
 - Agile Project Management App driven from a simple TODO list txt file (or online word/google doc, spreadsheet)
 
+### FreeHire
+
+- Web service for requesting software development project services and hiring developers for free in exchange for marketing them with finished software from the start. 
+
 ### glimmertalk project
 
 - Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
