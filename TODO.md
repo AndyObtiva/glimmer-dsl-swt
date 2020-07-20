@@ -149,3 +149,4 @@ items <=> binding {
 - Add screenshots for every sample project (under various operating systems)
 - Document different Windows setup alternatives like standard CMD, Git Bash, Cygwin, and Ubuntu Bash Sybsystem
 - Document message_box keyword
+- Add a gif demo of how to scaffold a Glimmer app from scratch
