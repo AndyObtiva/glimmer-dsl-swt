@@ -128,6 +128,10 @@ items <=> binding {
 
 - Small Project Progress Reporting App
 
+### Text2Board
+
+- Agile Project Management App driven from a simple TODO list txt file (or online word/google doc, spreadsheet)
+
 ### glimmertalk project
 
 - Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
