@@ -33,6 +33,7 @@ module Glimmer
 
       def initialize(*args)
         @swt_display = Display.new(*args)
+        @swt_display.set_data('proxy', self)
       end
 
       def dispose
@@ -51,8 +52,8 @@ module Glimmer
 
       def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
-        if observation_request.start_with?('on_event_')
-          constant_name = observation_request.sub(/^on_event_/, '')
+        if observation_request.start_with?('on_swt_')
+          constant_name = observation_request.sub(/^on_swt_/, '')
           SWTProxy.has_constant?(constant_name)
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')
@@ -63,8 +64,8 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
-        if observation_request.start_with?('on_event_')
-          constant_name = observation_request.sub(/^on_event_/, '')
+        if observation_request.start_with?('on_swt_')
+          constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')

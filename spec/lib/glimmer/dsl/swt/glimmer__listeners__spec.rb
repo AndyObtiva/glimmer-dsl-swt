@@ -94,7 +94,7 @@ module GlimmerSpec
           composite {
             @button = button {
               visible false
-              on_event_show do
+              on_swt_show do
                 @button_shown = true
               end
             }
@@ -115,7 +115,7 @@ module GlimmerSpec
             @button = button {
               visible false
               expect do
-                on_event_invalid do
+                on_swt_invalid do
                   @button_shown = true
                 end
               end.to raise_error(Glimmer::Error)

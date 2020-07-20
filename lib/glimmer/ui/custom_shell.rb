@@ -8,6 +8,7 @@ module Glimmer
 
       def initialize(parent, *swt_constants, options, &content)
         super
+        @swt_widget.set_data('custom_shell', self)
         raise Error, 'Invalid custom shell body root! Must be a shell or another custom shell.' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
       end
 

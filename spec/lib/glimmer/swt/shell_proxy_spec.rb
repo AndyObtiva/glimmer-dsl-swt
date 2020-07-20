@@ -4,6 +4,13 @@ module GlimmerSpec
   describe Glimmer::SWT::ShellProxy do
     include Glimmer
 
+    it "sets data('proxy')" do
+      @target = shell {
+      }
+      
+      expect(@target.swt_widget.get_data('proxy')).to eq(@target)
+    end
+    
     describe '#visible?' do
       it 'returns false before initially opened and true afterwards' do
         @target = described_class.new
@@ -92,7 +99,7 @@ module GlimmerSpec
         @shown = false
         @target = described_class.new
         @target.swt_widget.setAlpha(0) # keep invisible while running specs
-        @target.on_event_show {
+        @target.on_swt_show {
           @shown = true
         }
         @target.async_exec do
@@ -108,7 +115,7 @@ module GlimmerSpec
       it 'notifies when becoming non-visible (observed with alternative syntax)' do
         @target = described_class.new
         @target.swt_widget.setAlpha(0) # keep invisible while running specs
-        @target.on_event_hide {
+        @target.on_swt_hide {
           expect(@target.visible?).to eq(false)
           @target.close
         }

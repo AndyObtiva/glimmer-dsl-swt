@@ -87,7 +87,7 @@ module Glimmer
         end
       end
       
-      attr_reader :table_editor, :table_editor_text_proxy, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor
+      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor
       attr_accessor :column_properties
       
       def initialize(underscored_widget_name, parent, args)
@@ -293,7 +293,7 @@ module Glimmer
         end
 
         content { 
-          @table_editor_widget_proxy = @table_editor_text_proxy = TableProxy::editors[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
+          @table_editor_widget_proxy = TableProxy::editors[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       rescue => e

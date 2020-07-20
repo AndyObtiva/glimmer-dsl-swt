@@ -23,12 +23,19 @@ module GlimmerSpec
         @target2 = display
         expect(@target2.swt_display).to_not eq(@target.swt_display)
       end
+      
+      it "sets data('proxy')" do
+        @target = display
+        
+        expect(@target.swt_display.get_data('proxy')).to eq(@target)
+      end
+          
     end
 
     context 'filter listeners' do
       it 'adds filter listener' do
         @display = display {
-          on_event_show {
+          on_swt_show {
             @shown = true
           }
         }
@@ -88,6 +95,6 @@ module GlimmerSpec
         end
       end
     end
-
+    
   end
 end

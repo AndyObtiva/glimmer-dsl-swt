@@ -1,5 +1,14 @@
 # Change Log
 
+### 0.4.0
+
+- Support SWT listener events that take multiple-args (as in custom libraries like Nebula GanttChart)
+- Drop on_event_* keywords in favor of on_swt_* for SWT constant events
+- Remove Table#table_editor_text_proxy in favor of Table#table_editor_widget_proxy
+- Set WidgetProxy/ShellProxy/DisplayProxy data('proxy') objects
+- Set CustomWidget data('custom_widget') objects
+- Set CustomShell data('custom_shell') objects
+
 ### 0.3.1
 
 - Support multiple widgets for editing table items

@@ -162,6 +162,14 @@ module GlimmerSpec
       expect(@red_label.swt_widget.getBackground).to eq(Glimmer::SWT::ColorProxy.new(:red).swt_color)
     end
 
+    it "sets data('custom_widget')" do
+      @target = shell {
+        @red_label = red_label
+      }
+      
+      expect(@red_label.swt_widget.get_data('custom_widget')).to eq(@red_label)
+    end
+    
     it "builds custom widget with no namespace having attributes" do
       @target = shell {
         @red_label = red_label {

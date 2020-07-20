@@ -41,6 +41,12 @@ module GlimmerSpec
       end
     end
 
+    it "sets data('custom_shell')" do
+      @target = time_shell
+      
+      expect(@target.swt_widget.get_data('custom_shell')).to eq(@target)
+    end
+    
     it 'opens and closes' do
       @target = time_shell
       @target.swt_widget.setAlpha(0) # keep invisible while running specs
@@ -60,7 +66,7 @@ module GlimmerSpec
 
     it 'handles events' do
       @target = time_shell
-      @target.on_event_hide do
+      @target.on_swt_hide do
         @time_shell_hidden = true
       end
       @target.async_exec do

@@ -4,6 +4,18 @@ module GlimmerSpec
   describe Glimmer::SWT::WidgetProxy do
     include Glimmer
     
+    it "sets data('proxy')" do
+      @target = shell {
+        @composite = composite {
+          @label = label {
+          }
+        }
+      }
+      
+      expect(@label.swt_widget.get_data('proxy')).to eq(@label)
+      expect(@composite.swt_widget.get_data('proxy')).to eq(@composite)
+    end
+    
     it 'adds listener' do
       @target = shell {
         composite {

@@ -40,9 +40,10 @@ module Glimmer
           end
           args = args.compact
           @swt_widget = Shell.new(*args)
+          @swt_widget.set_data('proxy', self)
           @swt_widget.setLayout(FillLayout.new)
           @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
-          on_event_show do
+          on_swt_show do
             Thread.new do      
               sleep(0.25)
               async_exec do
@@ -144,9 +145,9 @@ module Glimmer
           visibility_notifier = proc do
             observer.call(visible?)
           end
-          on_event_show(&visibility_notifier)
-          on_event_hide(&visibility_notifier)
-          on_event_close(&visibility_notifier)
+          on_swt_show(&visibility_notifier)
+          on_swt_hide(&visibility_notifier)
+          on_swt_close(&visibility_notifier)
         else
           super
         end

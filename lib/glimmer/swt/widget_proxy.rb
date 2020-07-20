@@ -60,6 +60,7 @@ module Glimmer
         styles, extra_options = extract_args(underscored_widget_name, args)
         swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
         @swt_widget = swt_widget_class.new(parent.swt_widget, style(underscored_widget_name, styles), *extra_options)
+        @swt_widget.set_data('proxy', self)
         DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
         parent.post_initialize_child(self)
       end
@@ -176,44 +177,44 @@ module Glimmer
               }
             end,
             :caret_position => lambda do |observer|
-              on_event_keydown { |event|
+              on_swt_keydown { |event|
                 observer.call(@swt_widget.getCaretPosition)
               }
-              on_event_keyup { |event|
+              on_swt_keyup { |event|
                 observer.call(@swt_widget.getCaretPosition)
               }
-              on_event_mousedown { |event|
+              on_swt_mousedown { |event|
                 observer.call(@swt_widget.getCaretPosition)
               }
-              on_event_mouseup { |event|
+              on_swt_mouseup { |event|
                 observer.call(@swt_widget.getCaretPosition)
               }
             end,
             :selection => lambda do |observer|
-              on_event_keydown { |event|
+              on_swt_keydown { |event|
                 observer.call(@swt_widget.getSelection)
               }
-              on_event_keyup { |event|
+              on_swt_keyup { |event|
                 observer.call(@swt_widget.getSelection)
               }
-              on_event_mousedown { |event|
+              on_swt_mousedown { |event|
                 observer.call(@swt_widget.getSelection)
               }
-              on_event_mouseup { |event|
+              on_swt_mouseup { |event|
                 observer.call(@swt_widget.getSelection)
               }
             end,
             :selection_count => lambda do |observer|
-              on_event_keydown { |event|
+              on_swt_keydown { |event|
                 observer.call(@swt_widget.getSelectionCount)
               }
-              on_event_keyup { |event|
+              on_swt_keyup { |event|
                 observer.call(@swt_widget.getSelectionCount)
               }
-              on_event_mousedown { |event|
+              on_swt_mousedown { |event|
                 observer.call(@swt_widget.getSelectionCount)
               }
-              on_event_mouseup { |event|
+              on_swt_mouseup { |event|
                 observer.call(@swt_widget.getSelectionCount)
               }
             end,
@@ -338,8 +339,8 @@ module Glimmer
 
       def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
-        if observation_request.start_with?('on_event_')
-          constant_name = observation_request.sub(/^on_event_/, '')
+        if observation_request.start_with?('on_swt_')
+          constant_name = observation_request.sub(/^on_swt_/, '')
           SWTProxy.has_constant?(constant_name)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
@@ -372,8 +373,8 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
-        if observation_request.start_with?('on_event_')
-          constant_name = observation_request.sub(/^on_event_/, '')
+        if observation_request.start_with?('on_swt_')
+          constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
@@ -437,7 +438,7 @@ module Glimmer
       def add_listener(underscored_listener_name, &block)
         widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)        
         widget_listener_proxy = nil
-        safe_block = lambda { |event| block.call(event) unless @swt_widget.isDisposed }        
+        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }        
         listener = listener_class.new(listener_method => safe_block)
         @swt_widget.send(widget_add_listener_method, listener)
         widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
@@ -479,9 +480,9 @@ module Glimmer
             listener_class.define_method('initialize') do |event_method_block_mapping|
               @event_method_block_mapping = event_method_block_mapping
             end
-            listener_type.getMethods.each do |event_method|
-              listener_class.define_method(event_method.getName) do |event|
-                @event_method_block_mapping[event_method.getName]&.call(event)
+            listener_type.getMethods.each do |event_method|              
+              listener_class.define_method(event_method.getName) do |*args|
+                @event_method_block_mapping[event_method.getName]&.call(*args)
               end
             end
           end
@@ -492,7 +493,7 @@ module Glimmer
       def add_swt_event_listener(swt_constant, &block)
         event_type = SWTProxy[swt_constant]
         widget_listener_proxy = nil
-        safe_block = lambda { |event| block.call(event) unless @swt_widget.isDisposed }
+        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
         @swt_widget.addListener(event_type, &safe_block)
         widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
       end
@@ -579,7 +580,7 @@ module Glimmer
               end
               image_data = ImageData.new(value)
               # TODO in the future, look into unregistering this listener when no longer needed
-              on_event_Resize do |resize_event|
+              on_swt_Resize do |resize_event|
                 new_image_data = image_data.scaledTo(@swt_widget.getSize.x, @swt_widget.getSize.y)
                 @swt_widget.getBackgroundImage&.dispose
                 @swt_widget.setBackgroundImage(Image.new(@swt_widget.getDisplay, new_image_data))
