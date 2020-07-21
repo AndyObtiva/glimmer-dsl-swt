@@ -15,6 +15,7 @@ module GlimmerSpec
         expect(@target).to be_a(Glimmer::SWT::DisplayProxy)
         expect(@target.swt_display).to be_a(Display)
         expect(@target.swt_display.isDisposed).to be_falsey
+        expect(@target.isDisposed).to be_falsey
 
         @target2 = display
         expect(@target2.swt_display).to eq(@target.swt_display)
@@ -42,7 +43,7 @@ module GlimmerSpec
         @target = shell {
           alpha 0 # keep invisible while running specs
         }
-        @target.async_exec do
+        async_exec do
           expect(@shown).to eq(true)
           @target.dispose
         end
@@ -67,13 +68,13 @@ module GlimmerSpec
           }
         }
 
-        @target.async_exec do
+        Glimmer::SWT::DisplayProxy.instance.swt_display.async_exec do
           @text.swt_widget.setText("text2")
         end
 
         expect(@text.swt_widget.getText).to_not eq("text2")
 
-        @target.async_exec do
+        Glimmer::SWT::DisplayProxy.instance.async_exec do
           expect(@text.swt_widget.getText).to eq("text2")
         end
       end
@@ -85,12 +86,12 @@ module GlimmerSpec
           }
         }
 
-        @target.async_exec do
+        display.swt_display.async_exec do
           expect(@text.swt_widget.getText).to eq("text2")
         end
 
         # This takes prioerity over async_exec
-        @target.sync_exec do
+        display.sync_exec do
           @text.swt_widget.setText("text2")
         end
       end

@@ -36,10 +36,6 @@ module Glimmer
         @swt_display.set_data('proxy', self)
       end
 
-      def dispose
-        @swt_display.dispose
-      end
-
       def method_missing(method, *args, &block)
         swt_display.send(method, *args, &block)
       rescue => e

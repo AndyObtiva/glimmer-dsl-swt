@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.4.1
+
+- Fixed an issue with async_exec and sync_exec keywords not working when used from a module that mixes Glimmer
+
 ### 0.4.0
 
 - Support SWT listener events that take multiple-args (as in custom libraries like Nebula GanttChart)

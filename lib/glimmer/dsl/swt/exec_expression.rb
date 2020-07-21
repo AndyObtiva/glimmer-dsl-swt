@@ -20,7 +20,7 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::DisplayProxy.instance.send(exec_operation, &block)
+          Glimmer::SWT::DisplayProxy.instance.swt_display.send(exec_operation, &block)
         end
       end
     end
