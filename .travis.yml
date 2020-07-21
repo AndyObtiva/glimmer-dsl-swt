@@ -1,6 +1,6 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=490a0fe5dffcf934f1bb17cdfb13b8c1c7b5ff9fdfffa48a205c019be3879886
+    - CC_TEST_REPORTER_ID=9abc103facd664f32ed0b747ee1045acfb49919a2a248aadcbcaffe44724c64c
     - JRUBY_OPTS="--debug"
 language: ruby
 rvm:

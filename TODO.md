@@ -107,7 +107,7 @@ items <=> binding {
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
 - Add shell minimum_size to Tic Tac Toe sample for Linux
 - Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
-- Make scaffolding generate a README.md that mentions "Built with Glimmer" and includes Glimmer logo
+- Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
 
 ## Samples
