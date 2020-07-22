@@ -67,5 +67,11 @@ These features have been suggested. You might see them in a future version of Gl
 
 ## License
 
-Copyright (c) 2020 Andy Maleh.
-See LICENSE.txt for further details.
+[MIT](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2020 - Andy Maleh. 
+See [LICENSE.txt](LICENSE.txt) for further details.
+
+--
+
+[<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=40 />](https://github.com/AndyObtiva/glimmer) Built for [Glimmer](https://github.com/AndyObtiva/glimmer) (Ruby Desktop Development GUI Library).
