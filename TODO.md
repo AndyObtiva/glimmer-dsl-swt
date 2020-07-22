@@ -6,11 +6,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.5.0
 
-- Make Glimmer commands support dash and no separator alternatives
-- Support scaffold commands for gems to scaffold:gem:cw pattern
-- Support listing commands to list:gems:cw  pattern
+- Make Glimmer commands support acronym, dash and no separator (default) alternatives
+- Support scaffold commands for gems as `scaffold:gem:cw` pattern (`cs` as other suffix)
+- Support listing commands as `list:gems:cw`  pattern (`cs` and `dsl` as other suffixes)
 - Add logger library, generating log files for Windows/Linux/Mac and syslog for Mac.
-- Add -Bcopyright=string / -BlicenseType=string / -Bvendor=string / -Bwin.menuGroup=string to Package
+- Add -BinstalldirChooser=true / -Bcopyright=string / -BlicenseType=string / -Bvendor=string / -Bwin.menuGroup=string to Package
 
 ### 0.6.0
 
