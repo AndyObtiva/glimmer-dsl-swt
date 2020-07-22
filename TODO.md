@@ -4,14 +4,16 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.5.0
+
 - Make Glimmer commands support dash and no separator alternatives
 - Support scaffold commands for gems to scaffold:gem:cw pattern
 - Support listing commands to list:gems:cw  pattern
 - Add logger library, generating log files for Windows/Linux/Mac and syslog for Mac.
+- Add -Bcopyright=string / -BlicenseType=string / -Bvendor=string / -Bwin.menuGroup=string to Package
 
-### 0.5.0
+### 0.6.0
 
-- Change table editing support to rely on data-binding
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
@@ -114,6 +116,7 @@ items <=> binding {
 - Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
+- Change table editing support to rely on data-binding
 
 ## Samples
 
