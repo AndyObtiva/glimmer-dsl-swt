@@ -1,5 +1,11 @@
 # Change Log
 
+### 0.5.0
+
+- Make Glimmer commands support acronym, dash and no separator (default) alternatives
+- Support scaffold commands for gems with `scaffold:gem:cw` pattern (`cs` as other suffix)
+- Support listing commands with `list:gems:cw` pattern (`cs` as other suffix)
+
 ### 0.4.1
 
 - Fixed an issue with async_exec and sync_exec keywords not working when used from a module that mixes Glimmer
