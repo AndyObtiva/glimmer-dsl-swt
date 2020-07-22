@@ -4,6 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make Glimmer commands support dash and no separator alternatives
+- Support scaffold commands for gems to scaffold:gem:cw pattern
+- Support listing commands to list:gems:cw  pattern
+
 ### 0.5.0
 
 - Change table editing support to rely on data-binding
