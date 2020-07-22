@@ -6,9 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.5.0
 
-- Use --markdown for scaffolding README in Jeweler (or switch to juwelier if not in jeweler)
 - Add logger library, generating log files for Windows/Linux/Mac and syslog for Mac.
-- Add -BinstalldirChooser=true / -Bcopyright=string / -BlicenseType=string / -Bvendor=string / -Bwin.menuGroup=string to Package
 
 ### 0.6.0
 
@@ -115,6 +113,7 @@ items <=> binding {
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
 - Change table editing support to rely on data-binding
+- Switch to juwelier gem for scaffolding and add `--markdown` option
 
 ## Samples
 

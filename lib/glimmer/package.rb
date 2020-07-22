@@ -49,11 +49,13 @@ module Glimmer
         version = (File.read(version_file).strip if File.exists?(version_file) && File.file?(version_file)) rescue nil
         license_file = File.expand_path('./LICENSE.txt')
         license = (File.read(license_file).strip if File.exists?(license_file) && File.file?(license_file)) rescue nil
+        copyright = license.split("\n").first
         human_name = project_name.underscore.titlecase
-        command = "javapackager -deploy -native -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" "
+        command = "javapackager -deploy -native -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
         command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
         command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
         command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
+        command += " -Bcopyright=#{copyright} " if copyright
         command += " #{javapackager_extra_args} " if javapackager_extra_args
         command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
         puts "Generating DMG/PKG/APP/JNLP with javapackager..."

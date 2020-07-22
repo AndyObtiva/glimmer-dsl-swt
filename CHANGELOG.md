@@ -5,6 +5,7 @@
 - Make Glimmer commands support acronym, dash and no separator (default) alternatives
 - Support scaffold commands for gems with `scaffold:gem:cw` pattern (`cs` as other suffix)
 - Support listing commands with `list:gems:cw` pattern (`cs` as other suffix)
+- Add -BinstalldirChooser=true / -Bcopyright=string / -Bvendor=string / -Bwin.menuGroup=string to Package class to support Windows packaging
 
 ### 0.4.1
 
