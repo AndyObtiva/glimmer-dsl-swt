@@ -7,6 +7,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make Glimmer commands support dash and no separator alternatives
 - Support scaffold commands for gems to scaffold:gem:cw pattern
 - Support listing commands to list:gems:cw  pattern
+- Add logger library, generating log files for Windows/Linux/Mac and syslog for Mac.
 
 ### 0.5.0
 
