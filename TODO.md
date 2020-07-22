@@ -4,6 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.4.2
+
+- Use --markdown for scaffolding README in Jeweler (or switch to juwelier if not in jeweler)
+
 ### 0.5.0
 
 - Make Glimmer commands support acronym, dash and no separator (default) alternatives

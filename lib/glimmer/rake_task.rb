@@ -33,57 +33,88 @@ namespace :glimmer do
   end
 
 
-  desc 'Scaffold a Glimmer application directory structure to begin building a new app'
+  desc 'Scaffold Glimmer application directory structure to build a new app'
   task :scaffold, [:app_name] do |t, args|
     require_relative 'scaffold'
     Scaffold.app(args[:app_name])
   end
 
   namespace :scaffold do
-    desc 'Scaffold a Glimmer::UI::CustomShell subclass (represents a full window view) under app/views (namespace is optional)'
-    task :custom_shell, [:custom_shell_name, :namespace] do |t, args|
+    desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]'
+    task :customshell, [:name, :namespace] do |t, args|
       require_relative 'scaffold'
-      Scaffold.custom_shell(args[:custom_shell_name], args[:namespace])
+      Scaffold.custom_shell(args[:name], args[:namespace])
     end
     
-    desc 'Scaffold a Glimmer::UI::CustomWidget subclass (represents a part of a view) under app/views (namespace is optional)'
-    task :custom_widget, [:custom_widget_name, :namespace] do |t, args|
+    task :cs, [:name, :namespace] => :customshell
+    task :custom_shell, [:name, :namespace] => :customshell
+    task :"custom-shell", [:name, :namespace] => :customshell
+    
+    desc 'Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cw]'
+    task :customwidget, [:name, :namespace] do |t, args|
       require_relative 'scaffold'
-      Scaffold.custom_widget(args[:custom_widget_name], args[:namespace])
+      Scaffold.custom_widget(args[:name], args[:namespace])
     end
     
-    desc 'Scaffold a Glimmer::UI::CustomShell subclass (represents a full window view) under its own Ruby gem + app project (namespace is required)'
-    task :custom_shell_gem, [:custom_shell_name, :namespace] do |t, args|
-      require_relative 'scaffold'
-      Scaffold.custom_shell_gem(args[:custom_shell_name], args[:namespace])
+    task :cw, [:name, :namespace] => :customwidget
+    task :custom_widget, [:name, :namespace] => :customwidget
+    task :"custom-widget", [:name, :namespace] => :customwidget
+    
+    namespace :gem do
+      desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under its own Ruby gem + app project (namespace is required) [alt: scaffold:gem:cs]'
+      task :customshell, [:name, :namespace] do |t, args|
+        require_relative 'scaffold'
+        Scaffold.custom_shell_gem(args[:name], args[:namespace])
+      end
+      
+      task :cs, [:name, :namespace] => :customshell
+      task :custom_shell, [:name, :namespace] => :customshell
+      task :"custom-shell", [:name, :namespace] => :customshell
+      
+      desc 'Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cw]'
+      task :customwidget, [:name, :namespace] do |t, args|
+        require_relative 'scaffold'
+        Scaffold.custom_widget_gem(args[:name], args[:namespace])
+      end
+    
+      task :cw, [:name, :namespace] => :customwidget
+      task :custom_widget, [:name, :namespace] => :customwidget
+      task :"custom-widget", [:name, :namespace] => :customwidget
+      
     end
     
-    desc 'Scaffold a Glimmer::UI::CustomWidget subclass (represents a part of a view) under its own Ruby gem project (namespace is required)'
-    task :custom_widget_gem, [:custom_widget_name, :namespace] do |t, args|
-      require_relative 'scaffold'
-      Scaffold.custom_widget_gem(args[:custom_widget_name], args[:namespace])
-    end
   end
   
   namespace :list do
     task :list_require do
       require_relative 'rake_task/list'
     end
-  
-    desc 'List Glimmer custom widget gems available at rubygems.org (query is optional)'
-    task :custom_widget_gems, [:query] => :list_require do |t, args|
-      Glimmer::RakeTask::List.custom_widget_gems(args[:query])
-    end
     
-    desc 'List Glimmer custom shell gems available at rubygems.org (query is optional)'
-    task :custom_shell_gems, [:query] => :list_require do |t, args|
-      Glimmer::RakeTask::List.custom_shell_gems(args[:query])
-    end
+    namespace :gems do
+      desc 'List Glimmer custom widget gems available at rubygems.org (query is optional) [alt: list:gems:cw]'
+      task :customwidget, [:query] => :list_require do |t, args|
+        Glimmer::RakeTask::List.custom_widget_gems(args[:query])
+      end
+      
+      task :cw, [:query] => :customwidget
+      task :custom_widget, [:query] => :customwidget
+      task :"custom-widget", [:query] => :customwidget
+      
+      desc 'List Glimmer custom shell gems available at rubygems.org (query is optional) [alt: list:gems:cs]'
+      task :customshell, [:query] => :list_require do |t, args|
+        Glimmer::RakeTask::List.custom_shell_gems(args[:query])
+      end
+      
+      task :cs, [:query] => :customshell
+      task :custom_shell, [:query] => :customshell
+      task :"custom-shell", [:query] => :customshell
+      
+      desc 'List Glimmer DSL gems available at rubygems.org (query is optional)'
+      task :dsl, [:query] => :list_require do |t, args|
+        Glimmer::RakeTask::List.dsl_gems(args[:query])
+      end
     
-    desc 'List Glimmer DSL gems available at rubygems.org (query is optional)'
-    task :dsl_gems, [:query] => :list_require do |t, args|
-      Glimmer::RakeTask::List.dsl_gems(args[:query])
-    end
+    end  
     
   end
 end
