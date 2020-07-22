@@ -6,6 +6,8 @@
 - Support scaffold commands for gems with `scaffold:gem:cw` pattern (`cs` as other suffix)
 - Support listing commands with `list:gems:cw` pattern (`cs` as other suffix)
 - Add -BinstalldirChooser=true / -Bcopyright=string / -Bvendor=string / -Bwin.menuGroup=string to Package class to support Windows packaging
+- Configure 'logging' to generate log files on Windows/Linux/Mac and syslog where available
+- Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
 
 ### 0.4.1
 

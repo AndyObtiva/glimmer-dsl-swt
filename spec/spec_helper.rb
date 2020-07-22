@@ -144,3 +144,7 @@ RSpec::Matchers.define :have_style do |style|
     expect(widget.getStyle & style_value).to eq(style_value)
   end
 end
+
+# Enable when testing logging manually
+# Glimmer::Config.logging_devices = [:stdout, :file, :syslog]
+# Glimmer::Config.logger.level = :debug
