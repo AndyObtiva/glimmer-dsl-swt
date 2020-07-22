@@ -6,9 +6,10 @@ if ENV['BUNDLER_REQUIRE'].to_s.downcase == 'true'
   require 'bundler'
   Bundler.require
 else
+  require 'glimmer'
+  require 'logging'
   require 'nested_inherited_jruby_include_package'
   require 'super_module'
-  require 'glimmer'
 end
 
 # Internal requires

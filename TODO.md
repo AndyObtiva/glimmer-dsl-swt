@@ -6,7 +6,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.5.0
 
-- Add logger library, generating log files for Windows/Linux/Mac and syslog for Mac.
+- Configure 'logging' to generate log files on Windows/Linux/Mac and syslog where available
+- Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
+- Update all logger calls to be lazy blocks
+- Upgrade to glimmer 0.10.0 to take advantage of the new logging library
 
 ### 0.6.0
 

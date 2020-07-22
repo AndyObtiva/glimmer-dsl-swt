@@ -21,6 +21,14 @@ module Glimmer
         @@import_swt_packages = DEFAULT_IMPORT_SWT_PACKAGES if !defined?(@@import_swt_packages) || (defined?(@@import_swt_packages) && @@import_swt_packages == true)
         @@import_swt_packages
       end
+      
+      def reset_logger!
+        self.logger = Logging.logger(STDOUT).tap do |logger| 
+          logger.level = Logger::ERROR
+        end
+      end
     end
   end
 end
+
+Glimmer::Config.reset_logger!
