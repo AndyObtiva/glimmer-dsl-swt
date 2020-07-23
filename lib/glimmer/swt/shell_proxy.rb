@@ -134,7 +134,7 @@ module Glimmer
           begin
             @display.sleep unless @display.readAndDispatch
           rescue => e
-            Glimmer::Config.logger&.debug e.full_message          
+            Glimmer::Config.logger.debug {e.full_message}
           end
         end
       end

@@ -268,17 +268,17 @@ module Glimmer
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)
-          Glimmer::Config.logger&.debug("Class #{swt_widget_class} matching #{underscored_widget_name} is not a subclass of org.eclipse.swt.widgets.Widget")
+          Glimmer::Config.logger.debug {"Class #{swt_widget_class} matching #{underscored_widget_name} is not a subclass of org.eclipse.swt.widgets.Widget"}
           return nil
         end
         swt_widget_class
       rescue SyntaxError, NameError => e
-        Glimmer::Config.logger&.debug e.full_message
-        # Glimmer::Config.logger&.debug("#{e.message}\n#{e.backtrace.join("\n")}")
+        Glimmer::Config.logger.debug {e.full_message}
+        # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
         nil
       rescue => e
-        Glimmer::Config.logger&.debug e.full_message
-        # Glimmer::Config.logger&.debug("#{e.message}\n#{e.backtrace.join("\n")}")
+        Glimmer::Config.logger.debug {e.full_message}
+        # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
         nil
       end
 
@@ -359,7 +359,7 @@ module Glimmer
           end
         end
       rescue => e
-        Glimmer::Config.logger&.debug(e.full_message)
+        Glimmer::Config.logger.debug {e.full_message}
         false        
       end
 
@@ -399,7 +399,7 @@ module Glimmer
       def method_missing(method, *args, &block)
         swt_widget.send(method, *args, &block)
       rescue => e
-        Glimmer::Config.logger&.debug "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"
+        Glimmer::Config.logger.debug {"Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
         super
       end
       

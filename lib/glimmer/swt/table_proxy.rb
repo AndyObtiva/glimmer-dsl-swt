@@ -297,7 +297,7 @@ module Glimmer
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       rescue => e
-        Glimmer::Config.logger&.error e.full_message
+        Glimmer::Config.logger.error {e.full_message}
         raise e
       end
       

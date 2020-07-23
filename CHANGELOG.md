@@ -8,6 +8,7 @@
 - Add -BinstalldirChooser=true / -Bcopyright=string / -Bvendor=string / -Bwin.menuGroup=string to Package class to support Windows packaging
 - Configure 'logging' to generate log files on Windows/Linux/Mac and syslog where available
 - Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
+- Update all logger calls to be lazy blocks
 
 ### 0.4.1
 

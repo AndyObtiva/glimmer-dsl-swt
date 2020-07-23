@@ -39,7 +39,7 @@ module Glimmer
       def method_missing(method, *args, &block)
         swt_display.send(method, *args, &block)
       rescue => e
-        Glimmer::Config.logger&.debug "Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method}"
+        Glimmer::Config.logger.debug {"Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method}"}
         super
       end
       
