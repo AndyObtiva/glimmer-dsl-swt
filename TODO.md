@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.5.0
 
+- Add logging formatter
 - Consider making "DSL keyword cannot be handled" errors at level :warn
 - Lower logging level for unimportant debug info
 - Upgrade to glimmer 0.10.0 to take advantage of the new logging library

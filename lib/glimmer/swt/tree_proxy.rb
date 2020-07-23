@@ -85,7 +85,8 @@ module Glimmer
               end
             }
             on_focus_lost(&action)
-            on_key_pressed { |key_event|
+            pd on_key_pressed { |key_event|
+              pd key_event, announcer: '[KEYPRESSED]'
               if key_event.keyCode == swt(:cr)
                 action.call(key_event)
               elsif key_event.keyCode == swt(:esc)

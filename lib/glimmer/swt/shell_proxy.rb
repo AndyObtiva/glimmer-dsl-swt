@@ -84,10 +84,6 @@ module Glimmer
         @swt_widget.setVisible(false)
       end
 
-      def close
-        @swt_widget.close
-      end
-
       def visible?
         @swt_widget.isDisposed ? false : @swt_widget.isVisible
       end

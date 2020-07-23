@@ -5,7 +5,7 @@ module Glimmer
     module CustomShell
       include SuperModule
       include Glimmer::UI::CustomWidget
-
+      
       def initialize(parent, *swt_constants, options, &content)
         super
         @swt_widget.set_data('custom_shell', self)

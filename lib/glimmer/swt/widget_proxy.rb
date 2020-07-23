@@ -3,7 +3,6 @@ require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/dnd_proxy'
-require 'glimmer/data_binding/observable_widget'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
 
@@ -20,7 +19,6 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class WidgetProxy
       include Packages
-      include DataBinding::ObservableWidget
 
       DEFAULT_STYLES = {
         "text"        => [:border],
@@ -337,7 +335,7 @@ module Glimmer
       
       # TODO eliminate duplication in the following methods perhaps by relying on exceptions
 
-      def can_handle_observation_request?(observation_request)
+      def can_handle_observation_request?(observation_request)        
         observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
@@ -376,6 +374,7 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
+        observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)
@@ -397,14 +396,20 @@ module Glimmer
       end
 
       def method_missing(method, *args, &block)
-        swt_widget.send(method, *args, &block)
+        if can_handle_observation_request?(method)          
+          handle_observation_request(method, &block)
+        else
+          swt_widget.send(method, *args, &block)
+        end
       rescue => e
         Glimmer::Config.logger.debug {"Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
         super
       end
       
       def respond_to?(method, *args, &block)
-        super || swt_widget.respond_to?(method, *args, &block)
+        super || 
+          can_handle_observation_request?(method) ||
+          swt_widget.respond_to?(method, *args, &block)
       end
 
       private

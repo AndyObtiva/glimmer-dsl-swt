@@ -5,7 +5,6 @@ require 'glimmer/swt/display_proxy'
 require 'glimmer/util/proc_tracker'
 require 'glimmer/data_binding/observer'
 require 'glimmer/data_binding/observable_model'
-require 'glimmer/data_binding/observable_widget'
 
 module Glimmer
   module UI
@@ -15,7 +14,6 @@ module Glimmer
 
       super_module_included do |klass|
         klass.include(Glimmer) unless klass.name.include?('Glimmer::UI::CustomShell')
-        klass.prepend DataBinding::ObservableWidget
         Glimmer::UI::CustomWidget.add_custom_widget_namespaces_for(klass) unless klass.name.include?('Glimmer::UI::CustomShell')
       end
 
@@ -230,12 +228,17 @@ module Glimmer
       end
 
       def method_missing(method, *args, &block)
-        body_root.send(method, *args, &block)
+        if can_handle_observation_request?(method)
+          handle_observation_request(method, &block)
+        else
+          body_root.send(method, *args, &block)
+        end
       end
 
       alias local_respond_to? respond_to?      
       def respond_to?(method, *args, &block)
         super or
+          can_handle_observation_request?(method) or
           body_root.respond_to?(method, *args, &block)
       end
 
