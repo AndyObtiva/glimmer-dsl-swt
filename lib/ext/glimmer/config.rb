@@ -47,7 +47,7 @@ module Glimmer
       end
       
       def logging_appender_options
-        @@logging_appender_options = {async: true, auto_flushing: 25, write_size: 5, immediate_at: [:error, :fatal]} unless defined? @@logging_appender_options
+        @@logging_appender_options = {async: true, auto_flushing: 500, write_size: 500, flush_period: 60, immediate_at: [:error, :fatal]} unless defined? @@logging_appender_options
         @@logging_appender_options
       end
       
