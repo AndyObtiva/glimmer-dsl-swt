@@ -371,6 +371,7 @@ module GlimmerSpec
       event.widget = @tree.tree_editor_text_proxy.swt_widget
       event.type = Glimmer::SWT::SWTProxy[:keydown]
       @tree.tree_editor_text_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+      
       expect(@write_done).to eq(true)
       expect(@tree.edit_in_progress?).to eq(false)
       expect(@cancel_done).to be_nil

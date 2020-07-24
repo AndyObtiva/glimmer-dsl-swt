@@ -4,7 +4,7 @@ source 'http://rubygems.org'
 gem 'glimmer', '~> 0.10.0' #, path: '../glimmer'
 gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
-gem 'puts_debuggerer', '~> 0.8.2', require: false
+gem 'puts_debuggerer', '~> 0.9.0', require: false
 
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)
 gem 'jeweler', '>= 2.3.9', '< 3.0.0'

@@ -56,44 +56,43 @@ module Glimmer
           @tree_editor_text_proxy = text {
             focus true
             text tree_item.getText
-            action_taken = false
-            cancel = lambda {
-              @tree_editor_text_proxy.swt_widget.dispose
-              @tree_editor_text_proxy = nil
-              after_cancel&.call
-              @edit_in_progress = false
-            }
-            action = lambda { |event|
-              if !action_taken && !@edit_in_progress
-                action_taken = true
-                @edit_in_progress = true
-                new_text = @tree_editor_text_proxy.swt_widget.getText
-                if new_text == tree_item.getText
-                  cancel.call
-                else
-                  before_write&.call
-                  tree_item.setText(new_text)
-                  model = tree_item.getData
-                  model.send("#{tree_properties[:text]}=", new_text) # makes tree update itself, so must search for selected tree item again
-                  edited_tree_item = depth_first_search { |ti| ti.getData == model }.first
-                  swt_widget.showItem(edited_tree_item)
-                  @tree_editor_text_proxy.swt_widget.dispose
-                  @tree_editor_text_proxy = nil
-                  after_write&.call(edited_tree_item)
-                  @edit_in_progress = false
-                end
-              end
-            }
-            on_focus_lost(&action)
-            pd on_key_pressed { |key_event|
-              pd key_event, announcer: '[KEYPRESSED]'
-              if key_event.keyCode == swt(:cr)
-                action.call(key_event)
-              elsif key_event.keyCode == swt(:esc)
-                cancel.call
-              end
-            }
           }
+          action_taken = false
+          cancel = lambda {
+            @tree_editor_text_proxy.swt_widget.dispose
+            @tree_editor_text_proxy = nil
+            after_cancel&.call
+            @edit_in_progress = false
+          }
+          action = lambda { |event|
+            if !action_taken && !@edit_in_progress
+              action_taken = true
+              @edit_in_progress = true
+              new_text = @tree_editor_text_proxy.swt_widget.getText
+              if new_text == tree_item.getText
+                cancel.call
+              else
+                before_write&.call
+                tree_item.setText(new_text)
+                model = tree_item.getData
+                model.send("#{tree_properties[:text]}=", new_text) # makes tree update itself, so must search for selected tree item again
+                edited_tree_item = depth_first_search { |ti| ti.getData == model }.first
+                swt_widget.showItem(edited_tree_item)
+                @tree_editor_text_proxy.swt_widget.dispose
+                @tree_editor_text_proxy = nil
+                after_write&.call(edited_tree_item)
+                @edit_in_progress = false
+              end
+            end
+          }
+          @tree_editor_text_proxy.on_focus_lost(&action)
+          @tree_editor_text_proxy.on_key_pressed { |key_event|
+            if key_event.keyCode == swt(:cr)
+              action.call(key_event)
+            elsif key_event.keyCode == swt(:esc)
+              cancel.call
+            end
+          }          
           @tree_editor_text_proxy.swt_widget.selectAll
         }
         @tree_editor.setEditor(@tree_editor_text_proxy.swt_widget, tree_item)
