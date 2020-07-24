@@ -105,6 +105,8 @@ module GlimmerSpec
 
       class ::BeforeAndAfter
         include Glimmer::UI::CustomWidget
+        
+        attr_reader :mouse_down
 
         before_body {
           @background = :red
@@ -113,13 +115,16 @@ module GlimmerSpec
         after_body {
           @label.swt_widget.setText "Before and After"
         }
-
+        
         body {
           composite {
             background @background
             @label = label {
               background @background
               foreground @foreground
+              on_mouse_down { |event|
+                @mouse_down = true
+              }
             }
           }
         }
@@ -338,6 +343,16 @@ module GlimmerSpec
       expect(@label.getForeground).to eq(Glimmer::SWT::ColorProxy.new(:green).swt_color)
       expect(@label.getText).to eq('Before and After')
       expect(@label.isEnabled).to eq(false)
+      
+      event = Event.new
+      event.doit = true
+      event.character = "\n"
+      event.display = @label.getDisplay
+      event.item = @label
+      event.widget = @label
+      event.type = Glimmer::SWT::SWTProxy[:mousedown]
+      @label.notifyListeners(Glimmer::SWT::SWTProxy[:mousedown], event)
+      expect(@before_and_after.mouse_down).to eq(true)
     end
 
     it 'adds content' do
