@@ -79,9 +79,13 @@ namespace :glimmer do
     
       task :cw, [:name, :namespace] => :customwidget
       task :custom_widget, [:name, :namespace] => :customwidget
-      task :"custom-widget", [:name, :namespace] => :customwidget
-      
+      task :"custom-widget", [:name, :namespace] => :customwidget      
     end
+    
+    # legacy support
+    
+    task :custom_shell_gem, [:name, :namespace] => 'gem:customshell'
+    task :custom_widget_gem, [:name, :namespace] => 'gem:customwidget'
     
   end
   
@@ -114,7 +118,12 @@ namespace :glimmer do
         Glimmer::RakeTask::List.dsl_gems(args[:query])
       end
     
-    end  
+    end
+    
+    # legacy support
+    
+    task :custom_shell_gems, [:name, :namespace] => 'gems:customshell'
+    task :custom_widget_gems, [:name, :namespace] => 'gems:customwidget'    
     
   end
 end

@@ -11,6 +11,7 @@
 - Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
 - Update all logger calls to be lazy blocks
 - Add logging formatter (called layout in logging library)
+- Support legacy rake tasks for package and scaffold (the ones without gem/gems nesting)
 
 ### 0.4.1
 

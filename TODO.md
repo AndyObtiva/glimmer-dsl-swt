@@ -4,12 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.5.0
-
-- Consider making "DSL keyword cannot be handled" errors at level :warn
-- Separate unimportant debug logs from info logs 
-- Support legacy rake tasks for package and scaffold (the ones without gem/gems nesting)
-
 ### 0.6.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
