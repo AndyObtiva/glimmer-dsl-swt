@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2020-07-23"
+  s.date = "2020-07-24"
   s.description = "Glimmer DSL for SWT (Desktop GUI) - JRuby on SWT".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
     "lib/ext/glimmer/config.rb",
     "lib/glimmer-dsl-swt.rb",
     "lib/glimmer/data_binding/list_selection_binding.rb",
-    "lib/glimmer/data_binding/observable_widget.rb",
     "lib/glimmer/data_binding/shine.rb",
     "lib/glimmer/data_binding/table_items_binding.rb",
     "lib/glimmer/data_binding/tree_items_binding.rb",
@@ -112,7 +111,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 0.10.0"])
       s.add_runtime_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
       s.add_runtime_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
-      s.add_runtime_dependency(%q<puts_debuggerer>.freeze, ["~> 0.8.2"])
+      s.add_runtime_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
       s.add_runtime_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
       s.add_runtime_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
       s.add_runtime_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])
@@ -129,7 +128,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<glimmer>.freeze, ["~> 0.10.0"])
       s.add_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
       s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
-      s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.8.2"])
+      s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
       s.add_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
       s.add_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
       s.add_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])
@@ -147,7 +146,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<glimmer>.freeze, ["~> 0.10.0"])
     s.add_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
     s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
-    s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.8.2"])
+    s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
     s.add_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
     s.add_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])
