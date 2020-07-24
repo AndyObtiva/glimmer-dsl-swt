@@ -2,6 +2,7 @@
 
 ### 0.5.0
 
+- Upgrade to glimmer 0.10.1 to take advantage of the new logging library
 - Make Glimmer commands support acronym, dash and no separator (default) alternatives
 - Support scaffold commands for gems with `scaffold:gem:cw` pattern (`cs` as other suffix)
 - Support listing commands with `list:gems:cw` pattern (`cs` as other suffix)
@@ -9,6 +10,7 @@
 - Configure 'logging' to generate log files on Windows/Linux/Mac and syslog where available
 - Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
 - Update all logger calls to be lazy blocks
+- Add logging formatter (called layout in logging library)
 
 ### 0.4.1
 

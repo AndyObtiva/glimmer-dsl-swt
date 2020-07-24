@@ -47,12 +47,27 @@ module Glimmer
       end
       
       def logging_appender_options
-        @@logging_appender_options = {async: true, auto_flushing: 500, write_size: 500, flush_period: 60, immediate_at: [:error, :fatal]} unless defined? @@logging_appender_options
+        @@logging_appender_options = {async: true, auto_flushing: 500, write_size: 500, flush_period: 60, immediate_at: [:error, :fatal], layout: logging_layout} unless defined? @@logging_appender_options
         @@logging_appender_options
       end
       
       def logging_appender_options=(custom_options)
         @@logging_appender_options = custom_options
+        reset_logger!
+      end
+      
+      def logging_layout
+        unless defined? @@logging_layout
+          @@logging_layout = Logging.layouts.pattern(
+            pattern: '[%d] %-5l %c: %m\n',
+            date_pattern: '%Y-%m-%d %H:%M:%S'
+          )
+        end
+        @@logging_layout
+      end
+      
+      def logging_layout=(custom_layout)
+        @@logging_layout = custom_layout
         reset_logger!
       end
       
