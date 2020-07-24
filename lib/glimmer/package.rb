@@ -55,7 +55,7 @@ module Glimmer
         command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
         command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
         command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
-        command += " -Bcopyright=#{copyright} " if copyright
+        command += " -Bcopyright=\"#{copyright}\" " if copyright
         command += " #{javapackager_extra_args} " if javapackager_extra_args
         command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
         puts "Generating DMG/PKG/APP/JNLP with javapackager..."
