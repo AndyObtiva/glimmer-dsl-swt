@@ -17,7 +17,7 @@ module Glimmer
         project_name = File.basename(File.expand_path('.'))
         if !File.exists?('config/warble.rb')
           puts 'Generating JAR configuration (config/warble.rb) to use with Warbler...'
-          system('mkdir -p config')
+          FileUtils.mkdir_p('config')
           system('warble config')
           new_config = File.read('config/warble.rb').split("\n").inject('') do |output, line|
             if line.include?('config.dirs =')
@@ -36,7 +36,7 @@ module Glimmer
       end
       
       def jar
-        system('mkdir -p dist')
+        FileUtils.mkdir_p('dist')
         puts "Generating JAR with Warbler..."
         system('warble')      
       end
