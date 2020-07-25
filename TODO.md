@@ -4,6 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.5.0
+
+- mkdir -p 'log' directory if :file logging device is specified
+- Make sure GLIMMER_LOGGER_LEVEL env var works with logging gem
+
 ### 0.6.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)

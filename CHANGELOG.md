@@ -12,6 +12,7 @@
 - Update all logger calls to be lazy blocks
 - Add logging formatter (called layout in logging library)
 - Support legacy rake tasks for package and scaffold (the ones without gem/gems nesting)
+- GLIMMER_LOGGER_LEVEL env var disables async logging in logging gem to help with immediate troubleshooting
 
 ### 0.4.1
 
