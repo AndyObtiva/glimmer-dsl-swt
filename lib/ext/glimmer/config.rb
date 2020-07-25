@@ -77,7 +77,11 @@ module Glimmer
           appenders = []
           appenders << Logging.appenders.stdout(logging_appender_options) if logging_devices.include?(:stdout)
           appenders << Logging.appenders.stderr(logging_appender_options) if logging_devices.include?(:stderr)
-          appenders << Logging.appenders.rolling_file('log/glimmer.log', logging_appender_options.merge(logging_device_file_options)) if logging_devices.include?(:file)
+          if logging_devices.include?(:file)
+            require 'fileutils'
+            FileUtils.mkdir_p('log')
+            appenders << Logging.appenders.rolling_file('log/glimmer.log', logging_appender_options.merge(logging_device_file_options)) if logging_devices.include?(:file)
+          end
           if Object.const_defined?(:Syslog) && logging_devices.include?(:syslog)
             Syslog.close if Syslog.opened?
             appenders << Logging.appenders.syslog('glimmer', logging_appender_options)
