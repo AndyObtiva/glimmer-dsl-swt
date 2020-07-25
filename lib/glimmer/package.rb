@@ -51,7 +51,7 @@ module Glimmer
         license = (File.read(license_file).strip if File.exists?(license_file) && File.file?(license_file)) rescue nil
         copyright = license.split("\n").first
         human_name = project_name.underscore.titlecase
-        command = "javapackager -deploy -native -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
+        command = "javapackager -deploy -native -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" -BsystemWide=false "
         command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
         command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
         command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
