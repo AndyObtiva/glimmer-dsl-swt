@@ -137,6 +137,11 @@ module Glimmer
         execute_hooks('after_body')
       end
       
+      # Subclasses may override to perform post initialization work on an added child
+      def post_initialize_child(child)
+        # No Op by default
+      end
+
       def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
         result = false

@@ -102,3 +102,10 @@ if ENV['GLIMMER_LOGGER_LEVEL']
   Glimmer::Config.logging_devices = [:stdout]
   Glimmer::Config.logger.level = ENV['GLIMMER_LOGGER_LEVEL']
 end
+Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
+  method_symbol = method_symbol.to_s
+  result = false
+#   result ||= method_symbol.start_with?('on_updated') && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method_symbol)
+  result ||= method_symbol == 'post_initialize_child'
+#   result ||= method_symbol.end_with?('=')
+end
