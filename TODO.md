@@ -4,16 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.5.0
+### 0.6.0
 
-- Eliminate unimportant log messages getting reported as ERROR when running test suite
 - Unify CustomWidget and CustomShell 
 - Move CustomWidget and CustomShell to SWT namespace
 - Move data binding custom classes to SWT namespace
 - Move data binding custom classes to SWT namespace
 - Move rake task classes to RakeTask namespace
-
-### 0.6.0
 
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)

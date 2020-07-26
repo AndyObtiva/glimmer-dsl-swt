@@ -85,7 +85,7 @@ module GlimmerSpec
       it 'finds no tree items' do
         tree_items = @tree.depth_first_search { |tree_item| tree_item.getText.start_with?('Z') }
 
-        expect(tree_items).to be_empty
+        expect(tree_items.empty?).to be_truthy
       end
 
       it 'gets all tree items by not passing a condition block' do

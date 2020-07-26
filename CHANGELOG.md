@@ -20,6 +20,8 @@
 - Dispose all table items when removed
 - Remove table model collection observers when updating
 - Make message_box instantiate a shell if none passed in
+- Eliminate unimportant (false negative) log messages getting reported as ERROR when running test suite
+
 
 ### 0.4.1
 

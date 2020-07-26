@@ -75,7 +75,7 @@ module GlimmerSpec
       it 'finds no table items' do
         table_items = @table.search { |table_item| table_item.getText.start_with?('Z') }
 
-        expect(table_items).to be_empty
+        expect(table_items.empty?).to be_truthy
       end
 
       it 'gets all table items by not passing a condition block' do
