@@ -110,5 +110,5 @@ Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
   result ||= ['drag_source_proxy', 'drop_target_proxy'].include?(method) && is_a?(Glimmer::UI::CustomWidget)
   result ||= method == 'post_initialize_child'
   result ||= method.end_with?('=')
-  result ||= ['finish_edit!', 'search'].include?(method) && is_a?(Glimmer::UI::CustomWidget) && body_root.respond_to?(method)
+  result ||= ['finish_edit!', 'search', 'all_tree_items', 'depth_first_search'].include?(method) && is_a?(Glimmer::UI::CustomWidget) && body_root.respond_to?(method)
 end
