@@ -23,16 +23,18 @@ module Glimmer
           @table.body_root.column_properties = @column_properties
         end
         call(@model_binding.evaluate_property)
-        observe(model_binding)
+        @table_observer_registration = observe(model_binding)
         @table.on_widget_disposed do |dispose_event|
           unregister_all_observables
         end
       end
 
       def call(new_model_collection=nil)
-        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)
+        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)        
         if new_model_collection and new_model_collection.is_a?(Array)
-          observe(new_model_collection, @column_properties)
+          @table_items_observer_registration&.unobserve
+          @table_items_observer_registration = observe(new_model_collection, @column_properties)
+          add_dependent(@table_observer_registration => @table_items_observer_registration)
           @model_collection = new_model_collection
         end
         populate_table(@model_collection, @table, @column_properties)        
@@ -41,6 +43,7 @@ module Glimmer
       def populate_table(model_collection, parent, column_properties)
         selected_table_item_models = parent.swt_widget.getSelection.map(&:getData)
         parent.finish_edit!
+        parent.swt_widget.items.each(&:dispose)
         parent.swt_widget.removeAll
         model_collection.each do |model|
           table_item = TableItem.new(parent.swt_widget, SWT::SWTProxy[:none])

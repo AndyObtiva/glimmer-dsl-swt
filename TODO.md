@@ -8,6 +8,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - mkdir -p 'log' directory if :file logging device is specified
 - Make sure GLIMMER_LOGGER_LEVEL env var works with logging gem
+- Make message_box instantiate a shell if none passed in
+- Make sure not to forget log level set earlier when reseting logger on subsequent times
+- Eliminate unimportant log messages getting reported as ERROR when running test suite
 
 ### 0.6.0
 
@@ -40,6 +43,7 @@ bind_content(model, 'addresses').each { |address|
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command
+- Build a debug console widget to inspect Glimmer GUI objects
 
 ## Issues
 

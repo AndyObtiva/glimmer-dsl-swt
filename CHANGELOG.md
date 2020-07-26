@@ -13,6 +13,9 @@
 - Add logging formatter (called layout in logging library)
 - Support legacy rake tasks for package and scaffold (the ones without gem/gems nesting)
 - GLIMMER_LOGGER_LEVEL env var disables async logging in logging gem to help with immediate troubleshooting
+- Dispose all tree items when removed
+- Dispose all table items when removed
+- Remove table model collection observers when updating
 
 ### 0.4.1
 

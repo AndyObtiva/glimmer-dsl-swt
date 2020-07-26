@@ -41,10 +41,9 @@ module Glimmer
         old_tree_items = parent.all_tree_items
         old_tree_item_expansion_by_data = old_tree_items.reduce({}) {|hash, ti| hash.merge(ti.getData => ti.getExpanded)}
         old_tree_items.each do |tree_item|
-          tree_item.getData('observer_registrations').each do |key, observer_registration|
-            observer_registration.unregister
-          end          
+          tree_item.getData('observer_registrations').each(&:unregister)
         end        
+        parent.swt_widget.items.each(&:dispose)
         parent.swt_widget.removeAll
         populate_tree_node(model_tree_root_node, parent.swt_widget, tree_properties)
         parent.all_tree_items.each { |ti| ti.setExpanded(!!old_tree_item_expansion_by_data[ti.getData]) }
@@ -54,10 +53,9 @@ module Glimmer
 
       def populate_tree_node(model_tree_node, parent, tree_properties)
         return if model_tree_node.nil?
-        # TODO anticipate default tree properties if none were passed (like literal values text and children)
         tree_item = TreeItem.new(parent, SWT::SWTProxy[:none])
-        observer_registrations = @tree_properties.reduce({}) do |hash, key_value_pair|
-          hash.merge(key_value_pair.first => observe(model_tree_node, key_value_pair.last))
+        observer_registrations = @tree_properties.reduce([]) do |array, key_value_pair|
+          array + [observe(model_tree_node, key_value_pair.last)]
         end
         tree_item.setData('observer_registrations', observer_registrations)
         tree_item.setData(model_tree_node)

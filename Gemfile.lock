@@ -121,7 +121,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls (= 0.8.23)
-  glimmer (~> 0.10.0)
+  glimmer (~> 0.10.1)
   jeweler (>= 2.3.9, < 3.0.0)
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (~> 0.3.0)
