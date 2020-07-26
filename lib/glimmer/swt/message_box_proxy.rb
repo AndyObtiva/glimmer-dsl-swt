@@ -15,11 +15,13 @@ module Glimmer
       
       def initialize(parent, style)
         parent = parent.swt_widget if parent.respond_to?(:swt_widget) && parent.swt_widget.is_a?(Shell)
+        @temporary_parent = parent = Glimmer::SWT::ShellProxy.new.swt_widget if parent.nil?
         @swt_widget = MessageBox.new(parent, style)
       end
       
       def open
         @swt_widget.open
+        @temporary_parent&.dispose
       end
       
       # TODO refactor the following methods to put in a JavaBean mixin or somethin (perhaps contribute to OSS project too)

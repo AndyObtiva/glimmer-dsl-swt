@@ -4,6 +4,18 @@ module GlimmerSpec
   describe "Glimmer Message Box" do
     include Glimmer
 
+    it 'renders a message box without specifying a shell' do
+      @target = @message_box = message_box {
+        text 'Hello'
+        message 'Hello, this is a greeting!'
+      }
+      
+      expect(@message_box).to be_a(Glimmer::SWT::MessageBoxProxy)
+      expect(@message_box.swt_widget).to be_a(MessageBox)
+      expect(@message_box.swt_widget.getText).to eq('Hello')
+      expect(@message_box.swt_widget.getMessage).to eq('Hello, this is a greeting!')
+    end    
+
     it 'renders a message box nested inside a shell' do
       @target = shell {
         @message_box = message_box {
