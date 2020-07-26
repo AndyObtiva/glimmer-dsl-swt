@@ -7,14 +7,15 @@
 - Support scaffold commands for gems with `scaffold:gem:cw` pattern (`cs` as other suffix)
 - Support listing commands with `list:gems:cw` pattern (`cs` as other suffix)
 - Add -BinstalldirChooser=true / -Bcopyright=string / -Bvendor=string / -Bwin.menuGroup=string to Package class to support Windows packaging
-- Configure 'logging' to generate log files on Windows/Linux/Mac and syslog where available
-- Configure 'logging' to do async buffered logging via a thread to avoid impacting app performance with logging
+- Configure 'logging' gem to generate log files on Windows/Linux/Mac and syslog where available
+- Configure 'logging' gem to do async buffered logging via a thread to avoid impacting app performance with logging
+- Make GLIMMER_LOGGER_LEVEL env var work with logging gem
 - Update all logger calls to be lazy blocks
 - Add logging formatter (called layout in logging library)
 - Support legacy rake tasks for package and scaffold (the ones without gem/gems nesting)
 - GLIMMER_LOGGER_LEVEL env var disables async logging in logging gem to help with immediate troubleshooting
 - Create 'log' directory if :file logging device is specified
-- Make sure GLIMMER_LOGGER_LEVEL env var works with logging gem
+- Remember log level when reseting logger after the first time
 - Dispose all tree items when removed
 - Dispose all table items when removed
 - Remove table model collection observers when updating

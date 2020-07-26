@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.5.0
 
-- Make sure not to forget log level set earlier when reseting logger on subsequent times
 - Eliminate unimportant log messages getting reported as ERROR when running test suite
 
 ### 0.6.0

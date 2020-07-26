@@ -72,8 +72,10 @@ module Glimmer
       end
       
       def reset_logger!
+        @first_time = !defined?(@@logger)        
+        old_level = logger.level unless @first_time
         self.logger = Logging.logger['glimmer'].tap do |logger| 
-          logger.level = Logger::ERROR
+          logger.level = old_level || :error
           appenders = []
           appenders << Logging.appenders.stdout(logging_appender_options) if logging_devices.include?(:stdout)
           appenders << Logging.appenders.stderr(logging_appender_options) if logging_devices.include?(:stderr)
