@@ -103,10 +103,11 @@ if ENV['GLIMMER_LOGGER_LEVEL']
   Glimmer::Config.logger.level = ENV['GLIMMER_LOGGER_LEVEL']
 end
 Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
-  method_symbol = method_symbol.to_s
+  method = method_symbol.to_s
   result = false
-#   result ||= method_symbol.start_with?('on_updated') && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method_symbol)
-  result ||= ['drag_source_proxy', 'drop_target_proxy'].include?(method_symbol) && is_a?(Glimmer::UI::CustomWidget)
-  result ||= method_symbol == 'post_initialize_child'
-#   result ||= method_symbol.end_with?('=')
+#   result ||= method.start_with?('on_updated') && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
+  result ||= method == 'dispose' && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
+  result ||= ['drag_source_proxy', 'drop_target_proxy'].include?(method) && is_a?(Glimmer::UI::CustomWidget)
+  result ||= method == 'post_initialize_child'
+#   result ||= method.end_with?('=')
 end
