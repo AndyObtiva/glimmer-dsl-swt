@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.5.1
+
+- Made packaging -BsystemWide option true on the Mac only
+
 ### 0.5.0
 
 - Upgrade to glimmer 0.10.1 to take advantage of the new logging library
