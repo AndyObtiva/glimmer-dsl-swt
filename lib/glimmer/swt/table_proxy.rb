@@ -61,6 +61,7 @@ module Glimmer
             combo: {
               widget_value_property: :text,
               editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
                 table_proxy.table_editor.minimumHeight = 25
                 table_editor_widget_proxy = combo(*args) {
                   items model.send("#{property}_options")
@@ -77,7 +78,9 @@ module Glimmer
                     end
                   }
                   on_widget_selected {
-                    table_proxy.finish_edit!
+                    if !OS.windows? || !first_time || first_time && model.send(property) != table_editor_widget_proxy.swt_widget.text
+                      table_proxy.finish_edit! 
+                    end 
                   }
                 }
                 table_editor_widget_proxy
