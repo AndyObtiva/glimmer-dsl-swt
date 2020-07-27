@@ -55,6 +55,7 @@ module Glimmer
         selected_table_items = parent.search {|item| selected_table_item_models.include?(item.getData) }
         selected_table_items = [parent.swt_widget.getItems.first].to_java(TableItem) if selected_table_items.empty? && !parent.swt_widget.getItems.empty?
         parent.swt_widget.setSelection(selected_table_items) unless selected_table_items.empty?
+        parent.sort
       end
     end
   end

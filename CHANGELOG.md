@@ -21,7 +21,7 @@
 - Remove table model collection observers when updating
 - Make message_box instantiate a shell if none passed in
 - Eliminate unimportant (false negative) log messages getting reported as ERROR when running test suite
-
+- Sort table on every change to maintain its sort according to its sorted column
 
 ### 0.4.1
 

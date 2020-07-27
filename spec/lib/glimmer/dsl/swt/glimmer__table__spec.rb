@@ -1189,6 +1189,11 @@ module GlimmerSpec
         @table_column4.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
         expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 133000.5])
+        
+        # check that it maintains sorting when modifying collection
+        group.people << person3
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 99000.7 133000.5])        
       end
       
       it 'has sorting disabled' do
