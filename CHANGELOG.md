@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.5.2
+
+- Added :full_selection to table widget default SWT styles
+
 ### 0.5.1
 
 - Made packaging -BsystemWide option true on the Mac only
