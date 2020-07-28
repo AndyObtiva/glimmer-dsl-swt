@@ -618,6 +618,26 @@ module Glimmer
               value
             end
           end,
+          :image => lambda do |value|
+            if value.is_a?(String)
+              if value.start_with?('uri:classloader')
+                value = value.sub(/^uri\:classloader\:\//, '')
+                object = java.lang.Object.new
+                value = object.java_class.resource_as_stream(value)
+                value = java.io.BufferedInputStream.new(value)
+              end
+              image_data = ImageData.new(value)
+              # TODO in the future, look into unregistering this listener when no longer needed
+              on_swt_Resize do |resize_event|
+                new_image_data = image_data.scaledTo(@swt_widget.getSize.x, @swt_widget.getSize.y)
+                @swt_widget.getImage&.dispose
+                @swt_widget.setImage(Image.new(@swt_widget.getDisplay, new_image_data))
+              end
+              Image.new(@swt_widget.getDisplay, image_data)
+            else
+              value
+            end
+          end,
           :items => lambda do |value|
             value.to_java :string
           end,
