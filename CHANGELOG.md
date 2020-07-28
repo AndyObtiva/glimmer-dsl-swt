@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.5.3
+
+- Set widget `image`/`images` property via string file path(s) just like `background_image`
+
 ### 0.5.2
 
 - Added :full_selection to table widget default SWT styles
