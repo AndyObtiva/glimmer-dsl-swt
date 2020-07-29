@@ -592,7 +592,7 @@ module Glimmer
           :background_image => lambda do |value|
             if value.is_a?(String)
               if value.start_with?('uri:classloader')
-                value = value.sub(/^uri\:classloader\:\//, '')
+                value = value.sub(/^uri\:classloader\:/, '')
                 object = java.lang.Object.new
                 value = object.java_class.resource_as_stream(value)
                 value = java.io.BufferedInputStream.new(value)
@@ -621,7 +621,7 @@ module Glimmer
           :image => lambda do |value|
             if value.is_a?(String)
               if value.start_with?('uri:classloader')
-                value = value.sub(/^uri\:classloader\:\//, '')
+                value = value.sub(/^uri\:classloader\:/, '')
                 object = java.lang.Object.new
                 value = object.java_class.resource_as_stream(value)
                 value = java.io.BufferedInputStream.new(value)
@@ -636,7 +636,7 @@ module Glimmer
             array.to_a.map do |value|
               if value.is_a?(String)
                 if value.start_with?('uri:classloader')
-                  value = value.sub(/^uri\:classloader\:\//, '')
+                  value = value.sub(/^uri\:classloader\:/, '')
                   object = java.lang.Object.new
                   value = object.java_class.resource_as_stream(value)
                   value = java.io.BufferedInputStream.new(value)
