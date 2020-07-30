@@ -5,7 +5,7 @@ module Glimmer
   module SWT
     # Proxy for org.eclipse.swt.graphics.Color
     #
-    # Invoking `#swt_color` returns the SWT color object wrapped by this proxy
+    # Invoking `#swt_color` returns the SWT Color object wrapped by this proxy
     #
     # Follows the Proxy Design Pattern
     class ColorProxy

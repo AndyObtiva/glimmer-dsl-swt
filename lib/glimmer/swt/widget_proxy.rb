@@ -3,6 +3,7 @@ require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/dnd_proxy'
+require 'glimmer/swt/image_proxy'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
 
@@ -590,21 +591,18 @@ module Glimmer
         @property_type_converters ||= {
           :background => color_converter,
           :background_image => lambda do |value|
+            image_proxy = nil
             if value.is_a?(String)
-              if value.start_with?('uri:classloader')
-                value = value.sub(/^uri\:classloader\:/, '')
-                object = java.lang.Object.new
-                value = object.java_class.resource_as_stream(value)
-                value = java.io.BufferedInputStream.new(value)
-              end
-              image_data = ImageData.new(value)
-              # TODO in the future, look into unregistering this listener when no longer needed
+              image_proxy = ImageProxy.new(value)
+            elsif value.is_a?(Array)
+              image_proxy = ImageProxy.new(*value)
+            end
+            if image_proxy
               on_swt_Resize do |resize_event|
-                new_image_data = image_data.scaledTo(@swt_widget.getSize.x, @swt_widget.getSize.y)
-                @swt_widget.getBackgroundImage&.dispose
-                @swt_widget.setBackgroundImage(Image.new(@swt_widget.getDisplay, new_image_data))
+                image_proxy.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
+                @swt_widget.setBackgroundImage(image_proxy.swt_image)
               end
-              Image.new(@swt_widget.getDisplay, image_data)
+              image_proxy.swt_image
             else
               value
             end
@@ -620,14 +618,9 @@ module Glimmer
           end,
           :image => lambda do |value|
             if value.is_a?(String)
-              if value.start_with?('uri:classloader')
-                value = value.sub(/^uri\:classloader\:/, '')
-                object = java.lang.Object.new
-                value = object.java_class.resource_as_stream(value)
-                value = java.io.BufferedInputStream.new(value)
-              end
-              image_data = ImageData.new(value)
-              Image.new(@swt_widget.getDisplay, image_data)
+              ImageProxy.new(value).swt_image
+            elsif value.is_a?(Array)
+              ImageProxy.new(*value).swt_image
             else
               value
             end
@@ -635,14 +628,9 @@ module Glimmer
           :images => lambda do |array|
             array.to_a.map do |value|
               if value.is_a?(String)
-                if value.start_with?('uri:classloader')
-                  value = value.sub(/^uri\:classloader\:/, '')
-                  object = java.lang.Object.new
-                  value = object.java_class.resource_as_stream(value)
-                  value = java.io.BufferedInputStream.new(value)
-                end
-                image_data = ImageData.new(value)
-                Image.new(@swt_widget.getDisplay, image_data)
+                ImageProxy.new(value).swt_image
+              elsif value.is_a?(Array)
+                ImageProxy.new(*value).swt_image
               else
                 value
               end
