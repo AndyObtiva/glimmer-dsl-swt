@@ -130,10 +130,6 @@ items <=> binding {
 
 ## Side Projects
 
-### Are We There Yet?
-
-- Small Project Progress Reporting App
-
 ### Text2Board
 
 - Agile Project Management App driven from a simple TODO list txt file (or online word/google doc, spreadsheet)
@@ -166,3 +162,4 @@ items <=> binding {
 - Add a gif demo of how to scaffold a Glimmer app from scratch
 - Write an article about how you built the Glimmer Calculator sample and share online
 - Document example of app reusing a glimmer custom shell gem and add to gladiator and calculator
+- Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
