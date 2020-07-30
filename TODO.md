@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.5.3
-
-- Support `image` keyword to produce SWT friendly images from file paths
-
 ### 0.6.0
 
 - Add shell minimum_size to Tic Tac Toe sample for Linux
@@ -123,6 +119,7 @@ items <=> binding {
 - Change table editing support to rely on data-binding
 - Switch to juwelier gem for scaffolding and add `--markdown` option
 - Wrap SWT as a Maven plugin and use jar-dependencies gem to rely on it instead of including it in the project gem
+- Provide a helper method that loads a font from inside an app
 
 ## Samples
 
