@@ -31,7 +31,7 @@ module Glimmer
               file_input_stream = object.java_class.resource_as_stream(file_path)
               buffered_file_input_stream = java.io.BufferedInputStream.new(file_input_stream)
             end
-            @image_data = ImageData.new(buffered_file_input_stream)
+            @image_data = ImageData.new(buffered_file_input_stream || file_path)
             @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
           else
             @swt_image = Image.new(*@args)
