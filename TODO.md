@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.6.0
 
-- Add shell minimum_size to Tic Tac Toe sample for Linux
-
 - Unify CustomWidget and CustomShell 
 - Move CustomWidget and CustomShell to SWT namespace
 - Move data binding custom classes to SWT namespace

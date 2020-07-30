@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.5.6
+
+- Fixed issue with excluding on_swt_* listeners from Glimmer DSL engine processing in CustomWidget
+- Add shell minimum_size to Tic Tac Toe sample for Linux
+
 ### 0.5.5
 
 - Add 'package' directory to 'config/warble.rb' for packaging in JAR file

@@ -105,7 +105,6 @@ end
 Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
   method = method_symbol.to_s
   result = false
-  result ||= method.start_with?('on_swt_') && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
   result ||= method == 'dispose' && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
   result ||= ['drag_source_proxy', 'drop_target_proxy'].include?(method) && is_a?(Glimmer::UI::CustomWidget)
   result ||= method == 'post_initialize_child'

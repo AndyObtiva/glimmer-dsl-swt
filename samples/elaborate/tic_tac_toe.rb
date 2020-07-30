@@ -7,6 +7,7 @@ class TicTacToe
     @tic_tac_toe_board = Board.new
     @shell = shell {
       text "Tic-Tac-Toe"
+      minimum_size 150, 178
       composite {
         grid_layout 3, true
         (1..3).each { |row|
