@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Support cursor setting via SWT style symbols directly
+
 ### 0.6.0
 
 - Unify CustomWidget and CustomShell 
@@ -130,10 +132,6 @@ items <=> binding {
 
 ## Side Projects
 
-### Text2Board
-
-- Agile Project Management App driven from a simple TODO list txt file (or online word/google doc, spreadsheet)
-
 ### FreeHire
 
 - Web service for requesting software development project services and hiring developers for free in exchange for marketing them with finished software from the start. 
@@ -141,6 +139,10 @@ items <=> binding {
 ### glimmertalk project
 
 - Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
+
+## Custom Widgets/Shells
+
+- glimmer-cs-splash: splash shell widget
 
 ## Documentation Tasks
 
