@@ -6,11 +6,10 @@ module Glimmer
   module SWT
     # Proxy for org.eclipse.swt.graphics.Font
     #
-    # This class is meant to be used with WidgetProxy to manipulate
-    # an SWT widget font.
+    # This class can be optionally used with WidgetProxy to manipulate
+    # an SWT widget font (reusing its FontData but building a new Font)
     #
-    # It is not meant to create new SWT fonts form scratch without
-    # a widget proxy.
+    # Otherwise, if no WidgetProxy is passed to constructor, it builds new FontData
     #
     # Invoking `#swt_font` returns the SWT Font object wrapped by this proxy
     #

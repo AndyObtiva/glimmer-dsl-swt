@@ -24,6 +24,7 @@ module Glimmer
           tree_items_data_binding
           table_items_data_binding
           data_binding
+          cursor
           font
           property
           block_property

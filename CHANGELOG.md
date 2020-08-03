@@ -3,6 +3,8 @@
 ### 0.5.7
 
 - Support `font` keyword
+- Support cursor setting via SWT style symbols directly
+- Support `cursor` keyword
 
 ### 0.5.6
 

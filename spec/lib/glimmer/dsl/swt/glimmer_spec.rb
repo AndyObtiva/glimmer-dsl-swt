@@ -361,6 +361,43 @@ module GlimmerSpec
 
       expect(@composite.swt_widget.getBackgroundImage).to eq(image)
     end
+    
+    it 'sets cursor via SWT style symbol' do
+      @target = shell {
+        @composite = composite {
+          cursor :cursor_appstarting
+        }
+      }
+
+      expect(@composite.swt_widget.cursor).to eq(display.swt_display.get_system_cursor(swt(:cursor_appstarting)))
+    end
+
+    it 'sets cursor via SWT style constant integer' do
+      @target = shell {
+        @composite = composite {
+          cursor swt(:cursor_appstarting)
+        }
+      }
+
+      expect(@composite.swt_widget.cursor).to eq(display.swt_display.get_system_cursor(swt(:cursor_appstarting)))
+    end
+
+    it 'sets cursor via cursor object' do
+      @cursor = cursor(:appstarting)
+      @target = shell {
+        @composite = composite {
+          cursor @cursor
+        }
+      }
+
+      expect(@composite.swt_widget.cursor).to eq(display.swt_display.get_system_cursor(swt(:cursor_appstarting)))
+    end
+
+    it 'fails to set invalid cursor via cursor object' do
+      expect {
+        @cursor = cursor(:invalid)
+      }.to raise_error(Glimmer::Error)
+    end
 
     unless ENV['CI'].to_s.downcase == 'true'
       context 'focus' do
