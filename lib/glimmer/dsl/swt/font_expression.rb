@@ -10,7 +10,8 @@ module Glimmer
       class FontExpression < Expression
         include TopLevelExpression
   
-        def can_interpret?(parent, keyword, *args, &block)          
+        def can_interpret?(parent, keyword, *args, &block)
+          keyword.to_s == 'font' and     
           (parent.nil? || !parent.respond_to?('font')) && args.size == 1 && args.first.is_a?(Hash)
         end
   
