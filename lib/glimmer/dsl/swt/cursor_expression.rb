@@ -10,7 +10,8 @@ module Glimmer
       class CursorExpression < Expression
         include TopLevelExpression
   
-        def can_interpret?(parent, keyword, *args, &block)          
+        def can_interpret?(parent, keyword, *args, &block)
+          keyword.to_s == 'cursor' and
           (parent.nil? or !parent.respond_to?('cursor')) and
             args.size == 1 and
             (args.first.is_a?(Integer) or textual?(args.first))
