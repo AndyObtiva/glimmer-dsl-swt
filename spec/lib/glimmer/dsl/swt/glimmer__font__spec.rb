@@ -4,7 +4,7 @@ module GlimmerSpec
   describe "Glimmer Color" do
     include Glimmer
 
-    it "tests label with specified font name, height, and style" do
+    it "sets font via hash having name, height, and style" do
       @target = shell {
         @label = label {
           font name: 'Arial', height: 36, style: :normal
@@ -18,7 +18,7 @@ module GlimmerSpec
       expect(font_datum.getStyle).to eq(Glimmer::SWT::SWTProxy[:normal])
     end
 
-    it "tests label with specified font styles (multiple)" do
+    it "sets font with multiple styles" do
       @target = shell {
         @label = label {
           font style: [:bold, :italic]
@@ -40,10 +40,10 @@ module GlimmerSpec
       }
     end
 
-    it "tests label with specified font style as SWT constant" do
+    it "sets font style as SWT constant" do
       @target = shell {
         @label = label {
-          font style: Glimmer::SWT::SWTProxy[:bold]
+          font style: swt(:bold)
         }
       }
 
@@ -52,13 +52,12 @@ module GlimmerSpec
       expect(font_datum.getStyle).to eq(Glimmer::SWT::SWTProxy[:bold])
     end
 
-    it "tests label with specified font as SWT object" do
+    it "sets font as SWT Font object (builds Font using font keyword without parent)" do
       @display = display
-      font_datum = FontData.new('Arial', 36, Glimmer::SWT::SWTProxy[:normal])
-      @font = Font.new(@display.swt_display, font_datum);
+      @font = font name: 'Arial', height: 36, style: :normal
       @target = shell {
         @label = label {
-          font @font
+          font @font.swt_font
         }
       }
 

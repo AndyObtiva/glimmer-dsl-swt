@@ -21,7 +21,7 @@ module Glimmer
 
       include_package 'org.eclipse.swt.graphics'
 
-      attr_reader :widget_proxy, :swt_font
+      attr_reader :widget_proxy, :swt_font, :font_properties
 
       # Builds a new font proxy from passed in widget_proxy and font_properties hash,
       #
@@ -31,8 +31,9 @@ module Glimmer
       #
       # Style (:style value) can only be one of FontProxy::FONT_STYLES values:
       # that is :normal, :bold, or :italic
-      def initialize(widget_proxy, font_properties)
+      def initialize(widget_proxy = nil, font_properties)
         @widget_proxy = widget_proxy
+        @font_properties = font_properties
         detect_invalid_font_property(font_properties)
         font_properties[:style] = SWTProxy[*font_properties[:style]]
         font_data_args = [:name, :height, :style].map do |font_property_name|
@@ -57,7 +58,7 @@ module Glimmer
       private
 
       def font_datum
-        @font_datum ||= @widget_proxy.swt_widget.getFont.getFontData[0]
+        @font_datum ||= @widget_proxy ? @widget_proxy.swt_widget.getFont.getFontData[0] : FontData.new
       end
 
       def detect_invalid_font_property(font_properties)

@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.5.7
+
+- Support `font` keyword
+
 ### 0.5.6
 
 - Fixed issue with excluding on_swt_* listeners from Glimmer DSL engine processing in CustomWidget

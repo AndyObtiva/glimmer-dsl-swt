@@ -4,7 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.5.7
+
 - Support cursor setting via SWT style symbols directly
+- Support `cursor` keyword
 
 ### 0.6.0
 
