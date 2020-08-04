@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.0
-
-- Upgrade to SWT 4.16
-
 ### 0.7.0
 
 - Unify CustomWidget and CustomShell 
