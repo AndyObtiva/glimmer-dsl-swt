@@ -106,7 +106,17 @@ module Glimmer
         def deconstruct(integer)
           constant_source_class.constants.reduce([]) do |found, c|
             constant_value = constant_source_class.const_get(c) rescue -1
-            is_found = constant_value.is_a?(Integer) && (constant_value & integer) == constant_value
+            is_found = constant_value.is_a?(Integer) && (integer & constant_value) == integer
+            is_found ? found += [c] : found
+          end
+        end
+
+        # Reverse engineer a style integer into a symbol
+        # Useful for debugging
+        def reverse_lookup(integer)
+          constant_source_class.constants.reduce([]) do |found, c|
+            constant_value = constant_source_class.const_get(c) rescue -1
+            is_found = constant_value.is_a?(Integer) && integer == constant_value
             is_found ? found += [c] : found
           end
         end

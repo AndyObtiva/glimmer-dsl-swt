@@ -608,19 +608,13 @@ module Glimmer
             end
           end,
           :cursor => lambda do |value|
-            cursor = nil
+            cursor_proxy = nil
             if value.is_a?(CursorProxy)
-              cursor = value.swt_cursor
-            else
-              cursor_style_constant = nil
-              if value.is_a?(Symbol) || value.is_a?(String)
-                cursor_style_constant = SWTProxy[value]
-              elsif value.is_a?(Integer)
-                cursor_style_constant = value
-              end
-              cursor = DisplayProxy.instance.swt_display.get_system_cursor(cursor_style_constant)
+              cursor_proxy = value
+            elsif value.is_a?(Symbol) || value.is_a?(String) || value.is_a?(Integer)
+              cursor_proxy = CursorProxy.new(value)
             end
-            cursor ? cursor : value
+            cursor_proxy ? cursor_proxy.swt_cursor : value
           end,
           :foreground => color_converter,
           :font => lambda do |value|

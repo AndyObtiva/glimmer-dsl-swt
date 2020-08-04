@@ -362,6 +362,16 @@ module GlimmerSpec
       expect(@composite.swt_widget.getBackgroundImage).to eq(image)
     end
     
+    it 'sets cursor via abbreviated SWT style symbol' do
+      @target = shell {
+        @composite = composite {
+          cursor :appstarting
+        }
+      }
+
+      expect(@composite.swt_widget.cursor).to eq(display.swt_display.get_system_cursor(swt(:cursor_appstarting)))
+    end
+    
     it 'sets cursor via SWT style symbol' do
       @target = shell {
         @composite = composite {

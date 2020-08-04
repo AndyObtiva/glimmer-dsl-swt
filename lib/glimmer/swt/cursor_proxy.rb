@@ -23,7 +23,10 @@ module Glimmer
       #
       # They are expected to be passed in in short form without the prefix (but would work with the prefix too)
       def initialize(cursor_style)
-        @cursor_style = cursor_style.to_s
+        @cursor_style = cursor_style
+        @cursor_style = SWTProxy.reverse_lookup(@cursor_style).detect { |symbol| symbol.to_s.downcase.start_with?('cursor_') } if cursor_style.is_a?(Integer)
+        @cursor_style = @cursor_style.to_s.downcase
+        @cursor_style = @cursor_style.sub(/^cursor\_/, '') if @cursor_style.start_with?('cursor_')
         detect_invalid_cursor_style
         @swt_cursor = DisplayProxy.instance.swt_display.get_system_cursor(SWTProxy[swt_style])
       end
