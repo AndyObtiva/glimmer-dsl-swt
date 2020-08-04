@@ -1,7 +1,9 @@
 # Change Log
 
-### 0.5.7
+### 0.6.0
 
+- Upgrade to JRuby 9.2.13.0
+- Upgrade to SWT 4.16
 - Support `font` keyword
 - Support cursor setting via SWT style symbols directly
 - Support `cursor` keyword
