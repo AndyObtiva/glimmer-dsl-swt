@@ -41,7 +41,15 @@ module Glimmer
         system('warble')      
       end
       
+      def lock_jars
+        puts 'Locking JARs with jar-dependencies...'
+        command = "lock_jars --vendor-dir vendor"
+        puts command
+        system command      
+      end
+      
       def native
+        puts "Generating native executable with javapackager..."
         require 'facets/string/titlecase'
         require 'facets/string/underscore'
         project_name = File.basename(File.expand_path('.'))
@@ -58,7 +66,6 @@ module Glimmer
         command += " -Bcopyright=\"#{copyright}\" " if copyright
         command += " #{javapackager_extra_args} " if javapackager_extra_args
         command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
-        puts "Generating DMG/PKG/APP/JNLP with javapackager..."
         puts command
         system command      
       end
