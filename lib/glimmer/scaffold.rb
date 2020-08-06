@@ -142,7 +142,7 @@ class Scaffold
       if OS.windows?
         system "bundle"
         system "glimmer package[image]"
-        system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
+        system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
         system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app" if OS.mac?
