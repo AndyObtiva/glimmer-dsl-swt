@@ -15,6 +15,9 @@ gem 'rdoc', '>= 6.2.1', '< 7.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'
 gem 'warbler', '>= 2.0.5', '< 3.0.0'
 
+# Temporary until PR accepted
+gem 'git', '1.7.0', git: 'https://github.com/AndyObtiva/ruby-git', ref: 'bbe628c442d864dd1fc2e9506b7966a29f5a73dc'
+
 group :development do
   gem "rspec-mocks", "~> 3.5.0"
   gem "rspec", "~> 3.5.0"
