@@ -106,19 +106,6 @@ class Scaffold
       end
     MULTI_LINE_STRING
 
-    RAKEFILE = <<~MULTI_LINE_STRING
-      require 'glimmer/rake_task'
-      
-      ## Use the following configuration if you would like to customize javapackager
-      ## arguments for `glimmer package` command.
-      #
-      # Glimmer::Package.javapackager_extra_args =
-      #   " -BlicenseType=" +
-      #   " -Bmac.CFBundleIdentifier=" +
-      #   " -Bmac.category=" +
-      #   " -Bmac.signing-key-developer-id-app="
-    MULTI_LINE_STRING
-
     RVM_FUNCTION = <<~MULTI_LINE_STRING
       # Load RVM into a shell session *as a function*
       if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
@@ -135,16 +122,19 @@ class Scaffold
     MULTI_LINE_STRING
 
     def app(app_name)
-      # TODO make it build a gem for jar-dependencies and add 'vendor' to require_paths
-      mkdir app_name
-      cd app_name
+      return puts('Namespace is required! Usage: glimmer scaffold:custom_shell_gem[custom_shell_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
+      gem_name = file_name(app_name)
+      gem_summary = human_name(app_name)
+      system "jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      cd gem_name
+      rm_rf 'lib'
       write '.gitignore', GITIGNORE
       write '.ruby-version', RUBY_VERSION        
       write '.ruby-gemset', app_name
       write 'VERSION', '1.0.0'
       write 'LICENSE.txt', "Copyright (c) #{Time.now.year} #{app_name}"
       write 'Gemfile', GEMFILE_APP
-      write 'Rakefile', RAKEFILE
+      write 'Rakefile', gem_rakefile(app_name, nil, gem_name)
       mkdir 'app'
       write "app/#{file_name(app_name)}.rb", app_main_file(app_name)
       mkdir 'app/models'
@@ -382,11 +372,11 @@ class Scaffold
       lines.insert(require_rake_line_index, "require 'glimmer/launcher'")
       gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
       if custom_shell_name
-        lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*.rb', 'bin/**/*']")
+        lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*', 'app/**/*', 'bin/**/*', 'vendor/**/*', 'package/**/*']")
         lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
-        lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib']")
+        lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib', 'app']")
       else
-        lines.insert(gem_files_line_index, "  gem.files = Dir['lib/**/*.rb']")
+        lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*']")
       end
       spec_pattern_line_index = lines.index(lines.detect {|l| l.include?('spec.pattern =') })
       lines.insert(spec_pattern_line_index+1, "  spec.ruby_opts = [Glimmer::Launcher.jruby_swt_options]")

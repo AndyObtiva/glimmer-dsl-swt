@@ -8,6 +8,7 @@
 - Generate scaffolded app/custom-shell-gem gemspec as part of packaging (useful for jar-dependencies)
 - Support a package:native type option for specifying native type
 - Add a preferences menu for Windows (since it does not have one out of the box)
+- Fix app scaffold on Windows by having it generate jeweler gem first (to have gemspec for jar-dependencies)
 
 ### 0.6.0
 
