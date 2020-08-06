@@ -4,6 +4,7 @@
 
 - Lock JARs task for jar-dependencies as part of packaging
 - Add 'vendor' to require_paths for custom shell gem
+- Generate gemspec
 
 ### 0.6.0
 

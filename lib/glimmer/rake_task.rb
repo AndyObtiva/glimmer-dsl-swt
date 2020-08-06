@@ -35,6 +35,7 @@ namespace :glimmer do
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
     Rake::Task['glimmer:package:lock_jars'].execute
+    Rake::Task['gemspec:generate'].execute
     Rake::Task['glimmer:package:native'].execute
   end
 

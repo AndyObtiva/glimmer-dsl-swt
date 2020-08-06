@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Add a preferences menu for Windows (since it does not have one out of the box)
+- Add Windows icon to scaffold
+
 ### 0.7.0
 
 - Have property expression automatically call to_java(Type) on arrays for property methods that take arguments

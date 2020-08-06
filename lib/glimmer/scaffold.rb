@@ -158,7 +158,12 @@ class Scaffold
       end
       mkdir 'bin'
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
-      system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+      if OS.windows?
+        system "bundle"
+        system "glimmer package"
+      else
+        system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+      end
       system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
       # TODO generate rspec test suite
     end
@@ -210,7 +215,12 @@ class Scaffold
         cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
         puts "Created #{current_dir_name}/#{icon_file}"
       end
-      system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+      if OS.windows?
+        system "bundle"
+        system "glimmer package"
+      else
+        system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+      end
       system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app"
       puts "Finished creating #{gem_name} Ruby gem."
       puts 'Edit Rakefile to configure gem details.'
@@ -241,7 +251,11 @@ class Scaffold
       append "lib/#{gem_name}.rb", gem_main_file(custom_widget_name, namespace)
       mkdir 'lib/views'
       custom_widget(custom_widget_name, namespace)
-      system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n'"
+      if OS.windows?
+        system "bundle"
+      else
+        system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n'"
+      end
       puts "Finished creating #{gem_name} Ruby gem."
       puts 'Edit Rakefile to configure gem details.'
       puts 'Run `rake` to execute specs.'
