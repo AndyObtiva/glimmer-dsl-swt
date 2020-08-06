@@ -165,7 +165,8 @@ class Scaffold
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
       if OS.windows?
         system "bundle"
-        system "glimmer bin/#{gem_name}"
+        system "glimmer package[image]"
+        system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
         system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app" if OS.mac?
@@ -227,7 +228,8 @@ class Scaffold
       end
       if OS.windows?
         system "bundle"
-        system "glimmer bin/#{gem_name}"
+        system "glimmer package[image]"
+        system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
         system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
@@ -503,6 +505,17 @@ class Scaffold
           text bind(self, :greeting)
           font height: 40
           layout_data :fill, :center, true, true
+        }
+        menu_bar {
+          menu {
+            text '&File'
+            menu_item {
+              text 'Preferences...'
+              on_widget_selected {
+                display_preferences_dialog
+              }
+            }
+          }
         }
       }
     }

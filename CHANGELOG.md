@@ -7,6 +7,7 @@
 - Add Windows icon to scaffold
 - Generate scaffolded app/custom-shell-gem gemspec as part of packaging (useful for jar-dependencies)
 - Support a package:native type option for specifying native type
+- Add a preferences menu for Windows (since it does not have one out of the box)
 
 ### 0.6.0
 
