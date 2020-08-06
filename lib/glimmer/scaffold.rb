@@ -76,21 +76,7 @@ class Scaffold
       packages      
     MULTI_LINE_STRING
 
-    GEMFILE_APP = <<~MULTI_LINE_STRING
-      # frozen_string_literal: true
-      
-      source 'https://rubygems.org'
-      
-      git_source(:github) {|repo_name| "https://github.com/\#{repo_name}" }
-      
-      gem 'glimmer-dsl-swt', '~> #{VERSION}'
-      
-      group :test do
-        gem 'rspec'
-      end
-    MULTI_LINE_STRING
-
-    GEMFILE_GEM = <<~MULTI_LINE_STRING
+    GEMFILE = <<~MULTI_LINE_STRING
       # frozen_string_literal: true
       
       source 'https://rubygems.org'
@@ -133,7 +119,7 @@ class Scaffold
       write '.ruby-gemset', app_name
       write 'VERSION', '1.0.0'
       write 'LICENSE.txt', "Copyright (c) #{Time.now.year} #{app_name}"
-      write 'Gemfile', GEMFILE_APP
+      write 'Gemfile', GEMFILE
       write 'Rakefile', gem_rakefile(app_name, nil, gem_name)
       mkdir 'app'
       write "app/#{file_name(app_name)}.rb", app_main_file(app_name)
@@ -142,7 +128,7 @@ class Scaffold
       custom_shell('AppView', current_dir_name, :app)
       if OS::Underlying.windows?
         mkdir_p 'package/windows'
-        icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
+        icon_file = "package/windows/#{human_name(app_name)}.ico"
         cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
         puts "Created #{current_dir_name}/#{icon_file}"
       elsif OS.mac?
@@ -196,7 +182,7 @@ class Scaffold
       write '.ruby-version', RUBY_VERSION        
       write '.ruby-gemset', gem_name
       write 'VERSION', '1.0.0'
-      write 'Gemfile', GEMFILE_GEM      
+      write 'Gemfile', GEMFILE
       write 'Rakefile', gem_rakefile(custom_shell_name, namespace, gem_name)
       append "lib/#{gem_name}.rb", gem_main_file(custom_shell_name, namespace)
       mkdir 'lib/views'
@@ -247,7 +233,7 @@ class Scaffold
       write '.ruby-version', RUBY_VERSION        
       write '.ruby-gemset', gem_name
       write 'VERSION', '1.0.0'
-      write 'Gemfile', GEMFILE_GEM      
+      write 'Gemfile', GEMFILE
       write 'Rakefile', gem_rakefile
       write 'spec/spec_helper.rb', spec_helper_file
       append "lib/#{gem_name}.rb", gem_main_file(custom_widget_name, namespace)
