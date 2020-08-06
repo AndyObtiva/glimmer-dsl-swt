@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "bin/girb_runner.rb",
     "bin/glimmer",
     "icons/scaffold_app.icns",
+    "icons/scaffold_app.ico",
     "lib/ext/glimmer.rb",
     "lib/ext/glimmer/config.rb",
     "lib/glimmer-dsl-swt.rb",
@@ -118,6 +119,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
       s.add_runtime_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
       s.add_runtime_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
+      s.add_runtime_dependency(%q<git-glimmer>.freeze, ["= 1.7.0"])
       s.add_runtime_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
       s.add_runtime_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
       s.add_runtime_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])
@@ -135,6 +137,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
       s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
       s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
+      s.add_dependency(%q<git-glimmer>.freeze, ["= 1.7.0"])
       s.add_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
       s.add_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
       s.add_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])
@@ -153,6 +156,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<super_module>.freeze, ["~> 1.4.1"])
     s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, ["~> 0.3.0"])
     s.add_dependency(%q<puts_debuggerer>.freeze, ["~> 0.9.0"])
+    s.add_dependency(%q<git-glimmer>.freeze, ["= 1.7.0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 2.3.9", "< 3.0.0"])
     s.add_dependency(%q<logging>.freeze, [">= 2.3.0", "< 3.0.0"])
     s.add_dependency(%q<os>.freeze, [">= 1.0.0", "< 2.0.0"])

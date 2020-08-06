@@ -6,6 +6,9 @@ gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
 gem 'puts_debuggerer', '~> 0.9.0', require: false
 
+# Temporary until merged into base gem
+gem 'git-glimmer', '1.7.0'
+
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)
 gem 'jeweler', '>= 2.3.9', '< 3.0.0'
 gem 'logging', '>= 2.3.0', '< 3.0.0'
@@ -14,9 +17,6 @@ gem 'rake', '>= 10.1.0', '< 14.0.0'
 gem 'rdoc', '>= 6.2.1', '< 7.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'
 gem 'warbler', '>= 2.0.5', '< 3.0.0'
-
-# Temporary until PR accepted
-gem 'git', '1.7.0', git: 'https://github.com/AndyObtiva/ruby-git', ref: 'bbe628c442d864dd1fc2e9506b7966a29f5a73dc'
 
 group :development do
   gem "rspec-mocks", "~> 3.5.0"
