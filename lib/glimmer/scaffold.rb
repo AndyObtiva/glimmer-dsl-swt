@@ -496,6 +496,7 @@ class Scaffold
       shell {
         # Replace example content below with custom shell content
         minimum_size 320, 240
+        image File.join(GEM_ROOT, 'package', 'windows', "#{human_name(custom_shell_name)}.ico") if OS.windows?
         text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
         grid_layout
         label(:center) {
