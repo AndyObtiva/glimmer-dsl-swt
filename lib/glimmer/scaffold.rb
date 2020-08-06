@@ -416,9 +416,9 @@ class Scaffold
       
       if shell_type == :gem
         custom_shell_file_content += <<-MULTI_LINE_STRING
-    GEM_ROOT = File.expand_path('../../../..', __FILE__)
-    VERSION = File.read(File.join(GEM_ROOT, 'VERSION'))
-    LICENSE = File.read(File.join(GEM_ROOT, 'LICENSE.txt'))
+    APP_ROOT = File.expand_path('../../../..', __FILE__)
+    VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
+    LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
         
         MULTI_LINE_STRING
       end
@@ -474,7 +474,7 @@ class Scaffold
       shell {
         # Replace example content below with custom shell content
         minimum_size 320, 240
-        image File.join(GEM_ROOT, 'package', 'windows', "#{human_name(custom_shell_name)}.ico") if OS.windows?
+        image File.join(APP_ROOT, 'package', 'windows', "#{human_name(custom_shell_name)}.ico") if OS.windows?
         text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
         grid_layout
         label(:center) {
