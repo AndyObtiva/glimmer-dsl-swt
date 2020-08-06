@@ -139,6 +139,7 @@ class Scaffold
       end
       mkdir 'bin'
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
+      write 'spec/spec_helper.rb', spec_helper_file
       if OS.windows?
         system "bundle"
         system "glimmer package[image]"
@@ -191,6 +192,7 @@ class Scaffold
       write "bin/#{gem_name}", gem_bin_file(gem_name, custom_shell_name, namespace)
       write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name)
       FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
+      write 'spec/spec_helper.rb', spec_helper_file
       if OS::Underlying.windows?
         mkdir_p 'package/windows'
         icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
