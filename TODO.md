@@ -5,7 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Add a preferences menu for Windows (since it does not have one out of the box)
-- Add Windows icon to scaffold
+- Fix app scaffold by having it generate jeweler gem first
 
 ### 0.7.0
 

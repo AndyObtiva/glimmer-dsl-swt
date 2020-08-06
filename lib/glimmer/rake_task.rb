@@ -21,22 +21,22 @@ namespace :glimmer do
 
     desc 'Lock JARs'
     task :lock_jars do
-      Glimmer::Package.jar
+      Glimmer::Package.lock_jars
     end
 
     desc 'Generate Native files (DMG/PKG/APP on the Mac, EXE on Windows, RPM/DEB on Linux)'
-    task :native do
-      Glimmer::Package.native
+    task :native, [:type] do |t, args|
+      Glimmer::Package.native(args[:type])
     end
   end
 
   desc 'Package app for distribution (generating config, jar, and native files)'
-  task :package do
+  task :package, [:type] do |t, args|
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
     Rake::Task['glimmer:package:lock_jars'].execute
     Rake::Task['gemspec:generate'].execute
-    Rake::Task['glimmer:package:native'].execute
+    Rake::Task['glimmer:package:native'].execute(args[:type])
   end
 
 

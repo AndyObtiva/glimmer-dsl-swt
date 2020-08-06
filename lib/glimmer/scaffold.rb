@@ -150,7 +150,12 @@ class Scaffold
       mkdir 'app/models'
       mkdir 'app/views'
       custom_shell('AppView', current_dir_name, :app)
-      if OS.mac?
+      if OS::Underlying.windows?
+        mkdir_p 'package/windows'
+        icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
+        cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
+        puts "Created #{current_dir_name}/#{icon_file}"
+      elsif OS.mac?
         mkdir_p 'package/macosx'
         icon_file = "package/macosx/#{human_name(app_name)}.icns"
         cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
@@ -160,11 +165,11 @@ class Scaffold
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
       if OS.windows?
         system "bundle"
-        system "glimmer package"
+        system "glimmer bin/#{gem_name}"
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+        system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app" if OS.mac?
       end
-      system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
       # TODO generate rspec test suite
     end
 
@@ -209,7 +214,12 @@ class Scaffold
       write "bin/#{gem_name}", gem_bin_file(gem_name, custom_shell_name, namespace)
       write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name)
       FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
-      if OS.mac?
+      if OS::Underlying.windows?
+        mkdir_p 'package/windows'
+        icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
+        cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
+        puts "Created #{current_dir_name}/#{icon_file}"
+      elsif OS.mac?
         mkdir_p 'package/macosx'
         icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
         cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
@@ -217,11 +227,11 @@ class Scaffold
       end
       if OS.windows?
         system "bundle"
-        system "glimmer package"
+        system "glimmer bin/#{gem_name}"
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
+        system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
       end
-      system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app"
       puts "Finished creating #{gem_name} Ruby gem."
       puts 'Edit Rakefile to configure gem details.'
       puts 'Run `rake` to execute specs.'

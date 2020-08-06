@@ -4,7 +4,9 @@
 
 - Lock JARs task for jar-dependencies as part of packaging
 - Add 'vendor' to require_paths for custom shell gem
-- Generate gemspec
+- Add Windows icon to scaffold
+- Generate scaffolded app/custom-shell-gem gemspec as part of packaging (useful for jar-dependencies)
+- Support a package:native type option for specifying native type
 
 ### 0.6.0
 

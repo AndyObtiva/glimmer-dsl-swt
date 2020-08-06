@@ -48,7 +48,7 @@ module Glimmer
         system command      
       end
       
-      def native
+      def native(native_type=nil)
         puts "Generating native executable with javapackager..."
         require 'facets/string/titlecase'
         require 'facets/string/underscore'
@@ -59,7 +59,7 @@ module Glimmer
         license = (File.read(license_file).strip if File.exists?(license_file) && File.file?(license_file)) rescue nil
         copyright = license.split("\n").first
         human_name = project_name.underscore.titlecase
-        command = "javapackager -deploy -native -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" -BsystemWide=#{OS.mac?} "
+        command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" -BsystemWide=#{OS.mac?} "
         command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
         command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
         command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
