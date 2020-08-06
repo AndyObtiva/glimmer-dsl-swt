@@ -25,13 +25,13 @@ module GlimmerSpec
     
     it 'renders a scrolled composite with v_scroll and h_scroll styles in addition to specified style' do
       @target = shell {
-        @scrolled_composite = scrolled_composite(:double_buffered) {
+        @scrolled_composite = scrolled_composite(:border) {
         }
       }
 
       expect(@scrolled_composite).to have_style(:h_scroll)
       expect(@scrolled_composite).to have_style(:v_scroll)
-      expect(@scrolled_composite).to have_style(:double_buffered)
+      expect(@scrolled_composite).to have_style(:border)
     end
     
     it 'renders a scrolled composite without v_scroll and h_scroll styles if using an integer SWT style' do
