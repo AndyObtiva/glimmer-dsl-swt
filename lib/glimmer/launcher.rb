@@ -110,7 +110,7 @@ module Glimmer
           end
           command = "#{env_vars_string} jruby #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
           puts command if jruby_options_string.to_s.include?('--debug')
-          system command
+          exec command
         end
       end
     end
