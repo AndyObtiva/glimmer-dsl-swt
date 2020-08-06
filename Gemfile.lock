@@ -123,7 +123,6 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls (= 0.8.23)
-  git (= 1.7.0)
   git-glimmer (= 1.7.0)
   glimmer (~> 0.10.1)
   jeweler (>= 2.3.9, < 3.0.0)
