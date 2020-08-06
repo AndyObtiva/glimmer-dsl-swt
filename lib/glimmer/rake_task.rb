@@ -24,19 +24,19 @@ namespace :glimmer do
       Glimmer::Package.lock_jars
     end
 
-    desc 'Generate Native files (DMG/PKG/APP on the Mac, EXE on Windows, RPM/DEB on Linux)'
+    desc 'Generate Native files (DMG/PKG/APP on the Mac, MSI/EXE/IMAGE on Windows, RPM/DEB on Linux) (type is optional)'
     task :native, [:type] do |t, args|
       Glimmer::Package.native(args[:type])
     end
   end
 
-  desc 'Package app for distribution (generating config, jar, and native files)'
+  desc 'Package app for distribution (generating config, jar, and native files) (type is optional)'
   task :package, [:type] do |t, args|
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
     Rake::Task['glimmer:package:lock_jars'].execute
     Rake::Task['gemspec:generate'].execute
-    Rake::Task['glimmer:package:native'].execute(args[:type])
+    Rake::Task['glimmer:package:native'].execute(args)
   end
 
 
