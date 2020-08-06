@@ -135,6 +135,7 @@ class Scaffold
     MULTI_LINE_STRING
 
     def app(app_name)
+      # TODO make it build a gem for jar-dependencies and add 'vendor' to require_paths
       mkdir app_name
       cd app_name
       write '.gitignore', GITIGNORE
@@ -357,6 +358,7 @@ class Scaffold
       if custom_shell_name
         lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*.rb', 'bin/**/*']")
         lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
+        lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib']")
       else
         lines.insert(gem_files_line_index, "  gem.files = Dir['lib/**/*.rb']")
       end

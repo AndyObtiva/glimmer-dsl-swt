@@ -6,6 +6,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
+- Have property expression automatically call to_java(Type) on arrays for property methods that take arguments
+
 - Unify CustomWidget and CustomShell 
 - Move CustomWidget and CustomShell to SWT namespace
 - Move data binding custom classes to SWT namespace
@@ -118,6 +120,8 @@ items <=> binding {
 - Switch to juwelier gem for scaffolding and add `--markdown` option
 - Wrap SWT as a Maven plugin and use jar-dependencies gem to rely on it instead of including it in the project gem
 - Provide a helper method that loads a font from inside an app
+- Allow passing random args to custom widget in order to get them passed to SWT widget (right now it only accepts swt styles)
+- Fix issue with passing ShellProxy as parent to ShellProxy (and not accepting a raw shell as parent)
 
 ## Samples
 

@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.6.1
+
+- Lock JARs task for jar-dependencies as part of packaging
+- Add 'vendor' to require_paths for custom shell gem
+
 ### 0.6.0
 
 - Upgrade to JRuby 9.2.13.0
