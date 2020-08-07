@@ -6,7 +6,7 @@ module GlimmerSpec
 
     it 'renders a scrolled composite with v_scroll and h_scroll styles' do
       @target = shell {
-        @scrolled_composite = scrolled_composite {
+        @scrolled_composite = scrolled_composite {         
           @label = label {
             text "Hello"
           }
@@ -20,8 +20,8 @@ module GlimmerSpec
       expect(@scrolled_composite.swt_widget.content).to eq(@label.swt_widget)
       expect(@scrolled_composite.swt_widget.expand_horizontal).to eq(true)
       expect(@scrolled_composite.swt_widget.expand_vertical).to eq(true)
-      expect(@scrolled_composite.swt_widget.min_width).to eq(50)
-      expect(@scrolled_composite.swt_widget.min_height).to eq(33)
+      expect(@scrolled_composite.swt_widget.min_width).to_not eq(0)
+      expect(@scrolled_composite.swt_widget.min_height).to_not eq(0)
       expect(@label.swt_widget.parent).to eq(@scrolled_composite.swt_widget)
     end
     

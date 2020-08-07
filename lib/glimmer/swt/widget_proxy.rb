@@ -41,11 +41,20 @@ module Glimmer
 
       DEFAULT_INITIALIZERS = {
         "composite" => lambda do |composite|
-          composite.layout = GridLayout.new
+          layout = GridLayout.new
+          layout.marginWidth = 15
+          layout.marginHeight = 15
+          composite.layout = layout
         end,
         "scrolled_composite" => lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true
           scrolled_composite.expand_vertical = true
+        end,
+        "shell" => lambda do |shell|
+          layout = FillLayout.new
+          layout.marginWidth = 15
+          layout.marginHeight = 15
+          shell.layout = layout
         end,
         "table" => lambda do |table|
           table.setHeaderVisible(true)
