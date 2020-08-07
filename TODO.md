@@ -9,6 +9,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
+- Remove ImageProxy.jar_file_path in liu of file_path
+
 - Have property expression automatically call to_java(Type) on arrays for property methods that take arguments
 
 - Unify CustomWidget and CustomShell 

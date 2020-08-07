@@ -25,6 +25,12 @@ module Glimmer
           end
           widget_class.new(keyword, parent, args)
         end
+        
+        def add_content(parent, &block)
+          super
+          parent.post_add_content
+        end
+        
       end
     end
   end

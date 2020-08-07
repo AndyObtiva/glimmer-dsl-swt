@@ -22,25 +22,30 @@ module Glimmer
       include Packages
 
       DEFAULT_STYLES = {
-        "arrow"       => [:arrow],
-        "button"      => [:push],
-        "checkbox"    => [:check],
-        "drag_source" => [:drop_copy],
-        "drop_target" => [:drop_copy],
-        "list"        => [:border, :v_scroll],
-        "menu_item"   => [:push],
-        "radio"       => [:radio],
-        "spinner"     => [:border],
-        "styled_text" => [:border],
-        "table"       => [:virtual, :border, :full_selection],
-        "text"        => [:border],
-        "toggle"      => [:toggle],
-        "tree"        => [:virtual, :border, :h_scroll, :v_scroll],
+        "arrow"               => [:arrow],
+        "button"              => [:push],
+        "checkbox"            => [:check],
+        "drag_source"         => [:drop_copy],
+        "drop_target"         => [:drop_copy],
+        "list"                => [:border, :v_scroll],
+        "menu_item"           => [:push],
+        "radio"               => [:radio],
+        "scrolled_composite"  => [:border, :h_scroll, :v_scroll],
+        "spinner"             => [:border],
+        "styled_text"         => [:border],
+        "table"               => [:virtual, :border, :full_selection],
+        "text"                => [:border],
+        "toggle"              => [:toggle],
+        "tree"                => [:virtual, :border, :h_scroll, :v_scroll],
       }
 
       DEFAULT_INITIALIZERS = {
         "composite" => lambda do |composite|
           composite.layout = GridLayout.new
+        end,
+        "scrolled_composite" => lambda do |scrolled_composite|
+          scrolled_composite.expand_horizontal = true
+          scrolled_composite.expand_vertical = true
         end,
         "table" => lambda do |table|
           table.setHeaderVisible(true)
@@ -54,22 +59,28 @@ module Glimmer
         end,
       }
 
-      attr_reader :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
+      attr_reader :parent_proxy, :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
 
       # Initializes a new SWT Widget
       #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
       def initialize(underscored_widget_name, parent, args)
+        @parent_proxy = parent
         styles, extra_options = extract_args(underscored_widget_name, args)
         swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
-        @swt_widget = swt_widget_class.new(parent.swt_widget, style(underscored_widget_name, styles), *extra_options)
+        @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
         @swt_widget.set_data('proxy', self)
         DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
-        parent.post_initialize_child(self)
+        @parent_proxy.post_initialize_child(self)
       end
       
       # Subclasses may override to perform post initialization work on an added child
       def post_initialize_child(child)
+        # No Op by default
+      end
+
+      # Subclasses may override to perform post add_content work
+      def post_add_content
         # No Op by default
       end
 

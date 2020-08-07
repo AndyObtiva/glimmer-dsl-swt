@@ -3,8 +3,12 @@
 ### 0.6.2
 
 - Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)
+- Have scrolled_composite autoset min width and min height based on parent size
 - Add `radio`, `toggle`, `checkbox`, and `arrow` widgets as shortcuts to `button` widget with different styles
-- `image` keyword to create an ImageProxy and be able to scale it
+- Add parent_proxy method to WidgetProxy
+- Add post_add_content hook method to WidgetProxy
+- Add `image` keyword to create an ImageProxy and be able to scale it
+- Fix issue with ImageProxy not being scalable before swt_image is called
 
 ### 0.6.1
 

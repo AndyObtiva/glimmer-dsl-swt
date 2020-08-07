@@ -20,6 +20,8 @@ module GlimmerSpec
       expect(@scrolled_composite.swt_widget.content).to eq(@label.swt_widget)
       expect(@scrolled_composite.swt_widget.expand_horizontal).to eq(true)
       expect(@scrolled_composite.swt_widget.expand_vertical).to eq(true)
+      expect(@scrolled_composite.swt_widget.min_width).to eq(50)
+      expect(@scrolled_composite.swt_widget.min_height).to eq(33)
       expect(@label.swt_widget.parent).to eq(@scrolled_composite.swt_widget)
     end
     
@@ -29,8 +31,8 @@ module GlimmerSpec
         }
       }
 
-      expect(@scrolled_composite).to have_style(:h_scroll)
-      expect(@scrolled_composite).to have_style(:v_scroll)
+      expect(@scrolled_composite).to_not have_style(:h_scroll)
+      expect(@scrolled_composite).to_not have_style(:v_scroll)
       expect(@scrolled_composite).to have_style(:border)
     end
     

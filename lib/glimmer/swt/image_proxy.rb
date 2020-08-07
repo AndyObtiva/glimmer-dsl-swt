@@ -8,7 +8,7 @@ module Glimmer
     class ImageProxy
       include_package 'org.eclipse.swt.graphics'
       
-      attr_reader :jar_file_path, :image_data
+      attr_reader :file_path, :jar_file_path, :image_data, :swt_image
 
       # Initializes a proxy for an SWT Image object
       #
@@ -17,31 +17,24 @@ module Glimmer
       # and returns an image object.
       def initialize(*args)
         @args = args
-        @jar_file_path = @args.first if @args.first.is_a?(String) && @args.size == 1
-        
+        @file_path = @args.first if @args.first.is_a?(String) && @args.size == 1        
+        if @file_path
+          if @file_path.start_with?('uri:classloader')
+            @jar_file_path = @file_path
+            @file_path = @jar_file_path.sub(/^uri\:classloader\:/, '').sub('//', '/') # the latter sub is needed for Mac
+            object = java.lang.Object.new
+            file_input_stream = object.java_class.resource_as_stream(file_path)
+            buffered_file_input_stream = java.io.BufferedInputStream.new(file_input_stream)
+          end
+          @image_data = ImageData.new(buffered_file_input_stream || @file_path)
+          @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
+        else
+          @swt_image = Image.new(*@args)
+          @image_data = @swt_image.image_data
+        end        
       end
 
-      def swt_image
-        unless @swt_image
-          if @jar_file_path
-            file_path = @jar_file_path
-            if file_path.start_with?('uri:classloader')
-              file_path = file_path.sub(/^uri\:classloader\:/, '').sub('//', '/') # the latter sub is needed for Mac
-              object = java.lang.Object.new
-              file_input_stream = object.java_class.resource_as_stream(file_path)
-              buffered_file_input_stream = java.io.BufferedInputStream.new(file_input_stream)
-            end
-            @image_data = ImageData.new(buffered_file_input_stream || file_path)
-            @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
-          else
-            @swt_image = Image.new(*@args)
-          end
-        end
-        @swt_image
-      end
-      
       def scale_to(width, height)
-        return @swt_image if image_data.nil?
         scaled_image_data = image_data.scaledTo(width, height)
         device = swt_image.device
         swt_image.dispose
