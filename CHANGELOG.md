@@ -3,6 +3,8 @@
 ### 0.6.2
 
 - Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)
+- Add `radio`, `toggle`, `checkbox`, and `arrow` widgets as shortcuts to `button` widget with different styles
+
 
 
 ### 0.6.1

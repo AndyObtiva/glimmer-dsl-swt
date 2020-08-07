@@ -408,6 +408,51 @@ module GlimmerSpec
         @cursor = cursor(:invalid)
       }.to raise_error(Glimmer::Error)
     end
+    
+    it 'renders radio button' do
+      @target = shell {
+        @radio = radio {
+          text 'radio button'
+        }
+      }
+      
+      expect(@radio.swt_widget).to be_a(Button)
+      expect(@radio).to have_style(:radio)
+      expect(@radio.text).to eq('radio button')
+    end
+
+    it 'renders checkbox button' do
+      @target = shell {
+        @checkbox = checkbox {
+          text 'checkbox button'
+        }
+      }
+      
+      expect(@checkbox.swt_widget).to be_a(Button)
+      expect(@checkbox).to have_style(:check)
+      expect(@checkbox.text).to eq('checkbox button')    
+    end
+
+    it 'renders toggle button' do
+      @target = shell {
+        @toggle = toggle {
+          text 'toggle button'
+        }
+      }
+      
+      expect(@toggle.swt_widget).to be_a(Button)
+      expect(@toggle).to have_style(:toggle)
+      expect(@toggle.text).to eq('toggle button')    
+    end
+
+    it 'renders arrow button' do
+      @target = shell {
+        @arrow = arrow
+      }
+      
+      expect(@arrow.swt_widget).to be_a(Button)
+      expect(@arrow).to have_style(:arrow)
+    end
 
     unless ENV['CI'].to_s.downcase == 'true'
       context 'focus' do

@@ -22,16 +22,20 @@ module Glimmer
       include Packages
 
       DEFAULT_STYLES = {
-        "text"        => [:border],
-        "table"       => [:virtual, :border, :full_selection],
-        "tree"       =>  [:virtual, :border, :h_scroll, :v_scroll],
-        "spinner"     => [:border],
-        "styled_text" => [:border],
-        "list"        => [:border, :v_scroll],
+        "arrow"       => [:arrow],
         "button"      => [:push],
-        "menu_item"   => [:push],
+        "checkbox"    => [:check],
         "drag_source" => [:drop_copy],
         "drop_target" => [:drop_copy],
+        "list"        => [:border, :v_scroll],
+        "menu_item"   => [:push],
+        "radio"       => [:radio],
+        "spinner"     => [:border],
+        "styled_text" => [:border],
+        "table"       => [:virtual, :border, :full_selection],
+        "text"        => [:border],
+        "toggle"      => [:toggle],
+        "tree"        => [:virtual, :border, :h_scroll, :v_scroll],
       }
 
       DEFAULT_INITIALIZERS = {
@@ -264,6 +268,7 @@ module Glimmer
 
       # This supports widgets in and out of basic SWT
       def self.swt_widget_class_for(underscored_widget_name)
+        underscored_widget_name = 'button' if %w[radio checkbox toggle arrow].include?(underscored_widget_name)
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)
