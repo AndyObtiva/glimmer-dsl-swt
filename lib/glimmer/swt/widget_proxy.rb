@@ -36,7 +36,7 @@ module Glimmer
 
       DEFAULT_INITIALIZERS = {
         "composite" => lambda do |composite|
-          composite.setLayout(GridLayout.new)
+          composite.layout = GridLayout.new
         end,
         "table" => lambda do |table|
           table.setHeaderVisible(true)

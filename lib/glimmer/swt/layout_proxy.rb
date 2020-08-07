@@ -45,6 +45,8 @@ module Glimmer
         @widget_proxy = widget_proxy
         args = SWTProxy.constantify_args(args)
         @swt_layout = self.class.swt_layout_class_for(underscored_layout_name).new(*args)
+        @swt_layout.marginWidth = 15 if @swt_layout.respond_to?(:marginWidth)
+        @swt_layout.marginHeight = 15 if @swt_layout.respond_to?(:marginHeight)
         @widget_proxy.swt_widget.setLayout(@swt_layout)
       end
 

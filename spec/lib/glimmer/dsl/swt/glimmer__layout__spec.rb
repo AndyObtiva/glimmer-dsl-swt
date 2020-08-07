@@ -37,6 +37,8 @@ module GlimmerSpec
         layout = widget.getLayout
         expect(layout.is_a?(FillLayout)).to eq(true)
         expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.marginWidth).to eq(15)
+        expect(layout.marginHeight).to eq(15)
       end
     end
 
@@ -83,6 +85,8 @@ module GlimmerSpec
         layout = widget.getLayout
         expect(layout.is_a?(RowLayout)).to eq(true)
         expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.marginWidth).to eq(15)
+        expect(layout.marginHeight).to eq(15)
       end
     end
 
@@ -132,6 +136,8 @@ module GlimmerSpec
         expect(layout.is_a?(GridLayout)).to eq(true)
         expect(layout.makeColumnsEqualWidth).to eq(true)
         expect(layout.numColumns).to eq(8)
+        expect(layout.marginWidth).to eq(15)
+        expect(layout.marginHeight).to eq(15)
       end
     end
   end

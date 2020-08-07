@@ -4,6 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.6.2
+
+- `image` keyword to create an ImageProxy and be able to scale it
+- Add radio, toggle, checkbox, and arrow widget as shortcuts to button widget with different styles
 
 ### 0.7.0
 
@@ -123,6 +127,9 @@ items <=> binding {
 - Provide a helper method that loads a font from inside an app
 - Allow passing random args to custom widget in order to get them passed to SWT widget (right now it only accepts swt styles)
 - Fix issue with passing ShellProxy as parent to ShellProxy (and not accepting a raw shell as parent)
+- Consider something like a "scaffold" widget that automatically introspects activerecord attributes (or ruby model attributes) and selects the appropriate widgets for them, as well as data-binds automatically
+- Add a feature where Glimmer will guess a widget if a bad widget name was used and say "Did you mean xyz?" (e.g. composite for compsite)
+- Contribute to JRuby an improvement that makes even Java public variables follow Ruby form (margin_width instead of marginWidth) to improve SWT programming syntax in Ruby
 
 ## Samples
 

@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.6.2
+
+- Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)
+
+
 ### 0.6.1
 
 - Lock JARs task for jar-dependencies as part of packaging
