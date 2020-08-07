@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.6.2
 
-- `image` keyword to create an ImageProxy and be able to scale it
 
 ### 0.7.0
 

@@ -26,6 +26,7 @@ module Glimmer
           data_binding
           cursor
           font
+          image
           property
           block_property
           widget

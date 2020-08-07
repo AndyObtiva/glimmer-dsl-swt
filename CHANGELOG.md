@@ -4,8 +4,7 @@
 
 - Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)
 - Add `radio`, `toggle`, `checkbox`, and `arrow` widgets as shortcuts to `button` widget with different styles
-
-
+- `image` keyword to create an ImageProxy and be able to scale it
 
 ### 0.6.1
 

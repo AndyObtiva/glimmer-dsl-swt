@@ -12,7 +12,9 @@ module Glimmer
   
         def can_interpret?(parent, keyword, *args, &block)
           keyword.to_s == 'font' and     
-          (parent.nil? || !parent.respond_to?('font')) && args.size == 1 && args.first.is_a?(Hash)
+            (parent.nil? || !parent.respond_to?('font')) and
+            args.size == 1 and 
+            args.first.is_a?(Hash)
         end
   
         def interpret(parent, keyword, *args, &block)

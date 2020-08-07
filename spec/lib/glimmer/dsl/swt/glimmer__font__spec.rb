@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module GlimmerSpec
-  describe "Glimmer Color" do
+  describe "Glimmer Font" do
     include Glimmer
 
     it "sets font via hash having name, height, and style" do

@@ -362,6 +362,8 @@ module GlimmerSpec
       expect(@composite.swt_widget.getBackgroundImage).to eq(image)
     end
     
+    # TODO extract cursor specs into their own file
+    
     it 'sets cursor via abbreviated SWT style symbol' do
       @target = shell {
         @composite = composite {
