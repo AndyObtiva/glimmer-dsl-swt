@@ -85,7 +85,55 @@ module Glimmer
                 }
                 table_editor_widget_proxy
               end,
-            }
+            },
+            checkbox: {
+              widget_value_property: :selection,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                checkbox(*args) {
+                  selection model.send(property)
+                  focus true
+                  on_widget_selected {
+                    table_proxy.finish_edit! 
+                  }
+                  on_focus_lost {
+                    table_proxy.finish_edit! 
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }              
+                }
+              end,
+            },
+            radio: {
+              widget_value_property: :selection,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                radio(*args) {
+                  selection model.send(property)
+                  focus true
+                  on_widget_selected {
+                    table_proxy.finish_edit! 
+                  }
+                  on_focus_lost {
+                    table_proxy.finish_edit! 
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }              
+                }
+              end,
+            }            
           }      
         end
       end
@@ -276,7 +324,7 @@ module Glimmer
           new_value = @table_editor_widget_proxy&.swt_widget&.send(widget_value_property)
           if table_item.isDisposed
             @cancel_edit.call
-          elsif new_value && !action_taken && !@edit_in_progress && !@cancel_in_progress
+          elsif !new_value.nil? && !action_taken && !@edit_in_progress && !@cancel_in_progress
             action_taken = true
             @edit_in_progress = true
             if new_value == model.send(model_editing_property)

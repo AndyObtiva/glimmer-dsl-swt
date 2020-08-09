@@ -428,8 +428,6 @@ module GlimmerSpec
           expect(selection.first.getData).to eq(person2)            
         end    
         
-        # TODO support editing via radio, checkbox, and spinner
-        
         it "triggers configured column-specific table widget combo editing on specified table item" do
           @target = shell {
             @table = table {
@@ -605,6 +603,106 @@ module GlimmerSpec
           expect(@table.edit_in_progress?).to eq(false)
           expect(@cancel_done).to be_nil
           expect(person2.name).to eq('Bruce Ting')
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
+        it "triggers configured column-specific table widget radio editing with read_only arg on specified table item" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Adult"
+                width 120
+                editor :radio
+              }
+              items bind(group, :people), column_properties(:adult)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.items[0],
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('false')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Button)
+          expect(@table.table_editor_widget_proxy.swt_widget).to have_style(:radio)
+          expect(@table.table_editor_widget_proxy.swt_widget.selection).to eq(true)
+          @table.table_editor_widget_proxy.swt_widget.selection = false           
+          event = Event.new
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:selection]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person1.adult).to eq(false)
+                
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)         
+        end    
+         
+        it "triggers configured column-specific table widget checkbox editing with read_only arg on specified table item" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Adult"
+                width 120
+                editor :checkbox
+              }
+              items bind(group, :people), column_properties(:adult)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_table_item(
+            @table.swt_widget.items[0],
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            }, 
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('false')
+              @write_done = true 
+            }
+          )      
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Button)
+          expect(@table.table_editor_widget_proxy.swt_widget).to have_style(:check)
+          expect(@table.table_editor_widget_proxy.swt_widget.selection).to eq(true)
+          @table.table_editor_widget_proxy.swt_widget.selection = false           
+          event = Event.new
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:selection]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person1.adult).to eq(false)
                 
           # test that it maintains selection
           selection = @table.swt_widget.getSelection

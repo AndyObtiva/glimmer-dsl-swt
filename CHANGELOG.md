@@ -1,5 +1,11 @@
 # Change Log
 
+### 0.6.3
+
+- Perform gemspec:generate first during packaging
+- Fix issue with TableProxy editor rejecting false and nil values set on items
+- Add radio and checkbox table editors
+
 ### 0.6.2
 
 - Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)

@@ -40,6 +40,21 @@ module GlimmerSpec
         expect(layout.marginWidth).to eq(15)
         expect(layout.marginHeight).to eq(15)
       end
+
+      xit "sets FillLayout with :no_margin SWT constructor argument" do
+        @target = shell {
+          @composite = composite {
+            fill_layout(:no_margin)
+          }
+        }
+
+        widget = @composite.swt_widget
+        layout = widget.getLayout
+        expect(layout.is_a?(FillLayout)).to eq(true)
+        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.marginWidth).to eq(0)
+        expect(layout.marginHeight).to eq(0)
+      end
     end
 
     describe 'RowLayout' do
