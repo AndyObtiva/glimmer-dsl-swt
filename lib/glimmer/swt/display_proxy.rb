@@ -35,16 +35,26 @@ module Glimmer
         @swt_display = Display.new(*args)
         @swt_display.set_data('proxy', self)
       end
+      
+      def content(&block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::DisplayExpression.new, &block)
+      end      
 
       def method_missing(method, *args, &block)
-        swt_display.send(method, *args, &block)
+        if can_handle_observation_request?(method)
+          handle_observation_request(method, &block)
+        else
+          swt_display.send(method, *args, &block)
+        end
       rescue => e
         Glimmer::Config.logger.debug {"Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method}"}
         super
       end
       
       def respond_to?(method, *args, &block)
-        super || swt_display.respond_to?(method, *args, &block)
+        super || 
+          can_handle_observation_request?(method) ||        
+          swt_display.respond_to?(method, *args, &block)
       end
 
       def can_handle_observation_request?(observation_request)
@@ -61,6 +71,7 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
+        observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)

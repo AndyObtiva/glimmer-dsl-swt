@@ -49,6 +49,35 @@ module GlimmerSpec
         end
         @target.open
       end
+      it 'adds filter listener via alternative syntax' do
+        @display = display
+        @display.on_swt_show {
+          @shown = true
+        }
+        @target = shell {
+          alpha 0 # keep invisible while running specs
+        }
+        async_exec do
+          expect(@shown).to eq(true)
+          @target.dispose
+        end
+        @target.open
+      end
+      it 'adds filter listener via content method' do
+        @display = display.content {
+          on_swt_show {
+            @shown = true
+          }
+        }
+        @target = shell {
+          alpha 0 # keep invisible while running specs
+        }
+        async_exec do
+          expect(@shown).to eq(true)
+          @target.dispose
+        end
+        @target.open
+      end
     end
 
     context 'UI code execution' do

@@ -9,7 +9,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
+- Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
+- Support horizontal_span in addition to horizontalSpan in layout data (and other properties)
+- Add a display filter listener for closing dialogs when opening a filter and remove when it is closed
 
 ### 0.7.0
 
@@ -139,7 +142,7 @@ items <=> binding {
 - Support table editing via spinner for integer values
 - Add a default table editor for when a non-supported widget is provided, which uses that widget (perhaps take a :widget_property as a hash string value for knowing how to data-bind)
 - Scroll to widget when it gains focus (perhaps look at its parents to find out which is a ScrolledComposite and scroll it to widget location)
-
+- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 
 ## Samples
 

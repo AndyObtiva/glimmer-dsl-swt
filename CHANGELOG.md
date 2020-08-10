@@ -4,6 +4,8 @@
 
 - Perform gemspec:generate first during packaging
 - Add radio and checkbox table editors
+- Add `content` method to DisplayProxy
+- Add `content` method to MessageBox
 - Fix issue with TableProxy editor rejecting false and nil values set on items
 - Fix issue with message_box getting stuck upon closing when no parent in its args
 

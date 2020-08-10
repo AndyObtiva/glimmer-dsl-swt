@@ -30,6 +30,23 @@ module GlimmerSpec
       expect(@message_box.swt_widget.getMessage).to eq('Hello, this is a greeting!')
     end    
 
+    it 'renders a message box nested inside a shell with some properties set via content method' do
+      @target = shell {
+        @message_box = message_box {
+          text 'Hello'          
+        }
+      }
+      
+      @message_box.content {
+        message 'Hello, this is a greeting!'      
+      }
+      
+      expect(@message_box).to be_a(Glimmer::SWT::MessageBoxProxy)
+      expect(@message_box.swt_widget).to be_a(MessageBox)
+      expect(@message_box.swt_widget.getText).to eq('Hello')
+      expect(@message_box.swt_widget.getMessage).to eq('Hello, this is a greeting!')
+    end    
+
     it 'renders a message box with style nested inside a shell' do
       @target = shell {
         @message_box = message_box(:icon_information, :yes, :no, :cancel) {
