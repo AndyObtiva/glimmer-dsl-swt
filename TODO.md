@@ -53,6 +53,7 @@ bind_content(model, 'addresses').each { |address|
 - Support Cygwin with glimmer command
 - Build a debug console widget to inspect Glimmer GUI objects
 - Desktopify web apps with a single command or click
+- Provide a Glimmer App Store for Windows and Linux with Automatic Update support given that Glimmer only supports Mac App Store. Consider expanding to the Mac too with the selling point over the Mac store being that it does not require notarization (approval) though any apps that violate Glimmer's policy (no profane language or evil purposes) might be taken down permanently after distribution without warning.
 
 ## Issues
 
