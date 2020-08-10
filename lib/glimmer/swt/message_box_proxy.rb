@@ -14,14 +14,16 @@ module Glimmer
       attr_reader :swt_widget
       
       def initialize(parent, style)
-        parent = parent.swt_widget if parent.respond_to?(:swt_widget) && parent.swt_widget.is_a?(Shell)
-        @temporary_parent = parent = Glimmer::SWT::ShellProxy.new.swt_widget if parent.nil?
-        @swt_widget = MessageBox.new(parent, style)
+        if parent.nil?
+          @temporary_parent = parent = Glimmer::SWT::ShellProxy.new.swt_widget
+        end
+        @swt_widget = MessageBox.new(parent, style)        
       end
       
       def open
-        @swt_widget.open
-        @temporary_parent&.dispose
+        @swt_widget.open.tap do |result|
+          @temporary_parent&.dispose
+        end
       end
       
       # TODO refactor the following methods to put in a JavaBean mixin or somethin (perhaps contribute to OSS project too)
@@ -44,6 +46,18 @@ module Glimmer
 
       def get_attribute(attribute_name)
         @swt_widget.send(attribute_getter(attribute_name))
+      end
+      
+      def method_missing(method, *args, &block)
+        swt_widget.send(method, *args, &block)
+      rescue => e
+        Glimmer::Config.logger.debug {"Neither MessageBoxProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
+        super
+      end
+      
+      def respond_to?(method, *args, &block)
+        super || 
+          swt_widget.respond_to?(method, *args, &block)
       end      
     end
   end

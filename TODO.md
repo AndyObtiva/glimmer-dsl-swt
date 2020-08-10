@@ -9,6 +9,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
+- Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
 
 ### 0.7.0
 

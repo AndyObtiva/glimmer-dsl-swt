@@ -3,8 +3,9 @@
 ### 0.6.3
 
 - Perform gemspec:generate first during packaging
-- Fix issue with TableProxy editor rejecting false and nil values set on items
 - Add radio and checkbox table editors
+- Fix issue with TableProxy editor rejecting false and nil values set on items
+- Fix issue with message_box getting stuck upon closing when no parent in its args
 
 ### 0.6.2
 
