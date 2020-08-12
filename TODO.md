@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make scaffolded app gemspec complete one accordance with config/warble when available
+
 ### 0.6.2
 
 
