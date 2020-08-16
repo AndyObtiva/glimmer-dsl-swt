@@ -6,13 +6,18 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.6.3
 
+- Support `glimmer package` passing of extra args afterwards to use with glimmer package:native
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
 - Support horizontal_span in addition to horizontalSpan in layout data (and other properties)
-- Add a display filter listener for closing dialogs when opening a filter and remove when it is closed
+- Add a display default filter listener for closing dialogs (only one)
+- Support clearing radio buttons when setting model property value to nil
+- Add a simple :integer / :positive_integer / :decimal SWT style for adding verify_text validation for text field
+- Add a shortcut for a numeric text field
+- Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
 
 ### 0.7.0
 
@@ -143,6 +148,8 @@ items <=> binding {
 - Add a default table editor for when a non-supported widget is provided, which uses that widget (perhaps take a :widget_property as a hash string value for knowing how to data-bind)
 - Scroll to widget when it gains focus (perhaps look at its parents to find out which is a ScrolledComposite and scroll it to widget location)
 - Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
+- Consider support for building apps for Linux app stores like Snapstore: https://snapcraft.io/docs/adding-parts
+- Publish MacOS apps on Homebrew (instructions: https://docs.brew.sh/Formula-Cookbook)
 
 ## Samples
 
@@ -166,6 +173,7 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 ## Custom Widgets/Shells
 
 - glimmer-cs-splash: splash shell widget
+- glimmer-cw-datetimerange: start time end time (or date) duo that includes automatic validation/correctness (ensuring start is always before or equal to end depending on options)
 
 ## Documentation Tasks
 
@@ -187,3 +195,5 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Write an article about how you built the Glimmer Calculator sample and share online
 - Document example of app reusing a glimmer custom shell gem and add to gladiator and calculator
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
+- Document how to publish apps on MacUpdate.com 
+- Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)

@@ -6,6 +6,7 @@ module Glimmer
   module Package
     class << self
       attr_accessor :javapackager_extra_args
+      alias jpackage_extra_args :javapackager_extra_args
       
       def clean
         require 'fileutils'
@@ -48,8 +49,8 @@ module Glimmer
         system command      
       end
       
-      def native(native_type=nil)
-        puts "Generating native executable with javapackager..."
+      def native(native_type=nil, native_extra_args)
+        puts "Generating native executable with javapackager/jpackage..."
         require 'facets/string/titlecase'
         require 'facets/string/underscore'
         project_name = File.basename(File.expand_path('.'))
@@ -59,13 +60,28 @@ module Glimmer
         license = (File.read(license_file).strip if File.exists?(license_file) && File.file?(license_file)) rescue nil
         copyright = license.split("\n").first
         human_name = project_name.underscore.titlecase
-        command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" -BsystemWide=#{OS.mac?} "
-        command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
-        command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
-        command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
-        command += " -Bcopyright=\"#{copyright}\" " if copyright
+        icon = "package/#{OS.mac? ? 'macosx' : 'windows'}/#{human_name}.#{OS.mac? ? 'icns' : 'ico'}"
+        if (`jpackage`.to_s.include?('Usage: jpackage') rescue nil)
+          command = "jpackage --type #{native_type} --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
+          command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows?
+          command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
+          command += " --app-version \"#{version}\" " if version
+          command += " --license-file LICENSE.txt " if license
+          command += " --copyright \"#{copyright}\" " if copyright
+        elsif (`javapackager`.to_s.include?('Usage: javapackager') rescue nil)
+          command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
+          command += " -BsystemWide=false " if OS.windows?
+          command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
+          command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
+          command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
+          command += " -Bcopyright=\"#{copyright}\" " if copyright
+        else
+          puts "Neither javapackager nor jpackage exist in your Java installation. Please ensure javapackager or jpackage is available in PATH environment variable."
+          return
+        end
         command += " #{javapackager_extra_args} " if javapackager_extra_args
         command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
+        command += " #{native_extra_args} " if native_extra_args
         puts command
         system command      
       end

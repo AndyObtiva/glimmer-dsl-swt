@@ -24,9 +24,10 @@ namespace :glimmer do
       Glimmer::Package.lock_jars
     end
 
-    desc 'Generate Native files (DMG/PKG/APP on the Mac, MSI/EXE/IMAGE on Windows, RPM/DEB on Linux) (type is optional)'
+    desc 'Generate Native files. type can be dmg/pkg on the Mac, msi/exe on Windows, and rpm/deb on Linux (type is optional)'
     task :native, [:type] do |t, args|
-      Glimmer::Package.native(args[:type])
+      extra_args = ARGV.partition {|arg| arg.include?('package:native')}.last.to_a.join(' ')
+      Glimmer::Package.native(args[:type], extra_args)
     end
   end
 
