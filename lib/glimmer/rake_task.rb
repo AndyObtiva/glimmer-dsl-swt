@@ -34,9 +34,9 @@ namespace :glimmer do
   desc 'Package app for distribution (generating config, jar, and native files) (type is optional)'
   task :package, [:type] do |t, args|
     Rake::Task['gemspec:generate'].execute
+    Rake::Task['glimmer:package:lock_jars'].execute
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
-    Rake::Task['glimmer:package:lock_jars'].execute
     Rake::Task['glimmer:package:native'].execute(args)
   end
 

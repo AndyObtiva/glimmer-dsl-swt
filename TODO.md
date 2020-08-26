@@ -4,8 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.3
+### 0.7.0
 
+- Handle naming of -Bwin.menuGroup properly for Windows in scaffolded custom shell gems (and apps)
+- Make sure bin/runner file for scaffolded Custom Shell gems calls jruby on windows not ruby
+- Add built in support for handling jar file paths
+- Add Windows icon to scaffolding
 - Support `glimmer package` passing of extra args afterwards to use with glimmer package:native
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method
@@ -18,8 +22,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add a simple :integer / :positive_integer / :decimal SWT style for adding verify_text validation for text field
 - Add a shortcut for a numeric text field
 - Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
+- Make javapackager preferred over jpackage if both were available
+- Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task
 
-### 0.7.0
+### Soon (Version TBD)
 
 - Make scaffolded app gemspec complete in accordance to config/warble when available
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
@@ -34,7 +40,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
-- Consider adding sash_form children style for having a fixed size when resizing
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -67,6 +72,7 @@ bind_content(model, 'addresses').each { |address|
 ## Issues
 
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
+- Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)
 
 ## Technical Tasks
 
@@ -150,6 +156,9 @@ items <=> binding {
 - Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 - Consider support for building apps for Linux app stores like Snapstore: https://snapcraft.io/docs/adding-parts
 - Publish MacOS apps on Homebrew (instructions: https://docs.brew.sh/Formula-Cookbook)
+- Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
+- Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
+- Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
 
 ## Samples
 

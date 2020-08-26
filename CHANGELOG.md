@@ -1,14 +1,18 @@
 # Change Log
 
-### 0.6.3
+### 0.7.0
 
 - Perform gemspec:generate first during packaging
 - Add radio and checkbox table editors
 - Add `content` method to DisplayProxy
 - Add `content` method to MessageBox
-- Experimental packaging support for jdk14 jpackage as an alternative to javapackager
+- Ensure lock_jars step happens before package:jar to have vendor jar-dependencies packaged inside JAR file
 - Fix issue with TableProxy editor rejecting false and nil values set on items
 - Fix issue with message_box getting stuck upon closing when no parent in its args
+- Change lock_jar vendor-dir to vendor/jars and add it to .gitignore
+- Add mnemonic to Preferences menu in scaffolding
+- WidgetProxy now supports taking a fully constructed swt_widget argument instead of init_args
+- JDK14 experimental `jpackage` support as a packaging alternative to `javapackager` (Not recommended for production use and must specify JDK8 as JRE with an additional option since SWT doesn't support JDK14 yet)
 
 ### 0.6.2
 

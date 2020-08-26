@@ -73,7 +73,8 @@ class Scaffold
       
       # Glimmer
       dist
-      packages      
+      packages
+      vendor/jars
     MULTI_LINE_STRING
 
     GEMFILE = <<~MULTI_LINE_STRING
@@ -489,7 +490,7 @@ class Scaffold
           menu {
             text '&File'
             menu_item {
-              text 'Preferences...'
+              text '&Preferences...'
               on_widget_selected {
                 display_preferences_dialog
               }

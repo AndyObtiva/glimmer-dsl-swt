@@ -4,6 +4,26 @@ module GlimmerSpec
   describe Glimmer::SWT::WidgetProxy do
     include Glimmer
     
+    it "initializes with an existing swt_widget instead of init_args" do
+      @target = shell
+      @swt_scrolled_composite = ScrolledComposite.new(@target.swt_widget, swt(:none))
+      @scrolled_composite = Glimmer::SWT::WidgetProxy.new(swt_widget: @swt_scrolled_composite)
+      
+      expect(@scrolled_composite.swt_widget).to eq(@swt_scrolled_composite)
+      expect(@scrolled_composite.swt_widget.get_data('proxy')).to eq(@scrolled_composite)
+      expect(@scrolled_composite.parent_proxy).to be_a(Glimmer::SWT::ShellProxy)
+      expect(@scrolled_composite.parent_proxy.swt_widget).to eq(@swt_scrolled_composite.parent)
+      
+      @swt_composite = Composite.new(@swt_scrolled_composite, swt(:none))
+      @composite = Glimmer::SWT::WidgetProxy.new(swt_widget: @swt_composite)
+      
+      # verify default initializers are called on widget
+      expect(@swt_composite.get_layout).to be_a(GridLayout)
+      
+      # verify post_initialize_child is called on parent
+      expect(@swt_scrolled_composite.content).to eq(@swt_composite)
+    end
+    
     it "sets data('proxy')" do
       @target = shell {
         @composite = composite {

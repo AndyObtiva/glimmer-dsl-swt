@@ -4,7 +4,7 @@ source 'http://rubygems.org'
 gem 'glimmer', '~> 0.10.2' #, path: '../glimmer'
 gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
-gem 'puts_debuggerer', '~> 0.9.0', require: false
+gem 'puts_debuggerer', '~> 0.10.0', require: false
 
 # Temporary until merged into base gem
 gem 'git-glimmer', '1.7.0'

@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.4.0)
+    array_include_methods (1.0.2)
     awesome_print (1.8.0)
     builder (3.2.4)
     coveralls (0.8.23)
@@ -29,6 +30,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       oauth2 (~> 1.0)
     glimmer (0.10.2)
+      array_include_methods (>= 1.0.2, < 2.0.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (4.1.0)
     highline (2.0.3)
@@ -73,7 +75,7 @@ GEM
     psych (3.2.0)
     psych (3.2.0-java)
       jar-dependencies (>= 0.1.7)
-    puts_debuggerer (0.9.0)
+    puts_debuggerer (0.10.0)
       awesome_print (~> 1.8.0)
     rack (2.2.3)
     rake (13.0.1)
@@ -129,7 +131,7 @@ DEPENDENCIES
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (~> 0.3.0)
   os (>= 1.0.0, < 2.0.0)
-  puts_debuggerer (~> 0.9.0)
+  puts_debuggerer (~> 0.10.0)
   rake (>= 10.1.0, < 14.0.0)
   rdoc (>= 6.2.1, < 7.0.0)
   rspec (~> 3.5.0)

@@ -67,18 +67,45 @@ module Glimmer
           group.setLayout(GridLayout.new)
         end,
       }
+      
+      class << self
+        def create(keyword, parent, args)
+          widget_proxy_class(keyword).new(keyword, parent, args)
+        end
+        
+        def widget_proxy_class(keyword)
+          begin
+            class_name = "#{keyword.camelcase(:upper)}Proxy".to_sym
+            Glimmer::SWT.const_get(class_name)
+          rescue
+            Glimmer::SWT::WidgetProxy
+          end        
+        end
+        
+        def underscored_widget_name(swt_widget)
+          swt_widget.class.name.split(/::|\./).last.underscore        
+        end
+      end
 
       attr_reader :parent_proxy, :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
 
       # Initializes a new SWT Widget
       #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
-      def initialize(underscored_widget_name, parent, args)
-        @parent_proxy = parent
-        styles, extra_options = extract_args(underscored_widget_name, args)
-        swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
-        @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
-        @swt_widget.set_data('proxy', self)
+      def initialize(*init_args, swt_widget: nil)      
+        if swt_widget.nil?
+          underscored_widget_name, parent, args = init_args
+          @parent_proxy = parent
+          styles, extra_options = extract_args(underscored_widget_name, args)
+          swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
+          @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
+        else
+          @swt_widget = swt_widget
+          underscored_widget_name = self.class.underscored_widget_name(@swt_widget)
+          parent_proxy_class = self.class.widget_proxy_class(self.class.underscored_widget_name(@swt_widget.parent))
+          @parent_proxy = parent_proxy_class.new(swt_widget: swt_widget.parent)
+        end
+        @swt_widget.set_data('proxy', self)          
         DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
         @parent_proxy.post_initialize_child(self)
       end

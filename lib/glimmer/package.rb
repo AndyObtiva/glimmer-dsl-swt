@@ -43,8 +43,9 @@ module Glimmer
       end
       
       def lock_jars
-        puts 'Locking JARs with jar-dependencies...'
-        command = "lock_jars --vendor-dir vendor"
+        puts 'Locking gem jar-dependencies by downloading & storing in vendor/jars...'
+        FileUtils.mkdir_p('vendor/jars')
+        command = "lock_jars --vendor-dir vendor/jars"
         puts command
         system command      
       end

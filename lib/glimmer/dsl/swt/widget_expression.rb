@@ -17,13 +17,7 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          begin
-            class_name = "#{keyword.camelcase(:upper)}Proxy".to_sym
-            widget_class = Glimmer::SWT.const_get(class_name)
-          rescue
-            widget_class = Glimmer::SWT::WidgetProxy
-          end
-          widget_class.new(keyword, parent, args)
+          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
         end
         
         def add_content(parent, &block)
