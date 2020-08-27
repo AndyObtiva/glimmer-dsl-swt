@@ -30,9 +30,12 @@ module Glimmer
         end
       end
       
+      # Extra styles outside of SWT constants. They are either composite of
+      # multiple SWT style constants or brand new styles (with value set to -7)
       EXTRA_STYLES = {
         NO_RESIZE: self[:shell_trim, :resize!, :max!],
         NO_SORT: -7,
+        NO_MARGIN: -7,
       }            
     end
   end

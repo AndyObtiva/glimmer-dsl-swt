@@ -41,7 +41,7 @@ module GlimmerSpec
         expect(layout.spacing).to eq(5)
       end
 
-      xit "sets FillLayout with :no_margin SWT constructor argument" do
+      it "sets FillLayout with :no_margin SWT constructor argument" do
         @target = shell {
           @composite = composite {
             fill_layout(:no_margin)
