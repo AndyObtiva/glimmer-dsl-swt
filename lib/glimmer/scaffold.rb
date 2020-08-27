@@ -139,6 +139,11 @@ class Scaffold
       cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
       puts "Created #{current_dir_name}/#{icon_file}"
     
+      mkdir_p 'package/linux'
+      icon_file = "package/linux/#{human_name(app_name)}.png"
+      cp File.expand_path('../../../icons/scaffold_app.png', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+    
       mkdir 'bin'
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
       write 'spec/spec_helper.rb', spec_helper_file
@@ -207,6 +212,11 @@ class Scaffold
       mkdir_p 'package/macosx'
       icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
       cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+      
+      mkdir_p 'package/linux'
+      icon_file = "package/linux/#{human_name(custom_shell_name)}.png"
+      cp File.expand_path('../../../icons/scaffold_app.png', __FILE__), icon_file
       puts "Created #{current_dir_name}/#{icon_file}"
       
       if OS.windows?
