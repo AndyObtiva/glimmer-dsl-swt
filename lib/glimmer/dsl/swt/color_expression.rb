@@ -8,7 +8,6 @@ module Glimmer
     module SWT
       class ColorExpression < StaticExpression
         include TopLevelExpression
-        include_package 'org.eclipse.swt.widgets'
   
         def interpret(parent, keyword, *args, &block)
           Glimmer::SWT::ColorProxy.new(*args)

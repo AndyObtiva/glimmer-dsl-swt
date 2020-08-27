@@ -638,18 +638,17 @@ module Glimmer
         @property_type_converters ||= {
           :background => color_converter,
           :background_image => lambda do |value|
-            image_proxy = nil
             if value.is_a?(String)
-              image_proxy = ImageProxy.new(value)
+              value = ImageProxy.new(value)
             elsif value.is_a?(Array)
-              image_proxy = ImageProxy.new(*value)
+              value = ImageProxy.new(*value)
             end
-            if image_proxy
+            if value.is_a?(ImageProxy)
               on_swt_Resize do |resize_event|
-                image_proxy.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
-                @swt_widget.setBackgroundImage(image_proxy.swt_image)
+                value.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
+                @swt_widget.setBackgroundImage(value.swt_image)
               end
-              image_proxy.swt_image
+              value.swt_image
             else
               value
             end
@@ -674,9 +673,12 @@ module Glimmer
           end,
           :image => lambda do |value|
             if value.is_a?(String)
-              ImageProxy.new(value).swt_image
+              value = ImageProxy.new(value)
             elsif value.is_a?(Array)
-              ImageProxy.new(*value).swt_image
+              value = ImageProxy.new(*value)
+            end
+            if value.is_a?(ImageProxy)
+              value.swt_image
             else
               value
             end
@@ -684,9 +686,12 @@ module Glimmer
           :images => lambda do |array|
             array.to_a.map do |value|
               if value.is_a?(String)
-                ImageProxy.new(value).swt_image
+                value = ImageProxy.new(value)
               elsif value.is_a?(Array)
-                ImageProxy.new(*value).swt_image
+                value = ImageProxy.new(*value)
+              end
+              if value.is_a?(ImageProxy)
+                value.swt_image
               else
                 value
               end

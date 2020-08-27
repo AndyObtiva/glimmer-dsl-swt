@@ -9,7 +9,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
 - Accept `ImageProxy` as arg for image property method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
-- Support background_image property without stretching of image on resize
 
 ### 0.7.0
 
@@ -198,3 +197,4 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
 - Document how to publish apps on MacUpdate.com 
 - Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)
+- Document use of get_image vs getImage in methods from SWT Java classes
