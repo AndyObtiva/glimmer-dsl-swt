@@ -128,17 +128,17 @@ class Scaffold
       mkdir 'app/models'
       mkdir 'app/views'
       custom_shell('AppView', current_dir_name, :app)
-      if OS::Underlying.windows?
-        mkdir_p 'package/windows'
-        icon_file = "package/windows/#{human_name(app_name)}.ico"
-        cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
-        puts "Created #{current_dir_name}/#{icon_file}"
-      elsif OS.mac?
-        mkdir_p 'package/macosx'
-        icon_file = "package/macosx/#{human_name(app_name)}.icns"
-        cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
-        puts "Created #{current_dir_name}/#{icon_file}"
-      end
+        
+      mkdir_p 'package/windows'
+      icon_file = "package/windows/#{human_name(app_name)}.ico"
+      cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+      
+      mkdir_p 'package/macosx'
+      icon_file = "package/macosx/#{human_name(app_name)}.icns"
+      cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+    
       mkdir 'bin'
       write "bin/#{file_name(app_name)}", app_bin_file(app_name)
       write 'spec/spec_helper.rb', spec_helper_file
@@ -148,9 +148,12 @@ class Scaffold
         system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
-        system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app" if OS.mac?
+        if OS.mac?
+          system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
+        else
+          system "glimmer bin/#{file_name(app_name)}"
+        end
       end
-      # TODO generate rspec test suite
     end
 
     def custom_shell(custom_shell_name, namespace, shell_type = nil)
@@ -195,24 +198,28 @@ class Scaffold
       write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name)
       FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
       write 'spec/spec_helper.rb', spec_helper_file
-      if OS::Underlying.windows?
-        mkdir_p 'package/windows'
-        icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
-        cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
-        puts "Created #{current_dir_name}/#{icon_file}"
-      elsif OS.mac?
-        mkdir_p 'package/macosx'
-        icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
-        cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
-        puts "Created #{current_dir_name}/#{icon_file}"
-      end
+
+      mkdir_p 'package/windows'
+      icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
+      cp File.expand_path('../../../icons/scaffold_app.ico', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+        
+      mkdir_p 'package/macosx'
+      icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
+      cp File.expand_path('../../../icons/scaffold_app.icns', __FILE__), icon_file
+      puts "Created #{current_dir_name}/#{icon_file}"
+      
       if OS.windows?
         system "bundle"
         system "glimmer package[image]"
         system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
       else
         system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n glimmer package\n'"
-        system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
+        if OS.mac?
+          system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
+        else
+          system "bin/#{file_name(custom_shell_name)}"
+        end        
       end
       puts "Finished creating #{gem_name} Ruby gem."
       puts 'Edit Rakefile to configure gem details.'

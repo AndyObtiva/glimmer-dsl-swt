@@ -6,9 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
-- Launch scaffolded app on Linux without using packaging (via `glimmer bin/app_script`)
 - Add built in support for handling jar file paths
-- Add Windows icon to scaffolding
 - Support `glimmer package` passing of extra args afterwards to use with glimmer package:native
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method

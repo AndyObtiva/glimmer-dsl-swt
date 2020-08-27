@@ -6,6 +6,8 @@
 
 - Add mnemonic to Preferences menu in scaffolding
 - Make bin/glimmer, bin/girb, and scaffolded bin/script files call jruby instead of ruby in the shebang
+- Launch scaffolded app on Linux without using packaging (via `glimmer bin/app_script`)
+- Add both Mac and Windows icons upon scaffolding (not just the OS we are on)
 
 **Packaging:**
 
