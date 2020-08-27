@@ -25,6 +25,10 @@
 - Add `content` method to MessageBox
 - WidgetProxy now supports taking a fully constructed swt_widget argument instead of init_args
 
+**CI:**
+
+- Add Windows to Travis-CI
+
 **Issues:**
 
 - Fix issue with TableProxy editor rejecting false and nil values set on items

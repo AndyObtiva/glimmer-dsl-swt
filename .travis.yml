@@ -4,10 +4,11 @@ env:
     - JRUBY_OPTS="--debug"
 language: ruby
 rvm:
-  - jruby-9.2.12.0
+  - jruby-9.2.13.0
 jobs:
   include:
-    - os: linux
+    - name: JRuby Linux
+      os: linux
       dist: xenial
       services: 
         - xvfb
@@ -20,4 +21,19 @@ jobs:
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
         - ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- --repo AndyObtiva/glimmer-dsl-swt --commit $TRAVIS_COMMIT --lcov coverage/lcov/glimmer-dsl-swt.lcov
-    - os: osx
+    - name: JRuby Mac
+      os: osx
+    - name: JRuby Windows
+      os: windows
+      language: shell
+      script:
+      - export JAVA_HOME=${JAVA_HOME:-/c/jdk}
+      - export PATH=${JAVA_HOME}/bin:${PATH}
+      - choco install jdk8 -params 'installdir=c:\\jdk' -y
+      - curl -L -o jruby-dist-9.2.13.0-bin.zip https://repo1.maven.org/maven2/org/jruby/jruby-dist/9.2.13.0/jruby-dist-9.2.13.0-bin.zip
+      - unzip jruby-dist-9.2.13.0-bin.zip
+      - export PATH="$(pwd)/jruby-9.2.13.0/bin:$PATH"
+      - jruby --version
+      - jruby -S gem install bundler --no-document
+      - jruby -S bundle
+      - powershell rake

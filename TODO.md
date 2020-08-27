@@ -7,6 +7,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ### 0.7.0
 
 - Add :no_margin SWT style to layouts and composites
+- Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
+- Make javapackager preferred over jpackage if both were available
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Add shortcuts for password (adding :border as default style) and other text widget types
@@ -16,8 +18,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support clearing radio buttons when setting model property value to nil
 - Add a simple :integer / :positive_integer / :decimal SWT style for adding verify_text validation for text field
 - Add a shortcut for a numeric text field
-- Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
-- Make javapackager preferred over jpackage if both were available
 - Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task
 
 ### Soon (Version TBD)

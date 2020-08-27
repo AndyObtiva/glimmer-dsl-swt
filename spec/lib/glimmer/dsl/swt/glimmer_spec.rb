@@ -276,7 +276,7 @@ module GlimmerSpec
       expect(@button.swt_widget.text).to eq( "Push Me")
     end
 
-    unless OS.linux?
+    if OS.mac?
       it "tests shell and browser default" do
         @target = shell {
           @browser = browser {
