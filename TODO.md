@@ -6,7 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
-- Make sure bin/runner file for scaffolded Custom Shell gems calls jruby on windows not ruby
+- Launch scaffolded app on Linux without using packaging (via `glimmer bin/app_script`)
 - Add built in support for handling jar file paths
 - Add Windows icon to scaffolding
 - Support `glimmer package` passing of extra args afterwards to use with glimmer package:native

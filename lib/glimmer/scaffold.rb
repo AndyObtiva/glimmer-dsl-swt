@@ -345,7 +345,7 @@ class Scaffold
 
     def gem_bin_command_file(gem_name)
       <<~MULTI_LINE_STRING
-        #!/usr/bin/env ruby
+        #!/usr/bin/env jruby
         
         require 'glimmer/launcher'
         

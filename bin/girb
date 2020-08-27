@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env jruby
 
 trap "SIGINT" do
   # No Op for irb

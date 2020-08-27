@@ -5,6 +5,7 @@
 **Scaffolding:**
 
 - Add mnemonic to Preferences menu in scaffolding
+- Make bin/glimmer, bin/girb, and scaffolded bin/script files call jruby instead of ruby in the shebang
 
 **Packaging:**
 
