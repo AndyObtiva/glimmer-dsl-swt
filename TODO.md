@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
-- Add built in support for handling jar file paths
-- Support `glimmer package` passing of extra args afterwards to use with glimmer package:native
 - Add :no_margin SWT style to layouts and composites
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
@@ -149,6 +147,7 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
+- Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
 
 ## Samples
 

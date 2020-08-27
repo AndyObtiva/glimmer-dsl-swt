@@ -15,6 +15,7 @@
 - Ensure lock_jars step happens before package:jar to have vendor jar-dependencies packaged inside JAR file
 - Change lock_jar vendor-dir to vendor/jars and add it to .gitignore
 - Handle naming of -Bwin.menuGroup properly for Windows in scaffolded custom shell gems (and apps) (e.g. instead of Glimmer Cs Timer set to Timer only or namespace when available in a CustomShell)
+- Support passing javapackager extra args after `glimmer package:native` command inside double-quotes (e.g. `glimmer package:native "-title 'CarMaker'"`)
 - JDK14 experimental `jpackage` support as a packaging alternative to `javapackager` (Not recommended for production use and must specify JDK8 as JRE with an additional option since SWT doesn't support JDK14 yet)
 
 **GUI:**
