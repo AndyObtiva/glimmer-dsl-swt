@@ -5,11 +5,26 @@ module GlimmerSpec
     include Glimmer
 
     describe 'FillLayout' do
-      it "sets FillLayout with all properties specified via property methods" do
+      it "sets FillLayout with defaults" do
         @target = shell {
           @composite = composite {
-            fill_layout {
-              type :horizontal
+            fill_layout
+          }
+        }
+
+        widget = @composite.swt_widget
+        layout = widget.getLayout
+        expect(layout.is_a?(FillLayout)).to eq(true)
+        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.marginWidth).to eq(15)
+        expect(layout.marginHeight).to eq(15)
+        expect(layout.spacing).to eq(0)
+      end
+
+      it "sets FillLayout with one SWT constructor argument and properties specified via property methods" do
+        @target = shell {
+          @composite = composite {
+            fill_layout(:vertical) {
               margin_width 30
               margin_height 50
               spacing 5
@@ -20,25 +35,10 @@ module GlimmerSpec
         widget = @composite.swt_widget
         layout = widget.getLayout
         expect(layout.is_a?(FillLayout)).to eq(true)
-        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:vertical])
         expect(layout.marginWidth).to eq(30)
         expect(layout.marginHeight).to eq(50)
         expect(layout.spacing).to eq(5)
-      end
-
-      it "sets FillLayout with one SWT constructor argument" do
-        @target = shell {
-          @composite = composite {
-            fill_layout(:horizontal)
-          }
-        }
-
-        widget = @composite.swt_widget
-        layout = widget.getLayout
-        expect(layout.is_a?(FillLayout)).to eq(true)
-        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
-        expect(layout.marginWidth).to eq(15)
-        expect(layout.marginHeight).to eq(15)
       end
 
       xit "sets FillLayout with :no_margin SWT constructor argument" do
@@ -58,6 +58,25 @@ module GlimmerSpec
     end
 
     describe 'RowLayout' do
+      it "sets RowLayout with defaults" do
+        @target = shell {
+          @composite = composite {
+            row_layout
+          }
+        }
+
+        widget = @composite.swt_widget
+        layout = widget.getLayout
+        expect(layout.is_a?(RowLayout)).to eq(true)
+        expect(layout.type).to eq(Glimmer::SWT::SWTProxy[:horizontal])
+        expect(layout.marginWidth).to eq(15)
+        expect(layout.marginHeight).to eq(15)
+        expect(layout.marginLeft).to eq(0)
+        expect(layout.marginTop).to eq(0)
+        expect(layout.marginRight).to eq(0)
+        expect(layout.marginBottom).to eq(0)
+      end
+      
       it "sets RowLayout with all properties specified via property methods" do
         @target = shell {
           @composite = composite {

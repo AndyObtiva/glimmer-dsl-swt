@@ -47,6 +47,10 @@ module Glimmer
         @swt_layout = self.class.swt_layout_class_for(underscored_layout_name).new(*args)
         @swt_layout.marginWidth = 15 if @swt_layout.respond_to?(:marginWidth)
         @swt_layout.marginHeight = 15 if @swt_layout.respond_to?(:marginHeight)
+        @swt_layout.marginTop = 0 if @swt_layout.respond_to?(:marginTop)
+        @swt_layout.marginRight = 0 if @swt_layout.respond_to?(:marginRight)
+        @swt_layout.marginBottom = 0 if @swt_layout.respond_to?(:marginBottom)
+        @swt_layout.marginLeft = 0 if @swt_layout.respond_to?(:marginLeft)
         @widget_proxy.swt_widget.setLayout(@swt_layout)
       end
 

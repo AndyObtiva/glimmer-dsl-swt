@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ### 0.7.0
 
 - Add :no_margin SWT style to layouts and composites
-- Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
 - Make javapackager preferred over jpackage if both were available
 - Accept ImageProxy as arg for image method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
