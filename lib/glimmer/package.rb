@@ -62,20 +62,20 @@ module Glimmer
         copyright = license.split("\n").first
         human_name = project_name.underscore.titlecase
         icon = "package/#{OS.mac? ? 'macosx' : 'windows'}/#{human_name}.#{OS.mac? ? 'icns' : 'ico'}"
-        if (`jpackage`.to_s.include?('Usage: jpackage') rescue nil)
-          command = "jpackage --type #{native_type} --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
-          command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows?
-          command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
-          command += " --app-version \"#{version}\" " if version
-          command += " --license-file LICENSE.txt " if license
-          command += " --copyright \"#{copyright}\" " if copyright
-        elsif (`javapackager`.to_s.include?('Usage: javapackager') rescue nil)
+        if (`javapackager`.to_s.include?('Usage: javapackager') rescue nil)
           command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
           command += " -BsystemWide=false " if OS.windows?
           command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
           command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
           command += " -srcfiles LICENSE.txt -BlicenseFile=LICENSE.txt " if license
           command += " -Bcopyright=\"#{copyright}\" " if copyright
+        elsif (`jpackage`.to_s.include?('Usage: jpackage') rescue nil)
+          command = "jpackage --type #{native_type} --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
+          command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows?
+          command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
+          command += " --app-version \"#{version}\" " if version
+          command += " --license-file LICENSE.txt " if license
+          command += " --copyright \"#{copyright}\" " if copyright
         else
           puts "Neither javapackager nor jpackage exist in your Java installation. Please ensure javapackager or jpackage is available in PATH environment variable."
           return

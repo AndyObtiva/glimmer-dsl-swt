@@ -4,13 +4,18 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.6.4
+
+- Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
+- Accept `ImageProxy` as arg for image property method
+- Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
+- Support background_image property without stretching of image on resize
+- Fix passing log-level to GIRB
+- Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
+- Add FillLayout default style if not passed in
+
 ### 0.7.0
 
-- Add :no_margin SWT style to layouts and composites
-- Set margin left margin right margin top margin bottom to 0 when available on a layout (like rowlayout)
-- Make javapackager preferred over jpackage if both were available
-- Accept ImageProxy as arg for image method
-- Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
 - Support horizontal_span in addition to horizontalSpan in layout data (and other properties)
