@@ -144,9 +144,9 @@ items <=> binding {
 
 ## Side Projects
 
-### FreeHire
+### glimmer-dsl-uml
 
-- Web service for requesting software development project services and hiring developers for free in exchange for marketing them with finished software from the start. 
+A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app to start. Support web later via opal. 
 
 ### glimmertalk project
 
