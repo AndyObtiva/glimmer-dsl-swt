@@ -26,6 +26,7 @@
 - WidgetProxy now supports taking a fully constructed swt_widget argument instead of init_args
 - Set marginLeft marginRight marginTop marginBottom to 0 when methods are available on a layout (like RowLayout)
 - Add :no_margin SWT style to layouts
+- Add :no_margin SWT style to composites (affecting their default layout)
 
 **CI:**
 

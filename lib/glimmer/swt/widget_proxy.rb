@@ -40,31 +40,26 @@ module Glimmer
       }
 
       DEFAULT_INITIALIZERS = {
-        "composite" => lambda do |composite|
+        "composite" => lambda do |composite, *args|
+          no_margin = args.flatten.detect {|arg| arg == :no_margin}
           layout = GridLayout.new
-          layout.marginWidth = 15
-          layout.marginHeight = 15
+          layout.marginWidth = no_margin ? 0 : 15
+          layout.marginHeight = no_margin ? 0 : 15
           composite.layout = layout
         end,
-        "scrolled_composite" => lambda do |scrolled_composite|
+        "scrolled_composite" => lambda do |scrolled_composite, *args|
           scrolled_composite.expand_horizontal = true
           scrolled_composite.expand_vertical = true
         end,
-        "shell" => lambda do |shell|
-          layout = FillLayout.new
-          layout.marginWidth = 15
-          layout.marginHeight = 15
-          shell.layout = layout
-        end,
-        "table" => lambda do |table|
+        "table" => lambda do |table, *args|
           table.setHeaderVisible(true)
           table.setLinesVisible(true)
         end,
-        "table_column" => lambda do |table_column|
+        "table_column" => lambda do |table_column, *args|
           table_column.setWidth(80)
         end,
-        "group" => lambda do |group|
-          group.setLayout(GridLayout.new)
+        "group" => lambda do |group, *args|
+          DEFAULT_INITIALIZERS['composite'].call(group)
         end,
       }
       
@@ -106,7 +101,7 @@ module Glimmer
           @parent_proxy = parent_proxy_class.new(swt_widget: swt_widget.parent)
         end
         @swt_widget.set_data('proxy', self)          
-        DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
+        DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget, *init_args)
         @parent_proxy.post_initialize_child(self)
       end
       

@@ -12,6 +12,8 @@ module GlimmerSpec
       expect(@target.swt_widget).to be_instance_of(Shell)
       expect(@target.swt_widget.getLayout).to_not be_nil
       expect(@target.swt_widget.getLayout).to be_instance_of(FillLayout)
+      expect(@target.swt_widget.getLayout.marginWidth).to eq(0)
+      expect(@target.swt_widget.getLayout.marginHeight).to eq(0)
       expect(@target.has_style?(:shell_trim)).to eq(true)
     end
 
@@ -144,9 +146,26 @@ module GlimmerSpec
       expect(@target.swt_widget.getSize).to eq( Point.new(800, 600) )
     end
 
-    it "tests shell_and_composite_with_default_style_and_layout" do
+    it "renders composite with default style and layout" do
       @target = shell {
         composite
+      }
+
+      expect(@target.swt_widget.children.size).to eq(1)
+      expect(@target.swt_widget.children[0]).to be_instance_of(Composite)
+      composite_widget = @target.swt_widget.children[0]
+      expect(composite_widget).to have_style(:none)
+      expect(composite_widget.getLayout).to be_instance_of(GridLayout)
+      grid_layout = composite_widget.getLayout
+      expect(grid_layout.numColumns).to eq(1)
+      expect(grid_layout.makeColumnsEqualWidth).to eq(false)
+      expect(grid_layout.marginWidth).to eq(15)
+      expect(grid_layout.marginHeight).to eq(15)
+    end
+
+    it "renders composite with no margin" do
+      @target = shell {
+        composite(:no_margin)
       }
 
       expect(@target.swt_widget.children.size).to eq( 1)
@@ -157,24 +176,8 @@ module GlimmerSpec
       grid_layout = composite_widget.getLayout
       expect(grid_layout.numColumns).to eq( 1)
       expect(grid_layout.makeColumnsEqualWidth).to eq( false)
-    end
-
-    it "tests shell_and_group_with_default_style_and_layout" do
-      @target = shell {
-        group {
-          text "Title"
-        }
-      }
-
-      expect(@target.swt_widget.children.size).to eq( 1)
-      expect(@target.swt_widget.children[0]).to be_instance_of(Java::OrgEclipseSwtWidgets::Group)
-      group_widget = @target.swt_widget.children[0]
-      expect(group_widget).to have_style(:none)
-      expect(group_widget.getLayout).to be_instance_of(GridLayout)
-      grid_layout = group_widget.getLayout
-      expect(grid_layout.numColumns).to eq( 1)
-      expect(grid_layout.makeColumnsEqualWidth).to eq( false)
-      expect(group_widget.getText).to eq( "Title")
+      expect(grid_layout.marginWidth).to eq(0)
+      expect(grid_layout.marginHeight).to eq(0)
     end
 
     it "tests shell_and_composite_with_style_and_layout" do
@@ -238,6 +241,26 @@ module GlimmerSpec
       text_widget = composite_widget.children[0]
       expect(text_widget).to have_style(:password)
       expect(text_widget.getText).to eq( "Hello")
+    end
+
+    it "renders group with default style and layout" do
+      @target = shell {
+        group {
+          text "Title"
+        }
+      }
+
+      expect(@target.swt_widget.children.size).to eq( 1)
+      expect(@target.swt_widget.children[0]).to be_instance_of(Java::OrgEclipseSwtWidgets::Group)
+      group_widget = @target.swt_widget.children[0]
+      expect(group_widget).to have_style(:none)
+      expect(group_widget.getLayout).to be_instance_of(GridLayout)
+      grid_layout = group_widget.getLayout
+      expect(grid_layout.numColumns).to eq( 1)
+      expect(grid_layout.makeColumnsEqualWidth).to eq( false)
+      expect(grid_layout.marginWidth).to eq(15)
+      expect(grid_layout.marginHeight).to eq(15)
+      expect(group_widget.getText).to eq( "Title")
     end
 
     it "tests shell_and_spinner_default" do
