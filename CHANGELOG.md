@@ -2,17 +2,29 @@
 
 ### 0.7.0
 
+**Scaffolding:**
+
+- Add mnemonic to Preferences menu in scaffolding
+
+**Packaging:**
+
 - Perform gemspec:generate first during packaging
+- Ensure lock_jars step happens before package:jar to have vendor jar-dependencies packaged inside JAR file
+- Change lock_jar vendor-dir to vendor/jars and add it to .gitignore
+- Handle naming of -Bwin.menuGroup properly for Windows in scaffolded custom shell gems (and apps) (e.g. instead of Glimmer Cs Timer set to Timer only or namespace when available in a CustomShell)
+- JDK14 experimental `jpackage` support as a packaging alternative to `javapackager` (Not recommended for production use and must specify JDK8 as JRE with an additional option since SWT doesn't support JDK14 yet)
+
+**GUI:**
+
 - Add radio and checkbox table editors
 - Add `content` method to DisplayProxy
 - Add `content` method to MessageBox
-- Ensure lock_jars step happens before package:jar to have vendor jar-dependencies packaged inside JAR file
+- WidgetProxy now supports taking a fully constructed swt_widget argument instead of init_args
+
+**Issues:**
+
 - Fix issue with TableProxy editor rejecting false and nil values set on items
 - Fix issue with message_box getting stuck upon closing when no parent in its args
-- Change lock_jar vendor-dir to vendor/jars and add it to .gitignore
-- Add mnemonic to Preferences menu in scaffolding
-- WidgetProxy now supports taking a fully constructed swt_widget argument instead of init_args
-- JDK14 experimental `jpackage` support as a packaging alternative to `javapackager` (Not recommended for production use and must specify JDK8 as JRE with an additional option since SWT doesn't support JDK14 yet)
 
 ### 0.6.2
 

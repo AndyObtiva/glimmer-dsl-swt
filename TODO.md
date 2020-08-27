@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.7.0
 
-- Handle naming of -Bwin.menuGroup properly for Windows in scaffolded custom shell gems (and apps)
 - Make sure bin/runner file for scaffolded Custom Shell gems calls jruby on windows not ruby
 - Add built in support for handling jar file paths
 - Add Windows icon to scaffolding
@@ -30,13 +29,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make scaffolded app gemspec complete in accordance to config/warble when available
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 - Have property expression automatically call to_java(Type) on arrays for property methods that take arguments
-
-- Unify CustomWidget and CustomShell 
-- Move CustomWidget and CustomShell to SWT namespace
-- Move data binding custom classes to SWT namespace
-- Move data binding custom classes to SWT namespace
-- Move rake task classes to RakeTask namespace
-
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
@@ -162,6 +154,7 @@ items <=> binding {
 
 ## Samples
 
+- Build a sample of samples app (meta-sample) for easily browsing and launching all Glimmer samples
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
