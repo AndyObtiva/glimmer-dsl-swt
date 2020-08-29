@@ -36,6 +36,7 @@
 
 - Fix issue with TableProxy editor rejecting false and nil values set on items
 - Fix issue with message_box getting stuck upon closing when no parent in its args
+- Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task (yet as packages instead as it resolves [msi] by picking s to match packages local directory)
 
 ### 0.6.2
 

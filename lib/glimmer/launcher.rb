@@ -96,6 +96,10 @@ module Glimmer
           devmode_require = '-r puts_debuggerer '
         end
         rake_tasks = Rake.application.tasks.map(&:to_s).map {|t| t.sub('glimmer:', '')}
+         
+        # handle a bash quirk with calling package[msi] while there is a "packages" directory locally (it passes package[msi] as packages)
+        application = 'package[msi]' if application == 'packages'
+        
         potential_rake_task_parts = application.match(REGEX_RAKE_TASK_WITH_ARGS)
         application = potential_rake_task_parts[1]
         rake_task_args = potential_rake_task_parts[2].split(',')
