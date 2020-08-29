@@ -51,6 +51,7 @@ bind_content(model, 'addresses').each { |address|
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command
 - Build a debug console widget to inspect Glimmer GUI objects
+- Desktopify web apps with a single command or click
 
 ## Issues
 
