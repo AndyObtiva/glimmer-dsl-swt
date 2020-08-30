@@ -8,7 +8,7 @@ module Glimmer
     class ImageProxy
       include_package 'org.eclipse.swt.graphics'
       
-      attr_reader :file_path, :jar_file_path, :image_data, :swt_image, :aspect_ratio
+      attr_reader :file_path, :jar_file_path, :image_data, :swt_image, :aspect_ratio, :auto_resize
 
       # Initializes a proxy for an SWT Image object
       #
@@ -34,6 +34,7 @@ module Glimmer
           @image_data = @swt_image.image_data
         end
         @aspect_ratio = true
+        @auto_resize = false
         if @options[:height].nil? && @options[:width]
           scale_to(@options[:width], @swt_image.bounds.height*(@options[:width]/@swt_image.bounds.width))
         elsif @options[:width].nil? && @options[:height]

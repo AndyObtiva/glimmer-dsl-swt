@@ -19,23 +19,24 @@ module GlimmerSpec
         expect(label_image_proxy.swt_image.bounds.width).to eq(132)
         expect(label_image_proxy.swt_image.bounds.height).to eq(40)
         expect(label_image_proxy.aspect_ratio).to eq(true)
+        expect(label_image_proxy.auto_resize).to eq(false)
       end
   
       it "builds image proxy and sets image as ImageProxy" do
-        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'))
+        @file_path = File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png')
         @target = shell {
           @label = label {
-            image @image
+            image img(@file_path)
           }
         }
         
         label_image = @label.swt_widget.getImage
         label_image_proxy = @label.swt_widget.getData('image_proxy')
-        expect(label_image_proxy).to eq(@image)        
-        expect(label_image).to eq(@image.swt_image)
         expect(label_image.bounds.width).to eq(132)
         expect(label_image.bounds.height).to eq(40)
+        expect(label_image_proxy.file_path).to eq(@file_path)
         expect(label_image_proxy.aspect_ratio).to eq(true)
+        expect(label_image_proxy.auto_resize).to eq(false)
       end
   
       it "builds image proxy and sets image as ImageProxy with specified width (maintaining aspect ratio)" do
@@ -53,6 +54,7 @@ module GlimmerSpec
         expect(label_image.bounds.width).to eq(264)
         expect(label_image.bounds.height).to eq(80)
         expect(label_image_proxy.aspect_ratio).to eq(true)
+        expect(label_image_proxy.auto_resize).to eq(false)
       end
   
       it "builds image proxy and sets image as ImageProxy with specified height (maintaining aspect ratio)" do
@@ -70,6 +72,7 @@ module GlimmerSpec
         expect(label_image.bounds.width).to eq(264)
         expect(label_image.bounds.height).to eq(80)
         expect(label_image_proxy.aspect_ratio).to eq(true)
+        expect(label_image_proxy.auto_resize).to eq(false)
       end
   
       it "builds image proxy and sets image as ImageProxy with specified width and height (not maintaining aspect ratio)" do
@@ -87,26 +90,9 @@ module GlimmerSpec
         expect(label_image.bounds.width).to eq(100)
         expect(label_image.bounds.height).to eq(100)
         expect(label_image_proxy.aspect_ratio).to eq(false)
+        expect(label_image_proxy.auto_resize).to eq(false)
       end
       
-      xit "builds image proxy and sets image as ImageProxy with specified width and height (not maintaining aspect ratio)" do
-        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: 100, height: 100)
-        @target = shell {
-          @label = label {
-            image @image
-          }
-        }
-        
-        expect(@image.bounds.width).to eq(100)
-        expect(@image.bounds.height).to eq(100)
-        expect(@label.swt_widget.getImage).to eq(@image.swt_image)
-      end
-      
-      xit "builds image proxy and sets image as ImageProxy with widget width (maintaining aspect ratio)"
-      xit "builds image proxy and sets image as ImageProxy with widget height (maintaining aspect ratio)"
-      xit "builds image proxy and sets image as ImageProxy with widget width and widget height (not maintaining aspect ratio)"
-      xit "builds image proxy and sets image as raw args with widget width and widget height (not maintaining aspect ratio)"
-  
       it "sets background image as image path" do
         @target = shell {
           @label = label {
@@ -118,16 +104,30 @@ module GlimmerSpec
         expect(@label.swt_widget.getImage.bounds.height).to eq(40)
       end
       
-      it "builds and sets background image via image keyword" do
+      xit "builds image proxy and sets image as raw args with widget width and widget height (not maintaining aspect ratio)"      
+      
+      xit "builds image proxy and sets image as ImageProxy with widget width (maintaining aspect ratio)" do
+        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: :widget)
         @target = shell {
           @label = label {
-            image img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'))
+            size 264, 264
+            image @image
           }
         }
         
-        expect(@label.swt_widget.getImage.bounds.width).to eq(132)
-        expect(@label.swt_widget.getImage.bounds.height).to eq(40)
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image_proxy).to eq(@image)        
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image.bounds.width).to eq(264)
+        expect(label_image.bounds.height).to eq(80)
+        expect(label_image_proxy.aspect_ratio).to eq(true)
+        expect(label_image_proxy.auto_resize).to eq(true)
       end
+      
+      xit "builds image proxy and sets image as ImageProxy with widget height (maintaining aspect ratio)"
+      xit "builds image proxy and sets image as ImageProxy with widget width and widget height (maintaining aspect ratio by selecting the side (width/height) that is closest to widget size)"
+      xit "builds image proxy and sets image as ImageProxy with widget width and widget height (not maintaining aspect ratio)"
     end
 
     context 'as background image' do
