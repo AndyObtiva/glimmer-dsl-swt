@@ -4,9 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.3
+### 0.6.4
 
-- Accept `ImageProxy` as arg for image method
+- Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
+- Accept `ImageProxy` as arg for image property method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Support background_image property without stretching of image on resize
 
