@@ -615,19 +615,29 @@ module Glimmer
       end
 
       def apply_property_type_converters(attribute_name, args)
-        if args.count == 1
-          value = args.first
-          converter = property_type_converters[attribute_name.to_sym]
-          args[0] = converter.call(value) if converter
-        end
         if args.count == 1 && args.first.is_a?(ColorProxy)
           g_color = args.first
           args[0] = g_color.swt_color
         end
+        value = args
+        converter = property_type_converters[attribute_name.to_sym]
+        if converter
+          converted_value = converter.call(value)
+          # the following is done to avoid splatting Java arrays (a default of JRuby)
+          if converted_value.respond_to?(:java_class)
+            args[0..-1] = []
+            args[0] = converted_value
+          else
+            args[0..-1] = converted_value
+          end
+          args = [args] if args.size > 1 # must wrap to avoid method arg splatting later on
+        end
+        args
       end
 
       def property_type_converters
         color_converter = lambda do |value|
+          value = value.first
           if value.is_a?(Symbol) || value.is_a?(String)
             ColorProxy.new(value).swt_color
           else
@@ -637,23 +647,18 @@ module Glimmer
         # TODO consider detecting type on widget method and automatically invoking right converter (e.g. :to_s for String, :to_i for Integer)
         @property_type_converters ||= {
           :background => color_converter,
-          :background_image => lambda do |value|
-            if value.is_a?(String)
-              value = ImageProxy.new(value)
-            elsif value.is_a?(Array)
-              value = ImageProxy.new(*value)
+          :background_image => lambda do |value|          
+            value = value.first.is_a?(ImageProxy) ? value.first : ImageProxy.new(*value)
+            # TODO move this code into ImageProxy by taking widget in as an option too
+            on_swt_Resize do |resize_event|
+              value.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
+              @swt_widget.setBackgroundImage(value.swt_image)
             end
-            if value.is_a?(ImageProxy)
-              on_swt_Resize do |resize_event|
-                value.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
-                @swt_widget.setBackgroundImage(value.swt_image)
-              end
-              value.swt_image
-            else
-              value
-            end
+            set_data('background_image_proxy', value)
+            value.swt_image
           end,
           :cursor => lambda do |value|
+            value = value.first
             cursor_proxy = nil
             if value.is_a?(CursorProxy)
               # TODO look into storing data('cursor_proxy') or doing something similar
@@ -665,6 +670,7 @@ module Glimmer
           end,
           :foreground => color_converter,
           :font => lambda do |value|
+            value = value.first
             if value.is_a?(Hash)
               # TODO look into storing data('font_proxy') or doing something similar
               font_properties = value
@@ -674,26 +680,13 @@ module Glimmer
             end
           end,
           :image => lambda do |value|
-            if value.is_a?(String)
-              value = ImageProxy.new(value)
-            elsif value.is_a?(Array)
-              value = ImageProxy.new(*value)
-            end
-            if value.is_a?(ImageProxy)
-              set_data('image_proxy', value)
-              value.swt_image
-            else
-              set_data('image_proxy', ImageProxy.new(swt_image: value))
-              value
-            end
+            value = value.first.is_a?(ImageProxy) ? value.first : ImageProxy.new(*value)
+            set_data('image_proxy', value)
+            value.swt_image
           end,
           :images => lambda do |array|
-            array.to_a.map do |value|
-              if value.is_a?(String)
-                value = ImageProxy.new(value)
-              elsif value.is_a?(Array)
-                value = ImageProxy.new(*value)
-              end
+            array.to_a.flatten.map do |value|
+              value = value.first.is_a?(ImageProxy) ? value.first : ImageProxy.new(*value)              
               set_data('images_proxy', []) if get_data('images_proxy').nil?
               if value.is_a?(ImageProxy)
                 get_data('images_proxy') << value
@@ -702,12 +695,16 @@ module Glimmer
                 get_data('images_proxy') << ImageProxy.new(swt_image: value)
                 value
               end
+              
+              value.swt_image
             end.to_java(Image)
           end,
           :items => lambda do |value|
+            value = value.  first
             value.to_java :string
           end,
           :text => lambda do |value|
+            value = value.first
             if swt_widget.is_a?(Browser)
               value.to_s
             else
@@ -715,6 +712,7 @@ module Glimmer
             end
           end,
           :transfer => lambda do |value|
+            value = value.first
             value = value.first if value.is_a?(Array) && value.size == 1 && value.first.is_a?(Array)
             transfer_object_extrapolator = lambda do |transfer_name|
               transfer_type = "#{transfer_name.to_s.camelcase(:upper)}Transfer".to_sym
@@ -734,6 +732,7 @@ module Glimmer
             result
           end,
           :visible => lambda do |value|
+            value = value.first
             !!value
           end,
         }

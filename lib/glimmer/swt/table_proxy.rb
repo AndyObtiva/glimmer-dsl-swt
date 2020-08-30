@@ -365,11 +365,9 @@ module Glimmer
       def property_type_converters
         super.merge({
           selection: lambda do |value|
-            if value.is_a?(Array)
-              search {|ti| value.include?(ti.getData) }
-            else
-              search {|ti| ti.getData == value}
-            end
+            value = value.first
+            result = value.is_a?(Array) ? search {|ti| value.include?(ti.getData) } : search {|ti| ti.getData == value}
+            result.is_a?(Array) ? result.to_java(TableItem) : result
           end,
         })
       end

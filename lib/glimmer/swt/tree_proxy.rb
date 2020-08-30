@@ -111,7 +111,9 @@ module Glimmer
       def property_type_converters
         super.merge({
           selection: lambda do |value|
-            depth_first_search {|ti| ti.getData == value}
+            value = value.first
+            result = depth_first_search {|ti| ti.getData == value}
+            result.is_a?(Array) ? result.to_java(TreeItem) : result
           end,
         })
       end

@@ -104,6 +104,17 @@ module GlimmerSpec
         expect(@label.swt_widget.getImage.bounds.height).to eq(40)
       end
       
+      it "sets background image as image path and options" do
+        @target = shell {
+          @label = label {
+            image File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: 264
+          }
+        }
+        
+        expect(@label.swt_widget.getImage.bounds.width).to eq(264)
+        expect(@label.swt_widget.getImage.bounds.height).to eq(80)
+      end
+      
       xit "builds image proxy and sets image as raw args with widget width and widget height (not maintaining aspect ratio)"      
       
       xit "builds image proxy and sets image as ImageProxy with widget width (maintaining aspect ratio)" do
@@ -151,6 +162,7 @@ module GlimmerSpec
         expect(@image.bounds.width).to eq(132)
         expect(@image.bounds.height).to eq(40)
         expect(@target.background_image).to eq(@image.swt_image)
+        expect(@target.swt_widget.getData('background_image_proxy')).to eq(@image)
       end
   
       it "sets background image as image path" do
