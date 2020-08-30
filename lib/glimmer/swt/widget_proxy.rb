@@ -656,6 +656,7 @@ module Glimmer
           :cursor => lambda do |value|
             cursor_proxy = nil
             if value.is_a?(CursorProxy)
+              # TODO look into storing data('cursor_proxy') or doing something similar
               cursor_proxy = value
             elsif value.is_a?(Symbol) || value.is_a?(String) || value.is_a?(Integer)
               cursor_proxy = CursorProxy.new(value)
@@ -665,6 +666,7 @@ module Glimmer
           :foreground => color_converter,
           :font => lambda do |value|
             if value.is_a?(Hash)
+              # TODO look into storing data('font_proxy') or doing something similar
               font_properties = value
               FontProxy.new(self, font_properties).swt_font
             else
@@ -678,8 +680,10 @@ module Glimmer
               value = ImageProxy.new(*value)
             end
             if value.is_a?(ImageProxy)
+              set_data('image_proxy', value)
               value.swt_image
             else
+              set_data('image_proxy', ImageProxy.new(swt_image: value))
               value
             end
           end,
@@ -690,9 +694,12 @@ module Glimmer
               elsif value.is_a?(Array)
                 value = ImageProxy.new(*value)
               end
+              set_data('images_proxy', []) if get_data('images_proxy').nil?
               if value.is_a?(ImageProxy)
+                get_data('images_proxy') << value
                 value.swt_image
               else
+                get_data('images_proxy') << ImageProxy.new(swt_image: value)
                 value
               end
             end.to_java(Image)

@@ -13,9 +13,12 @@ module GlimmerSpec
           }
         }
         
-        expect(@image.bounds.width).to eq(132)
-        expect(@image.bounds.height).to eq(40)
-        expect(@label.swt_widget.getImage).to eq(@image.swt_image)
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image_proxy.swt_image.bounds.width).to eq(132)
+        expect(label_image_proxy.swt_image.bounds.height).to eq(40)
+        expect(label_image_proxy.aspect_ratio).to eq(true)
       end
   
       it "builds image proxy and sets image as ImageProxy" do
@@ -26,10 +29,83 @@ module GlimmerSpec
           }
         }
         
-        expect(@image.bounds.width).to eq(132)
-        expect(@image.bounds.height).to eq(40)
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image_proxy).to eq(@image)        
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image.bounds.width).to eq(132)
+        expect(label_image.bounds.height).to eq(40)
+        expect(label_image_proxy.aspect_ratio).to eq(true)
+      end
+  
+      it "builds image proxy and sets image as ImageProxy with specified width (maintaining aspect ratio)" do
+        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: 264)
+        @target = shell {
+          @label = label {
+            image @image
+          }
+        }        
+        
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image_proxy).to eq(@image)        
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image.bounds.width).to eq(264)
+        expect(label_image.bounds.height).to eq(80)
+        expect(label_image_proxy.aspect_ratio).to eq(true)
+      end
+  
+      it "builds image proxy and sets image as ImageProxy with specified height (maintaining aspect ratio)" do
+        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), height: 80)
+        @target = shell {
+          @label = label {
+            image @image
+          }
+        }
+        
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image_proxy).to eq(@image)        
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image.bounds.width).to eq(264)
+        expect(label_image.bounds.height).to eq(80)
+        expect(label_image_proxy.aspect_ratio).to eq(true)
+      end
+  
+      it "builds image proxy and sets image as ImageProxy with specified width and height (not maintaining aspect ratio)" do
+        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: 100, height: 100)
+        @target = shell {
+          @label = label {
+            image @image
+          }
+        }
+        
+        label_image = @label.swt_widget.getImage
+        label_image_proxy = @label.swt_widget.getData('image_proxy')
+        expect(label_image_proxy).to eq(@image)        
+        expect(label_image).to eq(@image.swt_image)
+        expect(label_image.bounds.width).to eq(100)
+        expect(label_image.bounds.height).to eq(100)
+        expect(label_image_proxy.aspect_ratio).to eq(false)
+      end
+      
+      xit "builds image proxy and sets image as ImageProxy with specified width and height (not maintaining aspect ratio)" do
+        @image = img(File.join(ROOT_PATH, 'images', 'glimmer-hello-world.png'), width: 100, height: 100)
+        @target = shell {
+          @label = label {
+            image @image
+          }
+        }
+        
+        expect(@image.bounds.width).to eq(100)
+        expect(@image.bounds.height).to eq(100)
         expect(@label.swt_widget.getImage).to eq(@image.swt_image)
       end
+      
+      xit "builds image proxy and sets image as ImageProxy with widget width (maintaining aspect ratio)"
+      xit "builds image proxy and sets image as ImageProxy with widget height (maintaining aspect ratio)"
+      xit "builds image proxy and sets image as ImageProxy with widget width and widget height (not maintaining aspect ratio)"
+      xit "builds image proxy and sets image as raw args with widget width and widget height (not maintaining aspect ratio)"
   
       it "sets background image as image path" do
         @target = shell {

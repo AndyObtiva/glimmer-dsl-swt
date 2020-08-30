@@ -8,7 +8,7 @@ module Glimmer
     class ImageProxy
       include_package 'org.eclipse.swt.graphics'
       
-      attr_reader :file_path, :jar_file_path, :image_data, :swt_image
+      attr_reader :file_path, :jar_file_path, :image_data, :swt_image, :aspect_ratio
 
       # Initializes a proxy for an SWT Image object
       #
@@ -17,7 +17,8 @@ module Glimmer
       # and returns an image object.
       def initialize(*args)
         @args = args
-        @file_path = @args.first if @args.first.is_a?(String) && @args.size == 1        
+        @options = (@args.last.is_a?(Hash)) ? @args.delete_at(-1).symbolize_keys : {}
+        @file_path = @args.first if @args.first.is_a?(String) && @args.size == 1
         if @file_path
           if @file_path.start_with?('uri:classloader')
             @jar_file_path = @file_path
@@ -29,9 +30,18 @@ module Glimmer
           @image_data = ImageData.new(buffered_file_input_stream || @file_path)
           @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
         else
-          @swt_image = Image.new(*@args)
+          @swt_image = @options[:swt_image] || Image.new(*@args)
           @image_data = @swt_image.image_data
-        end        
+        end
+        @aspect_ratio = true
+        if @options[:height].nil? && @options[:width]
+          scale_to(@options[:width], @swt_image.bounds.height*(@options[:width]/@swt_image.bounds.width))
+        elsif @options[:width].nil? && @options[:height]
+          scale_to(@swt_image.bounds.width*(@options[:height]/@swt_image.bounds.height), @options[:height])
+        elsif @options[:width] && @options[:height]
+          @aspect_ratio = false
+          scale_to(@options[:width], @options[:height])
+        end
       end
 
       def scale_to(width, height)

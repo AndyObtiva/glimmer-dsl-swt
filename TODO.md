@@ -8,7 +8,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
 - Accept `ImageProxy` as arg for image property method
-- Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
+- Add ImageProxy options: :width (integer or :image), :height (integer or :image), :aspect_ratio (true/false), :auto_resize (true/false)
+- Make `glimmer` command display glimmer gem versions (all available glimmer gems)
 
 ### 0.7.0
 
@@ -149,6 +150,8 @@ items <=> binding {
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
+- Look into speeding up startup time by using a background service (e.g. nailgun, drb). Consider hiding app icon until ready if launched via a service (e.g. http://hints.macworld.com/article.php?story=20010420005353216 and https://apple.stackexchange.com/questions/207939/how-to-hide-a-specific-active-app-on-os-x-has-to-be-reversible)
+- Check everywhere in Glimmer Hash#symbolize_keys is needed and apply it
 
 ## Samples
 

@@ -10,6 +10,7 @@ else
   require 'logging'
   require 'nested_inherited_jruby_include_package'
   require 'super_module'
+  require 'facets/hash/symbolize_keys'
 end
 
 # Internal requires
