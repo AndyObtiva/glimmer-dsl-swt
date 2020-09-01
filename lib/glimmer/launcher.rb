@@ -13,7 +13,7 @@ module Glimmer
     
       When a task is specified, it runs via rake. Some tasks take arguments in square brackets.
     
-      Available tasks are below (you may also lookup by adding `require 'glimmer/rake_task'` in Rakefile and running rake -T):
+      Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
     MULTI_LINE_STRING
 
     TEXT_USAGE_SUFFIX = <<~MULTI_LINE_STRING

@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2020-08-28"
+  s.date = "2020-09-01"
   s.description = "Glimmer DSL for SWT (Desktop GUI) - JRuby on SWT".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/dsl/swt/dsl.rb",
     "lib/glimmer/dsl/swt/exec_expression.rb",
     "lib/glimmer/dsl/swt/font_expression.rb",
-    "lib/glimmer/dsl/swt/img_expression.rb",
+    "lib/glimmer/dsl/swt/image_expression.rb",
     "lib/glimmer/dsl/swt/layout_data_expression.rb",
     "lib/glimmer/dsl/swt/layout_expression.rb",
     "lib/glimmer/dsl/swt/list_selection_data_binding_expression.rb",

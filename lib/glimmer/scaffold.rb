@@ -110,7 +110,6 @@ class Scaffold
     MULTI_LINE_STRING
 
     def app(app_name)
-      return puts('Namespace is required! Usage: glimmer scaffold:custom_shell_gem[custom_shell_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
       gem_name = file_name(app_name)
       gem_summary = human_name(app_name)
       system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
@@ -178,13 +177,13 @@ class Scaffold
     end
 
     def custom_shell_gem(custom_shell_name, namespace)
-      return puts('Namespace is required! Usage: glimmer scaffold:custom_shell_gem[custom_shell_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
       gem_name = "glimmer-cs-#{compact_name(custom_shell_name)}"
       gem_summary = "#{human_name(custom_shell_name)} - Glimmer Custom Shell"
       if namespace
         gem_name += "-#{compact_name(namespace)}"
         gem_summary += " (#{human_name(namespace)})"
       else
+        return puts('Namespace is required! Usage: glimmer scaffold:gem:customshell[name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
         namespace = 'glimmer'
       end
       system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
