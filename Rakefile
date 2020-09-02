@@ -25,7 +25,7 @@ unless jeweler_required.nil?
     gem.description = %Q{Glimmer DSL for SWT (Desktop GUI) - JRuby on SWT}
     gem.email = "andy.am@gmail.com"
     gem.authors = ["AndyMaleh"]
-    gem.executables = ['glimmer', 'girb']
+    gem.executables = ['glimmer', 'girb', 'glimmer_jruby']
     gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*']
     gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile

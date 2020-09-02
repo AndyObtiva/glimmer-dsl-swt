@@ -10,6 +10,7 @@ class Scaffold
 
     VERSION = File.read(File.expand_path('../../../VERSION', __FILE__)).strip
     RUBY_VERSION = File.read(File.expand_path('../../../RUBY_VERSION', __FILE__)).strip
+    JRUBY_COMMAND = `which jruby`.strip.empty? ? 'ruby' : 'jruby'
 
     # TODO externalize all constants into scaffold/files
 
@@ -112,7 +113,7 @@ class Scaffold
     def app(app_name)
       gem_name = file_name(app_name)
       gem_summary = human_name(app_name)
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "#{JRUBY_COMMAND} -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       rm_rf 'lib'
       write '.gitignore', GITIGNORE
@@ -186,7 +187,7 @@ class Scaffold
         return puts('Namespace is required! Usage: glimmer scaffold:gem:customshell[name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
         namespace = 'glimmer'
       end
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "#{JRUBY_COMMAND} -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       write '.gitignore', GITIGNORE
       write '.ruby-version', RUBY_VERSION        
@@ -247,7 +248,7 @@ class Scaffold
       else
         namespace = 'glimmer'
       end
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "#{JRUBY_COMMAND} -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       write '.gitignore', GITIGNORE
       write '.ruby-version', RUBY_VERSION        

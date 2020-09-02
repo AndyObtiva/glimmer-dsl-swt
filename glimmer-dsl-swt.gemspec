@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.date = "2020-09-02"
   s.description = "Glimmer DSL for SWT (Desktop GUI) - JRuby on SWT".freeze
   s.email = "andy.am@gmail.com".freeze
-  s.executables = ["glimmer".freeze, "girb".freeze]
+  s.executables = ["glimmer".freeze, "girb".freeze, "glimmer_jruby".freeze]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "bin/girb",
     "bin/girb_runner.rb",
     "bin/glimmer",
+    "bin/glimmer_jruby",
     "icons/scaffold_app.icns",
     "icons/scaffold_app.ico",
     "icons/scaffold_app.png",

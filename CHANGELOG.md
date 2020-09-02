@@ -3,6 +3,7 @@
 ### 0.6.4
 
 - Display glimmer-dsl-swt gem version in glimmer command usage
+- Prepare for support for jruby-jars gem by using ruby instead of jruby when jruby is unavailable
 - Fix issue with glimmer not listing commands in usage without having a Rakefile
 - Fix issue with passing --log-level or --debug to the `girb` command
 

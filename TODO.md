@@ -4,6 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.6.4
+
+- Include Glimmer Samples in Gem
+
 ### 0.6.5
 
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
@@ -152,6 +156,7 @@ items <=> binding {
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
+- Speed up glimmer command with CRuby compatibility via jruby-jars gem
 
 ## Samples
 
@@ -200,3 +205,4 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
 - Document how to publish apps on MacUpdate.com 
 - Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)
+- Review EPL, GPL, LGPL, and other licenses to reconsider license

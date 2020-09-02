@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'jruby-jars'
+classpath = [
+  JRubyJars.core_jar_path,
+  JRubyJars.stdlib_jar_path
+].join(File::PATH_SEPARATOR)
+puts `pwd`
+# args = ["-cp", classpath, "org.jruby.Main", "\"#{File.expand_path('../glimmer', __FILE__)} #{ARGV.join(' ')}\""]
+args = ["-cp", classpath, "org.jruby.Main"] + ARGV
+exec("java", *args)

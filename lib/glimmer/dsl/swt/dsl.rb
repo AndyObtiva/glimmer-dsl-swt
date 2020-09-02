@@ -1,5 +1,5 @@
 require 'glimmer/launcher'
-require Glimmer::Launcher.swt_jar_file
+require Glimmer::Launcher.swt_jar_file if Glimmer::Launcher::JRUBY_COMMAND == 'jruby'
 require 'glimmer/dsl/engine'
 Dir[File.expand_path('../*_expression.rb', __FILE__)].each {|f| require f}
 

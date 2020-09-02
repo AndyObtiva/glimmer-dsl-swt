@@ -4,6 +4,7 @@ require_relative 'rake_task'
 
 module Glimmer
   class Launcher
+    JRUBY_COMMAND = `which jruby`.strip.empty? ? 'ruby' : 'jruby'
     OPERATING_SYSTEMS_SUPPORTED = ["mac", "windows", "linux"]
     
     TEXT_USAGE_PREFIX = <<~MULTI_LINE_STRING
@@ -56,19 +57,32 @@ module Glimmer
       end
 
       def jruby_os_specific_options
-        OS.mac? ? "-J-XstartOnFirstThread" : ""
+        if OS.mac?
+          option_start_on_first_thread = '-J-XstartOnFirstThread'
+          if JRUBY_COMMAND == 'jruby'
+            option_start_on_first_thread
+          else
+            ENV['JRUBY_OPTS'] = "#{option_start_on_first_thread} #{ENV['JRUBY_OPTS'].to_s}" unless ENV['JRUBY_OPTS'].to_s.include?(option_start_on_first_thread)
+          end
+        else
+          ''
+        end
       end
 
       def jruby_swt_options
-        "#{jruby_os_specific_options} -J-classpath \"#{swt_jar_file}\""
+        options = "-J-classpath \"#{swt_jar_file}\""
+        if JRUBY_COMMAND != 'jruby'
+          ENV['JRUBY_OPTS'] = "#{options} #{ENV['JRUBY_OPTS'].to_s}" unless ENV['JRUBY_OPTS'].to_s.include?(options)
+          options = ''
+        end
+        "#{jruby_os_specific_options} #{options}"
       end
 
       def glimmer_lib
         @@mutex.synchronize do
           unless @glimmer_lib
             @glimmer_lib = GLIMMER_LIB_GEM
-            glimmer_gem_listing = `jgem list #{GLIMMER_LIB_GEM}`.split("\n").map {|l| l.split.first}
-            if !glimmer_gem_listing.include?(GLIMMER_LIB_GEM) && File.exists?(GLIMMER_LIB_LOCAL)
+            if !Gem.loaded_specs.keys.include?('glimmer-dsl-swt') && File.exists?(GLIMMER_LIB_LOCAL)
               @glimmer_lib = GLIMMER_LIB_LOCAL
               puts "[DEVELOPMENT MODE] (detected #{@glimmer_lib})"
             end
@@ -121,7 +135,7 @@ module Glimmer
           @@mutex.synchronize do
             puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
           end
-          command = "#{env_vars_string} jruby #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
+          command = "#{env_vars_string} #{JRUBY_COMMAND} #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
           if !env_vars_string.empty? && OS.windows?
             command = "bash -c \"#{command}\"" if ENV['SHELL'] # do in Windows Git Bash only
             command = "cmd /C \"#{command}\"" if ENV['PROMPT'] # do in Windows Command Prompt only (or Powershell)

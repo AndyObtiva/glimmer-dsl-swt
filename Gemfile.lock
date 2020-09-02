@@ -128,6 +128,7 @@ DEPENDENCIES
   git-glimmer (= 1.7.0)
   glimmer (~> 0.10.3)
   jeweler (>= 2.3.9, < 3.0.0)
+  jruby-complete
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (~> 0.3.0)
   os (>= 1.0.0, < 2.0.0)
