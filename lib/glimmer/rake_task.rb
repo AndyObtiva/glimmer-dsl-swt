@@ -3,12 +3,14 @@ require 'rake'
 require_relative 'package'
 
 namespace :glimmer do
-  namespace :samples do
+  namespace :sample do
     desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'
-    task :run, [:name] do |t, args|
+    task :run, [:name] => :requires do |t, args|
+      name = args[:name]
+      name = name.underscore.downcase unless name.nil?
       samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
-      samples = samples.select {|path| path.include?("#{args[:name]}.rb")} unless args[:name].nil?      
-      Rake::Task['glimmer:samples:code'].invoke(args[:name]) if samples.size == 1
+      samples = samples.select {|path| path.include?("#{name}.rb")} unless name.nil?      
+      Rake::Task['glimmer:samples:code'].invoke(name) if samples.size == 1
       Glimmer::Launcher.new(samples << '--quiet=false').launch
     end
     
@@ -31,14 +33,6 @@ namespace :glimmer do
     end
     
     namespace :list do
-      task :requires do
-        require 'text-table'
-        require 'facets/string/titlecase'
-        require 'facets/string/underscore'
-        
-        require_relative 'launcher'        
-      end
-    
       task :hello, [:query] => :requires do |t, args|
         array_of_arrays = Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)).map do |path| 
           File.basename(path, '.rb')
@@ -81,16 +75,27 @@ namespace :glimmer do
     end
   
     desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
-    task :code, [:name] do |t, args|
+    task :code, [:name] => :requires do |t, args|
       samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
-      sample = samples.detect {|path| path.include?("#{args[:name]}.rb")}
+      sample = samples.detect {|path| path.include?("#{args[:name].to_s.underscore.downcase}.rb")}
       sample_additional_files = Dir.glob(File.join(sample.sub('.rb', ''), '**', '*.rb'))
       ([sample] + sample_additional_files).each do |file|
         puts
         puts "# #{file}"
         puts
-        puts File.read(file)      
+        puts File.read(file)
+        puts
+        puts '# # #'
+        puts
       end
+    end
+    
+    task :requires do
+      require 'text-table'
+      require 'facets/string/titlecase'
+      require 'facets/string/underscore'
+      
+      require_relative 'launcher'        
     end
   
   end
