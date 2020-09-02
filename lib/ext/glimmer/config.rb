@@ -100,7 +100,11 @@ if ENV['GLIMMER_LOGGER_LEVEL']
   # if glimmer log level is being overridden for debugging purposes, then disable async logging making logging immediate
   Glimmer::Config.logging_appender_options = Glimmer::Config.logging_appender_options.merge(async: false, auto_flushing: 1)
   Glimmer::Config.logging_devices = [:stdout]
-  Glimmer::Config.logger.level = ENV['GLIMMER_LOGGER_LEVEL']
+  begin
+    Glimmer::Config.logger.level = ENV['GLIMMER_LOGGER_LEVEL'].strip
+  rescue => e
+    puts e.message
+  end
 end
 Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
   method = method_symbol.to_s

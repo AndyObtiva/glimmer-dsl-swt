@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Glimmer project owner gems
-gem 'glimmer', '~> 0.10.2' #, path: '../glimmer'
+gem 'glimmer', '~> 0.10.3' #, path: '../glimmer'
 gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
 gem 'puts_debuggerer', '~> 0.10.0', require: false

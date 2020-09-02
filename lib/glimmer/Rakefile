@@ -1,0 +1,5 @@
+# This Rakefile gets used from Glimmer::Launcher when the current directory for running the `glimmer` command 
+# does not have a Rakefile (e.g. during scaffolding). 
+# It is not needed when running from inside a scaffolded app or gem, or an app with a Rakefile that has
+# `require 'glimmer/rake_task'`
+require 'glimmer/rake_task'

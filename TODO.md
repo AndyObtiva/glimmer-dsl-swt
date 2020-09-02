@@ -4,13 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.4
+### 0.6.5
 
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
 - Accept `ImageProxy` as arg for image property method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Support background_image property without stretching of image on resize
-- Fix passing log-level to GIRB
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
 - Add FillLayout default style if not passed in
 

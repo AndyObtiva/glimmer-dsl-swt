@@ -1,3 +1,5 @@
+require 'fileutils'
+
 require_relative 'rake_task'
 
 module Glimmer
@@ -89,7 +91,13 @@ module Glimmer
       def launch(application, jruby_options: [], env_vars: {}, glimmer_options: {})
         jruby_options_string = jruby_options.join(' ') + ' ' if jruby_options.any?
         env_vars = env_vars.merge(glimmer_option_env_vars(glimmer_options))
-        env_vars_string = env_vars.map {|k,v| "#{k}=#{v}"}.join(' ')
+        env_vars_string = env_vars.map do |k,v| 
+          if OS.windows? && ENV['PROMPT'] # detect command prompt (or powershell)
+            "set #{k}=#{v} && "
+          else
+            "export #{k}=#{v} && "
+          end
+        end.join
         the_glimmer_lib = glimmer_lib
         devmode_require = nil
         if the_glimmer_lib == GLIMMER_LIB_LOCAL
@@ -113,6 +121,10 @@ module Glimmer
             puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
           end
           command = "#{env_vars_string} jruby #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
+          if !env_vars_string.empty? && OS.windows?
+            command = "bash -c \"#{command}\"" if ENV['SHELL'] # do in Windows Git Bash only
+            command = "cmd /C \"#{command}\"" if ENV['PROMPT'] # do in Windows Command Prompt only (or Powershell)
+          end
           puts command if jruby_options_string.to_s.include?('--debug')
           exec command
         end
@@ -159,11 +171,14 @@ module Glimmer
     end
 
     def display_usage
-      rake_tasks = `rake -T`.gsub('rake glimmer:', 'glimmer ').split("\n").select {|l| l.start_with?('glimmer ')}
-      puts TEXT_USAGE_PREFIX
-      puts rake_tasks.join("\n")
-      puts TEXT_USAGE_SUFFIX
-    end
+      rakefile_dir = File.exist?('Rakefile') ? '.' : File.dirname(__FILE__)
+      FileUtils.cd(rakefile_dir) do
+        rake_tasks = `rake -T`.gsub('rake glimmer:', 'glimmer ').split("\n").select {|l| l.start_with?('glimmer ')}
+        puts TEXT_USAGE_PREFIX
+        puts rake_tasks.join("\n")
+        puts TEXT_USAGE_SUFFIX
+      end
+    end    
 
     def extract_application_paths(options)
       options.select do |option|

@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.6.4
+
+- Fix issue with glimmer not listing commands in usage without having a Rakefile
+- Fix issue with passing --log-level or --debug to the `girb` command
+
 ### 0.6.3
 
 **Scaffolding:**
