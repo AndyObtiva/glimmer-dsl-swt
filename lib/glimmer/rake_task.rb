@@ -3,6 +3,98 @@ require 'rake'
 require_relative 'package'
 
 namespace :glimmer do
+  namespace :samples do
+    desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'
+    task :run, [:name] do |t, args|
+      samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
+      samples = samples.select {|path| path.include?("#{args[:name]}.rb")} unless args[:name].nil?      
+      Rake::Task['glimmer:samples:code'].invoke(args[:name]) if samples.size == 1
+      Glimmer::Launcher.new(samples << '--quiet=false').launch
+    end
+    
+    namespace :run do    
+      task :hello do
+        samples = Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)).sort
+        Glimmer::Launcher.new(samples << '--quiet=false').launch        
+      end    
+      
+      task :elaborate do
+        samples = Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__)).sort
+        Glimmer::Launcher.new(samples << '--quiet=false').launch        
+      end    
+    end
+  
+    desc 'Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)'
+    task :list, [:query] do |t, args|
+      Rake::Task['glimmer:samples:list:hello'].invoke(args[:query])
+      Rake::Task['glimmer:samples:list:elaborate'].invoke(args[:query])
+    end
+    
+    namespace :list do
+      task :requires do
+        require 'text-table'
+        require 'facets/string/titlecase'
+        require 'facets/string/underscore'
+        
+        require_relative 'launcher'        
+      end
+    
+      task :hello, [:query] => :requires do |t, args|
+        array_of_arrays = Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)).map do |path| 
+          File.basename(path, '.rb')
+        end.select do |path| 
+          args[:query].nil? || path.include?(args[:query])
+        end.map do |path| 
+          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run[#{path}]"]
+        end.sort
+        puts 
+        puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run:hello):"
+        puts Text::Table.new(
+          :head => %w[Name Description Run],
+          :rows => array_of_arrays,
+          :horizontal_padding    => 1,
+          :vertical_boundary     => ' ',
+          :horizontal_boundary   => ' ',
+          :boundary_intersection => ' '
+        )        
+      end
+      
+      task :elaborate, [:query] => :requires do |t, args|
+        array_of_arrays = Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__)).map do |path| 
+          File.basename(path, '.rb')
+        end.select do |path| 
+          args[:query].nil? || path.include?(args[:query])
+        end.map do |path| 
+          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run[#{path}]"]
+        end.sort
+        puts 
+        puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run:elaborate):"
+        puts Text::Table.new(
+          :head => %w[Name Description Run],
+          :rows => array_of_arrays,
+          :horizontal_padding    => 1,
+          :vertical_boundary     => ' ',
+          :horizontal_boundary   => ' ',
+          :boundary_intersection => ' '
+        )        
+      end      
+    end
+  
+    desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
+    task :code, [:name] do |t, args|
+      samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
+      sample = samples.detect {|path| path.include?("#{args[:name]}.rb")}
+      sample_additional_files = Dir.glob(File.join(sample.sub('.rb', ''), '**', '*.rb'))
+      ([sample] + sample_additional_files).each do |file|
+        puts
+        puts "# #{file}"
+        puts
+        puts File.read(file)      
+      end
+    end
+  
+  end
+
   namespace :package do
     desc 'Clean by removing "dist" and "packages" directories'
     task :clean do

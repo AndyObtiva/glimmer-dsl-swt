@@ -76,6 +76,10 @@ module Glimmer
         end
         @glimmer_lib
       end
+      
+      def dev_mode?
+        glimmer_lib == GLIMMER_LIB_LOCAL
+      end
 
       def glimmer_option_env_vars(glimmer_options)
         GLIMMER_OPTION_ENV_VAR_MAPPING.reduce({}) do |hash, pair|
@@ -127,7 +131,11 @@ module Glimmer
             command = "cmd /C \"#{command}\"" if ENV['PROMPT'] # do in Windows Command Prompt only (or Powershell)
           end
           puts command if jruby_options_string.to_s.include?('--debug')
-          exec command
+          if command.include?(' irb ')
+            exec command
+          else
+            system command
+          end
         end
       end
     end

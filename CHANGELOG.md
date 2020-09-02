@@ -3,6 +3,7 @@
 ### 0.6.4
 
 - Display glimmer-dsl-swt gem version in glimmer command usage
+- Include Glimmer Samples in Gem and provide access via `glimmer samples:list`, `glimmer samples:run`, and `glimmer samples:code` commands
 - Fix issue with glimmer not listing commands in usage without having a Rakefile
 - Fix issue with passing --log-level or --debug to the `girb` command
 

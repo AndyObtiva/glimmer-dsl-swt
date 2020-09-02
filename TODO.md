@@ -60,6 +60,7 @@ bind_content(model, 'addresses').each { |address|
 - Build a debug console widget to inspect Glimmer GUI objects
 - Desktopify web apps with a single command or click
 - Provide a Glimmer App Store for Windows and Linux with Automatic Update support given that Glimmer only supports Mac App Store. Consider expanding to the Mac too with the selling point over the Mac store being that it does not require notarization (approval) though any apps that violate Glimmer's policy (no profane language or evil purposes) might be taken down permanently after distribution without warning.
+- Support a Glimmer DSL for TUI that can convert any desktop app into a textual user interface without needing a change of code just like the Glimmer DSL for Opal
 
 ## Issues
 
@@ -152,15 +153,18 @@ items <=> binding {
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
+- Speed up glimmer command with CRuby compatibility via jruby-jars gem
+- Build a TUI for browsing/running internal gem samples
 
 ## Samples
 
-- Build a sample of samples app (meta-sample) for easily browsing and launching all Glimmer samples
+- Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, etc...)
+- Add hello samples for every built-in SWT widget including the custom package
+- Build a sample of samples GUI app (meta-sample) for easily browsing and launching all Glimmer samples
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
 - Improve Contact Manager sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
-- Add hello samples for every built-in SWT widget including the custom package
 - Tetris Sample
 
 ## Side Projects
