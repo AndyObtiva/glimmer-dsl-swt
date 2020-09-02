@@ -21,6 +21,10 @@ class LoginPresenter
     notify_observers("logged_in")
     notify_observers("logged_out")
   end
+  
+  def valid?
+    !@user_name.to_s.strip.empty? && !@password.to_s.strip.empty?
+  end
 
   def logged_in
     self.status == "Logged In"
@@ -31,6 +35,7 @@ class LoginPresenter
   end
 
   def login
+    return unless valid?
     self.status = "Logged In"
   end
 
@@ -54,15 +59,21 @@ class Login
         grid_layout 2, false #two columns with differing widths
 
         label { text "Username:" } # goes in column 1
-        text {                     # goes in column 2
+        @user_name_text = text {                     # goes in column 2
           text bind(presenter, :user_name)
           enabled bind(presenter, :logged_out)
+          on_key_pressed { |event| 
+            @password_text.set_focus if event.keyCode == swt(:cr)
+          }
         }
 
         label { text "Password:" }
-        text(:password, :border) {
+        @password_text = text(:password, :border) {
           text bind(presenter, :password)
           enabled bind(presenter, :logged_out)
+          on_key_pressed { |event| 
+            presenter.login if event.keyCode == swt(:cr)
+          }
         }
 
         label { text "Status:" }
@@ -72,12 +83,21 @@ class Login
           text "Login"
           enabled bind(presenter, :logged_out)
           on_widget_selected { presenter.login }
+          on_key_pressed { |event| 
+            presenter.login if event.keyCode == swt(:cr)
+          }          
         }
 
         button {
           text "Logout"
           enabled bind(presenter, :logged_in)
           on_widget_selected { presenter.logout }
+          on_key_pressed { |event| 
+            if event.keyCode == swt(:cr)
+              presenter.logout
+              @user_name_text.set_focus
+            end
+          }          
         }
       }
     }
