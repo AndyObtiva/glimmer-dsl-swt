@@ -7,6 +7,7 @@ module Glimmer
     OPERATING_SYSTEMS_SUPPORTED = ["mac", "windows", "linux"]
     
     TEXT_USAGE_PREFIX = <<~MULTI_LINE_STRING
+      Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}      
       Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
     
       Runs Glimmer applications/tasks.
