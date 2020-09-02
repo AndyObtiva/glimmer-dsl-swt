@@ -15,17 +15,20 @@ class HelloListSingleSelection
   include Glimmer
   def launch
     person = Person.new
+    
     shell {
-      composite {
-        list {
-          selection bind(person, :country)
-        }
-        button {
-          text "Reset"
-          on_widget_selected do
-            person.reset_country
-          end
-        }
+      grid_layout
+      
+      text 'Hello, List Single Selection!'
+      
+      list {
+        selection bind(person, :country)
+      }
+      
+      button {
+        text "Reset Selection To Default Value"
+        
+        on_widget_selected { person.reset_country }
       }
     }.open
   end

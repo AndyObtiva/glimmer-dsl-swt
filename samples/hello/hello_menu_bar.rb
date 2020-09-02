@@ -12,6 +12,9 @@ shell { |shell_proxy|
       text '&File'
       menu_item {
         text 'E&xit'
+        on_widget_selected {
+          exit(0)
+        }
       }
       menu_item(0) {
         text '&New'

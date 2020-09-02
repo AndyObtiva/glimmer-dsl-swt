@@ -15,17 +15,21 @@ class HelloCombo
   include Glimmer
   def launch
     person = Person.new
+    
     shell {
-      composite {
-        combo(:read_only) {
-          selection bind(person, :country)
-        }
-        button {
-          text "Reset"
-          on_widget_selected do
-            person.reset_country
-          end
-        }
+      fill_layout :vertical
+      text 'Hello, Combo!'
+      
+      combo(:read_only) {
+        selection bind(person, :country)
+      }
+      
+      button {
+        text "Reset Selection"
+        
+        on_widget_selected do
+          person.reset_country
+        end
       }
     }.open
   end

@@ -23,19 +23,23 @@ end
 
 class HelloListMultiSelection
   include Glimmer
+  
   def launch
     person = Person.new
+    
     shell {
-      composite {
-        list(:multi) {
-          selection bind(person, :provinces)
-        }
-        button {
-          text "Reset"
-          on_widget_selected do
-            person.reset_provinces
-          end
-        }
+      grid_layout      
+      
+      text 'Hello, List Multi Selection!'
+      
+      list(:multi) {
+        selection bind(person, :provinces)
+      }
+      
+      button {
+        text "Reset Selection To Defaults"
+        
+        on_widget_selected { person.reset_provinces }
       }
     }.open
   end
