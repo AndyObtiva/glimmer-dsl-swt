@@ -27,6 +27,7 @@ unless jeweler_required.nil?
     gem.authors = ["AndyMaleh"]
     gem.executables = ['glimmer', 'girb']
     gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*']
+    gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile
   end
   Jeweler::RubygemsDotOrgTasks.new

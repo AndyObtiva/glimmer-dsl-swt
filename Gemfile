@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby '>= 2.5.3', :engine => 'jruby', engine_version: '>= 9.2.6.0'
+
 # Glimmer project owner gems
 gem 'glimmer', '~> 0.10.3' #, path: '../glimmer'
 gem 'super_module', '~> 1.4.1'

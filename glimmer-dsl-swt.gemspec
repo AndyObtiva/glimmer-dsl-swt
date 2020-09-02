@@ -110,6 +110,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/AndyObtiva/glimmer-dsl-swt".freeze
   s.licenses = ["MIT".freeze]
+  s.required_ruby_version = Gem::Requirement.new(">= 2.5.3".freeze)
   s.rubygems_version = "3.0.6".freeze
   s.summary = "Glimmer DSL for SWT".freeze
 
