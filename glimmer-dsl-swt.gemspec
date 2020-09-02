@@ -108,7 +108,6 @@ Gem::Specification.new do |s|
     "samples/elaborate/contact_manager/contact.rb",
     "samples/elaborate/contact_manager/contact_manager_presenter.rb",
     "samples/elaborate/contact_manager/contact_repository.rb",
-    "samples/elaborate/launch",
     "samples/elaborate/login.rb",
     "samples/elaborate/tic_tac_toe.rb",
     "samples/elaborate/tic_tac_toe/board.rb",
@@ -125,8 +124,6 @@ Gem::Specification.new do |s|
     "samples/hello/hello_pop_up_context_menu.rb",
     "samples/hello/hello_tab.rb",
     "samples/hello/hello_world.rb",
-    "samples/hello/launch",
-    "samples/launch",
     "vendor/swt/linux/swt.jar",
     "vendor/swt/mac/swt.jar",
     "vendor/swt/windows/swt.jar"
