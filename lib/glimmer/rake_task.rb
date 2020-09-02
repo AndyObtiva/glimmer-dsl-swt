@@ -10,7 +10,7 @@ namespace :glimmer do
       name = name.underscore.downcase unless name.nil?
       samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
       samples = samples.select {|path| path.include?("#{name}.rb")} unless name.nil?      
-      Rake::Task['glimmer:samples:code'].invoke(name) if samples.size == 1
+      Rake::Task['glimmer:sample:code'].invoke(name) if samples.size == 1
       Glimmer::Launcher.new(samples << '--quiet=false').launch
     end
     
@@ -28,8 +28,8 @@ namespace :glimmer do
   
     desc 'Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)'
     task :list, [:query] do |t, args|
-      Rake::Task['glimmer:samples:list:hello'].invoke(args[:query])
-      Rake::Task['glimmer:samples:list:elaborate'].invoke(args[:query])
+      Rake::Task['glimmer:sample:list:hello'].invoke(args[:query])
+      Rake::Task['glimmer:sample:list:elaborate'].invoke(args[:query])
     end
     
     namespace :list do
@@ -39,10 +39,10 @@ namespace :glimmer do
         end.select do |path| 
           args[:query].nil? || path.include?(args[:query])
         end.map do |path| 
-          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run[#{path}]"]
+          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
         end.sort
         puts 
-        puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run:hello):"
+        puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:hello):"
         puts Text::Table.new(
           :head => %w[Name Description Run],
           :rows => array_of_arrays,
@@ -59,10 +59,10 @@ namespace :glimmer do
         end.select do |path| 
           args[:query].nil? || path.include?(args[:query])
         end.map do |path| 
-          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run[#{path}]"]
+          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
         end.sort
         puts 
-        puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer samples:run:elaborate):"
+        puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:elaborate):"
         puts Text::Table.new(
           :head => %w[Name Description Run],
           :rows => array_of_arrays,
