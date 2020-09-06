@@ -12,6 +12,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support background_image property without stretching of image on resize
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
 - Add FillLayout default style if not passed in
+- Make GitHub username optional for Scaffolding
+- Document the new way of running samples under the Sample section too (removing most of the old documentation)
+- Update Sample screenshots given the new default margin layout changes
 
 ### 0.7.0
 
@@ -155,6 +158,17 @@ items <=> binding {
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples
+- Syntax-highlight sample code when output with `glimmer sample:code` command
+- Add man pages for glimmer commands
+- Added an SWT::Asynchronous module or something similar to automatically turn all methods in a class as threaded async (needed for use with drb)
+- Provide a friendly message when scaffolded app/gem/file already exists instead of an error
+- Integrate https://sveinbjorn.org/platypus into DRB pure Ruby client packaging on Mac
+- Use tty-markdown to output code of samples with syntax highlighting
+- Use tty-option to rewrite glimmer command more cleanly
+- Look into modular Java as a way to speed up launching of packaged Glimmer apps
+- Look into module Ruby (mruby) as a way to speed up launching of packaged Glimmer apps
+- Move ext directory under glimmer-dsl-swt to namespace it for safety with other libraries
+- Use platybus for splash screen on the mac since it shows up immediately with it
 
 ## Samples
 

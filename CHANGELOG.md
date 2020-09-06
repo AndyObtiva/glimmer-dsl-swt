@@ -1,5 +1,9 @@
 # Change Log
 
+### 0.6.5
+
+- Added the [rake-tui](https://github.com/AndyObtiva/rake-tui) gem as a productivity tool for arrow key navigation/text-filtering/quick-triggering of rake tasks
+
 ### 0.6.4
 
 - Display glimmer-dsl-swt gem version in glimmer command usage
