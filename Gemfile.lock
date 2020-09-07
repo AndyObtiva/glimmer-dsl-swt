@@ -81,7 +81,7 @@ GEM
       awesome_print (~> 1.8.0)
     rack (2.2.3)
     rake (13.0.1)
-    rake-tui (0.1.1)
+    rake-tui (0.2.1)
       tty-prompt
     rchardet (1.8.0)
     rdoc (6.2.1)
@@ -148,7 +148,7 @@ DEPENDENCIES
   os (>= 1.0.0, < 2.0.0)
   puts_debuggerer (~> 0.10.0)
   rake (>= 10.1.0, < 14.0.0)
-  rake-tui
+  rake-tui (>= 0.2.1)
   rdoc (>= 6.2.1, < 7.0.0)
   rspec (~> 3.5.0)
   rspec-mocks (~> 3.5.0)

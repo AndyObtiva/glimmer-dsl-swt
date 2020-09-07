@@ -3,6 +3,7 @@
 ### 0.6.5
 
 - Added the [rake-tui](https://github.com/AndyObtiva/rake-tui) gem as a productivity tool for arrow key navigation/text-filtering/quick-triggering of rake tasks
+- Use rake-tui gem in `glimmer` command by default on Mac and Linux
 
 ### 0.6.4
 

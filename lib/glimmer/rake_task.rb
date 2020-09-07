@@ -41,16 +41,20 @@ namespace :glimmer do
         end.map do |path| 
           [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
         end.sort
-        puts 
-        puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:hello):"
-        puts Text::Table.new(
-          :head => %w[Name Description Run],
-          :rows => array_of_arrays,
-          :horizontal_padding    => 1,
-          :vertical_boundary     => ' ',
-          :horizontal_boundary   => ' ',
-          :boundary_intersection => ' '
-        )        
+        if array_of_arrays.empty?
+          puts "No Glimmer Hello Samples match the query."
+        else
+          puts 
+          puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:hello):"
+          puts Text::Table.new(
+            :head => %w[Name Description Run],
+            :rows => array_of_arrays,
+            :horizontal_padding    => 1,
+            :vertical_boundary     => ' ',
+            :horizontal_boundary   => ' ',
+            :boundary_intersection => ' '
+          )        
+        end
       end
       
       task :elaborate, [:query] => :requires do |t, args|
@@ -61,16 +65,20 @@ namespace :glimmer do
         end.map do |path| 
           [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
         end.sort
-        puts 
-        puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:elaborate):"
-        puts Text::Table.new(
-          :head => %w[Name Description Run],
-          :rows => array_of_arrays,
-          :horizontal_padding    => 1,
-          :vertical_boundary     => ' ',
-          :horizontal_boundary   => ' ',
-          :boundary_intersection => ' '
-        )        
+        if array_of_arrays.empty?
+          puts "No Glimmer Elaborate Samples match the query."
+        else
+          puts 
+          puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:elaborate):"
+          puts Text::Table.new(
+            :head => %w[Name Description Run],
+            :rows => array_of_arrays,
+            :horizontal_padding    => 1,
+            :vertical_boundary     => ' ',
+            :horizontal_boundary   => ' ',
+            :boundary_intersection => ' '
+          )        
+        end
       end      
     end
   
@@ -136,7 +144,6 @@ namespace :glimmer do
     Rake::Task['glimmer:package:jar'].execute
     Rake::Task['glimmer:package:native'].execute(args)
   end
-
 
   desc 'Scaffold Glimmer application directory structure to build a new app'
   task :scaffold, [:app_name] do |t, args|

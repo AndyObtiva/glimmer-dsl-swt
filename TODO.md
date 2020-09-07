@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.6.5
 
+- Validate/Indicate required glimmer task first args (e.g. name for custom shell gem)
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
 - Accept `ImageProxy` as arg for image property method
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
@@ -169,6 +170,7 @@ items <=> binding {
 - Look into module Ruby (mruby) as a way to speed up launching of packaged Glimmer apps
 - Move ext directory under glimmer-dsl-swt to namespace it for safety with other libraries
 - Use platybus for splash screen on the mac since it shows up immediately with it
+- Support the idea of pre-launching a JVM server (perhaps Nailgun with OSGi or simply DRB on JRuby) and instrumenting apps unto it to run immediately instead of taking the time to launch a JVM server first. Perhaps an intial version requires JAR files preloaded loaded on install. Future version would support the idea of a client sending the JAR to the server to include at runtime.
 
 ## Samples
 

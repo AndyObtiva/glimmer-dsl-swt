@@ -6,34 +6,26 @@ module Glimmer
   class Launcher
     OPERATING_SYSTEMS_SUPPORTED = ["mac", "windows", "linux"]
     
-    TEXT_USAGE_PREFIX = <<~MULTI_LINE_STRING
+    TEXT_USAGE = <<~MULTI_LINE_STRING
       Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}      
       Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
     
-      Runs Glimmer applications/tasks.
-    
-      Either a single task or one or more applications may be specified.
-    
-      When a task is specified, it runs via rake. Some tasks take arguments in square brackets.
-    
-      Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
-    MULTI_LINE_STRING
-
-    TEXT_USAGE_SUFFIX = <<~MULTI_LINE_STRING
+      Runs Glimmer applications and tasks.    
     
       When applications are specified, they are run using JRuby, 
       automatically preloading the glimmer Ruby gem and SWT jar dependency.
     
-      Optionally, extra Glimmer options, JRuby options and environment variables may be passed in.
+      Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
     
       Glimmer options:
       - "--quiet"           : Does not announce file path of Glimmer application being launched
       - "--debug"           : Displays extra debugging information, passes "--debug" to JRuby, and enables debug logging
       - "--log-level=VALUE" : Sets Glimmer's Ruby logger level ("ERROR" / "WARN" / "INFO" / "DEBUG"; default is none)
     
-      Example: glimmer samples/hello_world.rb
+      Tasks are run via rake. Some tasks take arguments in square brackets.
     
-      This runs the Glimmer application samples/hello_world.rb
+      Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
+      
     MULTI_LINE_STRING
 
     GLIMMER_LIB_LOCAL = File.expand_path(File.join('lib', 'glimmer-dsl-swt.rb'))
@@ -180,14 +172,33 @@ module Glimmer
     end
 
     def display_usage
-      rakefile_dir = File.exist?('Rakefile') ? '.' : File.dirname(__FILE__)
-      FileUtils.cd(rakefile_dir) do
-        rake_tasks = `rake -T`.gsub('rake glimmer:', 'glimmer ').split("\n").select {|l| l.start_with?('glimmer ')}
-        puts TEXT_USAGE_PREFIX
-        puts rake_tasks.join("\n")
-        puts TEXT_USAGE_SUFFIX
+      puts TEXT_USAGE
+      display_tasks
+    end
+    
+    def display_tasks
+      if OS.windows?
+        tasks = Rake.application.tasks
+        task_lines = tasks.reject do |task|
+          task.comment.nil?
+        end.map do |task|
+          max_task_size = tasks.map(&:name_with_args).map(&:size).max + 1
+          task_name = task.name_with_args.sub('glimmer:', '')
+          line = "glimmer #{task_name.ljust(max_task_size)} # #{task.comment}"
+          bound = TTY::Screen.width - 6
+          line.size <= bound ? line : "#{line[0..(bound - 3)]}..."          
+        end
+        puts task_lines.to_a
+      else
+        Rake::TUI.run(branding_header: nil, prompt_question: 'Select a Glimmer task to run:') do |task, tasks|
+          max_task_size = tasks.map(&:name_with_args).map(&:size).max + 1
+          task_name = task.name_with_args.sub('glimmer:', '')
+          line = "glimmer #{task_name.ljust(max_task_size)} # #{task.comment}"
+          bound = TTY::Screen.width - 6
+          line.size <= bound ? line : "#{line[0..(bound - 3)]}..."          
+        end    
       end
-    end    
+    end
 
     def extract_application_paths(options)
       options.select do |option|
