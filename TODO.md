@@ -17,7 +17,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document the new way of running samples under the Sample section too (removing most of the old documentation)
 - Update Sample screenshots given the new default margin layout changes
 
-### 0.7.0
+### 0.7.0 
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
@@ -171,6 +171,7 @@ items <=> binding {
 - Move ext directory under glimmer-dsl-swt to namespace it for safety with other libraries
 - Use platybus for splash screen on the mac since it shows up immediately with it
 - Support the idea of pre-launching a JVM server (perhaps Nailgun with OSGi or simply DRB on JRuby) and instrumenting apps unto it to run immediately instead of taking the time to launch a JVM server first. Perhaps an intial version requires JAR files preloaded loaded on install. Future version would support the idea of a client sending the JAR to the server to include at runtime.
+- Glimmer DSL for RubyMotion widget support on the Mac only
 
 ## Samples
 
