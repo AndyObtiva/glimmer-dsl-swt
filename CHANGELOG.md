@@ -6,6 +6,7 @@
 - GLIMMER_LOGGER_ASYNC env var for disabling async logging when needed for immediate troubleshooting purposes
 - Add User Profile sample from DZone article
 - Support `check` as alias to `checkbox` DSL keyword for Button widget with :check style. 
+- Validate scaffolded custom shell gem name to ensure it doesn't clash with a built in Ruby method
 
 ### 0.6.5
 

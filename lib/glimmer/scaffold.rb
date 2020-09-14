@@ -4,6 +4,8 @@ require 'facets'
 
 # TODO refactor to nest under RakeTask namespace
 
+MAIN_OBJECT = self
+
 class Scaffold
   class << self
     include FileUtils
@@ -179,6 +181,13 @@ class Scaffold
     def custom_shell_gem(custom_shell_name, namespace)
       gem_name = "glimmer-cs-#{compact_name(custom_shell_name)}"
       gem_summary = "#{human_name(custom_shell_name)} - Glimmer Custom Shell"
+      begin
+        custom_shell_keyword = dsl_widget_name(custom_shell_name)
+        MAIN_OBJECT.method(custom_shell_keyword)
+        return puts("CustomShell keyword `#{custom_shell_keyword}` is unavailable (occupied by a built-in Ruby method)! Please pick a different name.")
+      rescue NameError
+        # No Op (keyword is not taken by a built in Ruby method)
+      end
       if namespace
         gem_name += "-#{compact_name(namespace)}"
         gem_summary += " (#{human_name(namespace)})"
@@ -354,9 +363,15 @@ class Scaffold
       <<~MULTI_LINE_STRING
         require_relative '../lib/#{gem_name}'
         
-        include Glimmer
+        class #{class_name(custom_shell_name)}App
+          include Glimmer
         
-        #{dsl_widget_name(custom_shell_name)}.open
+          def open
+            #{dsl_widget_name(custom_shell_name)}.open
+          end
+        end
+        
+        #{class_name(custom_shell_name)}App.new.open
       MULTI_LINE_STRING
     end
 

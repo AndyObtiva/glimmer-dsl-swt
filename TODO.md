@@ -4,12 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.6
-
-- Prevent scaffolded binary in custom shell gem from mixing Glimmer into main object
-- glimmer command run rake task
-- glimmer command girb rake task
-
 ### 0.6.7
 
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
@@ -38,6 +32,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add a simple :integer / :positive_integer / :decimal SWT style for adding verify_text validation for text field
 - Add a shortcut for a numeric text field
 - Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task
+- glimmer command run rake task
+- glimmer command girb rake task
 
 ### Soon (Version TBD)
 
