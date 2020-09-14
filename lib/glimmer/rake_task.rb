@@ -84,18 +84,24 @@ namespace :glimmer do
   
     desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
     task :code, [:name] => :requires do |t, args|
+      require 'tty-markdown'
       samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
       sample = samples.detect {|path| path.include?("#{args[:name].to_s.underscore.downcase}.rb")}
       sample_additional_files = Dir.glob(File.join(sample.sub('.rb', ''), '**', '*.rb'))
-      ([sample] + sample_additional_files).each do |file|
-        puts
-        puts "# #{file}"
-        puts
-        puts File.read(file)
-        puts
-        puts '# # #'
-        puts
-      end
+      output = TTY::Markdown.parse ([sample] + sample_additional_files).map do |file|
+        <<~MARKDOWN
+        
+        ```ruby
+        # #{file}
+        
+        #{File.read(file)}
+        
+        # # #
+        ```
+        
+        MARKDOWN
+      end.join("\n")
+      puts output
     end
     
     task :requires do

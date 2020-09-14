@@ -7,6 +7,7 @@
 - Add User Profile sample from DZone article
 - Support `check` as alias to `checkbox` DSL keyword for Button widget with :check style. 
 - Validate scaffolded custom shell gem name to ensure it doesn't clash with a built in Ruby method
+- Colored Ruby syntax highlighting for sample:code and sample:run tasks courtesy of tty-markdown
 
 ### 0.6.5
 
