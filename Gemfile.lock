@@ -174,7 +174,7 @@ DEPENDENCIES
   simplecov-lcov (~> 0.7.0)
   super_module (~> 1.4.1)
   text-table (>= 1.2.4, < 2.0.0)
-  tty-markdown
+  tty-markdown (>= 0.7.0, < 2.0.0)
   warbler (>= 2.0.5, < 3.0.0)
 
 RUBY VERSION
