@@ -25,6 +25,7 @@ module Glimmer
         "arrow"               => [:arrow],
         "button"              => [:push],
         "checkbox"            => [:check],
+        "check"               => [:check],
         "drag_source"         => [:drop_copy],
         "drop_target"         => [:drop_copy],
         "list"                => [:border, :v_scroll],
@@ -315,7 +316,7 @@ module Glimmer
 
       # This supports widgets in and out of basic SWT
       def self.swt_widget_class_for(underscored_widget_name)
-        underscored_widget_name = 'button' if %w[radio checkbox toggle arrow].include?(underscored_widget_name)
+        underscored_widget_name = 'button' if %w[radio checkbox check toggle arrow].include?(underscored_widget_name)
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)

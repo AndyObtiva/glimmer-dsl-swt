@@ -435,6 +435,18 @@ module GlimmerSpec
       expect(@checkbox.text).to eq('checkbox button')    
     end
 
+    it 'renders checkbox button' do
+      @target = shell {
+        @checkbox = check {
+          text 'checkbox button'
+        }
+      }
+      
+      expect(@checkbox.swt_widget).to be_a(Button)
+      expect(@checkbox).to have_style(:check)
+      expect(@checkbox.text).to eq('checkbox button')    
+    end
+
     it 'renders toggle button' do
       @target = shell {
         @toggle = toggle {

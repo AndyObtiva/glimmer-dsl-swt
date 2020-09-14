@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### 0.6.6
 
-- Add sample from EclipseZone article
 - Prevent scaffolded binary in custom shell gem from mixing Glimmer into main object
 - glimmer command run rake task
 - glimmer command girb rake task
@@ -236,3 +235,4 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
 - Document how to publish apps on MacUpdate.com 
 - Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)
+- Document changes to Eclipse DZone article

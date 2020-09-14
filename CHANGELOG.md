@@ -4,6 +4,8 @@
 
 - Fix issue with table equivalent sort edge case (that is two sorts that are equivalent causing an infinite loop of resorting since the table is not correctly identified as sorted already)
 - GLIMMER_LOGGER_ASYNC env var for disabling async logging when needed for immediate troubleshooting purposes
+- Add User Profile sample from DZone article
+- Support `check` as alias to `checkbox` DSL keyword for Button widget with :check style. 
 
 ### 0.6.5
 
