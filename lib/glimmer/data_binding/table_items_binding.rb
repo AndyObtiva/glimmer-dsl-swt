@@ -30,7 +30,10 @@ module Glimmer
       end
 
       def call(new_model_collection=nil)
-        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)        
+        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)
+        table_cells = @table.swt_widget.items.map {|item| @table.column_properties.size.times.map {|i| item.get_text(i)} }
+        model_cells = new_model_collection.to_a.map {|m| @table.cells_for(m)}
+        return if table_cells == model_cells
         if new_model_collection and new_model_collection.is_a?(Array)
           @table_items_observer_registration&.unobserve
           @table_items_observer_registration = observe(new_model_collection, @column_properties)

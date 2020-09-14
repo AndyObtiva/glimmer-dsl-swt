@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.6.6
+
+- Fix issue with table equivalent sort edge case (that is two sorts that are equivalent causing an infinite loop of resorting since the table is not correctly identified as sorted already)
+- GLIMMER_LOGGER_ASYNC env var for disabling async logging when needed for immediate troubleshooting purposes
+
 ### 0.6.5
 
 - Added the [rake-tui](https://github.com/AndyObtiva/rake-tui) gem as a productivity tool for arrow key navigation/text-filtering/quick-triggering of rake tasks

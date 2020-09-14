@@ -48,6 +48,10 @@ module Glimmer
       
       def logging_appender_options
         @@logging_appender_options = {async: true, auto_flushing: 500, write_size: 500, flush_period: 60, immediate_at: [:error, :fatal], layout: logging_layout} unless defined? @@logging_appender_options
+        # TODO make this a glimmer command option
+        if ENV['GLIMMER_LOGGER_ASYNC'].to_s.downcase == 'false'
+          @@logging_appender_options.merge!(async: false, auto_flushing: 1, immediate_at: [:debug, :info, :warn, :error, :fatal])
+        end
         @@logging_appender_options
       end
       
@@ -90,9 +94,13 @@ module Glimmer
           end
           logger.appenders = appenders
         end
+        
       end
+      
     end
+    
   end
+  
 end
 
 Glimmer::Config.reset_logger!

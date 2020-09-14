@@ -350,6 +350,7 @@ class Scaffold
     end
 
     def gem_bin_file(gem_name, custom_shell_name, namespace)
+      # TODO change this so that it does not mix Glimmer unto the main object
       <<~MULTI_LINE_STRING
         require_relative '../lib/#{gem_name}'
         

@@ -29,7 +29,7 @@ GEM
       hashie (>= 3.4)
       mime-types (>= 1.16, < 3.0)
       oauth2 (~> 1.0)
-    glimmer (0.10.3)
+    glimmer (0.10.4)
       array_include_methods (>= 1.0.2, < 2.0.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (4.1.0)

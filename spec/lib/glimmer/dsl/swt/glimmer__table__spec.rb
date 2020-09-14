@@ -102,7 +102,7 @@ module GlimmerSpec
         person.adult = false
         person.dob = Time.new(1978, 11, 27, 22, 47, 25)
         person.salary = 89000.7
-      end
+      end  
     end
     
     let(:selected_person) { person2 }

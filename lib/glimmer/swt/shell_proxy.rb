@@ -1,7 +1,6 @@
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/widget_proxy'
 require 'glimmer/swt/display_proxy'
-require 'glimmer/swt/swt_proxy'
 
 module Glimmer
   module SWT

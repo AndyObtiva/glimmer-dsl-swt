@@ -4,8 +4,20 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.5
+### 0.6.6
 
+- Add sample from EclipseZone article
+- Prevent scaffolded binary in custom shell gem from mixing Glimmer into main object
+- glimmer command run rake task
+- glimmer command girb rake task
+
+### 0.6.7
+
+- Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
+- Change naming of scaffolded app bundle for mac to start with a capital letter (e.g. com.evernote.Evernote not com.evernote.evernote)
+- Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
+- Run glimmer command rake task presents a TUI file chooser
+- Windows support for glimmer command TUI
 - Validate/Indicate required glimmer task first args (e.g. name for custom shell gem)
 - Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
 - Accept `ImageProxy` as arg for image property method
@@ -172,6 +184,9 @@ items <=> binding {
 - Use platybus for splash screen on the mac since it shows up immediately with it
 - Support the idea of pre-launching a JVM server (perhaps Nailgun with OSGi or simply DRB on JRuby) and instrumenting apps unto it to run immediately instead of taking the time to launch a JVM server first. Perhaps an intial version requires JAR files preloaded loaded on install. Future version would support the idea of a client sending the JAR to the server to include at runtime.
 - Glimmer DSL for RubyMotion widget support on the Mac only
+- Support a Glimmer command GUI as an option to use in place of the TUI
+- Consider the idea of replacing (or aliasing) swt_widget, swt_color, swt_display, etc... as simply .swt
+- Introduce a logging level below debug and below info to avoid noisiness
 
 ## Samples
 

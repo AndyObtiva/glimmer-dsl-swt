@@ -457,6 +457,7 @@ module Glimmer
       rescue => e
         Glimmer::Config.logger.debug {"Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
         super
+        # TODO consider get_attribute too
       end
       
       def respond_to?(method, *args, &block)

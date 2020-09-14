@@ -209,9 +209,19 @@ module Glimmer
         @editor = args
       end 
       
+      def cells_for(model)
+        column_properties.map {|property| model.send(property)}
+      end
+      
+      def cells
+        column_count = @table.column_properties.size
+        swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
+      end
+      
       def sort
         return unless sort_property && (sort_type || sort_block || sort_by_block)
         array = model_binding.evaluate_property
+        array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
         if sort_block
           sorted_array = array.sort(&sort_block)
