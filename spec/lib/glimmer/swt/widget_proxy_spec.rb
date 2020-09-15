@@ -4,7 +4,7 @@ module GlimmerSpec
   describe Glimmer::SWT::WidgetProxy do
     include Glimmer
     
-    it "initializes with an existing swt_widget instead of init_args" do
+    it "wraps an existing swt_widget instead of initializing with init_args" do
       @target = shell
       @swt_scrolled_composite = ScrolledComposite.new(@target.swt_widget, swt(:none))
       @scrolled_composite = Glimmer::SWT::WidgetProxy.new(swt_widget: @swt_scrolled_composite)
@@ -22,6 +22,36 @@ module GlimmerSpec
       
       # verify post_initialize_child is called on parent
       expect(@swt_scrolled_composite.content).to eq(@swt_composite)
+    end
+    
+    it "wraps an existing composite without setting default layout if a layout exists" do
+      @target = shell {
+        @composite = composite {
+          fill_layout
+        }
+      }
+      
+      expect(@composite.getLayout).to be_a(FillLayout)
+      
+      @wrapper = Glimmer::SWT::WidgetProxy.new(swt_widget: @composite.swt_widget)
+      
+      expect(@wrapper.swt_widget).to eq(@composite.swt_widget)
+      expect(@wrapper.getLayout).to be_a(FillLayout)
+    end
+    
+    it "wraps an existing group without setting default layout if a layout exists" do
+      @target = shell {
+        @group = group {
+          fill_layout
+        }
+      }
+      
+      expect(@group.getLayout).to be_a(FillLayout)
+      
+      @wrapper = Glimmer::SWT::WidgetProxy.new(swt_widget: @group.swt_widget)
+      
+      expect(@wrapper.swt_widget).to eq(@group.swt_widget)
+      expect(@wrapper.getLayout).to be_a(FillLayout)
     end
     
     it "sets data('proxy')" do

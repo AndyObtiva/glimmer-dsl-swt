@@ -4,10 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 0.6.7
+
+### 0.6.8
 
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
-- Change naming of scaffolded app bundle for mac to start with a capital letter (e.g. com.evernote.Evernote not com.evernote.evernote)
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
 - Run glimmer command rake task presents a TUI file chooser
 - Windows support for glimmer command TUI
@@ -19,11 +19,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
-- Document the new way of running samples under the Sample section too (removing most of the old documentation)
-- Update Sample screenshots given the new default margin layout changes
 
 ### 0.7.0 
 
+- Upgrade to SWT 4.17
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
 - Support horizontal_span in addition to horizontalSpan in layout data (and other properties)
@@ -34,6 +33,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task
 - glimmer command run rake task
 - glimmer command girb rake task
+- Support Windows with colored code output and tty prompt (perhaps only when using the special windows terminals that support that)
 
 ### Soon (Version TBD)
 
@@ -180,8 +180,8 @@ items <=> binding {
 - Support the idea of pre-launching a JVM server (perhaps Nailgun with OSGi or simply DRB on JRuby) and instrumenting apps unto it to run immediately instead of taking the time to launch a JVM server first. Perhaps an intial version requires JAR files preloaded loaded on install. Future version would support the idea of a client sending the JAR to the server to include at runtime.
 - Glimmer DSL for RubyMotion widget support on the Mac only
 - Support a Glimmer command GUI as an option to use in place of the TUI
-- Consider the idea of replacing (or aliasing) swt_widget, swt_color, swt_display, etc... as simply .swt
 - Introduce a logging level below debug and below info to avoid noisiness
+- Fix issue with proxy.layout not working forcing me to do proxy.get_layout
 
 ## Samples
 
@@ -231,4 +231,4 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
 - Document how to publish apps on MacUpdate.com 
 - Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)
-- Document changes to Eclipse DZone article
+- Update Sample screenshots given the new default margin layout changes

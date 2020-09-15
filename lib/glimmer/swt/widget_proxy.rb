@@ -42,20 +42,16 @@ module Glimmer
 
       DEFAULT_INITIALIZERS = {
         "composite" => lambda do |composite|
-          layout = GridLayout.new
-          layout.marginWidth = 15
-          layout.marginHeight = 15
-          composite.layout = layout
+          if composite.get_layout.nil?
+            layout = GridLayout.new
+            layout.marginWidth = 15
+            layout.marginHeight = 15
+            composite.layout = layout
+          end
         end,
         "scrolled_composite" => lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true
           scrolled_composite.expand_vertical = true
-        end,
-        "shell" => lambda do |shell|
-          layout = FillLayout.new
-          layout.marginWidth = 15
-          layout.marginHeight = 15
-          shell.layout = layout
         end,
         "table" => lambda do |table|
           table.setHeaderVisible(true)
@@ -65,7 +61,7 @@ module Glimmer
           table_column.setWidth(80)
         end,
         "group" => lambda do |group|
-          group.setLayout(GridLayout.new)
+          group.layout = GridLayout.new if group.get_layout.nil?
         end,
       }
       
@@ -89,7 +85,7 @@ module Glimmer
       end
 
       attr_reader :parent_proxy, :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
-
+      
       # Initializes a new SWT Widget
       #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
