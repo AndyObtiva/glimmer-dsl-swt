@@ -1,5 +1,12 @@
 # Change Log
 
+### 0.6.9
+
+- Log error messages when running inside sync_exec or async_exec (since you cannot rescue their errors from outside them)
+- Exclude gladiator from required libraries during sample listing/running/code-display
+- Ensured creating a widget with swt_widget keyword arg doesn't retrigger initializers on its parents if already initialized
+- Extract `WidgetProxy#interpret_style` to make it possible to extend with further styles with less code (e.g. CDateTimeProxy adds CDT styles by overriding method)
+
 ### 0.6.8
 
 - Support external configuration of `WidgetProxy::KEYWORD_ALIASES` (e.g. `radio` is an alias for `button(:radio)`)

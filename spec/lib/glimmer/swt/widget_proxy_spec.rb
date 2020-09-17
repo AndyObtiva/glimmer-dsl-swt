@@ -7,7 +7,7 @@ module GlimmerSpec
     it "wraps an existing swt_widget instead of initializing with init_args" do
       @target = shell
       @swt_scrolled_composite = ScrolledComposite.new(@target.swt_widget, swt(:none))
-      @scrolled_composite = Glimmer::SWT::WidgetProxy.new(swt_widget: @swt_scrolled_composite)
+      @scrolled_composite = Glimmer::SWT::WidgetProxy.create(swt_widget: @swt_scrolled_composite)
       
       expect(@scrolled_composite.swt_widget).to eq(@swt_scrolled_composite)
       expect(@scrolled_composite.swt_widget.get_data('proxy')).to eq(@scrolled_composite)
@@ -15,7 +15,7 @@ module GlimmerSpec
       expect(@scrolled_composite.parent_proxy.swt_widget).to eq(@swt_scrolled_composite.parent)
       
       @swt_composite = Composite.new(@swt_scrolled_composite, swt(:none))
-      @composite = Glimmer::SWT::WidgetProxy.new(swt_widget: @swt_composite)
+      @composite = Glimmer::SWT::WidgetProxy.create(swt_widget: @swt_composite)
       
       # verify default initializers are called on widget
       expect(@swt_composite.get_layout).to be_a(GridLayout)
@@ -64,6 +64,13 @@ module GlimmerSpec
       
       expect(@label.get_data('proxy')).to eq(@label)
       expect(@composite.get_data('proxy')).to eq(@composite)
+    end
+    
+    it "returns data('proxy') in create method when passing a previously wrapped swt_widget" do
+      @target = shell {
+        @label = label
+      }
+      expect(Glimmer::SWT::WidgetProxy.create(swt_widget: @label.swt_widget)).to eq(@label)
     end
     
     it 'adds listener' do

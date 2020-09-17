@@ -517,7 +517,7 @@ module GlimmerSpec
               table_column {
                 text "Name"
                 width 120
-                editor :combo, :read_only
+                editor 'combo', :read_only # testing editor as string not symbol
               }
               items bind(group, :people), column_properties(:name)
               selection bind(group, :selected_person)

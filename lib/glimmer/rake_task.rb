@@ -19,14 +19,12 @@ namespace :glimmer do
     end
     
     task :glimmer_gems do
-      glimmer_gem_lib_files = Dir.glob(File.join(Gem.dir, 'gems', '*')).to_a.select do |gem_path| 
-        !!File.basename(gem_path).match(/glimmer-cw|glimmer-cs|glimmer-dsl/)
-      end.map do |gem_path|
-        Dir.glob(File.join(gem_path, 'lib/*.rb')).detect {|lib| gem_path.include?(File.basename(lib, '.rb')) }
-      end.uniq do |gem_lib_file|
-        File.basename(gem_lib_file)
-      end
-      glimmer_gem_lib_files.each {|file| require file.sub(/\.rb$/, '')}    
+      glimmer_cw_gems = Gem.find_latest_files('glimmer-cw-*')
+      glimmer_cs_gems = Gem.find_latest_files('glimmer-cs-*')
+      glimmer_dsl_gems = Gem.find_latest_files('glimmer-dsl-*')
+      glimmer_gem_lib_files = glimmer_cw_gems + glimmer_cs_gems + glimmer_dsl_gems
+      glimmer_gem_lib_files = glimmer_gem_lib_files.map {|file| file.sub(/\.rb$/, '')}.uniq.reject {|file| file.include?('glimmer-cs-gladiator')}
+      glimmer_gem_lib_files.each {|file| require file}    
     end
   
     desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'

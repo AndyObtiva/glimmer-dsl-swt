@@ -36,7 +36,8 @@ module Glimmer
       class << self
         def editors
           @editors ||= {
-            text: {
+            # ensure editor can work with string keys not just symbols (leave one string in for testing)
+            'text' => {
               widget_value_property: :text,
               editor_gui: lambda do |args, model, property, table_proxy|
                 table_proxy.table_editor.minimumHeight = 20
@@ -303,6 +304,7 @@ module Glimmer
       end
             
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
+        require 'facets/hash/symbolize_keys'
         return if table_item.nil?
         model = table_item.data
         property = column_properties[column_index]
@@ -314,10 +316,10 @@ module Glimmer
         editor_config = editor_config.to_a
         editor_widget_options = editor_config.last.is_a?(Hash) ? editor_config.last : {}
         editor_widget_arg_last_index = editor_config.last.is_a?(Hash) ? -2 : -1
-        editor_widget = editor_config[0] || :text
+        editor_widget = (editor_config[0] || :text).to_sym
         editor_widget_args = editor_config[1..editor_widget_arg_last_index]
         model_editing_property = editor_widget_options[:property] || property
-        widget_value_property = TableProxy::editors[editor_widget][:widget_value_property]
+        widget_value_property = TableProxy::editors.symbolize_keys[editor_widget][:widget_value_property]
         
         @cancel_edit = lambda do |event=nil|
           @cancel_in_progress = true
@@ -354,7 +356,7 @@ module Glimmer
         end
 
         content { 
-          @table_editor_widget_proxy = TableProxy::editors[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
+          @table_editor_widget_proxy = TableProxy::editors.symbolize_keys[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
       rescue => e

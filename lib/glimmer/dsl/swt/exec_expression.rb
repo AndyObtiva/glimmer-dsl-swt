@@ -20,7 +20,13 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::DisplayProxy.instance.swt_display.send(exec_operation, &block)
+          Glimmer::SWT::DisplayProxy.instance.swt_display.send(exec_operation) do |*args|
+            begin
+              block.call(*args)
+            rescue => e
+              Glimmer::Config.logger.error e.full_message
+            end
+          end
         end
       end
     end

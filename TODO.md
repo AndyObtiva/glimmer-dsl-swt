@@ -4,8 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+### 0.7.0
 
-### 0.6.8
+- Upgrade to SWT 4.17
+
+### 0.7.1
 
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
@@ -20,9 +23,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
 
-### 0.7.0 
+### 0.8.0 
 
-- Upgrade to SWT 4.17
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
 - Support horizontal_span in addition to horizontalSpan in layout data (and other properties)

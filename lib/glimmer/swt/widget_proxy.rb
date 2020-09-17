@@ -74,8 +74,17 @@ module Glimmer
       }
       
       class << self
-        def create(keyword, parent, args)
-          widget_proxy_class(keyword).new(keyword, parent, args)
+        # Instantiates the right WidgetProxy subclass for passed in keyword
+        # Args are: keyword, parent, swt_widget_args (including styles)
+        def create(*init_args, swt_widget: nil)
+          return swt_widget.get_data('proxy') if swt_widget&.get_data('proxy')
+          keyword, parent, args = init_args
+          selected_widget_proxy_class = widget_proxy_class(keyword || underscored_widget_name(swt_widget))
+          if init_args.empty?
+            selected_widget_proxy_class.new(swt_widget: swt_widget)
+          else
+            selected_widget_proxy_class.new(*init_args)            
+          end
         end
         
         def widget_proxy_class(keyword)
@@ -97,8 +106,13 @@ module Glimmer
       
       # Initializes a new SWT Widget
       #
+      # It is preferred to use `::create` method instead since it instantiates the 
+      # right subclass per widget keyword
+      #
+      # keyword, parent, swt_widget_args (including styles)
+      #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
-      def initialize(*init_args, swt_widget: nil)      
+      def initialize(*init_args, swt_widget: nil)
         if swt_widget.nil?
           underscored_widget_name, parent, args = init_args
           @parent_proxy = parent
@@ -109,11 +123,14 @@ module Glimmer
           @swt_widget = swt_widget
           underscored_widget_name = self.class.underscored_widget_name(@swt_widget)
           parent_proxy_class = self.class.widget_proxy_class(self.class.underscored_widget_name(@swt_widget.parent))
-          @parent_proxy = parent_proxy_class.new(swt_widget: swt_widget.parent)
+          parent = swt_widget.parent
+          @parent_proxy = parent.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
         end
-        @swt_widget.set_data('proxy', self)          
-        DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
-        @parent_proxy.post_initialize_child(self)
+        if @swt_widget&.get_data('proxy').nil?
+          @swt_widget.set_data('proxy', self)          
+          DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
+          @parent_proxy.post_initialize_child(self)
+        end
       end
       
       # Subclasses may override to perform post initialization work on an added child
@@ -348,11 +365,7 @@ module Glimmer
       end
 
       def has_style?(style)
-        begin
-          comparison = SWTProxy[style]
-        rescue
-          comparison = DNDProxy[style]
-        end
+        comparison = interpret_style(style)
         (@swt_widget.style & comparison) == comparison
       end
 
@@ -475,21 +488,17 @@ module Glimmer
       private
 
       def style(underscored_widget_name, styles)
-        styles = [styles].flatten.compact
-        if styles.empty?
-          default_style(underscored_widget_name) 
-        else         
-          begin
-            SWTProxy[*styles]
-          rescue
-            DNDProxy[*styles]
-          end
-        end
+        styles = [styles].flatten.compact        
+        styles = default_style(underscored_widget_name) if styles.empty?
+        interpret_style(*styles)
+      end
+      
+      def interpret_style(*styles)
+        SWTProxy[*styles] rescue DNDProxy[*styles]
       end
 
       def default_style(underscored_widget_name)
-        styles = DEFAULT_STYLES[underscored_widget_name] || [:none]
-        SWTProxy[styles] rescue DNDProxy[styles]
+        DEFAULT_STYLES[underscored_widget_name] || [:none]
       end
 
       def ruby_attribute_setter(attribute_name)
