@@ -18,6 +18,7 @@ module Glimmer
         end
  
         def constant_value_none
+          # TODO instead of raising error try a convention instead like CLASSNAME::NONE by default
           raise 'Not implemented! Mixer must implement!'
         end
         

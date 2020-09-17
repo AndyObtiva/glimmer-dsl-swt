@@ -1,9 +1,5 @@
 #!/usr/bin/env jruby
 
-if ARGV.empty?
-  require 'rake-tui'
-  require 'tty-screen'
-end
 require_relative '../lib/glimmer/launcher'
 
 Glimmer::Launcher.new(ARGV).launch

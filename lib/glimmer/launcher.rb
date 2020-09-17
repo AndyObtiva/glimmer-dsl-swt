@@ -1,6 +1,5 @@
 require 'fileutils'
-
-require_relative 'rake_task'
+require 'os'
 
 module Glimmer
   class Launcher
@@ -100,6 +99,7 @@ module Glimmer
         if the_glimmer_lib == GLIMMER_LIB_LOCAL
           devmode_require = '-r puts_debuggerer '
         end
+        require_relative 'rake_task'
         rake_tasks = Rake.application.tasks.map(&:to_s).map {|t| t.sub('glimmer:', '')}
          
         # handle a bash quirk with calling package[msi] while there is a "packages" directory locally (it passes package[msi] as packages)
@@ -190,6 +190,9 @@ module Glimmer
         end
         puts task_lines.to_a
       else
+        require 'rake-tui'
+        require 'tty-screen'
+        require_relative 'rake_task'
         Rake::TUI.run(branding_header: nil, prompt_question: 'Select a Glimmer task to run:') do |task, tasks|
           max_task_size = tasks.map(&:name_with_args).map(&:size).max + 1
           task_name = task.name_with_args.sub('glimmer:', '')

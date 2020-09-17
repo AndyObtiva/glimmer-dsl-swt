@@ -182,6 +182,9 @@ items <=> binding {
 - Support a Glimmer command GUI as an option to use in place of the TUI
 - Introduce a logging level below debug and below info to avoid noisiness
 - Fix issue with proxy.layout not working forcing me to do proxy.get_layout
+- Support JRuby/Ruby -e and -r options in `glimmer` command
+- Indicate which Ruby gems are installed or not when running `glimmer list:gems:` commands
+- Rewrite Glimmer command with tty-option gem
 
 ## Samples
 

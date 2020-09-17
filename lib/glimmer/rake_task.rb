@@ -2,39 +2,49 @@ require 'rake'
 
 require_relative 'package'
 
+ENV['GLIMMER_LOGGER_ENABLED'] = 'false'
+require_relative '../ext/glimmer/config.rb'
+
+Glimmer::Config::SAMPLE_DIRECTORIES << File.expand_path('../../../samples/hello', __FILE__)
+Glimmer::Config::SAMPLE_DIRECTORIES << File.expand_path('../../../samples/elaborate', __FILE__)
+
 namespace :glimmer do
   namespace :sample do
+    task :requires do
+      require 'text-table'
+      require 'facets/string/titlecase'
+      require 'facets/string/underscore'
+      
+      require_relative 'launcher'        
+    end
+    
+    task :glimmer_gems do
+      glimmer_gem_lib_files = Dir.glob(File.join(Gem.dir, 'gems', '*')).to_a.select do |gem_path| 
+        !!File.basename(gem_path).match(/glimmer-cw|glimmer-cs|glimmer-dsl/)
+      end.map do |gem_path|
+        Dir.glob(File.join(gem_path, 'lib/*.rb')).detect {|lib| gem_path.include?(File.basename(lib, '.rb')) }
+      end.uniq do |gem_lib_file|
+        File.basename(gem_lib_file)
+      end
+      glimmer_gem_lib_files.each {|file| require file.sub(/\.rb$/, '')}    
+    end
+  
     desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'
-    task :run, [:name] => :requires do |t, args|
+    task :run, [:name] => [:requires, :glimmer_gems] do |t, args|
       name = args[:name]
       name = name.underscore.downcase unless name.nil?
-      samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
+      samples = Glimmer::Config::SAMPLE_DIRECTORIES.map {|dir| Dir.glob(File.join(dir, '*.rb'))}.reduce(:+).sort
       samples = samples.select {|path| path.include?("#{name}.rb")} unless name.nil?      
       Rake::Task['glimmer:sample:code'].invoke(name) if samples.size == 1
       Glimmer::Launcher.new(samples << '--quiet=false').launch
     end
     
-    namespace :run do    
-      task :hello do
-        samples = Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)).sort
-        Glimmer::Launcher.new(samples << '--quiet=false').launch        
-      end    
-      
-      task :elaborate do
-        samples = Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__)).sort
-        Glimmer::Launcher.new(samples << '--quiet=false').launch        
-      end    
-    end
-  
     desc 'Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)'
-    task :list, [:query] do |t, args|
-      Rake::Task['glimmer:sample:list:hello'].invoke(args[:query])
-      Rake::Task['glimmer:sample:list:elaborate'].invoke(args[:query])
-    end
-    
-    namespace :list do
-      task :hello, [:query] => :requires do |t, args|
-        array_of_arrays = Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)).map do |path| 
+    task :list, [:query] => [:requires, :glimmer_gems] do |t, args|
+      Glimmer::Config::SAMPLE_DIRECTORIES.each do |dir|
+        sample_group_name = File.basename(dir)
+        human_sample_group_name = sample_group_name.underscore.titlecase
+        array_of_arrays = Dir.glob(File.join(dir, '*.rb')).map do |path| 
           File.basename(path, '.rb')
         end.select do |path| 
           args[:query].nil? || path.include?(args[:query])
@@ -42,10 +52,10 @@ namespace :glimmer do
           [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
         end.sort
         if array_of_arrays.empty?
-          puts "No Glimmer Hello Samples match the query."
+          puts "No Glimmer #{human_sample_group_name} Samples match the query."
         else
           puts 
-          puts "  Glimmer Hello Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:hello):"
+          puts "  Glimmer #{human_sample_group_name} Samples:"
           puts Text::Table.new(
             :head => %w[Name Description Run],
             :rows => array_of_arrays,
@@ -56,36 +66,12 @@ namespace :glimmer do
           )        
         end
       end
-      
-      task :elaborate, [:query] => :requires do |t, args|
-        array_of_arrays = Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__)).map do |path| 
-          File.basename(path, '.rb')
-        end.select do |path| 
-          args[:query].nil? || path.include?(args[:query])
-        end.map do |path| 
-          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
-        end.sort
-        if array_of_arrays.empty?
-          puts "No Glimmer Elaborate Samples match the query."
-        else
-          puts 
-          puts "  Glimmer Elaborate Samples (run all via: #{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run:elaborate):"
-          puts Text::Table.new(
-            :head => %w[Name Description Run],
-            :rows => array_of_arrays,
-            :horizontal_padding    => 1,
-            :vertical_boundary     => ' ',
-            :horizontal_boundary   => ' ',
-            :boundary_intersection => ' '
-          )        
-        end
-      end      
     end
-  
+    
     desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
-    task :code, [:name] => :requires do |t, args|
+    task :code, [:name] => [:requires, :glimmer_gems] do |t, args|
       require 'tty-markdown' unless OS.windows?
-      samples = (Dir.glob(File.expand_path('../../../samples/hello/*.rb', __FILE__)) + Dir.glob(File.expand_path('../../../samples/elaborate/*.rb', __FILE__))).sort
+      samples = Glimmer::Config::SAMPLE_DIRECTORIES.map {|dir| Dir.glob(File.join(dir, '*.rb'))}.reduce(:+).sort
       sample = samples.detect {|path| path.include?("#{args[:name].to_s.underscore.downcase}.rb")}
       sample_additional_files = Dir.glob(File.join(sample.sub('.rb', ''), '**', '*.rb'))
       code = ([sample] + sample_additional_files).map do |file|
@@ -103,14 +89,6 @@ namespace :glimmer do
       puts code
     end
     
-    task :requires do
-      require 'text-table'
-      require 'facets/string/titlecase'
-      require 'facets/string/underscore'
-      
-      require_relative 'launcher'        
-    end
-  
   end
 
   namespace :package do

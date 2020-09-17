@@ -1,3 +1,5 @@
+require 'glimmer/config'
+
 module Glimmer
   module Config
     DEFAULT_IMPORT_SWT_PACKAGES = [
@@ -9,6 +11,11 @@ module Glimmer
       'org.eclipse.swt.custom',
       'org.eclipse.swt.dnd',  
     ]
+    
+    # This may be configured with extra sample directories from custom widget/shell gems
+    # following the convention of a `samples/subdirectory` where subdirectory is the 
+    # custom widget/shell name or something representative of a group of samples (e.g. c_date_time).
+    SAMPLE_DIRECTORIES = []
   
     class << self
       # Tells Glimmer to import SWT packages into including class (default: true)
@@ -103,7 +110,7 @@ module Glimmer
   
 end
 
-Glimmer::Config.reset_logger!
+Glimmer::Config.reset_logger! unless ENV['GLIMMER_LOGGER_ENABLED'].to_s.downcase == 'false'
 if ENV['GLIMMER_LOGGER_LEVEL']
   # if glimmer log level is being overridden for debugging purposes, then disable async logging making logging immediate
   Glimmer::Config.logging_appender_options = Glimmer::Config.logging_appender_options.merge(async: false, auto_flushing: 1)
@@ -114,6 +121,7 @@ if ENV['GLIMMER_LOGGER_LEVEL']
     puts e.message
   end
 end
+
 Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
   method = method_symbol.to_s
   result = false

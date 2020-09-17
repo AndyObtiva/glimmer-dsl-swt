@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.6.8
+
+- Support external configuration of `WidgetProxy::KEYWORD_ALIASES` (e.g. `radio` is an alias for `button(:radio)`)
+- Support external configuration of `Glimmer::Config::SAMPLE_DIRECTORIES` for the `glimmer sample` commands from Glimmer gems
+
 ### 0.6.7
 
 - Fix issue with re-initializing layout for already initialized swt_widget being wrapped by WidgetProxy via swt_widget keyword args

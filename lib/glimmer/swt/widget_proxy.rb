@@ -65,6 +65,14 @@ module Glimmer
         end,
       }
       
+      KEYWORD_ALIASES = {
+        'radio'          => 'button',
+        'checkbox'       => 'button',
+        'check'          => 'button',
+        'toggle'         => 'button',
+        'arrow'          => 'button',
+      }
+      
       class << self
         def create(keyword, parent, args)
           widget_proxy_class(keyword).new(keyword, parent, args)
@@ -72,6 +80,7 @@ module Glimmer
         
         def widget_proxy_class(keyword)
           begin
+            keyword = KEYWORD_ALIASES[keyword] if KEYWORD_ALIASES[keyword]
             class_name = "#{keyword.camelcase(:upper)}Proxy".to_sym
             Glimmer::SWT.const_get(class_name)
           rescue
@@ -312,7 +321,7 @@ module Glimmer
 
       # This supports widgets in and out of basic SWT
       def self.swt_widget_class_for(underscored_widget_name)
-        underscored_widget_name = 'button' if %w[radio checkbox check toggle arrow].include?(underscored_widget_name)
+        underscored_widget_name = KEYWORD_ALIASES[underscored_widget_name] if KEYWORD_ALIASES[underscored_widget_name]
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)
