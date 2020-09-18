@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.0.0
+
+- Upgrade to SWT (Standard Widget Toolkit) 4.17 and sync version with SWT going forward
+- Upgrade to Glimmer (DSL Engine) 1.0.0
+
 ### 0.6.9
 
 - Log error messages when running inside sync_exec or async_exec (since you cannot rescue their errors from outside them)

@@ -29,7 +29,7 @@ GEM
       hashie (>= 3.4)
       mime-types (>= 1.16, < 3.0)
       oauth2 (~> 1.0)
-    glimmer (0.10.4)
+    glimmer (1.0.0)
       array_include_methods (>= 1.0.2, < 2.0.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (4.1.0)
@@ -159,7 +159,7 @@ PLATFORMS
 DEPENDENCIES
   coveralls (= 0.8.23)
   git-glimmer (= 1.7.0)
-  glimmer (~> 0.10.4)
+  glimmer (~> 1.0.0)
   jeweler (>= 2.3.9, < 3.0.0)
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (~> 0.3.0)
