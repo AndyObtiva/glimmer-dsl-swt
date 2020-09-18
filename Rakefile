@@ -22,11 +22,11 @@ unless jeweler_required.nil?
     gem.homepage = "http://github.com/AndyObtiva/glimmer-dsl-swt"
     gem.license = "MIT"
     gem.summary = %Q{Glimmer DSL for SWT}
-    gem.description = %Q{Glimmer DSL for SWT (JRuby Desktop GUI)}
+    gem.description = %Q{Glimmer DSL for SWT (JRuby Desktop Development GUI Library)}
     gem.email = "andy.am@gmail.com"
     gem.authors = ["AndyMaleh"]
     gem.executables = ['glimmer', 'girb']
-    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
+    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'CHANGELOG.md', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
     gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile
   end

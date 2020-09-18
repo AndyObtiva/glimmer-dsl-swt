@@ -396,7 +396,7 @@ https://www.eclipse.org/swt/faq.php
 
 - JDK 8u241 (1.8.0_241) (find at https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html)
 - JRuby 9.2.13.0 (supporting Ruby 2.5.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux or find at [https://www.jruby.org/download](https://www.jruby.org/download) for Windows)
-- SWT 4.16 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem)
+- SWT 4.17 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem)
 
 To obtain JRuby through [RVM](http://rvm.io), you may run:
 
@@ -428,6 +428,8 @@ Or this command if you want a specific version:
 ```
 jgem install glimmer-dsl-swt -v 4.17.0.0
 ```
+
+Note: Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 `jgem` is JRuby's version of `gem` command. 
 RVM allows running `gem install` directly as an alias.
@@ -568,7 +570,7 @@ This should output the following (providing the name of each sample, description
 ```
 $ glimmer sample:list
 
-  Glimmer Hello Samples (run all via: glimmer sample:run:hello):
+  Glimmer Hello Samples:
                                                                                                                
              Name                       Description                                 Run                        
                                                                                                                
@@ -585,7 +587,7 @@ $ glimmer sample:list
   hello_world                   Hello World                   glimmer sample:run[hello_world]                  
                                                                                                                
 
-  Glimmer Elaborate Samples (run all via: glimmer sample:run:elaborate):
+  Glimmer Elaborate Samples:
                                                                            
        Name           Description                     Run                  
                                                                            
