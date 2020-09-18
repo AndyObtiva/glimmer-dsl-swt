@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
   s.date = "2020-09-18"
-  s.description = "Glimmer DSL for SWT (JRuby Desktop GUI)".freeze
+  s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Library)".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
   s.extra_rdoc_files = [
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    "CHANGELOG.md",
     "LICENSE.txt",
     "README.md",
     "RUBY_VERSION",
