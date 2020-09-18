@@ -4,6 +4,7 @@
 
 - Upgrade to SWT (Standard Widget Toolkit) 4.17 and sync version with SWT going forward
 - Upgrade to Glimmer (DSL Engine) 1.0.0
+- Sync version number with the SWT version number (first two numbers, leaving the last two as minor and patch)
 
 ### 0.6.9
 
