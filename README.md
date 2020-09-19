@@ -1135,7 +1135,7 @@ Output:
                                                                                    
   Name          Gem          Version     Author              Description           
                                                                                    
-  Video   glimmer-cw-video   0.1.3     Andy Maleh   Glimmer Custom Widget - Video  
+  Video   glimmer-cw-video   1.0.0     Andy Maleh   Glimmer Custom Widget - Video  
                                                                                    
 ```
 
