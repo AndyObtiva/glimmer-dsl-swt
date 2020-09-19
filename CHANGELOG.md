@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.1.0
+
+- Add Chromium `browser` widget SWT JAR file to support `:chromium` style (e.g. `browser(:chromium)`) when the binaries are present.
+- Designate gem as a 'java' platform gem (i.e. jruby)
+
 ### 4.17.0.0
 
 - Upgrade to SWT (Standard Widget Toolkit) 4.17 and sync version with SWT going forward

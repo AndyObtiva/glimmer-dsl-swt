@@ -141,6 +141,12 @@ module GlimmerSpec
       class ::InvalidCustomWidget
         include Glimmer::UI::CustomWidget
       end
+
+      class ::EmptyBodyCustomWidget
+        include Glimmer::UI::CustomWidget
+        
+        body {}
+      end
     end
 
     after(:all) do
@@ -373,6 +379,12 @@ module GlimmerSpec
     it 'returns Glimmer error if custom widget has no body in its definition' do
       @target = shell {
         expect {invalid_custom_widget}.to raise_error(Glimmer::Error)
+      }
+    end
+
+    it 'returns Glimmer error if custom widget has an empty body in its definition' do
+      @target = shell {
+        expect {empty_body_custom_widget}.to raise_error(Glimmer::Error)
       }
     end
 

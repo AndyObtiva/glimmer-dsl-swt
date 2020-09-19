@@ -26,86 +26,27 @@ require_relative 'package'
 ENV['GLIMMER_LOGGER_ENABLED'] = 'false'
 require_relative '../ext/glimmer/config.rb'
 
-Glimmer::Config::SAMPLE_DIRECTORIES << File.expand_path('../../../samples/hello', __FILE__)
-Glimmer::Config::SAMPLE_DIRECTORIES << File.expand_path('../../../samples/elaborate', __FILE__)
+require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
 
 namespace :glimmer do
   namespace :sample do
-    task :requires do
-      require 'text-table'
-      require 'facets/string/titlecase'
-      require 'facets/string/underscore'
-      
-      require_relative 'launcher'        
+    task :requires do      
+      require_relative 'rake_task/sample'      
     end
     
-    task :glimmer_gems do
-      glimmer_cw_gems = Gem.find_latest_files('glimmer-cw-*')
-      glimmer_cs_gems = Gem.find_latest_files('glimmer-cs-*')
-      glimmer_dsl_gems = Gem.find_latest_files('glimmer-dsl-*')
-      glimmer_gem_lib_files = glimmer_cw_gems + glimmer_cs_gems + glimmer_dsl_gems
-      glimmer_gem_lib_files = glimmer_gem_lib_files.map {|file| file.sub(/\.rb$/, '')}.uniq.reject {|file| file.include?('glimmer-cs-gladiator')}
-      glimmer_gem_lib_files.each {|file| require file}    
-    end
-  
     desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'
-    task :run, [:name] => [:requires, :glimmer_gems] do |t, args|
-      name = args[:name]
-      name = name.underscore.downcase unless name.nil?
-      samples = Glimmer::Config::SAMPLE_DIRECTORIES.map {|dir| Dir.glob(File.join(dir, '*.rb'))}.reduce(:+).sort
-      samples = samples.select {|path| path.include?("#{name}.rb")} unless name.nil?      
-      Rake::Task['glimmer:sample:code'].invoke(name) if samples.size == 1
-      Glimmer::Launcher.new(samples << '--quiet=false').launch
+    task :run, [:name] => [:requires] do |t, args|
+      Glimmer::RakeTask::Sample.run(args[:name])
     end
     
     desc 'Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)'
-    task :list, [:query] => [:requires, :glimmer_gems] do |t, args|
-      Glimmer::Config::SAMPLE_DIRECTORIES.each do |dir|
-        sample_group_name = File.basename(dir)
-        human_sample_group_name = sample_group_name.underscore.titlecase
-        array_of_arrays = Dir.glob(File.join(dir, '*.rb')).map do |path| 
-          File.basename(path, '.rb')
-        end.select do |path| 
-          args[:query].nil? || path.include?(args[:query])
-        end.map do |path| 
-          [path, path.underscore.titlecase, "#{'bin/' if Glimmer::Launcher.dev_mode?}glimmer sample:run[#{path}]"]
-        end.sort
-        if array_of_arrays.empty?
-          puts "No Glimmer #{human_sample_group_name} Samples match the query."
-        else
-          puts 
-          puts "  Glimmer #{human_sample_group_name} Samples:"
-          puts Text::Table.new(
-            :head => %w[Name Description Run],
-            :rows => array_of_arrays,
-            :horizontal_padding    => 1,
-            :vertical_boundary     => ' ',
-            :horizontal_boundary   => ' ',
-            :boundary_intersection => ' '
-          )        
-        end
-      end
+    task :list, [:query] => [:requires] do |t, args|
+      Glimmer::RakeTask::Sample.list(args[:query])
     end
     
     desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
-    task :code, [:name] => [:requires, :glimmer_gems] do |t, args|
-      require 'tty-markdown' unless OS.windows?
-      samples = Glimmer::Config::SAMPLE_DIRECTORIES.map {|dir| Dir.glob(File.join(dir, '*.rb'))}.reduce(:+).sort
-      sample = samples.detect {|path| path.include?("#{args[:name].to_s.underscore.downcase}.rb")}
-      sample_additional_files = Dir.glob(File.join(sample.sub('.rb', ''), '**', '*.rb'))
-      code = ([sample] + sample_additional_files).map do |file|
-        <<~RUBY
-        
-        # #{file}
-        
-        #{File.read(file)}
-        
-        # # #
-        
-        RUBY
-      end.join("\n")
-      code = TTY::Markdown.parse("```ruby\n#{code}\n```") unless OS.windows?
-      puts code
+    task :code, [:name] => [:requires] do |t, args|
+      Glimmer::RakeTask::Sample.code(args[:name])
     end
     
   end

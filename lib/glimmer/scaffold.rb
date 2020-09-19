@@ -422,7 +422,7 @@ class Scaffold
         lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*']")
       end
       spec_pattern_line_index = lines.index(lines.detect {|l| l.include?('spec.pattern =') })
-      lines.insert(spec_pattern_line_index+1, "  spec.ruby_opts = [Glimmer::Launcher.jruby_swt_options]")
+      lines.insert(spec_pattern_line_index+1, "  spec.ruby_opts = [Glimmer::Launcher.jruby_os_specific_options]")
       lines << "\nrequire 'glimmer/rake_task'\n"       
       file_content = lines.join("\n")
       if custom_shell_name

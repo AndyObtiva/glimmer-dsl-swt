@@ -4,8 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-### 4.17.0.1
+- List samples without requiring them to get added to CONSTANT
 
+### 4.17.1.1
+
+- Log exceptions that occur in event listener blocks
+# - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
+- Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
+- Autodiscover samples in glimmer gems (instead of just allowing their configuration)
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
 - Run glimmer command rake task presents a TUI file chooser
@@ -19,7 +25,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
 
-### 4.17.1.0
+### 4.17.2.0
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
@@ -183,6 +189,11 @@ items <=> binding {
 - Support JRuby/Ruby -e and -r options in `glimmer` command
 - Indicate which Ruby gems are installed or not when running `glimmer list:gems:` commands
 - Rewrite Glimmer command with tty-option gem
+- List all gems (not just cw or cs, etc..)
+- Make Glimmer detect a Glimmer project (cw, cs, dsl) when in it locally and provide its samples for running if any
+- Support on_listener_event_name alternative name for events (makes some events more readable)
+- Make girb instrument an already running shell by making shell.open behave differently under it (spawning a thread)
+- Link to SWT Maven repositories using jar-dependencies: https://mvnrepository.com/artifact/org.eclipse.platform/org.eclipse.swt.gtk.linux.aarch64
 
 ## Samples
 

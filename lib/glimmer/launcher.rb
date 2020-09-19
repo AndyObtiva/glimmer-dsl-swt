@@ -66,13 +66,9 @@ module Glimmer
       def swt_jar_file
         @swt_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'swt', platform_os, 'swt.jar'))
       end
-
+ 
       def jruby_os_specific_options
         OS.mac? ? "-J-XstartOnFirstThread" : ""
-      end
-
-      def jruby_swt_options
-        "#{jruby_os_specific_options} -J-classpath \"#{swt_jar_file}\""
       end
 
       def glimmer_lib

@@ -153,6 +153,7 @@ module Glimmer
         body_block = self.class.instance_variable_get("@body_block")
         raise Glimmer::Error, 'Invalid custom widget for having no body! Please define body block!' if body_block.nil?
         @body_root = instance_exec(&body_block)
+        raise Glimmer::Error, 'Invalid custom widget for having an empty body! Please fill body block!' if @body_root.nil?
         @swt_widget = @body_root.swt_widget
         @swt_widget.set_data('custom_widget', self)
         execute_hooks('after_body')

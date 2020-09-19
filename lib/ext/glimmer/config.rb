@@ -33,11 +33,6 @@ module Glimmer
       'org.eclipse.swt.dnd',  
     ]
     
-    # This may be configured with extra sample directories from custom widget/shell gems
-    # following the convention of a `samples/subdirectory` where subdirectory is the 
-    # custom widget/shell name or something representative of a group of samples (e.g. c_date_time).
-    SAMPLE_DIRECTORIES = []
-  
     class << self
       # Tells Glimmer to import SWT packages into including class (default: true)
       def import_swt_packages=(value)

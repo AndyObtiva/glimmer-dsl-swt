@@ -160,7 +160,7 @@ DEPENDENCIES
   coveralls (= 0.8.23)
   git-glimmer (= 1.7.0)
   glimmer (~> 1.0.0)
-  jeweler (>= 2.3.9, < 3.0.0)
+  jeweler (>= 2.0.0, < 3.0.0)
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (~> 0.3.0)
   os (>= 1.0.0, < 2.0.0)
@@ -174,7 +174,7 @@ DEPENDENCIES
   simplecov-lcov (~> 0.7.0)
   super_module (~> 1.4.1)
   text-table (>= 1.2.4, < 2.0.0)
-  tty-markdown (>= 0.7.0, < 2.0.0)
+  tty-markdown (>= 0.6.0, < 2.0.0)
   warbler (>= 2.0.5, < 3.0.0)
 
 RUBY VERSION

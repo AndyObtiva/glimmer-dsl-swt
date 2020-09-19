@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'bundler'
-require 'os'
-require_relative 'lib/glimmer/launcher'
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -9,6 +7,8 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
+require 'os'
+require_relative 'lib/glimmer/launcher'
 require 'rake'
 begin
   jeweler_required = require 'jeweler'
@@ -26,7 +26,7 @@ unless jeweler_required.nil?
     gem.email = "andy.am@gmail.com"
     gem.authors = ["AndyMaleh"]
     gem.executables = ['glimmer', 'girb']
-    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'CHANGELOG.md', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
+    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'CHANGELOG.md', 'glimmer-dsl-swt.gemspec', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
     gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile
   end
@@ -37,15 +37,15 @@ require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
-  # spec.ruby_opts = ["-Xcli.debug=true --debug #{Glimmer::Launcher.jruby_swt_options}"]
+  # spec.ruby_opts = ["-Xcli.debug=true --debug #{Glimmer::Launcher.jruby_os_specific_options}"]
   # NOTE: Disabled debug flags because they were giving noisy output on raise of an error
 
-  # spec.ruby_opts = ["--profile.graph #{Glimmer::Launcher.jruby_swt_options}"]
+  # spec.ruby_opts = ["--profile.graph #{Glimmer::Launcher.jruby_os_specific_options}"]
   # require 'jruby/profiler'
   # profile_data = JRuby::Profiler.profile do
   # end
 
-  spec.ruby_opts = [Glimmer::Launcher.jruby_swt_options]
+  spec.ruby_opts = [Glimmer::Launcher.jruby_os_specific_options]
 end
 
 task :default => :spec
