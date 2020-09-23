@@ -201,9 +201,26 @@ items <=> binding {
 
 A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app to start. Support web later via opal. 
 
-### glimmertalk project
+### Glimmertalk project
 
 - Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
+
+### Glimmer Platform
+
+- A web-browser-like platform-app that opens web links hosting pure Ruby code, including Glimmer GUI DSL code. 
+- Ruby files are hyper-linked via require-like statements that do lazy-downloading/caching of Ruby files on a per-need basis (e.g. button click) while background-downloading/caching Ruby files ahead of time when the user is not taking actions (apps may have a specified list of initial vs delayed requires).
+- Allows distributing incrementally-updating apps very easily.
+- Integration with GitHub as the way to release app code
+- Can have an enterprise-section that require enterprise membership to access specific enterprise apps only
+- Can have a paid-section that would allow people to purchase any app they like
+- Can have a free-section where anyone can build/publish/update apps instantly alone
+- Can have a free-organization/team-section for multiple people collaborating on apps
+- Can have a free-for-all-section where GitHub code is managed by the platform, including automation of accepting pull requests, and random people can collaborate or contribute to projects by pulling code from and pushing code to GitHub. This encourages programming as a social and learning activity.
+- Ability to gel any Glimmer Platform app into a standalone app on the machine
+- SSL connection encryption and baked in authentication/account management services for customers and developers
+- Glimmer Platform becomes a framework that handles many concerns and services (accounts, location, configuration, etc...) effortlessly so that developers can very productively roll out desktop apps with pure Ruby code (this becomes the default way to build Glimmer apps)
+- Glimmer Platform can integrate perfectly with Glimmertalk to enable direct in-platform development and distribution of apps
+- Glimmer Platform can integrate perfectly with the FreeHire website to deliver work for free
 
 ## Custom Widgets/Shells
 
