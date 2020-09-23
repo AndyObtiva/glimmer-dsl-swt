@@ -112,7 +112,7 @@ class Scaffold
       group :development do
         gem 'rspec', '~> 3.5.0'
         gem 'git-glimmer', '1.7.0'
-        gem 'jeweler', '2.3.9'
+        gem 'juwelier', '2.4.9'
         gem 'simplecov', '>= 0'
       end
     MULTI_LINE_STRING
@@ -135,7 +135,7 @@ class Scaffold
     def app(app_name)
       gem_name = file_name(app_name)
       gem_summary = human_name(app_name)
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "jruby -r git-glimmer -S juwelier --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       rm_rf 'lib'
       write '.gitignore', GITIGNORE
@@ -216,7 +216,7 @@ class Scaffold
         return puts('Namespace is required! Usage: glimmer scaffold:gem:customshell[name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
         namespace = 'glimmer'
       end
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "jruby -r git-glimmer -S juwelier --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       write '.gitignore', GITIGNORE
       write '.ruby-version', RUBY_VERSION        
@@ -277,7 +277,7 @@ class Scaffold
       else
         namespace = 'glimmer'
       end
-      system "jruby -r git-glimmer -S jeweler --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+      system "jruby -r git-glimmer -S juwelier --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
       cd gem_name
       write '.gitignore', GITIGNORE
       write '.ruby-version', RUBY_VERSION        

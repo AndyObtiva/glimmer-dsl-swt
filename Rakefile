@@ -11,12 +11,12 @@ require 'os'
 require_relative 'lib/glimmer/launcher'
 require 'rake'
 begin
-  jeweler_required = require 'jeweler'
+  juwelier_required = require 'juwelier'
 rescue Exception
-  jeweler_required = nil
+  juwelier_required = nil
 end
-unless jeweler_required.nil?
-  Jeweler::Tasks.new do |gem|
+unless juwelier_required.nil?
+  Juwelier::Tasks.new do |gem|
     # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
     gem.name = "glimmer-dsl-swt"
     gem.homepage = "http://github.com/AndyObtiva/glimmer-dsl-swt"
@@ -30,7 +30,7 @@ unless jeweler_required.nil?
     gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile
   end
-  Jeweler::RubygemsDotOrgTasks.new
+  Juwelier::RubygemsDotOrgTasks.new
 end
 
 require 'rspec/core'
