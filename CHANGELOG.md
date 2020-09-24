@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.1.1
+
+- Fixed issue with showing glimmer command tasks twice
+
 ### 4.17.1.0
 
 - Switch to Juwelier gem (from Jeweler)
