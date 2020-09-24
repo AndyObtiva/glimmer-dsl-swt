@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.1.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.0.0
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -416,6 +416,8 @@ If you intend to build a Glimmer app from scratch with [scaffolding](#scaffoldin
 
 Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases where you want to build an app without [scaffolding](#scaffolding).
 
+Note: if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then go back in the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions) until you find one that works for you.
+
 ### Option 1: Direct Install 
 (Use for [Scaffolding](#scaffolding))
 
@@ -426,7 +428,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.1.1
+jgem install glimmer-dsl-swt -v 4.17.0.0
 ```
 
 Note: Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
@@ -474,6 +476,8 @@ On Windows, it simply lists the available Glimmer tasks at the end (courtsey of 
 
 If you are new to Glimmer, you may read the Basic Usage section and skip the rest until you have gone through [Girb (Glimmer irb) Command](#girb-glimmer-irb-command), [Glimmer GUI DSL Syntax](#glimmer-gui-dsl-syntax), and [Samples](#samples).
 
+Note: If you encounter an issue running the `glimmer` command, run `bundle exec glimmer` instead.
+
 ### Basic Usage
 
 ```
@@ -501,7 +505,7 @@ bin/glimmer sample:run[hello_world]
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.1.1
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.0.0
       
 Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -614,7 +618,7 @@ This will run the hello_tab sample and output its code:
 ```
 $ glimmer sample:run[hello_tab] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.1.1/samples/hello/hello_tab.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/hello/hello_tab.rb
 
 class HelloTab
   include Glimmer
@@ -659,7 +663,7 @@ Example:
 ```
 $ glimmer sample:code[tic_tac_toe] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.1.1/samples/elaborate/tic_tac_toe.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe.rb
 
 require_relative "tic_tac_toe/board"
 
@@ -720,7 +724,7 @@ TicTacToe.new.open
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.1.1/samples/elaborate/tic_tac_toe/cell.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe/cell.rb
 
 class TicTacToe
   class Cell
@@ -753,7 +757,7 @@ end
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.1.1/samples/elaborate/tic_tac_toe/board.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe/board.rb
 
 require_relative 'cell'
 
@@ -1163,7 +1167,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    0.2.0     AndyMaleh    Glimmer DSL for CSS    
   Opal   glimmer-dsl-opal   0.1.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.1.1  AndyMaleh    Glimmer DSL for SWT    
+  Swt    glimmer-dsl-swt    4.17.0.0  AndyMaleh    Glimmer DSL for SWT    
   Tk     glimmer-dsl-tk     0.0.5     AndyMaleh    Glimmer DSL for Tk     
   Xml    glimmer-dsl-xml    0.2.0     AndyMaleh    Glimmer DSL for XML                                                                         
 ```
