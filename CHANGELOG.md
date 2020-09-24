@@ -5,6 +5,8 @@
 - Switch to Juwelier gem (from Jeweler)
 - Load samples from Glimmer gems automatically (no need for configuration)
 - Empty body validation in CustomWidget (and CustomShell by inheritance)
+- require 'bundler/setup' in `glimmer` command if a `Gemfile` is present (disabled with GLIMMER_BUNDLER_SETUP=false env var)
+- Upgrade to rvm-tui version 0.2.2
 
 ### 4.17.0.0
 

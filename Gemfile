@@ -7,7 +7,7 @@ gem 'glimmer', '~> 1.0.0' #, path: '../glimmer'
 gem 'super_module', '~> 1.4.1'
 gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
 gem 'puts_debuggerer', '~> 0.10.1', require: false
-gem 'rake-tui', '>= 0.2.1'
+gem 'rake-tui', '>= 0.2.2', '< 2.0.0'
 
 # Temporary until merged into base gem
 gem 'git-glimmer', '1.7.0'
