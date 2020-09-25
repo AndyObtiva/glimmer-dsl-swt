@@ -416,7 +416,7 @@ If you intend to build a Glimmer app from scratch with [scaffolding](#scaffoldin
 
 Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases where you want to build an app without [scaffolding](#scaffolding).
 
-Note: if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then go back in the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions) until you find one that works for you.
+Note: if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then install a previous version instead from the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions).
 
 ### Option 1: Direct Install 
 (Use for [Scaffolding](#scaffolding))
