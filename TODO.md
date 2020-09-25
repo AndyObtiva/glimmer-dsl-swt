@@ -4,9 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- List samples without requiring them to get added to CONSTANT
+- Remove default margins from composites/layouts. They are not as helpful as they seemed.
+- Make shell activation on show an option, not the default
+- Remove name column from listing of gems
+- Investigate Gladiator issue with shrinking on opening files
 
-### 4.17.1.1
+### Soon (Version TBD)
 
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
@@ -25,7 +28,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
 
-### 4.17.2.0
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
@@ -39,7 +41,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - glimmer command girb rake task
 - Support Windows with colored code output and tty prompt (perhaps only when using the special windows terminals that support that)
 
-### Soon (Version TBD)
 
 - Make scaffolded app gemspec complete in accordance to config/warble when available
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
@@ -150,7 +151,6 @@ items <=> binding {
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
 - Change table editing support to rely on data-binding
-- Switch to juwelier gem for scaffolding and add `--markdown` option
 - Wrap SWT as a Maven plugin and use jar-dependencies gem to rely on it instead of including it in the project gem
 - Provide a helper method that loads a font from inside an app
 - Allow passing random args to custom widget in order to get them passed to SWT widget (right now it only accepts swt styles)

@@ -21,10 +21,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if File.exist?(File.expand_path('./Gemfile'))
-  require 'bundler/setup' unless ENV['GLIMMER_BUNDLER_SETUP'].to_s.downcase == 'false'
-end
-
 require_relative '../lib/glimmer/launcher'
 
 Glimmer::Launcher.new(ARGV).launch

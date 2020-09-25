@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.17.2.0
+
+- `glimmer` command --bundler option to run with bundler/setup (instead of picking gems directly)
+- Remove Gemfile dependency on Juwelier since it does not relate to GUI (delaying install of it till scaffolding)
+- Remove Gemfile dependency on Warbler since it does not relate to GUI (delaying install of it till packaging)
+- Move Package and Scaffold classes under Glimmer::RakeTask (Glimmer::Package.javapackager_extra_args is now Glimmer::RakeTask::Package.javapackager_extra_args)
+- Fixed issue with scaffolding spec/spec_helper.rb with Juwelier (since it changed from Jeweler)
+
 ### 4.17.1.1
 
 - Fixed issue with showing glimmer command tasks twice

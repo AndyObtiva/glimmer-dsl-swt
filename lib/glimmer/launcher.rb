@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'bundler/setup' if ARGV.include?('--bundler') && File.exist?(File.expand_path('./Gemfile'))
 require 'fileutils'
 require 'os'
 
@@ -28,7 +29,7 @@ module Glimmer
     
     TEXT_USAGE = <<~MULTI_LINE_STRING
       Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}      
-      Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
+      Usage: glimmer [--bundler] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
     
       Runs Glimmer applications and tasks.    
     
@@ -38,6 +39,7 @@ module Glimmer
       Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
     
       Glimmer options:
+      - "--bundler"         : Activates Glimmer gems with `bundler/setup` to ensure they match Gemfile (passes -G to jruby on app run)
       - "--quiet"           : Does not announce file path of Glimmer application being launched
       - "--debug"           : Displays extra debugging information, passes "--debug" to JRuby, and enables debug logging
       - "--log-level=VALUE" : Sets Glimmer's Ruby logger level ("ERROR" / "WARN" / "INFO" / "DEBUG"; default is none)
@@ -50,7 +52,7 @@ module Glimmer
 
     GLIMMER_LIB_LOCAL = File.expand_path(File.join('lib', 'glimmer-dsl-swt.rb'))
     GLIMMER_LIB_GEM = 'glimmer-dsl-swt'
-    GLIMMER_OPTIONS = %w[--log-level --quiet]
+    GLIMMER_OPTIONS = %w[--log-level --quiet --bundler]
     GLIMMER_OPTION_ENV_VAR_MAPPING = {
       '--log-level' => 'GLIMMER_LOGGER_LEVEL'
     }
@@ -103,6 +105,7 @@ module Glimmer
 
       def launch(application, jruby_options: [], env_vars: {}, glimmer_options: {})
         jruby_options_string = jruby_options.join(' ') + ' ' if jruby_options.any?
+        bundler_require = '-G' if glimmer_options['--bundler']
         env_vars = env_vars.merge(glimmer_option_env_vars(glimmer_options))
         env_vars_string = env_vars.map do |k,v| 
           if OS.windows? && ENV['PROMPT'] # detect command prompt (or powershell)
@@ -134,7 +137,7 @@ module Glimmer
           @@mutex.synchronize do
             puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
           end
-          command = "#{env_vars_string} jruby #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
+          command = "#{env_vars_string} jruby #{bundler_require} #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
           if !env_vars_string.empty? && OS.windows?
             command = "bash -c \"#{command}\"" if ENV['SHELL'] # do in Windows Git Bash only
             command = "cmd /C \"#{command}\"" if ENV['PROMPT'] # do in Windows Command Prompt only (or Powershell)

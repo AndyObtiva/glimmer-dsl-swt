@@ -19,9 +19,28 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'rake'
+module Glimmer
+  module RakeTask
+    RVM_FUNCTION = <<~MULTI_LINE_STRING
+      # Load RVM into a shell session *as a function*
+      if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+      
+        # First try to load from a user install
+        source "$HOME/.rvm/scripts/rvm"
+      
+      elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+      
+        # Then try to load from a root install
+        source "/usr/local/rvm/scripts/rvm"
+      
+      fi
+    MULTI_LINE_STRING
+  end
+end
 
-require_relative 'package'
+require 'rake'
+    
+require_relative 'rake_task/package'
 
 ENV['GLIMMER_LOGGER_ENABLED'] = 'false'
 require_relative '../ext/glimmer/config.rb'
@@ -54,28 +73,28 @@ namespace :glimmer do
   namespace :package do
     desc 'Clean by removing "dist" and "packages" directories'
     task :clean do
-      Glimmer::Package.clean
+      Glimmer::RakeTask::Package.clean
     end
 
     desc 'Generate JAR config file'
     task :config do
-      Glimmer::Package.config
+      Glimmer::RakeTask::Package.config
     end
 
     desc 'Generate JAR file'
     task :jar do
-      Glimmer::Package.jar
+      Glimmer::RakeTask::Package.jar
     end
 
     desc 'Lock JARs'
     task :lock_jars do
-      Glimmer::Package.lock_jars
+      Glimmer::RakeTask::Package.lock_jars
     end
 
     desc 'Generate Native files. type can be dmg/pkg on the Mac, msi/exe on Windows, and rpm/deb on Linux (type is optional)'
     task :native, [:type] do |t, args|
       extra_args = ARGV.partition {|arg| arg.include?('package:native')}.last.to_a.join(' ')
-      Glimmer::Package.native(args[:type], extra_args)
+      Glimmer::RakeTask::Package.native(args[:type], extra_args)
     end
   end
 
@@ -90,15 +109,15 @@ namespace :glimmer do
 
   desc 'Scaffold Glimmer application directory structure to build a new app'
   task :scaffold, [:app_name] do |t, args|
-    require_relative 'scaffold'
-    Scaffold.app(args[:app_name])
+    require_relative 'rake_task/scaffold'
+    Glimmer::RakeTask::Scaffold.app(args[:app_name])
   end
 
   namespace :scaffold do
     desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]'
     task :customshell, [:name, :namespace] do |t, args|
-      require_relative 'scaffold'
-      Scaffold.custom_shell(args[:name], args[:namespace])
+      require_relative 'rake_task/scaffold'
+      Glimmer::RakeTask::Scaffold.custom_shell(args[:name], args[:namespace])
     end
     
     task :cs, [:name, :namespace] => :customshell
@@ -107,8 +126,8 @@ namespace :glimmer do
     
     desc 'Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cw]'
     task :customwidget, [:name, :namespace] do |t, args|
-      require_relative 'scaffold'
-      Scaffold.custom_widget(args[:name], args[:namespace])
+      require_relative 'rake_task/scaffold'
+      Glimmer::RakeTask::Scaffold.custom_widget(args[:name], args[:namespace])
     end
     
     task :cw, [:name, :namespace] => :customwidget
@@ -118,8 +137,8 @@ namespace :glimmer do
     namespace :gem do
       desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under its own Ruby gem + app project (namespace is required) [alt: scaffold:gem:cs]'
       task :customshell, [:name, :namespace] do |t, args|
-        require_relative 'scaffold'
-        Scaffold.custom_shell_gem(args[:name], args[:namespace])
+        require_relative 'rake_task/scaffold'
+        Glimmer::RakeTask::Scaffold.custom_shell_gem(args[:name], args[:namespace])
       end
       
       task :cs, [:name, :namespace] => :customshell
@@ -128,8 +147,8 @@ namespace :glimmer do
       
       desc 'Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cw]'
       task :customwidget, [:name, :namespace] do |t, args|
-        require_relative 'scaffold'
-        Scaffold.custom_widget_gem(args[:name], args[:namespace])
+        require_relative 'rake_task/scaffold'
+        Glimmer::RakeTask::Scaffold.custom_widget_gem(args[:name], args[:namespace])
       end
     
       task :cw, [:name, :namespace] => :customwidget

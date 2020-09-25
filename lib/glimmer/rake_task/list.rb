@@ -71,8 +71,11 @@ module Glimmer
         
         def tablify(gem_prefix, gems)
           array_of_arrays = gems.map do |gem|
+            name, namespace = gem[:name].sub(gem_prefix, '').underscore.titlecase.split
+            human_name = name
+            human_name += " (#{namespace})" unless namespace.nil?
             [
-              gem[:name].sub(gem_prefix, '').underscore.titlecase,
+              human_name,
               gem[:name],
               gem[:version],
               gem[:author].sub('Author: ', ''),

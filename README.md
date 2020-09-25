@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.0.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.2.0
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -428,7 +428,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.0.0
+jgem install glimmer-dsl-swt -v 4.17.2.0
 ```
 
 Note: Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
@@ -505,7 +505,7 @@ bin/glimmer sample:run[hello_world]
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.0.0
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.0
       
 Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -618,7 +618,7 @@ This will run the hello_tab sample and output its code:
 ```
 $ glimmer sample:run[hello_tab] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/hello/hello_tab.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.0/samples/hello/hello_tab.rb
 
 class HelloTab
   include Glimmer
@@ -663,7 +663,7 @@ Example:
 ```
 $ glimmer sample:code[tic_tac_toe] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.0/samples/elaborate/tic_tac_toe.rb
 
 require_relative "tic_tac_toe/board"
 
@@ -724,7 +724,7 @@ TicTacToe.new.open
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe/cell.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.0/samples/elaborate/tic_tac_toe/cell.rb
 
 class TicTacToe
   class Cell
@@ -757,7 +757,7 @@ end
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.0.0/samples/elaborate/tic_tac_toe/board.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.0/samples/elaborate/tic_tac_toe/board.rb
 
 require_relative 'cell'
 
@@ -1143,6 +1143,28 @@ Output:
                                                                                    
 ```
 
+Example:
+
+Check all custom widgets for Glimmer.
+
+```
+glimmer list:gems:cw
+```
+
+Output:
+
+```
+
+  Glimmer Custom Widget Gems at rubygems.org:
+                                                                                                                                
+         Name                      Gem                Version      Author                       Description                     
+                                                                                                                                
+  Browser (Chromium)   glimmer-cw-browser-chromium   1.0.0       Andy Maleh   Chromium Browser - Glimmer Custom Widget          
+  Cdatetime (Nebula)   glimmer-cw-cdatetime-nebula   1.5.0.0.1   Andy Maleh   Nebula CDateTime Widget - Glimmer Custom Widget   
+  Video                glimmer-cw-video              1.0.0       Andy Maleh   Glimmer Custom Widget - Video                                                                                   
+  
+```
+
 #### Listing DSL Gems
 
 The following command lists available Glimmer [DSL Gems](#multi-dsl-support) (prefixed with "glimmer-dsl-" by convention) created by the the Glimmer community and published on [rubygems.org](http://www.rubygems.org):
@@ -1167,7 +1189,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    0.2.0     AndyMaleh    Glimmer DSL for CSS    
   Opal   glimmer-dsl-opal   0.1.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.0.0  AndyMaleh    Glimmer DSL for SWT    
+  Swt    glimmer-dsl-swt    4.17.2.0  AndyMaleh    Glimmer DSL for SWT    
   Tk     glimmer-dsl-tk     0.0.5     AndyMaleh    Glimmer DSL for Tk     
   Xml    glimmer-dsl-xml    0.2.0     AndyMaleh    Glimmer DSL for XML                                                                         
 ```
@@ -3770,7 +3792,7 @@ The JAR file name will match your application local directory name (e.g. `MathBo
 The DMG file name will match the humanized local directory name + dash + application version (e.g. `Math Bowling-1.0.dmg` for `~/code/MathBowling` with version 1.0 or unspecified)
 
 The `glimmer package` command will automatically set "mac.CFBundleIdentifier" to ="org.#{project_name}.application.#{project_name}". 
-You may override by configuring as an extra argument for javapackger (e.g. Glimmer::Package.javapackager_extra_args = " -Bmac.CFBundleIdentifier=org.andymaleh.application.MathBowling")
+You may override by configuring as an extra argument for javapackger (e.g. Glimmer::RakeTask::Package.javapackager_extra_args = " -Bmac.CFBundleIdentifier=org.andymaleh.application.MathBowling")
 
 ### Packaging Defaults
 
@@ -3798,7 +3820,7 @@ require_relative '../app/my_application.rb'
 - Include DMG Background Icon (Optional): Simply place a .png file under `package/macosx/{HumanAppName}-background.png`
 - Include Version (Optional): Create a `VERSION` file in your application and fill it your app version on one line (e.g. `1.1.0`)
 - Include License (Optional): Create a `LICENSE.txt` file in your application and fill it up with your license (e.g. MIT). It will show up to people when installing your app. Note that, you may optionally also specify license type, but you'd have to do so manually via `-BlicenseType=MIT` shown in an [example below](#javapackager-extra-arguments).
-- Extra args (Optional): You may optionally add the following to `Rakefile` to configure extra arguments for javapackager: `Glimmer::Packager.javapackager_extra_args = "..."` (Useful to avoid re-entering extra arguments on every run of rake task.). Read about them in [their section below](#javapackager-extra-arguments).
+- Extra args (Optional): You may optionally add the following to `Rakefile` to configure extra arguments for javapackager: `Glimmer::RakeTask::Package.javapackager_extra_args = "..."` (Useful to avoid re-entering extra arguments on every run of rake task.). Read about them in [their section below](#javapackager-extra-arguments).
 
 ### javapackager Extra Arguments
 
@@ -3810,7 +3832,7 @@ In order to explicitly configure javapackager, Mac package attributes, or sign y
 - https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8
 
 The Glimmer rake task allows passing extra options to javapackager via:
-- `Glimmer::Packager.javapackager_extra_args="..."` in your application Rakefile
+- `Glimmer::RakeTask::Package.javapackager_extra_args="..."` in your application Rakefile
 - Environment variable: `JAVAPACKAGER_EXTRA_ARGS`
 
 Example (Rakefile):
@@ -3818,7 +3840,7 @@ Example (Rakefile):
 ```ruby
 require 'glimmer/rake_task'
 
-Glimmer::Package.javapackager_extra_args = '-BlicenseType="MIT" -Bmac.category="public.app-category.business" -Bmac.signing-key-developer-id-app="Andy Maleh"'
+Glimmer::RakeTask::Package.javapackager_extra_args = '-BlicenseType="MIT" -Bmac.category="public.app-category.business" -Bmac.signing-key-developer-id-app="Andy Maleh"'
 ```
 
 Note that `mac.category` defaults to "public.app-category.business", but can be overridden with one of the category UTI values mentioned here: 
@@ -3835,7 +3857,7 @@ That overrides the default application display name.
 
 ### Verbose Mode
 
-Pass `-v` to javapackager in `Glimmer::Package.javapackager_extra_args` or by running `glimmer package:native[type] -v` to learn more about further available customizations for the installer you are requesting to generate.
+Pass `-v` to javapackager in `Glimmer::RakeTask::Package.javapackager_extra_args` or by running `glimmer package:native[type] -v` to learn more about further available customizations for the installer you are requesting to generate.
 
 ### Windows Application Packaging
 
@@ -3849,7 +3871,7 @@ If you just want to test out packaging into a native Windows app that is not pac
 
 Recent macOS versions (starting with Catalina) have very stringent security requirements requiring all applications to be signed before running (unless the user goes to System Preferences -> Privacy -> General tab and clicks "Open Anyway" after failing to open application the first time they run it). So, to release a desktop application on the Mac, it is recommended to enroll in the [Apple Developer Program](https://developer.apple.com/programs/) to distribute on the [Mac App Store](https://developer.apple.com/distribute/) or otherwise request [app notarization from Apple](https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution) to distribute independently.
 
-Afterwards, you may add developer-id/signing-key arguments to `javapackager` via `Glimmer::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/javase/9/tools/javapackager.htm#JSWOR719
+Afterwards, you may add developer-id/signing-key arguments to `javapackager` via `Glimmer::RakeTask::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/javase/9/tools/javapackager.htm#JSWOR719
 
 DMG signing key argument:
 ```
@@ -3877,12 +3899,12 @@ To do so, you may follow these steps (abbreviated version from https://developer
 - Enter Name (referred to below as "CertificateName")
 - Set 'Certificate Type' to 'Code Signing'
 - Create (if you alternatively override defaults, make sure to enable all capabilities)
-- Add the following option to javapackager: `-Bmac.signing-key-developer-id-app="CertificateName"` via `Glimmer::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS`
+- Add the following option to javapackager: `-Bmac.signing-key-developer-id-app="CertificateName"` via `Glimmer::RakeTask::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS`
 
 Example:
 
 ```ruby
-Glimmer::Package.javapackager_extra_args = '-Bmac.signing-key-developer-id-app="Andy Maleh"'
+Glimmer::RakeTask::Package.javapackager_extra_args = '-Bmac.signing-key-developer-id-app="Andy Maleh"'
 ```
 
 Now, when you run `glimmer package`, it builds a self-signed DMG file. When you make available online, and users download, upon launching application, they are presented with your certificate, which they have to sign if they trust you in order to use the application.
@@ -3897,7 +3919,7 @@ Keep that in mind if you are not going to rely on the default `LICENSE.txt` supp
 Example:
 
 ```ruby
-Glimmer::Package.javapackager_extra_args = '-srcfiles "ACME.txt" -BlicenseFile="ACME.txt" -BlicenseType="ACME"'
+Glimmer::RakeTask::Package.javapackager_extra_args = '-srcfiles "ACME.txt" -BlicenseFile="ACME.txt" -BlicenseType="ACME"'
 ```
 
 2. Mounted DMG Residue

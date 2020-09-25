@@ -13,16 +13,15 @@ gem 'rake-tui', '>= 0.2.3', '< 2.0.0'
 gem 'git-glimmer', '1.7.0'
 
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)
-gem 'juwelier', '>= 2.4.9', '< 3.0.0'
 gem 'logging', '>= 2.3.0', '< 3.0.0'
 gem 'os', '>= 1.0.0', '< 2.0.0'
 gem 'rake', '>= 10.1.0', '< 14.0.0'
-gem 'rdoc', '>= 6.2.1', '< 7.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'
 gem 'tty-markdown', '>= 0.6.0', '< 2.0.0'
-gem 'warbler', '>= 2.0.5', '< 3.0.0'
 
 group :development do
+  gem 'juwelier', '>= 2.4.9', '< 3.0.0'
+  gem 'warbler', '>= 2.0.5', '< 3.0.0'
   gem "rspec-mocks", "~> 3.5.0"
   gem "rspec", "~> 3.5.0"
   gem 'coveralls', '= 0.8.23', require: false

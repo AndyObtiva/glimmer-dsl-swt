@@ -63,6 +63,7 @@ module Glimmer
           @swt_widget.set_data('proxy', self)
           @swt_widget.setLayout(FillLayout.new)
           @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
+          # TODO make this an option not the default
           on_swt_show do
             Thread.new do      
               sleep(0.25)
