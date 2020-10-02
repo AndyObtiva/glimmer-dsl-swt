@@ -32,7 +32,7 @@ module Glimmer
     
     TEXT_USAGE = <<~MULTI_LINE_STRING
       Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}      
-      Usage: glimmer [--bundler] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
+      Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
     
       Runs Glimmer applications and tasks.    
     
@@ -43,6 +43,7 @@ module Glimmer
     
       Glimmer options:
       - "--bundler=GROUP"   : Activates gems in Bundler default group in Gemfile
+      - "--pd=BOOLEAN"      : Requires puts_debuggerer to enable pd method
       - "--quiet=BOOLEAN"   : Does not announce file path of Glimmer application being launched
       - "--debug"           : Displays extra debugging information, passes "--debug" to JRuby, and enables debug logging
       - "--log-level=VALUE" : Sets Glimmer's Ruby logger level ("ERROR" / "WARN" / "INFO" / "DEBUG"; default is none)
@@ -55,10 +56,11 @@ module Glimmer
 
     GLIMMER_LIB_LOCAL = File.expand_path(File.join('lib', 'glimmer-dsl-swt.rb'))
     GLIMMER_LIB_GEM = 'glimmer-dsl-swt'
-    GLIMMER_OPTIONS = %w[--log-level --quiet --bundler]
+    GLIMMER_OPTIONS = %w[--log-level --quiet --bundler --pd]
     GLIMMER_OPTION_ENV_VAR_MAPPING = {
       '--log-level' => 'GLIMMER_LOGGER_LEVEL'   ,
       '--bundler'   => 'GLIMMER_BUNDLER_SETUP'  ,
+      '--pd'        => 'PD'  ,
     }
     REGEX_RAKE_TASK_WITH_ARGS = /^([^\[]+)\[?([^\]]*)\]?$/
 

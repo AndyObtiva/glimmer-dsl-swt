@@ -2,8 +2,8 @@
 
 ### 4.17.2.1
 
-- When `--bundler` option is passed, setup default group only by default (to development and test groups in production apps).
-- Customize `--bundler` group with `--bundler=group`
+- Add `--bundler=group` option to `glimmer` command
+- Add `--pd` option to `glimmer` command
 
 ### 4.17.2.0
 

@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## 4.17.2.1
 
-- Load development gems for package tasks
-
 ## Next (4.17.3.0)
 
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
@@ -201,6 +199,7 @@ items <=> binding {
 - Make girb instrument an already running shell by making shell.open behave differently under it (spawning a thread)
 - Link to SWT Maven repositories using jar-dependencies: https://mvnrepository.com/artifact/org.eclipse.platform/org.eclipse.swt.gtk.linux.aarch64
 - Auto-refresh GUI from changes in rb files
+- Load development gems for "package" tasks
 
 ## Samples
 
