@@ -278,7 +278,7 @@ module Glimmer
           send(temp_method_name)
           singleton_class.send(:remove_method, temp_method_name)
         end
-      end      
+      end
     end
   end
 end

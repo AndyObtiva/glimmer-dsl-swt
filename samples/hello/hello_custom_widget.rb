@@ -30,7 +30,8 @@ class GreetingLabel
   }
   
   body {
-    label(swt_style) { # pass received swt_style through to label
+    # pass received swt_style through to label to customize (e.g. :center to center text)
+    label(swt_style) {
       text "#{greeting}, #{name}!"
       font @font
       foreground bind(self, :color)

@@ -678,6 +678,9 @@ module Glimmer
         end
         # TODO consider detecting type on widget method and automatically invoking right converter (e.g. :to_s for String, :to_i for Integer)
         @property_type_converters ||= {
+          alignment: -> (*value) {
+            SWTProxy[*value]
+          },
           :background => color_converter,
           :background_image => lambda do |value|
             image_proxy = nil

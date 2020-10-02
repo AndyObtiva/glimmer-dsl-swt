@@ -3627,6 +3627,25 @@ glimmer sample:run[hello_custom_widget]
 
 ![Hello Custom Widget](images/glimmer-hello-custom-widget.gif)
 
+#### Hello, Custom Shell!
+
+This sample demonstrates the use of a custom shell (aka custom window) in Glimmer.
+
+Code:
+
+[samples/hello/hello_custom_shell.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_shell.rb)
+
+Run:
+
+```
+glimmer sample:run[hello_custom_shell]
+```
+
+![Hello Custom Shell](images/glimmer-hello-custom-shell.png)
+![Hello Custom Shell Email1](images/glimmer-hello-custom-shell-email1.png)
+![Hello Custom Shell Email2](images/glimmer-hello-custom-shell-email2.png)
+![Hello Custom Shell Email3](images/glimmer-hello-custom-shell-email3.png)
+
 ### Elaborate Samples
 
 For more elaborate samples, check the following:

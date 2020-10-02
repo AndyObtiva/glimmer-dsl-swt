@@ -200,6 +200,7 @@ items <=> binding {
 - Link to SWT Maven repositories using jar-dependencies: https://mvnrepository.com/artifact/org.eclipse.platform/org.eclipse.swt.gtk.linux.aarch64
 - Auto-refresh GUI from changes in rb files
 - Load development gems for "package" tasks
+- Make property setting inside a widget inside a custom shell body block not die silently when there is a Ruby error (e.g. invalid constant)
 
 ## Samples
 
