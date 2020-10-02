@@ -22,6 +22,12 @@
 $LOAD_PATH.unshift(File.expand_path('..', __FILE__))
 
 # External requires
+if !['', 'false'].include?(ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase)
+  bundler_group = ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase
+  bundler_group = 'default' if bundler_group == 'true'
+  require 'bundler'
+  Bundler.setup(bundler_group)
+end
 require 'java'
 require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
 require 'glimmer'

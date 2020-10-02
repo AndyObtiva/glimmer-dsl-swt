@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.2.1
+
+- When `--bundler` option is passed, setup default group only by default (to development and test groups in production apps).
+- Customize `--bundler` group with `--bundler=group`
+
 ### 4.17.2.0
 
 - `glimmer` command --bundler option to run with bundler/setup (instead of picking gems directly)

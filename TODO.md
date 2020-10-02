@@ -2,15 +2,21 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done). 
 
-## Next
+## 4.17.2.1
+
+- Load development gems for package tasks
+
+## Next (4.17.3.0)
 
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
 - Make shell activation on show an option, not the default
 - Remove name column from listing of gems
 - Investigate Gladiator issue with shrinking on opening files
+- Support glimmer list:gems (listing all types of gems together)
 
 ### Soon (Version TBD)
 
+- Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
@@ -194,6 +200,7 @@ items <=> binding {
 - Support on_listener_event_name alternative name for events (makes some events more readable)
 - Make girb instrument an already running shell by making shell.open behave differently under it (spawning a thread)
 - Link to SWT Maven repositories using jar-dependencies: https://mvnrepository.com/artifact/org.eclipse.platform/org.eclipse.swt.gtk.linux.aarch64
+- Auto-refresh GUI from changes in rb files
 
 ## Samples
 
