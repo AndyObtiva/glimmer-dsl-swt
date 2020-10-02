@@ -4,6 +4,7 @@
 
 - Add `--bundler=group` option to `glimmer` command
 - Add `--pd` option to `glimmer` command
+- Hello, Custom Widget! sample
 
 ### 4.17.2.0
 

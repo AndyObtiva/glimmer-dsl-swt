@@ -238,6 +238,7 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Glimmer Platform becomes a framework that handles many concerns and services (accounts, location, configuration, etc...) effortlessly so that developers can very productively roll out desktop apps with pure Ruby code (this becomes the default way to build Glimmer apps)
 - Glimmer Platform can integrate perfectly with Glimmertalk to enable direct in-platform development and distribution of apps
 - Glimmer Platform can integrate perfectly with the FreeHire website to deliver work for free
+- Add minimum_width and minimum_height convenience attributes on ShellProxy for `shell` keyword
 
 ## Custom Widgets/Shells
 

@@ -3611,6 +3611,22 @@ glimmer sample:run[hello_pop_up_context_menu]
 ![Hello Pop Up Context Menu](images/glimmer-hello-pop-up-context-menu.png)
 ![Hello Pop Up Context Menu Popped Up](images/glimmer-hello-pop-up-context-menu-popped-up.png)
 
+#### Hello, Custom Widget!
+
+This sample demonstrates the use of a custom widget in Glimmer.
+
+Code:
+
+[samples/hello/hello_custom_widget.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_widget.rb)
+
+Run:
+
+```
+glimmer sample:run[hello_custom_widget]
+```
+
+![Hello Custom Widget](images/glimmer-hello-custom-widget.gif)
+
 ### Elaborate Samples
 
 For more elaborate samples, check the following:

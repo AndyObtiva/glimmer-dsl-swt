@@ -211,9 +211,9 @@ module Glimmer
 
       # This method ensures it has an instance method not coming from Glimmer DSL
       def has_instance_method?(method_name)
-        respond_to?(method_name) && 
-          !swt_widget.respond_to?(method_name) &&
-          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') && 
+        respond_to?(method_name) and 
+          !swt_widget&.respond_to?(method_name) and
+          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') and 
           !method(method_name)&.source_location&.first&.include?('glimmer/swt/widget_proxy.rb')
       end
 
@@ -273,9 +273,12 @@ module Glimmer
 
       def execute_hooks(hook_name)
         self.class.instance_variable_get("@#{hook_name}_blocks")&.each do |hook_block|
-          instance_exec(&hook_block)
+          temp_method_name = "#{hook_name}_block_#{hook_block.hash.abs}_#{(Time.now.to_f * 1_000_000).to_i}"
+          singleton_class.define_method(temp_method_name, &hook_block)
+          send(temp_method_name)
+          singleton_class.send(:remove_method, temp_method_name)
         end
-      end
+      end      
     end
   end
 end
