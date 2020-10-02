@@ -335,6 +335,8 @@ Glimmer App:
       - [Hello, Drag and Drop!](#hello-drag-and-drop)
       - [Hello, Menu Bar!](#hello-menu-bar)
       - [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu)
+      - [Hello, Custom Widget!](#hello-custom-widget)
+      - [Hello, Custom Shell!](#hello-custom-shell)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -507,7 +509,7 @@ Below are the full usage instructions that come up when running `glimmer` withou
 ```
 Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.1
       
-Usage: glimmer [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
+Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
 Runs Glimmer applications and tasks.    
 
@@ -517,7 +519,9 @@ automatically preloading the glimmer Ruby gem and SWT jar dependency.
 Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
 
 Glimmer options:
-- "--quiet"           : Does not announce file path of Glimmer application being launched
+- "--bundler=GROUP"   : Activates gems in Bundler default group in Gemfile
+- "--pd=BOOLEAN"      : Requires puts_debuggerer to enable pd method
+- "--quiet=BOOLEAN"   : Does not announce file path of Glimmer application being launched
 - "--debug"           : Displays extra debugging information, passes "--debug" to JRuby, and enables debug logging
 - "--log-level=VALUE" : Sets Glimmer's Ruby logger level ("ERROR" / "WARN" / "INFO" / "DEBUG"; default is none)
 
@@ -2660,7 +2664,13 @@ shell {
 
 As you can see, `RedLabel` became Glimmer DSL keyword: `red_label`
 
-#### Lifecycle Hook Example
+#### Custom Widget Lifecycle Hooks
+
+You may execute code before or after evaluating the body with these lifecycle hooks:
+- `before_body`: takes a block that executes in the custom widget instance scope before calling `body`. Useful for initializing variables to later use in `body`
+- `after_body`: takes a block that executes in the custom widget instance scope after calling `body`. Useful for setting up observers on widgets built in `body` (set in instance variables) and linking to other shells.
+
+#### Lifecycle Hooks Example
 
 (you may copy/paste in [`girb`](#girb-glimmer-irb-command))
 
@@ -2755,12 +2765,6 @@ shell {
 
 Notice how `:no_focus` was the `swt_style` value, followed by the `options` hash `{orientation: :horizontal, bg_color: :white}`, and finally the `content` block containing the label with `'SANDWICH CONTENT'`
 
-#### Custom Widget Lifecycle Hooks
-
-Last but not least, these are the available lifecycle hooks:
-- `before_body`: takes a block that executes in the custom widget instance scope before calling `body`. Useful for initializing variables to later use in `body`
-- `after_body`: takes a block that executes in the custom widget instance scope after calling `body`. Useful for setting up observers on widgets built in `body` (set in instance variables) and linking to other shells.
-
 #### Gotcha
 
 Beware of defining a custom attribute that is a common SWT widget property name.
@@ -2795,6 +2799,8 @@ The `text` method invoked in the custom widget body will call the one you define
 
 This [Eclipse guide](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm) for how to write custom SWT widgets is also applicable to Glimmer Custom Widgets written in Ruby. I recommend reading it:
 [https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm)
+
+Also, you may check out [Hello, Custom Widget!](#hello-custom-widget) for another example.
 
 ### Custom Shells
 
@@ -2860,6 +2866,8 @@ shell { |app_shell|
   }
 }.open
 ```
+
+You may check out [Hello, Custom Shell!](#hello-custom-shell) for another example.
 
 ### Drag and Drop
 
