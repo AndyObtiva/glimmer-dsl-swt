@@ -2,17 +2,16 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done). 
 
-## 4.17.2.1
+## Next
 
-## Next (4.17.3.0)
-
+- Ensure support for packaging on Linux
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
 - Make shell activation on show an option, not the default
 - Remove name column from listing of gems
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
 
-### Soon (Version TBD)
+### Soon
 
 - Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Log exceptions that occur in event listener blocks
@@ -140,7 +139,6 @@ items <=> binding {
 - Automatic relayout of glimmer widgets (or parent widget) when disposing a widget (or as an option when disposing)
 - Make Glimmer defaults configurable
 - Ensure support for packaging on Windows (exe file)
-- Ensure support for packaging on Linux
 - Refactor entire codebase to get rid of Java getters/setters in favor of Ruby attributes
 - Support Mac top-menu-bar app-mini-icon
 - Consider namespacing data_binding classes as SWT just like DSL is namespaced
@@ -214,6 +212,29 @@ items <=> binding {
 - Tetris Sample
 
 ## Side Projects
+
+- Publish any Glimmer app on the Mac App Store
+
+### Glimmer Time Tracker (Demo Video App)
+
+A task time-tracking app that stores time-tracking data in the cloud by integrating with a Heroku Rails app. Make a demo video about this app, showing how to build it bit by bit.
+
+Use-Cases:
+- List task times in a table (task name, start time, duration, end time)
+- Start timing a task (task name and then click start button so the app would record start time)
+- Stop timing a task (click stop button and app automatically records duration and end time, and adds to task time list)
+
+Build it as a system tray item app
+
+Package for Mac, Windows, and Linux (on Linux, an auto-generated custom shell script is more than good enough)
+
+Convert into an Glimmer DSL for Opal app once done.
+
+Video Demo Series:
+- Basic app implementation of use-cases with packaging on Mac, Windows, and Linux
+- Add a system tray icon
+- Store data in the cloud in a Rails app on Heroku
+- Run as a Glimmer DSL for Opal web app
 
 ### glimmer-dsl-uml
 

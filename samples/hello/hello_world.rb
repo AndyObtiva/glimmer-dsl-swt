@@ -22,8 +22,8 @@
 include Glimmer
 
 shell {
-  text "Glimmer"
+  text 'Glimmer'
   label {
-    text "Hello, World!"
+    text 'Hello, World!'
   }
 }.open

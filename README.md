@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.2.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.2.2
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -10,11 +10,9 @@
 
 (The Original Glimmer Library Since 2007. Beware of Imitators!)
 
-[**Glimmer**](https://rubygems.org/gems/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://rubygems.org/gems/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces while relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns. To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/) and MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows).
+[**Glimmer**](https://rubygems.org/gems/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://rubygems.org/gems/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces while relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns. To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
 
-[Glimmer receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer](https://rubygems.org/gems/glimmer) with your Ruby desktop GUI development needs.
-
-NOTE: Glimmer is in beta mode. Please make better by providing feedback and [contributing](#contributing) when possible. The more feedback and issues you report the better.
+[Glimmer receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer](https://rubygems.org/gems/glimmer) with your Ruby desktop GUI development needs. Please make [Glimmer](https://rubygems.org/gems/glimmer) even better by providing feedback and [contributing](#contributing) when possible.
 
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br /> 
 Featured in<br />JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do)
@@ -430,7 +428,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.2.1
+jgem install glimmer-dsl-swt -v 4.17.2.2
 ```
 
 Note: Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
@@ -507,7 +505,7 @@ bin/glimmer sample:run[hello_world]
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.1
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.2
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -622,7 +620,7 @@ This will run the hello_tab sample and output its code:
 ```
 $ glimmer sample:run[hello_tab] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.1/samples/hello/hello_tab.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/hello/hello_tab.rb
 
 class HelloTab
   include Glimmer
@@ -667,7 +665,7 @@ Example:
 ```
 $ glimmer sample:code[tic_tac_toe] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.1/samples/elaborate/tic_tac_toe.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe.rb
 
 require_relative "tic_tac_toe/board"
 
@@ -728,7 +726,7 @@ TicTacToe.new.open
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.1/samples/elaborate/tic_tac_toe/cell.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe/cell.rb
 
 class TicTacToe
   class Cell
@@ -761,7 +759,7 @@ end
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.1/samples/elaborate/tic_tac_toe/board.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe/board.rb
 
 require_relative 'cell'
 
@@ -946,7 +944,7 @@ $ glimmer scaffold[greeter]
 	create	spec/spec_helper.rb
 	create	spec/greeter_spec.rb
 	create	.rspec
-Jeweler has prepared your gem in ./greeter
+Juwelier has prepared your gem in ./greeter
 Created greeter/.gitignore
 Created greeter/.ruby-version
 Created greeter/.ruby-gemset
@@ -1017,7 +1015,7 @@ glimmer scaffold:cw[name]
 #### Custom Shell Gem
 
 Custom shell gems are self-contained Glimmer apps as well as reusable custom shells. 
-They have everything scaffolded Glimmer apps come with in addition to gem content like a [jeweler](https://github.com/technicalpickles/jeweler) Rakefile that can build gemspec and release gems. 
+They have everything scaffolded Glimmer apps come with in addition to gem content like a [Juwelier](https://rubygems.org/gems/juwelier) Rakefile that can build gemspec and release gems. 
 Unlike scaffolded Glimmer apps, custom shell gem content lives under the `lib` directory (not `app`).
 They can be packaged as both a native executable (e.g. Mac DMG/PKG/APP) and a Ruby gem.
 Of course, you can just build a Ruby gem and disregard native executable packaging if you do not need it.
@@ -1191,16 +1189,20 @@ Output:
                                                                          
   Name         Gem          Version    Author          Description       
                                                                          
-  Css    glimmer-dsl-css    0.2.0     AndyMaleh    Glimmer DSL for CSS    
-  Opal   glimmer-dsl-opal   0.1.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.2.1  AndyMaleh    Glimmer DSL for SWT    
+  Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS    
+  Opal   glimmer-dsl-opal   0.3.0     AndyMaleh    Glimmer DSL for Opal   
+  Swt    glimmer-dsl-swt    4.17.2.2  AndyMaleh    Glimmer DSL for SWT    
   Tk     glimmer-dsl-tk     0.0.5     AndyMaleh    Glimmer DSL for Tk     
-  Xml    glimmer-dsl-xml    0.2.0     AndyMaleh    Glimmer DSL for XML                                                                         
+  Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML                                                                         
 ```
 
 ### Packaging
 
+Glimmer supports packaging applications as native files on Mac and Windows.
+
 Glimmer packaging tasks are detailed under [Packaging & Distribution](#packaging--distribution).
+
+On Linux, the Glimmer [Custom Shell Gem](#custom-shell-gem) approach provides a [Gem Packaged Shell Script](#custom-shell-gem) (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
 
 ### Raw JRuby Command
 
@@ -2632,11 +2634,42 @@ end
 
 ### Custom Widgets
 
-Glimmer supports creating custom widgets with minimal code, which automatically extends Glimmer's DSL syntax with an underscored lowercase keyword.
+Custom widgets are brand new Glimmer DSL keywords that represent aggregates of existing widgets (e.g. `address_form`), customized existing widgets (e.g. `greeting_label`), or brand new widgets (e.g. `oscilloscope`)
 
-Simply create a new class that includes `Glimmer::UI::CustomWidget` and put Glimmer DSL code in its `#body` block (its return value is stored in `#body_root` attribute). Glimmer will then automatically recognize this class by convention when it encounters a keyword matching the class name converted to underscored lowercase (and namespace double-colons `::` replaced with double-underscores `__`)
+Glimmer supports two ways of creating custom widgets with minimal code:
+1. Method-based Custom Widgets (for single-view-internal reuse): Extract a method containing Glimmer DSL widget syntax. Useful for quickly eliminating redundant code within a single view.
+2. Class-based Custom Widgets (for multiple-view-external reuse): Create a class that includes the `Glimmer::UI::CustomWidget` module and Glimmer DSL widget syntax in a `body {}` block. This will automatically extend Glimmer's DSL syntax with an underscored lowercase keyword matching the class name by convention. Useful in making a custom widget available in many views.
+
+Approach #1 is a casual Ruby-based approach. Approach #2 is the official Glimmer approach. Typically, when referring to Custom Widgets, we are talking about Class-based Custom Widgets.
+
+A developer might start with approach #1 to eliminate duplication in a view and later upgrade it to approach #2 when needing to export a custom widget to make it available in many views.
+
+Class-based Custom Widgets offer a number of benefits over method-based custom widgets, such as built-in support for passing SWT style, nested block of extra widgets and properties, and `before_body`/`after_body` hooks.
 
 #### Simple Example
+
+##### Method-Based Custom Widget Example
+
+(you may copy/paste in [`girb`](#girb-glimmer-irb-command))
+
+Definition and usage in the same file:
+```ruby
+def red_label(label_text)
+  label {
+    text label_text
+    background :red
+  }
+end
+
+shell {
+  red_label('Red Label')
+}.open
+```
+
+
+##### Class-Based Custom Widget Example
+
+Simply create a new class that includes `Glimmer::UI::CustomWidget` and put Glimmer DSL code in its `#body` block (its return value is stored in `#body_root` attribute). Glimmer will then automatically recognize this class by convention when it encounters a keyword matching the class name converted to underscored lowercase (and namespace double-colons `::` replaced with double-underscores `__`)
 
 (you may copy/paste in [`girb`](#girb-glimmer-irb-command))
 
@@ -2656,13 +2689,14 @@ end
 Usage:
 ```ruby
 shell {
-  red_label {
-    text 'Red Label'
+  red_label(:center) {
+    text 'Red Label'        
+    foreground :green
   }
 }.open
 ```
 
-As you can see, `RedLabel` became Glimmer DSL keyword: `red_label`
+As you can see, `RedLabel` became the Glimmer DSL keyword `red_label` and worked just like a standard label by taking in SWT style and nested properties. As such, it is a first-class citizen of the Glimmer GUI DSL.
 
 #### Custom Widget Lifecycle Hooks
 
@@ -3775,7 +3809,7 @@ Gladiator is a good demonstration of:
 
 #### Timer
 
-[<img alt="Glimmer Timer Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/images/glimmer-timer-logo.png" height=40 /> Timer](https://github.com/AndyObtiva/glimmer-cs-timer) is a sample app demonstrating data-binding and multi-threading in a desktop application.
+[<img alt="Glimmer Timer Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/images/glimmer-timer-logo.png" height=40 /> Timer](https://github.com/AndyObtiva/glimmer-cs-timer) is a sample app demonstrating data-binding, multi-threading, and Java (Sound) library integration in a desktop application.
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/glimmer-timer-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-timer)
 
@@ -3798,6 +3832,8 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 [<img alt="Garderie Rainbow Daily Agenda Logo" src="https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_logo.png" width="40" />Garderie Rainbow Daily Agenda](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda): A child nursery daily agenda reporting desktop app
 
 ## Packaging & Distribution
+
+Note: this section mostly applies to Mac and Windows. On Linux, the Glimmer [Custom Shell Gem](#custom-shell-gem) approach provides a [Gem Packaged Shell Script](#custom-shell-gem) (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
@@ -3823,7 +3859,7 @@ require 'glimmer/rake_task'
 ```
 
 The Glimmer packaging process done in the `glimmer package` command consists of the following steps:
-1. Generate gemspec via Jeweler (`rake gemspec:generate`): Having a gemspec is required by the [`jar-dependencies`](https://github.com/mkristian/jar-dependencies) JRuby gem, used by JRuby libraries to declare JAR dependencies.
+1. Generate gemspec via [Juwelier](https://rubygems.org/gems/juwelier) (`rake gemspec:generate`): Having a gemspec is required by the [`jar-dependencies`](https://github.com/mkristian/jar-dependencies) JRuby gem, used by JRuby libraries to declare JAR dependencies.
 1. Lock JAR versions (`glimmer package:lock_jars`): This locks versions of JAR dependencies leveraged by the `jar-dependencies` JRuby gem, downloading them into the `./vendor` directory so they would get inside the top-level Glimmer app/gem JAR file.
 1. Generate [Warbler](https://github.com/jruby/warbler) config (`glimmer package:config`): Generates initial Warbler config file (under `./config/warble.rb`) to use for generating JAR file.
 1. Generate JAR file using [Warbler](https://github.com/jruby/warbler) (`glimmer package:jar`): Enables bundling a Glimmer app into a JAR file under the `./dist` directory
@@ -3981,7 +4017,7 @@ Glimmer already supports automatic (and manual) app updates via the Mac App Stor
 ## Glimmer Supporting Libraries
 
 Here is a list of notable 3rd party gems used by Glimmer:
-- [jeweler](https://github.com/technicalpickles/jeweler): generates app gems during [Glimmer Scaffolding](#scaffolding)
+- [juwelier](https://rubygems.org/gems/juwelier): generates app gems during [Glimmer Scaffolding](#scaffolding)
 - [logging](https://github.com/TwP/logging): provides extra logging capabilities not available in Ruby Logger such as multi-threaded buffered asynchronous logging (to avoid affecting app performance) and support for multiple appenders such as stdout, syslog, and log files (the last one is needed on Windows where syslog is not supported)
 - [nested_inherited_jruby_include_package](https://github.com/AndyObtiva/nested_inherited_jruby_include_package): makes included [SWT](https://www.eclipse.org/swt/)/[Java](https://www.java.com/en/) packages available to all classes/modules that mix in the Glimmer module without having to manually reimport
 - [os](https://github.com/rdp/os): provides OS detection capabilities (e.g. `OS.mac?` or `OS.windows?`) to write cross-platform code inexpensively

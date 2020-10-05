@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.2.2
+
+- Small updates/refactorings in samples
+- Fix issue with displaying `glimmer` command tasks on Windows
+
 ### 4.17.2.1
 
 - Add `--bundler=group` option to `glimmer` command

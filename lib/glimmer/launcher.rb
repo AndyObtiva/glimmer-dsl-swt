@@ -203,6 +203,9 @@ module Glimmer
     
     def display_tasks
       if OS.windows?
+        require 'rake'
+        Rake::TaskManager.record_task_metadata = true
+        require_relative 'rake_task'
         tasks = Rake.application.tasks
         task_lines = tasks.reject do |task|
           task.comment.nil?
@@ -210,8 +213,6 @@ module Glimmer
           max_task_size = tasks.map(&:name_with_args).map(&:size).max + 1
           task_name = task.name_with_args.sub('glimmer:', '')
           line = "glimmer #{task_name.ljust(max_task_size)} # #{task.comment}"
-          bound = TTY::Screen.width - 6
-          line.size <= bound ? line : "#{line[0..(bound - 3)]}..."          
         end
         puts task_lines.to_a
       else
