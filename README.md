@@ -1040,7 +1040,7 @@ Only official Glimmer gems created by the Glimmer project committers will have n
 
 Since custom shell gems are both an app and a gem, they provide two ways to run:
 - Run the `glimmer` command and pass it the generated script under the `bin` directory that matches the gem name (e.g. run `glimmer bin/glimmer-cs-calculator`)
-- Run the executable binary file that ships with the gem directly (without `glimmer`). It intentionally has a shorter name for convenience since it is meant to be used on the command line (not in a package), so you can leave out the `glimmer-cs-` prefix (e.g. run `bin/calculator` directly)
+- Run the executable shell script that ships with the gem directly (does not need the `glimmer` command). It intentionally has a shorter name for convenience since it is meant to be used on the command line (not in a package), so you can leave out the `glimmer-cs-` prefix (e.g. run `bin/calculator` directly). This is also used as the main way of running custom shell gems on Linux.
 
 Examples: 
 
@@ -1207,10 +1207,28 @@ On Linux, the Glimmer [Custom Shell Gem](#custom-shell-gem) approach provides a 
 ### Raw JRuby Command
 
 If there is a need to run Glimmer directly via the `jruby` command, you
-may run the following:
+may run the following on Windows/Linux:
 
 ```
-jruby -J-classpath "path_to/swt.jar" -r glimmer -S application.rb
+jruby -r glimmer-dsl-swt -S application.rb
+```
+
+Or, the following on Mac:
+
+```
+jruby -J-XstartOnFirstThread -r glimmer-dsl-swt -S application.rb
+```
+
+If you want to use a specific custom version of SWT, run the following on Windows/Linux:
+
+```
+jruby -J-classpath "path_to/swt.jar" -r glimmer-dsl-swt -S application.rb
+```
+
+Or, the following on Mac:
+
+```
+jruby -J-XstartOnFirstThread -J-classpath "path_to/swt.jar" -r glimmer-dsl-swt -S application.rb
 ```
 
 The `-J-classpath` option specifies the `swt.jar` file path, which can be a
@@ -1228,7 +1246,7 @@ However, if there is a reason to use the raw `jruby` command directly instead of
 
 Example:
 ```
-jruby -J-XstartOnFirstThread -J-classpath "path_to/swt.jar" -r glimmer -S application.rb
+jruby -J-XstartOnFirstThread -J-classpath "path_to/swt.jar" -r glimmer-dsl-swt -S application.rb
 ```
 
 ## Girb (Glimmer irb) Command
@@ -1312,19 +1330,21 @@ Glimmer DSL syntax consists mainly of:
 
 ### DSL Auto-Expansion
 
-Glimmer supports a new and radical Ruby DSL concept called DSL Auto-Expansion. It is explained by first mentioning the two types of Glimmer GUI DSL keywords: static and dynamic.
+Glimmer supports a new and radical Ruby DSL concept called DSL Auto-Expansion. To explain, let's first mention the two types of Glimmer GUI DSL keywords: static and dynamic.
 
 Static keywords are pre-identified keywords in the Glimmer DSL, such as `shell`, `display`, `message_box`, `async_exec`, `sync_exec`, and `bind`.
 
-Dynamic keywords are dynamically figured out from currently imported (aka required/loaded) SWT widgets, custom widgets, and widget properties. Examples are: `label`, `combo`, and `list` for widgets and `enabled`, `text`, and `selection` for properties.
+Dynamic keywords are dynamically figured out from currently imported (aka required/loaded) SWT widgets and custom widgets. Examples are: `label`, `combo`, and `list` for SWT widgets and `c_date_time`, `video`, and `gantt_chart` for custom widgets.
 
-The only reason to distinguish between the two types of Glimmer DSL keywords is to realize that importing new Glimmer [custom widgets](#custom-widgets) and Java SWT custom widget libraries automatically expands Glimmer's DSL vocabulary via new dynamic keywords. 
+The only reason to distinguish between the two is to realize that importing new Glimmer [custom widgets](#custom-widgets) and Java SWT custom widget libraries automatically expands Glimmer's DSL vocabulary with new dynamic keywords. 
 
-For example, if a project adds this custom Java SWT library:
+For example, if a project adds this custom Java SWT library from the [Nebula Project](https://www.eclipse.org/nebula/):
 
-https://www.eclipse.org/nebula/widgets/cdatetime/cdatetime.php?page=operation
+https://www.eclipse.org/nebula/widgets/gallery/gallery.php
 
-Glimmer will automatically support using the keyword `c_date_time`
+Glimmer will automatically support using the keyword `gallery`
+
+This is what DSL Auto-Expansion is.
 
 You will learn more about widgets next.
 
@@ -1438,6 +1458,10 @@ shell {
 ```
 
 If you are new to Glimmer, you have learned enough to start running some [samples](#samples). Go ahead and run all Glimmer [samples](#samples), and come back to read the rest in any order you like since this material is more organized like a reference.
+
+If you are advanced and need more widgets, check out the [Nebula Project](https://www.eclipse.org/nebula/) for an extensive list of high quality custom widgets:
+
+https://www.eclipse.org/nebula/
 
 #### Display
 
@@ -2636,6 +2660,8 @@ end
 
 Custom widgets are brand new Glimmer DSL keywords that represent aggregates of existing widgets (e.g. `address_form`), customized existing widgets (e.g. `greeting_label`), or brand new widgets (e.g. `oscilloscope`)
 
+You can find out about [published Glimmer Custom Widgets](https://github.com/AndyObtiva/glimmer-dsl-swt#gem-listing) by running the `glimmer list:gems:customwidget` command
+
 Glimmer supports two ways of creating custom widgets with minimal code:
 1. Method-based Custom Widgets (for single-view-internal reuse): Extract a method containing Glimmer DSL widget syntax. Useful for quickly eliminating redundant code within a single view.
 2. Class-based Custom Widgets (for multiple-view-external reuse): Create a class that includes the `Glimmer::UI::CustomWidget` module and Glimmer DSL widget syntax in a `body {}` block. This will automatically extend Glimmer's DSL syntax with an underscored lowercase keyword matching the class name by convention. Useful in making a custom widget available in many views.
@@ -2841,6 +2867,8 @@ Also, you may check out [Hello, Custom Widget!](#hello-custom-widget) for anothe
 Custom shells are a kind of custom widgets that have shells only as the body root. They can be self-contained applications that may be opened and hidden/closed independently of the main app.
 
 They may also be chained in a wizard fashion.
+
+You can find out about [published Glimmer Custom Shells](https://github.com/AndyObtiva/glimmer-dsl-swt#gem-listing) by running the `glimmer list:gems:customshell` command
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -3460,6 +3488,10 @@ https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
 Here is an SWT Custom Widget guide:
 
 https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
+
+Here is the Nebula Project (custom widget library) homepage:
+
+https://www.eclipse.org/nebula/
 
 ## Samples
 

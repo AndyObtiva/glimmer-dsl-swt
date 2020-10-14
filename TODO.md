@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- glimmer scaffold:web2desktop[appname,website]
 - Ensure support for packaging on Linux
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
 - Make shell activation on show an option, not the default
@@ -199,6 +200,7 @@ items <=> binding {
 - Auto-refresh GUI from changes in rb files
 - Load development gems for "package" tasks
 - Make property setting inside a widget inside a custom shell body block not die silently when there is a Ruby error (e.g. invalid constant)
+- Consider supporting Hash-object based Data-Binding instead of Ruby attributes using the same Data-Binding syntax. Comes in handy in situations where the data is coming raw from a database without having a Model that wraps it.
 
 ## Samples
 
