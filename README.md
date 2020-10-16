@@ -439,7 +439,7 @@ Otherwise, you may also run `jruby -S gem install ...`
 
 If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](https://github.com/AndyObtiva/glimmer#glimmer-command) section.
 
-Otherwise, if you are ready to build a Glimmer app on the Mac, you can jump to the [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer#scaffolding) section next.
+Otherwise, if you are ready to build a Glimmer app, you can jump to the [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer#scaffolding) section next.
 
 Note: if you're using activerecord or activesupport, keep in mind that Glimmer unhooks ActiveSupport::Dependencies as it does not rely on it.
 
@@ -893,7 +893,7 @@ end
 ### Scaffolding
 
 Glimmer borrows from Rails the idea of Scaffolding, that is generating a structure for your app files that
-helps you get started just like true buildinThis g scaffolding helps construction workers, civil engineers, and architects.
+helps you get started just like true building scaffolding helps construction workers, civil engineers, and architects.
 
 Glimmer scaffolding goes beyond just scaffolding the app files that Rails does. It also packages it and launches it, 
 getting you to a running and delivered state of an advanced "Hello, World!" Glimmer application right off the bat.
@@ -909,7 +909,7 @@ letting Glimmer scaffolding take care of initial app file structure concerns, su
 - Icon (under `package/{platform}/{App Name}.{icon_extension}` for `macosx` .icns, `windows` .ico, and `linux` .png)
 - Bin file for starting application (`bin/{app_name}.rb`)
 
-NOTE: Scaffolding supports Mac and Windows packaging at the moment. 
+NOTE: You need to have your Git `user.name` and `github.user` configured before scaffolding since Glimmer uses Juwelier, which relies on them in creating a Git repo for your Glimmer app.
 
 #### App
 
@@ -1466,11 +1466,13 @@ https://www.eclipse.org/nebula/
 
 #### Display
 
-SWT Display is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally 
-and access available monitors. 
-It is automatically instantiated upon first instantiation of a `shell` widget. 
-Alternatively, for advanced use cases, it can be created explicitly with Glimmer `display` keyword. When a `shell` is later declared, it
-automatically uses the display created earlier without having to explicitly hook it.
+The SWT `Display` class is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally 
+and access available monitors. Additionally, it is responsible for the SWT event loop, which runs on the first thread the Glimmer application starts on. In multi-threaded programming, `Display` provides the methods `async_exec` and `sync_exec` to enable enqueuing GUI changes asynchronously or synchronously from threads other than the main (first) thread since direct GUI changes are forbidden from other threads by design.
+
+`Display` is automatically instantiated upon first instantiation of a `shell` widget. 
+
+Alternatively, for advanced use cases, a `Display` can be created explicitly with the Glimmer `display` keyword. When a `shell` is later declared, it
+automatically uses the `display` created earlier without having to explicitly hook it.
 
 ```ruby
 @display = display {
@@ -1484,7 +1486,45 @@ automatically uses the display created earlier without having to explicitly hook
 }
 ```
 The benefit of instantiating an SWT Display explicitly is to set [Properties](#widget-properties) or [Observers](#observer). 
-Although SWT Display is not technically a widget, it has similar APIs in SWT and similar DSL support in Glimmer.
+Although SWT Display is not technically a widget, it has similar APIs and DSL support.
+
+#### Multi-Threading
+
+JRuby supports true multi-threading since it relies on the JVM (Java Virtual Machine). As such, it enables desktop applications to run background work while the user is interacting with the GUI. 
+
+##### async_exec
+
+`async_exec` is also a Glimmer DSL keyword. It can be invoked with a block without having to reference a `display`.
+
+It adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
+
+Example:
+
+```
+@shell = shell {
+  text 'Glimmer'
+  @label = label {
+    text 'Hello, World!'
+  }
+}
+
+Thread.new {
+  [:red, :dark_green, :blue].cycle { |color|
+    async_exec {
+      @label.content {
+        foreground color if @shell.visible?
+      }
+    }
+    sleep(1)
+  }
+}
+
+@shell.open
+```
+
+##### sync_exec
+
+`sync_exec` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be done.
 
 #### SWT Proxies
 
