@@ -80,6 +80,7 @@ module Glimmer
         selected_table_items = [parent.swt_widget.getItems.first].to_java(TableItem) if selected_table_items.empty? && !parent.swt_widget.getItems.empty?
         parent.swt_widget.setSelection(selected_table_items) unless selected_table_items.empty?
         parent.sort
+        parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
       end
     end
   end

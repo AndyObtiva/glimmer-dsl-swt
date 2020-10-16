@@ -23,6 +23,7 @@ require 'glimmer/swt/widget_listener_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/swt_proxy'
+require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/dnd_proxy'
 require 'glimmer/swt/image_proxy'
 
@@ -204,7 +205,7 @@ module Glimmer
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
         if widget_custom_attribute
           widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
-        elsif @swt_widget.respond_to?(attribute_setter(attribute_name), args)
+        elsif @swt_widget.respond_to?(attribute_setter(attribute_name))
           apply_property_type_converters(attribute_name, args)
           @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
         else
@@ -683,21 +684,54 @@ module Glimmer
           },
           :background => color_converter,
           :background_image => lambda do |value|
-            image_proxy = nil
-            if value.is_a?(String)
-              image_proxy = ImageProxy.new(value)
+            # TODO push this code to ImageProxy
+            image_proxy = if value.is_a?(String)
+              ImageProxy.new(value)
             elsif value.is_a?(Array)
-              image_proxy = ImageProxy.new(*value)
-            end
-            if image_proxy
-              on_swt_Resize do |resize_event|
-                image_proxy.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
-                @swt_widget.setBackgroundImage(image_proxy.swt_image)
-              end
-              image_proxy.swt_image
+              ImageProxy.new(*value)
+            elsif value.is_a?(Image)
+              ImageProxy.new(swt_image: value)
             else
               value
             end
+            
+            if image_proxy&.file_path&.end_with?('.gif')
+              image = image_proxy.swt_image
+              width = image.get_bounds.width.to_i
+              height = image.get_bounds.height.to_i
+              image_number = 0
+              loader = ImageLoader.new
+              loader.load(image_proxy.input_stream)
+              image.dispose
+              image = org.eclipse.swt.graphics.Image.new(DisplayProxy.instance.swt_display,loader.data[0].scaledTo(width, height))
+              gc = org.eclipse.swt.graphics.GC.new(image)
+              on_paint_control { |event|
+                image_number = (image_number == loader.data.length - 1) ? 0 : image_number + 1
+                next_frame_data = loader.data[image_number]
+                image = org.eclipse.swt.graphics.Image.new(DisplayProxy.instance.swt_display, next_frame_data.scaledTo(width, height))
+                event.gc.drawImage(image, 0, 0, width, height, 0, 0, width, height)
+                image.dispose
+              }
+              Thread.new {
+                last_image_number = -1
+                while last_image_number != image_number
+                  last_image_number = image_number
+                  sync_exec {
+                    redraw
+                  }
+                  delayTime = loader.data[image_number].delayTime.to_f / 100.0
+                  sleep(delayTime)
+                end
+              };
+              image_proxy = nil              
+            else
+              on_swt_Resize do |resize_event|
+                image_proxy.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
+                @swt_widget.setBackgroundImage(image_proxy.swt_image)          
+              end        
+            end            
+            
+            image_proxy&.swt_image
           end,
           :cursor => lambda do |value|
             cursor_proxy = nil
@@ -718,13 +752,16 @@ module Glimmer
             end
           end,
           :image => lambda do |value|
-            if value.is_a?(String)
+            image_proxy = if value.is_a?(String)
               ImageProxy.new(value).swt_image
             elsif value.is_a?(Array)
               ImageProxy.new(*value).swt_image
+            elsif value.is_a?(Image)
+              ImageProxy.new(swt_image: value)
             else
               value
             end
+            image_proxy.swt_image
           end,
           :images => lambda do |array|
             array.to_a.map do |value|

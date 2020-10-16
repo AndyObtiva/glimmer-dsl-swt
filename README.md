@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.2.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.2.3
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -428,7 +428,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.2.2
+jgem install glimmer-dsl-swt -v 4.17.2.3
 ```
 
 Note: Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
@@ -505,7 +505,7 @@ bin/glimmer sample:run[hello_world]
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.2
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.2.3
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -534,6 +534,7 @@ Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and 
   glimmer package[type]                                      # Package app for distribution (generating config, jar, and native files) (type is optional)
   glimmer package:clean                                      # Clean by removing "dist" and "packages" directories
   glimmer package:config                                     # Generate JAR config file
+  glimmer package:gemspec                                    # Generate gemspec  
   glimmer package:jar                                        # Generate JAR file
   glimmer package:lock_jars                                  # Lock JARs
   glimmer package:native[type]                               # Generate Native files
@@ -620,7 +621,7 @@ This will run the hello_tab sample and output its code:
 ```
 $ glimmer sample:run[hello_tab] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/hello/hello_tab.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.3/samples/hello/hello_tab.rb
 
 class HelloTab
   include Glimmer
@@ -665,7 +666,7 @@ Example:
 ```
 $ glimmer sample:code[tic_tac_toe] 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.3/samples/elaborate/tic_tac_toe.rb
 
 require_relative "tic_tac_toe/board"
 
@@ -726,7 +727,7 @@ TicTacToe.new.open
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe/cell.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.3/samples/elaborate/tic_tac_toe/cell.rb
 
 class TicTacToe
   class Cell
@@ -759,7 +760,7 @@ end
 # # #
 
 
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.2/samples/elaborate/tic_tac_toe/board.rb
+# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.2.3/samples/elaborate/tic_tac_toe/board.rb
 
 require_relative 'cell'
 
@@ -1191,7 +1192,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS    
   Opal   glimmer-dsl-opal   0.3.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.2.2  AndyMaleh    Glimmer DSL for SWT    
+  Swt    glimmer-dsl-swt    4.17.2.3  AndyMaleh    Glimmer DSL for SWT    
   Tk     glimmer-dsl-tk     0.0.5     AndyMaleh    Glimmer DSL for Tk     
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML                                                                         
 ```
@@ -3892,7 +3893,7 @@ require 'glimmer/rake_task'
 
 The Glimmer packaging process done in the `glimmer package` command consists of the following steps:
 1. Generate gemspec via [Juwelier](https://rubygems.org/gems/juwelier) (`rake gemspec:generate`): Having a gemspec is required by the [`jar-dependencies`](https://github.com/mkristian/jar-dependencies) JRuby gem, used by JRuby libraries to declare JAR dependencies.
-1. Lock JAR versions (`glimmer package:lock_jars`): This locks versions of JAR dependencies leveraged by the `jar-dependencies` JRuby gem, downloading them into the `./vendor` directory so they would get inside the top-level Glimmer app/gem JAR file.
+1. Lock JAR versions (`glimmer package:4.17.2.3`): This locks versions of JAR dependencies leveraged by the `jar-dependencies` JRuby gem, downloading them into the `./vendor` directory so they would get inside the top-level Glimmer app/gem JAR file.
 1. Generate [Warbler](https://github.com/jruby/warbler) config (`glimmer package:config`): Generates initial Warbler config file (under `./config/warble.rb`) to use for generating JAR file.
 1. Generate JAR file using [Warbler](https://github.com/jruby/warbler) (`glimmer package:jar`): Enables bundling a Glimmer app into a JAR file under the `./dist` directory
 1. Generate native executable using [javapackager](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `javapackager` manually afterwards if needed).

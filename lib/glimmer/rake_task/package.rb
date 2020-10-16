@@ -35,6 +35,18 @@ module Glimmer
           FileUtils.rm_rf('packages')
         end
         
+        def gemspec
+          system 'rake gemspec:generate'
+        end
+        
+        def lock_jars
+          puts 'Locking gem jar-dependencies by downloading & storing in vendor/jars...'
+          FileUtils.mkdir_p('vendor/jars')
+          command = "lock_jars --vendor-dir vendor/jars"
+          puts command
+          system command      
+        end
+        
         def config
           project_name = File.basename(File.expand_path('.'))
           if !File.exists?('config/warble.rb')
@@ -70,14 +82,6 @@ module Glimmer
           puts "Generating JAR with Warbler..."
           system "jruby -S gem install warbler -v2.0.5 --no-document" unless warbler_exists?
           system('warble')      
-        end
-        
-        def lock_jars
-          puts 'Locking gem jar-dependencies by downloading & storing in vendor/jars...'
-          FileUtils.mkdir_p('vendor/jars')
-          command = "lock_jars --vendor-dir vendor/jars"
-          puts command
-          system command      
         end
         
         def native(native_type=nil, native_extra_args)

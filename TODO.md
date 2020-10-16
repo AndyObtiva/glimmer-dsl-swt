@@ -5,6 +5,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - glimmer scaffold:web2desktop[appname,website]
+
+## Soon
+
+- Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Ensure support for packaging on Linux
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
 - Make shell activation on show an option, not the default
@@ -12,7 +16,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
 
-### Soon
+### Soonish
 
 - Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Log exceptions that occur in event listener blocks
@@ -24,8 +28,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Run glimmer command rake task presents a TUI file chooser
 - Windows support for glimmer command TUI
 - Validate/Indicate required glimmer task first args (e.g. name for custom shell gem)
-- Support building standalone images via `img` keyword instead of `image` to avoid clashing with `image` property
-- Accept `ImageProxy` as arg for image property method
+- Make `image` keyword generate and set image on parent if called inside a widget declaration
 - Provide a way to scale images via `image` property keyword by passing width/height hash args (can be in pixels or :widget)
 - Support background_image property without stretching of image on resize
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
@@ -73,7 +76,6 @@ bind_content(model, 'addresses').each { |address|
   }
 }
 ```
-- Image custom widget similar to video, and supporting gif
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command

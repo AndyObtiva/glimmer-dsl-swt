@@ -39,20 +39,29 @@ module Glimmer
       def initialize(*args)
         @args = args
         @file_path = @args.first if @args.first.is_a?(String) && @args.size == 1        
-        if @file_path
-          if @file_path.start_with?('uri:classloader')
-            @jar_file_path = @file_path
-            @file_path = @jar_file_path.sub(/^uri\:classloader\:/, '').sub('//', '/') # the latter sub is needed for Mac
-            object = java.lang.Object.new
-            file_input_stream = object.java_class.resource_as_stream(file_path)
-            buffered_file_input_stream = java.io.BufferedInputStream.new(file_input_stream)
-          end
-          @image_data = ImageData.new(buffered_file_input_stream || @file_path)
+        options = @args.delete_at(-1) if @args.last.is_a?(Hash)
+        if options&.keys&.include?(:swt_image)
+          @swt_image = options[:swt_image]
+          @image_data = @swt_image.image_data
+        elsif @file_path
+          @image_data = ImageData.new(input_stream || @file_path)
           @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
         else
           @swt_image = Image.new(*@args)
           @image_data = @swt_image.image_data
         end        
+      end
+      
+      def input_stream
+        if @file_path.start_with?('uri:classloader')
+          @jar_file_path = @file_path
+          file_path = @jar_file_path.sub(/^uri\:classloader\:/, '').sub('//', '/') # the latter sub is needed for Mac
+          object = java.lang.Object.new
+          file_input_stream = object.java_class.resource_as_stream(file_path)
+        else
+          file_input_stream = java.io.FileInputStream.new(@file_path)
+        end      
+        java.io.BufferedInputStream.new(file_input_stream) if file_input_stream
       end
 
       def scale_to(width, height)
@@ -60,6 +69,8 @@ module Glimmer
         device = swt_image.device
         swt_image.dispose
         @swt_image = Image.new(device, scaled_image_data)
+        @image_data = @swt_image.image_data
+        self
       end
       
       def method_missing(method, *args, &block)

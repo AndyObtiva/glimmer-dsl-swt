@@ -1,5 +1,14 @@
 # Change Log
 
+### 4.17.2.3
+
+- Maintain image file path upon scaling an ImageProxy
+- Add a glimmer rake task that wraps the juwelier rake gemspec:generate task
+- Accept `ImageProxy` as arg for `image` and `background_image` property methods
+- (EXPERIMENTAL) Animate gif images when set as a `background_image` on a `composite`
+- Fix issue with table redraw after data-binding changes leaving old removed table items visible (even if user cannot interact with anymore)
+- Fix issue with running package rake task from `glimmer` command TUI
+
 ### 4.17.2.2
 
 - Small updates/refactorings in samples
