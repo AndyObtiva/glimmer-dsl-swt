@@ -913,7 +913,9 @@ letting Glimmer scaffolding take care of initial app file structure concerns, su
 - Icon (under `package/{platform}/{App Name}.{icon_extension}` for `macosx` .icns, `windows` .ico, and `linux` .png)
 - Bin file for starting application (`bin/{app_name}.rb`)
 
-NOTE: You need to have your Git `user.name` and `github.user` configured before scaffolding since Glimmer uses Juwelier, which relies on them in creating a Git repo for your Glimmer app.
+You need to have your Git `user.name` and `github.user` configured before scaffolding since Glimmer uses Juwelier, which relies on them in creating a Git repo for your Glimmer app.
+
+NOTE: Linux is not fully supported yet with scaffolding. Please report any issues you may encounter.
 
 #### App
 
@@ -2000,7 +2002,7 @@ The `image` keyword creates an instance of [org.eclipse.swt.graphics.Image](http
 
 It is a graphics `Image` object (not a widget), but is used used in setting the `image` property on `label` and `background_image` on `composite` (and subclasses)
 
-Glimmer recently included **EXPERIMENTAL** gif animation support for the `background_image` property on `composite' since SWT does not support animation by default.
+Glimmer recently included **EXPERIMENTAL** gif animation support for the `background_image` property on `composite' since SWT does not support animation by default. On Windows, it only works inside composites nested under standard shells, not ones that have the SWT styles :on_top or :no_trim
 
 Learn more about images in general at this SWT Image guide: https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
 

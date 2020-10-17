@@ -4,7 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- glimmer scaffold:web2desktop[appname,website]
+- Merge app and custom shell gem scaffolding options making it app only with custom shell gem remaining as a legacy scaffold option
+- glimmer scaffold:desktopify[appname,website] to desktopify a website by creating a desktop wrapper that can run on all platforms and be extended/instrumented too. 
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 
 ## Soon
