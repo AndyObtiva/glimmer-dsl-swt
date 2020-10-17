@@ -1464,68 +1464,6 @@ If you are advanced and need more widgets, check out the [Nebula Project](https:
 
 https://www.eclipse.org/nebula/
 
-#### Display
-
-The SWT `Display` class is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally 
-and access available monitors. Additionally, it is responsible for the SWT event loop, which runs on the first thread the Glimmer application starts on. In multi-threaded programming, `Display` provides the methods `async_exec` and `sync_exec` to enable enqueuing GUI changes asynchronously or synchronously from threads other than the main (first) thread since direct GUI changes are forbidden from other threads by design.
-
-`Display` is automatically instantiated upon first instantiation of a `shell` widget. 
-
-Alternatively, for advanced use cases, a `Display` can be created explicitly with the Glimmer `display` keyword. When a `shell` is later declared, it
-automatically uses the `display` created earlier without having to explicitly hook it.
-
-```ruby
-@display = display {
-  cursor_location 300, 300
-  on_swt_keydown {
-    # ...
-  }
-  # ...
-}
-@shell = shell { # uses display created above
-}
-```
-The benefit of instantiating an SWT Display explicitly is to set [Properties](#widget-properties) or [Observers](#observer). 
-Although SWT Display is not technically a widget, it has similar APIs and DSL support.
-
-#### Multi-Threading
-
-JRuby supports true multi-threading since it relies on the JVM (Java Virtual Machine). As such, it enables desktop applications to run background work while the user is interacting with the GUI. 
-
-##### async_exec
-
-`async_exec` is also a Glimmer DSL keyword. It can be invoked with a block without having to reference a `display`.
-
-It adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
-
-Example:
-
-```
-@shell = shell {
-  text 'Glimmer'
-  @label = label {
-    text 'Hello, World!'
-  }
-}
-
-Thread.new {
-  [:red, :dark_green, :blue].cycle { |color|
-    async_exec {
-      @label.content {
-        foreground color if @shell.visible?
-      }
-    }
-    sleep(1)
-  }
-}
-
-@shell.open
-```
-
-##### sync_exec
-
-`sync_exec` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be done.
-
 #### SWT Proxies
 
 Glimmer follows Proxy Design Pattern by having Ruby proxy wrappers for all SWT objects:
@@ -1541,7 +1479,26 @@ Glimmer follows Proxy Design Pattern by having Ruby proxy wrappers for all SWT o
 
 These proxy objects have an API and provide some convenience methods, some of which are mentioned below.
 
-##### `#content { ... }`
+##### swt_widget
+
+Glimmer SWT proxies come with the instance method `#swt_widget`, which returns the actual SWT `Widget` object wrapped by the Glimmer widget proxy. It is useful in cases you'd like to do some custom SWT programming outside of Glimmer.
+
+##### Shell widget proxy methods
+
+Shell widget proxy has extra methods specific to SWT Shell:
+- `#open`: Opens the shell, making it visible and active, and starting the SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). If shell was already open, but hidden, it makes the shell visible.
+- `#show`: Alias for `#open`
+- `#hide`: Hides a shell setting "visible" property to false
+- `#close`: Closes the shell
+- `#center`: Centers the shell within monitor it is in
+- `#start_event_loop`: (happens as part of `#open`) Starts SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). This method is not needed except in rare circumstances where there is a need to start the SWT Event Loop before opening the shell.
+- `#visible?`: Returns whether a shell is visible
+- `#opened_before?`: Returns whether a shell has been opened at least once before (additionally implying the SWT Event Loop has been started already)
+- `#visible=`: Setting to true opens/shows shell. Setting to false hides the shell.
+- `#pack`: Packs contained widgets using SWT's `Shell#pack` method
+- `#pack_same_size`: Packs contained widgets without changing shell's size when widget sizes change
+
+##### Widget Content Block
 
 Glimmer allows re-opening any widget and adding properties or extra content after it has been constructed already by using the `#content` method.
 
@@ -1567,7 +1524,31 @@ Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 @shell.open
 ```
 
-##### `message_box`
+##### Shell Icon
+
+To set the shell icon, simply set the `image` property under the `shell` widget. This shows up in the operating system toolbar and app-switcher (e.g. CMD+TAB) (and application window top-left corner in Windows)
+
+Example:
+
+```ruby
+shell {
+  # ...
+  image 'path/to/image.png'
+  # ...
+}
+```
+
+###### Shell Icon Tip for Packaging on Windows
+
+When setting shell icon for a [packaged](#packaging--distribution) app, which has a JAR file at its core, you can reference the `ico` file that ships with the app by going one level up (e.g. `'../AppName.ico'`)
+
+#### Dialog
+
+Dialog is a variation on Shell. It is basically a shell that is modal (blocks what's behind it) and belongs to another shell. It only has a close button.
+
+Glimmer facilitates building dialogs by using the `dialog` keyword, which automatically adds the SWT.DIALOG_TRIM and SWT.APPLICATION_MODAL [widget styles](#widget-styles) needed for a dialog.
+
+##### message_box
 
 The Glimmer DSL `message_box` keyword is similar to `shell`, but renders a modal dialog with a title `text` property and main body `message` property. It may also be opened via the `#open` method.
 
@@ -1606,48 +1587,65 @@ message_box {
 }.open
 ```
 
-##### `#swt_widget`
+#### Display
 
-Glimmer widget objects come with an instance method `#swt_widget` that returns the actual SWT `Widget` object wrapped by the Glimmer widget object. It is useful in cases you'd like to do some custom SWT programming outside of Glimmer.
+The SWT `Display` class is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally 
+and access available monitors. Additionally, it is responsible for the SWT event loop, which runs on the first thread the Glimmer application starts on. In multi-threaded programming, `Display` provides the methods `async_exec` and `sync_exec` to enable enqueuing GUI changes asynchronously or synchronously from threads other than the main (first) thread since direct GUI changes are forbidden from other threads by design.
 
-##### Shell widget proxy methods
+`Display` is automatically instantiated upon first instantiation of a `shell` widget. 
 
-Shell widget proxy has extra methods specific to SWT Shell:
-- `#open`: Opens the shell, making it visible and active, and starting the SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). If shell was already open, but hidden, it makes the shell visible.
-- `#show`: Alias for `#open`
-- `#hide`: Hides a shell setting "visible" property to false
-- `#close`: Closes the shell
-- `#center`: Centers the shell within monitor it is in
-- `#start_event_loop`: (happens as part of `#open`) Starts SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). This method is not needed except in rare circumstances where there is a need to start the SWT Event Loop before opening the shell.
-- `#visible?`: Returns whether a shell is visible
-- `#opened_before?`: Returns whether a shell has been opened at least once before (additionally implying the SWT Event Loop has been started already)
-- `#visible=`: Setting to true opens/shows shell. Setting to false hides the shell.
-- `#pack`: Packs contained widgets using SWT's `Shell#pack` method
-- `#pack_same_size`: Packs contained widgets without changing shell's size when widget sizes change
-
-##### Shell Icon
-
-To set the shell icon, simply set the `image` property under the `shell` widget. This shows up in the operating system toolbar and app-switcher (e.g. CMD+TAB) (and application window top-left corner in Windows)
-
-Example:
+Alternatively, for advanced use cases, a `Display` can be created explicitly with the Glimmer `display` keyword. When a `shell` is later declared, it
+automatically uses the `display` created earlier without having to explicitly hook it.
 
 ```ruby
-shell {
-  # ...
-  image 'path/to/image.png'
+@display = display {
+  cursor_location 300, 300
+  on_swt_keydown {
+    # ...
+  }
   # ...
 }
+@shell = shell { # uses display created above
+}
+```
+The benefit of instantiating an SWT Display explicitly is to set [Properties](#widget-properties) or [Observers](#observer). 
+Although SWT Display is not technically a widget, it has similar APIs and DSL support.
+
+#### Multi-Threading
+
+[JRuby](https://www.jruby.org/) supports [truly parallel multi-threading](https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) since it relies on the JVM (Java Virtual Machine). As such, it enables development of highly-interactive desktop applications that can do background work while the user is interacting with the GUI.
+
+##### async_exec
+
+`async_exec` is a Glimmer DSL keyword in addition to being a method on `display`. It accepts a block and when invoked, adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
+
+Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```
+@shell = shell {
+  text 'Glimmer'
+  @label = label {
+    text 'Hello, World!'
+  }
+}
+
+Thread.new {
+  [:red, :dark_green, :blue].cycle { |color|
+    async_exec {
+      @label.content {
+        foreground color if @shell.visible?
+      }
+    }
+    sleep(1)
+  }
+}
+
+@shell.open
 ```
 
-###### Shell Icon Tip for Packaging on Windows
+##### sync_exec
 
-When setting shell icon for a [packaged](#packaging--distribution) app, which has a JAR file at its core, you can reference the `ico` file that ships with the app by going one level up (e.g. `'../AppName.ico'`)
-
-#### Dialog
-
-Dialog is a variation on Shell. It is basically a shell that is modal (blocks what's behind it) and belongs to another shell. It only has a close button.
-
-Glimmer facilitates building dialogs by using the `dialog` keyword, which automatically adds the SWT.DIALOG_TRIM and SWT.APPLICATION_MODAL [widget styles](#widget-styles) needed for a dialog.
+`sync_exec` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
 
 #### Menus
 
@@ -1979,6 +1977,16 @@ Example:
 ```ruby
 @font = font(name: 'Arial', height: 36, style: :normal)
 ```
+
+### Image
+
+The `image` keyword creates an instance of [org.eclipse.swt.graphics.Image](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Image.html).
+
+It is a graphics `Image` object (not a widget), but is used used in setting the `image` property on `label` and `background_image` on `composite` (and subclasses)
+
+Glimmer recently included **EXPERIMENTAL** gif animation support for the `background_image` property on `composite' since SWT does not support animation by default.
+
+Learn more about images in general at this SWT Image guide: https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
 
 ### Cursor
 
@@ -2732,7 +2740,6 @@ shell {
   red_label('Red Label')
 }.open
 ```
-
 
 ##### Class-Based Custom Widget Example
 
@@ -3529,6 +3536,14 @@ https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
 Here is an SWT Custom Widget guide:
 
 https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
+
+Here is an SWT Image guide:
+
+https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
+
+Here is an SWT Graphics / Canvas-Drawing guide:
+
+https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html
 
 Here is the Nebula Project (custom widget library) homepage:
 

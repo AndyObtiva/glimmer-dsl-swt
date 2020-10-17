@@ -4,7 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Remove requirement for global github user when scaffolding an app (should be needed for custom shell only). Also, halt scaffolding if it is missing for custom shell.
+- Give an error message when attempting to scaffold over an already scaffolded directory
+- Add ability to run app with simply `glimmer run` if inside a scaffolded app
+- Update TOC
+
+## After Next
+
 - glimmer scaffold:web2desktop[appname,website]
+- Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 
 ## Soon
 
@@ -50,7 +58,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 
 - Make scaffolded app gemspec complete in accordance to config/warble when available
-- Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 - Have property expression automatically call to_java(Type) on arrays for property methods that take arguments
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
@@ -172,7 +179,6 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
-- Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples
 - Syntax-highlight sample code when output with `glimmer sample:code` command

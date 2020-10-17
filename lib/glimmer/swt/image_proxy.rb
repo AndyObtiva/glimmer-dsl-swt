@@ -27,10 +27,20 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class ImageProxy
+      class << self
+        def create(*args)
+          if args.size == 1 && args.first.is_a?(ImageProxy)
+            args.first
+          else
+            new(*args)
+          end
+        end
+      end
+      
       include_package 'org.eclipse.swt.graphics'
       
       attr_reader :file_path, :jar_file_path, :image_data, :swt_image
-
+      
       # Initializes a proxy for an SWT Image object
       #
       # Takes the same args as the SWT Image class
@@ -38,8 +48,10 @@ module Glimmer
       # and returns an image object.
       def initialize(*args)
         @args = args
-        @file_path = @args.first if @args.first.is_a?(String) && @args.size == 1        
-        options = @args.delete_at(-1) if @args.last.is_a?(Hash)
+        options = @args.last.is_a?(Hash) ? @args.delete_at(-1) : {}
+        options[:swt_image] = @args.first if @args.size == 1 && @args.first.is_a?(Image)
+        @file_path = @args.first if @args.size == 1 && @args.first.is_a?(String)
+        @args = @args.first if @args.size == 1 && @args.first.is_a?(Array)
         if options&.keys&.include?(:swt_image)
           @swt_image = options[:swt_image]
           @image_data = @swt_image.image_data

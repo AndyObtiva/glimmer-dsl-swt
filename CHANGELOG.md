@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.17.2.4
+
+- Fix SWTProxy.deconstruct method
+- Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
+- Document that gif background_image only works without on_top and no_trim styles in Windows
+
+
 ### 4.17.2.3
 
 - Maintain image file path upon scaling an ImageProxy

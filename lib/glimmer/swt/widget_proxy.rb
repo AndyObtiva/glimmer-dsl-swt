@@ -684,16 +684,7 @@ module Glimmer
           },
           :background => color_converter,
           :background_image => lambda do |value|
-            # TODO push this code to ImageProxy
-            image_proxy = if value.is_a?(String)
-              ImageProxy.new(value)
-            elsif value.is_a?(Array)
-              ImageProxy.new(*value)
-            elsif value.is_a?(Image)
-              ImageProxy.new(swt_image: value)
-            else
-              value
-            end
+            image_proxy = ImageProxy.create(value)
             
             if image_proxy&.file_path&.end_with?('.gif')
               image = image_proxy.swt_image
@@ -752,37 +743,18 @@ module Glimmer
             end
           end,
           :image => lambda do |value|
-            image_proxy = if value.is_a?(String)
-              ImageProxy.new(value).swt_image
-            elsif value.is_a?(Array)
-              ImageProxy.new(*value).swt_image
-            elsif value.is_a?(Image)
-              ImageProxy.new(swt_image: value)
-            else
-              value
-            end
-            image_proxy.swt_image
+            ImageProxy.create(value).swt_image
           end,
           :images => lambda do |array|
             array.to_a.map do |value|
-              if value.is_a?(String)
-                ImageProxy.new(value).swt_image
-              elsif value.is_a?(Array)
-                ImageProxy.new(*value).swt_image
-              else
-                value
-              end
+              ImageProxy.create(value).swt_image
             end.to_java(Image)
           end,
           :items => lambda do |value|
             value.to_java :string
           end,
           :text => lambda do |value|
-            if swt_widget.is_a?(Browser)
-              value.to_s
-            else
-              value.to_s
-            end
+            value.to_s
           end,
           :transfer => lambda do |value|
             value = value.first if value.is_a?(Array) && value.size == 1 && value.first.is_a?(Array)
