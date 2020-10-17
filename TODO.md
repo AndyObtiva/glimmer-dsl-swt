@@ -11,7 +11,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Soon
 
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
-- Ensure support for packaging on Linux
+- Add preferences dialog/menu-items to desktopify app
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
 - Make shell activation on show an option, not the default
 - Remove name column from listing of gems
@@ -20,7 +20,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ### Soonish
 
-- Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
@@ -203,6 +202,8 @@ items <=> binding {
 - Load development gems for "package" tasks
 - Make property setting inside a widget inside a custom shell body block not die silently when there is a Ruby error (e.g. invalid constant)
 - Consider supporting Hash-object based Data-Binding instead of Ruby attributes using the same Data-Binding syntax. Comes in handy in situations where the data is coming raw from a database without having a Model that wraps it.
+- Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
+- Ensure support for packaging on Linux
 
 ## Samples
 

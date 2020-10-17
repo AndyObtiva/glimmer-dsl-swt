@@ -153,6 +153,12 @@ namespace :glimmer do
     task :custom_widget, [:name, :namespace] => :customwidget
     task :"custom-widget", [:name, :namespace] => :customwidget
     
+    desc 'Desktopify a web app'
+    task :desktopify, [:app_name, :website] do |t, args|
+      require_relative 'rake_task/scaffold'
+      Glimmer::RakeTask::Scaffold.desktopify(args[:app_name], args[:website])
+    end
+    
     namespace :gem do
       desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under its own Ruby gem + app project (namespace is required) [alt: scaffold:gem:cs]'
       task :customshell, [:name, :namespace] do |t, args|

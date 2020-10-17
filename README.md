@@ -927,7 +927,7 @@ To scaffold a Glimmer app from scratch, run the following command:
 glimmer scaffold[AppName]
 ```
 
-This will generate an advanced "Hello, World!" app, package it as a Mac native file (DMG/PKG/APP), and launch it all in one fell swoop.
+This will generate an advanced "Hello, World!" app, package it as a Mac or Windows native file (DMG/PKG/APP/MSI), and launch it all in one fell swoop.
 
 Suppose you run:
 
@@ -1001,6 +1001,87 @@ or:
 
 ```
 glimmer bin/greeter
+```
+
+#### Desktopify
+
+This scaffolding mode enables you to desktopify a web app. Glimmer Scaffolding basically wraps the website with a [Browser Widget](#browser-widget).
+
+The desktopify app is similar to the standard scaffolded app. It can be extended and the [browser may even be instrumented](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html).
+
+Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites. 
+
+To scaffold a Glimmer app from scratch, run the following command:
+
+```
+glimmer scaffold:desktopify[app_name,website]
+```
+
+This will generate a Glimmer app, package it as a Mac or Windows native file (DMG/PKG/APP/MSI), and launch it all in one fell swoop.
+
+Suppose you run:
+
+```
+glimmer scaffold:desktopify[snowboard_utah,https://www.brightonresort.com]
+```
+
+You should see output like the following:
+
+```
+$ glimmer scaffold:desktopify[snowboard_utah,https://www.brightonresort.com]
+Fetching kamelcase-0.0.2.gem
+Fetching github_api-0.19.0.gem
+Fetching highline-2.0.3.gem
+Fetching juwelier-2.4.9.gem
+Fetching hashie-3.6.0.gem
+Fetching nokogiri-1.10.10-java.gem
+Fetching semver2-3.4.2.gem
+Successfully installed semver2-3.4.2
+Successfully installed kamelcase-0.0.2
+Successfully installed highline-2.0.3
+Successfully installed hashie-3.6.0
+Successfully installed github_api-0.19.0
+Successfully installed nokogiri-1.10.10-java
+Successfully installed juwelier-2.4.9
+7 gems installed
+	create	.gitignore
+	create	Rakefile
+	create	Gemfile
+	create	LICENSE.txt
+	create	README.markdown
+	create	.document
+	create	lib
+	create	lib/snowboard_utah.rb
+	create	.rspec
+Juwelier has prepared your gem in ./snowboard_utah
+Created snowboard_utah/.gitignore
+Created snowboard_utah/.ruby-version
+Created snowboard_utah/.ruby-gemset
+Created snowboard_utah/VERSION
+Created snowboard_utah/LICENSE.txt
+Created snowboard_utah/Gemfile
+Created snowboard_utah/Rakefile
+Created snowboard_utah/app/snowboard_utah.rb
+Created snowboard_utah/app/views/snowboard_utah/app_view.rb
+Created snowboard_utah/package/windows/Snowboard Utah.ico
+Created snowboard_utah/package/macosx/Snowboard Utah.icns
+Created snowboard_utah/package/linux/Snowboard Utah.png
+Created snowboard_utah/bin/snowboard_utah
+...
+```
+
+Eventually, it will launch a desktopified version of "https://www.brightonresort.com" having the title of ("Snowboard Utah").
+
+![Glimmer Scaffold App](images/glimmer-scaffolding-desktopify.png)
+
+It also comes with a boilerplate About dialog.
+
+![Glimmer Scaffold App About](images/glimmer-scaffolding-desktopify-about.png)
+
+In order to run the app after making changes, you must run the `glimmer run`. It automatically detects the generated run script under the `bin` directory and uses it as an argument.
+
+```
+glimmer run
 ```
 
 #### Custom Shell

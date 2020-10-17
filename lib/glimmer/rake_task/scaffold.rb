@@ -121,6 +121,18 @@ module Glimmer
         MULTI_LINE_STRING
     
         def app(app_name)
+          common_app(app_name) do
+            custom_shell('AppView', current_dir_name, :app)          
+          end
+        end
+        
+        def desktopify(app_name, website)
+          common_app(app_name) do
+            custom_shell('AppView', current_dir_name, :desktopify, website: website)
+          end
+        end
+        
+        def common_app(app_name, &view_scaffolding_block)
           gem_name = file_name(app_name)
           gem_summary = human_name(app_name)
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
@@ -140,7 +152,7 @@ module Glimmer
           write "app/#{file_name(app_name)}.rb", app_main_file(app_name)
           mkdir 'app/models'
           mkdir 'app/views'
-          custom_shell('AppView', current_dir_name, :app)
+          view_scaffolding_block.call          
             
           mkdir_p 'package/windows'
           icon_file = "package/windows/#{human_name(app_name)}.ico"
@@ -176,16 +188,16 @@ module Glimmer
             else
               system "glimmer bin/#{file_name(app_name)}"
             end
-          end
+          end        
         end
     
-        def custom_shell(custom_shell_name, namespace, shell_type = nil)
+        def custom_shell(custom_shell_name, namespace, shell_type = nil, shell_options = {})
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
           parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
           return puts("The file '#{parent_dir}/#{file_name(custom_shell_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_shell_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
-          write "#{parent_dir}/#{file_name(custom_shell_name)}.rb", custom_shell_file(custom_shell_name, namespace, shell_type)
+          write "#{parent_dir}/#{file_name(custom_shell_name)}.rb", custom_shell_file(custom_shell_name, namespace, shell_type, shell_options)
         end
     
         def custom_widget(custom_widget_name, namespace)
@@ -446,7 +458,7 @@ module Glimmer
                 " -name '#{human_name(custom_shell_name)}'" +
                 " -title '#{human_name(custom_shell_name)}'" +
                 " -Bmac.CFBundleName='#{human_name(custom_shell_name)}'" +
-                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).capitalize}'" 
+                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'" 
                 # " -BlicenseType=" +
                 # " -Bmac.category=" +
                 # " -Bmac.signing-key-developer-id-app="
@@ -476,7 +488,7 @@ module Glimmer
           lines.join("\n")
         end
     
-        def custom_shell_file(custom_shell_name, namespace, shell_type)    
+        def custom_shell_file(custom_shell_name, namespace, shell_type, shell_options = {})
           namespace_type = class_name(namespace) == class_name(current_dir_name) ? 'class' : 'module'
     
           custom_shell_file_content = <<-MULTI_LINE_STRING
@@ -508,7 +520,7 @@ module Glimmer
         #
           MULTI_LINE_STRING
           
-          if %i[gem app].include?(shell_type)
+          if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
         before_body {
           Display.setAppName('#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}')
@@ -518,7 +530,7 @@ module Glimmer
               display_about_dialog
             }
             on_preferences {
-              display_preferences_dialog
+              #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
             }
           }
         }
@@ -545,40 +557,73 @@ module Glimmer
         body {
           shell {
             # Replace example content below with custom shell content
-            minimum_size 320, 240
+            minimum_size #{shell_type == :desktopify ? '1024, 768' : '320, 240'}
             image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
             text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
+          
+          MULTI_LINE_STRING
+            
+          if shell_type == :desktopify
+            custom_shell_file_content += <<-MULTI_LINE_STRING            
+            browser {
+              url "#{shell_options[:website]}"              
+            }            
+            MULTI_LINE_STRING
+          else
+            custom_shell_file_content += <<-MULTI_LINE_STRING
             grid_layout
             label(:center) {
               text bind(self, :greeting)
               font height: 40
               layout_data :fill, :center, true, true
-            }
+            }            
+            MULTI_LINE_STRING
+          end
+          
+          if %i[gem app desktopify].include?(shell_type)
+            custom_shell_file_content += <<-MULTI_LINE_STRING
+            
             menu_bar {
               menu {
                 text '&File'
                 menu_item {
+                  text '&About...'
+                  on_widget_selected {
+                    display_about_dialog
+                  }
+                }
+                menu_item {
                   text '&Preferences...'
                   on_widget_selected {
-                    display_preferences_dialog
+                    #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
                   }
                 }
               }
             }
+            MULTI_LINE_STRING
+          end
+          if %i[gem app desktopify].include?(shell_type)
+            custom_shell_file_content += <<-MULTI_LINE_STRING
           }
         }
-          MULTI_LINE_STRING
-    
-          if %i[gem app].include?(shell_type)
+            MULTI_LINE_STRING
+          end
+          
+          if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
     
         def display_about_dialog
           message_box(body_root) {
             text 'About'
-            message "#{human_name(namespace)} - #{human_name(custom_shell_name)} \#{VERSION}\\n\\n\#{LICENSE}"
+            message "#{human_name(namespace)}#{" - #{human_name(custom_shell_name)}" if shell_type == :gem} \#{VERSION}\\n\\n\#{LICENSE}"
           }.open
         end
         
+            MULTI_LINE_STRING
+          end
+          
+          if %i[gem app].include?(shell_type)
+            custom_shell_file_content += <<-MULTI_LINE_STRING
         def display_preferences_dialog
           dialog(swt_widget) {
             text 'Preferences'

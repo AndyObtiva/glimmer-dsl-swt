@@ -88,6 +88,7 @@ module Glimmer
           puts "Generating native executable with javapackager/jpackage..."
           require 'facets/string/titlecase'
           require 'facets/string/underscore'
+          require 'facets/string/camelcase'
           project_name = File.basename(File.expand_path('.'))
           version_file = File.expand_path('./VERSION')
           version = (File.read(version_file).strip if File.exists?(version_file) && File.file?(version_file)) rescue nil
@@ -97,7 +98,7 @@ module Glimmer
           human_name = project_name.underscore.titlecase
           icon = "package/#{OS.mac? ? 'macosx' : 'windows'}/#{human_name}.#{OS.mac? ? 'icns' : 'ico'}"
           if (`javapackager`.to_s.include?('Usage: javapackager') rescue nil)
-            command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
+            command = "javapackager -deploy -native #{native_type} -outdir packages -outfile \"#{project_name}\" -srcfiles \"dist/#{project_name}.jar\" -appclass JarMain -name \"#{human_name}\" -title \"#{human_name}\" -Bmac.CFBundleName=\"#{human_name}\" -Bmac.CFBundleIdentifier=\"org.#{project_name}.application.#{project_name.camelcase(:upper)}\" -Bmac.category=\"public.app-category.business\" -BinstalldirChooser=true -Bvendor=\"#{human_name}\" -Bwin.menuGroup=\"#{human_name}\" "
             command += " -BsystemWide=false " if OS.windows?
             command += " -BjvmOptions=-XstartOnFirstThread " if OS.mac?
             command += " -BappVersion=#{version} -Bmac.CFBundleVersion=#{version} " if version
