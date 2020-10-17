@@ -48,6 +48,20 @@ require_relative '../ext/glimmer/config.rb'
 require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
 
 namespace :glimmer do
+  desc 'Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)'
+  task :run, [:app_path] do |t, args|
+    require_relative 'launcher'
+    if args[:app_path].nil?
+      require 'fileutils'
+      current_directory_name = File.basename(FileUtils.pwd)
+      assumed_shell_script = File.join('.', 'bin', current_directory_name)      
+      assumed_shell_script = Dir.glob('./bin/*').detect {|f| File.file?(f)} if !File.exist?(assumed_shell_script)
+      Glimmer::Launcher.new([assumed_shell_script]).launch
+    else
+      Glimmer::Launcher.new([args[:app_path]]).launch
+    end
+  end
+  
   namespace :sample do
     task :requires do      
       require_relative 'rake_task/sample'      

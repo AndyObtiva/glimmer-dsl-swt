@@ -123,8 +123,10 @@ module Glimmer
         def app(app_name)
           gem_name = file_name(app_name)
           gem_summary = human_name(app_name)
+          return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           rm_rf 'lib'
           write '.gitignore', GITIGNORE
@@ -181,6 +183,7 @@ module Glimmer
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
           parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          return puts("The file '#{parent_dir}/#{file_name(custom_shell_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_shell_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
           write "#{parent_dir}/#{file_name(custom_shell_name)}.rb", custom_shell_file(custom_shell_name, namespace, shell_type)
         end
@@ -189,6 +192,7 @@ module Glimmer
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
           parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          return puts("The file '#{parent_dir}/#{file_name(custom_widget_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_widget_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
           write "#{parent_dir}/#{file_name(custom_widget_name)}.rb", custom_widget_file(custom_widget_name, namespace)
         end
@@ -210,8 +214,10 @@ module Glimmer
             return puts('Namespace is required! Usage: glimmer scaffold:gem:customshell[name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
             namespace = 'glimmer'
           end
+          return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
           write '.ruby-version', RUBY_VERSION        
@@ -278,8 +284,10 @@ module Glimmer
             namespace = 'glimmer'
           end
           
+          return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
           write '.ruby-version', RUBY_VERSION        

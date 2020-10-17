@@ -2,9 +2,13 @@
 
 ### 4.17.2.4
 
-- Fix SWTProxy.deconstruct method
+- New `glimmer run` glimmer command task.
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
 - Document that gif background_image only works without on_top and no_trim styles in Windows
+- Give a good error message when Git is not properly setup for Glimmer Scaffolding
+- Give an error message when attempting to scaffold over an already scaffolded directory
+- Fix issue on Windows regarding use of the new EXPERIMENTAL Animated gif support in the `composite#background_image` property
+- Fix SWTProxy.deconstruct method
 
 
 ### 4.17.2.3

@@ -4,13 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Remove requirement for global github user when scaffolding an app (should be needed for custom shell only). Also, halt scaffolding if it is missing for custom shell.
-- Give an error message when attempting to scaffold over an already scaffolded directory
-- Add ability to run app with simply `glimmer run` if inside a scaffolded app
-- Update TOC
-
-## After Next
-
 - glimmer scaffold:web2desktop[appname,website]
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 
