@@ -11,6 +11,7 @@
 - Provide a `glimmer package:gem` task
 - Add support for scaffolding "app/scaffolded_app/launch" and "lib/namespace/custom_shell/launch" to enable launching SWT apps in Glimmer DSL for Opal without changing a line of code
 - Add a binary executable shell in "app" mode (just like "custom shell gem" mode)
+- Have glimmer packaging check the Java version and give a warning if an unsupported version is used.
 
 
 ### 4.17.2.4
