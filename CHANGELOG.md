@@ -9,6 +9,8 @@
 - Add gem packaging as part of scaffolding on Linux
 - Launch the app at the end of scaffolding in Linux
 - Provide a `glimmer package:gem` task
+- Add support for scaffolding "app/scaffolded_app/launch" and "lib/namespace/custom_shell/launch" to enable launching SWT apps in Glimmer DSL for Opal without changing a line of code
+- Add a binary executable shell in "app" mode (just like "custom shell gem" mode)
 
 
 ### 4.17.2.4

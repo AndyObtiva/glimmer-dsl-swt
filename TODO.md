@@ -64,6 +64,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 
+
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
 - bind_content: an iterator that enables spawning widgets based on a variable collection (e.g. `bind_content('user.addresses').each { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only). Needs further thought on naming and functionality.
@@ -213,6 +214,7 @@ items <=> binding {
 - Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Ensure support for packaging on Linux
 - Have scaffolded app Rakefile include in gemspec all directories in Warble config.dirs automatically
+- Text-based (TUI) progress indicator when launching a glimmer app
 
 ## Samples
 

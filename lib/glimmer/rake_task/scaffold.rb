@@ -169,8 +169,11 @@ module Glimmer
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
         
-          mkdir 'bin'
-          write "bin/#{file_name(app_name)}", app_bin_file(app_name)
+          mkdir_p "app/#{file_name(app_name)}"
+          write "app/#{file_name(app_name)}/launch.rb", app_launch_file(app_name)
+          mkdir_p 'bin'
+          write "bin/#{file_name(app_name)}", app_bin_command_file(app_name)
+          FileUtils.chmod 0755, "bin/#{file_name(app_name)}"
           if OS.windows?
             system "bundle"
             system "rspec --init"
@@ -240,9 +243,13 @@ module Glimmer
           append "lib/#{gem_name}.rb", gem_main_file(custom_shell_name, namespace)
           mkdir 'lib/views'
           custom_shell(custom_shell_name, namespace, :gem)
-          mkdir 'bin'
-          write "bin/#{gem_name}", gem_bin_file(gem_name, custom_shell_name, namespace)
-          write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name)
+          
+          mkdir_p "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}"
+          write "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb", gem_launch_file(gem_name, custom_shell_name, namespace)
+          mkdir_p 'bin'
+          write "bin/#{gem_name}", gem_bin_command_file(gem_name, custom_shell_name, namespace)
+          FileUtils.chmod 0755, "bin/#{gem_name}"
+          write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name, custom_shell_name, namespace)
           FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
           if OS.windows?
             system "bundle"
@@ -414,40 +421,68 @@ module Glimmer
           MULTI_LINE_STRING
         end
     
-        def app_bin_file(app_name)
+        def app_launch_file(app_name)
           <<~MULTI_LINE_STRING
-            require_relative '../app/#{file_name(app_name)}'
+            require_relative '../#{file_name(app_name)}'
             
             #{class_name(app_name)}.new.open
           MULTI_LINE_STRING
         end
     
-        def gem_bin_file(gem_name, custom_shell_name, namespace)
-          # TODO change this so that it does not mix Glimmer unto the main object
-          <<~MULTI_LINE_STRING
-            require_relative '../lib/#{gem_name}'
-            
-            class #{class_name(custom_shell_name)}App
-              include Glimmer
-            
-              def open
-                #{dsl_widget_name(custom_shell_name)}.open
-              end
-            end
-            
-            #{class_name(custom_shell_name)}App.new.open
-          MULTI_LINE_STRING
-        end
-    
-        def gem_bin_command_file(gem_name)
+        def app_bin_command_file(app_name)
           <<~MULTI_LINE_STRING
             #!/usr/bin/env jruby
             
-            require 'glimmer/launcher'
+            runner = File.expand_path("../../app/#{file_name(app_name)}/launch.rb", __FILE__)
             
-            runner = File.expand_path("../#{gem_name}", __FILE__)
-            launcher = Glimmer::Launcher.new([runner] + ARGV)
-            launcher.launch
+            # Detect if inside a JAR file or not
+            if runner.include?('uri:classloader')
+              require runner
+            else
+              require 'glimmer/launcher'
+              
+              launcher = Glimmer::Launcher.new([runner] + ARGV)
+              launcher.launch
+            end            
+          MULTI_LINE_STRING
+        end
+        
+        def gem_launch_file(gem_name, custom_shell_name, namespace)
+          # TODO change this so that it does not mix Glimmer unto the main object
+          <<~MULTI_LINE_STRING
+            require_relative '../../#{gem_name}'
+            
+            module #{class_name(namespace)}
+              class #{class_name(custom_shell_name)}
+                class App
+                  include Glimmer
+                
+                  def open
+                    #{dsl_widget_name(custom_shell_name)}.open
+                  end
+                end
+              end
+            end
+            
+            #{class_name(namespace)}::#{class_name(custom_shell_name)}::App.new.open
+          MULTI_LINE_STRING
+        end
+    
+        def gem_bin_command_file(gem_name, custom_shell_name, namespace)
+          <<~MULTI_LINE_STRING
+            #!/usr/bin/env jruby
+            
+            runner = File.expand_path("../../lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb", __FILE__)
+            
+            # Detect if inside a JAR file or not
+            if runner.include?('uri:classloader')
+              require runner
+            else
+              require 'glimmer/launcher'
+              
+              launcher = Glimmer::Launcher.new([runner] + ARGV)
+              launcher.launch
+            end                        
           MULTI_LINE_STRING
         end
     
@@ -459,6 +494,7 @@ module Glimmer
           gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
           if custom_shell_name
             lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'package/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
+            # the second executable is needed for warbler as it matches the gem name, which is the default expected file (alternatively in the future, we could do away with it and configure warbler to use the other file)
             lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
             lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib', 'app']")
           else
@@ -529,7 +565,7 @@ module Glimmer
         # options :title, :background_color
         # option :width, default: 320
         # option :height, default: 240
-        option :greeting, default: 'Hello, World!'
+        #{'# ' if shell_type == :desktopify}option :greeting, default: 'Hello, World!'
     
         ## Use before_body block to pre-initialize variables to use in body
         #
@@ -618,12 +654,11 @@ module Glimmer
             }
             MULTI_LINE_STRING
           end
-          if %i[gem app desktopify].include?(shell_type)
+
             custom_shell_file_content += <<-MULTI_LINE_STRING
           }
         }
             MULTI_LINE_STRING
-          end
           
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
