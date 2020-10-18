@@ -178,8 +178,8 @@ module Glimmer
             system "bundle"
             system "rspec --init"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n#{"bundle plugin install bundler-download\n" if OS.linux?} bundle\n rspec --init\n'"
-          end      
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"          
+          end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
             system "glimmer package[image]"
@@ -377,7 +377,7 @@ module Glimmer
             lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
               "",
               "# Enable Chromium Browser Glimmer Custom Widget gem if needed (e.g. Linux needs it to support HTML5 Video), and use `browser(:chromium)` in GUI.",
-              "#{'# ' unless OS.linux?}gem 'glimmer-cw-browser-chromium', '>= 0'",
+              "# gem 'glimmer-cw-browser-chromium', '>= 0'",
               "",
             ]
             lines.join("\n")
