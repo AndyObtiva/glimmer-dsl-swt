@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.17.3.0
+
+- glimmer scaffold:desktopify[appname,website] Mac
+- glimmer scaffold:desktopify[appname,website] Windows
+
+
 ### 4.17.2.4
 
 - New `glimmer run` glimmer command task.

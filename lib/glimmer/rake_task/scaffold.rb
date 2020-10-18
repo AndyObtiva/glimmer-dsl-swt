@@ -121,18 +121,14 @@ module Glimmer
         MULTI_LINE_STRING
     
         def app(app_name)
-          common_app(app_name) do
-            custom_shell('AppView', current_dir_name, :app)          
-          end
+          common_app(app_name)
         end
         
         def desktopify(app_name, website)
-          common_app(app_name) do
-            custom_shell('AppView', current_dir_name, :desktopify, website: website)
-          end
+          common_app(app_name, :desktopify, website: website)
         end
         
-        def common_app(app_name, &view_scaffolding_block)
+        def common_app(app_name, shell_type = :app, shell_options = {})
           gem_name = file_name(app_name)
           gem_summary = human_name(app_name)
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
@@ -146,13 +142,17 @@ module Glimmer
           write '.ruby-gemset', app_name
           write 'VERSION', '1.0.0'
           write 'LICENSE.txt', "Copyright (c) #{Time.now.year} #{app_name}"
-          write 'Gemfile', GEMFILE
+          write 'Gemfile', gemfile(shell_type)
           write 'Rakefile', gem_rakefile(app_name, nil, gem_name)
           mkdir 'app'
           write "app/#{file_name(app_name)}.rb", app_main_file(app_name)
           mkdir 'app/models'
           mkdir 'app/views'
-          view_scaffolding_block.call          
+          if shell_type == :desktopify
+            custom_shell('AppView', current_dir_name, shell_type, shell_options)
+          else
+            custom_shell('AppView', current_dir_name, shell_type)
+          end
             
           mkdir_p 'package/windows'
           icon_file = "package/windows/#{human_name(app_name)}.ico"
@@ -175,7 +175,7 @@ module Glimmer
             system "bundle"
             system "rspec --init"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n#{"bundle plugin install bundler-download\n" if OS.linux?} bundle\n rspec --init\n'"
           end      
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
@@ -186,7 +186,7 @@ module Glimmer
             if OS.mac?
               system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
             else
-              system "glimmer bin/#{file_name(app_name)}"
+              system "glimmer run"
             end
           end        
         end
@@ -275,7 +275,7 @@ module Glimmer
             if OS.mac?
               system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
             else
-              system "bin/#{file_name(custom_shell_name)}"
+              system "glimmer run"
             end        
           end
           puts "Finished creating #{gem_name} Ruby gem."
@@ -361,6 +361,18 @@ module Glimmer
     
         def compact_name(gem_name)
           gem_name.underscore.camelcase.downcase
+        end
+        
+        def gemfile(shell_type)
+          lines = GEMFILE.split("\n")
+          require_glimmer_dsl_swt_index = lines.index(lines.detect {|l| l.include?("gem 'glimmer-dsl-swt'") })
+          lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
+            "",
+            "# Enable Chromium Browser Glimmer Custom Widget gem only in Linux (not needed in Mac and Windows)",
+            "#{'# ' unless OS.linux?}gem 'glimmer-cw-browser-chromium'",
+            "",
+          ]
+          lines.join("\n")
         end
     
         def app_main_file(app_name)

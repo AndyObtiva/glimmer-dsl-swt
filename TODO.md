@@ -7,8 +7,19 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Merge app and custom shell gem scaffolding options making it app only with custom shell gem remaining as a legacy scaffold option
 - glimmer scaffold:desktopify[appname,website] to desktopify a website by creating a desktop wrapper that can run on all platforms and be extended/instrumented too. 
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
+- `glimmer scaffold:desktopify[appname,website]` Linux (have scaffolding include the glimmer-cw-browser-chromium gem in scaffolded app on Linux, install bundler-download, and invoke bundler-download on bundle install)
+- Make sure scaffolded desktopify app can handle all platforms if needed without rescaffolding
+- Remove the native packaging from Linux scaffolding since it is not officially supported
+- Add gem packaging as part of scaffolding
+- Add a binary executable shell in "app" mode (just like "custom shell gem" mode)
+- Launch the app at the end of scaffolding in Linux
+- Provide a `glimmer package:gem` task
+- Have glimmer packaging check the Java version and give a warning if an unsupported version is used.
+- Blow away development branches
 
 ## Soon
+
+- Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app
@@ -17,8 +28,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Remove name column from listing of gems
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
-
-### Soonish
+- glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
 
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
