@@ -91,7 +91,7 @@ module Glimmer
         def native(native_type=nil, native_extra_args)
           puts "Generating native executable with javapackager/jpackage..."          
           java_version = `java -version`
-          puts "WARNING! Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!" unless java_version.include?('1.8.0_241')
+          puts "WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!" unless java_version.include?('1.8.0_241')
           require 'facets/string/titlecase'
           require 'facets/string/underscore'
           require 'facets/string/camelcase'

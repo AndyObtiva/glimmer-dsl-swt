@@ -4,17 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Merge app and custom shell gem scaffolding options making it app only with custom shell gem remaining as a legacy scaffold option
-- glimmer scaffold:desktopify[appname,website] to desktopify a website by creating a desktop wrapper that can run on all platforms and be extended/instrumented too. 
-- Build a mini Glimmer app to launch samples (sample of samples meta-sample)
-- `glimmer scaffold:desktopify[appname,website]` Linux (have scaffolding include the glimmer-cw-browser-chromium gem in scaffolded app on Linux, install bundler-download, and invoke bundler-download on bundle install)
-- Make sure scaffolded desktopify app can handle all platforms if needed without rescaffolding
-- Remove the native packaging from Linux scaffolding since it is not officially supported
-- Add gem packaging as part of scaffolding
-- Add a binary executable shell in "app" mode (just like "custom shell gem" mode)
-- Have glimmer packaging check the Java version and give a warning if an unsupported version is used.
-- Blow away development branches
-
 ## Soon
 
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
@@ -43,7 +32,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
-
+- Have scaffolding of custom widget and custom shell within app match the namespace when inside a custom shell gem (or app if namespace is used), and reference APP_ROOT correctly 
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)
