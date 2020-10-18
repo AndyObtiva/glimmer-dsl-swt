@@ -915,8 +915,6 @@ letting Glimmer scaffolding take care of initial app file structure concerns, su
 
 You need to have your Git `user.name` and `github.user` configured before scaffolding since Glimmer uses Juwelier, which relies on them in creating a Git repo for your Glimmer app.
 
-NOTE: Linux is not fully supported yet with scaffolding. Please report any issues you may encounter.
-
 #### App
 
 Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites. 
@@ -927,7 +925,7 @@ To scaffold a Glimmer app from scratch, run the following command:
 glimmer scaffold[AppName]
 ```
 
-This will generate an advanced "Hello, World!" app, package it as a Mac or Windows native file (DMG/PKG/APP/MSI), and launch it all in one fell swoop.
+This will generate an advanced "Hello, World!" app, package it as a Mac DMG/PKG/APP, Windows APP, or Linux GEM, and launch it all in one fell swoop.
 
 Suppose you run:
 
@@ -1021,7 +1019,7 @@ To scaffold a Glimmer desktopify app from scratch, run the following command:
 glimmer scaffold:desktopify[app_name,website]
 ```
 
-This will generate a Glimmer app, package it as a Mac or Windows native file (DMG/PKG/APP/MSI), and launch it all in one fell swoop.
+This will generate a Glimmer app, package it as a Mac DMG/PKG/APP, Windows APP, or Linux GEM, and launch it all in one fell swoop.
 
 Suppose you run:
 
@@ -4034,7 +4032,7 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ## Packaging & Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, the Glimmer [Custom Shell Gem](#custom-shell-gem) approach provides a [Gem Packaged Shell Script](#custom-shell-gem) (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
+Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
