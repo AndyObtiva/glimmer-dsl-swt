@@ -39,6 +39,10 @@ module Glimmer
           system 'rake gemspec:generate'
         end
         
+        def gem
+          system 'rake build'
+        end
+        
         def lock_jars
           puts 'Locking gem jar-dependencies by downloading and storing in vendor/jars...'
           FileUtils.mkdir_p('vendor/jars')

@@ -95,6 +95,11 @@ namespace :glimmer do
       Glimmer::RakeTask::Package.gemspec
     end
 
+    desc 'Generate gem'
+    task :gem do
+      Glimmer::RakeTask::Package.gem
+    end
+
     desc 'Generate JAR config file'
     task :config do
       Glimmer::RakeTask::Package.config
@@ -124,7 +129,7 @@ namespace :glimmer do
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
     if OS.linux?
-      system 'rake build'
+      Rake::Task['glimmer:package:gem'].execute
     else
       Rake::Task['glimmer:package:native'].execute(args)
     end

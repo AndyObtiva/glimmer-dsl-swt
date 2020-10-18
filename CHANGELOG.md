@@ -2,8 +2,13 @@
 
 ### 4.17.3.0
 
-- glimmer scaffold:desktopify[appname,website] Mac
-- glimmer scaffold:desktopify[appname,website] Windows
+- `glimmer scaffold:desktopify[appname,website]` Mac
+- `glimmer scaffold:desktopify[appname,website]` Windows
+- `glimmer scaffold:desktopify[appname,website]` Linux (have scaffolding include the glimmer-cw-browser-chromium gem in scaffolded app on Linux)
+- Remove the native packaging from Linux scaffolding since it is not officially supported
+- Add gem packaging as part of scaffolding on Linux
+- Launch the app at the end of scaffolding in Linux
+- Provide a `glimmer package:gem` task
 
 
 ### 4.17.2.4

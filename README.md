@@ -1009,9 +1009,13 @@ This scaffolding mode enables you to desktopify a web app. Glimmer Scaffolding b
 
 The desktopify app is similar to the standard scaffolded app. It can be extended and the [browser may even be instrumented](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html).
 
+The app even remembers your cookies if you log into the website, close the app, and reopen again.
+
+Note that on Linux, the default SWT browser, which runs on webkit, does not support HTML5 Video out of the box. If you need video support, open `Gemfile` after scaffolding and enable the line that has the `glimmer-cw-browser-chromium` gem then replace the `browser` in "app/views/snowboard_utah/app_view.rb" with `browser(:chromium)`
+
 Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites. 
 
-To scaffold a Glimmer app from scratch, run the following command:
+To scaffold a Glimmer desktopify app from scratch, run the following command:
 
 ```
 glimmer scaffold:desktopify[app_name,website]

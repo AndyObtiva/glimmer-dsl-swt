@@ -364,15 +364,19 @@ module Glimmer
         end
         
         def gemfile(shell_type)
-          lines = GEMFILE.split("\n")
-          require_glimmer_dsl_swt_index = lines.index(lines.detect {|l| l.include?("gem 'glimmer-dsl-swt'") })
-          lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
-            "",
-            "# Enable Chromium Browser Glimmer Custom Widget gem only in Linux (not needed in Mac and Windows)",
-            "#{'# ' unless OS.linux?}gem 'glimmer-cw-browser-chromium'",
-            "",
-          ]
-          lines.join("\n")
+          if shell_type == :desktopify
+            lines = GEMFILE.split("\n")
+            require_glimmer_dsl_swt_index = lines.index(lines.detect {|l| l.include?("gem 'glimmer-dsl-swt'") })
+            lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
+              "",
+              "# Enable Chromium Browser Glimmer Custom Widget gem if needed (e.g. Linux needs it to support HTML5 Video), and use `browser(:chromium)` in GUI.",
+              "#{'# ' unless OS.linux?}gem 'glimmer-cw-browser-chromium', '>= 0'",
+              "",
+            ]
+            lines.join("\n")
+          else
+            GEMFILE
+          end
         end
     
         def app_main_file(app_name)
@@ -454,7 +458,7 @@ module Glimmer
           lines.insert(require_rake_line_index, "require 'glimmer/launcher'")
           gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
           if custom_shell_name
-            lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*', 'app/**/*', 'bin/**/*', 'vendor/**/*', 'package/**/*']")
+            lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'package/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
             lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
             lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib', 'app']")
           else

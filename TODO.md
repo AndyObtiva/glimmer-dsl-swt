@@ -12,8 +12,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Remove the native packaging from Linux scaffolding since it is not officially supported
 - Add gem packaging as part of scaffolding
 - Add a binary executable shell in "app" mode (just like "custom shell gem" mode)
-- Launch the app at the end of scaffolding in Linux
-- Provide a `glimmer package:gem` task
 - Have glimmer packaging check the Java version and give a warning if an unsupported version is used.
 - Blow away development branches
 
@@ -214,6 +212,7 @@ items <=> binding {
 - Consider supporting Hash-object based Data-Binding instead of Ruby attributes using the same Data-Binding syntax. Comes in handy in situations where the data is coming raw from a database without having a Model that wraps it.
 - Consider a dual gemspec strategy (one for rake tasks and one for glimmer run of apps)
 - Ensure support for packaging on Linux
+- Have scaffolded app Rakefile include in gemspec all directories in Warble config.dirs automatically
 
 ## Samples
 
