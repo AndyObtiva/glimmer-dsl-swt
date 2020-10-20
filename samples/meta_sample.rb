@@ -138,7 +138,7 @@ class MetaSampleApplication
           }
         }
             
-        styled_text(:multi, :border, :v_scroll, :h_scroll) {
+        styled_text(:multi, :border, :v_scroll, :h_scroll) { |proxy|
           text bind(SampleDirectory, 'selected_sample.content')
           font name: 'Lucida Console'
           editable false
@@ -147,6 +147,25 @@ class MetaSampleApplication
           top_margin 5
           right_margin 5
           bottom_margin 5
+            
+          keyword_color_map = {
+            'shell' => color(:green),
+            'label' => color(:red),
+            'Copyright' => color(:red),
+          }        
+          on_line_get_style { |line_style_event|
+            styles = []
+            keyword_color_map.each do |keyword, keyword_color|
+              if line_style_event.lineText.include?(keyword)
+                line_index = proxy.text.index(line_style_event.lineText)
+                start_index = line_index + line_style_event.lineText.index(keyword)
+                end_index = start_index + keyword.size - 1
+                line_style_event.lineText[start_index..end_index]
+                styles << StyleRange.new(start_index, end_index, keyword_color.swt_color, nil)
+              end
+            end
+            line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
+          }
         }
         
         weights [1, 2]
