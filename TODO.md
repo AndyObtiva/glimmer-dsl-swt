@@ -16,6 +16,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
 - glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
+- Make glimmer meta samples editable for experimentation before launching a sample
 
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
@@ -234,6 +235,9 @@ items <=> binding {
 - Ensure support for packaging on Linux
 - Have scaffolded app Rakefile include in gemspec all directories in Warble config.dirs automatically
 - Text-based (TUI) progress indicator when launching a glimmer app
+- Make a `composite` behave like a `scrolled_composite` if passed :v_scroll and/or :h_scroll styles (it transparently and automatically behind the scenes instantiates a scrolled_composite wrapping itself)
+- Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
+- Support background warm launching of Glimmer apps (in glimmer-cs-timer GitHub project branch: glimmer-app-type-client-server) (i.e. keeping them running in the background after initial start and then launching instantly when needed)
 
 ## Samples
 

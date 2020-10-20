@@ -1,6 +1,3 @@
-require 'pd'
-require 'facets'
-
 class Sample
   attr_accessor :sample_directory, :file, :selected
   
@@ -14,8 +11,8 @@ class Sample
       @name = File.basename(file, '.rb').split('_').map(&:capitalize).join(' ')    
       if @name.start_with?('Hello')
         name_parts = @name.split
-        name_parts.first = name_parts.first + ','
-        name_parts.last = name_parts.last + '!'
+        name_parts[0] = name_parts.first + ','
+        name_parts[-1] = name_parts.last + '!'
         @name = name_parts.join(' ')
       end
     end
@@ -144,6 +141,8 @@ class MetaSampleApplication
         styled_text(:multi, :border, :v_scroll, :h_scroll) {
           text bind(SampleDirectory, 'selected_sample.content')
           font name: 'Lucida Console'
+          editable false
+          caret nil
           left_margin 5
           top_margin 5
           right_margin 5
