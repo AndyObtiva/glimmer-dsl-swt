@@ -95,7 +95,7 @@ namespace :glimmer do
       Glimmer::RakeTask::Package.gemspec
     end
 
-    desc 'Generate gem'
+    desc 'Generate gem under pkg directory'
     task :gem do
       Glimmer::RakeTask::Package.gem
     end

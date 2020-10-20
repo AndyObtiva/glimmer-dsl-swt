@@ -4,9 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-## Soon
-
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
+
+## Soon
 
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app
@@ -86,6 +86,34 @@ bind_content(model, 'addresses').each { |address|
 
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
 - Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)
+- Check this issue, which seems to happen when no expression handler can handle the DSL keyword being processed:
+
+[DEVELOPMENT MODE] (detected /Users/User/code/glimmer-dsl-swt/lib/glimmer-dsl-swt.rb)
+[2020-10-20 06:35:41] ERROR glimmer: Encountered an invalid keyword at this object: #<SampleDirectory:0x42e25b0b>
+[2020-10-20 06:35:41] ERROR glimmer: /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:58:in `handle': Glimmer keyword content with args [] cannot be handled inside parent #<Glimmer::SWT::WidgetProxy:0x52d645b1>! Check the validity of the code. (Glimmer::InvalidKeywordError)
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:169:in `interpret'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:240:in `invoke_property_reader'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:217:in `evaluate_property'
+	from /Users/User/code/glimmer-dsl-swt/lib/glimmer/dsl/swt/data_binding_expression.rb:46:in `interpret'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:174:in `interpret_expression'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:170:in `interpret'
+	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
+	from /Users/User/code/glimmer-dsl-swt/samples/meta_sample.rb:142:in `block in launch'
+
 
 ## Technical Tasks
 
@@ -170,6 +198,8 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
+- Make sash_form weights accept splat array elements (not wrapped in [])
+- Make sash_form weights not execute till the closing of the sash_form (to allow putting it above content instead of below as required by Java)
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples
 - Syntax-highlight sample code when output with `glimmer sample:code` command
