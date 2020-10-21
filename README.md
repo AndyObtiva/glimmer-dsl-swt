@@ -3089,6 +3089,8 @@ You may obtain via `glimmer-cw-video` gem.
 
 It can be customized with the `weights` attribute by setting initial weights to size the panes at first display.
 
+One noteworthy thing about the Glimmer implementation is that, unlike behavior in SWT, it allows declaring `weights` before the content of the `sash_form`, thus providing more natural and convenient syntax (Glimmer automatically takes care of sending that declaration to SWT at the end of declaring `sash_form` content as per the SWT requirements)
+
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
