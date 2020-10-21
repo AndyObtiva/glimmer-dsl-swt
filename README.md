@@ -249,12 +249,10 @@ Glimmer App:
   - [Glimmer Command](#glimmer-command)
     - [Basic Usage](#basic-usage)
     - [Advanced Usage](#advanced-usage)
-    - [Sample List/Run/Code](#sample-listruncode)
-      - [Sample List](#sample-list)
-      - [Sample Run](#sample-run)
-      - [Sample Code](#sample-code)
+    - [Samples](#samples)
     - [Scaffolding](#scaffolding)
       - [App](#app)
+      - [Desktopify](#desktopify)
       - [Custom Shell](#custom-shell)
       - [Custom Widget](#custom-widget)
       - [Custom Shell Gem](#custom-shell-gem)
@@ -310,7 +308,9 @@ Glimmer App:
       - [Multi-DSL Support](#multi-dsl-support)
       - [Application Menu Items (About/Preferences)](#application-menu-items-aboutpreferences)
       - [App Name and Version](#app-name-and-version)
+      - [Code Text Widget](#code-text-widget)
       - [Video Widget](#video-widget)
+      - [Sash Form Widget](#sash-form-widget)
       - [Browser Widget](#browser-widget)
   - [Glimmer Configuration](#glimmer-configuration)
     - [logger](#logger)
@@ -339,6 +339,7 @@ Glimmer App:
       - [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu)
       - [Hello, Custom Widget!](#hello-custom-widget)
       - [Hello, Custom Shell!](#hello-custom-shell)
+      - [Hello, Sash Form!](#hello-sash-form)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -374,7 +375,7 @@ Glimmer App:
   - [Contributors](#contributors)
   - [Hire Me](#hire-me)
   - [License](#license)
-
+  
 ## Background
 
 Ruby is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the Ruby on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that Java libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as SWT, JFace, and RCP can help fill the gap of desktop application development with Ruby.
@@ -491,11 +492,12 @@ glimmer application.rb
 Runs a Glimmer application using JRuby, automatically preloading
 the glimmer ruby gem and SWT jar dependency.
 
-Example:
+Run Glimmer samples with:
+
 ```
 glimmer samples
 ```
-This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb)
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](#samples)
 
 If you cloned this project locally instead of installing the gem, run `bin/glimmer` instead.
 
@@ -565,7 +567,7 @@ glimmer samples/hello/hello_world.rb samples/hello/hello_tab.rb
 
 Launches samples/hello/hello_world.rb and samples/hello_tab.rb at the same time, each in a separate JRuby thread.
 
-### Samples
+### Glimmer Samples
 
 You can list available Glimmer samples by running:
 
@@ -573,7 +575,7 @@ You can list available Glimmer samples by running:
 glimmer samples
 ```
 
-This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 
 ![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
@@ -3055,7 +3057,7 @@ Also, you may invoke `Display.setAppVersion('1.0.0')` if needed for OS app versi
 
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
-It is used in the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
+It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 
 ![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
@@ -3087,10 +3089,6 @@ You may obtain via `glimmer-cw-video` gem.
 
 It can be customized with the `weights` attribute by setting initial weights to size the panes at first display.
 
-It is used in the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
-
-![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
-
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
@@ -3115,6 +3113,8 @@ shell {
 ```
 
 You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash-form)
+
+![Hello Sash Form](images/glimmer-hello-sash-form.png)
 
 #### Browser Widget
 
@@ -3561,15 +3561,27 @@ Code:
 
 [samples/hello/hello_sash_form.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_sash_form.rb)
 
+Hello, Sash Form! Horizontal Orientation
+
 ![Hello Sash Form](images/glimmer-hello-sash-form.png)
+
+Hello, Sash Form! Resized
 
 ![Hello Sash Form Resized](images/glimmer-hello-sash-form-resized.png)
 
+Hello, Sash Form! Sash Width Changed
+
 ![Hello Sash Form Sash Width Changed](images/glimmer-hello-sash-form-sash-width-changed.png)
+
+Hello, Sash Form! Vertical Orientation
 
 ![Hello Sash Form Vertical](images/glimmer-hello-sash-form-vertical.png)
 
+Hello, Sash Form! Green Label Maximized
+
 ![Hello Sash Form Green Maximized](images/glimmer-hello-sash-form-green-maximized.png)
+
+Hello, Sash Form! Red Label Maximized
 
 ![Hello Sash Form Red Maximized](images/glimmer-hello-sash-form-red-maximized.png)
 
