@@ -622,13 +622,6 @@ module Glimmer
             getter: {name: 'getSelectionCount'},
             setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(@swt_widget.getCaretPosition, @swt_widget.getCaretPosition + args.first) if args.first }},
           },
-          'weights' => {
-            getter: {name: 'getWeights'},
-            setter: {name: 'setWeights', invoker: lambda do |widget, args| 
-              args = args.first if args.first.is_a?(Array) && args.size == 1
-              @swt_widget.setWeights(args)
-            end},
-          },          
         }
       end
 

@@ -4,11 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Build a mini Glimmer app to launch samples (sample of samples meta-sample)
-- Have meta-sample load samples from gems
-- Syntax Color Highlighting in metasample
-- Make sash_form weights accept splat array elements (not wrapped in [])
-
+- Document sash_form in README
+- Update documentation with regards to how to run samples (removing references to sample:run)
 
 ## Soon
 
@@ -21,6 +18,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support glimmer list:gems (listing all types of gems together)
 - glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
 - Make glimmer meta samples editable for experimentation before launching a sample
+- Make code_text custom widget support multiple languages
+- Make code_text custom widget auto-detect current language
+- Remove dependencies on gems that are only needed for Glimmer tasks (loading them at the time of running those tasks only)
 
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
@@ -203,7 +203,6 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
-- Make sash_form weights not execute till the closing of the sash_form (to allow putting it above content instead of below as required by Java)
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples
 - Syntax-highlight sample code when output with `glimmer sample:code` command

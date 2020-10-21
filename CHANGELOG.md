@@ -1,5 +1,16 @@
 # Change Log
 
+### 4.17.4.0
+
+- Glimmer sample app to launch samples (sample of samples meta-sample)
+- Syntax Color Highlighting in meta-sample
+- Make sash_form weights accept splat array elements (not wrapped in [])
+- Make sash_form weights not get set till the closing of the sash_form (to allow putting it above content instead of below as originally required by SWT)
+- Replace dependency on tty-markdown gem with dependency on rouge gem instead
+- Remove rake tasks `sample:list`, `sample:code` and `sample:run`
+- Add rake task `samples` to point to the new Glimmer Meta-Sample
+- Have meta-sample load samples from gems
+
 ### 4.17.3.0
 
 - `glimmer scaffold:desktopify[appname,website]` Mac

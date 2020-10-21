@@ -40,7 +40,21 @@ class SampleDirectory
         @sample_directories = Dir.glob(File.join(File.expand_path('..', __FILE__), '*')).
             select { |file| File.directory?(file) }.
             map { |file| SampleDirectory.new(file) }
-            # TODO sort by having hello first, elaborate second, and everything else after
+        glimmer_gems = Gem.find_latest_files("glimmer-*-*")
+        sample_directories = glimmer_gems.map do |lib| 
+          File.dirname(File.dirname(lib))
+        end.select do |gem| 
+          Dir.exist?(File.join(gem, 'samples'))
+        end.map do |gem| 
+          Dir.glob(File.join(gem, 'samples', '*')).select {|file_or_dir| Dir.exist?(file_or_dir)}
+        end.flatten.uniq.reverse
+        if Dir.exist?('samples')
+          Dir.glob(File.join('samples', '*')).to_a.reverse.each do |dir|
+            sample_directories << dir if Dir.exist?(dir)
+          end
+        end
+        sample_directories = sample_directories.uniq {|dir| File.basename(dir)}
+        @sample_directories = sample_directories.map { |file| SampleDirectory.new(file) }            
       end
       @sample_directories
     end
@@ -88,9 +102,8 @@ class MetaSampleApplication
   include Glimmer
   
   def launch
-    # TODO open samples from all gems as per the Glimmer sample:list Rake Task (reuse its code)
     shell {
-      text 'Glimmer Meta Sample (The Sample of Samples)'
+      text 'Glimmer Meta-Sample (The Sample of Samples)'
       
       on_swt_show {
         SampleDirectory.selected_sample = SampleDirectory.all_samples.first

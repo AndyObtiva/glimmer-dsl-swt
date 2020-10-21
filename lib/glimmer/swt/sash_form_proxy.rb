@@ -19,41 +19,35 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer'
-require 'glimmer/dsl/expression'
-require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/widget_proxy'
 
 module Glimmer
-  module DSL
-    module SWT
-      class WidgetExpression < Expression
-        include ParentExpression
-  
-        EXCLUDED_KEYWORDS = %w[shell display tab_item]
-  
-        def can_interpret?(parent, keyword, *args, &block)
-          !EXCLUDED_KEYWORDS.include?(keyword) and
-            parent.respond_to?(:swt_widget) and #TODO change to composite?(parent)
-            Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
-        end
-  
-        def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
-        end
-        
-        def add_content(parent, &block)
-          super
-          parent.post_add_content
-        end
-        
+  module SWT
+    # Proxy for org.eclipse.swt.custom.SashForm
+    #
+    # Follows the Proxy Design Pattern
+    class SashFormProxy < WidgetProxy
+      def post_add_content
+        swt_widget.setWeights(@weights) unless @weights.nil?
       end
+      
+      def set_attribute(attribute_name, *args)
+        if attribute_name.to_s == "weights"
+          @weights = args
+          @weights = @weights.first if @weights.first.is_a?(Array)
+        else
+          super(attribute_name, *args)
+        end
+      end
+ 
+      def get_attribute(attribute_name)
+        if attribute_name.to_s == "weights"
+          swt_widget.getWeights.to_a
+        else
+          super(attribute_name)
+        end
+      end
+      
     end
   end
 end
-
-require 'glimmer/swt/widget_proxy'
-require 'glimmer/swt/scrolled_composite_proxy'
-require 'glimmer/swt/tree_proxy'
-require 'glimmer/swt/table_proxy'
-require 'glimmer/swt/table_column_proxy'
-require 'glimmer/swt/sash_form_proxy'

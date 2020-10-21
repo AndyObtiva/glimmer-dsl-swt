@@ -62,26 +62,9 @@ namespace :glimmer do
     end
   end
   
-  namespace :sample do
-    task :requires do      
-      require_relative 'rake_task/sample'      
-    end
-    
-    desc 'Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples.'
-    task :run, [:name] => [:requires] do |t, args|
-      Glimmer::RakeTask::Sample.run(args[:name])
-    end
-    
-    desc 'Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)'
-    task :list, [:query] => [:requires] do |t, args|
-      Glimmer::RakeTask::Sample.list(args[:query])
-    end
-    
-    desc 'Outputs code for a Glimmer internal sample [included in gem] (name is required)'
-    task :code, [:name] => [:requires] do |t, args|
-      Glimmer::RakeTask::Sample.code(args[:name])
-    end
-    
+  desc 'Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples (including samples in installed Glimmer gems)'
+  task :samples do
+    Glimmer::Launcher.new([File.expand_path('../../../samples/meta_sample.rb', __FILE__)]).launch
   end
 
   namespace :package do

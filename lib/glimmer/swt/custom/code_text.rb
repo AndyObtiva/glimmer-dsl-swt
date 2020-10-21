@@ -3,8 +3,10 @@ require 'glimmer/ui/custom_widget'
 module Glimmer
   module SWT
     module Custom
+      # CodeText is a customization of StyledText with support for Ruby Syntax Highlighting
       class CodeText
         include Glimmer::UI::CustomWidget
+        extend Glimmer
         
         SYNTAX_COLOR_MAP = {
            Builtin: rgb(215,58,73), 
@@ -24,7 +26,10 @@ module Glimmer
            Single: rgb(106,115,125), # Also, Comments
            Symbol: color(:dark_green),
            Text: rgb(75, 75, 75),
-        }         
+        }
+        
+        # TODO support `option :language`
+        # TODO support auto language detection
       
         def text=(value)
           swt_widget&.text = value

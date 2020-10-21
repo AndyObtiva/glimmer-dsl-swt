@@ -26,7 +26,7 @@ require 'glimmer/swt/shell_proxy'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.widgets.Shell
+    # Proxy for org.eclipse.swt.widgets.MessageBox
     #
     # Follows the Proxy Design Pattern
     class MessageBoxProxy
