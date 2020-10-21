@@ -87,7 +87,7 @@ class MetaSampleApplication
   def launch
     # TODO open samples from all gems as per the Glimmer sample:list Rake Task (reuse its code)
     shell {
-      text 'Glimmer Meta Sample'
+      text 'Glimmer Meta Sample (The Sample of Samples)'
       
       on_swt_show {
         SampleDirectory.selected_sample = SampleDirectory.all_samples.first
@@ -138,6 +138,7 @@ class MetaSampleApplication
           }
         }
             
+        # TODO extract the following to a code_text widget that has syntax highlighting and language detection
         styled_text(:multi, :border, :v_scroll, :h_scroll) { |proxy|
           text bind(SampleDirectory, 'selected_sample.content')
           font name: 'Lucida Console'
@@ -149,19 +150,28 @@ class MetaSampleApplication
           bottom_margin 5
             
           keyword_color_map = {
-            'shell' => color(:green),
-            'label' => color(:red),
-            'Copyright' => color(:red),
-          }        
+             ["__ENCODING__", "__LINE__", "__FILE__", "BEGIN", "END", "alias", "and", "begin", "break", "case", "class", "def", "defined?", "do", "else", "elsif", "end", "ensure", "false", "for", "if", "in", "module", "next", "nil", "not", "or", "redo", "rescue", "retry", "return", "self", "super", "then", "true", "undef", "unless", "until", "when", "while", "yield"] => color(:blue),
+          }       
           on_line_get_style { |line_style_event|
             styles = []
-            keyword_color_map.each do |keyword, keyword_color|
-              if line_style_event.lineText.include?(keyword)
-                line_index = proxy.text.index(line_style_event.lineText)
-                start_index = line_index + line_style_event.lineText.index(keyword)
-                end_index = start_index + keyword.size - 1
-                line_style_event.lineText[start_index..end_index]
-                styles << StyleRange.new(start_index, end_index, keyword_color.swt_color, nil)
+            keyword_color_map.each do |keywords, keyword_color|
+              [keywords].flatten.each do |keyword|
+                if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/^#{keyword} /) || line_style_event.lineText.strip.match(/ #{keyword}$/)
+                  line_index = line_style_event.lineOffset
+                  if line_style_event.lineText.include?(" #{keyword} ")
+                    line_occurrence_index = line_style_event.lineText.index(" #{keyword} ")
+                  elsif line_style_event.lineText.strip.match(/^#{keyword} /)
+                    line_occurrence_index = line_style_event.lineText.index("#{keyword} ")
+                  elsif line_style_event.lineText.strip.match(/ #{keyword}$/)
+                    line_occurrence_index = line_style_event.lineText.index(" #{keyword}")
+                  end
+                  start_index = line_index + line_occurrence_index
+                  size = keyword.size
+                  if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/ #{keyword}$/)
+                    size += 1
+                  end
+                  styles << StyleRange.new(start_index, size, keyword_color.swt_color, nil)
+                end
               end
             end
             line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
