@@ -4,13 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Document code_text in README
-- Document sash_form in README
-- Update documentation with regards to how to run samples (removing references to sample:run)
-- Document a third way of creating custom widgets (extending a standard WidgetProxy)
-
 ## Soon
 
+- Optimize code_text line style listener algorithm or avoid setting code_text style via listener for performance reasons
+- Optimize code_text syntax highlighting by not lexing except when content changes (e.g. during scrolling, do not lex)
+- Make code_text custom widget support multiple languages
+- Make code_text custom widget auto-detect current language
+- Have `glimmer samples` show the code of sample models too outside the main view just like `glimmer sample:code` did in the past
+
+- Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
@@ -20,9 +22,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support glimmer list:gems (listing all types of gems together)
 - glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
 - Make glimmer meta samples editable for experimentation before launching a sample
-- Make code_text custom widget support multiple languages
-- Make code_text custom widget auto-detect current language
-- Remove dependencies on gems that are only needed for Glimmer tasks (loading them at the time of running those tasks only)
 
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
@@ -40,6 +39,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
 - Have scaffolding of custom widget and custom shell within app match the namespace when inside a custom shell gem (or app if namespace is used), and reference APP_ROOT correctly 
+- Remove dependencies on gems that are only needed for Glimmer tasks (loading them at the time of running those tasks only)
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
 - Add shortcuts for error_box, information_box, etc... message_box variations based on style (e.g. SWT::ICON_INFORMATION)

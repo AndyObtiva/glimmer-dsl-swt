@@ -50,6 +50,7 @@ module Glimmer
             hash[:token_index] = code_size
             code_size += hash[:token_text].size
           end
+          # TODO consider grouping by line to optimize performance for line get style listener
         end
         
         before_body {

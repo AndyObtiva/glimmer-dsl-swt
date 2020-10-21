@@ -40,9 +40,10 @@ shell {
 }.open
 ```
 
-Run:
+Run via `glimmer samples` or directly:
+
 ```
-glimmer sample:run[hello_world]
+glimmer samples/hello/hello_world.rb
 ```
 
 Glimmer app:
@@ -85,10 +86,10 @@ Glimmer code (from [samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObt
 # ...
 ```
 
-Run:
+Run via `glimmer samples` or directly:
 
 ```
-glimmer sample:run[tic_tac_toe]
+glimmer samples/elaborate/tic_tac_toe.rb
 ```
 
 Glimmer app:
@@ -210,10 +211,10 @@ Glimmer code (from [samples/elaborate/contact_manager.rb](https://github.com/And
 # ...
 ```
 
-Run:
+Run via `glimmer samples` or directly:
 
 ```
-glimmer sample:run[contact_manager]
+glimmer samples/elaborate/contact_manager.rb
 ```
 
 Glimmer App:
@@ -492,15 +493,15 @@ the glimmer ruby gem and SWT jar dependency.
 
 Example:
 ```
-glimmer sample:run[hello_world]
+glimmer samples
 ```
-This runs the Glimmer "Hello, World!" sample.
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb)
 
-If you cloned this project locally, you may run `bin/glimmer` instead.
+If you cloned this project locally instead of installing the gem, run `bin/glimmer` instead.
 
 Example:
 ```
-bin/glimmer sample:run[hello_world]
+bin/glimmer samples
 ```
 
 ### Advanced Usage
@@ -542,9 +543,7 @@ Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and 
   glimmer package:lock_jars                                  # Lock JARs
   glimmer package:native[type]                               # Generate Native files
   glimmer run[app_path]                                      # Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)  
-  glimmer sample:code[name]                                  # Outputs code for a Glimmer internal sample [included in gem] (name is required)
-  glimmer sample:list[query]                                 # Lists Glimmer internal samples [included in gem]. Filters by query if specified (query is optional)
-  glimmer sample:run[name]                                   # Runs a Glimmer internal sample [included in gem]. If no name is supplied, it runs all samples
+  glimmer samples                                            # Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples
   glimmer scaffold[app_name]                                 # Scaffold Glimmer application directory structure to build a new app
   glimmer scaffold:customshell[name,namespace]               # Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]
   glimmer scaffold:customwidget[name,namespace]              # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cw]
@@ -566,333 +565,17 @@ glimmer samples/hello/hello_world.rb samples/hello/hello_tab.rb
 
 Launches samples/hello/hello_world.rb and samples/hello_tab.rb at the same time, each in a separate JRuby thread.
 
-### Sample List/Run/Code
-
-#### Sample List
+### Samples
 
 You can list available Glimmer samples by running:
 
 ```
-glimmer sample:list
+glimmer samples
 ```
 
-This should output the following (providing the name of each sample, description, and command to run the sample and view its code):
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
 
-```
-$ glimmer sample:list
-
-  Glimmer Hello Samples:
-                                                                                                               
-             Name                       Description                                 Run                        
-                                                                                                               
-  hello_browser                 Hello Browser                 glimmer sample:run[hello_browser]                
-  hello_combo                   Hello Combo                   glimmer sample:run[hello_combo]                  
-  hello_computed                Hello Computed                glimmer sample:run[hello_computed]               
-  hello_drag_and_drop           Hello Drag And Drop           glimmer sample:run[hello_drag_and_drop]          
-  hello_list_multi_selection    Hello List Multi Selection    glimmer sample:run[hello_list_multi_selection]   
-  hello_list_single_selection   Hello List Single Selection   glimmer sample:run[hello_list_single_selection]  
-  hello_menu_bar                Hello Menu Bar                glimmer sample:run[hello_menu_bar]               
-  hello_message_box             Hello Message Box             glimmer sample:run[hello_message_box]            
-  hello_pop_up_context_menu     Hello Pop Up Context Menu     glimmer sample:run[hello_pop_up_context_menu]    
-  hello_tab                     Hello Tab                     glimmer sample:run[hello_tab]                    
-  hello_world                   Hello World                   glimmer sample:run[hello_world]                  
-                                                                                                               
-
-  Glimmer Elaborate Samples:
-                                                                           
-       Name           Description                     Run                  
-                                                                           
-  contact_manager   Contact Manager   glimmer sample:run[contact_manager]  
-  login             Login             glimmer sample:run[login]            
-  tic_tac_toe       Tic Tac Toe       glimmer sample:run[tic_tac_toe]                                                   
-  user_profile      User Profile      glimmer sample:run[user_profile]                                                   
-```
-
-#### Sample Run
-
-A sample may be run via `glimmer sample:run[name]`. This also outputs the sample code so that you could take a look at it and compare to the GUI that launches. 
-
-If the sample name is left empty (e.g. `glimmer sample:run`), then all samples are run.
-
-Example:
-
-```
-glimmer sample:run[hello_tab]
-```
-
-This will run the hello_tab sample and output its code:
-
-```
-$ glimmer sample:run[hello_tab] 
-
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.4.0/samples/hello/hello_tab.rb
-
-class HelloTab
-  include Glimmer
-  def launch
-    shell {
-      text "Hello, Tab!"
-      tab_folder {
-        tab_item {
-          text "English"
-          label {
-            text "Hello, World!"
-          }
-        }
-        tab_item {
-          text "French"
-          label {
-            text "Bonjour, Univers!"
-          }
-        }
-      }
-    }.open
-  end
-end
-
-HelloTab.new.launch
-
-# # #
-```
-
-![Hello Tab English](images/glimmer-hello-tab-english.png)
-
-#### Sample Code
-
-You may output any sample code via this command: `glimmer sample:code[name]`
-
-This is very similar to the sample run command, except the name is required.
-
-It will not only output the main sample file, but any required supporting files as well.
-
-Example:
-
-```
-$ glimmer sample:code[tic_tac_toe] 
-
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.4.0/samples/elaborate/tic_tac_toe.rb
-
-require_relative "tic_tac_toe/board"
-
-class TicTacToe
-  include Glimmer
-
-  def initialize
-    @tic_tac_toe_board = Board.new
-    @shell = shell {
-      text "Tic-Tac-Toe"
-      minimum_size 150, 178
-      composite {
-        grid_layout 3, true
-        (1..3).each { |row|
-          (1..3).each { |column|
-            button {
-              layout_data :fill, :fill, true, true
-              text        bind(@tic_tac_toe_board[row, column], :sign)
-              enabled     bind(@tic_tac_toe_board[row, column], :empty)
-              font        style: :bold, height: 20
-              on_widget_selected {
-                @tic_tac_toe_board.mark(row, column)
-              }
-            }
-          }
-        }
-      }
-    }
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
-      display_win_message if game_status == Board::WIN
-      display_draw_message if game_status == Board::DRAW
-    }
-  end
-
-  def display_win_message
-    display_game_over_message("Player #{@tic_tac_toe_board.winning_sign} has won!")
-  end
-
-  def display_draw_message
-    display_game_over_message("Draw!")
-  end
-
-  def display_game_over_message(message_text)
-    message_box(@shell) {
-      text 'Game Over'
-      message message_text
-    }.open
-    @tic_tac_toe_board.reset
-  end
-
-  def open
-    @shell.open
-  end
-end
-
-TicTacToe.new.open
-
-# # #
-
-
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.4.0/samples/elaborate/tic_tac_toe/cell.rb
-
-class TicTacToe
-  class Cell
-    EMPTY = ""
-    attr_accessor :sign, :empty
-  
-    def initialize
-      reset
-    end
-  
-    def mark(sign)
-      self.sign = sign
-    end
-  
-    def reset
-      self.sign = EMPTY
-    end
-  
-    def sign=(sign_symbol)
-      @sign = sign_symbol
-      self.empty = sign == EMPTY
-    end
-  
-    def marked
-      !empty
-    end
-  end
-end
-
-# # #
-
-
-# /Users/User/.rvm/gems/jruby-9.2.13.0@glimmerapp/gems/glimmer-dsl-swt-4.17.4.0/samples/elaborate/tic_tac_toe/board.rb
-
-require_relative 'cell'
-
-class TicTacToe
-  class Board
-    DRAW = :draw
-    IN_PROGRESS = :in_progress
-    WIN = :win
-    attr :winning_sign
-    attr_accessor :game_status
-  
-    def initialize
-      @sign_state_machine = {nil => "X", "X" => "O", "O" => "X"}
-      build_grid
-      @winning_sign = Cell::EMPTY
-      @game_status = IN_PROGRESS
-    end
-  
-    #row and column numbers are 1-based
-    def mark(row, column)
-      self[row, column].mark(current_sign)
-      game_over? #updates winning sign
-    end
-  
-    def current_sign
-      @current_sign = @sign_state_machine[@current_sign]
-    end
-  
-    def [](row, column)
-      @grid[row-1][column-1]
-    end
-  
-    def game_over?
-       win? or draw?
-    end
-  
-    def win?
-      win = (row_win? or column_win? or diagonal_win?)
-      self.game_status=WIN if win
-      win
-    end
-  
-    def reset
-      (1..3).each do |row|
-        (1..3).each do |column|
-          self[row, column].reset
-        end
-      end
-      @winning_sign = Cell::EMPTY
-      @current_sign = nil
-      self.game_status=IN_PROGRESS
-    end
-  
-    private
-  
-    def build_grid
-      @grid = []
-      3.times do |row_index| #0-based
-        @grid << []
-        3.times { @grid[row_index] << Cell.new }
-      end
-    end
-  
-    def row_win?
-      (1..3).each do |row|
-        if row_has_same_sign(row)
-          @winning_sign = self[row, 1].sign
-          return true
-        end
-      end
-      false
-    end
-  
-    def column_win?
-      (1..3).each do |column|
-        if column_has_same_sign(column)
-          @winning_sign = self[1, column].sign
-          return true
-        end
-      end
-      false
-    end
-  
-    #needs refactoring if we ever decide to make the board size dynamic
-    def diagonal_win?
-      if (self[1, 1].sign == self[2, 2].sign) and (self[2, 2].sign == self[3, 3].sign) and self[1, 1].marked
-        @winning_sign = self[1, 1].sign
-        return true
-      end
-      if (self[3, 1].sign == self[2, 2].sign) and (self[2, 2].sign == self[1, 3].sign) and self[3, 1].marked
-        @winning_sign = self[3, 1].sign
-        return true
-      end
-      false
-    end
-  
-    def draw?
-      @board_full = true
-      3.times do |x|
-        3.times do |y|
-          @board_full = false if self[x, y].empty
-        end
-      end
-      self.game_status = DRAW if @board_full
-      @board_full
-    end
-  
-    def row_has_same_sign(number)
-      row_sign = self[number, 1].sign
-      [2, 3].each do |column|
-        return false unless row_sign == (self[number, column].sign)
-      end
-      true if self[number, 1].marked
-    end
-  
-    def column_has_same_sign(number)
-      column_sign = self[1, number].sign
-      [2, 3].each do |row|
-        return false unless column_sign == (self[row, number].sign)
-      end
-      true if self[1, number].marked
-    end
-  
-  end
-end
-
-# # #
-```
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
 ### Scaffolding
 
@@ -2822,7 +2505,7 @@ Custom widgets are brand new Glimmer DSL keywords that represent aggregates of e
 
 You can find out about [published Glimmer Custom Widgets](https://github.com/AndyObtiva/glimmer-dsl-swt#gem-listing) by running the `glimmer list:gems:customwidget` command
 
-Glimmer supports two ways of creating custom widgets with minimal code:
+Glimmer supports three ways of creating custom widgets with minimal code:
 1. Method-based Custom Widgets (for single-view-internal reuse): Extract a method containing Glimmer DSL widget syntax. Useful for quickly eliminating redundant code within a single view.
 2. Class-based Custom Widgets (for multiple-view-external reuse): Create a class that includes the `Glimmer::UI::CustomWidget` module and Glimmer DSL widget syntax in a `body {}` block. This will automatically extend Glimmer's DSL syntax with an underscored lowercase keyword matching the class name by convention. Useful in making a custom widget available in many views.
 
@@ -3368,6 +3051,28 @@ shell(:no_resize) {
 
 Also, you may invoke `Display.setAppVersion('1.0.0')` if needed for OS app version identification reasons during development, replacing `'1.0.0'` with your application version.
 
+#### Code Text Widget
+
+`code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
+
+It is used in the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+Glimmer Meta-Sample Code Example:
+
+```ruby
+# ...
+code_text {
+  text bind(SampleDirectory, 'selected_sample.content')
+  editable false
+  caret nil
+}
+# ...
+```
+
+To use, simply use `code_text` in place of `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
+
 #### Video Widget
 
 [![Video Widget](images/glimmer-video-widget.png)](https://github.com/AndyObtiva/glimmer-cw-video)
@@ -3375,6 +3080,41 @@ Also, you may invoke `Display.setAppVersion('1.0.0')` if needed for OS app versi
 Glimmer supports a [video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) not in SWT. 
 
 You may obtain via `glimmer-cw-video` gem.
+
+#### Sash Form Widget
+
+`sash_form` is an SWT built-in custom widget that provides a resizable sash that splits a window area into two or more panes.
+
+It can be customized with the `weights` attribute by setting initial weights to size the panes at first display.
+
+It is used in the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb):
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```ruby
+shell {
+  text 'Sash Form Example'
+  sash_form {
+    label {
+      text '(resize >>)'
+      background :dark_green
+      foreground :white
+      font height: 20
+    }
+    label {
+      text '(<< resize)'
+      background :red
+      foreground :white
+      font height: 20
+    }
+    weights 1, 2
+  }
+}.open
+```
+
+You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash-form)
 
 #### Browser Widget
 
@@ -3664,11 +3404,15 @@ https://www.eclipse.org/nebula/
 
 Check the [samples](samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
 
-If you cloned the project and followed [CONTRIBUTING.md](CONTRIBUTING.md) instructions, you may run all samples in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) at once via `samples/launch` command:
+You may run any sample via this command:
 
 ```
-samples/launch
+glimmer samples
 ```
+
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb)
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
 ### Hello Samples
 
@@ -3680,12 +3424,6 @@ Code:
 
 [samples/hello/hello_world.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_world.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_world]
-```
-
 ![Hello World](images/glimmer-hello-world.png)
 
 #### Hello, Tab!
@@ -3693,12 +3431,6 @@ glimmer sample:run[hello_world]
 Code:
 
 [samples/hello/hello_tab.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_tab.rb)
-
-Run:
-
-```
-glimmer sample:run[hello_tab]
-```
 
 ![Hello Tab English](images/glimmer-hello-tab-english.png)
 ![Hello Tab French](images/glimmer-hello-tab-french.png)
@@ -3711,12 +3443,6 @@ Code:
 
 [samples/hello/hello_combo.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_combo.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_combo]
-```
-
 ![Hello Combo](images/glimmer-hello-combo.png)
 ![Hello Combo Expanded](images/glimmer-hello-combo-expanded.png)
 
@@ -3728,12 +3454,6 @@ Code:
 
 [samples/hello/hello_list_single_selection.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_list_single_selection.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_list_single_selection]
-```
-
 ![Hello List Single Selection](images/glimmer-hello-list-single-selection.png)
 
 #### Hello, List Multi Selection!
@@ -3743,12 +3463,6 @@ This sample demonstrates list multi-selection data-binding.
 Code:
 
 [samples/hello/hello_list_multi_selection.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_list_multi_selection.rb)
-
-Run:
-
-```
-glimmer sample:run[hello_list_multi_selection]
-```
 
 ![Hello List Multi Selection](images/glimmer-hello-list-multi-selection.png)
 
@@ -3760,12 +3474,6 @@ Code:
 
 [samples/hello/hello_computed.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_computed.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_computed]
-```
-
 ![Hello Browser](images/glimmer-hello-computed.png)
 
 #### Hello, Message Box!
@@ -3775,12 +3483,6 @@ This sample demonstrates a `message_box` dialog.
 Code:
 
 [samples/hello/hello_message_box.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_message_box.rb)
-
-Run:
-
-```
-glimmer sample:run[hello_message_box]
-```
 
 ![Hello Message Box](images/glimmer-hello-message-box.png)
 ![Hello Message Box Dialog](images/glimmer-hello-message-box-dialog.png)
@@ -3793,12 +3495,6 @@ Code:
 
 [samples/hello/hello_browser.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_browser.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_browser]
-```
-
 ![Hello Browser](images/glimmer-hello-browser.png)
 
 #### Hello, Drag and Drop!
@@ -3809,12 +3505,6 @@ Code:
 
 [samples/hello/hello_drag_and_drop.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_drag_and_drop.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_drag_and_drop]
-```
-
 ![Hello Drag and Drop](images/glimmer-hello-drag-and-drop.gif)
 
 #### Hello, Menu Bar!
@@ -3824,12 +3514,6 @@ This sample demonstrates menus in Glimmer.
 Code:
 
 [samples/hello/hello_menu_bar.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_menu_bar.rb)
-
-Run:
-
-```
-glimmer sample:run[hello_menu_bar]
-```
 
 ![Hello Menu Bar](images/glimmer-hello-menu-bar.png)
 ![Hello Menu Bar File Menu](images/glimmer-hello-menu-bar-file-menu.png)
@@ -3843,12 +3527,6 @@ Code:
 
 [samples/hello/hello_pop_up_context_menu.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_pop_up_context_menu.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_pop_up_context_menu]
-```
-
 ![Hello Pop Up Context Menu](images/glimmer-hello-pop-up-context-menu.png)
 ![Hello Pop Up Context Menu Popped Up](images/glimmer-hello-pop-up-context-menu-popped-up.png)
 
@@ -3860,12 +3538,6 @@ Code:
 
 [samples/hello/hello_custom_widget.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_widget.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_custom_widget]
-```
-
 ![Hello Custom Widget](images/glimmer-hello-custom-widget.gif)
 
 #### Hello, Custom Shell!
@@ -3876,16 +3548,30 @@ Code:
 
 [samples/hello/hello_custom_shell.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_shell.rb)
 
-Run:
-
-```
-glimmer sample:run[hello_custom_shell]
-```
-
 ![Hello Custom Shell](images/glimmer-hello-custom-shell.png)
 ![Hello Custom Shell Email1](images/glimmer-hello-custom-shell-email1.png)
 ![Hello Custom Shell Email2](images/glimmer-hello-custom-shell-email2.png)
 ![Hello Custom Shell Email3](images/glimmer-hello-custom-shell-email3.png)
+
+#### Hello, Sash Form!
+
+This sample demonstrates the use of a `sash_form` in Glimmer.
+
+Code:
+
+[samples/hello/hello_sash_form.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_sash_form.rb)
+
+![Hello Sash Form](images/glimmer-hello-sash-form.png)
+
+![Hello Sash Form Resized](images/glimmer-hello-sash-form-resized.png)
+
+![Hello Sash Form Sash Width Changed](images/glimmer-hello-sash-form-sash-width-changed.png)
+
+![Hello Sash Form Vertical](images/glimmer-hello-sash-form-vertical.png)
+
+![Hello Sash Form Green Maximized](images/glimmer-hello-sash-form-green-maximized.png)
+
+![Hello Sash Form Red Maximized](images/glimmer-hello-sash-form-red-maximized.png)
 
 ### Elaborate Samples
 
@@ -3901,12 +3587,6 @@ Code:
 
 [samples/elaborate/user_profile.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/user_profile.rb)
 
-Run:
-
-```
-glimmer sample:run[user_profile]
-```
-
 ![User Profile](images/glimmer-user-profile.png)
 
 #### Login
@@ -3916,12 +3596,6 @@ This sample demonstrates basic data-binding, password and text fields, and field
 Code:
 
 [samples/elaborate/login.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/login.rb)
-
-Run:
-
-```
-glimmer sample:run[login]
-```
 
 ![Login](images/glimmer-login.png)
 ![Login Filled In](images/glimmer-login-filled-in.png)
@@ -3937,12 +3611,6 @@ Code:
 
 [samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/tic_tac_toe.rb)
 
-Run:
-
-```
-glimmer sample:run[tic_tac_toe]
-```
-
 ![Tic Tac Toe](images/glimmer-tic-tac-toe.png)
 ![Tic Tac Toe In Progress](images/glimmer-tic-tac-toe-in-progress.png)
 ![Tic Tac Toe Game Over](images/glimmer-tic-tac-toe-game-over.png)
@@ -3954,12 +3622,6 @@ This sample demonstrates table data-binding, sorting, filtering, GUI layout, MVP
 Code:
 
 [samples/elaborate/contact_manager.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/contact_manager.rb)
-
-Run:
-
-```
-glimmer sample:run[contact_manager]
-```
 
 Contact Manager
 

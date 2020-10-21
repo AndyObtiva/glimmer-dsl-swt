@@ -1,6 +1,3 @@
-require 'rouge'
-
-# TODO include meta-sample's code in code to display but not launch
 class Sample
   attr_accessor :sample_directory, :file, :selected
   
@@ -106,7 +103,7 @@ class MetaSampleApplication
       text 'Glimmer Meta-Sample (The Sample of Samples)'
       
       on_swt_show {
-        SampleDirectory.selected_sample = SampleDirectory.all_samples.first
+        SampleDirectory.selected_sample = SampleDirectory.all_samples.first        
       }
       
       sash_form {
@@ -143,7 +140,7 @@ class MetaSampleApplication
           }
           
           button {
-            layout_data(:center, :center, true, true) {
+            layout_data(:center, :center, false, false) {
               height_hint 150
             }
             text 'Launch Sample'
@@ -151,7 +148,7 @@ class MetaSampleApplication
             on_widget_selected {
               SampleDirectory.selected_sample.launch
             }
-          }
+          }        
         }
             
         code_text {
@@ -161,7 +158,7 @@ class MetaSampleApplication
         }
         
         weights 1, 2
-      }
+      }            
     }.open
   end
 end

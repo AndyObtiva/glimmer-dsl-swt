@@ -62,9 +62,9 @@ namespace :glimmer do
     end
   end
   
-  desc 'Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples (including samples in installed Glimmer gems)'
+  desc 'Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples'
   task :samples do
-    Glimmer::Launcher.new([File.expand_path('../../../samples/meta_sample.rb', __FILE__)]).launch
+    Glimmer::Launcher.new([File.expand_path('../../../samples/elaborate/meta_sample.rb', __FILE__)]).launch
   end
 
   namespace :package do
