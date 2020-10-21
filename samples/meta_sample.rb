@@ -169,18 +169,22 @@ class MetaSampleApplication
           bottom_margin 5
             
           lex_color_map = {
-             Builtin: color(:blue), 
-             Class: color(:dark_green), 
-             Constant: color(:red), 
+             Builtin: rgb(215,58,73), 
+             Class: rgb(3,47,98), 
+             Constant: rgb(0,92,197), 
+             Double: rgb(0,92,197),
+             Escape: color(:red),
              Function: color(:blue), 
-             Instance: color(:dark_green), 
-             Integer: color(:red), 
+             Instance: rgb(227,98,9), 
+             Integer: color(:blue), 
              Keyword: color(:blue), 
-             Name: color(:dark_green), 
+             Name: rgb(111,66,193), #purple
              Operator: color(:red), 
              Punctuation: color(:blue), 
-             Single: color(:dark_green), 
-             Symbol: color(:red)
+             Single: rgb(106,115,125), # Also, Comments
+             Symbol: color(:dark_green),
+             Pseudo: color(:dark_red),
+             Interpol: color(:blue),
           }       
           on_line_get_style { |line_style_event|
             styles = []
@@ -189,31 +193,10 @@ class MetaSampleApplication
               if token_hash[:token_index] >= line_style_event.lineOffset && token_hash[:token_index] < (line_style_event.lineOffset + line_style_event.lineText.size)
                 start_index = token_hash[:token_index]
                 size = token_hash[:token_text].size
-                pd token_hash[:token_type].name if lex_color_map[token_hash[:token_type].name]
-                token_color = (lex_color_map[token_hash[:token_type].name] || color(:yellow)).swt_color
+                token_color = (lex_color_map[token_hash[:token_type].name] || color(:black)).swt_color
                 styles << StyleRange.new(start_index, size, token_color, nil)
               end
             end
-#             keyword_color_map.each do |keywords, keyword_color|
-#               [keywords].flatten.each do |keyword|
-#                 if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/^#{keyword} /) || line_style_event.lineText.strip.match(/ #{keyword}$/)
-#                   line_index = line_style_event.lineOffset
-#                   if line_style_event.lineText.include?(" #{keyword} ")
-#                     line_occurrence_index = line_style_event.lineText.index(" #{keyword} ")
-#                   elsif line_style_event.lineText.strip.match(/^#{keyword} /)
-#                     line_occurrence_index = line_style_event.lineText.index("#{keyword} ")
-#                   elsif line_style_event.lineText.strip.match(/ #{keyword}$/)
-#                     line_occurrence_index = line_style_event.lineText.index(" #{keyword}")
-#                   end
-#                   start_index = line_index + line_occurrence_index
-#                   size = keyword.size
-#                   if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/ #{keyword}$/)
-#                     size += 1
-#                   end
-#                   styles << StyleRange.new(start_index, size, keyword_color.swt_color, nil)
-#                 end
-#               end
-#             end
             line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
           }
         }
