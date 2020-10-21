@@ -4,8 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Document code_text in README
 - Document sash_form in README
 - Update documentation with regards to how to run samples (removing references to sample:run)
+- Document a third way of creating custom widgets (extending a standard WidgetProxy)
 
 ## Soon
 

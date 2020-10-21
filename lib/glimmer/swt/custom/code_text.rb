@@ -6,26 +6,25 @@ module Glimmer
       # CodeText is a customization of StyledText with support for Ruby Syntax Highlighting
       class CodeText
         include Glimmer::UI::CustomWidget
-        extend Glimmer
         
         SYNTAX_COLOR_MAP = {
-           Builtin: rgb(215,58,73), 
-           Class: rgb(3,47,98), 
-           Constant: rgb(0,92,197), 
-           Double: rgb(0,92,197),
-           Escape: color(:red),
-           Function: color(:blue), 
-           Instance: rgb(227,98,9), 
-           Integer: color(:blue), 
-           Interpol: color(:blue),
-           Keyword: color(:blue), 
-           Name: rgb(111,66,193), #purple
-           Operator: color(:red), 
-           Pseudo: color(:dark_red),
-           Punctuation: color(:blue), 
-           Single: rgb(106,115,125), # Also, Comments
-           Symbol: color(:dark_green),
-           Text: rgb(75, 75, 75),
+           Builtin:     [215,58,73], 
+           Class:       [3,47,98], 
+           Constant:    [0,92,197], 
+           Double:      [0,92,197],
+           Escape:      [:red],
+           Function:    [:blue], 
+           Instance:    [227,98,9], 
+           Integer:     [:blue], 
+           Interpol:    [:blue],
+           Keyword:     [:blue], 
+           Name:        [111,66,193], #purple
+           Operator:    [:red], 
+           Pseudo:      [:dark_red],
+           Punctuation: [:blue], 
+           Single:      [106,115,125], # Also, Comments
+           Symbol:      [:dark_green],
+           Text:        [75, 75, 75],
         }
         
         # TODO support `option :language`
@@ -59,7 +58,7 @@ module Glimmer
         
         body {
           styled_text(swt_style) {
-            font name: 'Lucida Console', height: 16
+            font name: 'Consolas', height: 15
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5
@@ -73,7 +72,8 @@ module Glimmer
                 if token_hash[:token_index] >= line_style_event.lineOffset && token_hash[:token_index] < (line_style_event.lineOffset + line_style_event.lineText.size)
                   start_index = token_hash[:token_index]
                   size = token_hash[:token_text].size
-                  token_color = (SYNTAX_COLOR_MAP[token_hash[:token_type].name] || color(:black)).swt_color
+                  token_color = SYNTAX_COLOR_MAP[token_hash[:token_type].name] || [:black]
+                  token_color = color(*token_color).swt_color
                   styles << StyleRange.new(start_index, size, token_color, nil)
                 end
               end
