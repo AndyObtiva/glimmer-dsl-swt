@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.4.1
+
+- Optimize code_text line style listener algorithm or avoid setting code_text style via listener for performance reasons
+- Optimize code_text syntax highlighting by not lexing except when content changes (e.g. during scrolling, do not lex)
+
 ### 4.17.4.0
 
 - Glimmer sample app to launch samples (sample of samples meta-sample)

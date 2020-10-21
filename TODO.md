@@ -4,10 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Support ExpandBar
+
 ## Soon
 
-- Optimize code_text line style listener algorithm or avoid setting code_text style via listener for performance reasons
-- Optimize code_text syntax highlighting by not lexing except when content changes (e.g. during scrolling, do not lex)
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
 - Have `glimmer samples` show the code of sample models too outside the main view just like `glimmer sample:code` did in the past
