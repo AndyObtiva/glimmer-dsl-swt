@@ -7,6 +7,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build a mini Glimmer app to launch samples (sample of samples meta-sample)
 - Have meta-sample load samples from gems
 - Syntax Color Highlighting in metasample
+- Make sash_form weights accept splat array elements (not wrapped in [])
+
 
 ## Soon
 
@@ -201,7 +203,6 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
-- Make sash_form weights accept splat array elements (not wrapped in [])
 - Make sash_form weights not execute till the closing of the sash_form (to allow putting it above content instead of below as required by Java)
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples

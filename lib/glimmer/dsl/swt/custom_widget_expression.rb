@@ -25,6 +25,7 @@ require 'glimmer/dsl/parent_expression'
 require 'glimmer/dsl/top_level_expression'
 require 'glimmer/ui/custom_widget'
 require 'glimmer/ui/custom_shell'
+require 'glimmer/swt/custom/code_text'
 
 module Glimmer
   module DSL

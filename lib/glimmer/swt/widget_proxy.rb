@@ -55,7 +55,7 @@ module Glimmer
         "radio"               => [:radio],
         "scrolled_composite"  => [:border, :h_scroll, :v_scroll],
         "spinner"             => [:border],
-        "styled_text"         => [:border],
+        "styled_text"         => [:border, :multi, :v_scroll, :h_scroll],
         "table"               => [:virtual, :border, :full_selection],
         "text"                => [:border],
         "toggle"              => [:toggle],
@@ -622,6 +622,13 @@ module Glimmer
             getter: {name: 'getSelectionCount'},
             setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(@swt_widget.getCaretPosition, @swt_widget.getCaretPosition + args.first) if args.first }},
           },
+          'weights' => {
+            getter: {name: 'getWeights'},
+            setter: {name: 'setWeights', invoker: lambda do |widget, args| 
+              args = args.first if args.first.is_a?(Array) && args.size == 1
+              @swt_widget.setWeights(args)
+            end},
+          },          
         }
       end
 

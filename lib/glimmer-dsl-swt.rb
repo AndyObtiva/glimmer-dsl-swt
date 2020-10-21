@@ -34,6 +34,7 @@ require 'glimmer'
 require 'logging'
 require 'nested_inherited_jruby_include_package'
 require 'super_module'
+require 'rouge'
 
 # Internal requires
 require 'ext/glimmer/config'

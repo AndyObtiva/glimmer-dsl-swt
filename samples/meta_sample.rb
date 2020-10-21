@@ -25,22 +25,7 @@ class Sample
   def content
     @content ||= File.read(file)
   end
-  
-  def syntax_highlighting
-    code = content
-    lexer = Rouge::Lexer.find_fancy('ruby', code)
-    lex = lexer.lex(code).to_a
-    code_size = 0
-    lex_hashes = lex.map do |pair|
-      {token_type: pair.first, token_text: pair.last}
-    end.each do |hash|
-      hash[:token_index] = code_size
-      code_size += hash[:token_text].size
-    end.reject do |hash|
-      hash[:token_type] == Rouge::Token::Tokens::Text
-    end
-  end
-  
+    
   def launch
     load file
   end
@@ -156,52 +141,13 @@ class MetaSampleApplication
           }
         }
             
-        # TODO extract the following to a code_text widget that has syntax highlighting and language detection
-        styled_text(:multi, :border, :v_scroll, :h_scroll) { |proxy|
+        code_text {
           text bind(SampleDirectory, 'selected_sample.content')
-          font name: 'Lucida Console', height: 16
-          foreground rgb(75, 75, 75)
           editable false
           caret nil
-          left_margin 5
-          top_margin 5
-          right_margin 5
-          bottom_margin 5
-            
-          lex_color_map = {
-             Builtin: rgb(215,58,73), 
-             Class: rgb(3,47,98), 
-             Constant: rgb(0,92,197), 
-             Double: rgb(0,92,197),
-             Escape: color(:red),
-             Function: color(:blue), 
-             Instance: rgb(227,98,9), 
-             Integer: color(:blue), 
-             Keyword: color(:blue), 
-             Name: rgb(111,66,193), #purple
-             Operator: color(:red), 
-             Punctuation: color(:blue), 
-             Single: rgb(106,115,125), # Also, Comments
-             Symbol: color(:dark_green),
-             Pseudo: color(:dark_red),
-             Interpol: color(:blue),
-          }       
-          on_line_get_style { |line_style_event|
-            styles = []
-            line_style_event.lineOffset
-            SampleDirectory.selected_sample.syntax_highlighting.each do |token_hash|
-              if token_hash[:token_index] >= line_style_event.lineOffset && token_hash[:token_index] < (line_style_event.lineOffset + line_style_event.lineText.size)
-                start_index = token_hash[:token_index]
-                size = token_hash[:token_text].size
-                token_color = (lex_color_map[token_hash[:token_type].name] || color(:black)).swt_color
-                styles << StyleRange.new(start_index, size, token_color, nil)
-              end
-            end
-            line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
-          }
         }
         
-        weights [1, 2]
+        weights 1, 2
       }
     }.open
   end
