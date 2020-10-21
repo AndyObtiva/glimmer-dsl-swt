@@ -1,3 +1,6 @@
+require 'rouge'
+
+# TODO include meta-sample's code in code to display but not launch
 class Sample
   attr_accessor :sample_directory, :file, :selected
   
@@ -21,6 +24,21 @@ class Sample
   
   def content
     @content ||= File.read(file)
+  end
+  
+  def syntax_highlighting
+    code = content
+    lexer = Rouge::Lexer.find_fancy('ruby', code)
+    lex = lexer.lex(code).to_a
+    code_size = 0
+    lex_hashes = lex.map do |pair|
+      {token_type: pair.first, token_text: pair.last}
+    end.each do |hash|
+      hash[:token_index] = code_size
+      code_size += hash[:token_text].size
+    end.reject do |hash|
+      hash[:token_type] == Rouge::Token::Tokens::Text
+    end
   end
   
   def launch
@@ -141,7 +159,8 @@ class MetaSampleApplication
         # TODO extract the following to a code_text widget that has syntax highlighting and language detection
         styled_text(:multi, :border, :v_scroll, :h_scroll) { |proxy|
           text bind(SampleDirectory, 'selected_sample.content')
-          font name: 'Lucida Console'
+          font name: 'Lucida Console', height: 16
+          foreground rgb(75, 75, 75)
           editable false
           caret nil
           left_margin 5
@@ -149,31 +168,52 @@ class MetaSampleApplication
           right_margin 5
           bottom_margin 5
             
-          keyword_color_map = {
-             ["__ENCODING__", "__LINE__", "__FILE__", "BEGIN", "END", "alias", "and", "begin", "break", "case", "class", "def", "defined?", "do", "else", "elsif", "end", "ensure", "false", "for", "if", "in", "module", "next", "nil", "not", "or", "redo", "rescue", "retry", "return", "self", "super", "then", "true", "undef", "unless", "until", "when", "while", "yield"] => color(:blue),
+          lex_color_map = {
+             Builtin: color(:blue), 
+             Class: color(:dark_green), 
+             Constant: color(:red), 
+             Function: color(:blue), 
+             Instance: color(:dark_green), 
+             Integer: color(:red), 
+             Keyword: color(:blue), 
+             Name: color(:dark_green), 
+             Operator: color(:red), 
+             Punctuation: color(:blue), 
+             Single: color(:dark_green), 
+             Symbol: color(:red)
           }       
           on_line_get_style { |line_style_event|
             styles = []
-            keyword_color_map.each do |keywords, keyword_color|
-              [keywords].flatten.each do |keyword|
-                if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/^#{keyword} /) || line_style_event.lineText.strip.match(/ #{keyword}$/)
-                  line_index = line_style_event.lineOffset
-                  if line_style_event.lineText.include?(" #{keyword} ")
-                    line_occurrence_index = line_style_event.lineText.index(" #{keyword} ")
-                  elsif line_style_event.lineText.strip.match(/^#{keyword} /)
-                    line_occurrence_index = line_style_event.lineText.index("#{keyword} ")
-                  elsif line_style_event.lineText.strip.match(/ #{keyword}$/)
-                    line_occurrence_index = line_style_event.lineText.index(" #{keyword}")
-                  end
-                  start_index = line_index + line_occurrence_index
-                  size = keyword.size
-                  if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/ #{keyword}$/)
-                    size += 1
-                  end
-                  styles << StyleRange.new(start_index, size, keyword_color.swt_color, nil)
-                end
+            line_style_event.lineOffset
+            SampleDirectory.selected_sample.syntax_highlighting.each do |token_hash|
+              if token_hash[:token_index] >= line_style_event.lineOffset && token_hash[:token_index] < (line_style_event.lineOffset + line_style_event.lineText.size)
+                start_index = token_hash[:token_index]
+                size = token_hash[:token_text].size
+                pd token_hash[:token_type].name if lex_color_map[token_hash[:token_type].name]
+                token_color = (lex_color_map[token_hash[:token_type].name] || color(:yellow)).swt_color
+                styles << StyleRange.new(start_index, size, token_color, nil)
               end
             end
+#             keyword_color_map.each do |keywords, keyword_color|
+#               [keywords].flatten.each do |keyword|
+#                 if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/^#{keyword} /) || line_style_event.lineText.strip.match(/ #{keyword}$/)
+#                   line_index = line_style_event.lineOffset
+#                   if line_style_event.lineText.include?(" #{keyword} ")
+#                     line_occurrence_index = line_style_event.lineText.index(" #{keyword} ")
+#                   elsif line_style_event.lineText.strip.match(/^#{keyword} /)
+#                     line_occurrence_index = line_style_event.lineText.index("#{keyword} ")
+#                   elsif line_style_event.lineText.strip.match(/ #{keyword}$/)
+#                     line_occurrence_index = line_style_event.lineText.index(" #{keyword}")
+#                   end
+#                   start_index = line_index + line_occurrence_index
+#                   size = keyword.size
+#                   if line_style_event.lineText.include?(" #{keyword} ") || line_style_event.lineText.strip.match(/ #{keyword}$/)
+#                     size += 1
+#                   end
+#                   styles << StyleRange.new(start_index, size, keyword_color.swt_color, nil)
+#                 end
+#               end
+#             end
             line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
           }
         }
