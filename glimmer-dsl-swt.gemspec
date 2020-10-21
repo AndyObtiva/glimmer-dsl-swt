@@ -130,6 +130,7 @@ Gem::Specification.new do |s|
     "samples/hello/hello_menu_bar.rb",
     "samples/hello/hello_message_box.rb",
     "samples/hello/hello_pop_up_context_menu.rb",
+    "samples/hello/hello_sash_form.rb",
     "samples/hello/hello_tab.rb",
     "samples/hello/hello_world.rb",
     "vendor/swt/linux/swt.jar",
