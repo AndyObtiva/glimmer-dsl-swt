@@ -5,6 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Support ExpandBar
+- Inspect dead spots with syntax highlighting in some files in Gladiator like file.rb
 
 ## Soon
 
@@ -59,7 +60,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
-
+- Look into making properties that expect an SWT widget auto-call .swt_widget if they receive a proxy
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)

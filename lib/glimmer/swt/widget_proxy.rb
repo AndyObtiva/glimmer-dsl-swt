@@ -329,6 +329,57 @@ module Glimmer
                 observer.call(@swt_widget.getText)
               }
             end,
+            :caret_position => lambda do |observer|
+              on_swt_keydown { |event|
+                observer.call(@swt_widget.getCaretPosition)
+              }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getCaretPosition)
+              }
+              on_swt_mousedown { |event|
+                observer.call(@swt_widget.getCaretPosition)
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getCaretPosition)
+              }
+            end,
+            :selection => lambda do |observer|
+              on_swt_keydown { |event|
+                observer.call(@swt_widget.getSelection)
+              }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getSelection)
+              }
+              on_swt_mousedown { |event|
+                observer.call(@swt_widget.getSelection)
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getSelection)
+              }
+            end,
+            :selection_count => lambda do |observer|
+              on_swt_keydown { |event|
+                observer.call(@swt_widget.getSelectionCount)
+              }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getSelectionCount)
+              }
+              on_swt_mousedown { |event|
+                observer.call(@swt_widget.getSelectionCount)
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getSelectionCount)
+              }
+            end,
+            :top_index => lambda do |observer|
+              @last_top_index = @swt_widget.getTopIndex
+              on_paint_control { |event|
+                if @swt_widget.getTopIndex != @last_top_index
+                  @last_top_index = @swt_widget.getTopIndex
+                  observer.call(@last_top_index)
+                end
+              }
+            end,            
           },
           Java::OrgEclipseSwtWidgets::Button => {
             :selection => lambda do |observer|
@@ -620,7 +671,11 @@ module Glimmer
           },
           'selection_count' => {
             getter: {name: 'getSelectionCount'},
-            setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(@swt_widget.getCaretPosition, @swt_widget.getCaretPosition + args.first) if args.first }},
+            setter: {name: 'setSelection', invoker: lambda { |widget, args| 
+              # TODO consider the idea of aliasing getCaretPosition in StyledText
+              caret_position = @swt_widget.getCaretPosition rescue @swt_widget.getCaretOffset
+              @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first 
+            }},
           },
         }
       end
