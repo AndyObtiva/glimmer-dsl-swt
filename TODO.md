@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support ExpandBar
 - Inspect dead spots with syntax highlighting in some files in Gladiator like file.rb
+- Support auto-scaling by aspect ratio of width and height (write specs)
 
 ## Soon
 
@@ -244,6 +245,7 @@ items <=> binding {
 - Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
 - Support background warm launching of Glimmer apps (in glimmer-cs-timer GitHub project branch: glimmer-app-type-client-server) (i.e. keeping them running in the background after initial start and then launching instantly when needed)
 - Support shorter syntax for fonts when passing in one property only (e.g. `font 18` for height, `font :bold` for style, `font 'Lucida Console'` for name)
+- TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
 
 ## Samples
 

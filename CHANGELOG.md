@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.17.4.2
+
+- Support StyledText data-binding of caret_offset, selection_count, selection, top_index, and top_pixel, useful for code_text
+- Support `width, height` hash options for ImageProxy and image properties on widgets
+- Default SWT styles for tool_bar (:border) and tool_item (:push)
+
 ### 4.17.4.1
 
 - Optimize code_text line style listener algorithm or avoid setting code_text style via listener for performance reasons

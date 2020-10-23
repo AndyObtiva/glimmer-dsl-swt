@@ -118,7 +118,7 @@ class MetaSampleApplication
                 group {
                   layout_data(:fill, :fill, true, true)
                   grid_layout 2, false
-                  text sample_directory.name
+                  text "#{sample_directory.name} Samples"
                   font height: 30
                   
                   sample_directory.samples.each { |sample|

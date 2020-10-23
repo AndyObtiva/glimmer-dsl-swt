@@ -44,26 +44,28 @@ module Glimmer
       include Packages
 
       DEFAULT_STYLES = {
-        "arrow"               => [:arrow],
-        "button"              => [:push],
-        "checkbox"            => [:check],
-        "check"               => [:check],
-        "drag_source"         => [:drop_copy],
-        "drop_target"         => [:drop_copy],
-        "list"                => [:border, :v_scroll],
-        "menu_item"           => [:push],
-        "radio"               => [:radio],
-        "scrolled_composite"  => [:border, :h_scroll, :v_scroll],
-        "spinner"             => [:border],
-        "styled_text"         => [:border, :multi, :v_scroll, :h_scroll],
-        "table"               => [:virtual, :border, :full_selection],
-        "text"                => [:border],
-        "toggle"              => [:toggle],
-        "tree"                => [:virtual, :border, :h_scroll, :v_scroll],
+        'arrow'               => [:arrow],
+        'button'              => [:push],
+        'checkbox'            => [:check],
+        'check'               => [:check],
+        'drag_source'         => [:drop_copy],
+        'drop_target'         => [:drop_copy],
+        'list'                => [:border, :v_scroll],
+        'menu_item'           => [:push],
+        'radio'               => [:radio],
+        'scrolled_composite'  => [:border, :h_scroll, :v_scroll],
+        'spinner'             => [:border],
+        'styled_text'         => [:border, :multi, :v_scroll, :h_scroll],
+        'table'               => [:virtual, :border, :full_selection],
+        'text'                => [:border],
+        'toggle'              => [:toggle],
+        'tool_bar'            => [:push],
+        'tool_item'           => [:push],
+        'tree'                => [:virtual, :border, :h_scroll, :v_scroll],
       }
 
       DEFAULT_INITIALIZERS = {
-        "composite" => lambda do |composite|
+        'composite' => lambda do |composite|
           if composite.get_layout.nil?
             layout = GridLayout.new
             layout.marginWidth = 15
@@ -71,18 +73,18 @@ module Glimmer
             composite.layout = layout
           end
         end,
-        "scrolled_composite" => lambda do |scrolled_composite|
+        'scrolled_composite' => lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true
           scrolled_composite.expand_vertical = true
         end,
-        "table" => lambda do |table|
+        'table' => lambda do |table|
           table.setHeaderVisible(true)
           table.setLinesVisible(true)
         end,
-        "table_column" => lambda do |table_column|
+        'table_column' => lambda do |table_column|
           table_column.setWidth(80)
         end,
-        "group" => lambda do |group|
+        'group' => lambda do |group|
           group.layout = GridLayout.new if group.get_layout.nil?
         end,
       }
@@ -216,7 +218,11 @@ module Glimmer
       def get_attribute(attribute_name)
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
         if widget_custom_attribute
-          @swt_widget.send(widget_custom_attribute[:getter][:name])
+          if widget_custom_attribute[:getter][:invoker]
+            widget_custom_attribute[:getter][:invoker].call(@swt_widget, [])
+          else
+            @swt_widget.send(widget_custom_attribute[:getter][:name])
+          end
         else
           @swt_widget.send(attribute_getter(attribute_name))
         end
@@ -330,41 +336,31 @@ module Glimmer
               }
             end,
             :caret_position => lambda do |observer|
-              on_swt_keydown { |event|
-                observer.call(@swt_widget.getCaretPosition)
-              }
               on_swt_keyup { |event|
-                observer.call(@swt_widget.getCaretPosition)
-              }
-              on_swt_mousedown { |event|
-                observer.call(@swt_widget.getCaretPosition)
+                observer.call(@swt_widget.getCaretOffset)
               }
               on_swt_mouseup { |event|
-                observer.call(@swt_widget.getCaretPosition)
+                observer.call(@swt_widget.getCaretOffset)
+              }
+            end,
+            :caret_offset => lambda do |observer|
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getCaretOffset)
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getCaretOffset)
               }
             end,
             :selection => lambda do |observer|
-              on_swt_keydown { |event|
-                observer.call(@swt_widget.getSelection)
-              }
               on_swt_keyup { |event|
-                observer.call(@swt_widget.getSelection)
-              }
-              on_swt_mousedown { |event|
-                observer.call(@swt_widget.getSelection)
+                observer.call(@swt_widget.getSelection) unless @swt_widget.getSelection.x == 0 && @swt_widget.getSelection.y == 0
               }
               on_swt_mouseup { |event|
-                observer.call(@swt_widget.getSelection)
+                observer.call(@swt_widget.getSelection) unless @swt_widget.getSelection.x == 0 && @swt_widget.getSelection.y == 0
               }
             end,
             :selection_count => lambda do |observer|
-              on_swt_keydown { |event|
-                observer.call(@swt_widget.getSelectionCount)
-              }
               on_swt_keyup { |event|
-                observer.call(@swt_widget.getSelectionCount)
-              }
-              on_swt_mousedown { |event|
                 observer.call(@swt_widget.getSelectionCount)
               }
               on_swt_mouseup { |event|
@@ -380,6 +376,15 @@ module Glimmer
                 end
               }
             end,            
+            :top_pixel => lambda do |observer|
+              @last_top_pixel = @swt_widget.getTopPixel
+              on_paint_control { |event|
+                if @swt_widget.getTopPixel != @last_top_pixel
+                  @last_top_pixel = @swt_widget.getTopPixel
+                  observer.call(@last_top_pixel)
+                end
+              }
+            end,
           },
           Java::OrgEclipseSwtWidgets::Button => {
             :selection => lambda do |observer|
@@ -660,21 +665,34 @@ module Glimmer
       end
 
       def widget_custom_attribute_mapping
+        # TODO scope per widget class type just like other mappings
         @swt_widget_custom_attribute_mapping ||= {
           'focus' => {
             getter: {name: 'isFocusControl'},
             setter: {name: 'setFocus', invoker: lambda { |widget, args| @swt_widget.setFocus if args.first }},
           },
           'caret_position' => {
-            getter: {name: 'getCaretPosition'},
+            getter: {name: 'getCaretPosition', invoker: lambda { |widget, args| @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getCaretOffset}},
             setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(args.first) if args.first }},
           },
           'selection_count' => {
             getter: {name: 'getSelectionCount'},
             setter: {name: 'setSelection', invoker: lambda { |widget, args| 
-              # TODO consider the idea of aliasing getCaretPosition in StyledText
-              caret_position = @swt_widget.getCaretPosition rescue @swt_widget.getCaretOffset
+              caret_position = @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getCaretOffset
               @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first 
+            }},
+          },
+          'selection' => {
+            getter: {name: 'getSelection'},
+            setter: {name: 'setSelection', invoker: lambda { |widget, args| 
+              if swt_widget.is_a?(StyledText)
+                if args.first
+                  async_exec { @swt_widget.setCaretOffset(args.first.x) }
+                  async_exec { @swt_widget.setSelection(args.first) }
+                end
+              else
+                @swt_widget.setSelection(args.first)
+              end
             }},
           },
         }
@@ -713,11 +731,9 @@ module Glimmer
       end
 
       def apply_property_type_converters(attribute_name, args)
-        if args.count == 1
-          value = args.first
-          converter = property_type_converters[attribute_name.to_sym]
-          args[0] = converter.call(value) if converter
-        end
+        value = args
+        converter = property_type_converters[attribute_name.to_sym]
+        args[0..-1] = converter.call(*value) if converter
         if args.count == 1 && args.first.is_a?(ColorProxy)
           g_color = args.first
           args[0] = g_color.swt_color
@@ -738,8 +754,8 @@ module Glimmer
             SWTProxy[*value]
           },
           :background => color_converter,
-          :background_image => lambda do |value|
-            image_proxy = ImageProxy.create(value)
+          :background_image => lambda do |*value|
+            image_proxy = ImageProxy.create(*value)
             
             if image_proxy&.file_path&.end_with?('.gif')
               image = image_proxy.swt_image
@@ -797,8 +813,8 @@ module Glimmer
               value
             end
           end,
-          :image => lambda do |value|
-            ImageProxy.create(value).swt_image
+          :image => lambda do |*value|
+            ImageProxy.create(*value).swt_image
           end,
           :images => lambda do |array|
             array.to_a.map do |value|

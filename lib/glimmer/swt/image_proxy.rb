@@ -58,6 +58,9 @@ module Glimmer
         elsif @file_path
           @image_data = ImageData.new(input_stream || @file_path)
           @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
+          width = options[:width]
+          height = options[:height]
+          scale_to(width, height) unless width.nil? || height.nil?
         else
           @swt_image = Image.new(*@args)
           @image_data = @swt_image.image_data
