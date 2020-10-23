@@ -19,42 +19,25 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer'
-require 'glimmer/dsl/expression'
-require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/widget_proxy'
 
 module Glimmer
-  module DSL
-    module SWT
-      class WidgetExpression < Expression
-        include ParentExpression
-  
-        EXCLUDED_KEYWORDS = %w[shell display tab_item]
-  
-        def can_interpret?(parent, keyword, *args, &block)
-          !EXCLUDED_KEYWORDS.include?(keyword) and
-            parent.respond_to?(:swt_widget) and #TODO change to composite?(parent)
-            Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
+  module SWT
+    # Proxy for org.eclipse.swt.custom.StyledText
+    #
+    # Follows the Proxy Design Pattern
+    class StyledTextProxy < WidgetProxy
+      def set_attribute(attribute_name, *args)
+        if attribute_name.to_s == 'selection'
+          if args.first
+            async_exec { @swt_widget.setCaretOffset(args.first.x) }
+            async_exec { @swt_widget.setSelection(args.first) }
+          end
+        else
+          super(attribute_name, *args)
         end
-  
-        def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
-        end
-        
-        def add_content(parent, &block)
-          super
-          parent.post_add_content
-        end
-        
       end
+      
     end
   end
 end
-
-require 'glimmer/swt/widget_proxy'
-require 'glimmer/swt/scrolled_composite_proxy'
-require 'glimmer/swt/tree_proxy'
-require 'glimmer/swt/table_proxy'
-require 'glimmer/swt/table_column_proxy'
-require 'glimmer/swt/sash_form_proxy'
-require 'glimmer/swt/styled_text_proxy'

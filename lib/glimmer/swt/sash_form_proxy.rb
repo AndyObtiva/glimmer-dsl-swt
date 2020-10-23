@@ -32,7 +32,7 @@ module Glimmer
       end
       
       def set_attribute(attribute_name, *args)
-        if attribute_name.to_s == "weights"
+        if attribute_name.to_s == 'weights'
           @weights = args
           @weights = @weights.first if @weights.first.is_a?(Array)
         else

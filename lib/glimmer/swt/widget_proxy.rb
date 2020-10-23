@@ -682,19 +682,6 @@ module Glimmer
               @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first 
             }},
           },
-          'selection' => {
-            getter: {name: 'getSelection'},
-            setter: {name: 'setSelection', invoker: lambda { |widget, args| 
-              if swt_widget.is_a?(StyledText)
-                if args.first
-                  async_exec { @swt_widget.setCaretOffset(args.first.x) }
-                  async_exec { @swt_widget.setSelection(args.first) }
-                end
-              else
-                @swt_widget.setSelection(args.first)
-              end
-            }},
-          },
         }
       end
 
@@ -733,7 +720,7 @@ module Glimmer
       def apply_property_type_converters(attribute_name, args)
         value = args
         converter = property_type_converters[attribute_name.to_sym]
-        args[0..-1] = converter.call(*value) if converter
+        args[0..-1] = [converter.call(*value)] if converter
         if args.count == 1 && args.first.is_a?(ColorProxy)
           g_color = args.first
           args[0] = g_color.swt_color
