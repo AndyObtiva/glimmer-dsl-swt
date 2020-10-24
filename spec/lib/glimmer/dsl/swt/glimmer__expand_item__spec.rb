@@ -26,7 +26,9 @@ module GlimmerSpec
       expect(@expand_item_composite.swt_widget.getLayout.marginWidth).to eq(0)
       expect(@expand_item_composite.swt_widget.getLayout.marginHeight).to eq(0)
       expect(@expand_item_composite.swt_widget.getLayout.spacing).to eq(0)
-      expect(@expand_item_composite.swt_widget.bounds.height > 0).to be_truthy
+      unless OS.linux?
+        expect(@expand_item_composite.swt_widget.bounds.height > 0).to be_truthy
+      end
     end
     
     it "renders expand item composite with a specified height and not expanded" do
@@ -48,7 +50,9 @@ module GlimmerSpec
       expect(@expand_bar.swt_widget.items[0].control).to eq(@expand_item_composite.swt_widget)
       expect(@expand_item_composite.swt_expand_item.getText).to eq("Expand Item 1")
       expect(@expand_item_composite.swt_expand_item.getExpanded).to be_falsey
-      expect(@expand_item_composite.swt_widget.bounds.height).to eq(500) # 501 loses 1 pixel, so 500 (not really sure why, but that's how it works)
+      unless OS.linux?
+        expect(@expand_item_composite.swt_widget.bounds.height).to eq(500) # 501 loses 1 pixel, so 500 (not really sure why, but that's how it works)
+      end
     end
     
     it "renders expand item composite with invalid parent (not an expand bar)" do
