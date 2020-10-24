@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.5.0
+
+- Hello, Styled Text! Sample
+
 ### 4.17.4.2
 
 - Support StyledText data-binding of caret_offset, selection_count, selection, top_index, and top_pixel, useful for code_text

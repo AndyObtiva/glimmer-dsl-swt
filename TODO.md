@@ -4,15 +4,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support ExpandBar
-- Inspect dead spots with syntax highlighting in some files in Gladiator like file.rb
+- Support SWT ExpandBar via expand_bar keyword
+- Hello, Expand Bar! Sample
+- Use expand_bar in Glimmer Meta-Sample
 - Support auto-scaling by aspect ratio of width and height (write specs)
 
 ## Soon
 
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
-- Have `glimmer samples` show the code of sample models too outside the main view just like `glimmer sample:code` did in the past
+- Hello, Code Text! Sample
+- Inspect dead spots with syntax highlighting in some files in Gladiator like file.rb
 
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
@@ -100,28 +102,28 @@ bind_content(model, 'addresses').each { |address|
 [DEVELOPMENT MODE] (detected /Users/User/code/glimmer-dsl-swt/lib/glimmer-dsl-swt.rb)
 [2020-10-20 06:35:41] ERROR glimmer: Encountered an invalid keyword at this object: #<SampleDirectory:0x42e25b0b>
 [2020-10-20 06:35:41] ERROR glimmer: /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:58:in `handle': Glimmer keyword content with args [] cannot be handled inside parent #<Glimmer::SWT::WidgetProxy:0x52d645b1>! Check the validity of the code. (Glimmer::InvalidKeywordError)
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:169:in `interpret'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:240:in `invoke_property_reader'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:217:in `evaluate_property'
-	from /Users/User/code/glimmer-dsl-swt/lib/glimmer/dsl/swt/data_binding_expression.rb:46:in `interpret'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:174:in `interpret_expression'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:170:in `interpret'
-	from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
-	from /Users/User/code/glimmer-dsl-swt/samples/meta_sample.rb:142:in `block in launch'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/expression_handler.rb:52:in `handle'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:169:in `interpret'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:240:in `invoke_property_reader'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/data_binding/model_binding.rb:217:in `evaluate_property'
+  from /Users/User/code/glimmer-dsl-swt/lib/glimmer/dsl/swt/data_binding_expression.rb:46:in `interpret'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:174:in `interpret_expression'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer/dsl/engine.rb:170:in `interpret'
+  from /Users/User/.rvm/gems/jruby-9.2.13.0@glimmer-dsl-swt/gems/glimmer-1.0.1/lib/glimmer.rb:73:in `method_missing'
+  from /Users/User/code/glimmer-dsl-swt/samples/meta_sample.rb:142:in `block in launch'
 
 
 ## Technical Tasks
@@ -246,6 +248,7 @@ items <=> binding {
 - Support background warm launching of Glimmer apps (in glimmer-cs-timer GitHub project branch: glimmer-app-type-client-server) (i.e. keeping them running in the background after initial start and then launching instantly when needed)
 - Support shorter syntax for fonts when passing in one property only (e.g. `font 18` for height, `font :bold` for style, `font 'Lucida Console'` for name)
 - TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
+- Support styledtext setting of styles via data-binding
 
 ## Samples
 
