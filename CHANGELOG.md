@@ -3,6 +3,7 @@
 ### 4.17.5.0
 
 - Hello, Styled Text! Sample
+- Support auto-scaling by aspect ratio of width and height (write specs)
 
 ### 4.17.4.2
 

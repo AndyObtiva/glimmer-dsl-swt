@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support SWT ExpandBar via expand_bar keyword
 - Hello, Expand Bar! Sample
 - Use expand_bar in Glimmer Meta-Sample
-- Support auto-scaling by aspect ratio of width and height (write specs)
 
 ## Soon
 
@@ -56,7 +55,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - glimmer command run rake task
 - glimmer command girb rake task
 - Support Windows with colored code output and tty prompt (perhaps only when using the special windows terminals that support that)
-
+- Support ImageProxy fit_to_width and fit_to_height options
 
 - Make scaffolded app gemspec complete in accordance to config/warble when available
 - Have property expression automatically call to_java(Type) on arrays for property methods that take arguments

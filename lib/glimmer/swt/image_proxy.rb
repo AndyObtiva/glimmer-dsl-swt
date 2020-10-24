@@ -60,6 +60,8 @@ module Glimmer
           @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
           width = options[:width]
           height = options[:height]
+          height = (@image_data.height.to_f / @image_data.width.to_f)*width.to_f if !width.nil? && height.nil?
+          width = (@image_data.width.to_f / @image_data.height.to_f)*height.to_f if !height.nil? && width.nil?
           scale_to(width, height) unless width.nil? || height.nil?
         else
           @swt_image = Image.new(*@args)

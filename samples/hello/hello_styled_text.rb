@@ -19,16 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class StyledTextPresenter
-  include Glimmer
-  attr_accessor :text, :caret_offset, :selection_count, :selection, :top_pixel
-    
-  def line_index_for_offset(line_offset)
-    text[0..line_offset].split("\n").size
-  end
-end
-
-@presenter = StyledTextPresenter.new
 verbiage = <<-MULTI_LINE_STRING
 
 Glimmer DSL for SWT is a native-GUI cross-platform desktop development library written in JRuby, 
@@ -44,13 +34,24 @@ thus enabling the delivery of desktop apps written in Ruby as truly native DMG/P
 the Mac + App Store, MSI/EXE files on Windows, and Gem Packaged Shell Scripts on Linux.
 
 MULTI_LINE_STRING
-@presenter.text = verbiage*20
+
+class StyledTextPresenter
+  include Glimmer
+  attr_accessor :text, :caret_offset, :selection_count, :selection, :top_pixel
+    
+  def line_index_for_offset(line_offset)
+    text[0..line_offset].split("\n").size
+  end
+end
+
+include Glimmer
+
+@presenter = StyledTextPresenter.new
+@presenter.text = verbiage*8
 @presenter.caret_offset = 0
 @presenter.selection_count = 0
 @presenter.selection = Point.new(0, 0)
 @presenter.top_pixel = 0
-
-include Glimmer
 
 shell {
   text 'Hello, Styled Text!'
