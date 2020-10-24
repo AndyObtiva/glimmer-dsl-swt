@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support SWT ExpandBar via expand_bar keyword
-- Hello, Expand Bar! Sample
-- Use expand_bar in Glimmer Meta-Sample
-
 ## Soon
 
 - Make code_text custom widget support multiple languages
@@ -248,6 +244,7 @@ items <=> binding {
 - Support shorter syntax for fonts when passing in one property only (e.g. `font 18` for height, `font :bold` for style, `font 'Lucida Console'` for name)
 - TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
 - Support styledtext setting of styles via data-binding
+- Support :accordion style for ExpandBar
 
 ## Samples
 
@@ -315,6 +312,7 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 
 - glimmer-cs-splash: splash shell widget
 - glimmer-cw-datetimerange: start time end time (or date) duo that includes automatic validation/correctness (ensuring start is always before or equal to end depending on options)
+- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go
 
 ## Documentation Tasks
 

@@ -61,6 +61,7 @@ module Glimmer
         'toggle'              => [:toggle],
         'tool_bar'            => [:push],
         'tool_item'           => [:push],
+        'expand_bar'          => [:v_scroll],
         'tree'                => [:virtual, :border, :h_scroll, :v_scroll],
       }
 

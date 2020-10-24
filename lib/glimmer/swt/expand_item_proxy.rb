@@ -20,17 +20,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/swt_proxy'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.widgets.TabItem
+    # Proxy for org.eclipse.swt.widgets.ExpandItem
     #
     # Functions differently from other widget proxies.
     #
-    # Glimmer instantiates an SWT Composite alongside the SWT TabItem
+    # Glimmer instantiates an SWT Composite alongside the SWT ExpandItem
     # and returns it for `#swt_widget` to allow adding widgets into it.
     #
-    # In order to get the SWT TabItem object, one must call `#swt_tab_item`.
+    # In order to get the SWT ExpandItem object, one must call `#swt_expand_item`.
     #
     # Behind the scenes, this creates a tab item widget proxy separately from a composite that
     # is set as the control of the tab item and `#swt_widget`.
@@ -38,20 +39,33 @@ module Glimmer
     # In order to retrieve the tab item widget proxy, one must call `#widget_proxy`
     #
     # Follows the Proxy Design Pattern
-    class TabItemProxy < WidgetProxy
+    class ExpandItemProxy < WidgetProxy
+      ATTRIBUTES = ['text', 'height', 'expanded']
+      
       include_package 'org.eclipse.swt.widgets'
 
-      attr_reader :widget_proxy, :swt_tab_item
+      attr_reader :widget_proxy, :swt_expand_item
 
       def initialize(parent, style, &contents)
         super("composite", parent, style, &contents)
-        @widget_proxy = SWT::WidgetProxy.new('tab_item', parent, style)
-        @swt_tab_item = @widget_proxy.swt_widget
-        @swt_tab_item.control = swt_widget
+        layout = FillLayout.new(SWTProxy[:vertical])
+        layout.marginWidth = 0
+        layout.marginHeight = 0
+        layout.spacing = 0
+        swt_widget.layout = layout        
+        @widget_proxy = SWT::WidgetProxy.new('expand_item', parent, style)
+        @swt_expand_item = @widget_proxy.swt_widget
+        @swt_expand_item.control = swt_widget        
+        @swt_expand_item.expanded = true
       end
-
+      
+      def post_add_content
+        @swt_expand_item.setHeight(swt_widget.computeSize(SWTProxy[:default], SWTProxy[:default]).y) unless @swt_expand_item.getHeight > 0
+        WidgetProxy.new('composite', self, []) # adding filler since it seems like the last child gets a bad style, so this gets it instead
+      end
+      
       def has_attribute?(attribute_name, *args)
-        if attribute_name.to_s == "text"
+        if ATTRIBUTES.include?(attribute_name.to_s)
           true
         else
           super(attribute_name, *args)
@@ -59,27 +73,25 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
-        attribute_name
-        if attribute_name.to_s == "text"
-          text_value = args[0]
-          @swt_tab_item.setText text_value
+        if ATTRIBUTES.include?(attribute_name.to_s)
+          @widget_proxy.set_attribute(attribute_name, *args)
         else
           super(attribute_name, *args)
         end
       end
 
       def get_attribute(attribute_name)
-        if attribute_name.to_s == "text"
-          @swt_tab_item.getText
+        if ATTRIBUTES.include?(attribute_name.to_s)
+          @widget_proxy.get_attribute(attribute_name)
         else
           super(attribute_name)
         end
       end
       
       def dispose
-        swt_tab_item.setControl(nil)
+        swt_expand_item.setControl(nil)
         swt_widget.dispose
-        swt_tab_item.dispose
+        swt_expand_item.dispose
       end
     end
   end

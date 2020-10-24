@@ -1,3 +1,4 @@
+
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.4.2
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -622,18 +623,18 @@ You should see output like the following:
 
 ```
 $ glimmer scaffold[greeter]
-	create	.gitignore
-	create	Rakefile
-	create	Gemfile
-	create	LICENSE.txt
-	create	README.rdoc
-	create	.document
-	create	lib
-	create	lib/greeter.rb
-	create	spec
-	create	spec/spec_helper.rb
-	create	spec/greeter_spec.rb
-	create	.rspec
+  create  .gitignore
+  create  Rakefile
+  create  Gemfile
+  create  LICENSE.txt
+  create  README.rdoc
+  create  .document
+  create  lib
+  create  lib/greeter.rb
+  create  spec
+  create  spec/spec_helper.rb
+  create  spec/greeter_spec.rb
+  create  .rspec
 Juwelier has prepared your gem in ./greeter
 Created greeter/.gitignore
 Created greeter/.ruby-version
@@ -731,15 +732,15 @@ Successfully installed github_api-0.19.0
 Successfully installed nokogiri-1.10.10-java
 Successfully installed juwelier-2.4.9
 7 gems installed
-	create	.gitignore
-	create	Rakefile
-	create	Gemfile
-	create	LICENSE.txt
-	create	README.markdown
-	create	.document
-	create	lib
-	create	lib/snowboard_utah.rb
-	create	.rspec
+  create  .gitignore
+  create  Rakefile
+  create  Gemfile
+  create  LICENSE.txt
+  create  README.markdown
+  create  .document
+  create  lib
+  create  lib/snowboard_utah.rb
+  create  .rspec
 Juwelier has prepared your gem in ./snowboard_utah
 Created snowboard_utah/.gitignore
 Created snowboard_utah/.ruby-version
@@ -1783,6 +1784,23 @@ It is a graphics `Image` object (not a widget), but is used used in setting the 
 Glimmer recently included **EXPERIMENTAL** gif animation support for the `background_image` property on `composite' since SWT does not support animation by default. On Windows, it only works inside composites nested under standard shells, not ones that have the SWT styles :on_top or :no_trim
 
 Learn more about images in general at this SWT Image guide: https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
+
+#### Image Options
+
+Options may be passed in a hash at the end of `image` arguments:
+
+- `width`: width of image
+- `height`: height of image
+
+If only the width or height alone are specified, the other is calculated while maintaining the image aspect ratio.
+
+Example:
+
+```
+label {
+  image 'someimage.png', width: 400, height: 300
+}
+```
 
 ### Cursor
 
@@ -3586,6 +3604,42 @@ Hello, Sash Form! Green Label Maximized
 Hello, Sash Form! Red Label Maximized
 
 ![Hello Sash Form Red Maximized](images/glimmer-hello-sash-form-red-maximized.png)
+
+#### Hello, Styled Text!
+
+This sample demonstrates the use of a `styled_text` in Glimmer.
+
+Code:
+
+[samples/hello/hello_styled_text.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_styled_text.rb)
+
+Hello, Styled Text!
+
+![Hello Styled Text](images/glimmer-hello-styled-text.png)
+
+#### Hello, Expand Bar!
+
+This sample demonstrates the use of a `expand_bar` and `expand_item` in Glimmer.
+
+Code:
+
+[samples/hello/hello_expand_bar.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_expand_bar.rb)
+
+Hello, Expand Bar! All Expanded
+
+![Hello Expand Bar All Expanded](images/glimmer-hello-expand-bar-all-expanded.png)
+
+Hello, Expand Bar! Productivity Expanded
+
+![Hello Expand Bar Productivity Expanded](images/glimmer-hello-expand-bar-productivity-expanded.png)
+
+Hello, Expand Bar! Tools Expanded
+
+![Hello Expand Bar Tools Expanded](images/glimmer-hello-expand-bar-tools-expanded.png)
+
+Hello, Expand Bar! Reading Expanded
+
+![Hello Expand Bar Reading Expanded](images/glimmer-hello-expand-bar-reading-expanded.png)
 
 ### Elaborate Samples
 

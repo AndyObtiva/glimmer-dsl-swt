@@ -100,6 +100,7 @@ class MetaSampleApplication
   
   def launch
     shell {
+      minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'
       
       on_swt_show {
@@ -109,29 +110,28 @@ class MetaSampleApplication
       sash_form {
         composite {
           grid_layout 1, false
-          
-          scrolled_composite {
-            layout_data(:fill, :fill, true, true)
             
-            composite {
-              SampleDirectory.sample_directories.each { |sample_directory|
-                group {
-                  layout_data(:fill, :fill, true, true)
-                  grid_layout 2, false
-                  text "#{sample_directory.name} Samples"
-                  font height: 30
-                  
-                  sample_directory.samples.each { |sample|
-                    label_radio = radio {
-                      selection bind(sample, :selected)
-                    }
-                    label {
-                      text sample.name
-                      font height: 30
-                      
-                      on_mouse_up {
-                        sample.selected = true
-                      }
+          expand_bar {
+            layout_data(:fill, :fill, true, true)
+            font height: 30
+            
+            SampleDirectory.sample_directories.each { |sample_directory|
+              expand_item {
+                layout_data(:fill, :fill, true, true)
+                grid_layout 2, false
+                text "#{sample_directory.name} Samples"
+                
+                sample_directory.samples.each { |sample|
+                  label_radio = radio {
+                    selection bind(sample, :selected)
+                  }
+                  label {
+                    layout_data :fill, :center, true, false
+                    text sample.name
+                    font height: 24
+                    
+                    on_mouse_up {
+                      sample.selected = true
                     }
                   }
                 }
@@ -140,11 +140,11 @@ class MetaSampleApplication
           }
           
           button {
-            layout_data(:center, :center, false, false) {
-              height_hint 150
+            layout_data(:fill, :center, true, false) {
+              height_hint 120
             }
             text 'Launch Sample'
-            font height: 45
+            font height: 30
             on_widget_selected {
               SampleDirectory.selected_sample.launch
             }

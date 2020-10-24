@@ -2,8 +2,11 @@
 
 ### 4.17.5.0
 
-- Hello, Styled Text! Sample
 - Support auto-scaling by aspect ratio of width and height (write specs)
+- Support SWT ExpandBar via expand_bar keyword
+- Hello, Expand Bar! Sample
+- Hello, Styled Text! Sample
+- Use expand_bar in Glimmer Meta-Sample
 
 ### 4.17.4.2
 

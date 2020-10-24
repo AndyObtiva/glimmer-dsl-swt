@@ -43,8 +43,8 @@ module Glimmer
           code = text
           return @syntax_highlighting if @last_code == code
           @last_code = code
-          lexer = Rouge::Lexer.find_fancy('ruby', code)
-          lex = lexer.lex(code).to_a
+          @lexer ||= Rouge::Lexer.find_fancy('ruby', code)
+          lex = @lexer.lex(code).to_a
           code_size = 0
           lex_hashes = lex.map do |pair|
             {token_type: pair.first, token_text: pair.last}
