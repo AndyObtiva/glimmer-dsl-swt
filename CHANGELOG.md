@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.6.0
+
+- Hello, Radio! Sample
+- Hello, Checkbox! Sample
+
 ### 4.17.5.0
 
 - Support auto-scaling by aspect ratio of width and height (write specs)

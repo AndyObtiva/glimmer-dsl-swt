@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- `radio_group` widget, similar to `combo` or `list(:single)` in data-binding
+- `checkbox_group` widget (and alias `check_group`), similar to `list(:multi)` in data-binding
+
 ## Soon
 
 - Make code_text custom widget support multiple languages
@@ -245,6 +248,7 @@ items <=> binding {
 - TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
 - Support styledtext setting of styles via data-binding
 - Support :accordion style for ExpandBar
+- Consider supporting sound in Glimmer just for the sake of making java sound dependent apps runnable in Glimmer DSL for Opal
 
 ## Samples
 
