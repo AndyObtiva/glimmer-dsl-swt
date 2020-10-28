@@ -50,6 +50,7 @@ module Glimmer
         'check'               => [:check],
         'drag_source'         => [:drop_copy],
         'drop_target'         => [:drop_copy],
+        'expand_bar'          => [:v_scroll],
         'list'                => [:border, :v_scroll],
         'menu_item'           => [:push],
         'radio'               => [:radio],
@@ -61,7 +62,6 @@ module Glimmer
         'toggle'              => [:toggle],
         'tool_bar'            => [:push],
         'tool_item'           => [:push],
-        'expand_bar'          => [:v_scroll],
         'tree'                => [:virtual, :border, :h_scroll, :v_scroll],
       }
 
@@ -91,11 +91,11 @@ module Glimmer
       }
       
       KEYWORD_ALIASES = {
-        'radio'          => 'button',
+        'arrow'          => 'button',
         'checkbox'       => 'button',
         'check'          => 'button',
+        'radio'          => 'button',
         'toggle'         => 'button',
-        'arrow'          => 'button',
       }
       
       class << self
