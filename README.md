@@ -347,6 +347,9 @@ Glimmer App:
       - [Hello, Sash Form!](#hello-sash-form)
       - [Hello, Styled Text!](#hello-styled-text)
       - [Hello, Expand Bar!](#hello-expand-bar)
+      - [Hello, Radio!](#hello-radio)
+      - [Hello, Radio Group!](#hello-radio-group)
+      - [Hello, Checkbox!](#hello-checkbox)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -3644,6 +3647,42 @@ Hello, Expand Bar! Tools Expanded
 Hello, Expand Bar! Reading Expanded
 
 ![Hello Expand Bar Reading Expanded](images/glimmer-hello-expand-bar-reading-expanded.png)
+
+#### Hello, Radio!
+
+This sample demonstrates the use of a `radio` (aka `button(:radio)`) in Glimmer.
+
+Code:
+
+[samples/hello/hello_radio.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_radio.rb)
+
+Hello, Radio!
+
+![Hello Radio](images/glimmer-hello-radio.png)
+
+#### Hello, Radio Group!
+
+This sample demonstrates the use of a `radio_group` in Glimmer, which is a terser way of representing multiple radio buttons by relying on data-binding to automatically spawn the `radio` widgets based on available options on the model.
+
+Code:
+
+[samples/hello/hello_radio_group.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_radio_group.rb)
+
+Hello, Radio Group!
+
+![Hello Radio Group](images/glimmer-hello-radio-group.png)
+
+#### Hello, Checkbox!
+
+This sample demonstrates the use of a `checkbox` (aka `check` or `button(:check)`) in Glimmer.
+
+Code:
+
+[samples/hello/hello_checkbox.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_checkbox.rb)
+
+Hello, Checkbox!
+
+![Hello Checkbox](images/glimmer-hello-checkbox.png)
 
 ### Elaborate Samples
 

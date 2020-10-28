@@ -4,10 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- `radio` `text` property data-binding that spawns multiple radio widgets if the model property had a matching property_options (just like combo and list selection data-binding)
-- `checkbox` `text` property data-binding that spawns multiple checkbox widgets if the model property had a matching property_options (just like list multi selection data-binding)
-- Document Hello, Radio! Sample and radio data-binding
-- Document Hello, Checkbox! Sample and checkbox data-binding
+- Fix minor visual issues with Glimmer Meta-Sample on Linux
+- `checkbox_group` built-in custom widget
+- Hello, Checkbox Group! Sample
 
 ## Soon
 
