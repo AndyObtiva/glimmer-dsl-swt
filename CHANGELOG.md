@@ -2,7 +2,9 @@
 
 ### 4.17.6.0
 
+- New `radio_group` built-in Glimmer custom widget
 - Hello, Radio! Sample
+- Hello, Radio Group! Sample
 - Hello, Checkbox! Sample
 
 ### 4.17.5.0

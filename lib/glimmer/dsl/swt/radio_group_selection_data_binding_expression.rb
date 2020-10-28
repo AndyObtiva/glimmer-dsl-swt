@@ -19,41 +19,40 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer'
 require 'glimmer/dsl/expression'
-require 'glimmer/dsl/parent_expression'
-require 'glimmer/dsl/top_level_expression'
-require 'glimmer/ui/custom_widget'
-require 'glimmer/ui/custom_shell'
-require 'glimmer/swt/custom/code_text'
-require 'glimmer/swt/custom/radio_group'
+require 'glimmer/data_binding/model_binding'
+require 'glimmer/data_binding/widget_binding'
 
 module Glimmer
   module DSL
     module SWT
-      class CustomWidgetExpression < Expression
-        # TODO Make custom widgets automatically generate static expressions
-        include ParentExpression
-        include TopLevelExpression
-
+      class RadioGroupSelectionDataBindingExpression < Expression
+ 
         def can_interpret?(parent, keyword, *args, &block)
-          custom_widget_class = UI::CustomWidget.for(keyword)
-          custom_widget_class and
-            (parent.respond_to?(:swt_widget) or
-            custom_widget_class.ancestors.include?(UI::CustomShell))
+          keyword == 'selection' and
+            block.nil? and
+            (parent.is_a?(Glimmer::SWT::Custom::RadioGroup) or (parent.is_a?(Glimmer::UI::CustomWidget) and parent.body_root.is_a?(Glimmer::SWT::Custom::RadioGroup)) ) and
+            args.size == 1 and
+            args[0].is_a?(DataBinding::ModelBinding) and
+            args[0].evaluate_options_property.is_a?(Array)
         end
   
         def interpret(parent, keyword, *args, &block)
-          options = args.last.is_a?(Hash) ? args.pop : {}
-          UI::CustomWidget.for(keyword).new(parent, *args, options, &block)
-        end
+          model_binding = args[0]
   
-        def add_content(parent, &block)
-          # TODO consider avoiding source_location
-          if block.source_location == parent.content&.__getobj__.source_location
-            parent.content.call(parent) unless parent.content.called?
-          else
-            super
+          #TODO make this options observer dependent and all similar observers in widget specific data binding handlers
+          # TODO consider delegating some of this work
+          widget_binding = DataBinding::WidgetBinding.new(parent, 'items')
+          widget_binding.call(model_binding.evaluate_options_property)
+          model = model_binding.base_model
+          widget_binding.observe(model, model_binding.options_property_name)
+  
+          widget_binding = DataBinding::WidgetBinding.new(parent, 'selection')
+          widget_binding.call(model_binding.evaluate_property)
+          widget_binding.observe(model, model_binding.property_name_expression)
+  
+          parent.on_widget_selected do
+            model_binding.call(widget_binding.evaluate_property)
           end
         end
       end

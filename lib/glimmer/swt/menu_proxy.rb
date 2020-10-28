@@ -116,7 +116,7 @@ module Glimmer
         else
           menu_item_proxy.handle_observation_request(observation_request, &block)
         end
-      end      
+      end
     end
   end
 end

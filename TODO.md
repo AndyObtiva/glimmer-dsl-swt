@@ -4,8 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- `radio_group` widget, similar to `combo` or `list(:single)` in data-binding
-- `checkbox_group` widget (and alias `check_group`), similar to `list(:multi)` in data-binding
+- `radio` `text` property data-binding that spawns multiple radio widgets if the model property had a matching property_options (just like combo and list selection data-binding)
+- `checkbox` `text` property data-binding that spawns multiple checkbox widgets if the model property had a matching property_options (just like list multi selection data-binding)
+- Document Hello, Radio! Sample and radio data-binding
+- Document Hello, Checkbox! Sample and checkbox data-binding
 
 ## Soon
 
@@ -68,18 +70,22 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - bind_content: an iterator that enables spawning widgets based on a variable collection (e.g. `bind_content('user.addresses').each { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only). Needs further thought on naming and functionality.
 Another idea in which each is triggered upon every update to bind's content:
 ```ruby
-bind_content(model, 'username') { |username|
-  label {
-    text username
+composite {
+  content(model, 'username') {|username|
+    label {
+      text bind(model, 'username')
+    }
   }
 }
 
-bind_content(model, 'addresses').each { |address|
-  label {
-    bind(address, :street)
-  }
-  label {
-    bind(address, :zip)    
+composite {
+  content(model, 'addresses') {|address|
+    label {
+      bind(address, :street)
+    }
+    label {
+      bind(address, :zip)    
+    }  
   }
 }
 ```

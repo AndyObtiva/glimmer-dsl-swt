@@ -213,6 +213,7 @@ module Glimmer
       def has_instance_method?(method_name)
         respond_to?(method_name) and 
           !swt_widget&.respond_to?(method_name) and
+          (method(method_name) rescue nil) and
           !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') and 
           !method(method_name)&.source_location&.first&.include?('glimmer/swt/widget_proxy.rb')
       end
@@ -255,6 +256,8 @@ module Glimmer
       end
 
       def method_missing(method, *args, &block)
+        # TODO Consider supporting a glimmer error silencing option for methods defined here
+        # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output
         if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
         else

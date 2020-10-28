@@ -20,78 +20,54 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Person
-  attr_accessor :male, :female, :child, :teen, :adult, :senior
+  attr_accessor :gender, :age_group
   
   def initialize
     reset
   end
   
+  def gender_options
+    ['Male', 'Female']
+  end
+  
+  def age_group_options
+    ['Child', 'Teen', 'Adult', 'Senior']  
+  end
+  
   def reset
-    self.male = nil
-    self.female = nil
-    self.child = nil
-    self.teen = nil
-    self.adult = true
-    self.senior = nil
+    self.gender = nil
+    self.age_group = 'Adult'
   end
 end
 
-class HelloRadio
+class HelloRadioGroup
   include Glimmer
   
   def launch
     person = Person.new
     
     shell {
-      text 'Hello, Radio!'      
-      row_layout :vertical
+      text 'Hello, Radio Group!'      
+      row_layout :vertical           
       
       label {
         text 'Gender:'
         font style: :bold
       }
       
-      composite {
-        row_layout
-        
-        radio {
-          text 'Male'
-          selection bind(person, :male)
-        }
-        
-        radio {
-          text 'Female'
-          selection bind(person, :female)
-        }
+      radio_group {
+        row_layout :horizontal
+        selection bind(person, :gender)
       }
-      
+            
       label {
         text 'Age Group:'
         font style: :bold
       }
       
-      composite {
-        row_layout
-        
-        radio {
-          text 'Child'
-          selection bind(person, :child)
-        }
-        
-        radio {
-          text 'Teen'
-          selection bind(person, :teen)
-        }
-        
-        radio {
-          text 'Adult'
-          selection bind(person, :adult)
-        }
-        
-        radio {
-          text 'Senior'
-          selection bind(person, :senior)
-        }
+      radio_group {
+        row_layout :horizontal
+        selection bind(person, :age_group)
       }
       
       button {
@@ -105,4 +81,4 @@ class HelloRadio
   end
 end
 
-HelloRadio.new.launch
+HelloRadioGroup.new.launch
