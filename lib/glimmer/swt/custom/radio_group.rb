@@ -7,8 +7,6 @@ module Glimmer
       class RadioGroup
         include Glimmer::UI::CustomWidget
         
-        # TODO support setting font, background, foreground, cursor
-        
         body {
           composite # just an empty composite to hold radios upon data-binding `selection`
         }
@@ -64,24 +62,30 @@ module Glimmer
         end
         
         def delegate_observation_request_to_radios(observation_request, &block)
-          if observation_request != 'on_widget_disposed' && radios.first&.can_handle_observation_request?(observation_request)
+          if observation_request != 'on_widget_disposed'
             radios.count.times do |index|
               radio = radios[index]
-              radio_block = lambda do |event|
-                if event.widget.selection || selection_index == -1
-                  event.widget = self.swt_widget
-                  block.call(event)
-                end
-              end
-              radio.handle_observation_request(observation_request, &radio_block)
-              
+              label = labels[index]              
               if observation_request == 'on_widget_selected'
-                label = labels[index]
+                radio_block = lambda do |event|
+                  if event.widget.selection || selection_index == -1
+                    event.widget = self.swt_widget
+                    block.call(event)
+                  end
+                end
                 label_block = lambda do |event|
                   self.selection_index = index
                   block.call(event)
-                end
+                end              
+                radio.handle_observation_request(observation_request, &radio_block) if radio.can_handle_observation_request?(observation_request)
                 label.handle_observation_request('on_mouse_up', &label_block)
+              else
+                listener_block = lambda do |event|
+                  event.widget = self.swt_widget
+                  block.call(event)
+                end
+                radio.handle_observation_request(observation_request, &listener_block) if radio.can_handle_observation_request?(observation_request)
+                label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)              
               end
             end
           end
@@ -89,6 +93,23 @@ module Glimmer
         
         def observation_requests
           @observation_requests ||= Set.new
+        end
+        
+        def has_attribute?(attribute_name, *args)
+          (@composites.to_a + @radios.to_a + @labels.to_a).map do |widget_proxy|
+            return true if widget_proxy.has_attribute?(attribute_name, *args)            
+          end
+          super
+        end
+         
+        def set_attribute(attribute_name, *args)
+          excluded_attributes = ['selection']
+          unless excluded_attributes.include?(attribute_name.to_s)
+            (@composites.to_a + @radios.to_a + @labels.to_a).each do |widget_proxy|
+              widget_proxy.set_attribute(attribute_name, *args) if widget_proxy.has_attribute?(attribute_name, *args)
+            end
+          end
+          super
         end
         
         private
@@ -105,6 +126,8 @@ module Glimmer
                 grid_layout(2, false) {
                   margin_width 0
                   margin_height 0
+                  horizontal_spacing 0
+                  vertical_spacing 0
                 }
                 radios << radio { |radio_proxy|
                   on_widget_selected {

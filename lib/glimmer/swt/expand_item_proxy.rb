@@ -61,7 +61,6 @@ module Glimmer
       
       def post_add_content
         @swt_expand_item.setHeight(swt_widget.computeSize(SWTProxy[:default], SWTProxy[:default]).y) unless @swt_expand_item.getHeight > 0
-        WidgetProxy.new('composite', self, []) # adding filler since it seems like the last child gets a bad style, so this gets it instead
       end
       
       def has_attribute?(attribute_name, *args)

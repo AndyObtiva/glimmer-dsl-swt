@@ -7,6 +7,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Fix minor visual issues with Glimmer Meta-Sample on Linux
 - `checkbox_group` built-in custom widget
 - Hello, Checkbox Group! Sample
+- Fix issue with ExpandBar fill_layout with the extra element at the end (remove it)
 
 ## Soon
 

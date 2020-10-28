@@ -55,6 +55,7 @@ class HelloExpandBar
           button {
             text 'Database'
           }
+          composite # just filler
         }
         
         expand_item {
@@ -72,6 +73,7 @@ class HelloExpandBar
           button {
             text 'Scientific Calculator'
           }
+          composite # just filler
         }
         
         expand_item {
@@ -89,6 +91,7 @@ class HelloExpandBar
           button {
             text 'Papers'
           }
+          composite # just filler
         }
         
         on_item_expanded { |expand_event|
@@ -98,7 +101,6 @@ class HelloExpandBar
         on_item_collapsed { |expand_event|
           @status_label.text = "#{expand_event.item.text} Collapsed!"
         }
-        
         
       }
     }.open

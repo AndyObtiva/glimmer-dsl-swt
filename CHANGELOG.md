@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.7.0
+
+- Refactor `radio_group` to render labels instead of relying on radio button text since they are better stylable
+- Refactor Glimmer Meta-Sample to use `radio_group` instead of `radio`
+
 ### 4.17.6.0
 
 - New `radio_group` built-in Glimmer custom widget

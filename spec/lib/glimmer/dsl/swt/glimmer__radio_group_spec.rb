@@ -28,10 +28,128 @@ module GlimmerSpec
       Object.send(:remove_const, :Person) if Object.const_defined?(:Person)
       Object.send(:remove_const, :RedRadioGroup) if Object.const_defined?(:RedRadioGroup)
     end
+    
+    let(:person) {Person.new}
+    
+    it 'sets items, spawning radios' do
+      @target = shell {
+        @radio_group = radio_group {
+          items person.country_options
+        }
+      }
+      @radio_group.radios.each do |radio|
+        expect(radio.swt_widget).to be_a(Button)
+        expect(radio).to have_style(:radio)
+      end      
+    end
 
-    it "data-binds selection property" do
-      person = Person.new
+    it 'sets selection in items, selecting radio accordingly' do
+      @target = shell {
+        @radio_group = radio_group {
+          items person.country_options
+          selection 'US'
+        }
+      }
+      @radio_group.radios.each do |radio|
+        expect(radio.swt_widget).to be_a(Button)
+        expect(radio).to have_style(:radio)
+      end      
+      expect(@radio_group.radios[0].selection).to be_falsey
+      expect(@radio_group.radios[1].selection).to be_truthy
+      expect(@radio_group.radios[2].selection).to be_falsey
+    end
+    
+    it 'sets attribute (background) on radio group including all nested widgets' do
+      @color = rgb(2, 102, 202).swt_color
+      @target = shell {
+        @radio_group = radio_group {
+          items person.country_options
+          background @color
+        }
+      }
+      @radio_group.radios.each do |radio|
+        expect(radio.background).to eq(@color)
+      end
+      @radio_group.labels.each do |label|
+        expect(label.background).to eq(@color)
+      end
+      @radio_group.children.each do |composite|
+        expect(composite.background).to eq(@color)
+      end
+      expect(@radio_group.background).to eq(@color)
+    end
+    
+    it 'adds selection listener to radio_group spawned radios and mouse_up to matching labels' do
+      @listener_fired = false
+      @target = shell {
+        @radio_group = radio_group {
+          items person.country_options
+          on_widget_selected { |event|
+            expect(@radio_group.selection).to eq('Mexico')
+            expect(@radio_group.selection_index).to eq(2)
+            @listener_fired = true
+          }
+        }
+      }
+      @radio_group.radios[2].selection = true
+      event = Event.new
+      event.doit = true
+      event.display = display.swt_display
+      event.item = @radio_group.radios[2].swt_widget
+      event.widget = @radio_group.radios[2].swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @radio_group.radios[2].notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)      
+      expect(@listener_fired).to be_truthy
+      
+      @listener_fired = false
+      @radio_group.selection = 'Canada'
+      
+      event = Event.new
+      event.doit = true
+      event.display = display.swt_display
+      event.item = @radio_group.labels[2].swt_widget
+      event.widget = @radio_group.labels[2].swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:mouseup]
+      @radio_group.labels[2].notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+      expect(@listener_fired).to be_truthy
+    end
 
+    it 'adds mouse_up listener to radio_group spawned radios and labels' do
+      @listener_fired = false
+      @target = shell {
+        @radio_group = radio_group {
+          items person.country_options
+          on_mouse_up { |event|
+            expect(@radio_group.selection).to eq('Mexico')
+            expect(@radio_group.selection_index).to eq(2)
+            @listener_fired = true
+          }
+        }
+      }
+      @radio_group.radios[2].selection = true
+      event = Event.new
+      event.doit = true
+      event.display = display.swt_display
+      event.item = @radio_group.radios[2].swt_widget
+      event.widget = @radio_group.radios[2].swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:mouseup]
+      @radio_group.radios[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+      expect(@listener_fired).to be_truthy
+      
+      @listener_fired = false
+      @radio_group.selection = 'Canada'
+      
+      event = Event.new
+      event.doit = true
+      event.display = display.swt_display
+      event.item = @radio_group.labels[2].swt_widget
+      event.widget = @radio_group.labels[2].swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:mouseup]
+      @radio_group.labels[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+      expect(@listener_fired).to be_truthy
+    end
+
+    it 'data-binds selection property' do      
       @target = shell {
         @radio_group = radio_group {
           selection bind(person, :country)
@@ -132,9 +250,7 @@ module GlimmerSpec
       expect(@radio_group.selection_index).to eq(-1)
     end
 
-    it "data binds selection property on a custom widget radio_group" do
-      person = Person.new
-
+    it 'data binds selection property on a custom widget radio_group' do
       @target = shell {
         @radio_group = red_radio_group {
           selection bind(person, :country)

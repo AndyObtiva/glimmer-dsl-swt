@@ -58,12 +58,12 @@ class SampleDirectory
     
     def all_samples
       @all_samples ||= sample_directories.map(&:samples).reduce(:+)
-    end
+    end    
   end
   
   include Glimmer # used for observe syntax
   
-  attr_accessor :file
+  attr_accessor :file, :selected_sample_name
   
   def initialize(file)
     self.file = file
@@ -92,7 +92,20 @@ class SampleDirectory
       end
     end
     @samples
-  end  
+  end
+  
+  def selected_sample_name_options
+    samples.map(&:name)
+  end
+  
+  def selected_sample_name=(selected_name)
+    @selected_sample_name = selected_name
+    unless selected_name.nil?
+      (self.class.sample_directories - [self]).each { |sample_dir| sample_dir.selected_sample_name = nil }
+      self.class.selected_sample = samples.detect { |sample| sample.name == @selected_sample_name }
+    end
+  end
+  
 end
 
 class MetaSampleApplication
@@ -114,26 +127,18 @@ class MetaSampleApplication
           expand_bar {
             layout_data(:fill, :fill, true, true)
             font height: 30
-            
+                        
             SampleDirectory.sample_directories.each { |sample_directory|
               expand_item {
                 layout_data(:fill, :fill, true, true)
-                grid_layout 2, false
                 text "#{sample_directory.name} Samples"
                 
-                sample_directory.samples.each { |sample|
-                  label_radio = radio {
-                    selection bind(sample, :selected)
+                radio_group { |radio_group_proxy|
+                  row_layout(:vertical) {
+                    fill true
                   }
-                  label {
-                    layout_data :fill, :center, true, false
-                    text sample.name
-                    font height: 24
-                    
-                    on_mouse_up {
-                      sample.selected = true
-                    }
-                  }
+                  selection bind(sample_directory, :selected_sample_name)
+                  font height: 24
                 }
               }
             }
@@ -157,7 +162,7 @@ class MetaSampleApplication
           caret nil
         }
         
-        weights 1, 2
+        weights 4, 9
       }            
     }.open
   end
