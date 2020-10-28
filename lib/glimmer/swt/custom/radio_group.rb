@@ -20,18 +20,20 @@ module Glimmer
         end
         
         def items
-          @items
+          @items || []
         end
         
         def selection=(text)
-          radios.each do |radio|
-            radio.selection = radio.text == text
+          radios.count.times do |index|
+            radio = radios[index]
+            item = items[index]
+            radio.selection = item == text
           end
         end
         
         def selection
-          # TODO use labels to retrieve text since they are better customizable with fonts while maintaining alignment with radio buttons
-          radios.detect(&:selection)&.text.to_s
+          selection_value = labels[selection_index]&.text unless selection_index == -1
+          selection_value.to_s
         end
         
         def selection_index=(index)
@@ -47,6 +49,10 @@ module Glimmer
           @radios ||= []
         end
         
+        def labels
+          @labels ||= []
+        end
+        
         def can_handle_observation_request?(observation_request)
           radios.first&.can_handle_observation_request?(observation_request) || super(observation_request)
         end
@@ -59,14 +65,24 @@ module Glimmer
         
         def delegate_observation_request_to_radios(observation_request, &block)
           if observation_request != 'on_widget_disposed' && radios.first&.can_handle_observation_request?(observation_request)
-            radios.each do |radio|            
+            radios.count.times do |index|
+              radio = radios[index]
               radio_block = lambda do |event|
                 if event.widget.selection || selection_index == -1
                   event.widget = self.swt_widget
                   block.call(event)
                 end
               end
-              radio.handle_observation_request(observation_request, &block)
+              radio.handle_observation_request(observation_request, &radio_block)
+              
+              if observation_request == 'on_widget_selected'
+                label = labels[index]
+                label_block = lambda do |event|
+                  self.selection_index = index
+                  block.call(event)
+                end
+                label.handle_observation_request('on_mouse_up', &label_block)
+              end
             end
           end
         end
@@ -78,15 +94,30 @@ module Glimmer
         private
         
         def build_radios
-          # TODO consider doing a diff instead of disposing and rebuilding everything in the future
-          # TODO add labels since they are better customizable with fonts while maintaining alignment with radio buttons
           current_selection = selection
-          radios.each(&:dispose) # TODO take care of the fact that dispose removes the observers attached
+          @composites.to_a.each(&:dispose)
           @radios = []
+          @labels = []
+          @composites = []
           items.each do |item|
             body_root.content {
-              radios << radio {
-                text item
+              @composites << composite {
+                grid_layout(2, false) {
+                  margin_width 0
+                  margin_height 0
+                }
+                radios << radio { |radio_proxy|
+                  on_widget_selected {
+                    self.selection = items[radios.index(radio_proxy)]
+                  }
+                }
+                labels << label { |label_proxy|
+                  layout_data :fill, :center, true, false
+                  text item
+                  on_mouse_up {
+                    self.selection = label_proxy.text
+                  }
+                }
               }
             }
           end
