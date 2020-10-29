@@ -50,7 +50,7 @@ module GlimmerSpec
           selection ['US', 'Mexico']
         }
       }
-      @checkbox_group.checkboxes.each do |checkbox|
+      @checkbox_group.checks.each do |checkbox|
         expect(checkbox.swt_widget).to be_a(Button)
         expect(checkbox).to have_style(:check)
       end      

@@ -3079,6 +3079,55 @@ shell(:no_resize) {
 
 Also, you may invoke `Display.setAppVersion('1.0.0')` if needed for OS app version identification reasons during development, replacing `'1.0.0'` with your application version.
 
+#### Checkbox Group Widget
+
+`checkbox_group` (or alias `check_group`) is a Glimmer built-in custom widget that displays a list of `checkbox` buttons (`button(:check)`) based on its `items` property.
+
+`checkbox_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `checkbox` (`button(:check)`) widgets.
+
+The `selection` property determines which `checkbox` buttons are checked. It expects an `Array` of `String` objects
+The `selection_indices` property determines which `checkbox` button indices are checked. It expects an `Array` of index `Integer` objects that are zero-based.
+The `checkboxes` property returns the list of nested `checkbox` widgets.
+
+When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `activities_options` for `activities`) to provide an `Array` of `String` objects for `checkbox` buttons.
+
+You may see an example at the [Hello, Checkbox Group!](#hello-checkbox-group) sample.
+
+![Hello Checkbox Group](images/glimmer-hello-checkbox-group.png)
+
+#### Radio Group Widget
+
+`radio_group` is a Glimmer built-in custom widget that displays a list of `radio` buttons (`button(:radio)`) based on its `items` property, which expects an `Array` of `String` objects.
+
+`radio_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `radio` widgets.
+
+The `selection` property determines which `radio` button is selected. It expects a `String`
+The `selection_index` property determines which `radio` button index is selected. It expects an index integer that is zero-based.
+The `radios` property returns the list of nested `radio` widgets.
+
+When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `country_options` for `country`) to provide text for `radio` buttons.
+
+This custom widget is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+Glimmer Meta-Sample Code Example:
+
+```ruby
+# ...
+radio_group { |radio_group_proxy|
+  row_layout(:vertical) {
+    fill true
+  }
+  selection bind(sample_directory, :selected_sample_name)
+  font height: 24
+}
+
+# ...
+```
+
+You may see another example at the [Hello, Radio Group!](#hello-radio-group) sample.
+
 #### Code Text Widget
 
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.

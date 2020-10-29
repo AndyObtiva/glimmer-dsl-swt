@@ -51,6 +51,7 @@ module Glimmer
         def checkboxes
           @checkboxes ||= []
         end
+        alias checks checkboxes
         
         def labels
           @labels ||= []
