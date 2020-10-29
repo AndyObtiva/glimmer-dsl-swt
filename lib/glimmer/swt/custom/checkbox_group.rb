@@ -26,8 +26,9 @@ module Glimmer
             checkbox = checkboxes[index]
             item = items[index]
             label_text = labels[index]&.text
-            checkbox.selection = selection_texts.include?(label_text)
+            checkbox.selection = selection_texts.to_a.include?(label_text)
           end
+          selection_texts
         end
         
         def selection
@@ -42,9 +43,9 @@ module Glimmer
         alias select selection_indices=
         
         def selection_indices
-          checkboxes.select(&:selection).each_with_index.map do |selection_value, index|
-            index
-          end
+          checkboxes.each_with_index.map do |checkbox, index|
+            index if checkbox.selection
+          end.to_a.compact
         end
         
         def checkboxes
@@ -70,24 +71,14 @@ module Glimmer
             checkboxes.count.times do |index|
               checkbox = checkboxes[index]
               label = labels[index]              
+              listener_block = lambda do |event|
+                event.widget = self.swt_widget
+                block.call(event)
+              end
               if observation_request == 'on_widget_selected'
-                checkbox_block = lambda do |event|
-                  if event.widget.selection || selection_indices == -1
-                    event.widget = self.swt_widget
-                    block.call(event)
-                  end
-                end
-                label_block = lambda do |event|
-                  self.selection_indices = index
-                  block.call(event)
-                end              
-                checkbox.handle_observation_request(observation_request, &checkbox_block) if checkbox.can_handle_observation_request?(observation_request)
-                label.handle_observation_request('on_mouse_up', &label_block)
+                checkbox.handle_observation_request(observation_request, &listener_block) if checkbox.can_handle_observation_request?(observation_request)
+                label.handle_observation_request('on_mouse_up', &listener_block)
               else
-                listener_block = lambda do |event|
-                  event.widget = self.swt_widget
-                  block.call(event)
-                end
                 checkbox.handle_observation_request(observation_request, &listener_block) if checkbox.can_handle_observation_request?(observation_request)
                 label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)              
               end
@@ -134,15 +125,20 @@ module Glimmer
                   vertical_spacing 0
                 }
                 checkboxes << checkbox { |checkbox_proxy|
-                  on_widget_selected {
-                    self.selection = items[checkboxes.index(checkbox_proxy)]
+                  on_widget_selected {                  
+                    self.selection_indices = checkboxes.each_with_index.map {|cb, i| i if cb.selection}.to_a.compact
                   }
                 }
                 labels << label { |label_proxy|
                   layout_data :fill, :center, true, false
                   text item
-                  on_mouse_up {
-                    self.selection = label_proxy.text
+                  on_mouse_up { |event|                    
+                    found_index = labels.each_with_index.detect {|l, i| event.widget == l.swt_widget}[1]
+                    if self.selection_indices.include?(found_index)
+                      self.selection_indices.delete(found_index)
+                    else
+                      self.selection_indices << found_index
+                    end
                   }
                 }
               }

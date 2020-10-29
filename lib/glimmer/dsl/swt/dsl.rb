@@ -41,6 +41,7 @@ module Glimmer
           layout
           widget_listener
           combo_selection_data_binding
+          checkbox_group_selection_data_binding
           radio_group_selection_data_binding
           list_selection_data_binding
           tree_items_data_binding
