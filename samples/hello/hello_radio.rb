@@ -19,25 +19,25 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Person
-  attr_accessor :male, :female, :child, :teen, :adult, :senior
-  
-  def initialize
-    reset
+class HelloRadio  
+  class Person
+    attr_accessor :male, :female, :child, :teen, :adult, :senior
+    
+    def initialize
+      reset
+    end
+    
+    def reset
+      self.male = nil
+      self.female = nil
+      self.child = nil
+      self.teen = nil
+      self.adult = true
+      self.senior = nil
+    end
   end
   
-  def reset
-    self.male = nil
-    self.female = nil
-    self.child = nil
-    self.teen = nil
-    self.adult = true
-    self.senior = nil
-  end
-end
-
-class HelloRadio
-  include Glimmer
+  include Glimmer  
   
   def launch
     person = Person.new

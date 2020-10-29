@@ -2,8 +2,11 @@
 
 ### 4.17.7.0
 
+- `checkbox_group` built-in custom widget
+- Hello, Checkbox Group! Sample
 - Refactor `radio_group` to render labels instead of relying on radio button text since they are better stylable
 - Refactor Glimmer Meta-Sample to use `radio_group` instead of `radio`
+- Fix issue with ExpandBar fill_layout with the extra element at the end (remove it)
 
 ### 4.17.6.0
 

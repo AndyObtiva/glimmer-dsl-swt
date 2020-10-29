@@ -105,14 +105,16 @@ module GlimmerSpec
       @listener_fired = false
       person.countries = ['Canada']
       
-      event = Event.new
-      event.doit = true
-      event.display = display.swt_display
-      event.item = @checkbox_group.labels[2].swt_widget
-      event.widget = @checkbox_group.labels[2].swt_widget
-      event.type = Glimmer::SWT::SWTProxy[:mouseup]
-      @checkbox_group.labels[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
-      expect(@listener_fired).to be_truthy
+      async_exec {
+        event = Event.new
+        event.doit = true
+        event.display = display.swt_display
+        event.item = @checkbox_group.labels[2].swt_widget
+        event.widget = @checkbox_group.labels[2].swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:mouseup]
+        @checkbox_group.labels[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+        expect(@listener_fired).to be_truthy
+      }
     end
 
     it 'adds mouse_up listener to checkbox_group spawned checkboxes and labels' do
@@ -140,14 +142,17 @@ module GlimmerSpec
       @listener_fired = false
       person.countries = ['Canada']
       
-      event = Event.new
-      event.doit = true
-      event.display = display.swt_display
-      event.item = @checkbox_group.labels[2].swt_widget
-      event.widget = @checkbox_group.labels[2].swt_widget
-      event.type = Glimmer::SWT::SWTProxy[:mouseup]
-      @checkbox_group.labels[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
-      expect(@listener_fired).to be_truthy
+      async_exec {
+        @checkbox_group.checkboxes[2].selection = true
+        event = Event.new
+        event.doit = true
+        event.display = display.swt_display
+        event.item = @checkbox_group.labels[2].swt_widget
+        event.widget = @checkbox_group.labels[2].swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:mouseup]
+        @checkbox_group.labels[2].swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+        expect(@listener_fired).to be_truthy
+      }
     end
 
     it 'data-binds selection property' do      

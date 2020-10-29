@@ -19,28 +19,28 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Person
-  attr_accessor :gender, :age_group
-  
-  def initialize
-    reset
-  end
-  
-  def gender_options
-    ['Male', 'Female']
-  end
-  
-  def age_group_options
-    ['Child', 'Teen', 'Adult', 'Senior']  
-  end
-  
-  def reset
-    self.gender = nil
-    self.age_group = 'Adult'
-  end
-end
-
 class HelloRadioGroup
+  class Person
+    attr_accessor :gender, :age_group
+    
+    def initialize
+      reset
+    end
+    
+    def gender_options
+      ['Male', 'Female']
+    end
+    
+    def age_group_options
+      ['Child', 'Teen', 'Adult', 'Senior']  
+    end
+    
+    def reset
+      self.gender = nil
+      self.age_group = 'Adult'
+    end
+  end
+
   include Glimmer
   
   def launch

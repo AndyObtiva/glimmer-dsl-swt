@@ -19,30 +19,30 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Person
-  attr_accessor :provinces, :provinces_options
-
-  def initialize
-    self.provinces_options=[
-      "",
-      "Quebec",
-      "Ontario",
-      "Manitoba",
-      "Saskatchewan",
-      "Alberta",
-      "British Columbia",
-      "Nova Skotia",
-      "Newfoundland"
-    ]
-    self.provinces = ["Quebec", "Manitoba", "Alberta"]
-  end
-
-  def reset_provinces
-    self.provinces = ["Quebec", "Manitoba", "Alberta"]
-  end
-end
-
 class HelloListMultiSelection
+  class Person
+    attr_accessor :provinces, :provinces_options
+  
+    def initialize
+      self.provinces_options=[
+        "",
+        "Quebec",
+        "Ontario",
+        "Manitoba",
+        "Saskatchewan",
+        "Alberta",
+        "British Columbia",
+        "Nova Skotia",
+        "Newfoundland"
+      ]
+      self.provinces = ["Quebec", "Manitoba", "Alberta"]
+    end
+  
+    def reset_provinces
+      self.provinces = ["Quebec", "Manitoba", "Alberta"]
+    end
+  end
+  
   include Glimmer
   
   def launch

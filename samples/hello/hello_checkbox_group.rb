@@ -19,19 +19,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class HelloCheckbox
+class HelloCheckboxGroup
   class Person
-    attr_accessor :skiing, :snowboarding, :snowmobiling, :snowshoeing
+    attr_accessor :activities
     
     def initialize
       reset_activities
     end
     
+    def activities_options
+      ['Skiing', 'Snowboarding', 'Snowmobiling', 'Snowshoeing']
+    end
+    
     def reset_activities
-      self.skiing = false
-      self.snowboarding = true
-      self.snowmobiling = false
-      self.snowshoeing = false
+      self.activities = ['Snowboarding']
     end
   end
   
@@ -49,28 +50,10 @@ class HelloCheckbox
         font style: :bold
       }
       
-      composite {
-        checkbox {
-          text 'Skiing'
-          selection bind(person, :skiing)
-        }
-        
-        checkbox {
-          text 'Snowboarding'
-          selection bind(person, :snowboarding)
-        }
-        
-        checkbox {
-          text 'Snowmobiling'
-          selection bind(person, :snowmobiling)
-        }
-        
-        checkbox {
-          text 'Snowshoeing'
-          selection bind(person, :snowshoeing)
-        }
+      checkbox_group {
+        selection bind(person, :activities)
       }
-      
+    
       button {
         text 'Reset Activities'
         
@@ -82,4 +65,4 @@ class HelloCheckbox
   end
 end
 
-HelloCheckbox.new.launch
+HelloCheckboxGroup.new.launch

@@ -123,7 +123,7 @@ module Glimmer
                   margin_height 0
                   horizontal_spacing 0
                   vertical_spacing 0
-                }
+                }                
                 checkboxes << checkbox { |checkbox_proxy|
                   on_widget_selected {                  
                     self.selection_indices = checkboxes.each_with_index.map {|cb, i| i if cb.selection}.to_a.compact
@@ -133,12 +133,14 @@ module Glimmer
                   layout_data :fill, :center, true, false
                   text item
                   on_mouse_up { |event|                    
-                    found_index = labels.each_with_index.detect {|l, i| event.widget == l.swt_widget}[1]
-                    if self.selection_indices.include?(found_index)
-                      self.selection_indices.delete(found_index)
+                    found_text = labels.each_with_index.detect {|l, i| event.widget == l.swt_widget}[0]&.text
+                    selection_values = self.selection
+                    if selection_values.include?(found_text)
+                      selection_values.delete(found_text)
                     else
-                      self.selection_indices << found_index
+                      selection_values << found_text
                     end
+                    self.selection = selection_values
                   }
                 }
               }

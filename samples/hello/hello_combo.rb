@@ -19,20 +19,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Person
-  attr_accessor :country, :country_options
-
-  def initialize
-    self.country_options = ['', 'Canada', 'US', 'Mexico']
-    reset_country
-  end
-
-  def reset_country
-    self.country = 'Canada'
-  end
-end
-
 class HelloCombo
+  class Person
+    attr_accessor :country, :country_options
+  
+    def initialize
+      self.country_options = ['', 'Canada', 'US', 'Mexico']
+      reset_country
+    end
+  
+    def reset_country
+      self.country = 'Canada'
+    end
+  end
+
   include Glimmer
   
   def launch

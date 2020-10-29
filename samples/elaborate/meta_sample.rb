@@ -20,7 +20,7 @@ class Sample
   end
   
   def content
-    @content ||= File.read(file)
+    @content = File.read(file)
   end
     
   def launch
