@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.6.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.7.0
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -350,6 +350,7 @@ Glimmer App:
       - [Hello, Radio!](#hello-radio)
       - [Hello, Radio Group!](#hello-radio-group)
       - [Hello, Checkbox!](#hello-checkbox)
+      - [Hello, Checkbox Group!](#hello-checkbox-group)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -443,7 +444,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.6.0
+jgem install glimmer-dsl-swt -v 4.17.7.0
 ```
 
 `jgem` is JRuby's version of `gem` command. 
@@ -519,7 +520,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.6.0
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.7.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -996,7 +997,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS    
   Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.6.0  AndyMaleh    Glimmer DSL for SWT    
+  Swt    glimmer-dsl-swt    4.17.7.0  AndyMaleh    Glimmer DSL for SWT    
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk     
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML                                                                         
 ```
@@ -3662,7 +3663,7 @@ Hello, Radio!
 
 #### Hello, Radio Group!
 
-This sample demonstrates the use of a `radio_group` in Glimmer, which is a terser way of representing multiple radio buttons by relying on data-binding to automatically spawn the `radio` widgets based on available options on the model.
+This sample demonstrates the use of a `radio_group` in Glimmer, which provides terser syntax for representing multiple radio buttons by relying on data-binding to automatically spawn the `radio` widgets based on available options on the model.
 
 Code:
 
@@ -3683,6 +3684,18 @@ Code:
 Hello, Checkbox!
 
 ![Hello Checkbox](images/glimmer-hello-checkbox.png)
+
+#### Hello, Checkbox Group!
+
+This sample demonstrates the use of a `checkbox_group` (aka `check_group`) in Glimmer, which provides terser syntax for representing multiple checkbox buttons (`button(:check)`) by relying on data-binding to automatically spawn the `checkbox` widgets (`button(:check)`) based on available options on the model.
+
+Code:
+
+[samples/hello/hello_checkbox_group.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_checkbox_group.rb)
+
+Hello, Checkbox Group!
+
+![Hello Checkbox Group](images/glimmer-hello-checkbox-group.png)
 
 ### Elaborate Samples
 

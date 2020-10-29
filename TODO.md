@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix minor visual issues with Glimmer Meta-Sample on Linux
-
 ## Soon
 
 - Make code_text custom widget support multiple languages

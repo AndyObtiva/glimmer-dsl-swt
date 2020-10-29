@@ -42,7 +42,7 @@ class HelloCheckboxGroup
     person = Person.new
     
     shell {
-      text 'Hello, Checkbox!'      
+      text 'Hello, Checkbox Group!'
       row_layout :vertical
       
       label {
