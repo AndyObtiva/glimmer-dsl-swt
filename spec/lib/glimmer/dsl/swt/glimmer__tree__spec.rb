@@ -144,7 +144,7 @@ module GlimmerSpec
       person3.age = 37
       person3.adult = true
 
-      old_coworkers = manager.coworkers.clone
+      old_coworkers = Array[*manager.coworkers.clone]
 
       manager.coworkers << person3
 
@@ -223,7 +223,7 @@ module GlimmerSpec
       person3.age = 37
       person3.adult = true
 
-      old_coworkers = manager.coworkers.clone
+      old_coworkers = Array[*manager.coworkers.clone]
 
       manager.coworkers << person3
 

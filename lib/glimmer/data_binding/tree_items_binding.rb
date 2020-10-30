@@ -33,7 +33,7 @@ module Glimmer
 
       include_package 'org.eclipse.swt'
       include_package 'org.eclipse.swt.widgets'
-
+      
       def initialize(parent, model_binding, tree_properties)
         @tree = parent
         @model_binding = model_binding
@@ -53,13 +53,19 @@ module Glimmer
 
       def call(new_value=nil)
         @model_tree_root_node = @model_binding.evaluate_property
+        old_tree_items = @tree.all_tree_items
+        old_model_tree_nodes = old_tree_items.map(&:get_data)
+        new_model_tree_nodes = []
+        recursive_depth_first_search(@model_tree_root_node, @tree_properties, new_model_tree_nodes)
+        return if old_model_tree_nodes == new_model_tree_nodes && old_tree_items.map(&:text) == new_model_tree_nodes.map {|model_tree_node| model_tree_node.send(@tree_properties[:text])}
         populate_tree(@model_tree_root_node, @tree, @tree_properties)
       end
 
       def populate_tree(model_tree_root_node, parent, tree_properties)
+        # TODO get rid of model_tree_root_node, parent, tree_properties as an argument given it is stored as an instance variable
         # TODO make it change things by delta instead of removing all
-        selected_tree_item_model = parent.swt_widget.getSelection.map(&:getData).first
         old_tree_items = parent.all_tree_items
+        selected_tree_item_model = parent.swt_widget.getSelection.map(&:get_data).first
         old_tree_item_expansion_by_data = old_tree_items.reduce({}) {|hash, ti| hash.merge(ti.getData => ti.getExpanded)}
         old_tree_items.each do |tree_item|
           tree_item.getData('observer_registrations').each(&:unregister)
@@ -78,6 +84,7 @@ module Glimmer
         observer_registrations = @tree_properties.reduce([]) do |array, key_value_pair|
           array + [observe(model_tree_node, key_value_pair.last)]
         end
+        
         tree_item.setData('observer_registrations', observer_registrations)
         tree_item.setData(model_tree_node)
         tree_item.setText((model_tree_node && model_tree_node.send(tree_properties[:text])).to_s)
@@ -85,6 +92,17 @@ module Glimmer
           populate_tree_node(child, tree_item, tree_properties)
         end
       end
+      
+      def recursive_depth_first_search(model_tree_node, tree_properties, collection)
+        return if model_tree_node.nil?
+        collection << model_tree_node
+        model_tree_node.send(tree_properties[:children]).to_a.each do |child_model_tree_node|
+          recursive_depth_first_search(child_model_tree_node, tree_properties, collection)
+        end
+      end
+      
     end
+    
   end
+  
 end

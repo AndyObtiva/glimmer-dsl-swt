@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Do code_text syntax coloring with styled_ranges= isntead of on_line_get_style
+- Do code_text syntax coloring in a background thread if needed
+
 ## Soon
 
 - Make code_text custom widget support multiple languages
@@ -250,6 +253,7 @@ items <=> binding {
 - Support styledtext setting of styles via data-binding
 - Support :accordion style for ExpandBar
 - Consider supporting sound in Glimmer just for the sake of making java sound dependent apps runnable in Glimmer DSL for Opal
+- Diff Tree when updating it to discover where to delete nodes, insert new nodes, and do it all in one shot (O(n) algorithm) to avoid recreating all nodes
 
 ## Samples
 

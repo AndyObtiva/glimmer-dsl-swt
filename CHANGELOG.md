@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.7.1
+
+- Prevent tree items data-binding from updating if no tree data change occurred
+
 ### 4.17.7.0
 
 - `checkbox_group` built-in custom widget
