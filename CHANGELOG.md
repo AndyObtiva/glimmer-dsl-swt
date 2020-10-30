@@ -3,6 +3,7 @@
 ### 4.17.7.1
 
 - Prevent tree items data-binding from updating if no tree data change occurred
+- Performance optimization for `code_text` syntax highlighting through caching
 
 ### 4.17.7.0
 

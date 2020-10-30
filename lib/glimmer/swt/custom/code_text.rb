@@ -40,27 +40,30 @@ module Glimmer
         
         def syntax_highlighting          
           return [] if text.to_s.strip.empty?
-          code = text
-          return @syntax_highlighting if @last_code == code
-          @last_code = code
-          @lexer ||= Rouge::Lexer.find_fancy('ruby', code)
-          lex = @lexer.lex(code).to_a
-          code_size = 0
+          return @syntax_highlighting if already_syntax_highlighted?
+          @last_text = text
+          @lexer ||= Rouge::Lexer.find_fancy('ruby', text)
+          lex = @lexer.lex(text).to_a
+          text_size = 0
           lex_hashes = lex.map do |pair|
             {token_type: pair.first, token_text: pair.last}
           end.each do |hash|
-            hash[:token_index] = code_size
-            code_size += hash[:token_text].size
+            hash[:token_index] = text_size
+            text_size += hash[:token_text].size
           end
-          code_lines = code.split("\n")
+          text_lines = text.split("\n")
           line_index = 0
-          @syntax_highlighting = code_lines_map = code_lines.reduce({}) do |hash, line|
+          @syntax_highlighting = text_lines_map = text_lines.reduce({}) do |hash, line|
             line_hashes = []
             line_hashes << lex_hashes.shift while lex_hashes.any? && lex_hashes.first[:token_index].between?(line_index, line_index + line.size)
             hash.merge(line_index => line_hashes).tap do
               line_index += line.size + 1
             end            
           end          
+        end
+        
+        def already_syntax_highlighted?
+          @last_text == text
         end
         
         before_body {
@@ -77,15 +80,19 @@ module Glimmer
             bottom_margin 5
                   
             on_line_get_style { |line_style_event|
-              styles = []
-              syntax_highlighting[line_style_event.lineOffset].to_a.each do |token_hash|
-                start_index = token_hash[:token_index]
-                size = token_hash[:token_text].size
-                token_color = SYNTAX_COLOR_MAP[token_hash[:token_type].name] || [:black]
-                token_color = color(*token_color).swt_color
-                styles << StyleRange.new(start_index, size, token_color, nil)
+              @styles = {} unless already_syntax_highlighted?
+              if @styles[line_style_event.lineOffset].nil?
+                styles = []
+                syntax_highlighting[line_style_event.lineOffset].to_a.each do |token_hash|
+                  start_index = token_hash[:token_index]
+                  size = token_hash[:token_text].size
+                  token_color = SYNTAX_COLOR_MAP[token_hash[:token_type].name] || [:black]
+                  token_color = color(*token_color).swt_color
+                  styles << StyleRange.new(start_index, size, token_color, nil)
+                end
+                @styles[line_style_event.lineOffset] = styles.to_java(StyleRange)
               end
-              line_style_event.styles = styles.to_java(StyleRange) unless styles.empty?
+              line_style_event.styles = @styles[line_style_event.lineOffset] unless @styles[line_style_event.lineOffset].empty?
             }            
           }
         }

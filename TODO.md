@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Do code_text syntax coloring with styled_ranges= isntead of on_line_get_style
-- Do code_text syntax coloring in a background thread if needed
-
 ## Soon
 
 - Make code_text custom widget support multiple languages
