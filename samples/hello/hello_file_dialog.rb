@@ -19,41 +19,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class HelloListSingleSelection
-  class Person
-    attr_accessor :country, :country_options
-  
-    def initialize
-      self.country_options=["", "Canada", "US", "Mexico"]
-      self.country = "Canada"
-    end
-  
-    def reset_country
-      self.country = "Canada"
-    end
-  end
-  
+class HelloFileDialog
   include Glimmer
   
+  attr_accessor :selected_file
+  
+  def initialize
+    @selected_file = 'Please select a file.'
+  end
+  
   def launch
-    person = Person.new
-    
     shell {
+      minimum_size 400, 0
       grid_layout
       
-      text 'Hello, List Single Selection!'
+      text 'Hello, File Dialog!'
       
-      list {
-        selection bind(person, :country)
+      label {
+        text 'Selected File:'
+        font height: 14, style: :bold
+      }
+      
+      label {
+        layout_data :fill, :center, true, false
+        text bind(self, :selected_file)
+        font height: 14
       }
       
       button {
-        text "Reset Selection To Default Value"
+        text "Browse..."
         
-        on_widget_selected { person.reset_country }
+        on_widget_selected {
+          self.selected_file = file_dialog.open
+        }
       }
     }.open
   end
 end
 
-HelloListSingleSelection.new.launch
+HelloFileDialog.new.launch

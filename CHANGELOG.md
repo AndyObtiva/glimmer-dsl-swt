@@ -4,6 +4,8 @@
 
 - Officially Support SWT FileDialog with the `file_dialog` keyword (was unofficially supported before via standard SWT)
 - Officially Support SWT DirectoryDialog with the `directory_dialog` keyword (was unofficially supported before via standard SWT)
+- Hello, File Dialog! Sample
+- Hello, Directory Dialog! Sample
 - Prevent tree items data-binding from updating if no tree data change occurred
 - Performance optimization for `code_text` syntax highlighting through caching
 

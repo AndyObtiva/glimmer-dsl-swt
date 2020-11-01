@@ -19,41 +19,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class HelloListSingleSelection
-  class Person
-    attr_accessor :country, :country_options
-  
-    def initialize
-      self.country_options=["", "Canada", "US", "Mexico"]
-      self.country = "Canada"
-    end
-  
-    def reset_country
-      self.country = "Canada"
-    end
-  end
-  
+class HelloDirectoryDialog
   include Glimmer
   
+  attr_accessor :selected_directory
+  
+  def initialize
+    @selected_directory = 'Please select a directory.'
+  end
+  
   def launch
-    person = Person.new
-    
     shell {
+      minimum_size 400, 0
       grid_layout
       
-      text 'Hello, List Single Selection!'
+      text 'Hello, Directory Dialog!'
       
-      list {
-        selection bind(person, :country)
+      label {
+        text 'Selected Directory:'
+        font height: 14, style: :bold
+      }
+      
+      label {
+        layout_data :fill, :center, true, false
+        text bind(self, :selected_directory)
+        font height: 14
       }
       
       button {
-        text "Reset Selection To Default Value"
+        text "Browse..."
         
-        on_widget_selected { person.reset_country }
+        on_widget_selected {
+          self.selected_directory = directory_dialog.open
+        }
       }
     }.open
   end
 end
 
-HelloListSingleSelection.new.launch
+HelloDirectoryDialog.new.launch
