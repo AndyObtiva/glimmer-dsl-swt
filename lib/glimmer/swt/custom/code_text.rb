@@ -8,20 +8,20 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         SYNTAX_COLOR_MAP = {
-           Builtin:     [215,58,73], 
-           Class:       [3,47,98], 
-           Constant:    [0,92,197], 
+           Builtin:     [215,58,73],
+           Class:       [3,47,98],
+           Constant:    [0,92,197],
            Double:      [0,92,197],
            Escape:      [:red],
-           Function:    [:blue], 
-           Instance:    [227,98,9], 
-           Integer:     [:blue], 
+           Function:    [:blue],
+           Instance:    [227,98,9],
+           Integer:     [:blue],
            Interpol:    [:blue],
-           Keyword:     [:blue], 
+           Keyword:     [:blue],
            Name:        [111,66,193], #purple
-           Operator:    [:red], 
+           Operator:    [:red],
            Pseudo:      [:dark_red],
-           Punctuation: [:blue], 
+           Punctuation: [:blue],
            Single:      [106,115,125], # Also, Comments
            Symbol:      [:dark_green],
            Text:        [75, 75, 75],
@@ -38,7 +38,7 @@ module Glimmer
           swt_widget&.text
         end
         
-        def syntax_highlighting          
+        def syntax_highlighting
           return [] if text.to_s.strip.empty?
           return @syntax_highlighting if already_syntax_highlighted?
           @last_text = text
@@ -58,8 +58,8 @@ module Glimmer
             line_hashes << lex_hashes.shift while lex_hashes.any? && lex_hashes.first[:token_index].between?(line_index, line_index + line.size)
             hash.merge(line_index => line_hashes).tap do
               line_index += line.size + 1
-            end            
-          end          
+            end
+          end
         end
         
         def already_syntax_highlighted?
@@ -94,7 +94,7 @@ module Glimmer
                 @styles[line_style_event.lineOffset] = styles.to_java(StyleRange)
               end
               line_style_event.styles = @styles[line_style_event.lineOffset] unless @styles[line_style_event.lineOffset].empty?
-            }            
+            }
           }
         }
       end

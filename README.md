@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.8.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.8.1
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -351,6 +351,8 @@ Glimmer App:
       - [Hello, Radio Group!](#hello-radio-group)
       - [Hello, Checkbox!](#hello-checkbox)
       - [Hello, Checkbox Group!](#hello-checkbox-group)
+      - [Hello, Directory Dialog!](#hello-directory-dialog)
+      - [Hello, File Dialog!](#hello-file-dialog)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -444,7 +446,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.8.0
+jgem install glimmer-dsl-swt -v 4.17.8.1
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -520,7 +522,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.8.0
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.8.1
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -997,7 +999,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.17.8.0  AndyMaleh    Glimmer DSL for SWT
+  Swt    glimmer-dsl-swt    4.17.8.1  AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
 ```
@@ -3745,6 +3747,46 @@ Code:
 Hello, Checkbox Group!
 
 ![Hello Checkbox Group](images/glimmer-hello-checkbox-group.png)
+
+#### Hello, Directory Dialog!
+
+This sample demonstrates the use of a `directory_dialog` in Glimmer.
+
+Code:
+
+[samples/hello/hello_directory_dialog.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_directory_dialog.rb)
+
+Hello, Directory Dialog!
+
+![Hello Directory Dialog](images/glimmer-hello-directory-dialog.png)
+
+Hello, Directory Dialog! Browse...
+
+![Hello Directory Dialog](images/glimmer-hello-directory-dialog-browse.png)
+
+Hello, Directory Dialog! Selected Directory
+
+![Hello Directory Dialog](images/glimmer-hello-directory-dialog-selected-directory.png)
+
+#### Hello, File Dialog!
+
+This sample demonstrates the use of a `file_dialog` in Glimmer.
+
+Code:
+
+[samples/hello/hello_file_dialog.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_file_dialog.rb)
+
+Hello, File Dialog!
+
+![Hello File Dialog](images/glimmer-hello-file-dialog.png)
+
+Hello, File Dialog! Browse...
+
+![Hello File Dialog](images/glimmer-hello-file-dialog-browse.png)
+
+Hello, File Dialog! Selected File
+
+![Hello File Dialog](images/glimmer-hello-file-dialog-selected-file.png)
 
 ### Elaborate Samples
 
