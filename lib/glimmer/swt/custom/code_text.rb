@@ -80,6 +80,7 @@ module Glimmer
             bottom_margin 5
                   
             on_line_get_style { |line_style_event|
+              @styles ||= {}
               @styles = {} unless already_syntax_highlighted?
               if @styles[line_style_event.lineOffset].nil?
                 styles = []

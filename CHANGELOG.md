@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.8.1
+
+- Fixed an issue in Windows with code_text
+
 ### 4.17.8.0
 
 - Officially Support SWT FileDialog with the `file_dialog` keyword (was unofficially supported before via standard SWT)
