@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -108,7 +108,7 @@ module Glimmer
           if init_args.empty?
             selected_widget_proxy_class.new(swt_widget: swt_widget)
           else
-            selected_widget_proxy_class.new(*init_args)            
+            selected_widget_proxy_class.new(*init_args)
           end
         end
         
@@ -119,11 +119,11 @@ module Glimmer
             Glimmer::SWT.const_get(class_name)
           rescue
             Glimmer::SWT::WidgetProxy
-          end        
+          end
         end
         
         def underscored_widget_name(swt_widget)
-          swt_widget.class.name.split(/::|\./).last.underscore        
+          swt_widget.class.name.split(/::|\./).last.underscore
         end
       end
 
@@ -131,7 +131,7 @@ module Glimmer
       
       # Initializes a new SWT Widget
       #
-      # It is preferred to use `::create` method instead since it instantiates the 
+      # It is preferred to use `::create` method instead since it instantiates the
       # right subclass per widget keyword
       #
       # keyword, parent, swt_widget_args (including styles)
@@ -152,7 +152,7 @@ module Glimmer
           @parent_proxy = parent.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
         end
         if @swt_widget&.get_data('proxy').nil?
-          @swt_widget.set_data('proxy', self)          
+          @swt_widget.set_data('proxy', self)
           DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
           @parent_proxy.post_initialize_child(self)
         end
@@ -376,7 +376,7 @@ module Glimmer
                   observer.call(@last_top_index)
                 end
               }
-            end,            
+            end,
             :top_pixel => lambda do |observer|
               @last_top_pixel = @swt_widget.getTopPixel
               on_paint_control { |event|
@@ -480,13 +480,13 @@ module Glimmer
           proxy.set_attribute(:transfer, :text)
           proxy.on_drag_enter { |event|
             event.detail = DNDProxy[:drop_copy]
-          }          
+          }
         end
       end
       
       # TODO eliminate duplication in the following methods perhaps by relying on exceptions
 
-      def can_handle_observation_request?(observation_request)        
+      def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
@@ -509,7 +509,7 @@ module Glimmer
         end
       rescue => e
         Glimmer::Config.logger.debug {e.full_message}
-        false        
+        false
       end
 
       def can_handle_drop_observation_request?(observation_request)
@@ -547,7 +547,7 @@ module Glimmer
       end
 
       def method_missing(method, *args, &block)
-        if can_handle_observation_request?(method)          
+        if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
         else
           swt_widget.send(method, *args, &block)
@@ -559,7 +559,7 @@ module Glimmer
       end
       
       def respond_to?(method, *args, &block)
-        super || 
+        super ||
           can_handle_observation_request?(method) ||
           swt_widget.respond_to?(method, *args, &block)
       end
@@ -567,7 +567,7 @@ module Glimmer
       private
 
       def style(underscored_widget_name, styles)
-        styles = [styles].flatten.compact        
+        styles = [styles].flatten.compact
         styles = default_style(underscored_widget_name) if styles.empty?
         interpret_style(*styles)
       end
@@ -603,9 +603,9 @@ module Glimmer
       end
 
       def add_listener(underscored_listener_name, &block)
-        widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)        
+        widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)
         widget_listener_proxy = nil
-        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }        
+        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
         listener = listener_class.new(listener_method => safe_block)
         @swt_widget.send(widget_add_listener_method, listener)
         widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
@@ -647,7 +647,7 @@ module Glimmer
             listener_class.define_method('initialize') do |event_method_block_mapping|
               @event_method_block_mapping = event_method_block_mapping
             end
-            listener_type.getMethods.each do |event_method|              
+            listener_type.getMethods.each do |event_method|
               listener_class.define_method(event_method.getName) do |*args|
                 @event_method_block_mapping[event_method.getName]&.call(*args)
               end
@@ -678,9 +678,9 @@ module Glimmer
           },
           'selection_count' => {
             getter: {name: 'getSelectionCount'},
-            setter: {name: 'setSelection', invoker: lambda { |widget, args| 
+            setter: {name: 'setSelection', invoker: lambda { |widget, args|
               caret_position = @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getCaretOffset
-              @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first 
+              @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first
             }},
           },
         }
@@ -773,13 +773,13 @@ module Glimmer
                   sleep(delayTime)
                 end
               };
-              image_proxy = nil              
+              image_proxy = nil
             else
               on_swt_Resize do |resize_event|
                 image_proxy.scale_to(@swt_widget.getSize.x, @swt_widget.getSize.y)
-                @swt_widget.setBackgroundImage(image_proxy.swt_image)          
-              end        
-            end            
+                @swt_widget.setBackgroundImage(image_proxy.swt_image)
+              end
+            end
             
             image_proxy&.swt_image
           end,

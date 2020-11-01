@@ -1,7 +1,9 @@
 # Change Log
 
-### 4.17.7.1
+### 4.17.8.0
 
+- Officially Support SWT FileDialog with the `file_dialog` keyword (was unofficially supported before via standard SWT)
+- Officially Support SWT DirectoryDialog with the `directory_dialog` keyword (was unofficially supported before via standard SWT)
 - Prevent tree items data-binding from updating if no tree data change occurred
 - Performance optimization for `code_text` syntax highlighting through caching
 
@@ -143,7 +145,7 @@
 
 - Add User Profile sample from DZone article
 - Colored Ruby syntax highlighting for sample:code and sample:run tasks courtesy of tty-markdown
-- Support `check` as alias to `checkbox` DSL keyword for Button widget with :check style. 
+- Support `check` as alias to `checkbox` DSL keyword for Button widget with :check style.
 - Validate scaffolded custom shell gem name to ensure it doesn't clash with a built in Ruby method
 - GLIMMER_LOGGER_ASYNC env var for disabling async logging when needed for immediate troubleshooting purposes
 - Fix issue with table equivalent sort edge case (that is two sorts that are equivalent causing an infinite loop of resorting since the table is not correctly identified as sorted already)
@@ -342,7 +344,7 @@
 ## 0.1.3
 
 - Added 'org.eclipse.swt.dnd' to glimmer auto-included Java packages
-- Updated Tic Tac Toe sample to use new `message_box` keyword 
+- Updated Tic Tac Toe sample to use new `message_box` keyword
 - Add DragSource and DropTarget transfer expression that takes a symbol or symbol array representing one or more of the following: FileTransfer, HTMLTransfer, ImageTransfer, RTFTransfer, TextTransfer, URLTransfer
 - Set default style DND::DROP_COPY in DragSource and DropTarget widgets
 - Support Glimmer::SWT::DNDProxy for handling Drop & Drop styles

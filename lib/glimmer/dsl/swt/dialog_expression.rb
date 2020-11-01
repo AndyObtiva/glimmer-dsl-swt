@@ -37,6 +37,7 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
+          # TODO reconcile this with the actual org.eclipse.swt.widgets.Dialog widget (maybe rename this as dialog_shell)
           args = [parent] + args unless parent.nil?
           args += [:dialog_trim, :application_modal]
           Glimmer::SWT::ShellProxy.send(:new, *args)

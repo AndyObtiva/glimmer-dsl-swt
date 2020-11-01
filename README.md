@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.7.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.8.0
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -18,7 +18,7 @@ Gem version numbers are in sync with the SWT library versions. The first two dig
 
 [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) versions 4.17.x.y come with [SWT 4.17](https://download.eclipse.org/eclipse/downloads/drops4/R-4.17-202009021800/), which was released on September 2, 2020.
 
-[<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br /> 
+[<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in<br />JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do)
 
 Glimmer DSL gems:
@@ -434,7 +434,7 @@ Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases
 
 Note: if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then install a previous version instead from the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions).
 
-### Option 1: Direct Install 
+### Option 1: Direct Install
 (Use for [Scaffolding](#scaffolding))
 
 Run this command to install directly:
@@ -444,10 +444,10 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.7.0
+jgem install glimmer-dsl-swt -v 4.17.8.0
 ```
 
-`jgem` is JRuby's version of `gem` command. 
+`jgem` is JRuby's version of `gem` command.
 RVM allows running `gem install` directly as an alias.
 Otherwise, you may also run `jruby -S gem install ...`
 
@@ -457,7 +457,7 @@ Otherwise, if you are ready to build a Glimmer app, you can jump to the [Glimmer
 
 Note: if you're using activerecord or activesupport, keep in mind that Glimmer unhooks ActiveSupport::Dependencies as it does not rely on it.
 
-### Option 2: Bundler 
+### Option 2: Bundler
 (Use for Manual App Creation)
 
 Add the following to `Gemfile`:
@@ -484,7 +484,7 @@ You can bring up usage instructions by running the `glimmer` command without arg
 glimmer
 ```
 
-On Mac and Linux, it additionally brings up a TUI (Text-based User Interface) for interactive navigation and execution of Glimmer tasks (courtesy of [rake-tui](https://github.com/AndyObtiva/rake-tui)). 
+On Mac and Linux, it additionally brings up a TUI (Text-based User Interface) for interactive navigation and execution of Glimmer tasks (courtesy of [rake-tui](https://github.com/AndyObtiva/rake-tui)).
 
 On Windows, it simply lists the available Glimmer tasks at the end (courtsey of [rake](https://github.com/ruby/rake)).
 
@@ -520,13 +520,13 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.7.0
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.8.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
-Runs Glimmer applications and tasks.    
+Runs Glimmer applications and tasks.
 
-When applications are specified, they are run using JRuby, 
+When applications are specified, they are run using JRuby,
 automatically preloading the glimmer Ruby gem and SWT jar dependency.
 
 Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
@@ -549,11 +549,11 @@ Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and 
   glimmer package[type]                                      # Package app for distribution (generating config, jar, and native files) (type is optional)
   glimmer package:clean                                      # Clean by removing "dist" and "packages" directories
   glimmer package:config                                     # Generate JAR config file
-  glimmer package:gemspec                                    # Generate gemspec  
+  glimmer package:gemspec                                    # Generate gemspec
   glimmer package:jar                                        # Generate JAR file
   glimmer package:lock_jars                                  # Lock JARs
   glimmer package:native[type]                               # Generate Native files
-  glimmer run[app_path]                                      # Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)  
+  glimmer run[app_path]                                      # Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)
   glimmer samples                                            # Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples
   glimmer scaffold[app_name]                                 # Scaffold Glimmer application directory structure to build a new app
   glimmer scaffold:customshell[name,namespace]               # Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]
@@ -593,10 +593,10 @@ This brings up the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 Glimmer borrows from Rails the idea of Scaffolding, that is generating a structure for your app files that
 helps you get started just like true building scaffolding helps construction workers, civil engineers, and architects.
 
-Glimmer scaffolding goes beyond just scaffolding the app files that Rails does. It also packages it and launches it, 
+Glimmer scaffolding goes beyond just scaffolding the app files that Rails does. It also packages it and launches it,
 getting you to a running and delivered state of an advanced "Hello, World!" Glimmer application right off the bat.
 
-This should greatly facilitate building a new Glimmer app by helping you be productive and focus on app details while 
+This should greatly facilitate building a new Glimmer app by helping you be productive and focus on app details while
 letting Glimmer scaffolding take care of initial app file structure concerns, such as adding:
 - Main application class that includes Glimmer (`app/{app_name}.rb`)
 - Main application view that houses main window content, menu, about dialog, and preferences dialog
@@ -611,7 +611,7 @@ You need to have your Git `user.name` and `github.user` configured before scaffo
 
 #### App
 
-Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites. 
+Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites.
 
 To scaffold a Glimmer app from scratch, run the following command:
 
@@ -705,7 +705,7 @@ The app even remembers your cookies if you log into the website, close the app, 
 
 Note that on Linux, the default SWT browser, which runs on webkit, does not support HTML5 Video out of the box. If you need video support, open `Gemfile` after scaffolding and enable the line that has the `glimmer-cw-browser-chromium` gem then replace the `browser` in "app/views/snowboard_utah/app_view.rb" with `browser(:chromium)`
 
-Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites. 
+Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites.
 
 To scaffold a Glimmer desktopify app from scratch, run the following command:
 
@@ -820,8 +820,8 @@ glimmer scaffold:cw[name]
 
 #### Custom Shell Gem
 
-Custom shell gems are self-contained Glimmer apps as well as reusable custom shells. 
-They have everything scaffolded Glimmer apps come with in addition to gem content like a [Juwelier](https://rubygems.org/gems/juwelier) Rakefile that can build gemspec and release gems. 
+Custom shell gems are self-contained Glimmer apps as well as reusable custom shells.
+They have everything scaffolded Glimmer apps come with in addition to gem content like a [Juwelier](https://rubygems.org/gems/juwelier) Rakefile that can build gemspec and release gems.
 Unlike scaffolded Glimmer apps, custom shell gem content lives under the `lib` directory (not `app`).
 They can be packaged as both a native executable (e.g. Mac DMG/PKG/APP) and a Ruby gem.
 Of course, you can just build a Ruby gem and disregard native executable packaging if you do not need it.
@@ -848,7 +848,7 @@ Since custom shell gems are both an app and a gem, they provide two ways to run:
 - Run the `glimmer` command and pass it the generated script under the `bin` directory that matches the gem name (e.g. run `glimmer bin/glimmer-cs-calculator`)
 - Run the executable shell script that ships with the gem directly (does not need the `glimmer` command). It intentionally has a shorter name for convenience since it is meant to be used on the command line (not in a package), so you can leave out the `glimmer-cs-` prefix (e.g. run `bin/calculator` directly). This is also used as the main way of running custom shell gems on Linux.
 
-Examples: 
+Examples:
 
 - [glimmer-cs-gladiator](https://github.com/AndyObtiva/glimmer-cs-gladiator): Gladiator (Glimmer Editor)
 - [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator): Glimmer Calculator
@@ -874,7 +874,7 @@ The Ruby gem name will follow the convention "glimmer-cw-customwidgetname-namesp
 
 Only official Glimmer gems created by the Glimmer project committers will have no namespace (e.g. [glimmer-cw-video](https://rubygems.org/gems/glimmer-cw-video) Ruby gem)
 
-Examples: 
+Examples:
 
 - [glimmer-cw-video](https://github.com/AndyObtiva/glimmer-cw-video): Video Widget
 - [glimmer-cw-cdatetime-nebula](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula): Nebula CDateTime Widget
@@ -909,11 +909,11 @@ Output:
 
   Glimmer Custom Shell Gems at rubygems.org:
                                                                                                                  
-     Name               Gem            Version     Author                        Description                     
+     Name               Gem            Version     Author                        Description
                                                                                                                  
-  Calculator   glimmer-cs-calculator   1.0.2     Andy Maleh   Calculator - Glimmer Custom Shell                   
-  Gladiator    glimmer-cs-gladiator    0.2.4     Andy Maleh   Gladiator (Glimmer Editor) - Glimmer Custom Shell   
-  Timer        glimmer-cs-timer        1.0.0     Andy Maleh   Timer - Glimmer Custom Shell               
+  Calculator   glimmer-cs-calculator   1.0.2     Andy Maleh   Calculator - Glimmer Custom Shell
+  Gladiator    glimmer-cs-gladiator    0.2.4     Andy Maleh   Gladiator (Glimmer Editor) - Glimmer Custom Shell
+  Timer        glimmer-cs-timer        1.0.0     Andy Maleh   Timer - Glimmer Custom Shell
                                                                                                                  
 ```
 
@@ -945,9 +945,9 @@ Output:
 
   Glimmer Custom Widget Gems matching [video] at rubygems.org:
                                                                                    
-  Name          Gem          Version     Author              Description           
+  Name          Gem          Version     Author              Description
                                                                                    
-  Video   glimmer-cw-video   1.0.0     Andy Maleh   Glimmer Custom Widget - Video  
+  Video   glimmer-cw-video   1.0.0     Andy Maleh   Glimmer Custom Widget - Video
                                                                                    
 ```
 
@@ -965,11 +965,11 @@ Output:
 
   Glimmer Custom Widget Gems at rubygems.org:
                                                                                                                                 
-         Name                      Gem                Version      Author                       Description                     
+         Name                      Gem                Version      Author                       Description
                                                                                                                                 
-  Browser (Chromium)   glimmer-cw-browser-chromium   1.0.0       Andy Maleh   Chromium Browser - Glimmer Custom Widget          
-  Cdatetime (Nebula)   glimmer-cw-cdatetime-nebula   1.5.0.0.1   Andy Maleh   Nebula CDateTime Widget - Glimmer Custom Widget   
-  Video                glimmer-cw-video              1.0.0       Andy Maleh   Glimmer Custom Widget - Video                                                                                   
+  Browser (Chromium)   glimmer-cw-browser-chromium   1.0.0       Andy Maleh   Chromium Browser - Glimmer Custom Widget
+  Cdatetime (Nebula)   glimmer-cw-cdatetime-nebula   1.5.0.0.1   Andy Maleh   Nebula CDateTime Widget - Glimmer Custom Widget
+  Video                glimmer-cw-video              1.0.0       Andy Maleh   Glimmer Custom Widget - Video
   
 ```
 
@@ -993,13 +993,13 @@ Output:
 
   Glimmer DSL Gems at rubygems.org:
                                                                          
-  Name         Gem          Version    Author          Description       
+  Name         Gem          Version    Author          Description
                                                                          
-  Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS    
-  Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal   
-  Swt    glimmer-dsl-swt    4.17.7.0  AndyMaleh    Glimmer DSL for SWT    
-  Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk     
-  Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML                                                                         
+  Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
+  Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
+  Swt    glimmer-dsl-swt    4.17.8.0  AndyMaleh    Glimmer DSL for SWT
+  Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
+  Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
 ```
 
 ### Packaging
@@ -1142,7 +1142,7 @@ Static keywords are pre-identified keywords in the Glimmer DSL, such as `shell`,
 
 Dynamic keywords are dynamically figured out from currently imported (aka required/loaded) SWT widgets and custom widgets. Examples are: `label`, `combo`, and `list` for SWT widgets and `c_date_time`, `video`, and `gantt_chart` for custom widgets.
 
-The only reason to distinguish between the two is to realize that importing new Glimmer [custom widgets](#custom-widgets) and Java SWT custom widget libraries automatically expands Glimmer's DSL vocabulary with new dynamic keywords. 
+The only reason to distinguish between the two is to realize that importing new Glimmer [custom widgets](#custom-widgets) and Java SWT custom widget libraries automatically expands Glimmer's DSL vocabulary with new dynamic keywords.
 
 For example, if a project adds this custom Java SWT library from the [Nebula Project](https://www.eclipse.org/nebula/):
 
@@ -1394,10 +1394,10 @@ message_box {
 
 #### Display
 
-The SWT `Display` class is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally 
+The SWT `Display` class is a singleton in Glimmer. It is used in SWT to represent your display device, allowing you to manage GUI globally
 and access available monitors. Additionally, it is responsible for the SWT event loop, which runs on the first thread the Glimmer application starts on. In multi-threaded programming, `Display` provides the methods `async_exec` and `sync_exec` to enable enqueuing GUI changes asynchronously or synchronously from threads other than the main (first) thread since direct GUI changes are forbidden from other threads by design.
 
-`Display` is automatically instantiated upon first instantiation of a `shell` widget. 
+`Display` is automatically instantiated upon first instantiation of a `shell` widget.
 
 Alternatively, for advanced use cases, a `Display` can be created explicitly with the Glimmer `display` keyword. When a `shell` is later declared, it
 automatically uses the `display` created earlier without having to explicitly hook it.
@@ -1413,7 +1413,7 @@ automatically uses the `display` created earlier without having to explicitly ho
 @shell = shell { # uses display created above
 }
 ```
-The benefit of instantiating an SWT Display explicitly is to set [Properties](#widget-properties) or [Observers](#observer). 
+The benefit of instantiating an SWT Display explicitly is to set [Properties](#widget-properties) or [Observers](#observer).
 Although SWT Display is not technically a widget, it has similar APIs and DSL support.
 
 #### Multi-Threading
@@ -1635,8 +1635,8 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 When building a widget-related SWT object manually (e.g. `GridData.new(...)`), you are expected to use `SWT::CONSTANT` directly or BIT-OR a few SWT constants together like `SWT::BORDER | SWT::V_SCROLL`.
 
-Glimmer facilitates that with `swt` keyword by allowing you to pass multiple styles as an argument array of symbols instead of dealing with BIT-OR. 
-Example: 
+Glimmer facilitates that with `swt` keyword by allowing you to pass multiple styles as an argument array of symbols instead of dealing with BIT-OR.
+Example:
 
 ```ruby
 style = swt(:border, :v_scroll)
@@ -1644,7 +1644,7 @@ style = swt(:border, :v_scroll)
 
 #### Negative SWT Style Bits
 
-In rare occasions, you might need to apply & with a negative (not) style bit to negate it from another style bit that includes it. 
+In rare occasions, you might need to apply & with a negative (not) style bit to negate it from another style bit that includes it.
 Glimmer facilitates that by declaring the negative style bit via postfixing a symbol with `!`.
 
 Example:
@@ -1653,13 +1653,13 @@ Example:
 style = swt(:shell_trim, :max!) # creates a shell trim style without the maximize button (negated)
 ```
 
-#### Extra SWT Styles 
+#### Extra SWT Styles
 
 ##### Non-resizable Window
 
 SWT Shell widget by default is resizable. To make it non-resizable, one must pass a complicated style bit concoction like `swt(:shell_trim, :resize!, :max!)`.
 
-Glimmer makes this easier by alternatively offering a `:no_resize` extra SWT style, added for convenience. 
+Glimmer makes this easier by alternatively offering a `:no_resize` extra SWT style, added for convenience.
 This makes declaring a non-resizable window as easy as:
 
 ```ruby
@@ -1822,7 +1822,7 @@ Example:
 
 ```ruby
 shell {
-  minimum_size 128, 128                        
+  minimum_size 128, 128
   cursor :appstarting
 }
 ```
@@ -2211,7 +2211,7 @@ It assumes you have defined the table columns via `table_column` widget.
 Example:
 
 ```ruby
-shell {      
+shell {
   @table = table {
     table_column {
       text "Name"
@@ -2229,13 +2229,13 @@ shell {
     selection bind(group, :selected_person)
     on_mouse_up { |event|
       @table.edit_table_item(event.table_item, event.column_index)
-    }    
+    }
   }
 }
 ```
 
 The code above includes two data-bindings:
-- Table `items`, which first bind to the model collection property (group.people), and then maps each column property (name, age, adult) for displaying each table item column. 
+- Table `items`, which first bind to the model collection property (group.people), and then maps each column property (name, age, adult) for displaying each table item column.
 - Table `selection`, which binds the single table item selected by the user to the attribute denoted by the `bind` keyword (or binds multiple table items selected for a table with `:multi` SWT style)
 - The `on_mouse_up` event handler invokes `@table.edit_table_item(event.table_item, event.column_index)` to start edit mode on the clicked table item cell, and then saves or cancel depending on whether the user hits ENTER or ESC once done editing (or focus-out after either making a change or not making any changes.)
 
@@ -2252,16 +2252,16 @@ found_array = @table.search { |table_item| table_item.getData == company.owner }
 
 This finds a person. The array is a Java array. This enables easy passing of it to SWT `Table#setSelection` method, which expects a Java array of `TableItem` objects.
 
-To edit a table, you must invoke `TableProxy#edit_selected_table_item(column_index, before_write: nil, after_write: nil, after_cancel: nil)` or `TableProxy#edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)`. 
-This automatically leverages the SWT TableEditor custom class behind the scenes, displaying a text widget to the user to change the selected or 
-passed table item text into something else. 
+To edit a table, you must invoke `TableProxy#edit_selected_table_item(column_index, before_write: nil, after_write: nil, after_cancel: nil)` or `TableProxy#edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)`.
+This automatically leverages the SWT TableEditor custom class behind the scenes, displaying a text widget to the user to change the selected or
+passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
 ##### Table Sorting
 
-Glimmer automatically adds sorting support to the SWT `Table` widget. 
+Glimmer automatically adds sorting support to the SWT `Table` widget.
 
-Check out the [Contact Manager](#contact-manager) sample for an example. 
+Check out the [Contact Manager](#contact-manager) sample for an example.
 You may click on any column and it will sort by ascending order first and descending if you click again.
 
 Glimmer automatic table sorting supports `String`, `Integer`, and `Float` columns out of the box as well as any column data that is comparable.
@@ -2269,7 +2269,7 @@ Glimmer automatic table sorting supports `String`, `Integer`, and `Float` column
 In cases where data is nil, depending on the data-type, it is automatically converted to `Float` with `to_f`, `Integer` with `to_i`, or `String` with `to_s`.
 
 Should you have a special data type that could not be compared automatically, Glimmer offers the following 3 alternatives for custom sorting:
-- `sort_property`: this may be set to an alternative property to the one data-bound to the table column. For example, a table column called 'adult', which returns `true` or `false` may be sorted with `sort_property :dob` instead. This also support multi-property (aka multi-column) sorting (e.g. `sort_property :dob, :name`). 
+- `sort_property`: this may be set to an alternative property to the one data-bound to the table column. For example, a table column called 'adult', which returns `true` or `false` may be sorted with `sort_property :dob` instead. This also support multi-property (aka multi-column) sorting (e.g. `sort_property :dob, :name`).
 - `sort_by(&block)`: this works just like Ruby `Enumerable` `sort_by`. The block receives the table column data as argument.
 - `sort(&comparator)`: this works just like Ruby `Enumerable` `sort`. The comparator block receives two objects from the table column data.
 
@@ -2329,7 +2329,7 @@ This involves using the `bind` keyword mentioned above in addition to a special 
 Example:
 
 ```ruby
-shell {      
+shell {
   @tree = tree {
     items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
     selection bind(company, :selected_coworker)
@@ -2338,7 +2338,7 @@ shell {
 ```
 
 The code above includes two data-bindings:
-- Tree `items`, which first bind to the root node (company.owner), and then dig down via `coworkers` `children` method, using the `name` `text` attribute for displaying each tree item. 
+- Tree `items`, which first bind to the root node (company.owner), and then dig down via `coworkers` `children` method, using the `name` `text` attribute for displaying each tree item.
 - Tree `selection`, which binds the single tree item selected by the user to the attribute denoted by the `bind` keyword
 
 Additionally, Tree `items` data-binding automatically stores each node model unto the SWT TreeItem object via `setData` method. This enables things like searchability.
@@ -2392,7 +2392,7 @@ Let's revisit the Tic Tac Toe example shown near the beginning of the page:
 shell {
   text "Tic-Tac-Toe"
   minimum_size 150, 178
-  composite {  
+  composite {
     grid_layout 3, true
     (1..3).each { |row|
       (1..3).each { |column|
@@ -2442,7 +2442,7 @@ shell {
       @button1.swt_widget.setVisible(false)
     }
     on_widget_selected {
-      @button1.swt_widget.setVisible(true)        
+      @button1.swt_widget.setVisible(true)
     }
   }
 }.open
@@ -2464,7 +2464,7 @@ Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 }
 @shell.on_shell_iconified {
   @shell.close
-}  
+}
 @shell.open
 ```
 
@@ -2586,7 +2586,7 @@ Usage:
 ```ruby
 shell {
   red_label(:center) {
-    text 'Red Label'        
+    text 'Red Label'
     foreground :green
   }
 }.open
@@ -2653,7 +2653,7 @@ Additionally, custom widgets can call the following class methods:
 - `::options(*option_names)`: declares a list of options by taking an option name array (symbols/strings). This generates option attribute accessors (e.g. `options :orientation, :bg_color` generates `#orientation`, `#orientation=(v)`, `#bg_color`, and `#bg_color=(v)` attribute accessors)
 - `::option(option_name, default: nil)`: declares a single option taking option name and default value as arguments (also generates attribute accessors just like `::options`)
 
-#### Content/Options Example 
+#### Content/Options Example
 
 (you may copy/paste in [`girb`](#girb-glimmer-irb-command))
 
@@ -2785,7 +2785,7 @@ shell { |app_shell|
           app_shell.hide
           @wizard_steps[@current_step_number - 1].open
         end
-      }      
+      }
     }
   }
   button {
@@ -3154,7 +3154,7 @@ To use, simply use `code_text` in place of `text` or `styled_text` widget. If yo
 
 [![Video Widget](images/glimmer-video-widget.png)](https://github.com/AndyObtiva/glimmer-cw-video)
 
-Glimmer supports a [video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) not in SWT. 
+Glimmer supports a [video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) not in SWT.
 
 You may obtain via `glimmer-cw-video` gem.
 
@@ -3257,7 +3257,7 @@ Glimmer configuration may be done via the `Glimmer::Config` module.
 ### logger
 
 The Glimmer DSL engine supports logging via a standard `STDOUT` Ruby `Logger` configured in the `Glimmer::Config.logger` config option.
-It is set to level Logger::ERROR by default. 
+It is set to level Logger::ERROR by default.
 Log level may be adjusted via `Glimmer::Config.logger.level` just like any other Ruby Logger.
 
 Example:
@@ -3299,13 +3299,13 @@ This is an array of these possible values: `:stdout` (default), `:stderr`, `:fil
 
 It defaults to `[:stdout, :syslog]`
 
-When `:file` is included, Glimmer creates a 'log' directory directly below the Glimmer app local directory. 
+When `:file` is included, Glimmer creates a 'log' directory directly below the Glimmer app local directory.
 It may also be customized further via the `logging_device_file_options` option.
 This is useful on Windows as an alternative to `syslog`, which is not available on Windows by default.
 
 #### logging_device_file_options
 
-This is a hash of [`logging`](https://github.com/TwP/logging) gem options for the `:file` logging device. 
+This is a hash of [`logging`](https://github.com/TwP/logging) gem options for the `:file` logging device.
 
 Default: `{size: 1_000_000, age: 'daily', roll_by: 'number'}`
 
@@ -3323,7 +3323,7 @@ That ensures asynchronous buffered logging that is flushed every 500 messages an
 
 This is a [`logging`](https://github.com/TwP/logging) gem layout that formats the logging output.
 
-Default: 
+Default:
 
 ```
 Logging.layouts.pattern(
@@ -3383,8 +3383,8 @@ https://github.com/jruby/jruby/wiki/CallingJavaFromJRuby
 
 ### loop_max_count
 
-Glimmer has infinite loop detection support. 
-It can detect when an infinite loop is about to occur in method_missing and stops it. 
+Glimmer has infinite loop detection support.
+It can detect when an infinite loop is about to occur in method_missing and stops it.
 It detects potential infinite loops when the same keyword and args repeat more than 100 times, which is unusual in a GUI app.
 
 The max limit can be changed via the `Glimmer::Config::loop_max_count=(count)` config option.
@@ -3851,7 +3851,7 @@ Gladiator is a good demonstration of:
 
 The following production apps have been built with Glimmer.
 
-If you have a Glimmer app you would like referenced here, please mention in a Pull Request. 
+If you have a Glimmer app you would like referenced here, please mention in a Pull Request.
 
 ### Math Bowling
 
@@ -3899,11 +3899,11 @@ The Glimmer packaging process done in the `glimmer package` command consists of 
 1. Generate JAR file using [Warbler](https://github.com/jruby/warbler) (`glimmer package:jar`): Enables bundling a Glimmer app into a JAR file under the `./dist` directory
 1. Generate native executable using [javapackager](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `javapackager` manually afterwards if needed).
 
-Those steps automatically ensure generating a JAR file under the `./dist` directory using [Warbler](https://github.com/jruby/warbler), which is then used to automatically generate a DMG/MSI file (and other executables) under the `./packages/bundles` directory using `javapackager`. 
+Those steps automatically ensure generating a JAR file under the `./dist` directory using [Warbler](https://github.com/jruby/warbler), which is then used to automatically generate a DMG/MSI file (and other executables) under the `./packages/bundles` directory using `javapackager`.
 The JAR file name will match your application local directory name (e.g. `MathBowling.jar` for `~/code/MathBowling`)
 The DMG file name will match the humanized local directory name + dash + application version (e.g. `Math Bowling-1.0.dmg` for `~/code/MathBowling` with version 1.0 or unspecified)
 
-The `glimmer package` command will automatically set "mac.CFBundleIdentifier" to ="org.#{project_name}.application.#{project_name}". 
+The `glimmer package` command will automatically set "mac.CFBundleIdentifier" to ="org.#{project_name}.application.#{project_name}".
 You may override by configuring as an extra argument for javapackger (e.g. Glimmer::RakeTask::Package.javapackager_extra_args = " -Bmac.CFBundleIdentifier=org.andymaleh.application.MathBowling")
 
 ### Packaging Defaults
@@ -3955,9 +3955,9 @@ require 'glimmer/rake_task'
 Glimmer::RakeTask::Package.javapackager_extra_args = '-BlicenseType="MIT" -Bmac.category="public.app-category.business" -Bmac.signing-key-developer-id-app="Andy Maleh"'
 ```
 
-Note that `mac.category` defaults to "public.app-category.business", but can be overridden with one of the category UTI values mentioned here: 
+Note that `mac.category` defaults to "public.app-category.business", but can be overridden with one of the category UTI values mentioned here:
 
-https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8 
+https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8
 
 Example (env var):
 
@@ -3973,7 +3973,7 @@ Pass `-v` to javapackager in `Glimmer::RakeTask::Package.javapackager_extra_args
 
 ### Windows Application Packaging
 
-Windows offers two options for setup packaging: 
+Windows offers two options for setup packaging:
 - `msi` (recommended): simpler packaging option. Requires [WiX Toolset](https://wixtoolset.org/) and [.NET Framework](https://dotnet.microsoft.com/download/dotnet-framework). Simply run `glimmer package[msi]` (or `glimmer package:native[msi]` if it's not your first time) and it will give you more details on the pre-requisites you need to install (e.g. [WiX Toolset](https://wixtoolset.org/) and [.NET Framework 3.5 SP1](https://dotnet.microsoft.com/download/dotnet-framework/net35-sp1)).
 - `exe`: more advanced packaging option. Requires [Inno Setup](https://jrsoftware.org/isinfo.php). Simply run `glimmer package[exe]` (or `glimmer package:native[exe]` if it's not your first time) and it will tell you what you need to install.
 
@@ -4025,7 +4025,7 @@ Now, when you run `glimmer package`, it builds a self-signed DMG file. When you 
 
 1. Specifying License File
 
-The javapackager documentation states that a license file may be specified with "-BlicenseFile" javapackager option. However, in order for that to work, one must specify as a source file via "-srcfiles" javapackager option. 
+The javapackager documentation states that a license file may be specified with "-BlicenseFile" javapackager option. However, in order for that to work, one must specify as a source file via "-srcfiles" javapackager option.
 Keep that in mind if you are not going to rely on the default `LICENSE.txt` support.
 
 Example:
@@ -4038,7 +4038,7 @@ Glimmer::RakeTask::Package.javapackager_extra_args = '-srcfiles "ACME.txt" -Blic
 
 If you run `glimmer package` multiple times, sometimes it leaves a mounted DMG project in your finder. Unmount before you run the command again or it might fail with an error saying: "Error: Bundler "DMG Installer" (dmg) failed to produce a bundle."
 
-By the way, keep in mind that during normal operation, it does also indicate a false-negative while completing successfully similar to the following (please ignore): 
+By the way, keep in mind that during normal operation, it does also indicate a false-negative while completing successfully similar to the following (please ignore):
 
 ```
 Exec failed with code 2 command [[/usr/bin/SetFile, -c, icnC, /var/folders/4_/g1sw__tx6mjdgyh3mky7vydc0000gp/T/fxbundler4076750801763032201/images/MathBowling/.VolumeIcon.icns] in unspecified directory
@@ -4065,7 +4065,7 @@ Here is a list of notable 3rd party gems used by Glimmer:
 
 ## Glimmer Process
 
-[Glimmer Process](https://github.com/AndyObtiva/glimmer/blob/master/PROCESS.md) is the lightweight software development process used for building Glimmer libraries and Glimmer apps, which goes beyond Agile, rendering all Agile processes obsolete. [Glimmer Process](PROCESS.md) is simply made up of 7 guidelines to pick and choose as necessary until software development needs are satisfied. 
+[Glimmer Process](https://github.com/AndyObtiva/glimmer/blob/master/PROCESS.md) is the lightweight software development process used for building Glimmer libraries and Glimmer apps, which goes beyond Agile, rendering all Agile processes obsolete. [Glimmer Process](PROCESS.md) is simply made up of 7 guidelines to pick and choose as necessary until software development needs are satisfied.
 
 Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/master/PROCESS.md) (Glimmer Process Guidelines)
 
@@ -4088,7 +4088,7 @@ You may submit [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) on
 
 ### Chat
 
-If you need live help, try to [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+If you need live help, try to [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Feature Suggestions
 
@@ -4135,7 +4135,7 @@ If your company would like to invest fulltime in further development of the Glim
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2020 - Andy Maleh. 
+Copyright (c) 2007-2020 - Andy Maleh.
 
 --
 

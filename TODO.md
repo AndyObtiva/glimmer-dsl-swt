@@ -1,8 +1,10 @@
 # TODO
 
-Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done). 
+Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
+
+- method on shell to indicate if it is visible in focus
 
 ## Soon
 
@@ -38,7 +40,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Fix issue with no_margin messing with the composite style (-7 isn't working without interference)
 - Add FillLayout default style if not passed in
 - Make GitHub username optional for Scaffolding
-- Have scaffolding of custom widget and custom shell within app match the namespace when inside a custom shell gem (or app if namespace is used), and reference APP_ROOT correctly 
+- Have scaffolding of custom widget and custom shell within app match the namespace when inside a custom shell gem (or app if namespace is used), and reference APP_ROOT correctly
 - Remove dependencies on gems that are only needed for Glimmer tasks (loading them at the time of running those tasks only)
 
 - Add shortcuts for password (adding :border as default style) and other text widget types
@@ -80,8 +82,8 @@ composite {
       bind(address, :street)
     }
     label {
-      bind(address, :zip)    
-    }  
+      bind(address, :zip)
+    }
   }
 }
 ```
@@ -251,6 +253,7 @@ items <=> binding {
 - Support :accordion style for ExpandBar
 - Consider supporting sound in Glimmer just for the sake of making java sound dependent apps runnable in Glimmer DSL for Opal
 - Diff Tree when updating it to discover where to delete nodes, insert new nodes, and do it all in one shot (O(n) algorithm) to avoid recreating all nodes
+- Consider the idea of showing External Samples in the Glimmer Meta-Sample by installing a gem and running its command right away for calculator and timer
 
 ## Samples
 
@@ -290,7 +293,7 @@ Video Demo Series:
 
 ### glimmer-dsl-uml
 
-A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app to start. Support web later via opal. 
+A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app to start. Support web later via opal.
 
 ### Glimmertalk project
 
@@ -298,7 +301,7 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 
 ### Glimmer Platform
 
-- A web-browser-like platform-app that opens web links hosting pure Ruby code, including Glimmer GUI DSL code. 
+- A web-browser-like platform-app that opens web links hosting pure Ruby code, including Glimmer GUI DSL code.
 - Ruby files are hyper-linked via require-like statements that do lazy-downloading/caching of Ruby files on a per-need basis (e.g. button click) while background-downloading/caching Ruby files ahead of time when the user is not taking actions (apps may have a specified list of initial vs delayed requires).
 - Allows distributing incrementally-updating apps very easily.
 - Integration with GitHub as the way to release app code
@@ -340,6 +343,6 @@ A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app 
 - Write an article about how you built the Glimmer Calculator sample and share online
 - Document example of app reusing a glimmer custom shell gem and add to gladiator and calculator
 - Document JRuby syntax for SWT Java objects having rubyish alternatives (e.g. items for getItems)
-- Document how to publish apps on MacUpdate.com 
+- Document how to publish apps on MacUpdate.com
 - Split Ruby Style Guide into its own md file adding in code examples to demonstrate each point (here is a good example to follow: https://github.com/rubocop-hq/ruby-style-guide#the-ruby-style-guide)
 - Update Sample screenshots given the new default margin layout changes

@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -65,7 +65,7 @@ module Glimmer
           @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
           # TODO make this an option not the default
           on_swt_show do
-            Thread.new do      
+            Thread.new do
               sleep(0.25)
               async_exec do
                 @swt_widget.setActive unless @swt_widget.isDisposed
@@ -130,7 +130,7 @@ module Glimmer
           @swt_widget.pack
           @swt_widget.removeControlListener(listener.swt_listener)
           @swt_widget.setMinimumSize(minimum_size)
-        elsif OS.linux?          
+        elsif OS.linux?
           @swt_widget.layout(true, true)
           @swt_widget.setBounds(bounds)
         end

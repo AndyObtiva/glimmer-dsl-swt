@@ -19,11 +19,30 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-include Glimmer
+require 'glimmer/dsl/static_expression'
+require 'glimmer/dsl/parent_expression'
+require 'glimmer/dsl/top_level_expression'
+require 'glimmer/swt/file_dialog_proxy'
 
-shell {
-  text 'Glimmer'
-  label {
-    text 'Hello, World!'
-  }
-}.open
+module Glimmer
+  module DSL
+    module SWT
+      class FileDialogExpression < StaticExpression
+        include TopLevelExpression
+        include ParentExpression
+        
+        include_package 'org.eclipse.swt.widgets'
+
+        def can_interpret?(parent, keyword, *args, &block)
+          keyword == 'file_dialog' and
+            (parent.nil? or parent.is_a?(Shell) or parent.is_a?(Glimmer::SWT::ShellProxy))
+        end
+  
+        def interpret(parent, keyword, *args, &block)
+          args = [parent] + args unless parent.nil?
+          Glimmer::SWT::FileDialogProxy.send(:new, *args)
+        end
+      end
+    end
+  end
+end
