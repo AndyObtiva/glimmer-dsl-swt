@@ -43,7 +43,7 @@ class HelloGroup
     person = Person.new
     
     shell {
-      text 'Hello, Radio!'
+      text 'Hello, Group!'
       row_layout :vertical
       
       group {
