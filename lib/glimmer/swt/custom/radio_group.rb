@@ -1,9 +1,30 @@
+# Copyright (c) 2007-2020 Andy Maleh
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 require 'glimmer/ui/custom_widget'
 
 module Glimmer
   module SWT
     module Custom
-      # CodeText is a customization of StyledText with support for Ruby Syntax Highlighting
+      # A custom widget rendering a group of radios generated via data-binding
       class RadioGroup
         include Glimmer::UI::CustomWidget
         
@@ -65,7 +86,7 @@ module Glimmer
           if observation_request != 'on_widget_disposed'
             radios.count.times do |index|
               radio = radios[index]
-              label = labels[index]              
+              label = labels[index]
               if observation_request == 'on_widget_selected'
                 radio_block = lambda do |event|
                   if event.widget.selection || selection_index == -1
@@ -76,7 +97,7 @@ module Glimmer
                 label_block = lambda do |event|
                   self.selection_index = index
                   block.call(event)
-                end              
+                end
                 radio.handle_observation_request(observation_request, &radio_block) if radio.can_handle_observation_request?(observation_request)
                 label.handle_observation_request('on_mouse_up', &label_block)
               else
@@ -85,7 +106,7 @@ module Glimmer
                   block.call(event)
                 end
                 radio.handle_observation_request(observation_request, &listener_block) if radio.can_handle_observation_request?(observation_request)
-                label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)              
+                label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)
               end
             end
           end
@@ -97,7 +118,7 @@ module Glimmer
         
         def has_attribute?(attribute_name, *args)
           (@composites.to_a + @radios.to_a + @labels.to_a).map do |widget_proxy|
-            return true if widget_proxy.has_attribute?(attribute_name, *args)            
+            return true if widget_proxy.has_attribute?(attribute_name, *args)
           end
           super
         end
@@ -145,7 +166,7 @@ module Glimmer
             }
           end
           observation_requests.to_a.each do |observation_request, block|
-            delegate_observation_request_to_radios(observation_request, &block)            
+            delegate_observation_request_to_radios(observation_request, &block)
           end
           self.selection = current_selection
         end

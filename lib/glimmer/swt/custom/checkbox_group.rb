@@ -1,9 +1,30 @@
+# Copyright (c) 2007-2020 Andy Maleh
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 require 'glimmer/ui/custom_widget'
 
 module Glimmer
   module SWT
     module Custom
-      # CodeText is a customization of StyledText with support for Ruby Syntax Highlighting
+      # A custom widget rendering a group of checkboxes generated via data-binding
       class CheckboxGroup
         include Glimmer::UI::CustomWidget
         
@@ -71,7 +92,7 @@ module Glimmer
           if observation_request != 'on_widget_disposed'
             checkboxes.count.times do |index|
               checkbox = checkboxes[index]
-              label = labels[index]              
+              label = labels[index]
               listener_block = lambda do |event|
                 event.widget = self.swt_widget
                 block.call(event)
@@ -81,7 +102,7 @@ module Glimmer
                 label.handle_observation_request('on_mouse_up', &listener_block)
               else
                 checkbox.handle_observation_request(observation_request, &listener_block) if checkbox.can_handle_observation_request?(observation_request)
-                label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)              
+                label.handle_observation_request(observation_request, &listener_block) if label.can_handle_observation_request?(observation_request)
               end
             end
           end
@@ -93,7 +114,7 @@ module Glimmer
         
         def has_attribute?(attribute_name, *args)
           (@composites.to_a + @checkboxes.to_a + @labels.to_a).map do |widget_proxy|
-            return true if widget_proxy.has_attribute?(attribute_name, *args)            
+            return true if widget_proxy.has_attribute?(attribute_name, *args)
           end
           super
         end
@@ -124,16 +145,16 @@ module Glimmer
                   margin_height 0
                   horizontal_spacing 0
                   vertical_spacing 0
-                }                
+                }
                 checkboxes << checkbox { |checkbox_proxy|
-                  on_widget_selected {                  
+                  on_widget_selected {
                     self.selection_indices = checkboxes.each_with_index.map {|cb, i| i if cb.selection}.to_a.compact
                   }
                 }
                 labels << label { |label_proxy|
                   layout_data :fill, :center, true, false
                   text item
-                  on_mouse_up { |event|                    
+                  on_mouse_up { |event|
                     found_text = labels.each_with_index.detect {|l, i| event.widget == l.swt_widget}[0]&.text
                     selection_values = self.selection
                     if selection_values.include?(found_text)
@@ -148,7 +169,7 @@ module Glimmer
             }
           end
           observation_requests.to_a.each do |observation_request, block|
-            delegate_observation_request_to_checkboxes(observation_request, &block)            
+            delegate_observation_request_to_checkboxes(observation_request, &block)
           end
           self.selection = current_selection
         end
