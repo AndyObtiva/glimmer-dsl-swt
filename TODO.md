@@ -4,7 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- method on shell to indicate if it is visible in focus
+- Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
+- Change table editing support to rely on data-binding
+- Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
+- method on shell to indicate if it conatins widget in focus
+- Support table editing via `spinner` for integer values
+- Support table editing via `date_time` for date/time values
+
 
 ## Soon
 
@@ -191,10 +197,8 @@ items <=> binding {
 - Test DB support with Derby DB
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
-- Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
-- Change table editing support to rely on data-binding
 - Wrap SWT as a Maven plugin and use jar-dependencies gem to rely on it instead of including it in the project gem
 - Provide a helper method that loads a font from inside an app
 - Allow passing random args to custom widget in order to get them passed to SWT widget (right now it only accepts swt styles)
@@ -202,8 +206,6 @@ items <=> binding {
 - Consider something like a "scaffold" widget that automatically introspects activerecord attributes (or ruby model attributes) and selects the appropriate widgets for them, as well as data-binds automatically
 - Add a feature where Glimmer will guess a widget if a bad widget name was used and say "Did you mean xyz?" (e.g. composite for compsite)
 - Contribute to JRuby an improvement that makes even Java public variables follow Ruby form (margin_width instead of marginWidth) to improve SWT programming syntax in Ruby
-- Support table editing via spinner for integer values
-- Add a default table editor for when a non-supported widget is provided, which uses that widget (perhaps take a :widget_property as a hash string value for knowing how to data-bind)
 - Scroll to widget when it gains focus (perhaps look at its parents to find out which is a ScrolledComposite and scroll it to widget location)
 - Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 - Consider support for building apps for Linux app stores like Snapstore: https://snapcraft.io/docs/adding-parts

@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.9.0
+
+- Hello, Table! Sample
+- Disable editing on a column with `editor :none`
+
 ### 4.17.8.1
 
 - Fixed an issue in Windows with code_text

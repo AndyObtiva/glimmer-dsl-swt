@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,14 +26,14 @@ module Glimmer
     class TableProxy < Glimmer::SWT::WidgetProxy
       include Glimmer
       
-      module TableListenerEvent        
+      module TableListenerEvent
         def table_item
           table_item_and_column_index[:table_item]
         end
         
         def column_index
           table_item_and_column_index[:column_index]
-        end     
+        end
         
         private
         
@@ -51,7 +51,7 @@ module Glimmer
               end
             end
           end
-        end   
+        end
       end
       
       class << self
@@ -74,9 +74,9 @@ module Glimmer
                     elsif key_event.keyCode == swt(:esc)
                       table_proxy.cancel_edit!
                     end
-                  }              
+                  }
                 }
-                table_editor_widget_proxy.swt_widget.selectAll          
+                table_editor_widget_proxy.swt_widget.selectAll
                 table_editor_widget_proxy
               end,
             },
@@ -101,8 +101,8 @@ module Glimmer
                   }
                   on_widget_selected {
                     if !OS.windows? || !first_time || first_time && model.send(property) != table_editor_widget_proxy.swt_widget.text
-                      table_proxy.finish_edit! 
-                    end 
+                      table_proxy.finish_edit!
+                    end
                   }
                 }
                 table_editor_widget_proxy
@@ -117,10 +117,10 @@ module Glimmer
                   selection model.send(property)
                   focus true
                   on_widget_selected {
-                    table_proxy.finish_edit! 
+                    table_proxy.finish_edit!
                   }
                   on_focus_lost {
-                    table_proxy.finish_edit! 
+                    table_proxy.finish_edit!
                   }
                   on_key_pressed { |key_event|
                     if key_event.keyCode == swt(:cr)
@@ -128,7 +128,7 @@ module Glimmer
                     elsif key_event.keyCode == swt(:esc)
                       table_proxy.cancel_edit!
                     end
-                  }              
+                  }
                 }
               end,
             },
@@ -141,10 +141,10 @@ module Glimmer
                   selection model.send(property)
                   focus true
                   on_widget_selected {
-                    table_proxy.finish_edit! 
+                    table_proxy.finish_edit!
                   }
                   on_focus_lost {
-                    table_proxy.finish_edit! 
+                    table_proxy.finish_edit!
                   }
                   on_key_pressed { |key_event|
                     if key_event.keyCode == swt(:cr)
@@ -152,11 +152,11 @@ module Glimmer
                     elsif key_event.keyCode == swt(:esc)
                       table_proxy.cancel_edit!
                     end
-                  }              
+                  }
                 }
               end,
-            }            
-          }      
+            }
+          }
         end
       end
       
@@ -188,7 +188,7 @@ module Glimmer
           end
         end
         
-        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending        
+        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
         swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
         
         @sort_property = new_sort_property
@@ -202,7 +202,7 @@ module Glimmer
         elsif table_column_proxy.sort_block
           @sort_block = table_column_proxy.sort_block
         else
-          detect_sort_type        
+          detect_sort_type
         end
         sort
       end
@@ -229,7 +229,7 @@ module Glimmer
       
       def editor=(args)
         @editor = args
-      end 
+      end
       
       def cells_for(model)
         column_properties.map {|property| model.send(property)}
@@ -248,7 +248,7 @@ module Glimmer
         if sort_block
           sorted_array = array.sort(&sort_block)
         elsif sort_by_block
-          sorted_array = array.sort_by(&sort_by_block)          
+          sorted_array = array.sort_by(&sort_by_block)
         else
           sorted_array = array.sort_by do |object|
             sort_property.each_with_index.map do |a_sort_property, i|
@@ -289,7 +289,7 @@ module Glimmer
                 observer.call(@swt_widget.getSelection)
               }
             end
-          },        
+          },
         })
       end
       
@@ -370,13 +370,13 @@ module Glimmer
               swt_widget.showItem(edited_table_item)
               @table_editor_widget_proxy&.swt_widget&.dispose
               @table_editor_widget_proxy = nil
-              after_write&.call(edited_table_item)              
+              after_write&.call(edited_table_item)
               @edit_in_progress = false
             end
           end
         end
 
-        content { 
+        content {
           @table_editor_widget_proxy = TableProxy::editors.symbolize_keys[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
         }
         @table_editor.setEditor(@table_editor_widget_proxy.swt_widget, table_item, column_index)
