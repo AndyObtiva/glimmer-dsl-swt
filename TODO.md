@@ -4,20 +4,22 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support table default sort configuration via default_sort_property, default_sort block, or default_sort_by block
-- Change table editing support to rely on data-binding
+
 - Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
+- Support table default sort configuration via initial_sort_property, initial_sort, or initial_sort_by block
+- Change table editing support to rely on data-binding
 - method on shell to indicate if it conatins widget in focus
 - Support table editing via `spinner` for integer values
 - Support table editing via `date_time` for date/time values
-
+- Hello, Table! Sample TODO editor :date_time, property: :date_time in
+      # TODO label for  (Baseball Game Schedule)
+      # TODO combo for selecting nlds, nlcs, alds, alcs, world series
 
 ## Soon
 
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
 - Hello, Code Text! Sample
-- Inspect dead spots with syntax highlighting in some files in Gladiator like file.rb
 
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)

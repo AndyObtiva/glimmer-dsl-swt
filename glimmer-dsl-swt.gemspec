@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2020-11-03"
+  s.date = "2020-11-04"
   s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Library)".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
@@ -152,6 +152,7 @@ Gem::Specification.new do |s|
     "samples/hello/hello_sash_form.rb",
     "samples/hello/hello_styled_text.rb",
     "samples/hello/hello_tab.rb",
+    "samples/hello/hello_table.rb",
     "samples/hello/hello_world.rb",
     "vendor/swt/linux/swt.jar",
     "vendor/swt/mac/swt.jar",

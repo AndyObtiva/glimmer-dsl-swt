@@ -102,13 +102,13 @@ module GlimmerSpec
         person.adult = false
         person.dob = Time.new(1978, 11, 27, 22, 47, 25)
         person.salary = 89000.7
-      end  
+      end
     end
     
     let(:selected_person) { person2 }
     let(:selected_people) { [person1, person2] }
     
-    let(:group) do    
+    let(:group) do
       PersonGroup.new.tap do |g|
         g.people << person1
         g.people << person2
@@ -121,7 +121,7 @@ module GlimmerSpec
       PersonCommunity.new.tap do |c|
         c.groups << group
       end
-    end 
+    end
     
     context 'data-binding' do
       context 'read' do
@@ -256,7 +256,7 @@ module GlimmerSpec
             }
           }
     
-          selection = @table.swt_widget.getSelection      
+          selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person2)
     
@@ -306,7 +306,7 @@ module GlimmerSpec
             }
           }
     
-          selection = @table.swt_widget.getSelection      
+          selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(2)
           expect(selection[0].getData).to eq(person1)
           expect(selection[1].getData).to eq(person2)
@@ -399,12 +399,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
@@ -425,8 +425,64 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)            
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
+        
+        # TODO
+        xit "triggers table widget editing on selected table item via :editable SWT style" do
+          @target = shell {
+            @table = table(:editable) {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items bind(group, :people), column_properties(:name, :age, :adult)
+              selection bind(group, :selected_person)
+            }
+          }
+          
+          expect(@table.table_editor_widget_proxy).to be_nil
+          @write_done = false
+          @table.edit_selected_table_item(
+            0,
+            before_write: lambda {
+              expect(@table.edit_in_progress?).to eq(true)
+            },
+            after_write: lambda { |edited_table_item|
+              expect(edited_table_item.getText(0)).to eq('Julie Fan')
+              @write_done = true
+            }
+          )
+          expect(@table.table_editor_widget_proxy).to_not be_nil
+          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
+          # simulate hitting enter to trigger write action
+          event = Event.new
+          event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+          event.doit = true
+          event.character = "\n"
+          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+          event.item = @table.table_editor_widget_proxy.swt_widget
+          event.widget = @table.table_editor_widget_proxy.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:keydown]
+          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+          expect(@write_done).to eq(true)
+          expect(@table.edit_in_progress?).to eq(false)
+          expect(@cancel_done).to be_nil
+          expect(person2.name).to eq('Julie Fan')
+          
+          # test that it maintains selection
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person2)
+        end
         
         it "triggers configured column-specific table widget combo editing on specified table item" do
           @target = shell {
@@ -448,12 +504,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
           expect(@table.table_editor_widget_proxy.swt_widget.items).to eq(person2.name_options)
@@ -482,12 +538,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Bruce Ting')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
           @table.table_editor_widget_proxy.swt_widget.select(1)
@@ -508,8 +564,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured column-specific table widget combo editing with read_only arg on specified table item" do
           @target = shell {
@@ -531,12 +587,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Bruce Ting')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
           @table.table_editor_widget_proxy.swt_widget.select(1)
@@ -557,8 +613,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured column-specific table widget combo editing with read_only and custom model editing property args on specified table item" do
           @target = shell {
@@ -580,12 +636,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Bruce Ting')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Combo)
           expect(@table.table_editor_widget_proxy.swt_widget.items).to eq(person2.last_name_options)
@@ -607,8 +663,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured column-specific table widget radio editing with read_only arg on specified table item" do
           @target = shell {
@@ -630,17 +686,17 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('false')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Button)
           expect(@table.table_editor_widget_proxy.swt_widget).to have_style(:radio)
           expect(@table.table_editor_widget_proxy.swt_widget.selection).to eq(true)
-          @table.table_editor_widget_proxy.swt_widget.selection = false           
+          @table.table_editor_widget_proxy.swt_widget.selection = false
           event = Event.new
           event.doit = true
           event.character = "\n"
@@ -657,8 +713,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured column-specific table widget checkbox editing with read_only arg on specified table item" do
           @target = shell {
@@ -680,17 +736,17 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('false')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Button)
           expect(@table.table_editor_widget_proxy.swt_widget).to have_style(:check)
           expect(@table.table_editor_widget_proxy.swt_widget.selection).to eq(true)
-          @table.table_editor_widget_proxy.swt_widget.selection = false           
+          @table.table_editor_widget_proxy.swt_widget.selection = false
           event = Event.new
           event.doit = true
           event.character = "\n"
@@ -707,8 +763,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured table-wide table widget editor on specified table item which is done via ENTER key" do
           @target = shell {
@@ -738,12 +794,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
@@ -768,12 +824,12 @@ module GlimmerSpec
             1,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
-              expect(edited_table_item.getText(1)).to eq('32')          
-              @write_done = true 
+              expect(edited_table_item.getText(1)).to eq('32')
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('32')
           # simulate hitting enter to trigger write action
@@ -794,8 +850,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers configured table-wide table widget with args editor on specified table item which is done via ENTER key" do
           @target = shell {
@@ -825,12 +881,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to have_style(:search)
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
@@ -856,12 +912,12 @@ module GlimmerSpec
             1,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
-              expect(edited_table_item.getText(1)).to eq('32')          
-              @write_done = true 
+              expect(edited_table_item.getText(1)).to eq('32')
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('32')
           # simulate hitting enter to trigger write action
@@ -882,8 +938,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers table widget editing on specified table item which is done via ENTER key" do
           @target = shell {
@@ -912,12 +968,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
@@ -942,12 +998,12 @@ module GlimmerSpec
             1,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
-              expect(edited_table_item.getText(1)).to eq('32')          
-              @write_done = true 
+              expect(edited_table_item.getText(1)).to eq('32')
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('32')
           # simulate hitting enter to trigger write action
@@ -968,8 +1024,8 @@ module GlimmerSpec
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)         
-        end    
+          expect(selection.first.getData).to eq(person2)
+        end
          
         it "triggers table widget editing on selected table item which is done via focus out" do
           @target = shell {
@@ -997,12 +1053,12 @@ module GlimmerSpec
             0,
             before_write: lambda {
               expect(@table.edit_in_progress?).to eq(true)
-            }, 
+            },
             after_write: lambda { |edited_table_item|
               expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true 
+              @write_done = true
             }
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
@@ -1039,7 +1095,7 @@ module GlimmerSpec
               }
               table_column {
                 text "Adult"
-                width 120 
+                width 120
               }
               items bind(group, :people), column_properties(:name, :age, :adult)
               selection bind(group, :selected_person)
@@ -1051,12 +1107,12 @@ module GlimmerSpec
           @table.edit_selected_table_item(
             0,
             after_write: lambda do |edited_table_item|
-              @write_done = true 
+              @write_done = true
             end,
             after_cancel: lambda do
               @cancel_done = true
             end
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           # simulate hitting enter to trigger write action
           event = Event.new
@@ -1092,7 +1148,7 @@ module GlimmerSpec
               }
               table_column {
                 text "Adult"
-                width 120 
+                width 120
               }
               items bind(group, :people), column_properties(:name, :age, :adult)
               selection bind(group, :selected_person)
@@ -1104,12 +1160,12 @@ module GlimmerSpec
           @table.edit_selected_table_item(
             0,
             after_write: lambda do |edited_table_item|
-              @write_done = true 
+              @write_done = true
             end,
             after_cancel: lambda do
               @cancel_done = true
             end
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
     
           # simulate hitting escape to trigger write action
@@ -1147,7 +1203,7 @@ module GlimmerSpec
               }
               table_column {
                 text "Adult"
-                width 120 
+                width 120
               }
               items bind(group, :people), column_properties(:name, :age, :adult)
               selection bind(group, :selected_person)
@@ -1159,12 +1215,12 @@ module GlimmerSpec
           @table.edit_selected_table_item(
             0,
             after_write: lambda do |edited_table_item|
-              @write_done = true 
+              @write_done = true
             end,
             after_cancel: lambda do
               @cancel_done = true
             end
-          )      
+          )
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
     
@@ -1172,12 +1228,12 @@ module GlimmerSpec
           @table.edit_selected_table_item(
             1,
             after_write: lambda do |edited_table_item|
-              @write2_done = true 
+              @write2_done = true
             end,
             after_cancel: lambda do
               @cancel2_done = true
             end
-          )      
+          )
     
           expect(@table.edit_mode?).to eq(true)
           expect(@write_done).to be_falsey
@@ -1291,7 +1347,7 @@ module GlimmerSpec
         # check that it maintains sorting when modifying collection
         group.people << person3
         
-        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 99000.7 133000.5])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(3)}).to eq(%w[99000.7 99000.7 133000.5])
       end
       
       it 'has sorting disabled' do
@@ -1323,8 +1379,8 @@ module GlimmerSpec
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
-        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)        
-      end      
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)
+      end
       
       it 'has a custom sort comparator' do
         @target = shell {
@@ -1358,7 +1414,7 @@ module GlimmerSpec
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
-        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
         
         event = Event.new
         event.doit = true
@@ -1376,8 +1432,8 @@ module GlimmerSpec
         
         @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
-        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
-      end      
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
+      end
       
       it 'has a custom sort_by block' do
         @target = shell {
@@ -1411,7 +1467,7 @@ module GlimmerSpec
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
-        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
         
         event = Event.new
         event.doit = true
@@ -1429,7 +1485,7 @@ module GlimmerSpec
         
         @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
-        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
       end
       
       it 'has a custom sort_property' do
@@ -1460,11 +1516,11 @@ module GlimmerSpec
   
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
         
-        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['false', 'true'])      
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['false', 'true'])
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
-        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['true', 'false'])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['true', 'false'])
         
         event = Event.new
         event.doit = true
@@ -1482,13 +1538,13 @@ module GlimmerSpec
         
         @table_column2.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
-        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])        
+        expect(@table.swt_widget.items.map {|i| i.get_text(1)}).to eq(['17', '45'])
       end
       
       it 'has multiple custom sort_property values (verifies sort column and direction)' do
         group.people << person3
         
-        @target = shell {        
+        @target = shell {
           @table = table {
             @table_column1 = table_column {
               text "Date of Birth"
@@ -1497,7 +1553,7 @@ module GlimmerSpec
             }
             items bind(group, :people), column_properties(:age)
           }
-        }        
+        }
         
         event = Event.new
         event.doit = true
@@ -1515,7 +1571,7 @@ module GlimmerSpec
         
         expect(@table.swt_widget.getSortColumn()).to eq(@table_column1.swt_widget)
         expect(@table.swt_widget.getSortDirection()).to eq(swt(:down))
-        expect(@table.swt_widget.items.map(&:data)).to eq([person1, person2, person3])      
+        expect(@table.swt_widget.items.map(&:data)).to eq([person1, person2, person3])
         
         @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
   
@@ -1528,7 +1584,7 @@ module GlimmerSpec
         group.people << person3
         group.people << person4
         
-        @target = shell {        
+        @target = shell {
           @table = table {
             @table_column1 = table_column {
               text "Date of Birth"
@@ -1538,7 +1594,7 @@ module GlimmerSpec
             additional_sort_properties :name, :salary
             items bind(group, :people), column_properties(:age)
           }
-        }        
+        }
         
         event = Event.new
         event.doit = true
@@ -1563,7 +1619,7 @@ module GlimmerSpec
         group.people << person3
         group.people << person4
         
-        @target = shell {        
+        @target = shell {
           @table = table {
             @table_column1 = table_column {
               text "Date of Birth"
@@ -1573,7 +1629,7 @@ module GlimmerSpec
             additional_sort_properties :name, :age, :salary
             items bind(group, :people), column_properties(:age)
           }
-        }        
+        }
         
         event = Event.new
         event.doit = true
@@ -1594,7 +1650,7 @@ module GlimmerSpec
         expect(@table.swt_widget.items.map(&:data)).to eq([person4, person3, person2, person1])
       end
       
-    end    
+    end
     
   end
 end

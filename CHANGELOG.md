@@ -1,9 +1,11 @@
 # Change Log
 
-### 4.17.9.0
+### 4.17.8.2
 
 - Hello, Table! Sample
 - Disable editing on a column with `editor :none`
+- Improve `code_text` performance immensely by only styling the lines being shown upon editing
+- Fix dead spots with syntax highlighting in some files in Gladiator like file.rb
 
 ### 4.17.8.1
 

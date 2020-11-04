@@ -90,14 +90,12 @@ class HelloTable
   def launch
     shell {
       text 'Hello, Table!'
-      # TODO label for  (Baseball Game Schedule)
-      # TODO combo for selecting nlds, nlcs, alds, alcs, world series
       table { |table_proxy|
         table_column {
           text 'Game Date/Time'
           width 150
-          editor :date_time, property: :date_time
           sort_property :date_time # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          editor :none
         }
         table_column {
           text 'Home Team'
