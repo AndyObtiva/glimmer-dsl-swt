@@ -160,15 +160,24 @@ module Glimmer
         end
       end
       
-      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor
+      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
       attr_accessor :column_properties
+      alias editable? editable
       
       def initialize(underscored_widget_name, parent, args)
+        @editable = args.delete(:editable)
         super
         @table_editor = TableEditor.new(swt_widget)
         @table_editor.horizontalAlignment = SWTProxy[:left]
         @table_editor.grabHorizontal = true
         @table_editor.minimumHeight = 20
+        if editable?
+          content {
+            on_mouse_up { |event|
+              edit_table_item(event.table_item, event.column_index)
+            }
+          }
+        end
       end
 
       def model_binding

@@ -4,10 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-
-- Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
 - Support table default sort configuration via initial_sort_property, initial_sort, or initial_sort_by block
-- Change table editing support to rely on data-binding
 - method on shell to indicate if it conatins widget in focus
 - Support table editing via `spinner` for integer values
 - Support table editing via `date_time` for date/time values
@@ -155,6 +152,7 @@ items <=> binding {
   on_write {|v| !v}
 }
 ```
+- Change table editing support to rely on data-binding
 - Improve tree databinding so that replacing content array value updates the tree (instead of clearing and rereading elements)
 - Consider need for a startup progress dialog (with Glimmer branding)
 - Externalize constants to make easily configurable
@@ -258,6 +256,7 @@ items <=> binding {
 - Consider supporting sound in Glimmer just for the sake of making java sound dependent apps runnable in Glimmer DSL for Opal
 - Diff Tree when updating it to discover where to delete nodes, insert new nodes, and do it all in one shot (O(n) algorithm) to avoid recreating all nodes
 - Consider the idea of showing External Samples in the Glimmer Meta-Sample by installing a gem and running its command right away for calculator and timer
+- Refactor specs to utilize SWTBot instead of raw Event objects for GUI interaction
 
 ## Samples
 

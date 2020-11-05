@@ -428,8 +428,7 @@ module GlimmerSpec
           expect(selection.first.getData).to eq(person2)
         end
         
-        # TODO
-        xit "triggers table widget editing on selected table item via :editable SWT style" do
+        it "triggers table widget editing on selected table item via :editable SWT style" do
           @target = shell {
             @table = table(:editable) {
               table_column {
@@ -448,19 +447,19 @@ module GlimmerSpec
               selection bind(group, :selected_person)
             }
           }
-          
+        
+          item_height = @table.swt_widget.items.first.bounds.height
+        
           expect(@table.table_editor_widget_proxy).to be_nil
-          @write_done = false
-          @table.edit_selected_table_item(
-            0,
-            before_write: lambda {
-              expect(@table.edit_in_progress?).to eq(true)
-            },
-            after_write: lambda { |edited_table_item|
-              expect(edited_table_item.getText(0)).to eq('Julie Fan')
-              @write_done = true
-            }
-          )
+          event = Event.new
+          event.display = @table.swt_widget.getDisplay
+          event.item = @table.swt_widget.items.first
+          event.widget = @table.swt_widget
+          event.type = Glimmer::SWT::SWTProxy[:mouseup]
+          event.x = 5
+          event.y = item_height + 15 # skip first item, go to the second item
+          @table.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+
           expect(@table.table_editor_widget_proxy).to_not be_nil
           @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
           # simulate hitting enter to trigger write action
@@ -473,9 +472,7 @@ module GlimmerSpec
           event.widget = @table.table_editor_widget_proxy.swt_widget
           event.type = Glimmer::SWT::SWTProxy[:keydown]
           @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
-          expect(@write_done).to eq(true)
           expect(@table.edit_in_progress?).to eq(false)
-          expect(@cancel_done).to be_nil
           expect(person2.name).to eq('Julie Fan')
           
           # test that it maintains selection

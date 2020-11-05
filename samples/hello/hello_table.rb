@@ -90,7 +90,7 @@ class HelloTable
   def launch
     shell {
       text 'Hello, Table!'
-      table { |table_proxy|
+      table(:editable) { |table_proxy|
         table_column {
           text 'Game Date/Time'
           width 150
@@ -118,10 +118,6 @@ class HelloTable
         
         # Sort by these additional properties after handling the main column sort the user selected
         additional_sort_properties :date_time, :home_team, :away_team, :ballpark
-        
-        on_mouse_up { |event|
-          table_proxy.edit_table_item(event.table_item, event.column_index)
-        }
       }
     }.open
   end
