@@ -428,57 +428,60 @@ module GlimmerSpec
           expect(selection.first.getData).to eq(person2)
         end
         
-        it "triggers table widget editing on selected table item via :editable SWT style" do
-          @target = shell {
-            @table = table(:editable) {
-              table_column {
-                text "Name"
-                width 120
+        unless OS.linux?
+          it "triggers table widget editing on selected table item via :editable SWT style" do
+            @target = shell {
+              @table = table(:editable) {
+                table_column {
+                  text "Name"
+                  width 120
+                }
+                table_column {
+                  text "Age"
+                  width 120
+                }
+                table_column {
+                  text "Adult"
+                  width 120
+                }
+                items bind(group, :people), column_properties(:name, :age, :adult)
+                selection bind(group, :selected_person)
               }
-              table_column {
-                text "Age"
-                width 120
-              }
-              table_column {
-                text "Adult"
-                width 120
-              }
-              items bind(group, :people), column_properties(:name, :age, :adult)
-              selection bind(group, :selected_person)
             }
-          }
-        
-          item_height = @table.swt_widget.items.first.bounds.height
-        
-          expect(@table.table_editor_widget_proxy).to be_nil
-          event = Event.new
-          event.display = @table.swt_widget.getDisplay
-          event.item = @table.swt_widget.items.first
-          event.widget = @table.swt_widget
-          event.type = Glimmer::SWT::SWTProxy[:mouseup]
-          event.x = 5
-          event.y = item_height + 15 # skip first item, go to the second item
-          @table.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
-
-          expect(@table.table_editor_widget_proxy).to_not be_nil
-          @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
-          # simulate hitting enter to trigger write action
-          event = Event.new
-          event.keyCode = Glimmer::SWT::SWTProxy[:cr]
-          event.doit = true
-          event.character = "\n"
-          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_widget_proxy.swt_widget
-          event.widget = @table.table_editor_widget_proxy.swt_widget
-          event.type = Glimmer::SWT::SWTProxy[:keydown]
-          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
-          expect(@table.edit_in_progress?).to eq(false)
-          expect(person2.name).to eq('Julie Fan')
           
-          # test that it maintains selection
-          selection = @table.swt_widget.getSelection
-          expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person2)
+            item_height = @table.swt_widget.items.first.bounds.height
+          
+            expect(@table.table_editor_widget_proxy).to be_nil
+            event = Event.new
+            event.display = @table.swt_widget.getDisplay
+            event.item = @table.swt_widget.items.first
+            event.widget = @table.swt_widget
+            event.type = Glimmer::SWT::SWTProxy[:mouseup]
+            event.x = 5
+            event.y = item_height + 5 # skip first item, go to the second item
+            @table.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+  
+            expect(@table.table_editor_widget_proxy).to_not be_nil
+            @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
+            # simulate hitting enter to trigger write action
+            event = Event.new
+            event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+            event.doit = true
+            event.character = "\n"
+            event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+            event.item = @table.table_editor_widget_proxy.swt_widget
+            event.widget = @table.table_editor_widget_proxy.swt_widget
+            event.type = Glimmer::SWT::SWTProxy[:keydown]
+            @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+            expect(@table.edit_in_progress?).to eq(false)
+            
+            expect(person2.name).to eq('Julie Fan')
+            
+            # test that it maintains selection
+            selection = @table.swt_widget.getSelection
+            expect(selection.size).to eq(1)
+            expect(selection.first.getData).to eq(person2)
+          end
         end
         
         it "triggers configured column-specific table widget combo editing on specified table item" do
