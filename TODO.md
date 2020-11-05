@@ -4,13 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
-- method on shell to indicate if it conatins widget in focus
 - Support table editing via `spinner` for integer values
 - Support table editing via `date_time` for date/time values
+- Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
 - Hello, Table! Sample TODO editor :date_time, property: :date_time in
       # TODO label for  (Baseball Game Schedule)
       # TODO combo for selecting nlds, nlcs, alds, alcs, world series
+- method on shell to indicate if it conatins widget in focus
 
 ## Soon
 
@@ -257,6 +257,7 @@ items <=> binding {
 - Diff Tree when updating it to discover where to delete nodes, insert new nodes, and do it all in one shot (O(n) algorithm) to avoid recreating all nodes
 - Consider the idea of showing External Samples in the Glimmer Meta-Sample by installing a gem and running its command right away for calculator and timer
 - Refactor specs to utilize SWTBot instead of raw Event objects for GUI interaction
+- Support automatic table editor setting based on data type (e.g. combo for a property accompanied by options, spinner for an integer, date_time for a date/time, etc...)
 
 ## Samples
 

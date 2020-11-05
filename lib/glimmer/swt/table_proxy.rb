@@ -1,5 +1,5 @@
-#
 # Copyright (c) 2007-2020 Andy Maleh
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -155,7 +155,34 @@ module Glimmer
                   }
                 }
               end,
-            }
+            },
+            spinner: {
+              widget_value_property: :selection,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                table_editor_widget_proxy = spinner(*args) {
+                  selection model.send(property)
+                  focus true
+                  on_focus_lost {
+                    table_proxy.finish_edit!
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }
+#                   on_widget_selected {
+#                     if !OS.windows? || !first_time || first_time && model.send(property) != table_editor_widget_proxy.swt_widget.text
+#                       table_proxy.finish_edit!
+#                     end
+#                   }
+                }
+                table_editor_widget_proxy
+              end,
+            },
           }
         end
       end

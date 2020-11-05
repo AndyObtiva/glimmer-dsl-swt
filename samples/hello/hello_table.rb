@@ -24,16 +24,16 @@ class HelloTable
     class << self
       def schedule
         @schedule ||= [
-          new('Chicago Cubs', 'Milwaukee Brewers', Time.new(2037, 10, 6, 12, 0)),
-          new('Chicago Cubs', 'Milwaukee Brewers', Time.new(2037, 10, 7, 12, 0)),
-          new('Milwaukee Brewers', 'Chicago Cubs', Time.new(2037, 10, 8, 12, 0)),
-          new('Milwaukee Brewers', 'Chicago Cubs', Time.new(2037, 10, 9, 12, 0)),
-          new('Milwaukee Brewers', 'Chicago Cubs', Time.new(2037, 10, 10, 12, 0)),
-          new('Chicago White Sox', 'St Louis Cardinals', Time.new(2037, 10, 6, 18, 0)),
-          new('Chicago White Sox', 'St Louis Cardinals', Time.new(2037, 10, 7, 18, 0)),
-          new('St Louis Cardinals', 'Chicago White Sox', Time.new(2037, 10, 8, 18, 0)),
-          new('St Louis Cardinals', 'Chicago White Sox', Time.new(2037, 10, 9, 18, 0)),
-          new('St Louis Cardinals', 'Chicago White Sox', Time.new(2037, 10, 10, 18, 0)),
+          new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
+          new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
+          new(Time.new(2037, 10, 8, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
+          new(Time.new(2037, 10, 9, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
+          new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 9, 10),
+          new(Time.new(2037, 10, 6, 18, 0), 'Chicago White Sox', 'St Louis Cardinals', 2, 4),
+          new(Time.new(2037, 10, 7, 18, 0), 'Chicago White Sox', 'St Louis Cardinals', 5, 6),
+          new(Time.new(2037, 10, 8, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 0, 7),
+          new(Time.new(2037, 10, 9, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 3, 4),
+          new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 11, 13),
         ]
       end
       
@@ -51,12 +51,14 @@ class HelloTable
       'St Louis Cardinals' => 'Busch Stadium'
     }
     
-    attr_accessor :home_team, :away_team, :date_time, :ballpark
+    attr_accessor :home_team, :away_team, :date_time, :ballpark, :home_team_runs, :away_team_runs
     
-    def initialize(home_team, away_team, date_time)
+    def initialize(date_time, home_team, away_team, home_team_runs, away_team_runs)
+      self.date_time = date_time
       self.home_team = home_team
       self.away_team = away_team
-      self.date_time = date_time
+      self.home_team_runs = home_team_runs
+      self.away_team_runs = away_team_runs
     end
     
     def home_team=(home_team_value)
@@ -103,9 +105,19 @@ class HelloTable
           editor :combo, :read_only
         }
         table_column {
+          text 'Home Team Runs'
+          width 100
+          editor :spinner
+        }
+        table_column {
           text 'Away Team'
           width 150
           editor :combo, :read_only
+        }
+        table_column {
+          text 'Away Team Runs'
+          width 100
+          editor :spinner
         }
         table_column {
           text 'Ballpark'
@@ -114,10 +126,10 @@ class HelloTable
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date_time, :home_team, :away_team, :ballpark)
+        items bind(BaseballGame, :schedule), column_properties(:game_date_time, :home_team, :home_team_runs, :away_team, :away_team_runs, :ballpark)
         
         # Sort by these additional properties after handling the main column sort the user selected
-        additional_sort_properties :date_time, :home_team, :away_team, :ballpark
+        additional_sort_properties :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
       }
     }.open
   end
