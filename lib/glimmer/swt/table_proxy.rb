@@ -132,6 +132,30 @@ module Glimmer
                 }
               end,
             },
+            date_time: { # TODO support different SWT styles like :date and :time too
+              widget_value_property: :date_time,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                date_time(*args) {
+                  date_time model.send(property)
+                  focus true
+                  on_widget_selected {
+                    table_proxy.finish_edit!
+                  }
+                  on_focus_lost {
+                    table_proxy.finish_edit!
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }
+                }
+              end,
+            },
             radio: {
               widget_value_property: :selection,
               editor_gui: lambda do |args, model, property, table_proxy|
@@ -376,6 +400,7 @@ module Glimmer
         editor_widget = (editor_config[0] || :text).to_sym
         editor_widget_args = editor_config[1..editor_widget_arg_last_index]
         model_editing_property = editor_widget_options[:property] || property
+        pd editor_widget
         widget_value_property = TableProxy::editors.symbolize_keys[editor_widget][:widget_value_property]
         
         @cancel_edit = lambda do |event=nil|

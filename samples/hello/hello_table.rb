@@ -97,6 +97,11 @@ class HelloTable
           text 'Game Date/Time'
           width 150
           sort_property :date_time # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          editor :date_time, :date, :time, property: :date_time
+        }
+        table_column {
+          text 'Ballpark'
+          width 150
           editor :none
         }
         table_column {
@@ -105,8 +110,8 @@ class HelloTable
           editor :combo, :read_only
         }
         table_column {
-          text 'Home Team Runs'
-          width 100
+          text 'Runs'
+          width 50
           editor :spinner
         }
         table_column {
@@ -115,18 +120,13 @@ class HelloTable
           editor :combo, :read_only
         }
         table_column {
-          text 'Away Team Runs'
-          width 100
+          text 'Runs'
+          width 50
           editor :spinner
-        }
-        table_column {
-          text 'Ballpark'
-          width 150
-          editor :none
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date_time, :home_team, :home_team_runs, :away_team, :away_team_runs, :ballpark)
+        items bind(BaseballGame, :schedule), column_properties(:game_date_time, :ballpark, :home_team, :home_team_runs, :away_team, :away_team_runs)
         
         # Sort by these additional properties after handling the main column sort the user selected
         additional_sort_properties :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs

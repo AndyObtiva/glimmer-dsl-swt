@@ -19,43 +19,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer'
-require 'glimmer/dsl/expression'
-require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/widget_proxy'
 
 module Glimmer
-  module DSL
-    module SWT
-      class WidgetExpression < Expression
-        include ParentExpression
-
-        EXCLUDED_KEYWORDS = %w[shell display tab_item]
-
-        def can_interpret?(parent, keyword, *args, &block)
-          !EXCLUDED_KEYWORDS.include?(keyword) and
-            parent.respond_to?(:swt_widget) and #TODO change to composite?(parent)
-            Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
-        end
-
-        def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
-        end
-
-        def add_content(parent, &block)
-          super
-          parent.post_add_content
-        end
-
+  module SWT
+    # Proxy for org.eclipse.swt.widgets.DateTime
+    #
+    # Follows the Proxy Design Pattern
+    class DateTimeProxy < WidgetProxy
+      def date_time
+        pd year
+        pd month + 1, day, hours, minutes, seconds
+        pd day, hours, minutes, seconds
+        pd hours, minutes, seconds
+        pd minutes, seconds
+        pd seconds
+        Time.new(year, month + 1, day, hours, minutes, seconds)
+      end
+      
+      def date_time=(date_time_value)
+        date_time_value = date_time_value.first if date_time_value.is_a?(Array)
+        self.year = date_time_value.year
+        self.month = date_time_value.month - 1
+        self.day = date_time_value.day
+        self.hours = date_time_value.hour
+        self.minutes = date_time_value.min
+        self.seconds = date_time_value.sec
       end
     end
   end
 end
-
-require 'glimmer/swt/widget_proxy'
-require 'glimmer/swt/scrolled_composite_proxy'
-require 'glimmer/swt/tree_proxy'
-require 'glimmer/swt/table_proxy'
-require 'glimmer/swt/table_column_proxy'
-require 'glimmer/swt/sash_form_proxy'
-require 'glimmer/swt/styled_text_proxy'
-require 'glimmer/swt/date_time_proxy'

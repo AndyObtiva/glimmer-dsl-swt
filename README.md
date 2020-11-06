@@ -2264,6 +2264,10 @@ This automatically leverages the SWT TableEditor custom class behind the scenes,
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
+##### Table Editing
+
+TODO fill in
+
 ##### Table Sorting
 
 Glimmer automatically adds sorting support to the SWT `Table` widget.

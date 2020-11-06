@@ -4,13 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support table editing via `spinner` for integer values
+- Hello, Date Time! Sample
 - Support table editing via `date_time` for date/time values
 - Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
 - Hello, Table! Sample TODO editor :date_time, property: :date_time in
       # TODO label for  (Baseball Game Schedule)
       # TODO combo for selecting nlds, nlcs, alds, alcs, world series
 - method on shell to indicate if it conatins widget in focus
+- Document Table Editing instructions in README including all editor types like spinner and data_time
 
 ## Soon
 
