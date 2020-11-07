@@ -297,6 +297,7 @@ Glimmer App:
       - [List](#list)
       - [Table](#table)
       - [Tree](#tree)
+      - [DateTime](#datetime)
     - [Observer](#observer)
       - [Observing Widgets](#observing-widgets)
       - [Observing Models](#observing-models)
@@ -314,6 +315,8 @@ Glimmer App:
       - [Multi-DSL Support](#multi-dsl-support)
       - [Application Menu Items (About/Preferences)](#application-menu-items-aboutpreferences)
       - [App Name and Version](#app-name-and-version)
+      - [Checkbox Group Widget](#checkbox-group-widget)
+      - [Radio Group Widget](#radio-group-widget)
       - [Code Text Widget](#code-text-widget)
       - [Video Widget](#video-widget)
       - [Sash Form Widget](#sash-form-widget)
@@ -350,6 +353,7 @@ Glimmer App:
       - [Hello, Expand Bar!](#hello-expand-bar)
       - [Hello, Radio!](#hello-radio)
       - [Hello, Radio Group!](#hello-radio-group)
+      - [Hello, Checkbox!](#hello-checkbox)
       - [Hello, Group!](#hello-group)
       - [Hello, Checkbox!](#hello-checkbox)
       - [Hello, Checkbox Group!](#hello-checkbox-group)
@@ -2363,6 +2367,27 @@ This finds the root node. The array is a Java array. This enables easy passing o
 
 To edit a tree, you must invoke `TreeProxy#edit_selected_tree_item` or `TreeProxy#edit_tree_item`. This automatically leverages the SWT TreeEditor custom class behind the scenes, displaying
 a text widget to the user to change the selected or passed tree item text into something else. It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
+
+#### DateTime
+
+`date_time` represents the SWT DateTime widget.
+
+Glimmer additionally offers the aliases:
+- `date`: `date_time(:date)`
+- `date_drop_down`: `date_time(:date, :drop_down)`
+- `time`: `date_time(:time)`
+- `calendar`: `date_time(:calendar)`
+
+You can data-bind any of these properties:
+- `date_time bind(model, :property)`: produces a Ruby DateTime object
+- `date bind(model, :property)`: produces a Ruby Date object
+- `time bind(model, :property)`: produces a Ruby Time object
+- `year bind(model, :property)`: produces an integer
+- `month bind(model, :property)`: produces an integer
+- `day bind(model, :property)`: produces an integer
+- `hours bind(model, :property)`: produces an integer
+- `minutes bind(model, :property)`: produces an integer
+- `seconds bind(model, :property)`: produces an integer
 
 ### Observer
 

@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Document date_time widget aliases
-
 - Support table editing via `date_time` for date/time values
 - Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
 - Hello, Table! Sample TODO editor :date_time, property: :date_time in
