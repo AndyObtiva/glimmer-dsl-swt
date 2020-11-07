@@ -3,6 +3,7 @@
 ### 4.17.9.0
 
 - Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
+- Support table editing via `spinner` for integer values
 
 ### 4.17.8.3
 

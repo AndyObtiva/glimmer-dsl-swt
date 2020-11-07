@@ -1,10 +1,14 @@
-# TODO
+do# TODO
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support table editing via `spinner` for integer values
+- date widget alias for date_time(:date)
+- time widget alias for date_time(:time)
+- calendar widget alias for date_time(:calendar)
+- date_drop_down widget alias for date_time(:date, :drop_down)
+- Hello, Date Time! Sample
 - Support table editing via `date_time` for date/time values
 - Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
 - Hello, Table! Sample TODO editor :date_time, property: :date_time in

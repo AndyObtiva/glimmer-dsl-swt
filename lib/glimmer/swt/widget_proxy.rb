@@ -63,6 +63,9 @@ module Glimmer
         'tool_bar'            => [:push],
         'tool_item'           => [:push],
         'tree'                => [:virtual, :border, :h_scroll, :v_scroll],
+        'date_drop_down'      => [:date, :drop_down],
+        'time'                => [:time],
+        'calendar'            => [:calendar],
       }
 
       DEFAULT_INITIALIZERS = {
@@ -96,6 +99,10 @@ module Glimmer
         'check'          => 'button',
         'radio'          => 'button',
         'toggle'         => 'button',
+        'date'           => 'date_time',
+        'date_drop_down' => 'date_time',
+        'time'           => 'date_time',
+        'calendar'       => 'date_time',
       }
       
       class << self
@@ -414,6 +421,13 @@ module Glimmer
       def self.widget_exists?(underscored_widget_name)
         !!swt_widget_class_for(underscored_widget_name)
       end
+      
+      # Manual entries of SWT widget classes that conflict with Ruby classes
+      def self.swt_widget_class_manual_entries
+        {
+          'date_time' => Java::OrgEclipseSwtWidgets::DateTime
+        }
+      end
 
       # This supports widgets in and out of basic SWT
       def self.swt_widget_class_for(underscored_widget_name)
@@ -421,8 +435,11 @@ module Glimmer
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)
-          Glimmer::Config.logger.debug {"Class #{swt_widget_class} matching #{underscored_widget_name} is not a subclass of org.eclipse.swt.widgets.Widget"}
-          return nil
+          swt_widget_class = swt_widget_class_manual_entries[underscored_widget_name]
+          if swt_widget_class.nil?
+            Glimmer::Config.logger.debug {"Class #{swt_widget_class} matching #{underscored_widget_name} is not a subclass of org.eclipse.swt.widgets.Widget"}
+            return nil
+          end
         end
         swt_widget_class
       rescue SyntaxError, NameError => e

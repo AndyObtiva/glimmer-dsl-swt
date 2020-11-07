@@ -23,31 +23,39 @@ require 'glimmer/swt/widget_proxy'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.custom.SashForm
+    # Proxy for org.eclipse.swt.widgets.DateTime
     #
     # Follows the Proxy Design Pattern
-    class SashFormProxy < WidgetProxy
-      def post_add_content
-        swt_widget.setWeights(@weights) unless @weights.nil?
+    class DateTimeProxy < WidgetProxy
+      def date_time
+        Time.new(year, month, day, hours, minutes, seconds)
+      end
+      
+      def date_time=(date_time_value)
+        date_time_value = date_time_value.first if date_time_value.is_a?(Array)
+        self.year = date_time_value.year
+        self.month = date_time_value.month
+        self.day = date_time_value.day
+        self.hours = date_time_value.hour
+        self.minutes = date_time_value.min
+        self.seconds = date_time_value.sec
       end
       
       def set_attribute(attribute_name, *args)
-        if attribute_name.to_s == 'weights'
-          @weights = args
-          @weights = @weights.first if @weights.first.is_a?(Array)
+        if attribute_name.to_s == 'month'
+          swt_widget.month = args.first - 1
         else
           super(attribute_name, *args)
         end
       end
  
       def get_attribute(attribute_name)
-        if attribute_name.to_s == "weights"
-          swt_widget.getWeights.to_a
+        if attribute_name.to_s == 'month'
+          swt_widget.month + 1
         else
           super(attribute_name)
         end
       end
-      
     end
   end
 end
