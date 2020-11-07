@@ -39,6 +39,7 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class TabItemProxy < WidgetProxy
+      ATTRIBUTES = %w[text image]
       include_package 'org.eclipse.swt.widgets'
 
       attr_reader :widget_proxy, :swt_tab_item
@@ -51,7 +52,7 @@ module Glimmer
       end
 
       def has_attribute?(attribute_name, *args)
-        if attribute_name.to_s == "text"
+        if ATTRIBUTES.include?(attribute_name.to_s)
           true
         else
           super(attribute_name, *args)
@@ -63,6 +64,8 @@ module Glimmer
         if attribute_name.to_s == "text"
           text_value = args[0]
           @swt_tab_item.setText text_value
+        elsif attribute_name.to_s == "image"
+          widget_proxy.set_attribute('image', *args)
         else
           super(attribute_name, *args)
         end
@@ -71,6 +74,8 @@ module Glimmer
       def get_attribute(attribute_name)
         if attribute_name.to_s == "text"
           @swt_tab_item.getText
+        elsif attribute_name.to_s == "image"
+          widget_proxy.get_attribute('image')
         else
           super(attribute_name)
         end
