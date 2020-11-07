@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.10.0
+
+- Support table editing via `date_time` for date/time values
+
 ### 4.17.9.0
 
 - Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)

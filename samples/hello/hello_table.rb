@@ -42,6 +42,7 @@ class HelloTable
       end
     end
     
+    include Glimmer
     include Glimmer::DataBinding::ObservableModel
     
     TEAM_BALLPARKS = {
@@ -51,7 +52,7 @@ class HelloTable
       'St Louis Cardinals' => 'Busch Stadium'
     }
     
-    attr_accessor :home_team, :away_team, :date_time, :ballpark, :home_team_runs, :away_team_runs
+    attr_accessor :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
     
     def initialize(date_time, home_team, away_team, home_team_runs, away_team_runs)
       self.date_time = date_time
@@ -59,6 +60,10 @@ class HelloTable
       self.away_team = away_team
       self.home_team_runs = home_team_runs
       self.away_team_runs = away_team_runs
+      observe(self, :date_time) do |new_value|
+        notify_observers(:game_date)
+        notify_observers(:game_time)
+      end
     end
     
     def home_team=(home_team_value)
@@ -74,8 +79,20 @@ class HelloTable
       end
     end
     
-    def game_date_time
-      date_time.strftime("%Y-%m-%d %I:%M %p")
+    def date
+      date_time.to_date
+    end
+    
+    def time
+      date_time.to_time
+    end
+    
+    def game_date
+      date_time.strftime("%m/%d/%Y")
+    end
+        
+    def game_time
+      date_time.strftime("%I:%M %p")
     end
         
     def home_team_options
@@ -94,9 +111,20 @@ class HelloTable
       text 'Hello, Table!'
       table(:editable) { |table_proxy|
         table_column {
-          text 'Game Date/Time'
+          text 'Game Date'
           width 150
-          sort_property :date_time # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          sort_property :date # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          editor :date_drop_down, property: :date_time
+        }
+        table_column {
+          text 'Game Time'
+          width 150
+          sort_property :time # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          editor :time, property: :date_time
+        }
+        table_column {
+          text 'Ballpark'
+          width 150
           editor :none
         }
         table_column {
@@ -105,8 +133,8 @@ class HelloTable
           editor :combo, :read_only
         }
         table_column {
-          text 'Home Team Runs'
-          width 100
+          text 'Runs'
+          width 50
           editor :spinner
         }
         table_column {
@@ -115,21 +143,16 @@ class HelloTable
           editor :combo, :read_only
         }
         table_column {
-          text 'Away Team Runs'
-          width 100
+          text 'Runs'
+          width 50
           editor :spinner
-        }
-        table_column {
-          text 'Ballpark'
-          width 150
-          editor :none
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date_time, :home_team, :home_team_runs, :away_team, :away_team_runs, :ballpark)
+        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :home_team_runs, :away_team, :away_team_runs)
         
         # Sort by these additional properties after handling the main column sort the user selected
-        additional_sort_properties :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
+        additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
       }
     }.open
   end

@@ -447,6 +447,7 @@ module Glimmer
         underscored_widget_name = KEYWORD_ALIASES[underscored_widget_name] if KEYWORD_ALIASES[underscored_widget_name]
         swt_widget_name = underscored_widget_name.camelcase(:upper)
         swt_widget_class = eval(swt_widget_name)
+        # TODO fix issue with not detecting DateTime because it's conflicting with the Ruby DateTime
         unless swt_widget_class.ancestors.include?(org.eclipse.swt.widgets.Widget)
           swt_widget_class = swt_widget_class_manual_entries[underscored_widget_name]
           if swt_widget_class.nil?

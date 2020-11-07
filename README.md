@@ -2269,6 +2269,10 @@ This automatically leverages the SWT TableEditor custom class behind the scenes,
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
+##### Table Editing
+
+TODO fill in
+
 ##### Table Sorting
 
 Glimmer automatically adds sorting support to the SWT `Table` widget.
@@ -2391,6 +2395,8 @@ You can data-bind any of these properties:
 - `seconds bind(model, :property)`: produces an integer
 
 Learn more at the [Hello, Date Time!](#hello-date-time) sample.
+
+If you need a better widget with the ability to customize the date format pattern, check out the [Nebula CDateTime Glimmer Custom Widget](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula)
 
 ### Observer
 

@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/swt_proxy'
 
 module Glimmer
   module SWT
@@ -42,8 +43,13 @@ module Glimmer
         @sort_property = args unless args.empty?
       end
       
+      # Sets editor (e.g. combo)
       def editor=(args)
         @editor = args
+      end
+      
+      def editable?
+        !@editor.include?(:none)
       end
       
     end

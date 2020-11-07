@@ -116,9 +116,69 @@ module Glimmer
                 checkbox(*args) {
                   selection model.send(property)
                   focus true
-                  on_widget_selected {
+                  on_focus_lost {
                     table_proxy.finish_edit!
                   }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }
+                }
+              end,
+            },
+            date: {
+              widget_value_property: :date_time,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                date(*args) {
+                  date_time model.send(property)
+                  focus true
+                  on_focus_lost {
+                    table_proxy.finish_edit!
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }
+                }
+              end,
+            },
+            date_drop_down: {
+              widget_value_property: :date_time,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                date_drop_down(*args) {
+                  date_time model.send(property)
+                  focus true
+                  on_focus_lost {
+                    table_proxy.finish_edit!
+                  }
+                  on_key_pressed { |key_event|
+                    if key_event.keyCode == swt(:cr)
+                      table_proxy.finish_edit!
+                    elsif key_event.keyCode == swt(:esc)
+                      table_proxy.cancel_edit!
+                    end
+                  }
+                }
+              end,
+            },
+            time: {
+              widget_value_property: :date_time,
+              editor_gui: lambda do |args, model, property, table_proxy|
+                first_time = true
+                table_proxy.table_editor.minimumHeight = 25
+                time(*args) {
+                  date_time model.send(property)
+                  focus true
                   on_focus_lost {
                     table_proxy.finish_edit!
                   }
@@ -174,11 +234,6 @@ module Glimmer
                       table_proxy.cancel_edit!
                     end
                   }
-#                   on_widget_selected {
-#                     if !OS.windows? || !first_time || first_time && model.send(property) != table_editor_widget_proxy.swt_widget.text
-#                       table_proxy.finish_edit!
-#                     end
-#                   }
                 }
                 table_editor_widget_proxy
               end,
@@ -365,7 +420,8 @@ module Glimmer
         return if table_item.nil?
         model = table_item.data
         property = column_properties[column_index]
-        @cancel_edit&.call if @edit_mode
+        cancel_edit!
+        return unless table_column_proxies[column_index].editable?
         action_taken = false
         @edit_mode = true
         
@@ -390,7 +446,7 @@ module Glimmer
         end
         
         @finish_edit = lambda do |event=nil|
-          new_value = @table_editor_widget_proxy&.swt_widget&.send(widget_value_property)
+          new_value = @table_editor_widget_proxy&.send(widget_value_property)
           if table_item.isDisposed
             @cancel_edit.call
           elsif !new_value.nil? && !action_taken && !@edit_in_progress && !@cancel_in_progress
