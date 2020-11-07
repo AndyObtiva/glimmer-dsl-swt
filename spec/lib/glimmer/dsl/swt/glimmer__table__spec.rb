@@ -546,20 +546,6 @@ module GlimmerSpec
           expect(@table.table_editor_widget_proxy).to_not be_nil
           expect(@table.table_editor_widget_proxy.swt_widget).to be_a(Spinner)
            
-          @table.table_editor_widget_proxy.swt_widget.setSelection(1)
-          event = Event.new
-          event.doit = true
-          event.character = "\n"
-          event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
-          event.item = @table.table_editor_widget_proxy.swt_widget
-          event.widget = @table.table_editor_widget_proxy.swt_widget
-          event.type = Glimmer::SWT::SWTProxy[:selection]
-          @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-          expect(@write_done).to eq(true)
-          expect(@table.edit_in_progress?).to eq(false)
-          expect(@cancel_done).to be_nil
-          expect(person2.age).to eq(1)
-                
           # test that it maintains selection
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)

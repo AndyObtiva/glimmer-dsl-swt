@@ -32,7 +32,7 @@ module Glimmer
       end
       
       def date_time=(date_time_value)
-        date_time_value = date_time_value.first if date_time_value.is_a?(Array)
+        date_time_value = date_time_value.first if date_time_value.is_a?(Array) # TODO inspct why I have to do this
         self.year = date_time_value.year
         self.month = date_time_value.month
         self.day = date_time_value.day
