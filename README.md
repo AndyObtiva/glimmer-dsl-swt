@@ -359,6 +359,7 @@ Glimmer App:
       - [Hello, Checkbox Group!](#hello-checkbox-group)
       - [Hello, Directory Dialog!](#hello-directory-dialog)
       - [Hello, File Dialog!](#hello-file-dialog)
+      - [Hello, Date Time!](#hello-date-time)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -2372,7 +2373,7 @@ a text widget to the user to change the selected or passed tree item text into s
 
 `date_time` represents the SWT DateTime widget.
 
-Glimmer additionally offers the aliases:
+Glimmer offers the following alias keywords for it for convenience:
 - `date`: `date_time(:date)`
 - `date_drop_down`: `date_time(:date, :drop_down)`
 - `time`: `date_time(:time)`
@@ -2388,6 +2389,8 @@ You can data-bind any of these properties:
 - `hours bind(model, :property)`: produces an integer
 - `minutes bind(model, :property)`: produces an integer
 - `seconds bind(model, :property)`: produces an integer
+
+Learn more at the [Hello, Date Time!](#hello-date-time) sample.
 
 ### Observer
 
@@ -3837,6 +3840,18 @@ Hello, File Dialog! Browse...
 Hello, File Dialog! Selected File
 
 ![Hello File Dialog](images/glimmer-hello-file-dialog-selected-file.png)
+
+#### Hello, Date Time!
+
+This sample demonstrates the use of [date_time](#datetime) widget keywords in Glimmer: `date`, `date_drop_down`, `time`, and `calendar`
+
+Code:
+
+[samples/hello/hello_date_time.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_date_time.rb)
+
+Hello, Date Time!
+
+![Hello Date Time](images/glimmer-hello-date-time.png)
 
 ### Elaborate Samples
 
