@@ -4,6 +4,12 @@
 
 - Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
 - Support table editing via `spinner` for integer values
+- date_time widget official data-binding support of date_time, date, time, year, month, day, hours, minutes, and seconds
+- date widget alias for date_time(:date)
+- time widget alias for date_time(:time)
+- calendar widget alias for date_time(:calendar)
+- date_drop_down widget alias for date_time(:date, :drop_down)
+- Hello, Date Time! Sample
 
 ### 4.17.8.3
 
