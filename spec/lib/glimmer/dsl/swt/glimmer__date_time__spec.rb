@@ -197,6 +197,46 @@ module GlimmerSpec
       person.dob = DateTime.new(2033, 3, 2, 12, 47, 32)
       expect(@date_time.time).to eq(person.dob.to_time)
     end
+    
+    it "renders date widget alias" do
+      @target = shell {
+        @date_time = date
+      }
+
+      expect(@date_time).to_not be_nil
+      expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)
+      expect(@date_time).to have_style(:date)
+    end
+        
+    it "renders date_drop_down widget alias" do
+      @target = shell {
+        @date_time = date_drop_down
+      }
+
+      expect(@date_time).to_not be_nil
+      expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)
+      expect(@date_time).to have_style(:date, :drop_down)
+    end
+        
+    it "renders time widget alias" do
+      @target = shell {
+        @date_time = time
+      }
+
+      expect(@date_time).to_not be_nil
+      expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)
+      expect(@date_time).to have_style(:time)
+    end
+        
+    it "renders calendar widget alias" do
+      @target = shell {
+        @date_time = calendar
+      }
+
+      expect(@date_time).to_not be_nil
+      expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)
+      expect(@date_time).to have_style(:calendar)
+    end
         
   end
   
