@@ -40,6 +40,38 @@ module GlimmerSpec
       expect(@date_time.year).to eq(2038)
       expect(@date_time.month).to eq(11)
       expect(@date_time.day).to eq(29)
+      
+      @date_time.year = 2020
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.year).to eq(2020)
+      
+      @date_time.month = 7
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.month).to eq(7)
+      
+      @date_time.day = 18
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.day).to eq(18)
+      
+      person.dob = Time.new(2033, 3, 2, 12, 47, 32)
+      expect(@date_time.year).to eq(2033)
+      expect(@date_time.month).to eq(3)
+      expect(@date_time.day).to eq(2)
     end
     
     it "renders date time with default :date style, data-binding hour, minute, second" do
@@ -57,6 +89,38 @@ module GlimmerSpec
       expect(@date_time.hours).to eq(12)
       expect(@date_time.minutes).to eq(47)
       expect(@date_time.seconds).to eq(32)
+      
+      @date_time.hours = 20
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.hour).to eq(20)
+      
+      @date_time.minutes = 7
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.min).to eq(7)
+      
+      @date_time.seconds = 18
+      event = Event.new
+      event.display = @date_time.swt_widget.getDisplay
+      event.item = @date_time.swt_widget
+      event.widget = @date_time.swt_widget
+      event.type = Glimmer::SWT::SWTProxy[:selection]
+      @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+      expect(person.dob.sec).to eq(18)
+      
+      person.dob = Time.new(2033, 3, 2, 2, 4, 2)
+      expect(@date_time.hours).to eq(2)
+      expect(@date_time.minutes).to eq(4)
+      expect(@date_time.seconds).to eq(2)
     end
 
   end
