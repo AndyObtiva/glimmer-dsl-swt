@@ -41,9 +41,19 @@ module Glimmer
         self.seconds = date_time_value.sec
       end
       
+      def month
+        swt_widget.month + 1
+      end
+      
+      def month=(new_value)
+        swt_widget.month = new_value - 1
+      end
+      
       def set_attribute(attribute_name, *args)
         if attribute_name.to_s == 'month'
-          swt_widget.month = args.first - 1
+          self.month = args.first
+        elsif attribute_name.to_s == 'date_time'
+          self.date_time = args.first
         else
           super(attribute_name, *args)
         end
@@ -51,7 +61,9 @@ module Glimmer
  
       def get_attribute(attribute_name)
         if attribute_name.to_s == 'month'
-          swt_widget.month + 1
+          month
+        elsif attribute_name.to_s == 'date_time'
+          date_time
         else
           super(attribute_name)
         end
