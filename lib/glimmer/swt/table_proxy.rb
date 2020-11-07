@@ -116,6 +116,9 @@ module Glimmer
                 checkbox(*args) {
                   selection model.send(property)
                   focus true
+                  on_widget_selected {
+                    table_proxy.finish_edit!
+                  }
                   on_focus_lost {
                     table_proxy.finish_edit!
                   }

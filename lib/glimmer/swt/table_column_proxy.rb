@@ -49,7 +49,7 @@ module Glimmer
       end
       
       def editable?
-        !@editor.include?(:none)
+        !@editor&.include?(:none)
       end
       
     end
