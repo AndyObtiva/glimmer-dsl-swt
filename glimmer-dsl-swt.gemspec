@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2020-11-05"
+  s.date = "2020-11-07"
   s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Library)".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
@@ -92,6 +92,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/swt/custom/checkbox_group.rb",
     "lib/glimmer/swt/custom/code_text.rb",
     "lib/glimmer/swt/custom/radio_group.rb",
+    "lib/glimmer/swt/date_time_proxy.rb",
     "lib/glimmer/swt/directory_dialog_proxy.rb",
     "lib/glimmer/swt/display_proxy.rb",
     "lib/glimmer/swt/dnd_proxy.rb",
@@ -137,6 +138,7 @@ Gem::Specification.new do |s|
     "samples/hello/hello_computed/contact.rb",
     "samples/hello/hello_custom_shell.rb",
     "samples/hello/hello_custom_widget.rb",
+    "samples/hello/hello_date_time.rb",
     "samples/hello/hello_directory_dialog.rb",
     "samples/hello/hello_drag_and_drop.rb",
     "samples/hello/hello_expand_bar.rb",
