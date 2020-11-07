@@ -419,7 +419,7 @@ module Glimmer
             end
           },
           Java::OrgEclipseSwtWidgets::DateTime =>
-            [:year, :month, :day, :hours, :minutes, :seconds, :date_time].reduce({}) do |hash, attribute|
+            [:year, :month, :day, :hours, :minutes, :seconds, :date_time, :date, :time].reduce({}) do |hash, attribute|
               hash.merge(
                 attribute => lambda do |observer|
                   on_widget_selected { |selection_event|

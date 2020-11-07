@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'date'
 require 'glimmer/swt/widget_proxy'
 
 module Glimmer
@@ -27,18 +28,35 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class DateTimeProxy < WidgetProxy
+      CUSTOM_ATTRIBUTES = %w[date_time date time month]
+      
       def date_time
-        Time.new(year, month, day, hours, minutes, seconds)
+        DateTime.new(year, month, day, hours, minutes, seconds)
       end
       
       def date_time=(date_time_value)
-        date_time_value = date_time_value.first if date_time_value.is_a?(Array) # TODO inspct why I have to do this
-        self.year = date_time_value.year
-        self.month = date_time_value.month
-        self.day = date_time_value.day
-        self.hours = date_time_value.hour
-        self.minutes = date_time_value.min
-        self.seconds = date_time_value.sec
+        self.time = date_time_value.to_time
+      end
+      
+      def date
+        date_time.to_date
+      end
+      
+      def date=(date_value)
+        self.year = date_value.year
+        self.month = date_value.month
+        self.day = date_value.day
+      end
+      
+      def time
+        date_time.to_time
+      end
+      
+      def time=(time_value)
+        self.date = time_value.to_date
+        self.hours = time_value.hour
+        self.minutes = time_value.min
+        self.seconds = time_value.sec
       end
       
       def month
@@ -50,20 +68,16 @@ module Glimmer
       end
       
       def set_attribute(attribute_name, *args)
-        if attribute_name.to_s == 'month'
-          self.month = args.first
-        elsif attribute_name.to_s == 'date_time'
-          self.date_time = args.first
+        if CUSTOM_ATTRIBUTES.include?(attribute_name.to_s)
+          send(ruby_attribute_setter(attribute_name), args.first)
         else
           super(attribute_name, *args)
         end
       end
  
       def get_attribute(attribute_name)
-        if attribute_name.to_s == 'month'
-          month
-        elsif attribute_name.to_s == 'date_time'
-          date_time
+        if CUSTOM_ATTRIBUTES.include?(attribute_name.to_s)
+          send(attribute_name)
         else
           super(attribute_name)
         end
