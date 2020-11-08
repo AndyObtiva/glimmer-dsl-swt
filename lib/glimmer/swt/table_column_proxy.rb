@@ -35,7 +35,7 @@ module Glimmer
         @no_sort = args.delete(:no_sort)
         super
         on_widget_selected do |event|
-          parent.sort_by_column(self)
+          parent.sort_by_column!(self)
         end unless no_sort?
       end
       

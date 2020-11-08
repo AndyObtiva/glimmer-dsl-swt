@@ -277,17 +277,9 @@ module Glimmer
         @sort_by_block = property_picker
       end
       
-      def sort_property=(new_sort_property, table_column_proxy = nil)
-        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
-        swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
-        
+      def sort_property=(new_sort_property)
         @sort_property = [new_sort_property].flatten.compact
-        table_column_index = column_properties.index(new_sort_property.to_s.to_sym)
-        table_column_proxy ||= table_column_proxies[table_column_index] if table_column_index
-        swt_widget.sort_column = table_column_proxy.swt_widget if table_column_proxy
       end
-      # alias to pass extra args easily since Ruby expects = methods to take one arg only
-      alias set_sort_property sort_property=
       
       def detect_sort_type
         @sort_type = sort_property.size.times.map { String }
@@ -305,10 +297,15 @@ module Glimmer
         end
       end
       
-      def sort_by_column(table_column_proxy)
-        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
-        new_sort_property = table_column_proxy.sort_property || [column_properties[index]]
-        if new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
+      # Sorts by specified TableColumnProxy object. If nil, it uses the table default sort instead.
+      def sort_by_column!(table_column_proxy=nil)
+        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget) unless table_column_proxy.nil?
+        new_sort_property = table_column_proxy.nil? ? @sort_property : table_column_proxy.sort_property || [column_properties[index]]
+        return if table_column_proxy.nil? && new_sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
+        if new_sort_property && table_column_proxy.nil? && new_sort_property.size == 1 && (index = column_properties.index(new_sort_property.first))
+          table_column_proxy = table_column_proxies[index]
+        end
+        if new_sort_property && new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
           selected_additional_sort_properties = additional_sort_properties.clone
           if selected_additional_sort_properties.include?(new_sort_property.first)
             selected_additional_sort_properties.delete(new_sort_property.first)
@@ -318,14 +315,22 @@ module Glimmer
           end
         end
         
-        self.set_sort_property(new_sort_property, table_column_proxy)
+        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
+        swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
         
-        @sort_by_block = nil
-        @sort_block = nil
+        @sort_property = [new_sort_property].flatten.compact
+        table_column_index = column_properties.index(new_sort_property.to_s.to_sym)
+        table_column_proxy ||= table_column_proxies[table_column_index] if table_column_index
+        swt_widget.sort_column = table_column_proxy.swt_widget if table_column_proxy
+                
+        if table_column_proxy
+          @sort_by_block = nil
+          @sort_block = nil
+        end
         @sort_type = nil
-        if table_column_proxy.sort_by_block
+        if table_column_proxy&.sort_by_block
           @sort_by_block = table_column_proxy.sort_by_block
-        elsif table_column_proxy.sort_block
+        elsif table_column_proxy&.sort_block
           @sort_block = table_column_proxy.sort_block
         else
           detect_sort_type
@@ -335,9 +340,7 @@ module Glimmer
       end
       
       def initial_sort!
-        return if sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
-        detect_sort_type if @sort_block.nil? && @sort_by_block.nil?
-        sort!
+        sort_by_column!
       end
       
       def additional_sort_properties=(args)
