@@ -336,13 +336,8 @@ module Glimmer
       
       def initial_sort!
         return if sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
-        if @sort_block.nil? && @sort_by_block.nil?
-          detect_sort_type
-        else
-          @sort_property = column_properties.first # just to avoid sort! returning right away
-        end
+        detect_sort_type if @sort_block.nil? && @sort_by_block.nil?
         sort!
-        @sort_property = nil
       end
       
       def additional_sort_properties=(args)
@@ -363,7 +358,7 @@ module Glimmer
       end
       
       def sort!
-        return unless sort_property && (sort_type || sort_block || sort_by_block)
+        return unless sort_type || sort_block || sort_by_block
         array = model_binding.evaluate_property
         array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
