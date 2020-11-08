@@ -25,55 +25,55 @@ class HelloTable
       def all_playoff_games
         {
           'NLDS' => [
-            new(Time.new(2037, 10, 6, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 9, 10),
-            new(Time.new(2037, 10, 6, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals', 2, 4),
-            new(Time.new(2037, 10, 7, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals', 5, 6),
-            new(Time.new(2037, 10, 8, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds', 0, 7),
-            new(Time.new(2037, 10, 9, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds', 3, 4),
-            new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 11, 13),
+            new(Time.new(2037, 10, 6, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers'),
+            new(Time.new(2037, 10, 7, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers'),
+            new(Time.new(2037, 10, 8, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 9, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 6, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals'),
+            new(Time.new(2037, 10, 7, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals'),
+            new(Time.new(2037, 10, 8, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 9, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds'),
           ],
           'ALDS' => [
-            new(Time.new(2037, 10, 6, 12, 0),  'New York Yankees', 'Boston Red Sox', 4, 16),
-            new(Time.new(2037, 10, 7, 12, 0),  'New York Yankees', 'Boston Red Sox', 9, 8),
-            new(Time.new(2037, 10, 8, 12, 0),  'Boston Red Sox', 'New York Yankees', 2, 13),
-            new(Time.new(2037, 10, 9, 12, 0),  'Boston Red Sox', 'New York Yankees', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 10, 9),
-            new(Time.new(2037, 10, 6, 18, 0),  'Houston Astros', 'Cleveland Indians', 4, 8),
-            new(Time.new(2037, 10, 7, 18, 0),  'Houston Astros', 'Cleveland Indians', 2, 9),
-            new(Time.new(2037, 10, 8, 18, 0),  'Cleveland Indians', 'Houston Astros', 1, 6),
-            new(Time.new(2037, 10, 9, 18, 0),  'Cleveland Indians', 'Houston Astros', 6, 8),
-            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros', 5, 6),
+            new(Time.new(2037, 10, 6, 12, 0),  'New York Yankees', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 7, 12, 0),  'New York Yankees', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 8, 12, 0),  'Boston Red Sox', 'New York Yankees'),
+            new(Time.new(2037, 10, 9, 12, 0),  'Boston Red Sox', 'New York Yankees'),
+            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees'),
+            new(Time.new(2037, 10, 6, 18, 0),  'Houston Astros', 'Cleveland Indians'),
+            new(Time.new(2037, 10, 7, 18, 0),  'Houston Astros', 'Cleveland Indians'),
+            new(Time.new(2037, 10, 8, 18, 0),  'Cleveland Indians', 'Houston Astros'),
+            new(Time.new(2037, 10, 9, 18, 0),  'Cleveland Indians', 'Houston Astros'),
+            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros'),
           ],
           'NLCS' => [
-            new(Time.new(2037, 10, 12, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 6, 8),
-            new(Time.new(2037, 10, 13, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 12, 6),
-            new(Time.new(2037, 10, 14, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 3, 4),
-            new(Time.new(2037, 10, 15, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 0),
-            new(Time.new(2037, 10, 16, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 3, 10),
-            new(Time.new(2037, 10, 17, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 6, 7),
-            new(Time.new(2037, 10, 18, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 5),
+            new(Time.new(2037, 10, 12, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 13, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 14, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 15, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 16, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 17, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 18, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
           ],
           'ALCS' => [
-            new(Time.new(2037, 10, 12, 12, 0), 'Houston Astros', 'Boston Red Sox', 5, 7),
-            new(Time.new(2037, 10, 13, 12, 0), 'Houston Astros', 'Boston Red Sox', 11, 7),
-            new(Time.new(2037, 10, 14, 12, 0), 'Boston Red Sox', 'Houston Astros', 2, 3),
-            new(Time.new(2037, 10, 15, 12, 0), 'Boston Red Sox', 'Houston Astros', 1, 0),
-            new(Time.new(2037, 10, 16, 12, 0), 'Boston Red Sox', 'Houston Astros', 19, 10),
-            new(Time.new(2037, 10, 17, 12, 0), 'Houston Astros', 'Boston Red Sox', 15, 7),
-            new(Time.new(2037, 10, 18, 12, 0), 'Houston Astros', 'Boston Red Sox', 11, 17),
+            new(Time.new(2037, 10, 12, 12, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 13, 12, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 14, 12, 0), 'Boston Red Sox', 'Houston Astros'),
+            new(Time.new(2037, 10, 15, 12, 0), 'Boston Red Sox', 'Houston Astros'),
+            new(Time.new(2037, 10, 16, 12, 0), 'Boston Red Sox', 'Houston Astros'),
+            new(Time.new(2037, 10, 17, 12, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 18, 12, 0), 'Houston Astros', 'Boston Red Sox'),
           ],
           'World Series' => [
-            new(Time.new(2037, 10, 20, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 0, 4),
-            new(Time.new(2037, 10, 21, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 4, 9),
-            new(Time.new(2037, 10, 22, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 12, 3),
-            new(Time.new(2037, 10, 23, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 10, 0),
-            new(Time.new(2037, 10, 24, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 0, 1),
-            new(Time.new(2037, 10, 25, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 15, 14),
-            new(Time.new(2037, 10, 26, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 11, 17),
+            new(Time.new(2037, 10, 20, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 21, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 22, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 23, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 24, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 25, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 26, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
           ]
         }
       end
@@ -115,14 +115,12 @@ class HelloTable
       'St Louis Cardinals' => 'Busch Stadium',
     }
     
-    attr_accessor :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
+    attr_accessor :date_time, :home_team, :away_team, :ballpark
     
-    def initialize(date_time, home_team, away_team, home_team_runs, away_team_runs)
+    def initialize(date_time, home_team, away_team)
       self.date_time = date_time
       self.home_team = home_team
       self.away_team = away_team
-      self.home_team_runs = home_team_runs
-      self.away_team_runs = away_team_runs
       observe(self, :date_time) do |new_value|
         notify_observers(:game_date)
         notify_observers(:game_time)
@@ -211,31 +209,21 @@ class HelloTable
         table_column {
           text 'Home Team'
           width 150
-          editor :combo, :read_only
-        }
-        table_column {
-          text 'Runs'
-          width 50
-          editor :spinner
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         table_column {
           text 'Away Team'
           width 150
-          editor :combo, :read_only
-        }
-        table_column {
-          text 'Runs'
-          width 50
-          editor :spinner
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :home_team_runs, :away_team, :away_team_runs)
+        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team)
         
         sort_property :date
         
         # Sort by these additional properties after handling sort by the column the user clicked
-        additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
+        additional_sort_properties :date, :time, :home_team, :away_team, :ballpark
       }
     }.open
   end

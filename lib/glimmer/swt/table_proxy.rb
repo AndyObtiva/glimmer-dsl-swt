@@ -367,7 +367,7 @@ module Glimmer
       end
       
       def sort!
-        return unless sort_type || sort_block || sort_by_block
+        return unless sort_property && (sort_type || sort_block || sort_by_block)
         array = model_binding.evaluate_property
         array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
@@ -424,7 +424,9 @@ module Glimmer
       end
       
       def post_add_content
+        return if @initially_sorted
         initial_sort!
+        @initially_sorted = true
       end
       
       def table_column_proxies
