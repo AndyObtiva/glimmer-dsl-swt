@@ -3,6 +3,7 @@
 ### 4.17.10.0
 
 - Support table editing via `date_time` for date/time values
+- Support table default sort configuration via sort_property
 
 ### 4.17.9.0
 

@@ -245,7 +245,7 @@ module Glimmer
         end
       end
       
-      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
+      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable, :initial_sort_property
       attr_accessor :column_properties
       alias editable? editable
       
@@ -269,37 +269,17 @@ module Glimmer
         swt_widget.data
       end
       
-      def sort_by_column(table_column_proxy)
-        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
-        new_sort_property = table_column_proxy.sort_property || [column_properties[index]]
-        if new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
-          selected_additional_sort_properties = additional_sort_properties.clone
-          if selected_additional_sort_properties.include?(new_sort_property.first)
-            selected_additional_sort_properties.delete(new_sort_property.first)
-            new_sort_property += selected_additional_sort_properties
-          else
-            new_sort_property += additional_sort_properties
-          end
-        end
-        
+      def sort_property=(new_sort_property, table_column_proxy = nil)
         @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
         swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
         
-        @sort_property = new_sort_property
-        swt_widget.sort_column = table_column_proxy.swt_widget
-        
-        @sort_by_block = nil
-        @sort_block = nil
-        @sort_type = nil
-        if table_column_proxy.sort_by_block
-          @sort_by_block = table_column_proxy.sort_by_block
-        elsif table_column_proxy.sort_block
-          @sort_block = table_column_proxy.sort_block
-        else
-          detect_sort_type
-        end
-        sort
+        @sort_property = [new_sort_property].flatten.compact
+        table_column_index = column_properties.index(new_sort_property.to_s.to_sym)
+        table_column_proxy ||= table_column_proxies[table_column_index] if table_column_index
+        swt_widget.sort_column = table_column_proxy.swt_widget if table_column_proxy
       end
+      # alias to pass extra args easily since Ruby expects = methods to take one arg only
+      alias set_sort_property sort_property=
       
       def detect_sort_type
         @sort_type = sort_property.size.times.map { String }
@@ -315,6 +295,41 @@ module Glimmer
             @sort_type[i] = Float
           end
         end
+      end
+      
+      def sort_by_column(table_column_proxy)
+        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget)
+        new_sort_property = table_column_proxy.sort_property || [column_properties[index]]
+        if new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
+          selected_additional_sort_properties = additional_sort_properties.clone
+          if selected_additional_sort_properties.include?(new_sort_property.first)
+            selected_additional_sort_properties.delete(new_sort_property.first)
+            new_sort_property += selected_additional_sort_properties
+          else
+            new_sort_property += additional_sort_properties
+          end
+        end
+        
+        self.set_sort_property(new_sort_property, table_column_proxy)
+        
+        @sort_by_block = nil
+        @sort_block = nil
+        @sort_type = nil
+        if table_column_proxy.sort_by_block
+          @sort_by_block = table_column_proxy.sort_by_block
+        elsif table_column_proxy.sort_block
+          @sort_block = table_column_proxy.sort_block
+        else
+          detect_sort_type
+        end
+                
+        sort
+      end
+      
+      def initial_sort!
+        return if sort_property.nil?
+        detect_sort_type
+        sort
       end
       
       def additional_sort_properties=(args)
@@ -389,6 +404,10 @@ module Glimmer
       
       def post_initialize_child(table_column_proxy)
         table_column_proxies << table_column_proxy
+      end
+      
+      def post_add_content
+        initial_sort!
       end
       
       def table_column_proxies

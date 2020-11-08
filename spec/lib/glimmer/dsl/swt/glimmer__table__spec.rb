@@ -71,7 +71,7 @@ module GlimmerSpec
 
     let(:person1) do
       Person.new.tap do |person|
-        person.name = "Bruce Ting"
+        person.name = 'Bruce Ting'
         person.age = 45
         person.adult = true
         person.dob = ::DateTime.new(1950, 4, 17, 13, 3, 55)
@@ -81,7 +81,7 @@ module GlimmerSpec
 
     let(:person2) do
       Person.new.tap do |person|
-        person.name = "Julia Fang"
+        person.name = 'Julia Fang'
         person.age = 17
         person.adult = false
         person.dob = ::DateTime.new(1978, 11, 27, 22, 47, 25)
@@ -91,7 +91,7 @@ module GlimmerSpec
     
     let(:person3) do
       Person.new.tap do |person|
-        person.name = "Ava Fang"
+        person.name = 'Ava Fang'
         person.age = 17
         person.adult = false
         person.dob = ::DateTime.new(1978, 11, 27, 22, 47, 25)
@@ -101,7 +101,7 @@ module GlimmerSpec
     
     let(:person4) do
       Person.new.tap do |person|
-        person.name = "Ava Fang"
+        person.name = 'Ava Fang'
         person.age = 17
         person.adult = false
         person.dob = ::DateTime.new(1978, 11, 27, 22, 47, 25)
@@ -1497,8 +1497,11 @@ module GlimmerSpec
               width 120
             }
             items bind(group, :people), column_properties(:name, :age, :adult, :salary)
+            sort_property :salary
           }
         }
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
         
         event = Event.new
         event.doit = true

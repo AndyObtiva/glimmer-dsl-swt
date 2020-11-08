@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Support table default sort configuration via sort block
+- Support table default sort configuration via sort_by block
 - Support table default sort configuration via initial_sort_property, initial_sort, and initial_sort_by block
 - Hello, Table! Sample TODO editor :date_time, property: :date_time in
       # TODO label for  (Baseball Game Schedule)
