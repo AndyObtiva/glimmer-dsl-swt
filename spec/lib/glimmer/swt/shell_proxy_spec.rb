@@ -49,8 +49,41 @@ module GlimmerSpec
           end
           @target.visible = true
         end
+        
+        describe '#include_focus_control?' do
+          it 'is true for a shell that includes the focus control and false otherwise' do
+            @target = shell {
+              text {
+                focus true
+              }
+            }
+            @target.setAlpha(0) # keep invisible while running specs
+            @target2 = shell(@target) {
+              combo {
+                focus true
+              }
+            }
+            @target2.setAlpha(0) # keep invisible while running specs
+            expect(@target.include_focus_control?).to eq(false)
+            expect(@target2.include_focus_control?).to eq(false)
+            # async_exec blocks execute after opening target
+            async_exec do
+              @target2.open
+              @shell1_include_focus_control = @target.include_focus_control?
+              @shell2_include_focus_control = @target2.include_focus_control?
+            end
+            async_exec do
+              @target2.close
+              @target.close
+            end
+            @target.open
+            expect(@shell1_include_focus_control).to eq(false)
+            expect(@shell2_include_focus_control).to eq(true)
+          end
+          
+        end
       end
-  
+      
       describe '#pack' do
         it 'packs shell content by invoking SWT Shell#pack' do
           @target = shell {
@@ -129,4 +162,4 @@ module GlimmerSpec
     end
     
   end
-end        
+end

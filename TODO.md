@@ -4,9 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- method on shell to indicate if it conatins widget in focus
-- Document Table Editing instructions in README including all editor types like spinner and data_time
 - Hello, Spinner! Sample
+- Document Table Editing instructions in README including all editor types like spinner and data_time
 
 ## Soon
 

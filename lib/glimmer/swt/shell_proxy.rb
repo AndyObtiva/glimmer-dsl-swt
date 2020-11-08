@@ -88,18 +88,26 @@ module Glimmer
 
       # Opens shell and starts SWT's UI thread event loop
       def open
+        open_only
+        start_event_loop unless nested?
+      end
+      alias show open
+      
+      # Opens without starting the event loop.
+      def open_only
         if @opened_before
           @swt_widget.setVisible(true)
-          # notify_observers('visible')
         else
           @opened_before = true
           @swt_widget.pack
           center
           @swt_widget.open
-          start_event_loop
         end
       end
-      alias show open
+      
+      def nested?
+        !parent.nil?
+      end
 
       def hide
         @swt_widget.setVisible(false)
@@ -112,6 +120,10 @@ module Glimmer
       # Setting to true opens/shows shell. Setting to false hides the shell.
       def visible=(visibility)
         visibility ? show : hide
+      end
+      
+      def include_focus_control?
+        DisplayProxy.instance.focus_control&.shell == swt_widget
       end
 
       def pack
@@ -169,6 +181,9 @@ module Glimmer
           super
         end
       end
+      
     end
+    
   end
+  
 end
