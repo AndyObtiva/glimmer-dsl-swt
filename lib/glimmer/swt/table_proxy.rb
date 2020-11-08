@@ -297,12 +297,18 @@ module Glimmer
         end
       end
       
+      def column_sort_properties
+        column_properties.zip(table_column_proxies.map(&:sort_property)).map do |pair|
+          [pair.compact.last].flatten.compact
+        end
+      end
+      
       # Sorts by specified TableColumnProxy object. If nil, it uses the table default sort instead.
       def sort_by_column!(table_column_proxy=nil)
         index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget) unless table_column_proxy.nil?
         new_sort_property = table_column_proxy.nil? ? @sort_property : table_column_proxy.sort_property || [column_properties[index]]
         return if table_column_proxy.nil? && new_sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
-        if new_sort_property && table_column_proxy.nil? && new_sort_property.size == 1 && (index = column_properties.index(new_sort_property.first))
+        if new_sort_property && table_column_proxy.nil? && new_sort_property.size == 1 && (index = column_sort_properties.index(new_sort_property))
           table_column_proxy = table_column_proxies[index]
         end
         if new_sort_property && new_sort_property.size == 1 && !additional_sort_properties.to_a.empty?
@@ -315,7 +321,7 @@ module Glimmer
           end
         end
         
-        @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
+        @sort_direction = @sort_direction.nil? || @sort_property.first != new_sort_property.first || @sort_direction == :descending ? :ascending : :descending
         swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
         
         @sort_property = [new_sort_property].flatten.compact

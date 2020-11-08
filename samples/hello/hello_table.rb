@@ -80,11 +80,11 @@ class HelloTable
     end
     
     def date
-      date_time.to_date
+      Date.new(date_time.year, date_time.month, date_time.day)
     end
     
     def time
-      date_time.to_time
+      Time.new(0, 1, 1, date_time.hour, date_time.min, date_time.sec, '+00:00')
     end
     
     def game_date
@@ -151,7 +151,9 @@ class HelloTable
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
         items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :home_team_runs, :away_team, :away_team_runs)
         
-        # Sort by these additional properties after handling the main column sort the user selected
+        sort_property :date
+        
+        # Sort by these additional properties after handling sort by the column the user clicked
         additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
       }
     }.open

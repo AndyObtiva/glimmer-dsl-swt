@@ -6,6 +6,7 @@
 - Support table default sort configuration via sort_property
 - Support table default sort configuration via sort block
 - Support table default sort configuration via sort_by block
+- Hello, Table! Sample editor :date_time, property: :date_time in
 
 ### 4.17.9.0
 
