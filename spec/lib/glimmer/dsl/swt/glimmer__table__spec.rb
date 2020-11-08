@@ -1619,15 +1619,18 @@ module GlimmerSpec
             @table_column1 = table_column {
               text "Name"
               width 120
-              sort {|t1, t2| t1.name.split.last <=> t2.name.split.last}
+              sort {|p1, p2| p1.name.split.last <=> p2.name.split.last}
             }
             @table_column2 = table_column {
               text "Age"
               width 120
             }
             items bind(group, :people), column_properties(:name, :age, :adult, :dob)
+            sort {|p1, p2| p1.name.reverse <=> p2.name.reverse}
           }
         }
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
         
         event = Event.new
         event.doit = true
@@ -1672,15 +1675,18 @@ module GlimmerSpec
             @table_column1 = table_column {
               text "Name"
               width 120
-              sort_by {|task| task.name.split.last}
+              sort_by {|person| person.name.split.last}
             }
             @table_column2 = table_column {
               text "Age"
               width 120
             }
             items bind(group, :people), column_properties(:name, :age, :adult, :dob)
+            sort_by {|person| person.name.reverse}
           }
         }
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
         
         event = Event.new
         event.doit = true

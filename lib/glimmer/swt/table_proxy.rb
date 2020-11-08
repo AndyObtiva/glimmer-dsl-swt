@@ -269,6 +269,14 @@ module Glimmer
         swt_widget.data
       end
       
+      def sort_block=(comparator)
+        @sort_block = comparator
+      end
+      
+      def sort_by_block=(property_picker)
+        @sort_by_block = property_picker
+      end
+      
       def sort_property=(new_sort_property, table_column_proxy = nil)
         @sort_direction = @sort_direction.nil? || @sort_property != new_sort_property || @sort_direction == :descending ? :ascending : :descending
         swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
@@ -323,13 +331,18 @@ module Glimmer
           detect_sort_type
         end
                 
-        sort
+        sort!
       end
       
       def initial_sort!
-        return if sort_property.nil?
-        detect_sort_type
-        sort
+        return if sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
+        if @sort_block.nil? && @sort_by_block.nil?
+          detect_sort_type
+        else
+          @sort_property = column_properties.first # just to avoid sort! returning right away
+        end
+        sort!
+        @sort_property = nil
       end
       
       def additional_sort_properties=(args)
@@ -349,7 +362,7 @@ module Glimmer
         swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
       end
       
-      def sort
+      def sort!
         return unless sort_property && (sort_type || sort_block || sort_by_block)
         array = model_binding.evaluate_property
         array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop

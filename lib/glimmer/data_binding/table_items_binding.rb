@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -61,7 +61,7 @@ module Glimmer
           add_dependent(@table_observer_registration => @table_items_observer_registration)
           @model_collection = new_model_collection
         end
-        populate_table(@model_collection, @table, @column_properties)        
+        populate_table(@model_collection, @table, @column_properties)
       end
       
       def populate_table(model_collection, parent, column_properties)
@@ -79,7 +79,7 @@ module Glimmer
         selected_table_items = parent.search {|item| selected_table_item_models.include?(item.getData) }
         selected_table_items = [parent.swt_widget.getItems.first].to_java(TableItem) if selected_table_items.empty? && !parent.swt_widget.getItems.empty?
         parent.swt_widget.setSelection(selected_table_items) unless selected_table_items.empty?
-        parent.sort
+        parent.sort!
         parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
       end
     end
