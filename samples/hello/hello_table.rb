@@ -22,34 +22,97 @@
 class HelloTable
   class BaseballGame
     class << self
+      def all_playoff_games
+        {
+          'NLDS' => [
+            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 9, 10),
+            new(Time.new(2037, 10, 6, 18, 0), 'Cincinnati Reds', 'St Louis Cardinals', 2, 4),
+            new(Time.new(2037, 10, 7, 18, 0), 'Cincinnati Reds', 'St Louis Cardinals', 5, 6),
+            new(Time.new(2037, 10, 8, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 0, 7),
+            new(Time.new(2037, 10, 9, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 3, 4),
+            new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 11, 13),
+          ],
+          'ALDS' => [
+            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0), 'Boston Red Sox', 'New York Yankees', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0), 'Boston Red Sox', 'New York Yankees', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 9, 10),
+            new(Time.new(2037, 10, 6, 18, 0), 'Houston Astros', 'Cleveland Indians', 2, 4),
+            new(Time.new(2037, 10, 7, 18, 0), 'Houston Astros', 'Cleveland Indians', 5, 6),
+            new(Time.new(2037, 10, 8, 18, 0), 'Cleveland Indians', 'Houston Astros', 0, 7),
+            new(Time.new(2037, 10, 9, 18, 0), 'Cleveland Indians', 'Houston Astros', 3, 4),
+            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros', 11, 13),
+          ],
+          'NLCS' => [
+            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 9, 10),
+            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+          ],
+          'ALCS' => [
+            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0), 'Boston Red Sox', 'New York Yankees', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0), 'Boston Red Sox', 'New York Yankees', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 9, 10),
+            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
+          ],
+          'World Series' => [
+            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 9, 10),
+            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+          ]
+        }
+      end
+    
+      def playoff_type
+        @playoff_type ||= 'NLDS'
+      end
+      
+      def playoff_type=(new_playoff_type)
+        @playoff_type = new_playoff_type
+        self.schedule=(all_playoff_games[@playoff_type])
+      end
+      
+      def playoff_type_options
+        all_playoff_games.keys
+      end
+      
       def schedule
-        @schedule ||= [
-          new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
-          new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
-          new(Time.new(2037, 10, 8, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
-          new(Time.new(2037, 10, 9, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
-          new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 9, 10),
-          new(Time.new(2037, 10, 6, 18, 0), 'Chicago White Sox', 'St Louis Cardinals', 2, 4),
-          new(Time.new(2037, 10, 7, 18, 0), 'Chicago White Sox', 'St Louis Cardinals', 5, 6),
-          new(Time.new(2037, 10, 8, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 0, 7),
-          new(Time.new(2037, 10, 9, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 3, 4),
-          new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Chicago White Sox', 11, 13),
-        ]
+        @schedule ||= all_playoff_games[playoff_type]
       end
       
       def schedule=(new_schedule)
         @schedule = new_schedule
       end
+      
     end
     
     include Glimmer
     include Glimmer::DataBinding::ObservableModel
     
     TEAM_BALLPARKS = {
+      'Boston Red Sox'     => 'Fenway Park',
       'Chicago Cubs'       => 'Wrigley Field',
-      'Chicago White Sox'  => 'Guaranteed Rate Field',
+      'Cincinnati Reds'    => 'Great American Ball Park',
+      'Cleveland Indians'  => 'Progressive Field',
+      'Houston Astros'     => 'Minute Maid Park',
       'Milwaukee Brewers'  => 'Miller Park',
-      'St Louis Cardinals' => 'Busch Stadium'
+      'New York Yankees'   => 'Yankee Stadium',
+      'St Louis Cardinals' => 'Busch Stadium',
     }
     
     attr_accessor :date_time, :home_team, :away_team, :ballpark, :home_team_runs, :away_team_runs
@@ -108,8 +171,25 @@ class HelloTable
   
   def launch
     shell {
+      grid_layout
+      
       text 'Hello, Table!'
+      
+      label {
+        layout_data :center, :center, true, false
+        
+        text 'Baseball Game Playoffs'
+        font height: 30, style: :bold
+      }
+      
+      combo(:read_only) {
+        layout_data :center, :center, true, false
+        selection bind(BaseballGame, :playoff_type)
+      }
+      
       table(:editable) { |table_proxy|
+        layout_data :fill, :fill, true, true
+      
         table_column {
           text 'Game Date'
           width 150
@@ -124,7 +204,7 @@ class HelloTable
         }
         table_column {
           text 'Ballpark'
-          width 150
+          width 180
           editor :none
         }
         table_column {

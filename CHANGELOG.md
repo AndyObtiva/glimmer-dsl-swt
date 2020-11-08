@@ -7,6 +7,9 @@
 - Support table default sort configuration via sort block
 - Support table default sort configuration via sort_by block
 - Hello, Table! Sample editor :date_time, property: :date_time in
+- Hello, Table! Sample label for  (Baseball Game Schedule)
+- Hello, Table! Sample combo for selecting nlds, nlcs, alds, alcs, world series
+
 
 ### 4.17.9.0
 
