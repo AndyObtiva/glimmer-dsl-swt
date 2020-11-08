@@ -25,55 +25,55 @@ class HelloTable
       def all_playoff_games
         {
           'NLDS' => [
-            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
+            new(Time.new(2037, 10, 6, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers', 5, 7),
+            new(Time.new(2037, 10, 7, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers', 11, 7),
+            new(Time.new(2037, 10, 8, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs', 2, 3),
+            new(Time.new(2037, 10, 9, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs', 1, 0),
             new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 9, 10),
-            new(Time.new(2037, 10, 6, 18, 0), 'Cincinnati Reds', 'St Louis Cardinals', 2, 4),
-            new(Time.new(2037, 10, 7, 18, 0), 'Cincinnati Reds', 'St Louis Cardinals', 5, 6),
-            new(Time.new(2037, 10, 8, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 0, 7),
-            new(Time.new(2037, 10, 9, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 3, 4),
+            new(Time.new(2037, 10, 6, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals', 2, 4),
+            new(Time.new(2037, 10, 7, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals', 5, 6),
+            new(Time.new(2037, 10, 8, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds', 0, 7),
+            new(Time.new(2037, 10, 9, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds', 3, 4),
             new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 11, 13),
           ],
           'ALDS' => [
-            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0), 'Boston Red Sox', 'New York Yankees', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0), 'Boston Red Sox', 'New York Yankees', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 9, 10),
-            new(Time.new(2037, 10, 6, 18, 0), 'Houston Astros', 'Cleveland Indians', 2, 4),
-            new(Time.new(2037, 10, 7, 18, 0), 'Houston Astros', 'Cleveland Indians', 5, 6),
-            new(Time.new(2037, 10, 8, 18, 0), 'Cleveland Indians', 'Houston Astros', 0, 7),
-            new(Time.new(2037, 10, 9, 18, 0), 'Cleveland Indians', 'Houston Astros', 3, 4),
-            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros', 11, 13),
+            new(Time.new(2037, 10, 6, 12, 0),  'New York Yankees', 'Boston Red Sox', 4, 16),
+            new(Time.new(2037, 10, 7, 12, 0),  'New York Yankees', 'Boston Red Sox', 9, 8),
+            new(Time.new(2037, 10, 8, 12, 0),  'Boston Red Sox', 'New York Yankees', 2, 13),
+            new(Time.new(2037, 10, 9, 12, 0),  'Boston Red Sox', 'New York Yankees', 1, 0),
+            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 10, 9),
+            new(Time.new(2037, 10, 6, 18, 0),  'Houston Astros', 'Cleveland Indians', 4, 8),
+            new(Time.new(2037, 10, 7, 18, 0),  'Houston Astros', 'Cleveland Indians', 2, 9),
+            new(Time.new(2037, 10, 8, 18, 0),  'Cleveland Indians', 'Houston Astros', 1, 6),
+            new(Time.new(2037, 10, 9, 18, 0),  'Cleveland Indians', 'Houston Astros', 6, 8),
+            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros', 5, 6),
           ],
           'NLCS' => [
-            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 9, 10),
-            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+            new(Time.new(2037, 10, 12, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 6, 8),
+            new(Time.new(2037, 10, 13, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 12, 6),
+            new(Time.new(2037, 10, 14, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 3, 4),
+            new(Time.new(2037, 10, 15, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 0),
+            new(Time.new(2037, 10, 16, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 3, 10),
+            new(Time.new(2037, 10, 17, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 6, 7),
+            new(Time.new(2037, 10, 18, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 5),
           ],
           'ALCS' => [
-            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0), 'Boston Red Sox', 'New York Yankees', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0), 'Boston Red Sox', 'New York Yankees', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 9, 10),
-            new(Time.new(2037, 10, 6, 12, 0), 'New York Yankees', 'Boston Red Sox', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'New York Yankees', 'Boston Red Sox', 11, 7),
+            new(Time.new(2037, 10, 12, 12, 0), 'Houston Astros', 'Boston Red Sox', 5, 7),
+            new(Time.new(2037, 10, 13, 12, 0), 'Houston Astros', 'Boston Red Sox', 11, 7),
+            new(Time.new(2037, 10, 14, 12, 0), 'Boston Red Sox', 'Houston Astros', 2, 3),
+            new(Time.new(2037, 10, 15, 12, 0), 'Boston Red Sox', 'Houston Astros', 1, 0),
+            new(Time.new(2037, 10, 16, 12, 0), 'Boston Red Sox', 'Houston Astros', 19, 10),
+            new(Time.new(2037, 10, 17, 12, 0), 'Houston Astros', 'Boston Red Sox', 15, 7),
+            new(Time.new(2037, 10, 18, 12, 0), 'Houston Astros', 'Boston Red Sox', 11, 17),
           ],
           'World Series' => [
-            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
-            new(Time.new(2037, 10, 8, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 2, 3),
-            new(Time.new(2037, 10, 9, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 1, 0),
-            new(Time.new(2037, 10, 10, 12, 0), 'Cincinnati Reds', 'Chicago Cubs', 9, 10),
-            new(Time.new(2037, 10, 6, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 5, 7),
-            new(Time.new(2037, 10, 7, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 11, 7),
+            new(Time.new(2037, 10, 20, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 0, 4),
+            new(Time.new(2037, 10, 21, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 4, 9),
+            new(Time.new(2037, 10, 22, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 12, 3),
+            new(Time.new(2037, 10, 23, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 10, 0),
+            new(Time.new(2037, 10, 24, 12, 0), 'Boston Red Sox', 'Chicago Cubs', 0, 1),
+            new(Time.new(2037, 10, 25, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 15, 14),
+            new(Time.new(2037, 10, 26, 12, 0), 'Chicago Cubs', 'Boston Red Sox', 11, 17),
           ]
         }
       end
@@ -178,13 +178,14 @@ class HelloTable
       label {
         layout_data :center, :center, true, false
         
-        text 'Baseball Game Playoffs'
+        text 'Baseball Playoffs'
         font height: 30, style: :bold
       }
       
       combo(:read_only) {
         layout_data :center, :center, true, false
         selection bind(BaseballGame, :playoff_type)
+        font height: 16
       }
       
       table(:editable) { |table_proxy|
