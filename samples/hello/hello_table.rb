@@ -23,57 +23,57 @@ class HelloTable
   class BaseballGame
     class << self
       def all_playoff_games
-        {
+        @all_playoff_games ||= {
           'NLDS' => [
-            new(Time.new(2037, 10, 6, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers'),
+            new(Time.new(2037, 10, 6, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers', 'Free Bobblehead'),
             new(Time.new(2037, 10, 7, 12, 0),  'Chicago Cubs', 'Milwaukee Brewers'),
             new(Time.new(2037, 10, 8, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs'),
             new(Time.new(2037, 10, 9, 12, 0),  'Milwaukee Brewers', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 6, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals'),
+            new(Time.new(2037, 10, 10, 12, 0), 'Milwaukee Brewers', 'Chicago Cubs', 'Free Umbrella'),
+            new(Time.new(2037, 10, 6, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals', 'Free Bobblehead'),
             new(Time.new(2037, 10, 7, 18, 0),  'Cincinnati Reds', 'St Louis Cardinals'),
             new(Time.new(2037, 10, 8, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds'),
             new(Time.new(2037, 10, 9, 18, 0),  'St Louis Cardinals', 'Cincinnati Reds'),
-            new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 10, 18, 0), 'St Louis Cardinals', 'Cincinnati Reds', 'Free Umbrella'),
           ],
           'ALDS' => [
-            new(Time.new(2037, 10, 6, 12, 0),  'New York Yankees', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 6, 12, 0),  'New York Yankees', 'Boston Red Sox', 'Free Bobblehead'),
             new(Time.new(2037, 10, 7, 12, 0),  'New York Yankees', 'Boston Red Sox'),
             new(Time.new(2037, 10, 8, 12, 0),  'Boston Red Sox', 'New York Yankees'),
             new(Time.new(2037, 10, 9, 12, 0),  'Boston Red Sox', 'New York Yankees'),
-            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees'),
-            new(Time.new(2037, 10, 6, 18, 0),  'Houston Astros', 'Cleveland Indians'),
+            new(Time.new(2037, 10, 10, 12, 0), 'Boston Red Sox', 'New York Yankees', 'Free Umbrella'),
+            new(Time.new(2037, 10, 6, 18, 0),  'Houston Astros', 'Cleveland Indians', 'Free Bobblehead'),
             new(Time.new(2037, 10, 7, 18, 0),  'Houston Astros', 'Cleveland Indians'),
             new(Time.new(2037, 10, 8, 18, 0),  'Cleveland Indians', 'Houston Astros'),
             new(Time.new(2037, 10, 9, 18, 0),  'Cleveland Indians', 'Houston Astros'),
-            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros'),
+            new(Time.new(2037, 10, 10, 18, 0), 'Cleveland Indians', 'Houston Astros', 'Free Umbrella'),
           ],
           'NLCS' => [
-            new(Time.new(2037, 10, 12, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 12, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 'Free Towel'),
             new(Time.new(2037, 10, 13, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
             new(Time.new(2037, 10, 14, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 15, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 16, 12, 0), 'Cincinnati Reds', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 17, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
-            new(Time.new(2037, 10, 18, 12, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 15, 18, 0), 'Cincinnati Reds', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 16, 18, 0), 'Cincinnati Reds', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 17, 18, 0), 'Chicago Cubs', 'Cincinnati Reds'),
+            new(Time.new(2037, 10, 18, 12, 0), 'Chicago Cubs', 'Cincinnati Reds', 'Free Poncho'),
           ],
           'ALCS' => [
-            new(Time.new(2037, 10, 12, 12, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 12, 12, 0), 'Houston Astros', 'Boston Red Sox', 'Free Towel'),
             new(Time.new(2037, 10, 13, 12, 0), 'Houston Astros', 'Boston Red Sox'),
             new(Time.new(2037, 10, 14, 12, 0), 'Boston Red Sox', 'Houston Astros'),
-            new(Time.new(2037, 10, 15, 12, 0), 'Boston Red Sox', 'Houston Astros'),
-            new(Time.new(2037, 10, 16, 12, 0), 'Boston Red Sox', 'Houston Astros'),
-            new(Time.new(2037, 10, 17, 12, 0), 'Houston Astros', 'Boston Red Sox'),
-            new(Time.new(2037, 10, 18, 12, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 15, 18, 0), 'Boston Red Sox', 'Houston Astros'),
+            new(Time.new(2037, 10, 16, 18, 0), 'Boston Red Sox', 'Houston Astros'),
+            new(Time.new(2037, 10, 17, 18, 0), 'Houston Astros', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 18, 12, 0), 'Houston Astros', 'Boston Red Sox', 'Free Poncho'),
           ],
           'World Series' => [
-            new(Time.new(2037, 10, 20, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
-            new(Time.new(2037, 10, 21, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
-            new(Time.new(2037, 10, 22, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 23, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 24, 12, 0), 'Boston Red Sox', 'Chicago Cubs'),
-            new(Time.new(2037, 10, 25, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
-            new(Time.new(2037, 10, 26, 12, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 20, 18, 0), 'Chicago Cubs', 'Boston Red Sox', 'Free Baseball Cap'),
+            new(Time.new(2037, 10, 21, 18, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 22, 18, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 23, 18, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 24, 18, 0), 'Boston Red Sox', 'Chicago Cubs'),
+            new(Time.new(2037, 10, 25, 18, 0), 'Chicago Cubs', 'Boston Red Sox'),
+            new(Time.new(2037, 10, 26, 18, 0), 'Chicago Cubs', 'Boston Red Sox', 'Free World Series Polo'),
           ]
         }
       end
@@ -115,12 +115,13 @@ class HelloTable
       'St Louis Cardinals' => 'Busch Stadium',
     }
     
-    attr_accessor :date_time, :home_team, :away_team, :ballpark
+    attr_accessor :date_time, :home_team, :away_team, :ballpark, :promotion
     
-    def initialize(date_time, home_team, away_team)
+    def initialize(date_time, home_team, away_team, promotion = 'N/A')
       self.date_time = date_time
       self.home_team = home_team
       self.away_team = away_team
+      self.promotion = promotion
       observe(self, :date_time) do |new_value|
         notify_observers(:game_date)
         notify_observers(:game_time)
@@ -163,6 +164,10 @@ class HelloTable
     def away_team_options
       TEAM_BALLPARKS.keys
     end
+    
+    def ballpark_options
+      [TEAM_BALLPARKS[@home_team], TEAM_BALLPARKS[@away_team]]
+    end
   end
 
   include Glimmer
@@ -176,7 +181,7 @@ class HelloTable
       label {
         layout_data :center, :center, true, false
         
-        text 'Baseball Playoffs'
+        text 'Baseball Playoff Schedule'
         font height: 30, style: :bold
       }
       
@@ -216,14 +221,19 @@ class HelloTable
           width 150
           editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
+        table_column {
+          text 'Promotion'
+          width 150
+          # default text editor is used here
+        }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team)
+        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
         
         sort_property :date
         
         # Sort by these additional properties after handling sort by the column the user clicked
-        additional_sort_properties :date, :time, :home_team, :away_team, :ballpark
+        additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :promotion
       }
     }.open
   end

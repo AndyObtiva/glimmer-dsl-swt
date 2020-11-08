@@ -9,6 +9,7 @@
 - Hello, Table! Sample editor :date_time, property: :date_time in
 - Hello, Table! Sample label for  (Baseball Game Schedule)
 - Hello, Table! Sample combo for selecting nlds, nlcs, alds, alcs, world series
+- Add a Game Promotions field to Hello, Table! to indicate things like Free Bobblehead, Free Towel, Free Umbrella, etc...
 
 
 ### 4.17.9.0

@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - method on shell to indicate if it conatins widget in focus
 - Document Table Editing instructions in README including all editor types like spinner and data_time
-- Allow switching Ballpark between home and away team only, switching their positions and score positions when it's reversed
-- Add a Game Promotions field to Hello, Table! to indicate things like Free Bobblehead, Free Towel, Free Umbrella, etc...
 - Hello, Spinner! Sample
 
 ## Soon
