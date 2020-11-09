@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Spinner! Sample
 - Document Table Editing instructions in README including all editor types like spinner and data_time
 
 ## Soon
