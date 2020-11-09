@@ -234,7 +234,6 @@ module Glimmer
         elsif @swt_widget.respond_to?(attribute_getter(attribute_name))
           @swt_widget.send(attribute_getter(attribute_name))
         else
-          pd attribute_name
           send(attribute_name)
         end
       end
@@ -279,6 +278,17 @@ module Glimmer
             :text => lambda do |observer|
               on_modify_text { |modify_event|
                 observer.call(@swt_widget.getText)
+              }
+            end,
+          },
+          Java::OrgEclipseSwtWidgets::Table => {
+            :selection => lambda do |observer|
+              on_widget_selected { |selection_event|
+                if has_style?(:multi)
+                  observer.call(@swt_widget.getSelection.map(&:get_data))
+                else
+                  observer.call(@swt_widget.getSelection.first&.get_data)
+                end
               }
             end,
           },
@@ -822,6 +832,9 @@ module Glimmer
               cursor_proxy = CursorProxy.new(value)
             end
             cursor_proxy ? cursor_proxy.swt_cursor : value
+          end,
+          :enabled => lambda do |value|
+            !!value
           end,
           :foreground => color_converter,
           :font => lambda do |value|

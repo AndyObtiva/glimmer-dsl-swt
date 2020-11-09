@@ -8,7 +8,7 @@ class Sample
   
   def name
     if @name.nil?
-      @name = File.basename(file, '.rb').split('_').map(&:capitalize).join(' ')    
+      @name = File.basename(file, '.rb').split('_').map(&:capitalize).join(' ')
       if @name.start_with?('Hello')
         name_parts = @name.split
         name_parts[0] = name_parts.first + ','
@@ -38,11 +38,11 @@ class SampleDirectory
             select { |file| File.directory?(file) }.
             map { |file| SampleDirectory.new(file) }
         glimmer_gems = Gem.find_latest_files("glimmer-*-*")
-        sample_directories = glimmer_gems.map do |lib| 
+        sample_directories = glimmer_gems.map do |lib|
           File.dirname(File.dirname(lib))
-        end.select do |gem| 
+        end.select do |gem|
           Dir.exist?(File.join(gem, 'samples'))
-        end.map do |gem| 
+        end.map do |gem|
           Dir.glob(File.join(gem, 'samples', '*')).select {|file_or_dir| Dir.exist?(file_or_dir)}
         end.flatten.uniq.reverse
         if Dir.exist?('samples')
@@ -51,14 +51,14 @@ class SampleDirectory
           end
         end
         sample_directories = sample_directories.uniq {|dir| File.basename(dir)}
-        @sample_directories = sample_directories.map { |file| SampleDirectory.new(file) }            
+        @sample_directories = sample_directories.map { |file| SampleDirectory.new(file) }
       end
       @sample_directories
     end
     
     def all_samples
       @all_samples ||= sample_directories.map(&:samples).reduce(:+)
-    end    
+    end
   end
   
   include Glimmer # used for observe syntax
@@ -117,7 +117,7 @@ class MetaSampleApplication
       text 'Glimmer Meta-Sample (The Sample of Samples)'
       
       on_swt_show {
-        SampleDirectory.selected_sample = SampleDirectory.all_samples.first        
+        SampleDirectory.selected_sample = SampleDirectory.all_samples.first
       }
       
       sash_form {
@@ -153,7 +153,7 @@ class MetaSampleApplication
             on_widget_selected {
               SampleDirectory.selected_sample.launch
             }
-          }        
+          }
         }
             
         code_text {
@@ -163,7 +163,7 @@ class MetaSampleApplication
         }
         
         weights 4, 9
-      }            
+      }
     }.open
   end
 end

@@ -22,6 +22,8 @@
 class HelloTable
   class BaseballGame
     class << self
+      attr_accessor :selected_game
+      
       def all_playoff_games
         @all_playoff_games ||= {
           'NLDS' => [
@@ -79,7 +81,7 @@ class HelloTable
       end
     
       def playoff_type
-        @playoff_type ||= 'NLDS'
+        @playoff_type ||= 'World Series'
       end
       
       def playoff_type=(new_playoff_type)
@@ -99,6 +101,9 @@ class HelloTable
         @schedule = new_schedule
       end
       
+      def selected_game=(new_game)
+        @selected_game = new_game
+      end
     end
     
     include Glimmer
@@ -168,6 +173,14 @@ class HelloTable
     def ballpark_options
       [TEAM_BALLPARKS[@home_team], TEAM_BALLPARKS[@away_team]]
     end
+    
+    def to_s
+      "#{home_team} vs #{away_team} at #{ballpark} on #{game_date} #{game_time}"
+    end
+    
+    def book!
+      "Thank you for booking #{to_s}"
+    end
   end
 
   include Glimmer
@@ -197,13 +210,13 @@ class HelloTable
         table_column {
           text 'Game Date'
           width 150
-          sort_property :date # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          sort_property :date # ensure sorting by real date value (not `game_date` string specified in items below)
           editor :date_drop_down, property: :date_time
         }
         table_column {
           text 'Game Time'
           width 150
-          sort_property :time # ensure sorting by real date value (not `game_date_time` string specified in items below)
+          sort_property :time # ensure sorting by real time value (not `game_time` string specified in items below)
           editor :time, property: :date_time
         }
         table_column {
@@ -230,11 +243,43 @@ class HelloTable
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
         items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
         
+        # Data-bind table selection
+        selection bind(BaseballGame, :selected_game)
+        
+        # Default initial sort property
         sort_property :date
         
         # Sort by these additional properties after handling sort by the column the user clicked
         additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :promotion
+        
+        menu {
+          menu_item {
+            text 'Book'
+            
+            on_widget_selected {
+              book_selected_game
+            }
+          }
+        }
       }
+      
+      button {
+        text 'Book Selected Game'
+        layout_data :center, :center, true, false
+        font height: 16
+        enabled bind(BaseballGame, :selected_game)
+        
+        on_widget_selected {
+          book_selected_game
+        }
+      }
+    }.open
+  end
+  
+  def book_selected_game
+    message_box {
+      text 'Baseball Game Booked!'
+      message BaseballGame.selected_game.book!
     }.open
   end
 end

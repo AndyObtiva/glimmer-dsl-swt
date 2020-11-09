@@ -407,18 +407,6 @@ module Glimmer
         search
       end
 
-      def widget_property_listener_installers
-        super.merge({
-          Java::OrgEclipseSwtWidgets::Table => {
-            selection: lambda do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(@swt_widget.getSelection)
-              }
-            end
-          },
-        })
-      end
-      
       def post_initialize_child(table_column_proxy)
         table_column_proxies << table_column_proxy
       end

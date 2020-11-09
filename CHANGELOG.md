@@ -11,7 +11,7 @@
 - Hello, Table! Sample combo for selecting nlds, nlcs, alds, alcs, world series
 - Hello, Table! Sample promotion field that indicates things like Free Bobblehead, Free Towel, Free Umbrella, etc...
 - ShellProxy#include_focus_control?
-
+- Fix issue with table selection data-binding when in single selection mode vs multi
 
 ### 4.17.9.0
 

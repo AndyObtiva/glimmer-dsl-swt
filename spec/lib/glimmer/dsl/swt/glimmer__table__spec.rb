@@ -263,7 +263,8 @@ module GlimmerSpec
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person2)
-    
+          expect(group.selected_person).to eq(person2)
+          
           person3 = Person.new
           person3.name = "Andrea Sherlock"
           person3.age = 23
@@ -274,20 +275,37 @@ module GlimmerSpec
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person2)
-    
+          expect(group.selected_person).to eq(person2)
+
           group.people.delete person2
     
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person1)
-    
+
           group.selected_person = person1
     
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person1)
-    
-          # TODO test triggering selection from table directly
+          expect(group.selected_person).to eq(person1)
+          
+          item_height = @table.swt_widget.items.first.bounds.height
+          expect(@table.swt_widget.items[1].getData).to eq(person3)
+          @table.swt_widget.setSelection([@table.swt_widget.items[1]].to_java(TableItem))
+          event = Event.new
+          event.display = @table.swt_widget.getDisplay
+          event.item = @table.swt_widget.items[1]
+          event.widget = @table.swt_widget
+          event.type = swt(:selection)
+          event.x = 5
+          event.y = item_height + 5 # skip first item, go to second item
+          @table.swt_widget.notifyListeners(swt(:selection), event)
+          
+          selection = @table.swt_widget.getSelection
+          expect(selection.size).to eq(1)
+          expect(selection.first.getData).to eq(person3)
+          expect(group.selected_person).to eq(person3)
         end
     
         it "data binds table multi selection" do
@@ -314,6 +332,8 @@ module GlimmerSpec
           expect(selection.size).to eq(2)
           expect(selection[0].getData).to eq(person1)
           expect(selection[1].getData).to eq(person2)
+          expect(group.selected_people[0]).to eq(person1)
+          expect(group.selected_people[1]).to eq(person2)
     
           person3 = Person.new
           person3.name = "Andrea Sherlock"
@@ -340,7 +360,7 @@ module GlimmerSpec
           expect(selection[0].getData).to eq(person1)
           expect(selection[1].getData).to eq(person3)
           
-          # TODO test triggering selection from table directly
+          expect(group.selected_people).to eq([person1, person3])
         end
     
         it "data binds text widget to a string property for a custom widget table" do
@@ -793,6 +813,7 @@ module GlimmerSpec
           selection = @table.swt_widget.getSelection
           expect(selection.size).to eq(1)
           expect(selection.first.getData).to eq(person2)
+          expect(group.selected_person).to eq(person2)
         end
          
         it "triggers configured column-specific table widget combo editing with read_only arg on specified table item" do

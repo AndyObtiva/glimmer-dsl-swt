@@ -19,6 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# This sample demonstrates the use of a `radio_group` in Glimmer, which provides terser syntax
+# than HelloRadio for representing multiple radio buttons by relying on data-binding to
+# automatically spawn the `radio` widgets based on available options on the model.
 class HelloRadioGroup
   class Person
     attr_accessor :gender, :age_group
