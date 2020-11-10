@@ -2271,6 +2271,20 @@ This automatically leverages the SWT TableEditor custom class behind the scenes,
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
+##### Table Selection
+
+Table Selection data-binding is simply done via the `selection` property.
+
+```ruby
+selection bind(group, :selected_person)
+```
+
+If it's a multi-selection table (`table(:multi)`), then the data-bound model property oughta be a collection.
+
+```ruby
+selection bind(group, :selected_people)
+```
+
 ##### Table Editing
 
 Glimmer provides a custom SWT style for table editing called `:editable` to obviate the need for an `on_mouse_up` listener.
@@ -3979,6 +3993,26 @@ Code:
 Hello, Table!
 
 ![Hello Table](images/glimmer-hello-table.png)
+
+Hello, Table! Editing Game Date
+
+![Hello Table](images/glimmer-hello-table-editing-game-date.png)
+
+Hello, Table! Editing Game Time
+
+![Hello Table](images/glimmer-hello-table-editing-game-time.png)
+
+Hello, Table! Editing Home Team
+
+![Hello Table](images/glimmer-hello-table-editing-home-team.png)
+
+Hello, Table! Sorted Game Date Ascending
+
+![Hello Table](images/glimmer-hello-table-sorted-game-date-ascending.png)
+
+Hello, Table! Sorted Game Date Descending
+
+![Hello Table](images/glimmer-hello-table-sorted-game-date-descending.png)
 
 Hello, Table! Playoff Type Combo
 
