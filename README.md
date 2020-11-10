@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.9.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.0
 
 ## JRuby Desktop Development GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -360,6 +360,8 @@ Glimmer App:
       - [Hello, Directory Dialog!](#hello-directory-dialog)
       - [Hello, File Dialog!](#hello-file-dialog)
       - [Hello, Date Time!](#hello-date-time)
+      - [Hello, Spinner!](#hello-spinner)
+      - [Hello, Table!](#hello-table)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -453,7 +455,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.9.0
+jgem install glimmer-dsl-swt -v 4.17.10.0
 
 ```
 
@@ -530,7 +532,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.9.0
+Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v4.17.10.0
 
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
@@ -1008,7 +1010,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.17.9.0
+  Swt    glimmer-dsl-swt    4.17.10.0
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
@@ -2271,7 +2273,100 @@ It automatically persists the change to `items` data-bound model on ENTER/FOCUS-
 
 ##### Table Editing
 
-TODO fill in
+Glimmer provides a custom SWT style for table editing called `:editable` to obviate the need for an `on_mouse_up` listener.
+
+For example, the code above could be simplified as:
+
+```ruby
+shell {
+  @table = table(:editable) {
+    table_column {
+      text "Name"
+      width 120
+    }
+    table_column {
+      text "Age"
+      width 120
+    }
+    table_column {
+      text "Adult"
+      width 120
+    }
+    items bind(group, :people), column_properties(:name, :age, :adult)
+    selection bind(group, :selected_person)
+  }
+}
+```
+
+Additionally, Glimmer supports the idea of custom editors or no editor per column.
+
+Example:
+
+```ruby
+shell {
+  @table = table(:editable) {
+    table_column {
+      text "Name"
+      width 120
+    }
+    table_column {
+      text "Age"
+      width 120
+      editor :spinner
+    }
+    table_column {
+      text "Adult"
+      width 120
+      editor :checkbox
+    }
+    items bind(group, :people), column_properties(:name, :age, :adult)
+    selection bind(group, :selected_person)
+  }
+}
+```
+
+The example above uses a `spinner` widget editor for the age column since it's an `Integer` and
+a `checkbox` widget (`button(:check)`) editor for the adult column since it's a `Boolean`
+
+Here are all the supported types of table editors:
+- `text`: expects a `String` property
+- `combo`: expects a `String` property accompanied by a matching `property_options` property by convention to provide items to present in the `combo`
+- `checkbox`: expects a `Boolean` property
+- `radio`: expects a `Boolean` property
+- `spinner`: expects an `Integer` property
+- `date`: expects a `DateTime` property
+- `date_drop_down`: expects a `DateTime` property
+- `time`: expects a `DateTime` property
+
+An editor may also take additional arguments (SWT styles such as :long for the date field) that are passed to the editor widget, as well as hash options to
+customize the property being used for editing (e.g. property: :raw_name for a :formatted_name field) in case it differs from the property used to display
+the data in the table.
+
+Example:
+
+```ruby
+shell {
+  @table = table(:editable) {
+    table_column {
+      text "Date of Birth"
+      width 120
+      editor :date_drop_down, property: :date_time
+    }
+    table_column {
+      text "Industry"
+      width 120
+      # assume there is a `Person#industry_options` property method on the model to provide items to the `combo`
+      editor :combo, :read_only # passes :ready_only SWT style to `combo` widget
+    }
+    items bind(group, :people), column_properties(:formatted_date, :industry)
+    selection bind(group, :selected_person)
+  }
+}
+```
+
+Check out [Hello, Table!](#hello-table) for an actual example including table editors.
+
+[Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities.
 
 ##### Table Sorting
 
@@ -2288,6 +2383,8 @@ Should you have a special data type that could not be compared automatically, Gl
 - `sort_property`: this may be set to an alternative property to the one data-bound to the table column. For example, a table column called 'adult', which returns `true` or `false` may be sorted with `sort_property :dob` instead. This also support multi-property (aka multi-column) sorting (e.g. `sort_property :dob, :name`).
 - `sort_by(&block)`: this works just like Ruby `Enumerable` `sort_by`. The block receives the table column data as argument.
 - `sort(&comparator)`: this works just like Ruby `Enumerable` `sort`. The comparator block receives two objects from the table column data.
+
+These alternatives could be used inside `table_column` for column-clicked sorting or in the `table` body directly to set the initial default sort.
 
 You may also set `additional_sort_properties` on the parent `table` widget to have secondary sorting applied. For example, if you set `additional_sort_properties :name, :project_name`, then whenever you sort by `:name`, it additionally sorts by `:project_name` afterwards, and vice versa. This only works for columns that either have no custom sort set or have a `sort_property` with one property only (but no sort or sort_by block)
 
