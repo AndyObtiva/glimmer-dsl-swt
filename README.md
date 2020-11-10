@@ -3859,6 +3859,46 @@ Hello, Date Time!
 
 ![Hello Date Time](images/glimmer-hello-date-time.png)
 
+#### Hello, Spinner!
+
+This sample demonstrates the use of `spinner` widget in Glimmer
+
+Code:
+
+[samples/hello/hello_spinner.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_spinner.rb)
+
+Hello, Spinner!
+
+![Hello Spinner](images/glimmer-hello-spinner.png)
+
+#### Hello, Table!
+
+This sample demonstrates the use of [table](#table) widget in Glimmer, including data-binding, multi-type editing, sorting, and filtering.
+
+Code:
+
+[samples/hello/hello_table.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_table.rb)
+
+Hello, Table!
+
+![Hello Table](images/glimmer-hello-table.png)
+
+Hello, Table! Playoff Type Combo
+
+![Hello Table](images/glimmer-hello-table-playoff-type-combo.png)
+
+Hello, Table! Playoff Type Changed
+
+![Hello Table](images/glimmer-hello-table-playoff-type-changed.png)
+
+Hello, Table! Game Booked
+
+![Hello Table](images/glimmer-hello-table-game-booked.png)
+
+Hello, Table! Context Menu
+
+![Hello Table](images/glimmer-hello-table-context-menu.png)
+
 ### Elaborate Samples
 
 For more elaborate samples, check the following:

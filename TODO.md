@@ -4,9 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Document Table Editing instructions in README including all editor types like spinner and data_time
+- Document Spinner instructions in README including all editor types like spinner and data_time
+- Document Hello, Table! Sample
+- Document Hello, Spinner! Sample
 
 ## Soon
+
 
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
