@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,12 +31,12 @@ module Glimmer
     OPERATING_SYSTEMS_SUPPORTED = ["mac", "windows", "linux"]
     
     TEXT_USAGE = <<~MULTI_LINE_STRING
-      Glimmer (Ruby Desktop Development GUI Library) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}      
+      Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}
       Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
     
-      Runs Glimmer applications and tasks.    
+      Runs Glimmer applications and tasks.
     
-      When applications are specified, they are run using JRuby, 
+      When applications are specified, they are run using JRuby,
       automatically preloading the glimmer Ruby gem and SWT jar dependency.
     
       Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
@@ -112,7 +112,7 @@ module Glimmer
       def launch(application, jruby_options: [], env_vars: {}, glimmer_options: {})
         jruby_options_string = jruby_options.join(' ') + ' ' if jruby_options.any?
         env_vars = env_vars.merge(glimmer_option_env_vars(glimmer_options))
-        env_vars_string = env_vars.map do |k,v| 
+        env_vars_string = env_vars.map do |k,v|
           if OS.windows? && ENV['PROMPT'] # detect command prompt (or powershell)
             "set #{k}=#{v} && "
           else
@@ -224,8 +224,8 @@ module Glimmer
           task_name = task.name_with_args.sub('glimmer:', '')
           line = "glimmer #{task_name.ljust(max_task_size)} # #{task.comment}"
           bound = TTY::Screen.width - 6
-          line.size <= bound ? line : "#{line[0..(bound - 3)]}..."          
-        end    
+          line.size <= bound ? line : "#{line[0..(bound - 3)]}..."
+        end
       end
     end
 

@@ -2,13 +2,14 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## Next
-
-## Soon
+## Next 4.17.10.1
 
 - Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Support passing spinner table editor properties
 - Add checkbox column editor to Hello, Table! Sample
+- Document that consumers of spinner must bind selection after setting other properties (gotcha)
+
+## Soon 4.17.11.0
 
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
@@ -254,6 +255,7 @@ items <=> binding {
 - Consider the idea of showing External Samples in the Glimmer Meta-Sample by installing a gem and running its command right away for calculator and timer
 - Refactor specs to utilize SWTBot instead of raw Event objects for GUI interaction
 - Support automatic table editor setting based on data type (e.g. combo for a property accompanied by options, spinner for an integer, date_time for a date/time, etc...)
+- Consider auto-synchronizing access/mutation of attributes from threads other than the main thread (https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) or at least supporting a 'syncrhonize' keyword in Glimmer DSL
 
 ## Samples
 

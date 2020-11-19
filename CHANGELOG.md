@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.10.1
+
+- Upgraded glimmer gem to version 1.0.3
+- Upgraded rouge gem to version 3.25.0
+
 ### 4.17.10.0
 
 - Support table editing via `date_time` for date/time values
