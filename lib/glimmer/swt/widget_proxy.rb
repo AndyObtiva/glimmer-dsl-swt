@@ -357,35 +357,34 @@ module Glimmer
               }
             end,
             :caret_position => lambda do |observer|
+              on_caret_moved { |event|
+                observer.call(@swt_widget.getSelection.x) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
               on_swt_keyup { |event|
-                observer.call(@swt_widget.getCaretOffset)
+                observer.call(@swt_widget.getSelection.x) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
               on_swt_mouseup { |event|
-                observer.call(@swt_widget.getCaretOffset)
+                observer.call(@swt_widget.getSelection.x) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
             end,
             :caret_offset => lambda do |observer|
-              on_swt_keyup { |event|
-                observer.call(@swt_widget.getCaretOffset)
-              }
-              on_swt_mouseup { |event|
-                observer.call(@swt_widget.getCaretOffset)
+              on_caret_moved { |event|
+                observer.call(@swt_widget.getCaretOffset) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
             end,
             :selection => lambda do |observer|
-              on_swt_keyup { |event|
-                observer.call(@swt_widget.getSelection) unless @swt_widget.getSelection.x == 0 && @swt_widget.getSelection.y == 0
-              }
-              on_swt_mouseup { |event|
-                observer.call(@swt_widget.getSelection) unless @swt_widget.getSelection.x == 0 && @swt_widget.getSelection.y == 0
+              on_widget_selected { |event|
+                observer.call(@swt_widget.getSelection) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
             end,
             :selection_count => lambda do |observer|
-              on_swt_keyup { |event|
-                observer.call(@swt_widget.getSelectionCount)
+              on_widget_selected { |event|
+                observer.call(@swt_widget.getSelectionCount) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
-              on_swt_mouseup { |event|
-                observer.call(@swt_widget.getSelectionCount)
+            end,
+            :selection_range => lambda do |observer|
+              on_widget_selected { |event|
+                observer.call(@swt_widget.getSelectionRange) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
             end,
             :top_index => lambda do |observer|
@@ -714,14 +713,17 @@ module Glimmer
             setter: {name: 'setFocus', invoker: lambda { |widget, args| @swt_widget.setFocus if args.first }},
           },
           'caret_position' => {
-            getter: {name: 'getCaretPosition', invoker: lambda { |widget, args| @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getCaretOffset}},
-            setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(args.first) if args.first }},
+            getter: {name: 'getCaretPosition', invoker: lambda { |widget, args| @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getSelection.x}},
+            setter: {name: 'setSelection', invoker: lambda { |widget, args| @swt_widget.setSelection(args.first, args.first + @swt_widget.getSelectionCount) if args.first }},
           },
           'selection_count' => {
             getter: {name: 'getSelectionCount'},
             setter: {name: 'setSelection', invoker: lambda { |widget, args|
-              caret_position = @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getCaretOffset
-              @swt_widget.setSelection(caret_position, caret_position + args.first) if args.first
+              if args.first
+                caret_position = @swt_widget.respond_to?(:getCaretPosition) ? @swt_widget.getCaretPosition : @swt_widget.getSelection.x
+                # TODO handle negative length
+                @swt_widget.setSelection(caret_position, caret_position + args.first)
+              end
             }},
           },
         }

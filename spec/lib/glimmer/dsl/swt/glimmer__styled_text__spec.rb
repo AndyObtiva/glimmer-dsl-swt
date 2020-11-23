@@ -105,9 +105,9 @@ module GlimmerSpec
       event.display = @styled_text.swt_widget.display
       event.item = @styled_text.swt_widget
       event.widget = @styled_text.swt_widget
-      event.type = Glimmer::SWT::SWTProxy[:keyup]
+      event.type = Glimmer::SWT::SWTProxy[:selection]
       @styled_text.selection = Point.new(0, 21)
-      @styled_text.notifyListeners(Glimmer::SWT::SWTProxy[:keyup], event)
+      @styled_text.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
 
       expect(@styled_text_presenter.selection_count).to eq(21)
     end

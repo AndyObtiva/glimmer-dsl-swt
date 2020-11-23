@@ -2,7 +2,7 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## Next 4.17.10.1
+## Next 
 
 - Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Support passing spinner table editor properties
@@ -11,6 +11,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Soon 4.17.11.0
 
+- Move glimmer projects underneath glimmer organization
 - Make code_text custom widget support multiple languages
 - Make code_text custom widget auto-detect current language
 - Hello, Code Text! Sample
@@ -210,6 +211,7 @@ items <=> binding {
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy
 - Look into modularizing the menu and prefrences into separate components for a scaffolded app/custom-shell
 - Consider adding sash_form children style for having a fixed size when resizing, or provide a flexible alternative via sash widget
+- Enhance sash_form so that one may specify a background color for sash on hover
 - Speed up glimmer command with CRuby compatibility via jruby-jars gem
 - Build a TUI for browsing/running internal gem samples
 - Syntax-highlight sample code when output with `glimmer sample:code` command

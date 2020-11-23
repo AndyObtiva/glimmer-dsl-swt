@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.10.2
+
+- Upgraded glimmer gem to version 1.0.4
+- Fixed issues relating to data-binding `styled_text` widget
+
 ### 4.17.10.1
 
 - Upgraded glimmer gem to version 1.0.3
