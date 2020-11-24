@@ -376,14 +376,32 @@ module Glimmer
               on_widget_selected { |event|
                 observer.call(@swt_widget.getSelection) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getSelection) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getSelection) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
             end,
             :selection_count => lambda do |observer|
               on_widget_selected { |event|
                 observer.call(@swt_widget.getSelectionCount) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getSelectionCount) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
+              on_swt_mouseup { |event|
+                observer.call(@swt_widget.getSelectionCount) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
             end,
             :selection_range => lambda do |observer|
               on_widget_selected { |event|
+                observer.call(@swt_widget.getSelectionRange) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
+              on_swt_keyup { |event|
+                observer.call(@swt_widget.getSelectionRange) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
+              }
+              on_swt_mouseup { |event|
                 observer.call(@swt_widget.getSelectionRange) unless @swt_widget.getCaretOffset == 0 && @last_modify_text != text
               }
             end,

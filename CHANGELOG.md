@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.17.10.3
+
+- Fixed issue in StyledText data-binding relating to capturing selection changes on mouse click
+
 ### 4.17.10.2
 
 - Upgraded glimmer gem to version 1.0.4

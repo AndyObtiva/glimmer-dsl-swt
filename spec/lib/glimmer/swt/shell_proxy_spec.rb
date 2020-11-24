@@ -50,8 +50,18 @@ module GlimmerSpec
           @target.visible = true
         end
         
-        if ENV['CI'].nil?
+        unless ENV['CI'].to_s.downcase == 'true'
           describe '#include_focus_control?' do
+            after do
+              if @target
+                @target.async_exec do
+                  @target.close
+                  @target2&.close
+                end
+                @target.open
+              end
+            end
+            
             it 'is true for a shell that includes the focus control and false otherwise' do
               @target = shell {
                 text {
@@ -74,12 +84,9 @@ module GlimmerSpec
                 @shell2_include_focus_control = @target2.include_focus_control?
               end
               async_exec do
-                @target2.close
-                @target.close
+                expect(@shell1_include_focus_control).to eq(false)
+                expect(@shell2_include_focus_control).to eq(true)
               end
-              @target.open
-              expect(@shell1_include_focus_control).to eq(false)
-              expect(@shell2_include_focus_control).to eq(true)
             end
           end
         end
