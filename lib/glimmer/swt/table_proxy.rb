@@ -245,7 +245,7 @@ module Glimmer
         end
       end
       
-      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable, :initial_sort_property
+      attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
       attr_accessor :column_properties
       alias editable? editable
       
@@ -353,19 +353,6 @@ module Glimmer
         @additional_sort_properties = args unless args.empty?
       end
       
-      def editor=(args)
-        @editor = args
-      end
-      
-      def cells_for(model)
-        column_properties.map {|property| model.send(property)}
-      end
-      
-      def cells
-        column_count = @table.column_properties.size
-        swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
-      end
-      
       def sort!
         return unless sort_property && (sort_type || sort_block || sort_by_block)
         array = model_binding.evaluate_property
@@ -395,6 +382,19 @@ module Glimmer
         model_binding.call(sorted_array)
       end
       
+      def editor=(args)
+        @editor = args
+      end
+      
+      def cells_for(model)
+        column_properties.map {|property| model.send(property)}
+      end
+      
+      def cells
+        column_count = @table.column_properties.size
+        swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
+      end
+            
       # Performs a search for table items matching block condition
       # If no condition block is passed, returns all table items
       # Returns a Java TableItem array to easily set as selection on org.eclipse.swt.Table if needed

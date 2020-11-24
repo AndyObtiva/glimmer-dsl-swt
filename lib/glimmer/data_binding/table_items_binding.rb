@@ -38,16 +38,16 @@ module Glimmer
         @model_binding = model_binding
         @table.swt_widget.data = @model_binding
         @column_properties = column_properties
+        @table.on_widget_disposed do |dispose_event|
+          unregister_all_observables
+        end
         if @table.respond_to?(:column_properties=)
           @table.column_properties = @column_properties
         else # assume custom widget
           @table.body_root.column_properties = @column_properties
         end
-        call(@model_binding.evaluate_property)
         @table_observer_registration = observe(model_binding)
-        @table.on_widget_disposed do |dispose_event|
-          unregister_all_observables
-        end
+        call
       end
 
       def call(new_model_collection=nil)
@@ -65,7 +65,7 @@ module Glimmer
       end
       
       def populate_table(model_collection, parent, column_properties)
-        selected_table_item_models = parent.swt_widget.getSelection.map(&:getData)
+        selected_table_item_models = parent.swt_widget.getSelection.map(&:get_data)
         parent.finish_edit!
         parent.swt_widget.items.each(&:dispose)
         parent.swt_widget.removeAll
@@ -74,11 +74,10 @@ module Glimmer
           for index in 0..(column_properties.size-1)
             table_item.setText(index, model.send(column_properties[index]).to_s)
           end
-          table_item.setData(model)
+          table_item.set_data(model)
         end
-        selected_table_items = parent.search {|item| selected_table_item_models.include?(item.getData) }
-        selected_table_items = [parent.swt_widget.getItems.first].to_java(TableItem) if selected_table_items.empty? && !parent.swt_widget.getItems.empty?
-        parent.swt_widget.setSelection(selected_table_items) unless selected_table_items.empty?
+        selected_table_items = parent.search {|item| selected_table_item_models.include?(item.get_data) }
+        parent.swt_widget.setSelection(selected_table_items)
         parent.sort!
         parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
       end

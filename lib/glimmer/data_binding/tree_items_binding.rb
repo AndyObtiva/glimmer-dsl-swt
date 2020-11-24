@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -69,7 +69,7 @@ module Glimmer
         old_tree_item_expansion_by_data = old_tree_items.reduce({}) {|hash, ti| hash.merge(ti.getData => ti.getExpanded)}
         old_tree_items.each do |tree_item|
           tree_item.getData('observer_registrations').each(&:unregister)
-        end        
+        end
         parent.swt_widget.items.each(&:dispose)
         parent.swt_widget.removeAll
         populate_tree_node(model_tree_root_node, parent.swt_widget, tree_properties)
@@ -85,9 +85,9 @@ module Glimmer
           array + [observe(model_tree_node, key_value_pair.last)]
         end
         
-        tree_item.setData('observer_registrations', observer_registrations)
-        tree_item.setData(model_tree_node)
-        tree_item.setText((model_tree_node && model_tree_node.send(tree_properties[:text])).to_s)
+        tree_item.set_data('observer_registrations', observer_registrations)
+        tree_item.set_data(model_tree_node)
+        tree_item.text = (model_tree_node && model_tree_node.send(tree_properties[:text])).to_s
         [model_tree_node && model_tree_node.send(tree_properties[:children])].flatten.to_a.compact.each do |child|
           populate_tree_node(child, tree_item, tree_properties)
         end

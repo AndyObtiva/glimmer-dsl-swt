@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.17.10.4
+
+- Do not select first row in a table by default (keep unselected)
+- Prevented extra call to model data in table items data-binding
+- Upgraded to glimmer v1.0.5
+
 ### 4.17.10.3
 
 - Fixed issue in StyledText data-binding relating to capturing selection changes on mouse click

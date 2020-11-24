@@ -280,8 +280,7 @@ module GlimmerSpec
           group.people.delete person2
     
           selection = @table.swt_widget.getSelection
-          expect(selection.size).to eq(1)
-          expect(selection.first.getData).to eq(person1)
+          expect(selection.size).to eq(0)
 
           group.selected_person = person1
     

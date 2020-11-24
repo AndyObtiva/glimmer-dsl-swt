@@ -259,7 +259,6 @@ items <=> binding {
 - Refactor specs to utilize SWTBot instead of raw Event objects for GUI interaction
 - Support automatic table editor setting based on data type (e.g. combo for a property accompanied by options, spinner for an integer, date_time for a date/time, etc...)
 - Consider auto-synchronizing access/mutation of attributes from threads other than the main thread (https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) or at least supporting a 'syncrhonize' keyword in Glimmer DSL
-- Provide a utility method to read files correctly from uri:classloader file paths in JAR.
 
 ## Samples
 

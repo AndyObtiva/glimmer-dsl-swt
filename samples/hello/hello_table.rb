@@ -100,10 +100,6 @@ class HelloTable
       def schedule=(new_schedule)
         @schedule = new_schedule
       end
-      
-      def selected_game=(new_game)
-        @selected_game = new_game
-      end
     end
     
     include Glimmer
