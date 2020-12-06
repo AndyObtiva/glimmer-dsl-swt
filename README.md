@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.4
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.5
 
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -61,8 +61,6 @@ Glimmer code (from [samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObt
 
 ```ruby
 # ...
-    @tic_tac_toe_board = Board.new
-    
     @shell = shell {
       text "Tic-Tac-Toe"
       minimum_size 150, 178
@@ -82,11 +80,6 @@ Glimmer code (from [samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObt
           }
         }
       }
-    }
-    
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
-      display_win_message if game_status == Board::WIN
-      display_draw_message if game_status == Board::DRAW
     }
 # ...
 ```
@@ -361,6 +354,7 @@ Glimmer App:
       - [Hello, Date Time!](#hello-date-time)
       - [Hello, Spinner!](#hello-spinner)
       - [Hello, Table!](#hello-table)
+      - [Hello, Button!](#hello-button)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -454,7 +448,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.10.4
+jgem install glimmer-dsl-swt -v 4.17.10.5
 
 ```
 
@@ -531,7 +525,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.4
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.5
 
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
@@ -709,7 +703,7 @@ glimmer bin/greeter
 
 #### Desktopify
 
-This scaffolding mode enables you to desktopify a web app. Glimmer Scaffolding basically turns a website into a desktop application by wrapping the website with a [Browser Widget](#browser-widget).
+Desktopify basically turns a website into a desktop application by wrapping the website within a [Browser Widget](#browser-widget).
 
 The desktopify app is similar to the standard scaffolded app. It can be extended and the [browser may even be instrumented](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html).
 
@@ -1009,7 +1003,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.17.10.4
+  Swt    glimmer-dsl-swt    4.17.10.5
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
@@ -4020,6 +4014,22 @@ Hello, Table! Game Booked
 Hello, Table! Context Menu
 
 ![Hello Table](images/glimmer-hello-table-context-menu.png)
+
+#### Hello, Button!
+
+This sample demonstrates the use of `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
+
+Code:
+
+[samples/hello/hello_button.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_button.rb)
+
+Hello, Button!
+
+![Hello Button](images/glimmer-hello-button.png)
+
+Hello, Button! Incremented 7 times!
+
+![Hello Button Incremented](images/glimmer-hello-button-incremented.png)
 
 ### Elaborate Samples
 

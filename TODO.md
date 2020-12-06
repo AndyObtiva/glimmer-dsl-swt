@@ -4,7 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
+- Support JRuby v9.2.14.0
+- Support SWT v4.18
+- Highlight table selection after changing table collection out and back in again to the model collection that had the selection
 - Support passing spinner table editor properties
 - Add checkbox column editor to Hello, Table! Sample
 - Document that consumers of spinner must bind selection after setting other properties (gotcha)
@@ -12,10 +14,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Soon 4.17.11.0
 
 - Move glimmer projects underneath glimmer organization
-- Make code_text custom widget support multiple languages
-- Make code_text custom widget auto-detect current language
+- Make code_text custom widget support multiple programming languages
+- Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
+- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
+- Make tables detect inital sort property matching custom sort property on a column header and highlight sort on it
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app
@@ -101,6 +105,7 @@ composite {
 
 ## Issues
 
+- Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
 - Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)
 - Check this issue, which seems to happen when no expression handler can handle the DSL keyword being processed:
@@ -258,7 +263,10 @@ items <=> binding {
 - Consider the idea of showing External Samples in the Glimmer Meta-Sample by installing a gem and running its command right away for calculator and timer
 - Refactor specs to utilize SWTBot instead of raw Event objects for GUI interaction
 - Support automatic table editor setting based on data type (e.g. combo for a property accompanied by options, spinner for an integer, date_time for a date/time, etc...)
+- Support custom table editor block to use estoric unsupported widgets on the fly if needed
 - Consider auto-synchronizing access/mutation of attributes from threads other than the main thread (https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) or at least supporting a 'syncrhonize' keyword in Glimmer DSL
+- Preload all SWT widgets as static keywords to optimize performance if needed
+- Support setting default sort direction on `table` (and sort direction on any sort_property option)
 
 ## Samples
 
@@ -273,7 +281,8 @@ items <=> binding {
 
 ## Side Projects
 
-- Publish any Glimmer app on the Mac App Store
+- Publish a Glimmer app on the Mac App Store
+- Make a Ruqqus App using the [Ruqqus Ruby API](https://github.com/ForeverZer0/ruqqus) and then webify with Glimmer DSL for Opal
 
 ### Glimmer Time Tracker (Demo Video App)
 
