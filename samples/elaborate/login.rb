@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,7 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#Presents login screen data
 class LoginPresenter
 
   attr_accessor :user_name
@@ -35,7 +34,6 @@ class LoginPresenter
   def status=(status)
     @status = status
 
-    #TODO add feature to bind dependent properties to master property (2017-07-25 nested data binding)
     notify_observers("logged_in")
     notify_observers("logged_out")
   end
@@ -65,7 +63,6 @@ class LoginPresenter
 
 end
 
-#Login screen
 class Login
   include Glimmer
 
@@ -77,10 +74,10 @@ class Login
         grid_layout 2, false #two columns with differing widths
 
         label { text "Username:" } # goes in column 1
-        @user_name_text = text {                     # goes in column 2
+        @user_name_text = text {   # goes in column 2
           text bind(presenter, :user_name)
           enabled bind(presenter, :logged_out)
-          on_key_pressed { |event| 
+          on_key_pressed { |event|
             @password_text.set_focus if event.keyCode == swt(:cr)
           }
         }
@@ -89,7 +86,7 @@ class Login
         @password_text = text(:password, :border) {
           text bind(presenter, :password)
           enabled bind(presenter, :logged_out)
-          on_key_pressed { |event| 
+          on_key_pressed { |event|
             presenter.login if event.keyCode == swt(:cr)
           }
         }
@@ -101,21 +98,21 @@ class Login
           text "Login"
           enabled bind(presenter, :logged_out)
           on_widget_selected { presenter.login }
-          on_key_pressed { |event| 
+          on_key_pressed { |event|
             presenter.login if event.keyCode == swt(:cr)
-          }          
+          }
         }
 
         button {
           text "Logout"
           enabled bind(presenter, :logged_in)
           on_widget_selected { presenter.logout }
-          on_key_pressed { |event| 
+          on_key_pressed { |event|
             if event.keyCode == swt(:cr)
               presenter.logout
               @user_name_text.set_focus
             end
-          }          
+          }
         }
       }
     }

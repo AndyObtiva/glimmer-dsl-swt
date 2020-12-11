@@ -857,6 +857,7 @@ module Glimmer
             !!value
           end,
           :foreground => color_converter,
+          :link_foreground => color_converter,
           :font => lambda do |value|
             if value.is_a?(Hash)
               font_properties = value

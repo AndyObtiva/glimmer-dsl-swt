@@ -24,12 +24,12 @@ class HelloListSingleSelection
     attr_accessor :country, :country_options
   
     def initialize
-      self.country_options=["", "Canada", "US", "Mexico"]
-      self.country = "Canada"
+      self.country_options = ['', 'Canada', 'US', 'Mexico']
+      reset_country
     end
   
     def reset_country
-      self.country = "Canada"
+      self.country = 'Canada'
     end
   end
   
@@ -48,7 +48,7 @@ class HelloListSingleSelection
       }
       
       button {
-        text "Reset Selection To Default Value"
+        text 'Reset Selection To Default Value'
         
         on_widget_selected { person.reset_country }
       }
