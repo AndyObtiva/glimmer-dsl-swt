@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.5
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.6
 
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -33,7 +33,7 @@ Glimmer DSL gems:
 
 ### Hello, World!
 
-Glimmer code (from [samples/hello/hello_world.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_world.rb)):
+Glimmer code (from [samples/hello/hello_world.rb](samples/hello/hello_world.rb)):
 ```ruby
 include Glimmer
 
@@ -57,7 +57,7 @@ Glimmer app:
 
 ### Tic Tac Toe
 
-Glimmer code (from [samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/tic_tac_toe.rb)):
+Glimmer code (from [samples/elaborate/tic_tac_toe.rb](samples/elaborate/tic_tac_toe.rb)):
 
 ```ruby
 # ...
@@ -96,7 +96,7 @@ Glimmer app:
 
 ### Contact Manager
 
-Glimmer code (from [samples/elaborate/contact_manager.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/contact_manager.rb)):
+Glimmer code (from [samples/elaborate/contact_manager.rb](samples/elaborate/contact_manager.rb)):
 
 ```ruby
 # ...
@@ -355,6 +355,7 @@ Glimmer App:
       - [Hello, Spinner!](#hello-spinner)
       - [Hello, Table!](#hello-table)
       - [Hello, Button!](#hello-button)
+      - [Hello, Link!](#hello-link)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -448,7 +449,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.10.5
+jgem install glimmer-dsl-swt -v 4.17.10.6
 
 ```
 
@@ -525,7 +526,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.5
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.6
 
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
@@ -1003,7 +1004,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.17.10.5
+  Swt    glimmer-dsl-swt    4.17.10.6
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
@@ -3644,7 +3645,7 @@ For hello-type simple samples, check the following.
 
 Code:
 
-[samples/hello/hello_world.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_world.rb)
+[samples/hello/hello_world.rb](samples/hello/hello_world.rb)
 
 ![Hello World](images/glimmer-hello-world.png)
 
@@ -3652,7 +3653,7 @@ Code:
 
 Code:
 
-[samples/hello/hello_tab.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_tab.rb)
+[samples/hello/hello_tab.rb](samples/hello/hello_tab.rb)
 
 ![Hello Tab English](images/glimmer-hello-tab-english.png)
 ![Hello Tab French](images/glimmer-hello-tab-french.png)
@@ -3663,7 +3664,7 @@ This sample demonstrates combo data-binding.
 
 Code:
 
-[samples/hello/hello_combo.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_combo.rb)
+[samples/hello/hello_combo.rb](samples/hello/hello_combo.rb)
 
 ![Hello Combo](images/glimmer-hello-combo.png)
 ![Hello Combo Expanded](images/glimmer-hello-combo-expanded.png)
@@ -3674,7 +3675,7 @@ This sample demonstrates list single-selection data-binding.
 
 Code:
 
-[samples/hello/hello_list_single_selection.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_list_single_selection.rb)
+[samples/hello/hello_list_single_selection.rb](samples/hello/hello_list_single_selection.rb)
 
 ![Hello List Single Selection](images/glimmer-hello-list-single-selection.png)
 
@@ -3684,7 +3685,7 @@ This sample demonstrates list multi-selection data-binding.
 
 Code:
 
-[samples/hello/hello_list_multi_selection.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_list_multi_selection.rb)
+[samples/hello/hello_list_multi_selection.rb](samples/hello/hello_list_multi_selection.rb)
 
 ![Hello List Multi Selection](images/glimmer-hello-list-multi-selection.png)
 
@@ -3694,7 +3695,7 @@ This sample demonstrates computed data-binding.
 
 Code:
 
-[samples/hello/hello_computed.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_computed.rb)
+[samples/hello/hello_computed.rb](samples/hello/hello_computed.rb)
 
 ![Hello Browser](images/glimmer-hello-computed.png)
 
@@ -3704,7 +3705,7 @@ This sample demonstrates a `message_box` dialog.
 
 Code:
 
-[samples/hello/hello_message_box.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_message_box.rb)
+[samples/hello/hello_message_box.rb](samples/hello/hello_message_box.rb)
 
 ![Hello Message Box](images/glimmer-hello-message-box.png)
 ![Hello Message Box Dialog](images/glimmer-hello-message-box-dialog.png)
@@ -3715,7 +3716,7 @@ This sample demonstrates the `browser` widget.
 
 Code:
 
-[samples/hello/hello_browser.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_browser.rb)
+[samples/hello/hello_browser.rb](samples/hello/hello_browser.rb)
 
 ![Hello Browser](images/glimmer-hello-browser.png)
 
@@ -3725,7 +3726,7 @@ This sample demonstrates drag and drop in Glimmer.
 
 Code:
 
-[samples/hello/hello_drag_and_drop.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_drag_and_drop.rb)
+[samples/hello/hello_drag_and_drop.rb](samples/hello/hello_drag_and_drop.rb)
 
 ![Hello Drag and Drop](images/glimmer-hello-drag-and-drop.gif)
 
@@ -3735,7 +3736,7 @@ This sample demonstrates menus in Glimmer.
 
 Code:
 
-[samples/hello/hello_menu_bar.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_menu_bar.rb)
+[samples/hello/hello_menu_bar.rb](samples/hello/hello_menu_bar.rb)
 
 ![Hello Menu Bar](images/glimmer-hello-menu-bar.png)
 ![Hello Menu Bar File Menu](images/glimmer-hello-menu-bar-file-menu.png)
@@ -3747,7 +3748,7 @@ This sample demonstrates pop up context menus in Glimmer.
 
 Code:
 
-[samples/hello/hello_pop_up_context_menu.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_pop_up_context_menu.rb)
+[samples/hello/hello_pop_up_context_menu.rb](samples/hello/hello_pop_up_context_menu.rb)
 
 ![Hello Pop Up Context Menu](images/glimmer-hello-pop-up-context-menu.png)
 ![Hello Pop Up Context Menu Popped Up](images/glimmer-hello-pop-up-context-menu-popped-up.png)
@@ -3758,7 +3759,7 @@ This sample demonstrates the use of a custom widget in Glimmer.
 
 Code:
 
-[samples/hello/hello_custom_widget.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_widget.rb)
+[samples/hello/hello_custom_widget.rb](samples/hello/hello_custom_widget.rb)
 
 ![Hello Custom Widget](images/glimmer-hello-custom-widget.gif)
 
@@ -3768,7 +3769,7 @@ This sample demonstrates the use of a custom shell (aka custom window) in Glimme
 
 Code:
 
-[samples/hello/hello_custom_shell.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_custom_shell.rb)
+[samples/hello/hello_custom_shell.rb](samples/hello/hello_custom_shell.rb)
 
 ![Hello Custom Shell](images/glimmer-hello-custom-shell.png)
 ![Hello Custom Shell Email1](images/glimmer-hello-custom-shell-email1.png)
@@ -3781,7 +3782,7 @@ This sample demonstrates the use of a `sash_form` in Glimmer.
 
 Code:
 
-[samples/hello/hello_sash_form.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_sash_form.rb)
+[samples/hello/hello_sash_form.rb](samples/hello/hello_sash_form.rb)
 
 Hello, Sash Form! Horizontal Orientation
 
@@ -3813,7 +3814,7 @@ This sample demonstrates the use of a `styled_text` in Glimmer.
 
 Code:
 
-[samples/hello/hello_styled_text.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_styled_text.rb)
+[samples/hello/hello_styled_text.rb](samples/hello/hello_styled_text.rb)
 
 Hello, Styled Text!
 
@@ -3825,7 +3826,7 @@ This sample demonstrates the use of a `expand_bar` and `expand_item` in Glimmer.
 
 Code:
 
-[samples/hello/hello_expand_bar.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_expand_bar.rb)
+[samples/hello/hello_expand_bar.rb](samples/hello/hello_expand_bar.rb)
 
 Hello, Expand Bar! All Expanded
 
@@ -3849,7 +3850,7 @@ This sample demonstrates the use of a `radio` (aka `button(:radio)`) in Glimmer.
 
 Code:
 
-[samples/hello/hello_radio.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_radio.rb)
+[samples/hello/hello_radio.rb](samples/hello/hello_radio.rb)
 
 Hello, Radio!
 
@@ -3861,7 +3862,7 @@ This sample demonstrates the use of a `radio_group` in Glimmer, which provides t
 
 Code:
 
-[samples/hello/hello_radio_group.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_radio_group.rb)
+[samples/hello/hello_radio_group.rb](samples/hello/hello_radio_group.rb)
 
 Hello, Radio Group!
 
@@ -3873,7 +3874,7 @@ This sample demonstrates the use of a `group` in Glimmer (not to be confused wit
 
 Code:
 
-[samples/hello/hello_group.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_group.rb)
+[samples/hello/hello_group.rb](samples/hello/hello_group.rb)
 
 Hello, Group!
 
@@ -3885,7 +3886,7 @@ This sample demonstrates the use of a `checkbox` (aka `check` or `button(:check)
 
 Code:
 
-[samples/hello/hello_checkbox.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_checkbox.rb)
+[samples/hello/hello_checkbox.rb](samples/hello/hello_checkbox.rb)
 
 Hello, Checkbox!
 
@@ -3897,7 +3898,7 @@ This sample demonstrates the use of a `checkbox_group` (aka `check_group`) in Gl
 
 Code:
 
-[samples/hello/hello_checkbox_group.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_checkbox_group.rb)
+[samples/hello/hello_checkbox_group.rb](samples/hello/hello_checkbox_group.rb)
 
 Hello, Checkbox Group!
 
@@ -3909,7 +3910,7 @@ This sample demonstrates the use of a `directory_dialog` in Glimmer.
 
 Code:
 
-[samples/hello/hello_directory_dialog.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_directory_dialog.rb)
+[samples/hello/hello_directory_dialog.rb](samples/hello/hello_directory_dialog.rb)
 
 Hello, Directory Dialog!
 
@@ -3929,7 +3930,7 @@ This sample demonstrates the use of a `file_dialog` in Glimmer.
 
 Code:
 
-[samples/hello/hello_file_dialog.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_file_dialog.rb)
+[samples/hello/hello_file_dialog.rb](samples/hello/hello_file_dialog.rb)
 
 Hello, File Dialog!
 
@@ -3949,7 +3950,7 @@ This sample demonstrates the use of [date_time](#datetime) widget keywords in Gl
 
 Code:
 
-[samples/hello/hello_date_time.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_date_time.rb)
+[samples/hello/hello_date_time.rb](samples/hello/hello_date_time.rb)
 
 Hello, Date Time!
 
@@ -3961,7 +3962,7 @@ This sample demonstrates the use of `spinner` widget in Glimmer
 
 Code:
 
-[samples/hello/hello_spinner.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_spinner.rb)
+[samples/hello/hello_spinner.rb](samples/hello/hello_spinner.rb)
 
 Hello, Spinner!
 
@@ -3973,7 +3974,7 @@ This sample demonstrates the use of [table](#table) widget in Glimmer, including
 
 Code:
 
-[samples/hello/hello_table.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_table.rb)
+[samples/hello/hello_table.rb](samples/hello/hello_table.rb)
 
 Hello, Table!
 
@@ -4017,11 +4018,11 @@ Hello, Table! Context Menu
 
 #### Hello, Button!
 
-This sample demonstrates the use of `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
+This sample demonstrates the use of the `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
 
 Code:
 
-[samples/hello/hello_button.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/hello/hello_button.rb)
+[samples/hello/hello_button.rb](samples/hello/hello_button.rb)
 
 Hello, Button!
 
@@ -4030,6 +4031,22 @@ Hello, Button!
 Hello, Button! Incremented 7 times!
 
 ![Hello Button Incremented](images/glimmer-hello-button-incremented.png)
+
+#### Hello, Link!
+
+This sample demonstrates the use of the `link` widget in Glimmer, including identifying which link was clicked and performing an action (displaying help) based on its location.
+
+Code:
+
+[samples/hello/hello_link.rb](samples/hello/hello_link.rb)
+
+Hello, Link!
+
+![Hello Link](images/glimmer-hello-link.png)
+
+Hello, Link! Clicked
+
+![Hello Link Clicked](images/glimmer-hello-link-clicked.png)
 
 ### Elaborate Samples
 
@@ -4043,7 +4060,7 @@ Please note that the code has changed since that article was written (the GUI DS
 
 Code:
 
-[samples/elaborate/user_profile.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/user_profile.rb)
+[samples/elaborate/user_profile.rb](samples/elaborate/user_profile.rb)
 
 ![User Profile](images/glimmer-user-profile.png)
 
@@ -4053,7 +4070,7 @@ This sample demonstrates basic data-binding, password and text fields, and field
 
 Code:
 
-[samples/elaborate/login.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/login.rb)
+[samples/elaborate/login.rb](samples/elaborate/login.rb)
 
 ![Login](images/glimmer-login.png)
 ![Login Filled In](images/glimmer-login-filled-in.png)
@@ -4067,7 +4084,7 @@ Code:
 
 (Please note that on some Linux instances where the display x-axis is set to double-scale, you need to set the `shell` `minimum_size` to `300, 178` instead of `150, 178`)
 
-[samples/elaborate/tic_tac_toe.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/tic_tac_toe.rb)
+[samples/elaborate/tic_tac_toe.rb](samples/elaborate/tic_tac_toe.rb)
 
 ![Tic Tac Toe](images/glimmer-tic-tac-toe.png)
 ![Tic Tac Toe In Progress](images/glimmer-tic-tac-toe-in-progress.png)
@@ -4079,7 +4096,7 @@ This sample demonstrates table data-binding, sorting, filtering, GUI layout, MVP
 
 Code:
 
-[samples/elaborate/contact_manager.rb](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/samples/elaborate/contact_manager.rb)
+[samples/elaborate/contact_manager.rb](samples/elaborate/contact_manager.rb)
 
 Contact Manager
 
