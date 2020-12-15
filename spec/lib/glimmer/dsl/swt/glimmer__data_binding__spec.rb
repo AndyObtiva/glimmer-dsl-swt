@@ -198,7 +198,7 @@ module GlimmerSpec
         
         expect(person.name_selection.x).to eq(2)
         expect(person.name_selection.y).to eq(4)
-      end    
+      end
     end
 
     it "tests red label custom widget data binding string property" do
@@ -426,7 +426,9 @@ module GlimmerSpec
       expect(@menu_item.swt_widget.getSelection).to eq(true)
 
       @menu_item.swt_widget.setSelection(false)
-      @menu_item.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
+      expect {
+        @menu_item.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
+      }.to raise_error('Cannot invoke `age=` because ModelBinding#binding_options[:read_only]=true')
       expect(person.age).to eq(20)
     end
 

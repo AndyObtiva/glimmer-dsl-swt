@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.17.10.8
+
+- Support editing sample code in the Glimmer Meta-Sample to enable experimentation and learning
+- Add a "Reset" button to the Glimmer Meta-Sample to allow resetting sample code changes
+- Refactor/revise hello_message_box.rb and hello_pop_up_context_menu.rb samples
+- Upgrade to glimmer 1.0.6
+
 ### 4.17.10.7
 
 - Loosened dependencies on most Glimmer author-owned gems

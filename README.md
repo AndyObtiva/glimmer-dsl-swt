@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.7
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.17.10.8
 
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -449,7 +449,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.17.10.7
+jgem install glimmer-dsl-swt -v 4.17.10.8
 
 ```
 
@@ -526,7 +526,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.7
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.17.10.8
 
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
@@ -1003,8 +1003,8 @@ Output:
   Name         Gem          Version    Author          Description
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
-  Opal   glimmer-dsl-opal   0.4.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.17.10.7
+  Opal   glimmer-dsl-opal   0.8.0     AndyMaleh    Glimmer DSL for Opal
+  Swt    glimmer-dsl-swt    4.17.10.8
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
@@ -3286,10 +3286,8 @@ Glimmer Meta-Sample Code Example:
 
 ```ruby
 # ...
-code_text {
-  text bind(SampleDirectory, 'selected_sample.content')
-  editable false
-  caret nil
+@code_text = code_text {
+  text bind(SampleDirectory, 'selected_sample.content', read_only: true)
 }
 # ...
 ```
@@ -3625,7 +3623,7 @@ https://www.eclipse.org/nebula/
 
 ## Samples
 
-Check the [samples](samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
+Check the [samples](samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
 
 You may run any sample via this command:
 
@@ -3636,6 +3634,8 @@ glimmer samples
 This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb)
 
 ![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+You may edit the code of any sample before launching it via the "Launch" button. This helps you learn by experiementing with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button.
 
 ### Hello Samples
 

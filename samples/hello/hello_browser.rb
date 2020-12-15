@@ -22,7 +22,9 @@
 include Glimmer
 
 shell {
+  text 'Hello, Browser!'
   minimum_size 1024, 860
+  
   browser {
     url 'https://brightonresort.com/about'
   }

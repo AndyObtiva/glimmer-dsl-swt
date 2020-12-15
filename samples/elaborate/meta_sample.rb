@@ -1,4 +1,8 @@
+require 'fileutils'
+
 class Sample
+  include Glimmer::DataBinding::ObservableModel
+  
   attr_accessor :sample_directory, :file, :selected
   
   def initialize(file, sample_directory: )
@@ -19,12 +23,33 @@ class Sample
     @name
   end
   
-  def content
-    @content = File.read(file)
+  def code
+    reset_code! if @code.nil?
+    @code
   end
-    
-  def launch
-    load file
+  
+  def reset_code!
+    @code = File.read(file)
+    notify_observers('code')
+  end
+  
+  def launch(modified_code)
+    modified_file = File.join(File.dirname(file), ".#{File.basename(file)}")
+    begin
+      File.write(modified_file, modified_code)
+      begin
+        load(modified_file)
+      rescue StandardError, SyntaxError => launch_error
+        message_box {
+          text 'Error Launching'
+          message launch_error.full_message
+        }.open
+      end
+    rescue
+      load(file) # load original file if failed to write changes
+    ensure
+      FileUtils.rm_rf(modified_file)
+    end
   end
 end
 
@@ -111,14 +136,16 @@ end
 class MetaSampleApplication
   include Glimmer
   
+  def initialize
+    selected_sample_directory = SampleDirectory.sample_directories.first
+    selected_sample = selected_sample_directory.samples.first
+    selected_sample_directory.selected_sample_name = selected_sample.name
+  end
+  
   def launch
     shell {
       minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'
-      
-      on_swt_show {
-        SampleDirectory.selected_sample = SampleDirectory.all_samples.first
-      }
       
       sash_form {
         composite {
@@ -144,22 +171,31 @@ class MetaSampleApplication
             }
           }
           
-          button {
+          composite {
+            fill_layout
             layout_data(:fill, :center, true, false) {
               height_hint 120
             }
-            text 'Launch Sample'
-            font height: 30
-            on_widget_selected {
-              SampleDirectory.selected_sample.launch
+            
+            button {
+              text 'Launch'
+              font height: 30
+              on_widget_selected {
+                SampleDirectory.selected_sample.launch(@code_text.text)
+              }
+            }
+            button {
+              text 'Reset'
+              font height: 30
+              on_widget_selected {
+                SampleDirectory.selected_sample.reset_code!
+              }
             }
           }
         }
             
-        code_text {
-          text bind(SampleDirectory, 'selected_sample.content')
-          editable false
-          caret nil
+        @code_text = code_text {
+          text bind(SampleDirectory, 'selected_sample.code', read_only: true)
         }
         
         weights 4, 9

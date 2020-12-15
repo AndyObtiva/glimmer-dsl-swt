@@ -21,12 +21,18 @@
 
 include Glimmer
 
-shell { |shell_proxy|
+shell {
+  grid_layout {
+    margin_width 0
+    margin_height 0
+  }
+  
   text 'Hello, Pop Up Context Menu!'
-  grid_layout
+  
   label {
-    font height: 16
-    text 'Right-Click To Pop Up a Context Menu'
+    text "Right-Click on the Text to\nPop Up a Context Menu"
+    font height: 50
+    
     menu {
       menu {
         text '&History'
@@ -35,7 +41,7 @@ shell { |shell_proxy|
           menu_item {
             text 'File 1'
             on_widget_selected {
-              message_box(shell_proxy) {
+              message_box {
                 text 'File 1'
                 message 'File 1 Contents'
               }.open
@@ -44,9 +50,30 @@ shell { |shell_proxy|
           menu_item {
             text 'File 2'
             on_widget_selected {
-              message_box(shell_proxy) {
+              message_box {
                 text 'File 2'
                 message 'File 2 Contents'
+              }.open
+            }
+          }
+        }
+        menu {
+          text '&Archived'
+          menu_item {
+            text 'File 3'
+            on_widget_selected {
+              message_box {
+                text 'File 3'
+                message 'File 3 Contents'
+              }.open
+            }
+          }
+          menu_item {
+            text 'File 4'
+            on_widget_selected {
+              message_box {
+                text 'File 4'
+                message 'File 4 Contents'
               }.open
             }
           }

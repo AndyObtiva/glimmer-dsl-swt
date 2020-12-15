@@ -4,9 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix menu enablement on menu as opposed to menu_item (where it works)
 - Support JRuby v9.2.14.0
 - Support SWT v4.18
+- Fix menu enablement on menu as opposed to menu_item (where it works)
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
 - Support passing spinner table editor properties
 - Add checkbox column editor to Hello, Table! Sample
@@ -30,7 +30,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
 - glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
-- Make glimmer meta samples editable for experimentation before launching a sample
 - Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
 
 - Log exceptions that occur in event listener blocks
@@ -274,7 +273,6 @@ items <=> binding {
 
 - Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, etc...)
 - Add hello samples for every built-in SWT widget including the custom package
-- Build a sample of samples GUI app (meta-sample) for easily browsing and launching all Glimmer samples
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
