@@ -38,9 +38,9 @@ shell { |main_shell|
     
       You may click on any <a>link</a> to get help.
       
-      How do you know <a href="href">which link</a> you clicked?
+      How do you know <a href="which-link-href-value">which link</a> you clicked?
       
-      Just keep clicking <a href="all-links">links</a> to find out!
+      Just keep clicking <a href="all links">links</a> to find out!
     MULTI_LINE_STRING
         
     on_widget_selected { |selection_event|
@@ -69,10 +69,8 @@ shell { |main_shell|
             @help_shell.location = Point.new(x, y)
           }
           on_focus_lost {
-            @help_shell.close
-          }
-          on_shell_closed {
             @selected_link = nil
+            @help_shell.close
           }
         }
         @help_shell.open

@@ -66,7 +66,6 @@ module Glimmer
         else
           @swt_widget = swt_widget_class.new(parent.swt_widget)
         end
-        DEFAULT_INITIALIZERS['menu']&.call(swt_widget)
 
         if styles.include?(:bar)
           parent.swt_widget.setMenuBar(swt_widget)

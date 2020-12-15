@@ -69,7 +69,7 @@ module Glimmer
       }
 
       DEFAULT_INITIALIZERS = {
-        'composite' => lambda do |composite|
+        composite: lambda do |composite|
           if composite.get_layout.nil?
             layout = GridLayout.new
             layout.marginWidth = 15
@@ -77,18 +77,18 @@ module Glimmer
             composite.layout = layout
           end
         end,
-        'scrolled_composite' => lambda do |scrolled_composite|
+        scrolled_composite: lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true
           scrolled_composite.expand_vertical = true
         end,
-        'table' => lambda do |table|
+        table: lambda do |table|
           table.setHeaderVisible(true)
           table.setLinesVisible(true)
         end,
-        'table_column' => lambda do |table_column|
+        table_column: lambda do |table_column|
           table_column.setWidth(80)
         end,
-        'group' => lambda do |group|
+        group: lambda do |group|
           group.layout = GridLayout.new if group.get_layout.nil?
         end,
       }
@@ -160,7 +160,7 @@ module Glimmer
         end
         if @swt_widget&.get_data('proxy').nil?
           @swt_widget.set_data('proxy', self)
-          DEFAULT_INITIALIZERS[underscored_widget_name]&.call(@swt_widget)
+          DEFAULT_INITIALIZERS[underscored_widget_name.to_s.to_sym]&.call(@swt_widget)
           @parent_proxy.post_initialize_child(self)
         end
       end
@@ -212,6 +212,7 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
+        # TODO Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
         if widget_custom_attribute
           widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)

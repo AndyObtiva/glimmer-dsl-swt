@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Fix menu enablement on menu as opposed to menu_item (where it works)
 - Support JRuby v9.2.14.0
 - Support SWT v4.18
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
@@ -267,6 +268,7 @@ items <=> binding {
 - Consider auto-synchronizing access/mutation of attributes from threads other than the main thread (https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) or at least supporting a 'syncrhonize' keyword in Glimmer DSL
 - Preload all SWT widgets as static keywords to optimize performance if needed
 - Support setting default sort direction on `table` (and sort direction on any sort_property option)
+- Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
 
 ## Samples
 

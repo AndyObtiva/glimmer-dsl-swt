@@ -4,9 +4,9 @@ ruby '>= 2.5.3', :engine => 'jruby', engine_version: '>= 9.2.6.0'
 
 # Glimmer project owner gems
 gem 'glimmer', '~> 1.0.5' #, path: '../glimmer'
-gem 'super_module', '~> 1.4.1'
-gem 'nested_inherited_jruby_include_package', '~> 0.3.0'
-gem 'puts_debuggerer', '~> 0.10.2', require: false
+gem 'super_module', '>= 1.4.1', '< 2.0.0'
+gem 'nested_inherited_jruby_include_package', '>= 0.3.0', '< 2.0.0'
+gem 'puts_debuggerer', '>= 0.11.0', '< 2.0.0', require: false
 gem 'rake-tui', '>= 0.2.3', '< 2.0.0'
 
 # Temporary until merged into base gem
@@ -17,7 +17,7 @@ gem 'logging', '>= 2.3.0', '< 3.0.0'
 gem 'os', '>= 1.0.0', '< 2.0.0'
 gem 'rake', '>= 10.1.0', '< 14.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'
-gem 'rouge', '>= 3.25.0', '< 4.0.0'
+gem 'rouge', '>= 3.26.0', '< 4.0.0'
 
 group :development do
   gem 'juwelier', '>= 2.4.9', '< 3.0.0'

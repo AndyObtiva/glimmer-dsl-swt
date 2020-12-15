@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.17.10.7
+
+- Loosened dependencies on most Glimmer author-owned gems
+- Refactored/Simplified/Fixed Hello, Link! Sample
+
 ### 4.17.10.6
 
 - Hello, Link! Sample
