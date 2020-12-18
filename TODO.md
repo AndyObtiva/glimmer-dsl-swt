@@ -4,23 +4,35 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support JRuby v9.2.14.0
+- Make all widget proxy property converters happen upon normal setting of properties too (not just in DSL) (like background=(some color without calling .swt_color))
+
+- Have the `swt` keyword (SWTProxy) support accepting a string character (to build an accelerator)
+- Make accelerator property accept symbols and character directly (without swt)
 - Support SWT v4.18
 - Fix menu enablement on menu as opposed to menu_item (where it works)
-- Highlight table selection after changing table collection out and back in again to the model collection that had the selection
-- Support passing spinner table editor properties
-- Add checkbox column editor to Hello, Table! Sample
-- Document that consumers of spinner must bind selection after setting other properties (gotcha)
+- Update Hello, Menu Bar! sample to show accelerators on menu items
+- Test all glimmer apps built so far with the 4.18 release
+- Write meta-sample changes to user directory to avoid permission issues
 
-## Soon 4.17.11.0
+## Soon
 
-- Move glimmer projects underneath glimmer organization
+- Update Hello, Menu Bar! sample to show images on menu items
+- Hello, Font Dialog!
+- Add font selection to Hello, Menu bar!
+
 - Make code_text custom widget support multiple programming languages
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
-- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
+- Highlight table selection after changing table collection out and back in again to the model collection that had the selection
+- Support passing spinner table editor properties
+- Add checkbox column editor to Hello, Table! Sample
+- Document that consumers of spinner must bind selection after setting other properties (gotcha)
 - Make tables detect inital sort property matching custom sort property on a column header and highlight sort on it
+
+- Move glimmer projects underneath glimmer organization
+
+- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app

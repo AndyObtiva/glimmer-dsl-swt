@@ -3635,7 +3635,7 @@ This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elabora
 
 ![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
-You may edit the code of any sample before launching it via the "Launch" button. This helps you learn by experiementing with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button.
+You may edit the code of any sample before launching it by clicking on the "Launch" button. This helps you learn by experimenting with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button.
 
 ### Hello Samples
 

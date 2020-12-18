@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.0.0
+
+- Support JRuby v9.2.14.0
+
 ### 4.17.10.8
 
 - Support editing sample code in the Glimmer Meta-Sample to enable experimentation and learning

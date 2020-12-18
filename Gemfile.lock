@@ -38,8 +38,8 @@ GEM
     jar-dependencies (0.4.1)
     jruby-jars (9.2.14.0)
     jruby-rack (1.1.21)
-    json (2.4.0)
-    json (2.4.0-java)
+    json (2.4.1)
+    json (2.4.1-java)
     juwelier (2.4.9)
       builder
       bundler
@@ -143,6 +143,7 @@ GEM
 PLATFORMS
   java
   ruby
+  universal-java-1.8
 
 DEPENDENCIES
   coveralls (= 0.8.23)
@@ -168,4 +169,4 @@ RUBY VERSION
    ruby 2.5.7p0 (jruby 9.2.13.0)
 
 BUNDLED WITH
-   2.1.4
+   2.2.2
