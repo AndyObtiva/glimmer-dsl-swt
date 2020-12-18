@@ -75,7 +75,7 @@ module Glimmer
       end
 
       def has_attribute?(attribute_name, *args)
-        if attribute_name.to_s == "text"
+        if ['text', 'enabled'].include?(attribute_name.to_s)
           true
         else
           super(attribute_name, *args)
@@ -83,24 +83,29 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
-        attribute_name
-        if attribute_name.to_s == "text"
+        if normalized_attribute(attribute_name) == 'text'
           text_value = args[0]
           @swt_menu_item.setText text_value
+        elsif normalized_attribute(attribute_name) == 'enabled'
+          value = args[0]
+          @swt_menu_item.setEnabled value
         else
           super(attribute_name, *args)
         end
       end
 
       def get_attribute(attribute_name)
-        if attribute_name.to_s == "text"
+        if normalized_attribute(attribute_name) == 'text'
           @swt_menu_item.getText
+        elsif normalized_attribute(attribute_name) == 'enabled'
+          @swt_menu_item.getEnabled
         else
           super(attribute_name)
         end
       end
       
       def can_handle_observation_request?(observation_request, super_only: false)
+        observation_request = observation_request.to_s
         super_result = super(observation_request)
         if observation_request.start_with?('on_') && !super_result && !super_only
           return menu_item_proxy.can_handle_observation_request?(observation_request)

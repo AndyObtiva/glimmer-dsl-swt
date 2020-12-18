@@ -89,11 +89,15 @@ module Glimmer
             negative ? ~bit_value : bit_value
           rescue => e
 #             Glimmer::Config.logger.debug {e.full_message}
-            bit_value = extra_styles[swt_constant_symbol]
-            if bit_value
-              negative ? ~bit_value : bit_value
+            if symbol.to_s.size == 1 # accelerator key
+              symbol.to_s.bytes.first
             else
-              symbol
+              bit_value = extra_styles[swt_constant_symbol]
+              if bit_value
+                negative ? ~bit_value : bit_value
+              else
+                symbol
+              end
             end
           end
         end

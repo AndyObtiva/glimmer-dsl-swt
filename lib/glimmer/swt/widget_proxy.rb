@@ -639,7 +639,7 @@ module Glimmer
           swt_widget.send(method, *args, &block)
         end
       rescue => e
-        Glimmer::Config.logger.error { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
+        Glimmer::Config.logger.debug { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
         Glimmer::Config.logger.debug { e.full_message }
         super
         # TODO consider get_attribute too
@@ -680,7 +680,12 @@ module Glimmer
       end
       
       def normalized_attribute(attribute_name)
-        attribute_name.to_s.underscore.sub(/^get_/, '').sub(/^set_/, '').sub(/=$/, '')
+        attribute_name = attribute_name.to_s if attribute_name.is_a?(Symbol)
+        attribute_name = attribute_name.underscore unless attribute_name.downcase?
+        attribute_name = attribute_name.sub(/^get_/, '') if attribute_name.start_with?('get_')
+        attribute_name = attribute_name.sub(/^set_/, '') if attribute_name.start_with?('set_')
+        attribute_name = attribute_name.sub(/=$/, '') if attribute_name.end_with?('=')
+        attribute_name
       end
       alias ruby_attribute_getter normalized_attribute
 
@@ -833,11 +838,14 @@ module Glimmer
         end
         # TODO consider detecting type on widget method and automatically invoking right converter (e.g. :to_s for String, :to_i for Integer)
         @property_type_converters ||= {
-          alignment: -> (*value) {
+          accelerator: lambda { |*value|
             SWTProxy[*value]
           },
-          :background => color_converter,
-          :background_image => lambda do |*value|
+          alignment: lambda { |*value|
+            SWTProxy[*value]
+          },
+          background: color_converter,
+          background_image: lambda do |*value|
             image_proxy = ImageProxy.create(*value)
             
             if image_proxy&.file_path&.end_with?('.gif')
@@ -878,7 +886,7 @@ module Glimmer
             
             image_proxy&.swt_image
           end,
-          :cursor => lambda do |value|
+          cursor: lambda do |value|
             cursor_proxy = nil
             if value.is_a?(CursorProxy)
               cursor_proxy = value
@@ -890,9 +898,9 @@ module Glimmer
           :enabled => lambda do |value|
             !!value
           end,
-          :foreground => color_converter,
-          :link_foreground => color_converter,
-          :font => lambda do |value|
+          foreground: color_converter,
+          link_foreground: color_converter,
+          font: lambda do |value|
             if value.is_a?(Hash)
               font_properties = value
               FontProxy.new(self, font_properties).swt_font
@@ -900,21 +908,21 @@ module Glimmer
               value
             end
           end,
-          :image => lambda do |*value|
+          image: lambda do |*value|
             ImageProxy.create(*value).swt_image
           end,
-          :images => lambda do |array|
+          images: lambda do |array|
             array.to_a.map do |value|
               ImageProxy.create(value).swt_image
             end.to_java(Image)
           end,
-          :items => lambda do |value|
+          items: lambda do |value|
             value.to_java :string
           end,
-          :text => lambda do |value|
+          text: lambda do |value|
             value.to_s
           end,
-          :transfer => lambda do |value|
+          transfer: lambda do |value|
             value = value.first if value.is_a?(Array) && value.size == 1 && value.first.is_a?(Array)
             transfer_object_extrapolator = lambda do |transfer_name|
               transfer_type = "#{transfer_name.to_s.camelcase(:upper)}Transfer".to_sym
@@ -933,10 +941,10 @@ module Glimmer
             result = result.to_java(Transfer) unless result.is_a?(ArrayJavaProxy)
             result
           end,
-          :visible => lambda do |value|
+          visible: lambda do |value|
             !!value
           end,
-          :weights => lambda do |value|
+          weights: lambda do |value|
             value.to_java(:int)
           end,
         }

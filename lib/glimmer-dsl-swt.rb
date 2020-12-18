@@ -36,6 +36,7 @@ require 'nested_inherited_jruby_include_package'
 require 'super_module'
 require 'rouge'
 require 'date'
+require 'facets/string/capitalized'
 
 # Internal requires
 require 'ext/glimmer/config'

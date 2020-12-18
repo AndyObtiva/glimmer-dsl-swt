@@ -41,7 +41,7 @@ shell {
       text '&File'
       menu_item {
         text '&New'
-        accelerator swt(:command, 'N'.bytes.first)
+        accelerator :command, :N
         
         on_widget_selected {
           message_box {
@@ -52,7 +52,7 @@ shell {
       }
       menu_item {
         text '&Open...'
-        accelerator swt(:command, 'O'.bytes.first)
+        accelerator :command, :O
         
         on_widget_selected {
           message_box {
@@ -95,21 +95,32 @@ shell {
       text '&Edit'
       menu_item {
         text 'Cut'
-        accelerator swt(:command, 'X'.bytes.first)
+        accelerator :command, :X
       }
       menu_item {
         text 'Copy'
-        accelerator swt(:command, 'C'.bytes.first)
+        accelerator :command, :C
       }
       menu_item {
         text 'Paste'
-        accelerator swt(:command, 'V'.bytes.first)
+        accelerator :command, :V
       }
     }
     menu {
       text '&Options'
-      menu {
+      
+      menu_item(:radio) {
+        text '&Enabled'
+        
+        on_widget_selected {
+          @select_one_menu.enabled = true
+          @select_multiple_menu.enabled = true
+        }
+      }
+      @select_one_menu = menu {
         text '&Select One'
+        enabled false
+        
         menu_item(:radio) {
           text 'Option 1'
         }
@@ -120,8 +131,10 @@ shell {
           text 'Option 3'
         }
       }
-      menu {
+      @select_multiple_menu = menu {
         text '&Select Multiple'
+        enabled false
+        
         menu_item(:check) {
           text 'Option 4'
         }
@@ -192,7 +205,7 @@ shell {
       text '&Help'
       menu_item {
         text '&Manual'
-        accelerator swt(:command, :shift, 'M'.bytes.first)
+        accelerator :command, :shift, :M
         
         on_widget_selected {
           message_box {
@@ -203,7 +216,7 @@ shell {
       }
       menu_item {
         text '&Tutorial'
-        accelerator swt(:command, :shift, 'T'.bytes.first)
+        accelerator :command, :shift, :T
         
         on_widget_selected {
           message_box {

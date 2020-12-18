@@ -70,6 +70,10 @@ module GlimmerSpec
         it 'returns SWT constant value for negative and positive symbols' do
           expect(Glimmer::SWT::SWTProxy[:shell_trim, :resize, :max!, :min!]).to eq((::SWT::SHELL_TRIM | ::SWT::SHELL_TRIM) & ~::SWT::MAX & ~::SWT::MIN)
         end
+        
+        it 'returns SWT constant value for values including an accelerator key character (CTRL+SHIFT+V)' do
+          expect(Glimmer::SWT::SWTProxy[:ctrl, :shift, :v]).to eq(::SWT::CTRL | ::SWT::SHIFT | 'v'.bytes.first)
+        end
       end
 
       context 'empty arguments' do
