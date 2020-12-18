@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Have the `swt` keyword (SWTProxy) support accepting a string character (to build an accelerator)
 - Make accelerator property accept symbols and character directly (without swt)
-- Support SWT v4.18
 - Fix menu enablement on menu as opposed to menu_item (where it works)
 - Update Hello, Menu Bar! sample to show accelerators on menu items
 - Test all glimmer apps built so far with the 4.18 release

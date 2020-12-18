@@ -2,7 +2,8 @@
 
 ### 4.18.0.0
 
-- Support JRuby v9.2.14.0
+- Upgrade to SWT v4.18
+- Upgrade to JRuby v9.2.14.0
 - Apply all WidgetProxy property converters upon normal setting of properties too (not just in DSL) (like `some_widget.background = color_symbol`)
 
 ### 4.17.10.8
