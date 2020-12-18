@@ -28,7 +28,7 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class SashFormProxy < WidgetProxy
       def post_add_content
-        swt_widget.setWeights(@weights) unless @weights.nil?
+        self.weights = @weights unless @weights.nil?
       end
       
       def set_attribute(attribute_name, *args)

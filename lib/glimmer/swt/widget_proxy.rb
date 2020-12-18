@@ -936,6 +936,9 @@ module Glimmer
           :visible => lambda do |value|
             !!value
           end,
+          :weights => lambda do |value|
+            value.to_java(:int)
+          end,
         }
       end
     end
