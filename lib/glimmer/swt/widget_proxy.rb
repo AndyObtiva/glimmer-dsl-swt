@@ -202,7 +202,22 @@ module Glimmer
         end
       end
 
+      def has_attribute_getter?(attribute_getter_name, *args)
+        attribute_getter_name = attribute_getter_name.to_s.underscore
+        return false unless !attribute_getter_name.end_with?('=') && !attribute_getter_name.start_with?('set_')
+        args.empty? && swt_widget.respond_to?(attribute_getter_name)
+      end
+      
+      def has_attribute_setter?(attribute_setter_name, *args)
+        attribute_setter_name = attribute_setter_name.to_s
+        underscored_attribute_setter_name = attribute_setter_name.underscore
+        return false unless attribute_setter_name.end_with?('=') || attribute_setter_name.start_with?('set_')
+        attribute_name = underscored_attribute_setter_name.sub(/^set_/, '').sub(/=$/, '')
+        has_attribute?(attribute_name, *args)
+      end
+      
       def has_attribute?(attribute_name, *args)
+        # TODO test that attribute getter responds too
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
         if widget_custom_attribute
           @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
@@ -214,11 +229,13 @@ module Glimmer
       def set_attribute(attribute_name, *args)
         # TODO Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
+        apply_property_type_converters(normalized_attribute(attribute_name), args)
         if widget_custom_attribute
           widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
         elsif @swt_widget.respond_to?(attribute_setter(attribute_name))
-          apply_property_type_converters(attribute_name, args)
           @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
+        elsif @swt_widget.respond_to?(ruby_attribute_setter(attribute_name))
+          @swt_widget.send(ruby_attribute_setter(attribute_name), args)
         else
           send(ruby_attribute_setter(attribute_name), args)
         end
@@ -234,6 +251,12 @@ module Glimmer
           end
         elsif @swt_widget.respond_to?(attribute_getter(attribute_name))
           @swt_widget.send(attribute_getter(attribute_name))
+        elsif @swt_widget.respond_to?(ruby_attribute_getter(attribute_name))
+          @swt_widget.send(ruby_attribute_getter(attribute_name))
+        elsif @swt_widget.respond_to?(attribute_name)
+          @swt_widget.send(attribute_name)
+        elsif respond_to?(ruby_attribute_getter(attribute_name))
+          send(ruby_attribute_getter(attribute_name))
         else
           send(attribute_name)
         end
@@ -608,11 +631,16 @@ module Glimmer
       def method_missing(method, *args, &block)
         if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
+        elsif has_attribute_setter?(method, *args)
+          set_attribute(method, *args)
+        elsif has_attribute_getter?(method, *args)
+          get_attribute(method, *args)
         else
           swt_widget.send(method, *args, &block)
         end
       rescue => e
-        Glimmer::Config.logger.debug {"Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
+        Glimmer::Config.logger.error { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
+        Glimmer::Config.logger.debug { e.full_message }
         super
         # TODO consider get_attribute too
       end
@@ -640,16 +668,21 @@ module Glimmer
       end
 
       def ruby_attribute_setter(attribute_name)
-        "#{attribute_name}="
+        "#{normalized_attribute(attribute_name)}="
       end
 
       def attribute_setter(attribute_name)
-        "set#{attribute_name.to_s.camelcase(:upper)}"
+        "set#{normalized_attribute(attribute_name).camelcase(:upper)}"
       end
 
       def attribute_getter(attribute_name)
-        "get#{attribute_name.to_s.camelcase(:upper)}"
+        "get#{normalized_attribute(attribute_name).camelcase(:upper)}"
       end
+      
+      def normalized_attribute(attribute_name)
+        attribute_name.to_s.underscore.sub(/^get_/, '').sub(/^set_/, '').sub(/=$/, '')
+      end
+      alias ruby_attribute_getter normalized_attribute
 
       # TODO refactor following methods to eliminate duplication
       # perhaps consider relying on raising an exception to avoid checking first

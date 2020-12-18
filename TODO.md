@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make all widget proxy property converters happen upon normal setting of properties too (not just in DSL) (like background=(some color without calling .swt_color))
-
 - Have the `swt` keyword (SWTProxy) support accepting a string character (to build an accelerator)
 - Make accelerator property accept symbols and character directly (without swt)
 - Support SWT v4.18

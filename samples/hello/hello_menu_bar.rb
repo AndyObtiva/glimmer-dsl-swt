@@ -21,50 +21,52 @@
 
 include Glimmer
 
-shell { |shell_proxy|
-  text 'Hello, Menu Bar!'
-  grid_layout
-  label(:center) {
-    font height: 16
-    text 'Check Out The File Menu and History Menu in The Menu Bar Above!'
+COLORS = [:white, :red, :yellow, :green, :blue, :magenta, :gray, :black]
+
+shell {
+  grid_layout {
+    margin_width 0
+    margin_height 0
   }
+  
+  text 'Hello, Menu Bar!'
+  
+  @label = label(:center) {
+    font height: 50
+    text 'Check Out The Menu Bar Above!'
+  }
+  
   menu_bar {
     menu {
       text '&File'
       menu_item {
-        text 'E&xit'
-        on_widget_selected {
-          exit(0)
-        }
-      }
-      menu_item(0) {
         text '&New'
+        accelerator swt(:command, 'N'.bytes.first)
+        
         on_widget_selected {
-          message_box(shell_proxy) {
-            text 'New File'
-            message 'New File Contents'
+          message_box {
+            text 'New'
+            message 'New file created.'
           }.open
         }
       }
-      menu(1) {
-        text '&Options'
-        menu_item(:radio) {
-          text 'Option 1'
-        }
-        menu_item(:separator)
-        menu_item(:check) {
-          text 'Option 3'
+      menu_item {
+        text '&Open...'
+        accelerator swt(:command, 'O'.bytes.first)
+        
+        on_widget_selected {
+          message_box {
+            text 'Open'
+            message 'Opening File...'
+          }.open
         }
       }
-    }
-    menu {
-      text '&History'
       menu {
-        text '&Recent'
+        text 'Open &Recent'
         menu_item {
           text 'File 1'
           on_widget_selected {
-            message_box(shell_proxy) {
+            message_box {
               text 'File 1'
               message 'File 1 Contents'
             }.open
@@ -73,11 +75,152 @@ shell { |shell_proxy|
         menu_item {
           text 'File 2'
           on_widget_selected {
-            message_box(shell_proxy) {
+            message_box {
               text 'File 2'
               message 'File 2 Contents'
             }.open
           }
+        }
+      }
+      menu_item(:separator)
+      menu_item {
+        text 'E&xit'
+        
+        on_widget_selected {
+          exit(0)
+        }
+      }
+    }
+    menu {
+      text '&Edit'
+      menu_item {
+        text 'Cut'
+        accelerator swt(:command, 'X'.bytes.first)
+      }
+      menu_item {
+        text 'Copy'
+        accelerator swt(:command, 'C'.bytes.first)
+      }
+      menu_item {
+        text 'Paste'
+        accelerator swt(:command, 'V'.bytes.first)
+      }
+    }
+    menu {
+      text '&Options'
+      menu {
+        text '&Select One'
+        menu_item(:radio) {
+          text 'Option 1'
+        }
+        menu_item(:radio) {
+          text 'Option 2'
+        }
+        menu_item(:radio) {
+          text 'Option 3'
+        }
+      }
+      menu {
+        text '&Select Multiple'
+        menu_item(:check) {
+          text 'Option 4'
+        }
+        menu_item(:check) {
+          text 'Option 5'
+        }
+        menu_item(:check) {
+          text 'Option 6'
+        }
+      }
+    }
+    menu {
+      text '&Format'
+      menu {
+        text '&Background Color'
+        COLORS.each { |color_style|
+          menu_item(:radio) {
+            text color_style.to_s.split('_').map(&:capitalize).join(' ')
+            
+            on_widget_selected {
+              @label.background = color_style
+            }
+          }
+        }
+      }
+      menu {
+        text 'Foreground &Color'
+        COLORS.each { |color_style|
+          menu_item(:radio) {
+            text color_style.to_s.split('_').map(&:capitalize).join(' ')
+            
+            on_widget_selected {
+              @label.foreground = color_style
+            }
+          }
+        }
+      }
+    }
+    menu {
+      text '&View'
+      menu_item(:radio) {
+        text 'Small'
+        
+        on_widget_selected {
+          @label.font = {height: 25}
+          @label.parent.pack
+        }
+      }
+      menu_item(:radio) {
+        text 'Medium'
+        selection true
+        
+        on_widget_selected {
+          @label.font = {height: 50}
+          @label.parent.pack
+        }
+      }
+      menu_item(:radio) {
+        text 'Large'
+        
+        on_widget_selected {
+          @label.font = {height: 75}
+          @label.parent.pack
+        }
+      }
+    }
+    menu {
+      text '&Help'
+      menu_item {
+        text '&Manual'
+        accelerator swt(:command, :shift, 'M'.bytes.first)
+        
+        on_widget_selected {
+          message_box {
+            text 'Manual'
+            message 'Manual Contents'
+          }.open
+        }
+      }
+      menu_item {
+        text '&Tutorial'
+        accelerator swt(:command, :shift, 'T'.bytes.first)
+        
+        on_widget_selected {
+          message_box {
+            text 'Tutorial'
+            message 'Tutorial Contents'
+          }.open
+        }
+      }
+      menu_item(:separator)
+      menu_item {
+        text '&Report an Issue...'
+        
+        on_widget_selected {
+          message_box {
+            text 'Report an Issue'
+            message 'Reporting an issue...'
+          }.open
         }
       }
     }
