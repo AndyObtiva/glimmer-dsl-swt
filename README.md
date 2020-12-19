@@ -1477,47 +1477,54 @@ The ampersand symbol indicates the keyboard shortcut key for the menu item (e.g.
 Example of a Menu Bar (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
-shell { |shell_proxy|
-  text 'Hello, Menu Bar!'
-  grid_layout
-  label(:center) {
-    font height: 16
-    text 'Check Out The File Menu and History Menu in The Menu Bar Above!'
+include Glimmer
+
+COLORS = [:white, :red, :yellow, :green, :blue, :magenta, :gray, :black]
+
+shell {
+  grid_layout {
+    margin_width 0
+    margin_height 0
   }
+  
+  text 'Hello, Menu Bar!'
+  
+  @label = label(:center) {
+    font height: 50
+    text 'Check Out The Menu Bar Above!'
+  }
+  
   menu_bar {
     menu {
       text '&File'
       menu_item {
-        text 'E&xit'
-      }
-      menu_item(0) {
         text '&New'
+        accelerator :command, :N
+        
         on_widget_selected {
-          message_box(shell_proxy) {
-            text 'New File'
-            message 'New File Contents'
+          message_box {
+            text 'New'
+            message 'New file created.'
           }.open
         }
       }
-      menu(1) {
-        text '&Options'
-        menu_item(:radio) {
-          text 'Option 1'
-        }
-        menu_item(:separator)
-        menu_item(:check) {
-          text 'Option 3'
+      menu_item {
+        text '&Open...'
+        accelerator :command, :O
+        
+        on_widget_selected {
+          message_box {
+            text 'Open'
+            message 'Opening File...'
+          }.open
         }
       }
-    }
-    menu {
-      text '&History'
       menu {
-        text '&Recent'
+        text 'Open &Recent'
         menu_item {
           text 'File 1'
           on_widget_selected {
-            message_box(shell_proxy) {
+            message_box {
               text 'File 1'
               message 'File 1 Contents'
             }.open
@@ -1526,11 +1533,165 @@ shell { |shell_proxy|
         menu_item {
           text 'File 2'
           on_widget_selected {
-            message_box(shell_proxy) {
+            message_box {
               text 'File 2'
               message 'File 2 Contents'
             }.open
           }
+        }
+      }
+      menu_item(:separator)
+      menu_item {
+        text 'E&xit'
+        
+        on_widget_selected {
+          exit(0)
+        }
+      }
+    }
+    menu {
+      text '&Edit'
+      menu_item {
+        text 'Cut'
+        accelerator :command, :X
+      }
+      menu_item {
+        text 'Copy'
+        accelerator :command, :C
+      }
+      menu_item {
+        text 'Paste'
+        accelerator :command, :V
+      }
+    }
+    menu {
+      text '&Options'
+      
+      menu_item(:radio) {
+        text '&Enabled'
+        
+        on_widget_selected {
+          @select_one_menu.enabled = true
+          @select_multiple_menu.enabled = true
+        }
+      }
+      @select_one_menu = menu {
+        text '&Select One'
+        enabled false
+        
+        menu_item(:radio) {
+          text 'Option 1'
+        }
+        menu_item(:radio) {
+          text 'Option 2'
+        }
+        menu_item(:radio) {
+          text 'Option 3'
+        }
+      }
+      @select_multiple_menu = menu {
+        text '&Select Multiple'
+        enabled false
+        
+        menu_item(:check) {
+          text 'Option 4'
+        }
+        menu_item(:check) {
+          text 'Option 5'
+        }
+        menu_item(:check) {
+          text 'Option 6'
+        }
+      }
+    }
+    menu {
+      text '&Format'
+      menu {
+        text '&Background Color'
+        COLORS.each { |color_style|
+          menu_item(:radio) {
+            text color_style.to_s.split('_').map(&:capitalize).join(' ')
+            
+            on_widget_selected {
+              @label.background = color_style
+            }
+          }
+        }
+      }
+      menu {
+        text 'Foreground &Color'
+        COLORS.each { |color_style|
+          menu_item(:radio) {
+            text color_style.to_s.split('_').map(&:capitalize).join(' ')
+            
+            on_widget_selected {
+              @label.foreground = color_style
+            }
+          }
+        }
+      }
+    }
+    menu {
+      text '&View'
+      menu_item(:radio) {
+        text 'Small'
+        
+        on_widget_selected {
+          @label.font = {height: 25}
+          @label.parent.pack
+        }
+      }
+      menu_item(:radio) {
+        text 'Medium'
+        selection true
+        
+        on_widget_selected {
+          @label.font = {height: 50}
+          @label.parent.pack
+        }
+      }
+      menu_item(:radio) {
+        text 'Large'
+        
+        on_widget_selected {
+          @label.font = {height: 75}
+          @label.parent.pack
+        }
+      }
+    }
+    menu {
+      text '&Help'
+      menu_item {
+        text '&Manual'
+        accelerator :command, :shift, :M
+        
+        on_widget_selected {
+          message_box {
+            text 'Manual'
+            message 'Manual Contents'
+          }.open
+        }
+      }
+      menu_item {
+        text '&Tutorial'
+        accelerator :command, :shift, :T
+        
+        on_widget_selected {
+          message_box {
+            text 'Tutorial'
+            message 'Tutorial Contents'
+          }.open
+        }
+      }
+      menu_item(:separator)
+      menu_item {
+        text '&Report an Issue...'
+        
+        on_widget_selected {
+          message_box {
+            text 'Report an Issue'
+            message 'Reporting an issue...'
+          }.open
         }
       }
     }
@@ -1541,12 +1702,20 @@ shell { |shell_proxy|
 Example of a Pop Up Context Menu (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
-shell { |shell_proxy|
+include Glimmer
+
+shell {
+  grid_layout {
+    margin_width 0
+    margin_height 0
+  }
+  
   text 'Hello, Pop Up Context Menu!'
-  grid_layout
+  
   label {
-    font height: 16
-    text 'Right-Click To Pop Up a Context Menu'
+    text "Right-Click on the Text to\nPop Up a Context Menu"
+    font height: 50
+    
     menu {
       menu {
         text '&History'
@@ -1555,7 +1724,7 @@ shell { |shell_proxy|
           menu_item {
             text 'File 1'
             on_widget_selected {
-              message_box(shell_proxy) {
+              message_box {
                 text 'File 1'
                 message 'File 1 Contents'
               }.open
@@ -1564,9 +1733,30 @@ shell { |shell_proxy|
           menu_item {
             text 'File 2'
             on_widget_selected {
-              message_box(shell_proxy) {
+              message_box {
                 text 'File 2'
                 message 'File 2 Contents'
+              }.open
+            }
+          }
+        }
+        menu {
+          text '&Archived'
+          menu_item {
+            text 'File 3'
+            on_widget_selected {
+              message_box {
+                text 'File 3'
+                message 'File 3 Contents'
+              }.open
+            }
+          }
+          menu_item {
+            text 'File 4'
+            on_widget_selected {
+              message_box {
+                text 'File 4'
+                message 'File 4 Contents'
               }.open
             }
           }
@@ -3287,12 +3477,13 @@ Glimmer Meta-Sample Code Example:
 ```ruby
 # ...
 @code_text = code_text {
-  text bind(SampleDirectory, 'selected_sample.content', read_only: true)
+  text bind(SampleDirectory, 'selected_sample.code', read_only: true)
+  editable bind(SampleDirectory, 'selected_sample.editable')
 }
 # ...
 ```
 
-To use, simply use `code_text` in place of `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
+To use, simply use `code_text` in place of the `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
 
 #### Video Widget
 
@@ -3732,15 +3923,47 @@ Code:
 
 #### Hello, Menu Bar!
 
-This sample demonstrates menus in Glimmer.
+This sample demonstrates menus in Glimmer, including accelerators on the Mac.
 
 Code:
 
 [samples/hello/hello_menu_bar.rb](samples/hello/hello_menu_bar.rb)
 
 ![Hello Menu Bar](images/glimmer-hello-menu-bar.png)
+
 ![Hello Menu Bar File Menu](images/glimmer-hello-menu-bar-file-menu.png)
-![Hello Menu Bar History Menu](images/glimmer-hello-menu-bar-history-menu.png)
+
+The Mac Menu includes Accelerator Keys (keyboard shortcuts).
+
+![Hello Menu Bar File Menu Mac Accelerators](images/glimmer-hello-menu-bar-file-menu-mac-accelerators.png)
+
+![Hello Menu Bar Edit Menu](images/glimmer-hello-menu-bar-edit-menu.png)
+
+The Mac Menu includes Accelerator Keys (keyboard shortcuts).
+
+![Hello Menu Bar Edit Menu Mac Accelerators](images/glimmer-hello-menu-bar-edit-menu-mac-accelerators.png)
+
+![Hello Menu Bar Options Menu Disabled](images/glimmer-hello-menu-bar-options-menu-disabled.png)
+
+![Hello Menu Bar Options Menu Select One](images/glimmer-hello-menu-bar-options-menu-select-multiple.png)
+
+![Hello Menu Bar Options Menu Select Multiple](images/glimmer-hello-menu-bar-options-menu-select-one.png)
+
+![Hello Menu Bar Format Menu Background Color](images/glimmer-hello-menu-bar-format-menu-background-color.png)
+
+![Hello Menu Bar Format Menu Foreground Color](images/glimmer-hello-menu-bar-format-menu-foreground-color.png)
+
+![Hello Menu Bar View Menu](images/glimmer-hello-menu-bar-view-menu.png)
+
+![Hello Menu Bar View Small](images/glimmer-hello-menu-bar-view-small.png)
+
+![Hello Menu Bar View Large](images/glimmer-hello-menu-bar-view-large.png)
+
+![Hello Menu Bar Help Menu](images/glimmer-hello-menu-bar-help-menu.png)
+
+The Mac Menu includes Accelerator Keys (keyboard shortcuts) and Mac built-in Search.
+
+![Hello Menu Bar Help Menu Mac Accelerators](images/glimmer-hello-menu-bar-help-menu-mac-accelerators.png)
 
 #### Hello, Pop Up Context Menu!
 

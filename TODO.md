@@ -4,15 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update screenshots for hello menu bar
 - Update meta-sample screenshot
 
 ## Soon
 
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
-- Add font selection to Hello, Menu bar!
 
+- Disable Reset button in Meta-Sample until sample is changed
+- Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
 - Make code_text custom widget support multiple programming languages
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
