@@ -211,7 +211,7 @@ module Glimmer
       def has_attribute_setter?(attribute_setter_name, *args)
         attribute_setter_name = attribute_setter_name.to_s
         underscored_attribute_setter_name = attribute_setter_name.underscore
-        return false unless attribute_setter_name.end_with?('=') || attribute_setter_name.start_with?('set_')
+        return false unless attribute_setter_name.end_with?('=') || (attribute_setter_name.start_with?('set_') && !args.empty?)
         attribute_name = underscored_attribute_setter_name.sub(/^set_/, '').sub(/=$/, '')
         has_attribute?(attribute_name, *args)
       end

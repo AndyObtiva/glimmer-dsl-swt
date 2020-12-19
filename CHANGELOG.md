@@ -8,9 +8,11 @@
 - Update Hello, Menu Bar! sample to show accelerators on menu items
 - Have the `swt` keyword (SWTProxy) support accepting a string character (to build an accelerator style)
 - Make accelerator property accept symbols and character directly (without swt)
+- Write meta-sample changes to user directory to avoid permission issues
+- Zero margin_left, margin_right, margin_top, margin_bottom in layouts given that margin_width and margin_height are set by default
+- Prevent editing/launching meta-sample from Glimmer Meta-Sample
 - Fix enablement on `menu` (as opposed to menu_item, where it works)
 - Fix issue relating to background image scaling on resize of widget
-- Write meta-sample changes to user directory to avoid permission issues
 
 ### 4.17.10.8
 

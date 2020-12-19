@@ -34,6 +34,11 @@ class Sample
     notify_observers('code')
   end
   
+  def editable
+    File.basename(file) != 'meta_sample.rb'
+  end
+  alias launchable editable
+  
   def launch(modified_code)
     parent_directory = File.basename(File.dirname(file))
     modified_file_parent_directory = File.join(Etc.getpwuid.dir, '.glimmer', 'samples', parent_directory)
@@ -41,9 +46,11 @@ class Sample
     begin
       FileUtils.mkdir_p(modified_file_parent_directory)
       FileUtils.cp_r(file, modified_file_parent_directory)
-      FileUtils.cp_r(file.sub(/\.rb/, ''), modified_file_parent_directory) # copy matching subdirectory files if exist
+      FileUtils.cp_r(file.sub(/\.rb/, ''), modified_file_parent_directory) if File.exist?(file.sub(/\.rb/, ''))
       File.write(modified_file, modified_code)
     rescue => e
+      puts 'Error writing sample modifications. Launching original sample.'
+      puts e.full_message
       launch_file = file # load original file if failed to write changes
     end
     load(launch_file)
@@ -149,7 +156,10 @@ class MetaSampleApplication
       
       sash_form {
         composite {
-          grid_layout 1, false
+          grid_layout(1, false) {
+            margin_width 0
+            margin_height 0
+          }
             
           expand_bar {
             layout_data(:fill, :fill, true, true)
@@ -180,6 +190,8 @@ class MetaSampleApplication
             button {
               text 'Launch'
               font height: 30
+              enabled bind(SampleDirectory, 'selected_sample.launchable')
+              
               on_widget_selected {
                 begin
                   SampleDirectory.selected_sample.launch(@code_text.text)
@@ -194,6 +206,8 @@ class MetaSampleApplication
             button {
               text 'Reset'
               font height: 30
+              enabled bind(SampleDirectory, 'selected_sample.editable')
+              
               on_widget_selected {
                 SampleDirectory.selected_sample.reset_code!
               }
@@ -203,6 +217,7 @@ class MetaSampleApplication
             
         @code_text = code_text {
           text bind(SampleDirectory, 'selected_sample.code', read_only: true)
+          editable bind(SampleDirectory, 'selected_sample.editable')
         }
         
         weights 4, 9
