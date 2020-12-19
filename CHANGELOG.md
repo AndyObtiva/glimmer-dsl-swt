@@ -9,6 +9,7 @@
 - Have the `swt` keyword (SWTProxy) support accepting a string character (to build an accelerator style)
 - Make accelerator property accept symbols and character directly (without swt)
 - Fix enablement on `menu` (as opposed to menu_item, where it works)
+- Fix issue relating to background image scaling on resize of widget
 
 ### 4.17.10.8
 

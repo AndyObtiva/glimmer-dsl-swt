@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -54,9 +54,9 @@ module Glimmer
         @args = @args.first if @args.size == 1 && @args.first.is_a?(Array)
         if options&.keys&.include?(:swt_image)
           @swt_image = options[:swt_image]
-          @image_data = @swt_image.image_data
+          @original_image_data = @image_data = @swt_image.image_data
         elsif @file_path
-          @image_data = ImageData.new(input_stream || @file_path)
+          @original_image_data = @image_data = ImageData.new(input_stream || @file_path)
           @swt_image = Image.new(DisplayProxy.instance.swt_display, @image_data)
           width = options[:width]
           height = options[:height]
@@ -65,8 +65,8 @@ module Glimmer
           scale_to(width, height) unless width.nil? || height.nil?
         else
           @swt_image = Image.new(*@args)
-          @image_data = @swt_image.image_data
-        end        
+          @original_image_data = @image_data = @swt_image.image_data
+        end
       end
       
       def input_stream
@@ -77,12 +77,13 @@ module Glimmer
           file_input_stream = object.java_class.resource_as_stream(file_path)
         else
           file_input_stream = java.io.FileInputStream.new(@file_path)
-        end      
+        end
         java.io.BufferedInputStream.new(file_input_stream) if file_input_stream
       end
 
       def scale_to(width, height)
-        scaled_image_data = image_data.scaledTo(width, height)
+        return if @image_data.width == width && @image_data.height == height
+        scaled_image_data = @original_image_data.scaledTo(width, height)
         device = swt_image.device
         swt_image.dispose
         @swt_image = Image.new(device, scaled_image_data)
@@ -99,7 +100,7 @@ module Glimmer
       
       def respond_to?(method, *args, &block)
         super || swt_image.respond_to?(method, *args, &block)
-      end      
+      end
     end
   end
 end
