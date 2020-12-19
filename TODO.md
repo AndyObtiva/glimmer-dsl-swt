@@ -5,7 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Look into zeroing margin left, right top bottom given that width and height are set by default
-- Write meta-sample changes to user directory to avoid permission issues
 - Update screenshots for hello menu bar
 - Update README documentation of jruby and swt versions
 

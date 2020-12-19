@@ -10,6 +10,7 @@
 - Make accelerator property accept symbols and character directly (without swt)
 - Fix enablement on `menu` (as opposed to menu_item, where it works)
 - Fix issue relating to background image scaling on resize of widget
+- Write meta-sample changes to user directory to avoid permission issues
 
 ### 4.17.10.8
 

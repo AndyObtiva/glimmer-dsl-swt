@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'etc'
 
 class Sample
   include Glimmer::DataBinding::ObservableModel
@@ -34,22 +35,21 @@ class Sample
   end
   
   def launch(modified_code)
-    modified_file = File.join(File.dirname(file), ".#{File.basename(file)}")
+    parent_directory = File.basename(File.dirname(file))
+    modified_file_parent_directory = File.join(Etc.getpwuid.dir, '.glimmer', 'samples', parent_directory)
+    launch_file = modified_file = File.join(modified_file_parent_directory, File.basename(file))
     begin
+      FileUtils.mkdir_p(modified_file_parent_directory)
+      FileUtils.cp_r(file, modified_file_parent_directory)
+      FileUtils.cp_r(file.sub(/\.rb/, ''), modified_file_parent_directory) # copy matching subdirectory files if exist
       File.write(modified_file, modified_code)
-      begin
-        load(modified_file)
-      rescue StandardError, SyntaxError => launch_error
-        message_box {
-          text 'Error Launching'
-          message launch_error.full_message
-        }.open
-      end
-    rescue
-      load(file) # load original file if failed to write changes
-    ensure
-      FileUtils.rm_rf(modified_file)
+    rescue => e
+      launch_file = file # load original file if failed to write changes
     end
+    load(launch_file)
+  ensure
+    FileUtils.rm_rf(modified_file)
+    FileUtils.rm_rf(modified_file.sub(/\.rb/, ''))
   end
 end
 
@@ -181,7 +181,14 @@ class MetaSampleApplication
               text 'Launch'
               font height: 30
               on_widget_selected {
-                SampleDirectory.selected_sample.launch(@code_text.text)
+                begin
+                  SampleDirectory.selected_sample.launch(@code_text.text)
+                rescue StandardError, SyntaxError => launch_error
+                  message_box {
+                    text 'Error Launching'
+                    message launch_error.full_message
+                  }.open
+                end
               }
             }
             button {
