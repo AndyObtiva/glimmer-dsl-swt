@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.18.0.1
+
+- Hello, Dialog! Sample
+- Upgrade Scaffolded projects to JRuby v9.2.14.0
+- Switch back to official git gem v1.8.1 now that glimmer-git gem branch is merged into it
+- Fix issue with not reporting exception encountered in editing a tree item if consumer code had a bug
+
 ### 4.18.0.0
 
 - Upgrade to SWT v4.18

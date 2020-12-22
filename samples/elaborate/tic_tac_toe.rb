@@ -61,7 +61,7 @@ class TicTacToe
   end
 
   def display_game_over_message(message_text)
-    message_box(@shell) {
+    message_box {
       text 'Game Over'
       message message_text
     }.open

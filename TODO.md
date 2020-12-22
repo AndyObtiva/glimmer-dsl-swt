@@ -4,9 +4,27 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update list multi selection screenshot
+- relicense for 2021
+- Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
+- Make shell proxy pack_same_size re-focus focused element before repacking
+- Fix Gladiator issue regarding scrolling text to view when editing a line off screen in a styled_text widget
+- Remove use of bundler/setup in scaffolded Glimmer apps by default to make them usable in Glimmer DSL for Opal
+- glimmer webify task, which generates a Glimmer DSL for Opal Rails app from a pre-existing desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
+- glimmer scaffold:webready task, which generates a web-ready desktop app (including a Glimmer DSL for Opal Rails app), packages desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
+- Document webify and scaffold:webready
+- Document Heroku pre-requisite as optional for webready/webify modes.
+- Document use of jruby in rails and ability to switch manually to CRuby with RVM
 
 ## Soon
+
+- Upgrade to JDK15
+- Consider adding `glimmer release` task to publish a Glimmer app as a gem (not just custom widgets or custom shells)
+- Expose system menu items via proxies
+- Support being able to wrap an swt widget with a proxy using Glimmer GUI DSL syntax
+- Support being able to pass swt_widget to MenuProxy
+- Distinguish between display filters and listeners
+- Upgrade Contact Manager elaborate sample merging with Login and User Profile
+- Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
@@ -17,6 +35,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
+- Improve `link` widget support to make it work just like `button` by not requiring HTML (auto-generated) and auto-aligning with labels around the link (improving upon the original SWT widget API design)
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
 - Support passing spinner table editor properties
 - Add checkbox column editor to Hello, Table! Sample
@@ -34,7 +53,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Remove name column from listing of gems
 - Investigate Gladiator issue with shrinking on opening files
 - Support glimmer list:gems (listing all types of gems together)
-- glimmer webify task, which generates a Glimmer DSL for Opal Rails app for a desktop app and publishes it on Heroku
 - Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
 
 - Log exceptions that occur in event listener blocks
@@ -217,6 +235,7 @@ items <=> binding {
 - Add a feature where Glimmer will guess a widget if a bad widget name was used and say "Did you mean xyz?" (e.g. composite for compsite)
 - Contribute to JRuby an improvement that makes even Java public variables follow Ruby form (margin_width instead of marginWidth) to improve SWT programming syntax in Ruby
 - Scroll to widget when it gains focus (perhaps look at its parents to find out which is a ScrolledComposite and scroll it to widget location)
+- Consider scaffolding an app with a splash screen (option)
 - Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 - Consider support for building apps for Linux app stores like Snapstore: https://snapcraft.io/docs/adding-parts
 - Publish MacOS apps on Homebrew (instructions: https://docs.brew.sh/Formula-Cookbook)
@@ -283,7 +302,6 @@ items <=> binding {
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
-- Improve Contact Manager sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Tetris Sample
 
 ## Side Projects
@@ -311,6 +329,15 @@ Video Demo Series:
 - Add a system tray icon
 - Store data in the cloud in a Rails app on Heroku
 - Run as a Glimmer DSL for Opal web app
+
+### Concise Term
+
+A terminal written in Glimmer DSL for SWT. 
+
+- Ruby based shell (not bash or zsh)
+- Supports pixel perfect full-color 2D painting without relying on ASCII. Ability to render perfect high res photos/graphics
+- Consider optional mouse interaction support and in-terminal GUI
+- Dark look and feel by default (themable through terminal command configuration only)
 
 ### glimmer-dsl-uml
 

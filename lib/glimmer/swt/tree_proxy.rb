@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2020 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -59,7 +59,7 @@ module Glimmer
                 observer.call(@swt_widget.getSelection)
               }
             end
-          },        
+          },
         })
       end
       
@@ -85,24 +85,28 @@ module Glimmer
               @edit_in_progress = false
             }
             action = lambda { |event|
-              if !action_taken && !@edit_in_progress
-                action_taken = true
-                @edit_in_progress = true
-                new_text = @tree_editor_text_proxy.swt_widget.getText
-                if new_text == tree_item.getText
-                  cancel.call
-                else
-                  before_write&.call
-                  tree_item.setText(new_text)
-                  model = tree_item.getData
-                  model.send("#{tree_properties[:text]}=", new_text) # makes tree update itself, so must search for selected tree item again
-                  edited_tree_item = depth_first_search { |ti| ti.getData == model }.first
-                  swt_widget.showItem(edited_tree_item)
-                  @tree_editor_text_proxy.swt_widget.dispose
-                  @tree_editor_text_proxy = nil
-                  after_write&.call(edited_tree_item)
-                  @edit_in_progress = false
+              begin
+                if !action_taken && !@edit_in_progress
+                  action_taken = true
+                  @edit_in_progress = true
+                  new_text = @tree_editor_text_proxy.swt_widget.getText
+                  if new_text == tree_item.getText
+                    cancel.call
+                  else
+                    before_write&.call
+                    tree_item.setText(new_text)
+                    model = tree_item.getData
+                    model.send("#{tree_properties[:text]}=", new_text) # makes tree update itself, so must search for selected tree item again
+                    edited_tree_item = depth_first_search { |ti| ti.getData == model }.first
+                    swt_widget.showItem(edited_tree_item)
+                    @tree_editor_text_proxy.swt_widget.dispose
+                    @tree_editor_text_proxy = nil
+                    after_write&.call(edited_tree_item)
+                    @edit_in_progress = false
+                  end
                 end
+              rescue => e
+                Glimmer::Config.logger.error {"Error encountered while editing tree item!\n#{e.full_message}"}
               end
             }
             on_focus_lost(&action)
