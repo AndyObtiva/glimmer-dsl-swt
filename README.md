@@ -3945,9 +3945,9 @@ The Mac Menu includes Accelerator Keys (keyboard shortcuts).
 
 ![Hello Menu Bar Options Menu Disabled](images/glimmer-hello-menu-bar-options-menu-disabled.png)
 
-![Hello Menu Bar Options Menu Select One](images/glimmer-hello-menu-bar-options-menu-select-multiple.png)
+![Hello Menu Bar Options Menu Select One](images/glimmer-hello-menu-bar-options-menu-select-one.png)
 
-![Hello Menu Bar Options Menu Select Multiple](images/glimmer-hello-menu-bar-options-menu-select-one.png)
+![Hello Menu Bar Options Menu Select Multiple](images/glimmer-hello-menu-bar-options-menu-select-multiple.png)
 
 ![Hello Menu Bar Format Menu Background Color](images/glimmer-hello-menu-bar-format-menu-background-color.png)
 

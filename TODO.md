@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update meta-sample screenshot
+- Update list multi selection screenshot
 
 ## Soon
 
@@ -74,6 +74,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Look into making properties that expect an SWT widget auto-call .swt_widget if they receive a proxy
+- Consider splitting more glimmer command dependencies (e.g. rake-tui) from glimmer GUI gem dependencies
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -273,6 +274,7 @@ items <=> binding {
 - Preload all SWT widgets as static keywords to optimize performance if needed
 - Support setting default sort direction on `table` (and sort direction on any sort_property option)
 - Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
+- Support auto-selection of table column editor based on data type
 
 ## Samples
 

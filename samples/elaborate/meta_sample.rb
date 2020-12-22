@@ -168,7 +168,7 @@ class MetaSampleApplication
             SampleDirectory.sample_directories.each { |sample_directory|
               expand_item {
                 layout_data(:fill, :fill, true, true)
-                text "#{sample_directory.name} Samples"
+                text " #{sample_directory.name} Samples"
                 
                 radio_group { |radio_group_proxy|
                   row_layout(:vertical) {
