@@ -14,6 +14,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document webify and scaffold:webready
 - Document Heroku pre-requisite as optional for webready/webify modes.
 - Document use of jruby in rails and ability to switch manually to CRuby with RVM
+- Update Hello, Message Box! Sample to include more options
 
 ## Soon
 
@@ -332,7 +333,7 @@ Video Demo Series:
 
 ### Concise Term
 
-A terminal written in Glimmer DSL for SWT. 
+A terminal written in Glimmer DSL for SWT.
 
 - Ruby based shell (not bash or zsh)
 - Supports pixel perfect full-color 2D painting without relying on ASCII. Ability to render perfect high res photos/graphics

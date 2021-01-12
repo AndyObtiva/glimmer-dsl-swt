@@ -150,9 +150,11 @@ class MetaSampleApplication
   end
   
   def launch
+    Display.setAppName('Glimmer Meta-Sample')
     shell {
       minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'
+      image File.expand_path('../../icons/scaffold_app.png', __dir__)
       
       sash_form {
         composite {

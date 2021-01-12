@@ -3,6 +3,7 @@
 ### 4.18.0.1
 
 - Hello, Dialog! Sample
+- Added Glimmer icon to Glimmer Meta-Sample (Sample of Samples)
 - Upgrade Scaffolded projects to JRuby v9.2.14.0
 - Switch back to official git gem v1.8.1 now that glimmer-git gem branch is merged into it
 - Fix issue with not reporting exception encountered in editing a tree item if consumer code had a bug

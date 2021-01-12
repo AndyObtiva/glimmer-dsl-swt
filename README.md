@@ -358,6 +358,7 @@ Glimmer App:
       - [Hello, Table!](#hello-table)
       - [Hello, Button!](#hello-button)
       - [Hello, Link!](#hello-link)
+      - [Hello, Dialog!](#hello-dialog)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -1428,9 +1429,11 @@ Dialog is a variation on Shell. It is basically a shell that is modal (blocks wh
 
 Glimmer facilitates building dialogs by using the `dialog` keyword, which automatically adds the SWT.DIALOG_TRIM and SWT.APPLICATION_MODAL [widget styles](#widget-styles) needed for a dialog.
 
+Check out [Hello, Dialog!](#hello-dialog) sample to learn more.
+
 ##### message_box
 
-The Glimmer DSL `message_box` keyword is similar to `shell`, but renders a modal dialog with a title `text` property and main body `message` property. It may also be opened via the `#open` method.
+The Glimmer DSL `message_box` keyword is similar to `shell` and `dialog`, but renders a modal dialog with a title `text` property, main body `message` property, and dismissal button(s) only (OK button by default or [more options](https://www.eclipse.org/swt/javadoc.php)). It may also be opened via the `#open` method.
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -2631,7 +2634,7 @@ shell {
 
 Check out [Hello, Table!](#hello-table) for an actual example including table editors.
 
-[Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database. 
+[Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database.
 
 ##### Table Sorting
 
@@ -4337,6 +4340,22 @@ Hello, Link!
 Hello, Link! Clicked
 
 ![Hello Link Clicked](images/glimmer-hello-link-clicked.png)
+
+#### Hello, Dialog!
+
+This sample demonstrates the use of the `dialog` widget in Glimmer, which provides a modal `shell` that blocks shells beneath it until closed. And unlike `message_box`, it can contain arbitrary widgets (not just a message).
+
+Code:
+
+[samples/hello/hello_dialog.rb](samples/hello/hello_dialog.rb)
+
+Hello, Dialog!
+
+![Hello Dialog](images/glimmer-hello-dialog.png)
+
+Hello, Dialog! Open Dialog
+
+![Hello Dialog Open Dialog](images/glimmer-hello-dialog-open-dialog.png)
 
 ### Elaborate Samples
 
