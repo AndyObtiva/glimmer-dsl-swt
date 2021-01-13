@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.0.2
+
+- Minor update on Hello, Dialog! Sample
+- Upgrade to glimmer v1.0.7
+
 ### 4.18.0.1
 
 - Hello, Dialog! Sample

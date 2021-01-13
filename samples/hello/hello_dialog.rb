@@ -26,7 +26,7 @@ shell {
   
   text 'Hello, Dialog!'
   
-  7.times {|n|
+  7.times { |n|
     dialog_number = n + 1
     
     button {
@@ -44,8 +44,8 @@ shell {
           
           text "Dialog #{dialog_number}"
           
-          label(:center) {
-            text "Given `dialog` is modal, you cannot interact with app closed.\nUnlike `message_box`, `dialog` can contain arbitrary widgets."
+          label {
+            text "Given `dialog` is modal, you cannot interact with the main window till the dialog is closed."
           }
           composite {
             row_layout {
@@ -54,14 +54,14 @@ shell {
               margin_bottom 0
             }
 
+            label {
+              text "Unlike `message_box`, `dialog` can contain arbitrary widgets:"
+            }
             radio {
               text 'Radio'
             }
             checkbox {
               text 'Checkbox'
-            }
-            text {
-              text 'Text'
             }
           }
           button {
