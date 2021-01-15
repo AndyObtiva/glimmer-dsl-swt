@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.0.3
+
+- Update Hello, Message Box! Sample include Yes/No, Abort/Retry/Ignore, OK, Retry/Cancel button variations
+
 ### 4.18.0.2
 
 - Minor update on Hello, Dialog! Sample

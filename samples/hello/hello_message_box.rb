@@ -22,16 +22,86 @@
 include Glimmer
 
 shell {
+  row_layout(:vertical) {
+    center true
+  }
   text 'Hello, Message Box!'
   
   button {
-    text 'Please Click To Win a Surprise'
+    text 'Please Click To Learn the Weather'
     
     on_widget_selected {
-      message_box {
-        text 'Surprise'
-        message "Congratulations!\n\nYou won $1,000,000!"
+      message_box(:icon_information) {
+        text 'Weather'
+        message "The weather is sunny and warm!"
       }.open
     }
   }
+  
+  button {
+    text 'Please Click To Confirm Terms and Conditions'
+      
+    on_widget_selected {
+      result = message_box(:icon_question, :yes, :no) {
+        text 'Terms and Conditions'
+        message "Do you want to accept our terms and conditions?"
+      }.open
+      if result == swt(:yes)
+        message_box {
+          text 'Terms and Conditions'
+          message "Thank you for accepting our terms and conditions!"
+        }.open
+      else
+        message_box {
+          text 'Terms and Conditions'
+          message "Sorry to see you go!"
+        }.open
+      end
+    }
+  }
+  
+  button {
+    text 'Please Click To Try Winning a Prize'
+    
+    on_widget_selected {
+      result = nil
+      while result.nil? || result == swt(:retry)
+        win = (rand * 3).to_i == 0
+        if win && !result.nil? # always fail the first time
+          result = message_box {
+            text 'Prize'
+            message "Congratulations!\n\nYou won $1,000,000!"
+          }.open
+        else
+          result = message_box(:icon_error, :retry, :cancel) {
+            text 'Prize'
+            message "Sorry, no prize!\n\nPlease try again!"
+          }.open
+        end
+      end
+    }
+  }
+  
+  button {
+    text 'Please Click To Connect To Internet'
+    
+    on_widget_selected {
+      result = nil
+      while result.nil? || result == swt(:retry)
+        connection_success = (rand * 3).to_i > 0
+        if connection_success && !result.nil? # always fail the first time
+          result = message_box(:icon_working) {
+            text 'Internet Connection Status'
+            message "Success!\n\nInternet is now connected."
+          }.open
+        else
+          result = message_box(:icon_error, :retry, :ignore, :abort) {
+            text 'Internet Connection Status'
+            message "Error connecting to network!\n\nMake sure modem cable is plugged in."
+          }.open
+        end
+      end
+    }
+  }
+    
 }.open
