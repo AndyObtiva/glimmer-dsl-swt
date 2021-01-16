@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -54,7 +54,7 @@ namespace :glimmer do
     if args[:app_path].nil?
       require 'fileutils'
       current_directory_name = File.basename(FileUtils.pwd)
-      assumed_shell_script = File.join('.', 'bin', current_directory_name)      
+      assumed_shell_script = File.join('.', 'bin', current_directory_name)
       assumed_shell_script = Dir.glob('./bin/*').detect {|f| File.file?(f)} if !File.exist?(assumed_shell_script)
       Glimmer::Launcher.new([assumed_shell_script]).launch
     else
@@ -66,7 +66,7 @@ namespace :glimmer do
   task :samples do
     Glimmer::Launcher.new([File.expand_path('../../../samples/elaborate/meta_sample.rb', __FILE__)]).launch
   end
-
+  
   namespace :package do
     desc 'Clean by removing "dist" and "packages" directories'
     task :clean do
@@ -118,6 +118,12 @@ namespace :glimmer do
     end
   end
 
+  desc 'Webifies an existing Glimmer desktop app by generating a Glimmer DSL for Opal Rails server'
+  task :webify do
+    require_relative 'rake_task/scaffold'
+    Glimmer::RakeTask::Scaffold.webify
+  end
+
   desc 'Scaffold Glimmer application directory structure to build a new app'
   task :scaffold, [:app_name] do |t, args|
     require_relative 'rake_task/scaffold'
@@ -125,6 +131,13 @@ namespace :glimmer do
   end
 
   namespace :scaffold do
+    desc 'Scaffold a Web-Ready Glimmer application directory structure including a Glimmer DSL for Opal Rails server'
+    task :webready, [:app_name] do |t, args|
+      require_relative 'rake_task/scaffold'
+      Glimmer::RakeTask::Scaffold.app(args[:app_name], nil, {}, true)
+      Glimmer::RakeTask::Scaffold.webify
+    end
+  
     desc 'Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]'
     task :customshell, [:name, :namespace] do |t, args|
       require_relative 'rake_task/scaffold'
@@ -170,7 +183,7 @@ namespace :glimmer do
     
       task :cw, [:name, :namespace] => :customwidget
       task :custom_widget, [:name, :namespace] => :customwidget
-      task :"custom-widget", [:name, :namespace] => :customwidget      
+      task :"custom-widget", [:name, :namespace] => :customwidget
     end
     
     # legacy support
@@ -214,7 +227,7 @@ namespace :glimmer do
     # legacy support
     
     task :custom_shell_gems, [:name, :namespace] => 'gems:customshell'
-    task :custom_widget_gems, [:name, :namespace] => 'gems:customwidget'    
+    task :custom_widget_gems, [:name, :namespace] => 'gems:customwidget'
     
   end
 end

@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.1.0
+
+- Upgrade Scaffolded projects to JRuby v9.2.14.0
+- `glimmer webify` generates a [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) Rails server to serve desktop app as a web app
+- `glimmer scaffold:webready` scaffolds a web-ready desktop app, including a Glimmer DSL for Opal Rails server
+
 ### 4.18.0.3
 
 - Update Hello, Message Box! Sample include Yes/No, Abort/Retry/Ignore, OK, Retry/Cancel button variations

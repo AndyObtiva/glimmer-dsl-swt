@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -112,14 +112,158 @@ module Glimmer
           gem 'glimmer-dsl-swt', '~> #{VERSION}'
           
           group :development do
-            gem 'rspec', '~> 3.5.0'
-            gem 'git-glimmer', '1.7.0'
+            gem 'rspec', '~> 3.0'
+            gem 'git', '1.8.1'
             gem 'juwelier', '2.4.9'
             gem 'warbler', '2.0.5'
             gem 'simplecov', '>= 0'
           end
         MULTI_LINE_STRING
+        
+#         GEMFILE_RAILS = <<~MULTI_LINE_STRING
+#           source 'https://rubygems.org'
+#
+#           ruby '#{RUBY_VERSION}'
+#
+#           gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
+#         MULTI_LINE_STRING
+        
+        GEMFILE_LOCK_RAILS = <<~MULTI_LINE_STRING
+          GEM
+            remote: https://rubygems.org/
+            specs:
+              actioncable (5.2.4.4)
+                actionpack (= 5.2.4.4)
+                nio4r (~> 2.0)
+                websocket-driver (>= 0.6.1)
+              actionmailer (5.2.4.4)
+                actionpack (= 5.2.4.4)
+                actionview (= 5.2.4.4)
+                activejob (= 5.2.4.4)
+                mail (~> 2.5, >= 2.5.4)
+                rails-dom-testing (~> 2.0)
+              actionpack (5.2.4.4)
+                actionview (= 5.2.4.4)
+                activesupport (= 5.2.4.4)
+                rack (~> 2.0, >= 2.0.8)
+                rack-test (>= 0.6.3)
+                rails-dom-testing (~> 2.0)
+                rails-html-sanitizer (~> 1.0, >= 1.0.2)
+              actionview (5.2.4.4)
+                activesupport (= 5.2.4.4)
+                builder (~> 3.1)
+                erubi (~> 1.4)
+                rails-dom-testing (~> 2.0)
+                rails-html-sanitizer (~> 1.0, >= 1.0.3)
+              activejob (5.2.4.4)
+                activesupport (= 5.2.4.4)
+                globalid (>= 0.3.6)
+              activemodel (5.2.4.4)
+                activesupport (= 5.2.4.4)
+              activerecord (5.2.4.4)
+                activemodel (= 5.2.4.4)
+                activesupport (= 5.2.4.4)
+                arel (>= 9.0)
+              activestorage (5.2.4.4)
+                actionpack (= 5.2.4.4)
+                activerecord (= 5.2.4.4)
+                marcel (~> 0.3.1)
+              activesupport (5.2.4.4)
+                concurrent-ruby (~> 1.0, >= 1.0.2)
+                i18n (>= 0.7, < 2)
+                minitest (~> 5.1)
+                tzinfo (~> 1.1)
+              arel (9.0.0)
+              builder (3.2.4)
+              concurrent-ruby (1.1.7)
+              crass (1.0.6)
+              erubi (1.10.0)
+              globalid (0.4.2)
+                activesupport (>= 4.2.0)
+              i18n (1.8.7)
+                concurrent-ruby (~> 1.0)
+              loofah (2.8.0)
+                crass (~> 1.0.2)
+                nokogiri (>= 1.5.9)
+              mail (2.7.1)
+                mini_mime (>= 0.1.1)
+              marcel (0.3.3)
+                mimemagic (~> 0.3.2)
+              method_source (1.0.0)
+              mimemagic (0.3.5)
+              mini_mime (1.0.2)
+              mini_portile2 (2.5.0)
+              minitest (5.14.2)
+              nio4r (2.5.4)
+              nokogiri (1.11.0)
+                mini_portile2 (~> 2.5.0)
+                racc (~> 1.4)
+              racc (1.5.2)
+              rack (2.2.3)
+              rack-test (1.1.0)
+                rack (>= 1.0, < 3)
+              rails (5.2.4.4)
+                actioncable (= 5.2.4.4)
+                actionmailer (= 5.2.4.4)
+                actionpack (= 5.2.4.4)
+                actionview (= 5.2.4.4)
+                activejob (= 5.2.4.4)
+                activemodel (= 5.2.4.4)
+                activerecord (= 5.2.4.4)
+                activestorage (= 5.2.4.4)
+                activesupport (= 5.2.4.4)
+                bundler (>= 1.3.0)
+                railties (= 5.2.4.4)
+                sprockets-rails (>= 2.0.0)
+              rails-dom-testing (2.0.3)
+                activesupport (>= 4.2.0)
+                nokogiri (>= 1.6)
+              rails-html-sanitizer (1.3.0)
+                loofah (~> 2.3)
+              railties (5.2.4.4)
+                actionpack (= 5.2.4.4)
+                activesupport (= 5.2.4.4)
+                method_source
+                rake (>= 0.8.7)
+                thor (>= 0.19.0, < 2.0)
+              rake (13.0.3)
+              sprockets (4.0.2)
+                concurrent-ruby (~> 1.0)
+                rack (> 1, < 3)
+              sprockets-rails (3.2.2)
+                actionpack (>= 4.0)
+                activesupport (>= 4.0)
+                sprockets (>= 3.0.0)
+              thor (1.0.1)
+              thread_safe (0.3.6)
+              tzinfo (1.2.9)
+                thread_safe (~> 0.1)
+              websocket-driver (0.7.3)
+                websocket-extensions (>= 0.1.0)
+              websocket-extensions (0.1.5)
+          
+          PLATFORMS
+            ruby
+          
+          DEPENDENCIES
+            rails (~> 5.2.4, >= 5.2.4.4)
+          
+          RUBY VERSION
+             ruby 2.5.7p206
+          
+          BUNDLED WITH
+             1.17.3
+        MULTI_LINE_STRING
     
+        GEMFILE_RAILS_INSERT = <<~MULTI_LINE_STRING
+          gem 'opal-rails', '~> 1.1.2'
+          gem 'opal-async', '>= 1.2.0', '< 2.0.0'
+          gem 'opal-jquery', '~> 0.4.4'
+          gem 'glimmer-dsl-opal', '>= 0.9.2'
+          gem 'glimmer-dsl-xml', '>= 1.1.0', require: false
+          gem 'glimmer-dsl-css', '>= 1.1.0', require: false
+        MULTI_LINE_STRING
+        
         def app(app_name)
           common_app(app_name)
         end
@@ -128,17 +272,17 @@ module Glimmer
           common_app(app_name, :desktopify, website: website)
         end
         
-        def common_app(app_name, shell_type = :app, shell_options = {})
+        def common_app(app_name, shell_type = :app, shell_options = {}, webready = false)
           gem_name = file_name(app_name)
           gem_summary = human_name(app_name)
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -r git -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           rm_rf 'lib'
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', app_name
           write 'VERSION', '1.0.0'
           write 'LICENSE.txt', "Copyright (c) #{Time.now.year} #{app_name}"
@@ -178,7 +322,7 @@ module Glimmer
             system "bundle"
             system "rspec --init"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"          
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
           end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
@@ -186,12 +330,14 @@ module Glimmer
             system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
+            # TODO Ensure forking when running as part of a webready app
+            webready_suffix = " &" if webready
             if OS.mac?
-              system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
+              system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app #{webready_suffix}"
             else
-              system "glimmer run"
+              system "glimmer run #{webready_suffix}"
             end
-          end        
+          end
         end
     
         def custom_shell(custom_shell_name, namespace, shell_type = nil, shell_options = {})
@@ -231,11 +377,11 @@ module Glimmer
           end
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -r git -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
           write 'Gemfile', GEMFILE
@@ -256,7 +402,7 @@ module Glimmer
             system "rspec --init"
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
-          end      
+          end
           write 'spec/spec_helper.rb', spec_helper_file
     
           mkdir_p 'package/windows'
@@ -283,7 +429,7 @@ module Glimmer
               system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
             else
               system "glimmer run"
-            end        
+            end
           end
           puts "Finished creating #{gem_name} Ruby gem."
           puts 'Edit Rakefile to configure gem details.'
@@ -305,11 +451,11 @@ module Glimmer
           
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -r git -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
           write 'Gemfile', GEMFILE
@@ -330,11 +476,58 @@ module Glimmer
           puts 'Run `rake build` to build gem.'
           puts 'Run `rake release` to release into rubygems.org once ready.'
         end
+        
+        def webify
+          gem_name = file_name(current_dir_name)
+          mkdir_p 'server'
+          cd 'server'
+          write '.ruby-version', RUBY_VERSION
+          write '.ruby-gemset', "#{gem_name}_server"
+#           write 'Gemfile', GEMFILE_RAILS
+#           write 'Gemfile.lock', GEMFILE_LOCK_RAILS
+#           run_command 'bundle install'
+          run_command 'gem install rails -v5.2.4.4'
+          run_command "rails new #{gem_name}_server --skip-coffee"
+          cd "#{gem_name}_server"
+          write '.ruby-version', RUBY_VERSION
+          write '.ruby-gemset', "#{gem_name}_server"
+          insert "Gemfile", "#{GEMFILE_RAILS_INSERT}\ngem '#{gem_name}', require: false, path: '../..' # remove path when deploying to production after publishing app gem (e.g. using `rake release` in app directory)", 'group :', -1
+          # TODO insert current app gem (linked with path with a note that says gem must be published to release to server)
+          run_command 'bundle install'
+          append "config/initializers/assets.rb", "Opal.use_gem 'glimmer-dsl-opal'\n"
+          append "config/initializers/assets.rb", "Opal.use_gem '#{gem_name}'\n"
+          run_command "rails generate controller welcome index"
+          insert "config/routes.rb", "  root to: 'welcome#index'", 'end', -1
+          insert "app/views/layouts/application.html.erb", "    <%= stylesheet_link_tag    'glimmer/glimmer', media: 'all', 'data-turbolinks-track': 'reload' %>", 'stylesheet_link_tag', 1
+          rm 'app/assets/javascripts/application.js'
+          write "app/assets/javascripts/application.rb", "require 'glimmer-dsl-opal'\nrequire '#{gem_name}/launch'"
+          # TODO clear app/views/welcome/index.html.erb
+          Thread.new {sleep(20); run_command 'open "http://localhost:3000"'}
+          run_command 'rails server' # consider using popen
+#           TODO run rails server
+#           # open web browser page
+#           "heroku apps:create example"
+#           # open heroku web browser page
+        end
     
         private
         
+        # runs command with RVM when possible on unix systems (without on Windows)
+        def run_command(command)
+          puts "Running: #{command}"
+          if OS.windows?
+            system command
+          else
+            # TODO check if RVM exists first
+            rvm_command = "bash -c '#{RVM_FUNCTION}\ncd .\nexport BUNDLE_GEMFILE=\"\"\nexport RUBYOPT=\"\"\n#{command}'"
+            system rvm_command
+          end
+        end
+        
         def juwelier_exists?
-          OS.windows? ? system('where juwelier') : system('which juwelier')
+          juwelier_binary = OS.windows? ? system('where juwelier') : system('which juwelier')
+          juwelier_gem = `gem list juwelier`.include?('juwelier')
+          juwelier_binary && juwelier_gem
         end
     
         def write(file, content)
@@ -347,6 +540,17 @@ module Glimmer
           File.open(file, 'a') do |f|
             f.write(content)
           end
+          puts "Appended to #{current_dir_name}/#{file}"
+        end
+        
+        def insert(file, content, insertion_line_partial_text, insertion_line_index_diff_begin = 0, insertion_line_index_diff_end = nil)
+          file_content = File.read(file)
+          lines = file_content.split("\n")
+          group_index = lines.index(lines.detect {|l| l.include?(insertion_line_partial_text) })
+          insertion_line_index_diff_end ||= insertion_line_index_diff_begin
+          lines[(group_index + insertion_line_index_diff_begin)...(group_index + insertion_line_index_diff_end)] = content.split("\n")
+          File.write file, "#{lines.join("\n")}\n\n"
+          puts "Inserted into #{current_dir_name}/#{file}"
         end
     
         def current_dir_name
@@ -397,9 +601,9 @@ module Glimmer
             class #{class_name(app_name)}
               include Glimmer
             
-              APP_ROOT = File.expand_path('../..', __FILE__)        
+              APP_ROOT = File.expand_path('../..', __FILE__)
               VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
-              LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))          
+              LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
                         
               def open
                 app_view.open
@@ -443,7 +647,7 @@ module Glimmer
               
               launcher = Glimmer::Launcher.new([runner] + ARGV)
               launcher.launch
-            end            
+            end
           MULTI_LINE_STRING
         end
         
@@ -482,7 +686,7 @@ module Glimmer
               
               launcher = Glimmer::Launcher.new([runner] + ARGV)
               launcher.launch
-            end                        
+            end
           MULTI_LINE_STRING
         end
     
@@ -502,15 +706,15 @@ module Glimmer
           end
           spec_pattern_line_index = lines.index(lines.detect {|l| l.include?('spec.pattern =') })
           lines.insert(spec_pattern_line_index+1, "  spec.ruby_opts = [Glimmer::Launcher.jruby_os_specific_options]")
-          lines << "\nrequire 'glimmer/rake_task'\n"       
+          lines << "\nrequire 'glimmer/rake_task'\n"
           file_content = lines.join("\n")
           if custom_shell_name
-            file_content << <<~MULTI_LINE_STRING  
+            file_content << <<~MULTI_LINE_STRING
               Glimmer::RakeTask::Package.javapackager_extra_args =
                 " -name '#{human_name(custom_shell_name)}'" +
                 " -title '#{human_name(custom_shell_name)}'" +
                 " -Bmac.CFBundleName='#{human_name(custom_shell_name)}'" +
-                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'" 
+                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'"
                 # " -BlicenseType=" +
                 # " -Bmac.category=" +
                 # " -Bmac.signing-key-developer-id-app="
@@ -600,7 +804,7 @@ module Glimmer
         ## Use after_body block to setup observers for widgets in body
         #
         # after_body {
-        # 
+        #
         # }
     
         ## Add widget content inside custom shell body
@@ -616,10 +820,10 @@ module Glimmer
           MULTI_LINE_STRING
             
           if shell_type == :desktopify
-            custom_shell_file_content += <<-MULTI_LINE_STRING            
+            custom_shell_file_content += <<-MULTI_LINE_STRING
             browser {
-              url "#{shell_options[:website]}"              
-            }            
+              url "#{shell_options[:website]}"
+            }
             MULTI_LINE_STRING
           else
             custom_shell_file_content += <<-MULTI_LINE_STRING
@@ -628,7 +832,7 @@ module Glimmer
               text bind(self, :greeting)
               font height: 40
               layout_data :fill, :center, true, true
-            }            
+            }
             MULTI_LINE_STRING
           end
           
@@ -690,7 +894,7 @@ module Glimmer
               text 'Greeting'
               font style: :bold
               [
-                'Hello, World!', 
+                'Hello, World!',
                 'Howdy, Partner!'
               ].each do |greeting_text|
                 button(:radio) {
@@ -733,19 +937,19 @@ module Glimmer
                 #
                 #
                 # before_body {
-                # 
+                #
                 # }
             
                 ## Use after_body block to setup observers for widgets in body
                 #
                 # after_body {
-                # 
+                #
                 # }
             
                 ## Add widget content under custom widget body
                 ##
-                ## If you want to add a shell as the top-most widget, 
-                ## consider creating a custom shell instead 
+                ## If you want to add a shell as the top-most widget,
+                ## consider creating a custom shell instead
                 ## (Glimmer::UI::CustomShell offers shell convenience methods, like show and hide)
                 #
                 body {
