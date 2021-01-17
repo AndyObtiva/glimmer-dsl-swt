@@ -331,7 +331,7 @@ Video Demo Series:
 - Store data in the cloud in a Rails app on Heroku
 - Run as a Glimmer DSL for Opal web app
 
-### Concise Term
+### Concise Term (Terminal App)
 
 A terminal written in Glimmer DSL for SWT.
 
@@ -340,9 +340,11 @@ A terminal written in Glimmer DSL for SWT.
 - Consider optional mouse interaction support and in-terminal GUI
 - Dark look and feel by default (themable through terminal command configuration only)
 
-### glimmer-dsl-uml
+### Connector (Web Browser)
 
-A DSL for building UML diagrams based on the Glimmer engine. Renders as SWT app to start. Support web later via opal.
+- Chromium based Glimmer DSL for SWT Ruby web browser
+- Supports "Ruby powered web pages"
+- Supports Glimmer GUI apps natively via Glimmer DSL for SWT (Glimmer DSL for Opal automatically sends pure Ruby code instead of transpiling to JS)
 
 ### Glimmertalk project
 
