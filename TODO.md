@@ -295,6 +295,10 @@ items <=> binding {
 - Support setting default sort direction on `table` (and sort direction on any sort_property option)
 - Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
 - Support auto-selection of table column editor based on data type
+- Consider getting rid of set_attribute / get_attribute on WidgetProxy by moving logic to method_missing and updating propertyexpression (and other expressions) to rely on send instead
+- Consider extracting property_expression to glimmer
+- Consider generalizing DataBindingExpression and moving to glimmer (making class for WidgetBinding configurable or generalized via a Binding ancestor to it and ModelBinding)
+- Support ability o data-bind widgets to each other directly
 
 ## Samples
 
