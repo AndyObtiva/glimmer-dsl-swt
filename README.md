@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.1.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.1.1
 
 
 ## JRuby Desktop Development GUI Framework
@@ -12,7 +12,7 @@
 
 (The Original Glimmer Library Since 2007. Beware of Imitators!)
 
-[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces while relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
+[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces while relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](#widgets), but also supports drawing Canvas Graphics like [Shapes](#canvas-shape-dsl) and [Animations](#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
 
 [Glimmer receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer](https://rubygems.org/gems/glimmer) with your Ruby desktop GUI development needs. Please make [Glimmer](https://rubygems.org/gems/glimmer) even better by providing feedback and [contributing](#contributing) when possible.
 
@@ -456,7 +456,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.1.0
+jgem install glimmer-dsl-swt -v 4.18.1.1
 
 
 ```
@@ -476,7 +476,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.1.0
+gem 'glimmer-dsl-swt', '~> 4.18.1.1
 '
 ```
 
@@ -535,7 +535,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.1.0
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.1.1
 
 
       
@@ -592,6 +592,8 @@ glimmer samples/hello/hello_world.rb samples/hello/hello_tab.rb
 ```
 
 Launches samples/hello/hello_world.rb and samples/hello_tab.rb at the same time, each in a separate JRuby thread.
+
+Note: under Zsh (Z Shell), glimmer can only be used in its advanced TUI mode (e.g. `glimmer` and then selecting a task) not the primitive rake task mode (e.g. `glimmer scaffold[app]`)
 
 ### Glimmer Samples
 
@@ -1013,8 +1015,8 @@ Output:
   Name         Gem          Version    Author          Description
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
-  Opal   glimmer-dsl-opal   0.8.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.1.0
+  Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
+  Swt    glimmer-dsl-swt    4.18.1.1
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -2298,23 +2300,37 @@ Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any 
 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
-Shape keywords are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
-- `arc​(int x, int y, int width, int height, int startAngle, int arcAngle)`
-- `focus​(int x, int y, int width, int height)`
-- `image(Image image, int x, int y)`
-- `line(int x1, int y1, int x2, int y2)`
-- `oval(int x, int y, int width, int height)`
-- `point​(int x, int y)`
-- `polygon(int[] pointArray)`
-- `polyline(int[] pointArray)`
-- `rectangle(int x, int y, int width, int height)`
-- `round_rectangle(int x, int y, int width, int height, int arcWidth, int arcHeight)`
-- `gradiant_rectangle​(int x, int y, int width, int height, boolean vertical)`
-- `text(String string, int x, int y)`
+Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
+- `arc​(x, y, width, height, startAngle, arcAngle, fill: false)`
+- `focus​(x, y, width, height)`
+- `image(image, x, y)`
+- `line(x1, y1, x2, y2)`
+- `oval(x, y, width, height, fill: false)`
+- `point​(x, y)`
+- `polygon(pointArray, fill: false)`
+- `polyline(pointArray)`
+- `rectangle(x, y, width, height, fill: false)`
+- `round_rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false)`
+- `gradient_rectangle​(x, y, width, height, vertical = true, fill: false)`
+- `text(String string, x, y)`
 
-Shape keywords that can be filled with color can take an additional keyword argument `fill: true`
+Shape keywords that can be filled with color can take an keyword argument `fill: true` (defaults to false when not specified)
 
 Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.
+
+Here is a list of supported attributes nestable within a block under shapes:
+- `alpha` sets transparency (integer between 0 and 255)
+- `antialias` enables antialiasing (SWT style value of :default, :off, :on whereby :default applies OS default)
+- `background` sets fill color for fillable shapes (standard color symbol (e.g. :red), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
+- `clipping​(x, y, width, height)` clips area of painting
+- `fill_rule` sets filling rule (SWT style value of :fill_even_odd or :fill_winding)
+- `font` sets font (Hash of :name, :height, and :style just like standard widget font property, or Font/FontProxy object directly)
+- `line_cap` sets line cap (SWT style value of :cap_flat, :cap_round, or :cap_square)
+- `line_dash` line dash float values (automatically sets `line_style` to SWT style value of :line_custom)
+- `line_join` line join style (SWT style value of :join_miter, :join_round, or :join_bevel)
+- `line_style` line join style (SWT style value of :line_solid, :line_dash, :line_dot, :line_dashdot, or :line_dashdotdot)
+- `line_width` line width in integer (used in draw operations)
+- `text_anti_alias` enables text antialiasing (SWT style value of :default, :off, :on whereby :default applies OS default)
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -2322,7 +2338,7 @@ Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 include Glimmer
 
 shell {
-  text 'Canvas Example!'
+  text 'Canvas Example'
   minimum_size 320, 400
 
   canvas {
@@ -2344,6 +2360,10 @@ shell {
 }.open
 ```
 
+Screenshot:
+
+![Canvas Animation Example](images/glimmer-example-canvas.png)
+
 Learn more at the [Hello, Canvas! Sample](#hello-canvas).
 
 ### Canvas Animation DSL
@@ -2360,7 +2380,7 @@ This example says it all (it moves a tiny red square across a blue background):
 include Glimmer
 
 shell {
-  text 'Canvas Animation Example!'
+  text 'Canvas Animation Example'
   minimum_size 400, 400
 
   canvas {
@@ -2378,8 +2398,12 @@ shell {
 }.open
 ```
 
-Keywords involved:
-- `animation` declares an animation under a canvas, which renders frames indefinitely or finitely depending on properties
+Screenshot:
+
+![Canvas Animation Example](images/glimmer-example-canvas-animation.png)
+
+Keywords:
+- `animation` declares an animation under a canvas, which renders frames using a frame block indefinitely or finitely depending on (cycle_count/frame_count) properties
 - `every` specifies delay in seconds between every two frame renders
 - `frame` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
 - `cycle` a property that takes an array to cycle into a second variable for the `frame` block
@@ -2390,9 +2414,6 @@ Keywords involved:
 API:
 - `#start` starts animation as a method on the animation object (returned from `animation` keyword)
 - `#stop` stops animation gracefully as a method on the animation object (returned from `animation` keyword)
-
-Caveat:
-In order for animation to occur, the frame block must include changes that happen directly on the canvas (like setting initial background updating every frame) not just changes to shapes. This should be fixed in the future.
 
 Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
 
@@ -3579,12 +3600,12 @@ Example.new
 
 Application name (shows up on the Mac in top menu bar) and version may be specified upon [packaging](#packaging--distribution) by specifying "-Bmac.CFBundleName" and "-Bmac.CFBundleVersion" options.
 
-Still, if you would like proper application name to show up on the Mac top menu bar during development, you may do so by invoking the SWT Display.setAppName method before any Display object has been instantiated (i.e. before any Glimmer widget like shell has been declared).
+Still, if you would like proper application name to show up on the Mac top menu bar during development, you may do so by invoking the SWT `Display.app_name=` method before any Display object has been instantiated (i.e. before any Glimmer widget like shell has been declared).
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
-Display.setAppName('Glimmer Demo')
+Display.app_name = 'Glimmer Demo'
 
 shell(:no_resize) {
   text "Glimmer"
@@ -3594,7 +3615,7 @@ shell(:no_resize) {
 }.open
 ```
 
-Also, you may invoke `Display.setAppVersion('1.0.0')` if needed for OS app version identification reasons during development, replacing `'1.0.0'` with your application version.
+Also, you may invoke `Display.app_version = '1.0.0'` if needed for OS app version identification reasons during development, replacing `'1.0.0'` with your application version.
 
 #### Checkbox Group Widget
 

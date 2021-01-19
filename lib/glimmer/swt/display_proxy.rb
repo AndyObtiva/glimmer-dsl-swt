@@ -56,6 +56,7 @@ module Glimmer
       attr_reader :swt_display
 
       def initialize(*args)
+        Display.app_name ||= 'Glimmer'
         @swt_display = Display.new(*args)
         @swt_display.set_data('proxy', self)
       end

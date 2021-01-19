@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -113,7 +113,6 @@ module Glimmer
           
           group :development do
             gem 'rspec', '~> 3.5.0'
-            gem 'git-glimmer', '1.7.0'
             gem 'juwelier', '2.4.9'
             gem 'warbler', '2.0.5'
             gem 'simplecov', '>= 0'
@@ -133,12 +132,12 @@ module Glimmer
           gem_summary = human_name(app_name)
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           rm_rf 'lib'
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', app_name
           write 'VERSION', '1.0.0'
           write 'LICENSE.txt', "Copyright (c) #{Time.now.year} #{app_name}"
@@ -178,7 +177,7 @@ module Glimmer
             system "bundle"
             system "rspec --init"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"          
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
           end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
@@ -191,7 +190,7 @@ module Glimmer
             else
               system "glimmer run"
             end
-          end        
+          end
         end
     
         def custom_shell(custom_shell_name, namespace, shell_type = nil, shell_options = {})
@@ -231,11 +230,11 @@ module Glimmer
           end
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
           write 'Gemfile', GEMFILE
@@ -256,7 +255,7 @@ module Glimmer
             system "rspec --init"
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
-          end      
+          end
           write 'spec/spec_helper.rb', spec_helper_file
     
           mkdir_p 'package/windows'
@@ -283,7 +282,7 @@ module Glimmer
               system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
             else
               system "glimmer run"
-            end        
+            end
           end
           puts "Finished creating #{gem_name} Ruby gem."
           puts 'Edit Rakefile to configure gem details.'
@@ -305,11 +304,11 @@ module Glimmer
           
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
-          system "jruby -r git-glimmer -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}" 
+          system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
           cd gem_name
           write '.gitignore', GITIGNORE
-          write '.ruby-version', RUBY_VERSION        
+          write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
           write 'Gemfile', GEMFILE
@@ -397,9 +396,9 @@ module Glimmer
             class #{class_name(app_name)}
               include Glimmer
             
-              APP_ROOT = File.expand_path('../..', __FILE__)        
+              APP_ROOT = File.expand_path('../..', __FILE__)
               VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
-              LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))          
+              LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
                         
               def open
                 app_view.open
@@ -443,7 +442,7 @@ module Glimmer
               
               launcher = Glimmer::Launcher.new([runner] + ARGV)
               launcher.launch
-            end            
+            end
           MULTI_LINE_STRING
         end
         
@@ -482,7 +481,7 @@ module Glimmer
               
               launcher = Glimmer::Launcher.new([runner] + ARGV)
               launcher.launch
-            end                        
+            end
           MULTI_LINE_STRING
         end
     
@@ -502,15 +501,15 @@ module Glimmer
           end
           spec_pattern_line_index = lines.index(lines.detect {|l| l.include?('spec.pattern =') })
           lines.insert(spec_pattern_line_index+1, "  spec.ruby_opts = [Glimmer::Launcher.jruby_os_specific_options]")
-          lines << "\nrequire 'glimmer/rake_task'\n"       
+          lines << "\nrequire 'glimmer/rake_task'\n"
           file_content = lines.join("\n")
           if custom_shell_name
-            file_content << <<~MULTI_LINE_STRING  
+            file_content << <<~MULTI_LINE_STRING
               Glimmer::RakeTask::Package.javapackager_extra_args =
                 " -name '#{human_name(custom_shell_name)}'" +
                 " -title '#{human_name(custom_shell_name)}'" +
                 " -Bmac.CFBundleName='#{human_name(custom_shell_name)}'" +
-                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'" 
+                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'"
                 # " -BlicenseType=" +
                 # " -Bmac.category=" +
                 # " -Bmac.signing-key-developer-id-app="
@@ -575,8 +574,8 @@ module Glimmer
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
         before_body {
-          Display.setAppName('#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}')
-          Display.setAppVersion(VERSION)
+          Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
+          Display.app_version = VERSION
           @display = display {
             on_about {
               display_about_dialog
@@ -600,7 +599,7 @@ module Glimmer
         ## Use after_body block to setup observers for widgets in body
         #
         # after_body {
-        # 
+        #
         # }
     
         ## Add widget content inside custom shell body
@@ -616,10 +615,10 @@ module Glimmer
           MULTI_LINE_STRING
             
           if shell_type == :desktopify
-            custom_shell_file_content += <<-MULTI_LINE_STRING            
+            custom_shell_file_content += <<-MULTI_LINE_STRING
             browser {
-              url "#{shell_options[:website]}"              
-            }            
+              url "#{shell_options[:website]}"
+            }
             MULTI_LINE_STRING
           else
             custom_shell_file_content += <<-MULTI_LINE_STRING
@@ -628,7 +627,7 @@ module Glimmer
               text bind(self, :greeting)
               font height: 40
               layout_data :fill, :center, true, true
-            }            
+            }
             MULTI_LINE_STRING
           end
           
@@ -690,7 +689,7 @@ module Glimmer
               text 'Greeting'
               font style: :bold
               [
-                'Hello, World!', 
+                'Hello, World!',
                 'Howdy, Partner!'
               ].each do |greeting_text|
                 button(:radio) {
@@ -733,19 +732,19 @@ module Glimmer
                 #
                 #
                 # before_body {
-                # 
+                #
                 # }
             
                 ## Use after_body block to setup observers for widgets in body
                 #
                 # after_body {
-                # 
+                #
                 # }
             
                 ## Add widget content under custom widget body
                 ##
-                ## If you want to add a shell as the top-most widget, 
-                ## consider creating a custom shell instead 
+                ## If you want to add a shell as the top-most widget,
+                ## consider creating a custom shell instead
                 ## (Glimmer::UI::CustomShell offers shell convenience methods, like show and hide)
                 #
                 body {

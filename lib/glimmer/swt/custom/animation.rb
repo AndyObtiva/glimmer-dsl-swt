@@ -28,9 +28,9 @@ module Glimmer
       class Animation
         include Properties # TODO rename to Properties
         
-        attr_reader :parent, :options, :frame_index
+        attr_reader :parent, :options, :frame_index, :cycle
         alias current_frame_index frame_index
-        attr_accessor :frame_block, :every, :cycle, :cycle_count, :frame_count, :started
+        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started
         # TODO consider supporting an async: false option
         
         def initialize(parent)
@@ -43,43 +43,18 @@ module Glimmer
           @parent.on_widget_disposed { stop }
           start if @started
         end
-    
+        
         def start
-          swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
-          return if swt_display.is_disposed?
+          swt_display = DisplayProxy.instance.swt_display
           Thread.new do
-            frame_rendering_block = lambda do
-              block_args = [@frame_index]
-              block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
-              swt_display.async_exec do
-                @parent.clear_shapes
-                @parent.content {
-                  frame_block.call(*block_args)
-                }
-              end
-              @frame_index += 1
-              sleep(every) if every.is_a?(Numeric)
-            end
-  
             if cycle_count.is_a?(Integer) && cycle.is_a?(Array)
               (cycle_count * cycle.length).times do
-                break if break_condition?
-                begin
-                  frame_rendering_block.call
-                rescue => e
-                  Glimmer::Config.logger.error {e}
-                  break
-                end
+                break unless draw_frame(swt_display)
               end
             else
               loop do
-                break if break_condition?
-                begin
-                  frame_rendering_block.call
-                rescue => e
-                  Glimmer::Config.logger.error {e}
-                  break
-                end
+                # this code has to be duplicated to break from a loop (break keyword only works when literally in a loop block)
+                break unless draw_frame(swt_display)
               end
             end
             @started = false
@@ -102,11 +77,40 @@ module Glimmer
           send(ruby_attribute_getter(attribute_name))
         end
         
+        def cycle=(*args)
+          if args.size == 1
+            if args.first.is_a?(Array)
+              @cycle = args.first
+            else
+              @cycle = [args.first]
+            end
+          elsif args.size > 1
+            @cycle = args
+          end
+        end
+        
         private
         
-        def break_condition?
-          !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
+        # Returns true on success of painting a frame and false otherwise
+        def draw_frame(swt_display)
+          return false if !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
+          block_args = [@frame_index]
+          block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
+          swt_display.async_exec do
+            @parent.clear_shapes
+            @parent.content {
+              frame_block.call(*block_args)
+            }
+            @parent.redraw
+          end
+          @frame_index += 1
+          sleep(every) if every.is_a?(Numeric)
+          true
+        rescue => e
+          Glimmer::Config.logger.error {e}
+          false
         end
+        
       end
       
     end

@@ -150,7 +150,7 @@ class MetaSampleApplication
   end
   
   def launch
-    Display.setAppName('Glimmer Meta-Sample')
+    Display.app_name = 'Glimmer Meta-Sample'
     shell {
       minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'

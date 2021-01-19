@@ -1,5 +1,22 @@
 # Change Log
 
+### 4.18.1.1
+
+- Add smart defaults for round rectangle angles (defaults to 60 degrees angles)
+- Add smart default for gradient rectangle vertical option
+- Small update to Hello, Canvas! Sample
+- Convert SWT style symbol to SWT style integer if method takes integer but receives a symbol (or string)
+- Make polygon not require [] for its array args
+- Allow cycle to receive splatted array as varargs
+- Change references to `Display.setAppName` and `Display.setAppVersion` to `Display.app_name =` and `Display.app_version =`
+- Default Glimmer app name to "Glimmer" (instead of previous "SWT") unless `Display.app_name = "Somename"` is set by consumer before instantiating first display
+- Set default background to system widget background default for fill shapes
+- Set default foreground to black for draw shapes
+- Fix issue with shapes always requiring a block (even an empty one) to render
+- Fix issue with animation requiring changes to canvas directly in addition to shapes
+- Fix issue with `glimmer list:gems:dsl` command
+- Fix issue with scaffolding still depending on git-glimmer despite being merged back to git gem
+
 ### 4.18.1.0
 
 - Canvas Shape DSL

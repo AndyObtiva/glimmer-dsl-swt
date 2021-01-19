@@ -4,6 +4,23 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Document new features
+
+- Canvas Shape DSL support for Background/Foreground Pattern
+- Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
+- Reupdate Hello, Canvas! Sample with changes in Shape DSL
+- Canvas animation property data-binding
+- Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
+- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
+- Canvas animation (started: false) property to declare an animation that is not started initially and would get started later with start method or animating value
+- Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
+- Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)
+- Canvas animation stop method
+- Canvas animation resume method (useful if animation was stopped and needed to be resumed from the same frame it stopped at)
+- Canvas animation restart method (restarts from frame 1)
+- Canvas animation started? # meaning it is animating
+- Canvas animation stopped? # meaning it has stopped animating
+
 - Fix issue with RowLayout not getting default margin height and margin width
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
@@ -30,19 +47,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
 
-- Canvas support textExtent as an option
-- Canvas support a Pattern DSL for methods that take Pattern arguments
-- Canvas animation property data-binding
-- Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
-- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
-- Canvas animation (started: false) property to declare an animation that is not started initially and would get started later with start method or animating value
-- Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
-- Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)
-- Canvas animation stop method
-- Canvas animation resume method (useful if animation was stopped and needed to be resumed from the same frame it stopped at)
-- Canvas animation restart method (restarts from frame 1)
-- Canvas animation started? # meaning it is animating
-- Canvas animation stopped? # meaning it has stopped animating
+- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
+- Canvas support a Transform DSL for methods that take Transform arguments
+- Canvas support a Path DSL for methods that take Path arguments
+- Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing)
 
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk

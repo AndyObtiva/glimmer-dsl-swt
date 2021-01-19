@@ -55,7 +55,7 @@ module Glimmer
         
         attr_reader :parent, :name, :args, :options, :swt_widget, :paint_listener_proxy
         
-        def initialize(parent, keyword, *args)
+        def initialize(parent, keyword, *args, &property_block)
           @parent = parent
           @name = keyword
           @method_name = self.class.method_name(keyword, args)
@@ -64,6 +64,7 @@ module Glimmer
           @swt_widget = parent.respond_to?(:swt_display) ? parent.swt_display : parent.swt_widget
           @properties = {}
           @parent.shapes << self
+          post_add_content if property_block.nil?
         end
         
         def fill?
@@ -76,11 +77,15 @@ module Glimmer
         
         def post_add_content
           event_handler = lambda do |event|
+            @properties['background'] = [DisplayProxy.instance.get_system_color(SWTProxy(:color_widget_background))] if fill? && !@properties.keys.map(&:to_s).include?('background')
+            @properties['foreground'] = [ColorProxy.new(0, 0, 0)] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
             @properties.each do |property, args|
               method_name = attribute_setter(property)
-              handle_conversions(method_name, args)
+              apply_property_arg_conversions(method_name, args)
               event.gc.send(method_name, *args)
             end
+            apply_shape_arg_conversions(@method_name, @args)
+            apply_shape_arg_defaults(@method_name, @args)
             event.gc.send(@method_name, *@args)
           end
           if parent.respond_to?(:swt_display)
@@ -90,28 +95,42 @@ module Glimmer
           end
         end
         
-        def handle_conversions(method_name, args)
+        def apply_property_arg_conversions(method_name, args)
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
-          if args.first.is_a?(Symbol) || args.first.is_a?(String)
+          if (args.first.is_a?(Symbol) || args.first.is_a?(String))
             if the_java_method.parameter_types.first == Color.java_class
               args[0] = ColorProxy.new(args[0])
+            end
+            if the_java_method.parameter_types.first == Java::int.java_class
+              args[0] = SWTProxy[args[0]]
             end
           end
           if args.first.is_a?(ColorProxy)
             args[0] = args[0].swt_color
           end
-          if args.first.is_a?(Hash)
-            if the_java_method.parameter_types.first == Font.java_class
-              args[0] = FontProxy.new(args[0])
-            end
+          if args.first.is_a?(Hash) && the_java_method.parameter_types.first == Font.java_class
+            args[0] = FontProxy.new(args[0])
           end
           if args.first.is_a?(FontProxy)
             args[0] = args[0].swt_font
           end
-          
-          # TODO convert SWT style symbol to integer if method takes integer
         end
         
+        def apply_shape_arg_conversions(method_name, args)
+          if args.size > 1 && (method_name.include?('polygon') || method_name.include?('polyline'))
+            args[0] = args.dup
+            args[1..-1] = []
+          end
+        end
+        
+        def apply_shape_arg_defaults(method_name, args)
+          if method_name.include?('round_rectangle') && args.size.between?(4, 5)
+            (6 - args.size).times {args << 60}
+          elsif method_name.include?('gradient_rectangle') && args.size == 4
+            args << true
+          end
+        end
+                
         def has_attribute?(attribute_name, *args)
           # TODO test that attribute getter responds too
           self.class.gc_instance_methods.include?(attribute_setter(attribute_name))

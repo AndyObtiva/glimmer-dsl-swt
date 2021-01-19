@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -57,11 +57,11 @@ module Glimmer
           lines = `gem search -d #{gem_prefix}`.split("\n")
           gems = lines.slice_before {|l| l.match(REGEX_GEM_LINE) }.to_a
           gems = gems.map do |gem|
-            {            
+            {
               name: gem[0].match(REGEX_GEM_LINE)[1],
               version: gem[0].match(REGEX_GEM_LINE)[2],
               author: gem[1].strip,
-              description: gem[4..-1].map(&:strip).join(' ')
+              description: gem[4..-1]&.map(&:strip)&.join(' ').to_s
             }
           end.select do |gem|
             query.nil? || "#{gem[:name]} #{gem[:author]} #{gem[:description]}".downcase.include?(query.to_s.downcase)
