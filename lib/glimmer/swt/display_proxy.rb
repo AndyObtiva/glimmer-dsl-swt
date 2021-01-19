@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/widget_listener_proxy'
+require 'glimmer/swt/custom/drawable'
 
 module Glimmer
   module SWT
@@ -36,6 +37,8 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class DisplayProxy
       include_package 'org.eclipse.swt.widgets'
+      
+      include Custom::Drawable
 
       OBSERVED_MENU_ITEMS = ['about', 'preferences']
 

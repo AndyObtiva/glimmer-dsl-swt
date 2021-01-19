@@ -53,7 +53,7 @@ module Glimmer
           end
         end
         
-        attr_reader :parent, :name, :args, :options, :swt_widget
+        attr_reader :parent, :name, :args, :options, :swt_widget, :paint_listener_proxy
         
         def initialize(parent, keyword, *args)
           @parent = parent
@@ -63,6 +63,7 @@ module Glimmer
           @args = args
           @swt_widget = parent.respond_to?(:swt_display) ? parent.swt_display : parent.swt_widget
           @properties = {}
+          @parent.shapes << self
         end
         
         def fill?
@@ -83,9 +84,9 @@ module Glimmer
             event.gc.send(@method_name, *@args)
           end
           if parent.respond_to?(:swt_display)
-            @parent.on_swt_paint(&event_handler)
+            @paint_listener_proxy = @parent.on_swt_paint(&event_handler)
           else
-            @parent.on_paint_control(&event_handler)
+            @paint_listener_proxy = @parent.on_paint_control(&event_handler)
           end
         end
         

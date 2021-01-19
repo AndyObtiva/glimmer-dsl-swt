@@ -27,6 +27,7 @@ require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/dnd_proxy'
 require 'glimmer/swt/image_proxy'
 require 'glimmer/swt/java_properties'
+require 'glimmer/swt/custom/drawable'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
 
@@ -44,6 +45,7 @@ module Glimmer
     class WidgetProxy
       include Packages
       include JavaProperties
+      include Custom::Drawable
 
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],

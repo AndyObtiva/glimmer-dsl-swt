@@ -30,6 +30,20 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
 
+- Canvas support textExtent as an option
+- Canvas support a Pattern DSL for methods that take Pattern arguments
+- Canvas animation property data-binding
+- Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
+- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
+- Canvas animation (started: false) property to declare an animation that is not started initially and would get started later with start method or animating value
+- Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
+- Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)
+- Canvas animation stop method
+- Canvas animation resume method (useful if animation was stopped and needed to be resumed from the same frame it stopped at)
+- Canvas animation restart method (restarts from frame 1)
+- Canvas animation started? # meaning it is animating
+- Canvas animation stopped? # meaning it has stopped animating
+
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
 - Make code_text custom widget support multiple programming languages
@@ -294,6 +308,7 @@ items <=> binding {
 - Preload all SWT widgets as static keywords to optimize performance if needed
 - Support setting default sort direction on `table` (and sort direction on any sort_property option)
 - Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
+- Consider extracting has_attribute?, set_attribute, and get_attribute from all classes into common modules (mixins)
 - Support auto-selection of table column editor based on data type
 - Consider getting rid of set_attribute / get_attribute on WidgetProxy by moving logic to method_missing and updating propertyexpression (and other expressions) to rely on send instead
 - Consider extracting property_expression to glimmer
