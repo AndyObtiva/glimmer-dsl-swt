@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.18.1.0
+
+- Canvas Shape DSL
+- Hello, Canvas! Sample
+- Animation DSL
+- Hello, Canvas Animation! Sample
+- Fixed issue with async_exec not working in ShellProxy when delegate widget is nil
+
 ### 4.18.0.2
 
 - Minor update on Hello, Dialog! Sample

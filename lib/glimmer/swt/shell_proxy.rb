@@ -64,10 +64,11 @@ module Glimmer
           @swt_widget.setLayout(FillLayout.new)
           @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
           # TODO make this an option not the default
+          shell_swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
           on_swt_show do
             Thread.new do
               sleep(0.25)
-              async_exec do
+              shell_swt_display.async_exec do
                 @swt_widget.setActive unless @swt_widget.isDisposed
               end
             end

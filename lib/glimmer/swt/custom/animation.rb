@@ -19,41 +19,39 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/swt/java_properties'
+require 'glimmer/swt/properties'
 
 module Glimmer
   module SWT
     module Custom
       # Represents an animation declaratively
       class Animation
-        include JavaProperties # TODO rename to Properties
+        include Properties # TODO rename to Properties
         
         attr_reader :parent, :options, :frame_index
         alias current_frame_index frame_index
         attr_accessor :frame_block, :every, :cycle, :cycle_count, :frame_count, :started
         # TODO consider supporting an async: false option
         
-        def initialize(parent, &animation_block)
+        def initialize(parent)
           @parent = parent
           @started = true
-          @animation_block = animation_block
           @frame_index = 0
         end
         
         def post_add_content
-          @frame_block = @animation_block if frame_block.nil? # simplified version
-          @parent.on_widget_disposed do
-            stop
-          end
+          @parent.on_widget_disposed { stop }
           start if @started
         end
     
         def start
+          swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
+          return if swt_display.is_disposed?
           Thread.new do
             frame_rendering_block = lambda do
               block_args = [@frame_index]
               block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
-              Glimmer::SWT::DisplayProxy.instance.async_exec do
+              swt_display.async_exec do
                 @parent.clear_shapes
                 @parent.content {
                   frame_block.call(*block_args)
@@ -65,16 +63,26 @@ module Glimmer
   
             if cycle_count.is_a?(Integer) && cycle.is_a?(Array)
               (cycle_count * cycle.length).times do
-                break if !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
-                frame_rendering_block.call
+                break if break_condition?
+                begin
+                  frame_rendering_block.call
+                rescue => e
+                  Glimmer::Config.logger.error {e}
+                  break
+                end
               end
             else
               loop do
-                break if !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
-                frame_rendering_block.call
+                break if break_condition?
+                begin
+                  frame_rendering_block.call
+                rescue => e
+                  Glimmer::Config.logger.error {e}
+                  break
+                end
               end
             end
-            @started = falsee
+            @started = false
           end
         end
         
@@ -94,6 +102,11 @@ module Glimmer
           send(ruby_attribute_getter(attribute_name))
         end
         
+        private
+        
+        def break_condition?
+          !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
+        end
       end
       
     end

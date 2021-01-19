@@ -23,44 +23,44 @@ include Glimmer
 
 shell {
   text 'Hello, Canvas Animation!'
-  minimum_size 800, 400
+  minimum_size 800, 420
 
-  canvas { |canvas_proxy|
+  canvas {
     animation {
-      every 0.01
-      frame {|index|
-        background rgb(index%255, 100, 200)
-#         rectangle(10, 10, 400, 400, fill: true) {
-#           background rgb(index%255, 100, 200)
-#         }
+      every 0.01 # in seconds (one hundredth)
+            
+      frame { |index| # frame block loops indefinitely (unless frame_count is set to an integer)
+        background rgb(index%255, 100, 200) # sets canvas background color
+        
+        oval(0, 0, 400, 400) { # x, y, width, height
+          foreground :black # sets oval background color
+        }
+        arc(0, 0, 400, 400, -1*index%360, 10, fill: true) {  # x, y, width, height, start angle, arc angle
+          background rgb(200, 200, 50) # sets arc background color
+        }
       }
     }
   }
 
-  canvas { |canvas_proxy|
+  canvas {
     colors = [:yellow, :red]
     animation {
-      # TODO with every frame, unregister all older on_paint_control listeners (keep them booked in canvas widget)
-      # assume only one animation runs at a time on the same canvas, save the animation too on canvas widgetproxy, and make any newer animations stop the previous ones
-      every 0.5 # in seconds (every half a second)
-      cycle colors
-#       frame_count 30
-#       cycle_count 3
-#       started false
-      
-      frame { |index, color|
+      every 0.25 # in seconds (one quarter)
+      cycle colors # cycles array of colors into the second variable of the frame block below
+
+      frame { |index, color| # frame block loops indefinitely (unless frame_count or cycle_count is set to an integer)
         outside_color = colors[index % 2]
         inside_color = colors[(index + 1) % 2]
-        background outside_color
+        
+        background outside_color # sets canvas background color
+        
         rectangle(0, 0, 200, 200, fill: true) {
-          background inside_color
+          background inside_color # sets rectangle background color
         }
         rectangle(200, 200, 200, 200, fill: true) {
-          background inside_color
+          background inside_color # sets rectangle background color
         }
       }
     }
   }
-# Demonstrate cycle_count and frame_count
-#       animation(every: 1, cycle: colors, cycle_count: 1, frame_count: 30) { |frame, color|
 }.open

@@ -21,7 +21,7 @@
 
 module Glimmer
   module SWT
-    module JavaProperties
+    module Properties
       def ruby_attribute_setter(attribute_name)
         "#{normalized_attribute(attribute_name)}="
       end

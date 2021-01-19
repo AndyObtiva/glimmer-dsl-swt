@@ -30,7 +30,7 @@ module Glimmer
         include ParentExpression
         
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::Custom::Animation.new(parent, &block)
+          Glimmer::SWT::Custom::Animation.new(parent)
         end
         
         def add_content(parent, &block)

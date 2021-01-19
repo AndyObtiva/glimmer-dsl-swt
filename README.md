@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.0.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.1.0
 
 
 ## JRuby Desktop Development GUI Framework
@@ -286,6 +286,8 @@ Glimmer App:
     - [Cursor](#cursor)
     - [Layouts](#layouts)
     - [Layout Data](#layout-data)
+    - [Canvas Shape DSL](#canvas-shape-dsl)
+    - [Canvas Animation DSL](#canvas-animation-dsl)
     - [Data-Binding](#data-binding)
       - [General Examples](#general-examples)
       - [Combo](#combo)
@@ -359,6 +361,8 @@ Glimmer App:
       - [Hello, Button!](#hello-button)
       - [Hello, Link!](#hello-link)
       - [Hello, Dialog!](#hello-dialog)
+      - [Hello, Canvas!](#hello-canvas)
+      - [Hello, Canvas Animation!](#hello-canvas-animation)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -452,7 +456,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.0.2
+jgem install glimmer-dsl-swt -v 4.18.1.0
 
 
 ```
@@ -472,7 +476,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.0.2
+gem 'glimmer-dsl-swt', '~> 4.18.1.0
 '
 ```
 
@@ -531,7 +535,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.0.2
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.1.0
 
 
       
@@ -1010,7 +1014,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.8.0     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.0.2
+  Swt    glimmer-dsl-swt    4.18.1.0
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -2284,6 +2288,113 @@ https://www.eclipse.org/articles/Article-Understanding-Layouts/Understanding-Lay
 Also, for a reference, check the SWT API:
 
 https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/index.html
+
+
+### Canvas Shape DSL
+
+(note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
+
+Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
+
+This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
+
+Shape keywords are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
+- `arc​(int x, int y, int width, int height, int startAngle, int arcAngle)`
+- `focus​(int x, int y, int width, int height)`
+- `image(Image image, int x, int y)`
+- `line(int x1, int y1, int x2, int y2)`
+- `oval(int x, int y, int width, int height)`
+- `point​(int x, int y)`
+- `polygon(int[] pointArray)`
+- `polyline(int[] pointArray)`
+- `rectangle(int x, int y, int width, int height)`
+- `round_rectangle(int x, int y, int width, int height, int arcWidth, int arcHeight)`
+- `gradiant_rectangle​(int x, int y, int width, int height, boolean vertical)`
+- `text(String string, int x, int y)`
+
+Shape keywords that can be filled with color can take an additional keyword argument `fill: true`
+
+Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.
+
+Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```ruby
+include Glimmer
+
+shell {
+  text 'Canvas Example!'
+  minimum_size 320, 400
+
+  canvas {
+    background :yellow
+    rectangle(0, 0, 220, 400, fill: true) {
+      background :red
+    }
+    round_rectangle(50, 20, 300, 150, 30, 50, fill: true) {
+      background :magenta
+    }
+    gradient_rectangle(150, 200, 100, 70, true, fill: true) {
+      background :dark_magenta
+      foreground :yellow
+    }
+    rectangle(200, 80, 108, 36) {
+      foreground color(:dark_blue)
+    }
+  }
+}.open
+```
+
+Learn more at the [Hello, Canvas! Sample](#hello-canvas).
+
+### Canvas Animation DSL
+
+(note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
+
+Glimmer additionally provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
+
+Animations take advantage of multi-threading, each animation runs in its own independent thread of execution while updating the GUI asynchronously.
+
+This example says it all (it moves a tiny red square across a blue background):
+
+```ruby
+include Glimmer
+
+shell {
+  text 'Canvas Animation Example!'
+  minimum_size 400, 400
+
+  canvas {
+    animation {
+      every 0.1
+      
+      frame { |index|
+        background rgb(index%100, index%100 + 100, index%55 + 200)
+        rectangle(index, index, 20, 20, fill: true) {
+          background :red
+        }
+      }
+    }
+  }
+}.open
+```
+
+Keywords involved:
+- `animation` declares an animation under a canvas, which renders frames indefinitely or finitely depending on properties
+- `every` specifies delay in seconds between every two frame renders
+- `frame` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
+- `cycle` a property that takes an array to cycle into a second variable for the `frame` block
+- `cycle_count` an optional cycle count limit after which the animation stops
+- `frame_count` an optional frame count limit after which the animation stops
+- `started` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
+
+API:
+- `#start` starts animation as a method on the animation object (returned from `animation` keyword)
+- `#stop` stops animation gracefully as a method on the animation object (returned from `animation` keyword)
+
+Caveat:
+In order for animation to occur, the frame block must include changes that happen directly on the canvas (like setting initial background updating every frame) not just changes to shapes. This should be fixed in the future.
+
+Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
 
 ### Data-Binding
 
@@ -4356,6 +4467,34 @@ Hello, Dialog!
 Hello, Dialog! Open Dialog
 
 ![Hello Dialog Open Dialog](images/glimmer-hello-dialog-open-dialog.png)
+
+#### Hello, Canvas!
+
+This sample demonstrates the use of the `canvas` widget and [Shape DSL](#canvas-shape-dsl) in Glimmer.
+
+Code:
+
+[samples/hello/hello_canvas.rb](samples/hello/hello_canvas.rb)
+
+Hello, Canvas!
+
+![Hello Canvas](images/glimmer-hello-canvas.png)
+
+#### Hello, Canvas Animation!
+
+This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.
+
+Code:
+
+[samples/hello/hello_canvas_animation.rb](samples/hello/hello_canvas_animation.rb)
+
+Hello, Canvas Animation!
+
+![Hello Canvas Animation](images/glimmer-hello-canvas-animation.png)
+
+Hello, Canvas Animation Another Frame!
+
+![Hello Canvas Animation Frame 2](images/glimmer-hello-canvas-animation-frame2.png)
 
 ### Elaborate Samples
 

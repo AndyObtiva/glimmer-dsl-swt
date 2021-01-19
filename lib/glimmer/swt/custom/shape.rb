@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/swt/java_properties'
+require 'glimmer/swt/properties'
 
 module Glimmer
   module SWT
@@ -28,7 +28,7 @@ module Glimmer
       # swt_widget returns the parent (e.g. a `canvas` WidgetProxy), equivalent to `parent.swt_widget`
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
-        include JavaProperties
+        include Properties
         # TODO support textExtent as an option
         # TODO support a Pattern DSL for methods that take Pattern arguments
         

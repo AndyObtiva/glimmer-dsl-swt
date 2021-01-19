@@ -105,12 +105,12 @@ Gem::Specification.new do |s|
     "lib/glimmer/swt/file_dialog_proxy.rb",
     "lib/glimmer/swt/font_proxy.rb",
     "lib/glimmer/swt/image_proxy.rb",
-    "lib/glimmer/swt/java_properties.rb",
     "lib/glimmer/swt/layout_data_proxy.rb",
     "lib/glimmer/swt/layout_proxy.rb",
     "lib/glimmer/swt/menu_proxy.rb",
     "lib/glimmer/swt/message_box_proxy.rb",
     "lib/glimmer/swt/packages.rb",
+    "lib/glimmer/swt/properties.rb",
     "lib/glimmer/swt/sash_form_proxy.rb",
     "lib/glimmer/swt/scrolled_composite_proxy.rb",
     "lib/glimmer/swt/shell_proxy.rb",
@@ -182,7 +182,7 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.0.7"])
+      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.0.8"])
       s.add_runtime_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_runtime_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_runtime_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -201,7 +201,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.16.1"])
       s.add_development_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     else
-      s.add_dependency(%q<glimmer>.freeze, ["~> 1.0.7"])
+      s.add_dependency(%q<glimmer>.freeze, ["~> 1.0.8"])
       s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -221,7 +221,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     end
   else
-    s.add_dependency(%q<glimmer>.freeze, ["~> 1.0.7"])
+    s.add_dependency(%q<glimmer>.freeze, ["~> 1.0.8"])
     s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
     s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
     s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])

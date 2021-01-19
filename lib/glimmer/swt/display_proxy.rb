@@ -63,6 +63,18 @@ module Glimmer
       def content(&block)
         Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::DisplayExpression.new, &block)
       end
+      
+      def async_exec(&block)
+        @swt_display.async_exec(&block)
+      end
+
+      def sync_exec(&block)
+        @swt_display.sync_exec(&block)
+      end
+
+      def timer_exec(&block)
+        @swt_display.timer_exec(&block)
+      end
 
       def method_missing(method, *args, &block)
         if can_handle_observation_request?(method)
