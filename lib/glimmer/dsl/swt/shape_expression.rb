@@ -19,27 +19,38 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-$LOAD_PATH.unshift(File.expand_path('..', __FILE__))
+require 'glimmer/dsl/expression'
+require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/swt_proxy'
+require 'glimmer/swt/custom/shape'
 
-# External requires
-if !['', 'false'].include?(ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase)
-  bundler_group = ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase
-  bundler_group = 'default' if bundler_group == 'true'
-  require 'bundler'
-  Bundler.setup(bundler_group)
+module Glimmer
+  module DSL
+    module SWT
+      class ShapeExpression < Expression
+        include ParentExpression
+        
+        def can_interpret?(parent, keyword, *args, &block)
+          (
+            (parent.respond_to?(:swt_widget) and parent.swt_widget.is_a?(org.eclipse.swt.graphics.Drawable)) or
+            (parent.respond_to?(:swt_display) and parent.swt_display.is_a?(org.eclipse.swt.graphics.Drawable))
+          ) and
+            Glimmer::SWT::Custom::Shape.valid?(parent, keyword, *args, &block)
+        end
+        
+        def interpret(parent, keyword, *args, &block)
+          Glimmer::SWT::Custom::Shape.new(parent, keyword, *args)
+        end
+        
+        def add_content(parent, &block)
+          super
+          parent.post_add_content
+        end
+      
+      end
+      
+    end
+    
+  end
+  
 end
-require 'java'
-require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
-require 'glimmer'
-require 'logging'
-require 'nested_inherited_jruby_include_package'
-require 'super_module'
-require 'rouge'
-require 'date'
-require 'facets/string/capitalized'
-require 'facets/hash/symbolize_keys'
-
-# Internal requires
-require 'ext/glimmer/config'
-require 'ext/glimmer'
-require 'glimmer/dsl/swt/dsl'

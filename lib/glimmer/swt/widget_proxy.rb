@@ -26,6 +26,7 @@ require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/dnd_proxy'
 require 'glimmer/swt/image_proxy'
+require 'glimmer/swt/java_properties'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
 
@@ -42,6 +43,7 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class WidgetProxy
       include Packages
+      include JavaProperties
 
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],
@@ -666,28 +668,6 @@ module Glimmer
       def default_style(underscored_widget_name)
         DEFAULT_STYLES[underscored_widget_name] || [:none]
       end
-
-      def ruby_attribute_setter(attribute_name)
-        "#{normalized_attribute(attribute_name)}="
-      end
-
-      def attribute_setter(attribute_name)
-        "set#{normalized_attribute(attribute_name).camelcase(:upper)}"
-      end
-
-      def attribute_getter(attribute_name)
-        "get#{normalized_attribute(attribute_name).camelcase(:upper)}"
-      end
-      
-      def normalized_attribute(attribute_name)
-        attribute_name = attribute_name.to_s if attribute_name.is_a?(Symbol)
-        attribute_name = attribute_name.underscore unless attribute_name.downcase?
-        attribute_name = attribute_name.sub(/^get_/, '') if attribute_name.start_with?('get_')
-        attribute_name = attribute_name.sub(/^set_/, '') if attribute_name.start_with?('set_')
-        attribute_name = attribute_name.sub(/=$/, '') if attribute_name.end_with?('=')
-        attribute_name
-      end
-      alias ruby_attribute_getter normalized_attribute
 
       # TODO refactor following methods to eliminate duplication
       # perhaps consider relying on raising an exception to avoid checking first

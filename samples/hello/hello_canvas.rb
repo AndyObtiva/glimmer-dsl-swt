@@ -19,27 +19,44 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-$LOAD_PATH.unshift(File.expand_path('..', __FILE__))
+include Glimmer
 
-# External requires
-if !['', 'false'].include?(ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase)
-  bundler_group = ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase
-  bundler_group = 'default' if bundler_group == 'true'
-  require 'bundler'
-  Bundler.setup(bundler_group)
-end
-require 'java'
-require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
-require 'glimmer'
-require 'logging'
-require 'nested_inherited_jruby_include_package'
-require 'super_module'
-require 'rouge'
-require 'date'
-require 'facets/string/capitalized'
-require 'facets/hash/symbolize_keys'
+shell {
+  text 'Hello, Canvas!'
+  minimum_size 320, 400
 
-# Internal requires
-require 'ext/glimmer/config'
-require 'ext/glimmer'
-require 'glimmer/dsl/swt/dsl'
+  canvas {
+    background :yellow
+    rectangle(0, 0, 220, 400, fill: true) {
+      background :red
+    }
+    round_rectangle(50, 20, 300, 150, 30, 50, fill: true) {
+      background :magenta
+    }
+    gradient_rectangle(150, 200, 100, 70, true, fill: true) {
+      background :dark_magenta
+      foreground :yellow
+    }
+    gradient_rectangle(50, 200, 30, 70, false, fill: true) {
+      background :magenta
+      foreground :dark_blue
+    }
+    rectangle(200, 80, 108, 36) {
+      foreground color(:dark_blue)
+    }
+    text('Picasso', 60, 80) {
+      background :yellow
+      foreground :dark_magenta
+      font name: 'Courier', height: 30
+    }
+    oval(110, 310, 100, 100, fill: true) {
+      background rgb(128, 138, 248)
+    }
+    arc(210, 210, 100, 100, 30, -77, fill: true) {
+      background :red
+    }
+    polygon([250, 210, 260, 170, 270, 210, 290, 230, 250, 210]) {
+      background :dark_yellow
+    }
+  }
+}.open

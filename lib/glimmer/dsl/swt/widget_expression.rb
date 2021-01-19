@@ -32,9 +32,10 @@ module Glimmer
         EXCLUDED_KEYWORDS = %w[shell display tab_item]
 
         def can_interpret?(parent, keyword, *args, &block)
-          !EXCLUDED_KEYWORDS.include?(keyword) and
-            parent.respond_to?(:swt_widget) and #TODO change to composite?(parent)
+          result = !EXCLUDED_KEYWORDS.include?(keyword) &&
+            parent.respond_to?(:swt_widget) && #TODO change to composite?(parent)
             Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
+          (keyword.to_s == 'text' && args.first.is_a?(String)) ? false : result
         end
 
         def interpret(parent, keyword, *args, &block)
@@ -47,8 +48,11 @@ module Glimmer
         end
 
       end
+      
     end
+    
   end
+  
 end
 
 require 'glimmer/swt/widget_proxy'

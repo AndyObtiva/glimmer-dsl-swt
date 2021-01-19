@@ -19,27 +19,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-$LOAD_PATH.unshift(File.expand_path('..', __FILE__))
+module Glimmer
+  module SWT
+    module JavaProperties
+      def ruby_attribute_setter(attribute_name)
+        "#{normalized_attribute(attribute_name)}="
+      end
 
-# External requires
-if !['', 'false'].include?(ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase)
-  bundler_group = ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase
-  bundler_group = 'default' if bundler_group == 'true'
-  require 'bundler'
-  Bundler.setup(bundler_group)
+      def attribute_setter(attribute_name)
+        "set#{normalized_attribute(attribute_name).camelcase(:upper)}"
+      end
+
+      def attribute_getter(attribute_name)
+        "get#{normalized_attribute(attribute_name).camelcase(:upper)}"
+      end
+      
+      def normalized_attribute(attribute_name)
+        attribute_name = attribute_name.to_s if attribute_name.is_a?(Symbol)
+        attribute_name = attribute_name.underscore unless attribute_name.downcase?
+        attribute_name = attribute_name.sub(/^get_/, '') if attribute_name.start_with?('get_')
+        attribute_name = attribute_name.sub(/^set_/, '') if attribute_name.start_with?('set_')
+        attribute_name = attribute_name.sub(/=$/, '') if attribute_name.end_with?('=')
+        attribute_name
+      end
+      alias ruby_attribute_getter normalized_attribute
+      
+    end
+  end
 end
-require 'java'
-require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
-require 'glimmer'
-require 'logging'
-require 'nested_inherited_jruby_include_package'
-require 'super_module'
-require 'rouge'
-require 'date'
-require 'facets/string/capitalized'
-require 'facets/hash/symbolize_keys'
-
-# Internal requires
-require 'ext/glimmer/config'
-require 'ext/glimmer'
-require 'glimmer/dsl/swt/dsl'

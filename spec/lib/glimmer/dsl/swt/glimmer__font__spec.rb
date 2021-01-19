@@ -7,13 +7,13 @@ module GlimmerSpec
     it "sets font via hash having name, height, and style" do
       @target = shell {
         @label = label {
-          font name: 'Arial', height: 36, style: :normal
+          font name: 'Times', height: 36, style: :normal
         }
       }
 
       font_data = @label.swt_widget.getFont.getFontData
       font_datum = font_data.first
-      expect(font_datum.getName).to eq('Arial')
+      expect(font_datum.getName).to eq('Times')
       expect(font_datum.getHeight).to eq(36)
       expect(font_datum.getStyle).to eq(Glimmer::SWT::SWTProxy[:normal])
     end
@@ -54,7 +54,7 @@ module GlimmerSpec
 
     it "sets font as SWT Font object (builds Font using font keyword without parent)" do
       @display = display
-      @font = font name: 'Arial', height: 36, style: :normal
+      @font = font name: 'Times', height: 36, style: :normal
       @target = shell {
         @label = label {
           font @font.swt_font
@@ -63,7 +63,7 @@ module GlimmerSpec
 
       font_data = @label.swt_widget.getFont.getFontData
       font_datum = font_data.first
-      expect(font_datum.getName).to eq('Arial')
+      expect(font_datum.getName).to eq('Times')
       expect(font_datum.getHeight).to eq(36)
       expect(font_datum.getStyle).to eq(Glimmer::SWT::SWTProxy[:normal])
     end
