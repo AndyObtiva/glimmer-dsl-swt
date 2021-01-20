@@ -12,7 +12,7 @@
 
 (The Original Glimmer Library Since 2007. Beware of Imitators!)
 
-[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces while relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](#widgets), but also supports drawing Canvas Graphics like [Shapes](#canvas-shape-dsl) and [Animations](#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
+[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](#widgets), but also supports drawing Canvas Graphics like [Shapes](#canvas-shape-dsl) and [Animations](#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
 
 [Glimmer receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer](https://rubygems.org/gems/glimmer) with your Ruby desktop GUI development needs. Please make [Glimmer](https://rubygems.org/gems/glimmer) even better by providing feedback and [contributing](#contributing) when possible.
 
@@ -2294,25 +2294,23 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 ### Canvas Shape DSL
 
-(note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
-
 Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
-- `arc​(x, y, width, height, startAngle, arcAngle, fill: false)`
-- `focus​(x, y, width, height)`
-- `image(image, x, y)`
-- `line(x1, y1, x2, y2)`
-- `oval(x, y, width, height, fill: false)`
-- `point​(x, y)`
-- `polygon(pointArray, fill: false)`
-- `polyline(pointArray)`
-- `rectangle(x, y, width, height, fill: false)`
-- `round_rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false)`
-- `gradient_rectangle​(x, y, width, height, vertical = true, fill: false)`
-- `text(String string, x, y)`
+- `arc​(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
+- `focus​(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
+- `image(image, x, y)` [image](#image)
+- `line(x1, y1, x2, y2)` line
+- `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
+- `point​(x, y)` point
+- `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
+- `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
+- `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
+- `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
+- `rectangle​(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
+- `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
 Shape keywords that can be filled with color can take an keyword argument `fill: true` (defaults to false when not specified)
 
@@ -2323,12 +2321,12 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `alpha` sets transparency (integer between `0` and `255`)
 - `antialias` enables antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `background` sets fill color for fillable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
-- `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern] class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
+- `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
 - `clipping` clips area of painting (​numeric values for `(x, y, width, height)`)
 - `fill_rule` sets filling rule (SWT style value of `:fill_even_odd` or `:fill_winding`)
 - `font` sets font (Hash of `:name`, `:height`, and `:style` just like standard widget font property, or Font/FontProxy object directly)
 - `foreground` sets draw color for drawable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
-- `foreground_pattern` sets foreground gradient/image pattern for drawable shape lines (takes the same arguments as the SWT [Pattern] class [e.g. `foreground_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
+- `foreground_pattern` sets foreground gradient/image pattern for drawable shape lines (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `foreground_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
 - `interpolation` sets the interpolation value (SWT style value of `:default`, `:none`, `:low`, `:high`)
 - `line_cap` sets line cap (SWT style value of `:cap_flat`, `:cap_round`, or `:cap_square`)
 - `line_dash` line dash float values (automatically sets `line_style` to SWT style value of `:line_custom`)
@@ -2351,10 +2349,10 @@ shell {
     rectangle(0, 0, 220, 400, fill: true) {
       background :red
     }
-    round_rectangle(50, 20, 300, 150, 30, 50, fill: true) {
+    rectangle(50, 20, 300, 150, 30, 50, round: true, fill: true) {
       background :magenta
     }
-    gradient_rectangle(150, 200, 100, 70, true, fill: true) {
+    rectangle(150, 200, 100, 70, true, gradient: true) {
       background :dark_magenta
       foreground :yellow
     }
@@ -2371,6 +2369,39 @@ Screenshot:
 
 Learn more at the [Hello, Canvas! Sample](#hello-canvas).
 
+If you get extremely stuck, remember that you could always default to direct [SWT GC usage]([org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) and learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+
+Example of manually doing the same things as in the above example without relying on the declarative Glimmer Shape DSL:
+
+```ruby
+include Glimmer
+
+shell {
+  text 'Canvas Manual Example'
+  minimum_size 320, 400
+
+  canvas {
+    background :yellow
+    
+    on_paint_control { |event|
+      event.gc.setBackground(color(:red).swt_color)
+      event.gc.fillRectangle(0, 0, 220, 400)
+      
+      event.gc.setBackground(color(:magenta).swt_color)
+      event.gc.fillRoundRectangle(50, 20, 300, 150, 30, 50)
+      
+      event.gc.setBackground(color(:dark_magenta).swt_color)
+      event.gc.fillGradientRectangle(150, 200, 100, 70, true)
+      
+      event.gc.setForeground(color(:dark_blue).swt_color)
+      event.gc.drawRectangle(200, 80, 108, 36)
+    }
+  }
+}.open
+```
+
+In any case, if there is anything you would like added to the Glimmer Shape DSL that you saw available in the SWT APIs, you may [report and issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
+
 ### Canvas Animation DSL
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
@@ -2379,7 +2410,7 @@ Glimmer additionally provides built-in support for animations via a declarative 
 
 Animations take advantage of multi-threading, each animation runs in its own independent thread of execution while updating the GUI asynchronously.
 
-This example says it all (it moves a tiny red square across a blue background):
+This example says it all (it moves a tiny red square across a blue background) (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
 include Glimmer
@@ -2430,6 +2461,8 @@ API of Animation Object (returned from `animation` keyword):
 - `#duration_limited?` returns true if `duration_limit` is specified
 
 Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
+
+If there is anything you would like added to the Glimmer Animation DSL that you saw available in the SWT APIs, you may [report and issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
 
 ### Data-Binding
 

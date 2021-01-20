@@ -7,9 +7,11 @@
 - Canvas animation restart method (restarts from frame 1)
 - Canvas animation started? # meaning it is animating
 - Canvas animation stopped? # meaning it has stopped animating
-- Canvas Animation duration_limit option
+- Canvas animation duration_limit option
 - Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 - Canvas Shape DSL support for Background/Foreground Pattern (NOTE: not extensively tested yet)
+- Canvas Shape DSL smart defaults for background/foreground depending on shape being drawn
+- Canvas Shape DSL smart defaults for fill option depending on shape being drawn
 - Added fallback font "Courier" for `code_text` widget when "Consolas" is not available.
 
 ### 4.18.1.1

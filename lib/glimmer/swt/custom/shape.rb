@@ -52,9 +52,10 @@ module Glimmer
           end
           
           def method_name(keyword, args)
-            gc_instance_method_name_prefix = arg_options(args)[:fill] ? 'fill_' : 'draw_'
+            keyword = keyword.to_s
             gradient = 'gradient_' if arg_options(args)[:gradient]
             round = 'round_' if arg_options(args)[:round]
+            gc_instance_method_name_prefix = !['polyline', 'point', 'image', 'focus'].include?(keyword) && (arg_options(args)[:fill] || arg_options(args)[:gradient]) ? 'fill_' : 'draw_'
             "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword}"
           end
         end
@@ -91,8 +92,8 @@ module Glimmer
         
         def post_add_content
           event_handler = lambda do |event|
-            @properties['background'] = [DisplayProxy.instance.get_system_color(SWTProxy.constant(:color_widget_background))] if fill? && !@properties.keys.map(&:to_s).include?('background')
-            @properties['foreground'] = [ColorProxy.new(0, 0, 0)] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
+            @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
+            @properties['foreground'] = [@parent.foreground] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
             @properties.each do |property, args|
               method_name = attribute_setter(property)
               apply_property_arg_conversions(method_name, args)
@@ -154,6 +155,8 @@ module Glimmer
           if method_name.include?('round_rectangle') && args.size.between?(4, 5)
             (6 - args.size).times {args << 60}
           elsif method_name.include?('rectangle') && gradient? && args.size == 4
+            args << true
+          elsif (method_name.include?('text') || method_name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && args.size == 3
             args << true
           end
         end
