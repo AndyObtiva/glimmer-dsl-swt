@@ -8,6 +8,7 @@
 - Canvas animation started? # meaning it is animating
 - Canvas animation stopped? # meaning it has stopped animating
 - Canvas Animation duration_limit option
+- Fix issue with animation starvation with two competing animations
 
 ### 4.18.1.1
 

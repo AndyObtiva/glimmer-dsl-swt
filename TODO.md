@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix issue with animation starvation with two competing animations
 - Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 - Canvas Shape DSL support for Background/Foreground Pattern
 - Reupdate Hello, Canvas! Sample with changes in Shape DSL

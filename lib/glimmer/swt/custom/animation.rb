@@ -28,6 +28,54 @@ module Glimmer
       class Animation
         include Properties # TODO rename to Properties
         
+        class << self
+          def schedule_frame_animation(animation, &frame_animation_block)
+            frame_animation_queue(animation).prepend(frame_animation_block)
+            swt_display.async_exec do
+              frame_animation_queue(next_animation)&.pop&.call
+            end
+          end
+          
+          def next_animation
+            animation = nil
+            while frame_animation_queues.values.reduce(:+)&.any? && (animation.nil? || frame_animation_queue(animation).last.nil?)
+              animation = frame_animation_queues.keys[next_animation_index]
+              frame_animation_queues.delete(animation) if frame_animation_queues.values.reduce(:+)&.any? && !animation.nil? && frame_animation_queue(animation).empty?
+            end
+            animation
+          end
+          
+          def next_animation_index
+            next_schedule_index % frame_animation_queues.keys.size
+          end
+          
+          def next_schedule_index
+            unless defined? @@next_schedule_index
+              @@next_schedule_index = 0
+            else
+              @@next_schedule_index += 1
+            end
+          end
+          
+          def frame_animation_queues
+            unless defined? @@frame_animation_queues
+              @@frame_animation_queues = {}
+            end
+            @@frame_animation_queues
+          end
+          
+          def frame_animation_queue(animation)
+            frame_animation_queues[animation] ||= []
+          end
+          
+          def swt_display
+            unless defined? @@swt_display
+              @@swt_display = DisplayProxy.instance.swt_display
+            end
+            @@swt_display
+          end
+        end
+        
         attr_reader :parent, :options, :frame_index, :cycle
         alias current_frame_index frame_index
         attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started, :duration_limit
@@ -40,7 +88,7 @@ module Glimmer
           @frame_index = 0
           @cycle_count_index = 0
           @start_number = 0 # denotes the number of starts (increments on every start)
-          @swt_display = DisplayProxy.instance.swt_display
+          self.class.swt_display # ensures initializing variable to set from GUI thread
         end
         
         def post_add_content
@@ -75,16 +123,17 @@ module Glimmer
         def stop
           return if stopped?
           @started = false
-          @duration = Time.now - @start_time + @duration.to_f if duration_limited?
+          @duration = (Time.now - @start_time) + @duration.to_f if duration_limited? && !@start_time.nil?
         end
         
         # Restarts an animation (whether indefinite or not and whether stopped or not)
         def restart
-          stop
+          @original_start_time = @start_time = nil
+          @duration = nil
           @frame_index = 0
           @cycle_count_index = 0
-          @duration = nil
-          @swt_display.sync_exec { start }
+          stop
+          start
         end
         
         def stopped?
@@ -153,7 +202,7 @@ module Glimmer
           block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
           current_frame_index = @frame_index
           current_cycle_count_index = @cycle_count_index
-          @swt_display.async_exec do
+          self.class.schedule_frame_animation(self) do
             if started? && start_number == @start_number && within_duration_limit?
               @parent.clear_shapes
               @parent.content {
