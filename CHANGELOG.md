@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.18.2.0
+
+- Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)
+- Canvas animation stop method
+- Canvas animation restart method (restarts from frame 1)
+- Canvas animation started? # meaning it is animating
+- Canvas animation stopped? # meaning it has stopped animating
+
 ### 4.18.1.1
 
 - Add smart defaults for round rectangle angles (defaults to 60 degrees angles)

@@ -30,40 +30,71 @@ module Glimmer
         
         attr_reader :parent, :options, :frame_index, :cycle
         alias current_frame_index frame_index
-        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started
+        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started, :initial_started
+        alias started? started
+        alias initial_started? initial_started
         # TODO consider supporting an async: false option
         
         def initialize(parent)
           @parent = parent
           @started = true
           @frame_index = 0
+          @cycle_count_index = 0
+          @start_number = 0 # denotes the number of starts (increments on every start)
+          @swt_display = DisplayProxy.instance.swt_display
         end
         
         def post_add_content
           @parent.on_widget_disposed { stop }
-          start if @started
+          @initial_started = @started
+          start if started?
         end
         
+        # Starts an animation that is indefinite or has never been started before (i.e. having `started: false` option).
+        # Otherwise, resumes a stopped animation that has not been completed.
         def start
-          swt_display = DisplayProxy.instance.swt_display
+          return if started?
+          @start_number += 1
+          @started = true
           Thread.new do
+            start_number = @start_number
             if cycle_count.is_a?(Integer) && cycle.is_a?(Array)
               (cycle_count * cycle.length).times do
-                break unless draw_frame(swt_display)
+                break unless draw_frame(start_number)
               end
             else
               loop do
                 # this code has to be duplicated to break from a loop (break keyword only works when literally in a loop block)
-                break unless draw_frame(swt_display)
+                break unless draw_frame(start_number)
               end
             end
-            @started = false
           end
         end
         
         def stop
           @started = false
         end
+        
+        # Restarts an animation (whether indefinite or not and whether stopped or not)
+        def restart
+          stop
+          @frame_index = 0
+          @cycle_count_index = 0
+          @swt_display.sync_exec { start }
+        end
+        
+        def stopped?
+          !started?
+        end
+        
+        def finite?
+          !frame_count.nil? || (!cycle_count.nil? && !cycle.to_a.empty?)
+        end
+        
+        def infinite?
+          !finite?
+        end
+        alias indefinite? infinite?
         
         def has_attribute?(attribute_name, *args)
           respond_to?(ruby_attribute_setter(attribute_name)) && respond_to?(ruby_attribute_getter(attribute_name))
@@ -89,21 +120,34 @@ module Glimmer
           end
         end
         
+        def cycle_enabled?
+          @cycle.is_a?(Array) && @cycle_count.is_a?(Integer)
+        end
+        
         private
         
         # Returns true on success of painting a frame and false otherwise
-        def draw_frame(swt_display)
-          return false if !@started || (@frame_count.is_a?(Integer) && @frame_index == @frame_count)
+        def draw_frame(start_number)
+          return false if stopped? ||
+                          start_number != @start_number ||
+                          (@frame_count.is_a?(Integer) && @frame_index == @frame_count) ||
+                          (cycle_enabled? && @cycle_count_index == @cycle_count)
           block_args = [@frame_index]
           block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
-          swt_display.async_exec do
-            @parent.clear_shapes
-            @parent.content {
-              frame_block.call(*block_args)
-            }
-            @parent.redraw
+          current_frame_index = @frame_index
+          @swt_display.async_exec do
+            if started? && start_number == @start_number
+              @parent.clear_shapes
+              @parent.content {
+                frame_block.call(*block_args)
+              }
+              @parent.redraw
+            else
+              @frame_index = current_frame_index if stopped? && @frame_index > current_frame_index
+            end
           end
           @frame_index += 1
+          @cycle_count_index += 1 if cycle_enabled? && (@frame_index % @cycle&.length&.to_i) == 0
           sleep(every) if every.is_a?(Numeric)
           true
         rescue => e
