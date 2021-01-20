@@ -8,7 +8,7 @@
 - Canvas animation started? # meaning it is animating
 - Canvas animation stopped? # meaning it has stopped animating
 - Canvas Animation duration_limit option
-- Fix issue with animation starvation with two competing animations
+- Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 
 ### 4.18.1.1
 

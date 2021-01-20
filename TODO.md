@@ -4,9 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 - Canvas Shape DSL support for Background/Foreground Pattern
-- Reupdate Hello, Canvas! Sample with changes in Shape DSL
 - Fix issue with RowLayout not getting default margin height and margin width
 
 - Update Hello, Message Box! Sample to include more options

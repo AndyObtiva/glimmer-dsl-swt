@@ -4,24 +4,24 @@ shell {
   text 'Hello, Canvas!'
   minimum_size 320, 400
 
-  canvas { |prox|
+  canvas {
     background :yellow
     rectangle(0, 0, 220, 400, fill: true) {
       background :red
     }
-    round_rectangle(50, 20, 300, 150, 30, 50, fill: true) {
+    rectangle(50, 20, 300, 150, 30, 50, fill: true, round: true) {
       background :magenta
     }
-    gradient_rectangle(150, 200, 100, 70, true, fill: true) {
+    rectangle(150, 200, 100, 70, true, fill: true, gradient: true) {
       background :dark_magenta
       foreground :yellow
     }
-    gradient_rectangle(50, 200, 30, 70, false, fill: true) {
+    rectangle(50, 200, 30, 70, false, fill: true, gradient: true) {
       background :magenta
       foreground :dark_blue
     }
     rectangle(205, 50, 88, 96) {
-      foreground color(:yellow)
+      foreground :yellow
     }
     text('Picasso', 60, 80) {
       background :yellow

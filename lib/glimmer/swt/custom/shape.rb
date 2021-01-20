@@ -29,7 +29,7 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         include Properties
-        # TODO support textExtent as an option
+        # TODO support textExtent sized shapes nested within text/string
         # TODO support a Pattern DSL for methods that take Pattern arguments
         
         class << self
@@ -49,7 +49,9 @@ module Glimmer
           
           def method_name(keyword, args)
             gc_instance_method_name_prefix = arg_options(args)[:fill] ? 'fill_' : 'draw_'
-            "#{gc_instance_method_name_prefix}#{keyword}"
+            gradient = 'gradient_' if arg_options(args)[:gradient]
+            round = 'round_' if arg_options(args)[:round]
+            "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword}"
           end
         end
         
@@ -67,12 +69,20 @@ module Glimmer
           post_add_content if property_block.nil?
         end
         
-        def fill?
-          !draw?
+        def draw?
+          !fill?
         end
         
-        def draw?
-          !@options[:fill]
+        def fill?
+          @options[:fill]
+        end
+        
+        def gradient?
+          @options[:gradient]
+        end
+        
+        def round?
+          @options[:round]
         end
         
         def post_add_content
@@ -86,6 +96,7 @@ module Glimmer
             end
             apply_shape_arg_conversions(@method_name, @args)
             apply_shape_arg_defaults(@method_name, @args)
+            tolerate_shape_extra_args(@method_name, @args)
             event.gc.send(@method_name, *@args)
           end
           if parent.respond_to?(:swt_display)
@@ -126,8 +137,19 @@ module Glimmer
         def apply_shape_arg_defaults(method_name, args)
           if method_name.include?('round_rectangle') && args.size.between?(4, 5)
             (6 - args.size).times {args << 60}
-          elsif method_name.include?('gradient_rectangle') && args.size == 4
+          elsif method_name.include?('rectangle') && gradient? && args.size == 4
             args << true
+          end
+        end
+                
+        # Tolerates shape extra args added by user by mistake
+        # (e.g. happens when switching from round rectangle to a standard one without removing all extra args)
+        def tolerate_shape_extra_args(method_name, args)
+          the_java_method_arg_count = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.select do |m|
+            m.name == method_name.camelcase(:lower)
+          end.map(&:parameter_types).map(&:size).max
+          if args.size > the_java_method_arg_count
+            args[the_java_method_arg_count..-1] = []
           end
         end
                 
