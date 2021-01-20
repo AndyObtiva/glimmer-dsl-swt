@@ -132,12 +132,10 @@ module Glimmer
         end
                 
         def has_attribute?(attribute_name, *args)
-          # TODO test that attribute getter responds too
           self.class.gc_instance_methods.include?(attribute_setter(attribute_name))
         end
   
         def set_attribute(attribute_name, *args)
-          # TODO special treatment for color symbols
           @properties[attribute_name] = args
         end
   

@@ -7,6 +7,7 @@
 - Canvas animation restart method (restarts from frame 1)
 - Canvas animation started? # meaning it is animating
 - Canvas animation stopped? # meaning it has stopped animating
+- Canvas Animation duration_limit option
 
 ### 4.18.1.1
 

@@ -4,12 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support a time_limit option on Canvas Animation
+- Fix issue with animation starvation with two competing animations
 - Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 - Canvas Shape DSL support for Background/Foreground Pattern
 - Reupdate Hello, Canvas! Sample with changes in Shape DSL
-
 - Fix issue with RowLayout not getting default margin height and margin width
+
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking

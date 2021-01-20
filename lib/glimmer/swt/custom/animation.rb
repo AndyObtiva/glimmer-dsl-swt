@@ -30,9 +30,8 @@ module Glimmer
         
         attr_reader :parent, :options, :frame_index, :cycle
         alias current_frame_index frame_index
-        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started, :initial_started
+        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started, :duration_limit
         alias started? started
-        alias initial_started? initial_started
         # TODO consider supporting an async: false option
         
         def initialize(parent)
@@ -46,16 +45,18 @@ module Glimmer
         
         def post_add_content
           @parent.on_widget_disposed { stop }
-          @initial_started = @started
           start if started?
         end
         
         # Starts an animation that is indefinite or has never been started before (i.e. having `started: false` option).
         # Otherwise, resumes a stopped animation that has not been completed.
         def start
-          return if started?
+          return if @start_number > 0 && started?
           @start_number += 1
           @started = true
+          @start_time = Time.now
+          @original_start_time = @start_time if @duration.nil?
+          # TODO track when finished in a variable for finite animations (whether by frame count, cycle count, or duration limit)
           Thread.new do
             start_number = @start_number
             if cycle_count.is_a?(Integer) && cycle.is_a?(Array)
@@ -72,7 +73,9 @@ module Glimmer
         end
         
         def stop
+          return if stopped?
           @started = false
+          @duration = Time.now - @start_time + @duration.to_f if duration_limited?
         end
         
         # Restarts an animation (whether indefinite or not and whether stopped or not)
@@ -80,6 +83,7 @@ module Glimmer
           stop
           @frame_index = 0
           @cycle_count_index = 0
+          @duration = nil
           @swt_display.sync_exec { start }
         end
         
@@ -124,6 +128,18 @@ module Glimmer
           @cycle.is_a?(Array) && @cycle_count.is_a?(Integer)
         end
         
+        def duration_limited?
+          @duration_limit.is_a?(Integer)
+        end
+        
+        def surpassed_duration_limit?
+          duration_limited? && ((Time.now - @start_time) > (@duration_limit - @duration.to_f))
+        end
+        
+        def within_duration_limit?
+          !surpassed_duration_limit?
+        end
+        
         private
         
         # Returns true on success of painting a frame and false otherwise
@@ -131,19 +147,25 @@ module Glimmer
           return false if stopped? ||
                           start_number != @start_number ||
                           (@frame_count.is_a?(Integer) && @frame_index == @frame_count) ||
-                          (cycle_enabled? && @cycle_count_index == @cycle_count)
+                          (cycle_enabled? && @cycle_count_index == @cycle_count) ||
+                          surpassed_duration_limit?
           block_args = [@frame_index]
           block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
           current_frame_index = @frame_index
+          current_cycle_count_index = @cycle_count_index
           @swt_display.async_exec do
-            if started? && start_number == @start_number
+            if started? && start_number == @start_number && within_duration_limit?
               @parent.clear_shapes
               @parent.content {
                 frame_block.call(*block_args)
               }
               @parent.redraw
             else
-              @frame_index = current_frame_index if stopped? && @frame_index > current_frame_index
+              if stopped? && @frame_index > current_frame_index
+                @started = false
+                @frame_index = current_frame_index
+                @cycle_count_index = current_cycle_count_index
+              end
             end
           end
           @frame_index += 1
