@@ -61,11 +61,12 @@ module Glimmer
         
         before_body {
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
+          @font_name = display.get_font_list(nil, true).map(&:name).include?('Consolas') ? 'Consolas' : 'Courier'
         }
         
         body {
           styled_text(swt_style) {
-            font name: 'Consolas', height: 15
+            font name: @font_name, height: 15
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5

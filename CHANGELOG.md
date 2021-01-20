@@ -10,6 +10,7 @@
 - Canvas Animation duration_limit option
 - Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
 - Canvas Shape DSL support for Background/Foreground Pattern (NOTE: not extensively tested yet)
+- Added fallback font "Courier" for `code_text` widget when "Consolas" is not available.
 
 ### 4.18.1.1
 
