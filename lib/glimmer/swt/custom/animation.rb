@@ -141,7 +141,7 @@ module Glimmer
         end
         
         def finite?
-          !frame_count.nil? || (!cycle_count.nil? && !cycle.to_a.empty?)
+          frame_count_limited? || cycle_limited? || duration_limited?
         end
         
         def infinite?
@@ -174,11 +174,19 @@ module Glimmer
         end
         
         def cycle_enabled?
-          @cycle.is_a?(Array) && @cycle_count.is_a?(Integer)
+          @cycle.is_a?(Array)
+        end
+        
+        def cycle_limited?
+          cycle_enabled? && @cycle_count.is_a?(Integer)
         end
         
         def duration_limited?
           @duration_limit.is_a?(Integer)
+        end
+        
+        def frame_count_limited?
+          @frame_count.is_a?(Integer)
         end
         
         def surpassed_duration_limit?
@@ -195,11 +203,11 @@ module Glimmer
         def draw_frame(start_number)
           return false if stopped? ||
                           start_number != @start_number ||
-                          (@frame_count.is_a?(Integer) && @frame_index == @frame_count) ||
-                          (cycle_enabled? && @cycle_count_index == @cycle_count) ||
+                          (frame_count_limited? && @frame_index == @frame_count) ||
+                          (cycle_limited? && @cycle_count_index == @cycle_count) ||
                           surpassed_duration_limit?
           block_args = [@frame_index]
-          block_args << @cycle[@frame_index % @cycle.length] if @cycle.is_a?(Array)
+          block_args << @cycle[@frame_index % @cycle.length] if cycle_enabled?
           current_frame_index = @frame_index
           current_cycle_count_index = @cycle_count_index
           self.class.schedule_frame_animation(self) do
@@ -218,7 +226,7 @@ module Glimmer
             end
           end
           @frame_index += 1
-          @cycle_count_index += 1 if cycle_enabled? && (@frame_index % @cycle&.length&.to_i) == 0
+          @cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
           sleep(every) if every.is_a?(Numeric)
           true
         rescue => e

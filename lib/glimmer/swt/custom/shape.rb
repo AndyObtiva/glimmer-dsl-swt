@@ -20,6 +20,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/properties'
+require 'glimmer/swt/swt_proxy'
+require 'glimmer/swt/display_proxy'
+require 'glimmer/swt/color_proxy'
+require 'glimmer/swt/font_proxy'
 
 module Glimmer
   module SWT
@@ -87,7 +91,7 @@ module Glimmer
         
         def post_add_content
           event_handler = lambda do |event|
-            @properties['background'] = [DisplayProxy.instance.get_system_color(SWTProxy(:color_widget_background))] if fill? && !@properties.keys.map(&:to_s).include?('background')
+            @properties['background'] = [DisplayProxy.instance.get_system_color(SWTProxy.constant(:color_widget_background))] if fill? && !@properties.keys.map(&:to_s).include?('background')
             @properties['foreground'] = [ColorProxy.new(0, 0, 0)] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
             @properties.each do |property, args|
               method_name = attribute_setter(property)
@@ -113,7 +117,7 @@ module Glimmer
               args[0] = ColorProxy.new(args[0])
             end
             if the_java_method.parameter_types.first == Java::int.java_class
-              args[0] = SWTProxy[args[0]]
+              args[0] = SWTProxy.constant(args[0])
             end
           end
           if args.first.is_a?(ColorProxy)
@@ -124,6 +128,18 @@ module Glimmer
           end
           if args.first.is_a?(FontProxy)
             args[0] = args[0].swt_font
+          end
+          if ['setBackgroundPattern', 'setForegroundPattern'].include?(method_name.to_s)
+            args.each_with_index do |arg, i|
+              if arg.is_a?(Symbol) || arg.is_a?(String)
+                args[i] = ColorProxy.new(arg).swt_color
+              elsif arg.is_a?(ColorProxy)
+                args[i] = arg.swt_color
+              end
+            end
+            new_args = [DisplayProxy.instance.swt_display] + args
+            args[0] = org.eclipse.swt.graphics.Pattern.new(*new_args)
+            args[1..-1] = []
           end
         end
         

@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL support for Background/Foreground Pattern
-- Fix issue with RowLayout not getting default margin height and margin width
-
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking

@@ -9,6 +9,7 @@
 - Canvas animation stopped? # meaning it has stopped animating
 - Canvas Animation duration_limit option
 - Make gradient/round rectangles in Shape DSL receive an option of `gradient: true` and `round: true` instead of prefix
+- Canvas Shape DSL support for Background/Foreground Pattern (NOTE: not extensively tested yet)
 
 ### 4.18.1.1
 

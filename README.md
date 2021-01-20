@@ -2319,18 +2319,23 @@ Shape keywords that can be filled with color can take an keyword argument `fill:
 Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.
 
 Here is a list of supported attributes nestable within a block under shapes:
-- `alpha` sets transparency (integer between 0 and 255)
-- `antialias` enables antialiasing (SWT style value of :default, :off, :on whereby :default applies OS default)
-- `background` sets fill color for fillable shapes (standard color symbol (e.g. :red), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
-- `clipping​(x, y, width, height)` clips area of painting
-- `fill_rule` sets filling rule (SWT style value of :fill_even_odd or :fill_winding)
-- `font` sets font (Hash of :name, :height, and :style just like standard widget font property, or Font/FontProxy object directly)
-- `line_cap` sets line cap (SWT style value of :cap_flat, :cap_round, or :cap_square)
-- `line_dash` line dash float values (automatically sets `line_style` to SWT style value of :line_custom)
-- `line_join` line join style (SWT style value of :join_miter, :join_round, or :join_bevel)
-- `line_style` line join style (SWT style value of :line_solid, :line_dash, :line_dot, :line_dashdot, or :line_dashdotdot)
+- `advanced` enables advanced graphics subsystem (boolean value). Typically gets enabled automatically when setting alpha, antialias, patterns, interpolation, clipping. Rendering sometimes differs between advanced and non-advanced mode for basic graphics too, so you could enable manually if you prefer its look even for basic graphics.
+- `alpha` sets transparency (integer between `0` and `255`)
+- `antialias` enables antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
+- `background` sets fill color for fillable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
+- `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern] class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
+- `clipping` clips area of painting (​numeric values for `(x, y, width, height)`)
+- `fill_rule` sets filling rule (SWT style value of `:fill_even_odd` or `:fill_winding`)
+- `font` sets font (Hash of `:name`, `:height`, and `:style` just like standard widget font property, or Font/FontProxy object directly)
+- `foreground` sets draw color for drawable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
+- `foreground_pattern` sets foreground gradient/image pattern for drawable shape lines (takes the same arguments as the SWT [Pattern] class [e.g. `foreground_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
+- `interpolation` sets the interpolation value (SWT style value of `:default`, `:none`, `:low`, `:high`)
+- `line_cap` sets line cap (SWT style value of `:cap_flat`, `:cap_round`, or `:cap_square`)
+- `line_dash` line dash float values (automatically sets `line_style` to SWT style value of `:line_custom`)
+- `line_join` line join style (SWT style value of `:join_miter`, `:join_round`, or `:join_bevel`)
+- `line_style` line join style (SWT style value of `:line_solid`, `:line_dash`, `:line_dot`, `:line_dashdot`, or `:line_dashdotdot`)
 - `line_width` line width in integer (used in draw operations)
-- `text_anti_alias` enables text antialiasing (SWT style value of :default, :off, :on whereby :default applies OS default)
+- `text_anti_alias` enables text antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -2411,9 +2416,18 @@ Keywords:
 - `frame_count` an optional frame count limit after which the animation stops
 - `started` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
 
-API:
-- `#start` starts animation as a method on the animation object (returned from `animation` keyword)
-- `#stop` stops animation gracefully as a method on the animation object (returned from `animation` keyword)
+API of Animation Object (returned from `animation` keyword):
+- `#start` starts an animation that is indefinite or has never been started before (i.e. having `started: false` option). Otherwise, resumes a stopped animation that has not been completed.
+- `#stop` stops animation. Maintains progress when `frame_count`, `cycle_count`, or `duration_limit` are set and haven't finished. That way, if `#start` is called, animation resumes from where it stopped exactly to completion.
+- `#restart` restarts animation, restarting progress of `frame_count`, `cycle_count`, and `duration_limit` if set.
+- `#started?` returns whether animation started
+- `#stopped?` returns whether animation stopped
+- `#indefinite?` (alias `infinite?`) returns true if animation does not have `frame_count`, `cycle_count`, or `duration_limit`
+- `#finite?` returns true if animation has `frame_count`, `cycle_count` (with `cycle`), or `duration_limit`
+- `#frame_count_limited?` returns true if `frame_count` is specified
+- `#cycle_enabled?` returns true if `cycle` is specified
+- `#cycle_limited?` returns true if `cycle_count` is specified
+- `#duration_limited?` returns true if `duration_limit` is specified
 
 Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
 
