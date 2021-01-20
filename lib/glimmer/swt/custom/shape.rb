@@ -159,6 +159,12 @@ module Glimmer
           elsif (method_name.include?('text') || method_name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && args.size == 3
             args << true
           end
+          if method_name.include?('image') && args.first.is_a?(String)
+            args[0] = ImageProxy.new(args[0])
+          end
+          if method_name.include?('image') && args.first.is_a?(ImageProxy)
+            args[0] = args[0].swt_image
+          end
         end
                 
         # Tolerates shape extra args added by user by mistake

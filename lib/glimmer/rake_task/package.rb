@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,7 +27,7 @@ module Glimmer
     module Package
       class << self
         attr_accessor :javapackager_extra_args
-        alias jpackage_extra_args :javapackager_extra_args
+        alias jpackage_extra_args javapackager_extra_args
         
         def clean
           require 'fileutils'
@@ -48,7 +48,7 @@ module Glimmer
           FileUtils.mkdir_p('vendor/jars')
           command = "lock_jars --vendor-dir vendor/jars"
           puts command
-          system command      
+          system command
         end
         
         def config
@@ -78,18 +78,18 @@ module Glimmer
             else
               puts 'Warbler executable "warble" is missing!'
             end
-          end      
+          end
         end
         
         def jar
           FileUtils.mkdir_p('dist')
           puts "Generating JAR with Warbler..."
           system "jruby -S gem install warbler -v2.0.5 --no-document" unless warbler_exists?
-          system('warble')      
+          system('warble')
         end
         
         def native(native_type=nil, native_extra_args)
-          puts "Generating native executable with javapackager/jpackage..."          
+          puts "Generating native executable with javapackager/jpackage..."
           java_version = `java -version`
           puts "WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!" unless java_version.include?('1.8.0_241')
           require 'facets/string/titlecase'
@@ -125,7 +125,7 @@ module Glimmer
           command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
           command += " #{native_extra_args} " if native_extra_args
           puts command
-          system command      
+          system command
         end
         
         private

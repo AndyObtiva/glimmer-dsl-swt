@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.2.1
+
+- Ensure drawing image works in Shape DSL
+- Support passing image as simply an image path or image proxy to Shape DSL image method
+
 ### 4.18.2.0
 
 - Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)

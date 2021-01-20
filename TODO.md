@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Consider supporting an open/close class method on custom shells as an alternative to using Glimmer DSL when launching shell as top level shell app to shield environment from method pollution
+- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
+
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking
@@ -239,7 +242,6 @@ items <=> binding {
 - Contribute to JRuby an improvement that makes even Java public variables follow Ruby form (margin_width instead of marginWidth) to improve SWT programming syntax in Ruby
 - Scroll to widget when it gains focus (perhaps look at its parents to find out which is a ScrolledComposite and scroll it to widget location)
 - Consider scaffolding an app with a splash screen (option)
-- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 - Consider support for building apps for Linux app stores like Snapstore: https://snapcraft.io/docs/adding-parts
 - Publish MacOS apps on Homebrew (instructions: https://docs.brew.sh/Formula-Cookbook)
 - Add `widget` keyword to build proxies for swt widgets without directly using Glimmer::SWT::WidgetProxy

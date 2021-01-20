@@ -30,7 +30,8 @@ module Glimmer
             args.size > 0 and
             parent.respond_to?(:set_attribute) and
             parent.respond_to?(:has_attribute?) and
-            parent.has_attribute?(keyword, *args)
+            parent.has_attribute?(keyword, *args) and
+            !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')
         end
   
         def interpret(parent, keyword, *args, &block)
