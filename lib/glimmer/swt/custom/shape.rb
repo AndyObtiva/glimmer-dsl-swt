@@ -32,6 +32,7 @@ module Glimmer
       # swt_widget returns the parent (e.g. a `canvas` WidgetProxy), equivalent to `parent.swt_widget`
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
+        include Packages
         include Properties
         # TODO support textExtent sized shapes nested within text/string
         # TODO support a Pattern DSL for methods that take Pattern arguments

@@ -5,7 +5,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Consider supporting an open/close class method on custom shells as an alternative to using Glimmer DSL when launching shell as top level shell app to shield environment from method pollution
-- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
+- Tetris Sample
+- Fix issue with Color not loading with full package name in Shape
+- Canvas Shape DSL Data-Binding
+- Document Data-Binding Based Animation
 
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
@@ -310,6 +313,7 @@ items <=> binding {
 - Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
+- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
 
 ## Samples
 
@@ -318,7 +322,6 @@ items <=> binding {
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
-- Tetris Sample
 
 ## Side Projects
 

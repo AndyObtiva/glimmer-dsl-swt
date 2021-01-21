@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.2.2
+
+- Fixed issue with processing shape color due to missing Color class package name
+
 ### 4.18.2.1
 
 - Ensure drawing image works in Shape DSL
