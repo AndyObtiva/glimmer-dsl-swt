@@ -42,6 +42,7 @@ module Glimmer
           *.gem
           *.rbc
           /.config
+          /.mvn/
           /coverage/
           /InstalledFiles
           /pkg/
@@ -97,9 +98,9 @@ module Glimmer
           .gladiator
           
           # Glimmer
-          dist
-          packages
-          vendor/jars
+          /dist/
+          /packages/
+          /vendor/jars/
         MULTI_LINE_STRING
     
         GEMFILE = <<~MULTI_LINE_STRING

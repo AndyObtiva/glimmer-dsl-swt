@@ -132,6 +132,7 @@ Gem::Specification.new do |s|
     "samples/elaborate/contact_manager/contact_repository.rb",
     "samples/elaborate/login.rb",
     "samples/elaborate/meta_sample.rb",
+    "samples/elaborate/tetris.rb",
     "samples/elaborate/tic_tac_toe.rb",
     "samples/elaborate/tic_tac_toe/board.rb",
     "samples/elaborate/tic_tac_toe/cell.rb",

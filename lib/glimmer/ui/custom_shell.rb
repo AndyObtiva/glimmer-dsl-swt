@@ -27,6 +27,19 @@ module Glimmer
       include SuperModule
       include Glimmer::UI::CustomWidget
       
+      class << self
+        attr_reader :custom_shell
+        
+        def launch
+          @custom_shell = send(self.name.underscore.gsub('::', '__'))
+          @custom_shell.open
+        end
+        
+        def shutdown
+          @custom_shell.close
+        end
+      end
+      
       def initialize(parent, *swt_constants, options, &content)
         super
         @swt_widget.set_data('custom_shell', self)
