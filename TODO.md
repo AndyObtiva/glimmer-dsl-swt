@@ -10,6 +10,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Shape DSL Data-Binding
 - Document Data-Binding Based Animation
 - Set glimmer logo as default logo for any run app till updated
+- Have Glimmer logger errors encountered in listeners even if it tolerates them
 
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute

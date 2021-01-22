@@ -60,20 +60,23 @@ class Tetris
       end
       
       def add_to_playfield
-        update_playfield_block do |playfield_block|
-          playfield_block.color = color
+        update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
+          Model.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color
         end
       end
       
       def remove_from_playfield
         return if @row.nil? || @column.nil?
-        update_playfield_block do |playfield_block|
-          playfield_block.clear
+        update_playfield_block do |playfield_row, playfield_column|
+          Model.playfield[playfield_row][playfield_column].clear
         end
       end
       
       def stopped?
-        @row == 20 - height
+        pd playfield_remaining_heights = Model.playfield_remaining_heights(self)
+        @blocks.last.each_with_index.any? do |column, index|
+          @row == playfield_remaining_heights[index] - height + 1
+        end
       end
       
       def width
@@ -108,20 +111,27 @@ class Tetris
       # Rotate in specified direcation, which can be :right (clockwise) or :left (counterclockwise)
       def rotate(direction)
         array_rotation_value = direction == :right ? -1 : 1
-        self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(rotation_value).index(@orientation)]
+        self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(array_rotation_value).index(@orientation)]
         new_blocks = Matrix[*@blocks].transpose.to_a
         if direction == :right
           new_blocks = new_blocks.map(&:reverse)
         else
           new_blocks = new_blocks.reverse
         end
-        self.blocks = Matrix[*new_blocks]
+        new_blocks = Matrix[*new_blocks].to_a
+        if new_blocks.row + height <= 20
+          remove_from_playfield
+          self.blocks = new_blocks
+          update_playfield(@row, @column)
+        end
       end
       
       def default_blocks
         case @letter
         when :I
-          [[block, block, block, block]]
+          [
+            [block, block, block, block]
+          ]
         when :J
           [
             [block, block, block],
@@ -129,8 +139,8 @@ class Tetris
           ]
         when :L
           [
-            [block, block, empty],
-            [block, empty, block],
+            [block, block, block],
+            [block, empty, empty],
           ]
         when :O
           [
@@ -172,7 +182,9 @@ class Tetris
       def update_playfield_block(&updater)
         @row.upto(@row + height - 1) do |playfield_row|
           @column.upto(@column + width - 1) do |playfield_column|
-            updater.call(Model.playfield[playfield_row][playfield_column])
+            row_index = playfield_row - @row
+            column_index = playfield_column - @column
+            updater.call(playfield_row, playfield_column, row_index, column_index)
           end
         end
       end
@@ -190,6 +202,10 @@ class Tetris
       
       def clear
         self.color = COLOR_CLEAR
+      end
+      
+      def clear?
+        self.color == COLOR_CLEAR
       end
     end
     
@@ -217,6 +233,29 @@ class Tetris
           }
         }
       end
+      
+      def reset_playfield
+        @tetrominoes = []
+        @playfield.each do |row|
+          row.each do |block|
+            block.clear
+          end
+        end
+      end
+      
+      def playfield_remaining_heights(tetromino = nil)
+        10.times.map do |column_index|
+          (playfield.each_with_index.detect do |row, row_index|
+            found = !row[column_index].clear?
+            if found && !tetromino.nil?
+              pd row_index, tetromino.row, tetromino.row + tetromino.height
+              pd column_index, tetromino.column, tetromino.column + tetromino.width
+              found &&= !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1) || !row_index.between?(tetromino.row, tetromino.row + tetromino.height - 1)
+            end
+           found
+          end || [nil, 20])[1]
+        end.to_a
+      end
     end
   end
     
@@ -240,12 +279,17 @@ class Tetris
   before_body {
     display {
       on_swt_keyup { |key_event|
-        if key_event.keyCode == swt(:arrow_down)
+        case key_event.keyCode
+        when swt(:arrow_down)
           Tetris::Model.current_tetromino.down
-        elsif key_event.keyCode == swt(:arrow_left)
+        when swt(:arrow_left)
           Tetris::Model.current_tetromino.left
-        elsif key_event.keyCode == swt(:arrow_right)
+        when swt(:arrow_right)
           Tetris::Model.current_tetromino.right
+        when 'd'.bytes.first, swt(:right, :shift)
+          Tetris::Model.current_tetromino.rotate(:right)
+        when 'a'.bytes.first, swt(:left, :shift)
+          Tetris::Model.current_tetromino.rotate(:left)
         end
       }
     }
@@ -254,9 +298,21 @@ class Tetris
   after_body {
     Thread.new {
       loop {
-        async_exec { Model.consider_adding_tetromino }
-        sleep(1)
-        async_exec { Model.current_tetromino.down }
+        unless @game_over
+          async_exec { Model.consider_adding_tetromino }
+          sleep(1)
+          async_exec {
+            Model.current_tetromino.down
+            if Model.current_tetromino.stopped? && Model.current_tetromino.row <= 0
+              @game_over = true
+              message_box {
+                text 'Tetris'
+                message 'Game Over!'
+              }.open
+              Model.reset_playfield
+            end
+          }
+        end
       }
     }
   }
@@ -267,24 +323,24 @@ class Tetris
       
       composite {
         grid_layout(10, true) {
-          margin_width 0
-          margin_height 0
+          margin_width 1
+          margin_height 1
           horizontal_spacing 0
           vertical_spacing 0
         }
         
         20.times { |row|
           10.times { |column|
-            @composite = composite {
+            composite {
               grid_layout {
                 margin_width 0
                 margin_height 0
               }
-              background bind(Model.playfield[row][column], :color)
               layout_data {
                 width_hint BLOCK_SIZE
                 height_hint BLOCK_SIZE
               }
+              background bind(Model.playfield[row][column], :color)
             }
           }
         }
