@@ -45,8 +45,8 @@ class Tetris
         @letter = LETTER_COLORS.keys.sample
         @orientation = :north
         @blocks = default_blocks
-        new_row = 0 - height
-        new_column = (PLAYFIELD_WIDTH - width)/2 - 1
+        new_row = 1 - height
+        new_column = (PLAYFIELD_WIDTH - width)/2
         update_playfield(new_row, new_column)
       end
       

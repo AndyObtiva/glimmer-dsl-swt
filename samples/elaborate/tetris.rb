@@ -42,7 +42,7 @@ class Tetris
     display {
       on_swt_keydown { |key_event|
         unless Model::Game.current_tetromino.stopped?
-          # TODO handle issue with down button holding off movevement of shapes once they touch down
+          # TODO handle issue with down button holding off movement of shapes once they touch down (starving async_exec queue)
           case key_event.keyCode
           when swt(:arrow_down)
             Model::Game.current_tetromino.down
@@ -71,10 +71,10 @@ class Tetris
       loop {
         sleep(1)
         # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
-        async_exec {
+        sync_exec {
           unless @game_over
             Model::Game.current_tetromino.down
-            if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row == 0
+            if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row <= 0
               # TODO extract to a declare_game_over method
               @game_over = true
               display.beep
@@ -104,6 +104,8 @@ class Tetris
       # TODO implement differnet difficulty levels
       # TODO add an about dialog
       # TODO add a menu
+      # TODO consider adding music via JSound
+      # TODO refactor mutation methods to use bang
       
       playfield(playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
     }
