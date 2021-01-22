@@ -25,6 +25,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Soon
 
+- Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
 - Consider adding `glimmer release` task to publish a Glimmer app as a gem (not just custom widgets or custom shells)
 - Expose system menu items via proxies
 - Support being able to wrap an swt widget with a proxy using Glimmer GUI DSL syntax
