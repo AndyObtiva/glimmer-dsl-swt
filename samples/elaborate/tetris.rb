@@ -72,10 +72,14 @@ class Tetris
         end
       end
       
-      def stopped?
+      def stopped?(blocks: nil)
+        blocks ||= @blocks
+        blocks.each do |row|
+          puts row.inspect
+        end
         pd playfield_remaining_heights = Model.playfield_remaining_heights(self)
-        @blocks.last.each_with_index.any? do |column, index|
-          @row == playfield_remaining_heights[index] - height + 1
+        blocks.last.each_with_index.any? do |column, column_index|
+          @row == playfield_remaining_heights[column_index] - height
         end
       end
       
@@ -119,7 +123,8 @@ class Tetris
           new_blocks = new_blocks.reverse
         end
         new_blocks = Matrix[*new_blocks].to_a
-        if new_blocks.row + height <= 20
+        # TODO update row and/or column based on rotation, recentering the tetromino
+        unless stopped?(blocks: new_blocks)
           remove_from_playfield
           self.blocks = new_blocks
           update_playfield(@row, @column)
@@ -191,7 +196,7 @@ class Tetris
     end
     
     class Block
-      COLOR_CLEAR = :gray
+      COLOR_CLEAR = :white
     
       attr_accessor :color
       
@@ -244,13 +249,19 @@ class Tetris
       end
       
       def playfield_remaining_heights(tetromino = nil)
+        # TODO optimize by limiting columns when teromino is passed
         10.times.map do |column_index|
           (playfield.each_with_index.detect do |row, row_index|
             found = !row[column_index].clear?
             if found && !tetromino.nil?
-              pd row_index, tetromino.row, tetromino.row + tetromino.height
-              pd column_index, tetromino.column, tetromino.column + tetromino.width
-              found &&= !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1) || !row_index.between?(tetromino.row, tetromino.row + tetromino.height - 1)
+              pd(found, header: true) if tetromino.letter == :O
+              pd row_index, tetromino.row, tetromino.row + tetromino.height - 1
+              pd column_index, tetromino.column, tetromino.column + tetromino.width - 1
+              pd !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1)
+              pd row_index > tetromino.row + tetromino.height - 1
+              found = ((found && !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1)) ||
+                        (found && row_index > tetromino.row + tetromino.height - 1))
+              pd found if tetromino.letter == :O
             end
            found
           end || [nil, 20])[1]
@@ -274,8 +285,6 @@ class Tetris
 #     }
 #   end
   
-  BLOCK_SIZE = 25
-  
   before_body {
     display {
       on_swt_keyup { |key_event|
@@ -286,9 +295,15 @@ class Tetris
           Tetris::Model.current_tetromino.left
         when swt(:arrow_right)
           Tetris::Model.current_tetromino.right
-        when 'd'.bytes.first, swt(:right, :shift)
+        when swt(:shift)
+          if key_event.keyLocation == swt(:right) # right shift key
+            Tetris::Model.current_tetromino.rotate(:right)
+          elsif key_event.keyLocation == swt(:left) # left shift key
+            Tetris::Model.current_tetromino.rotate(:left)
+          end
+        when 'd'.bytes.first
           Tetris::Model.current_tetromino.rotate(:right)
-        when 'a'.bytes.first, swt(:left, :shift)
+        when 'a'.bytes.first
           Tetris::Model.current_tetromino.rotate(:left)
         end
       }
@@ -296,12 +311,15 @@ class Tetris
   }
   
   after_body {
+    display # ensure display is pre-initialized on main thread # TODO look into why async_exec bombs otherwise or inspite of
     Thread.new {
       loop {
-        unless @game_over
-          async_exec { Model.consider_adding_tetromino }
-          sleep(1)
-          async_exec {
+        async_exec {
+          Model.consider_adding_tetromino unless @game_over
+        }
+        sleep(1)
+        async_exec {
+          unless @game_over
             Model.current_tetromino.down
             if Model.current_tetromino.stopped? && Model.current_tetromino.row <= 0
               @game_over = true
@@ -310,21 +328,25 @@ class Tetris
                 message 'Game Over!'
               }.open
               Model.reset_playfield
+              @game_over = false
             end
-          }
-        end
+          end
+        }
       }
     }
   }
   
+  BLOCK_SIZE = 25
+  
   body {
     shell { # TODO set to (:no_resize)
       text 'Tetris'
+      background :gray
       
       composite {
         grid_layout(10, true) {
-          margin_width 1
-          margin_height 1
+          margin_width BLOCK_SIZE
+          margin_height BLOCK_SIZE
           horizontal_spacing 0
           vertical_spacing 0
         }
@@ -332,10 +354,7 @@ class Tetris
         20.times { |row|
           10.times { |column|
             composite {
-              grid_layout {
-                margin_width 0
-                margin_height 0
-              }
+              layout nil
               layout_data {
                 width_hint BLOCK_SIZE
                 height_hint BLOCK_SIZE
