@@ -41,25 +41,23 @@ class Tetris
     
     display {
       on_swt_keydown { |key_event|
-        unless Model::Game.current_tetromino.stopped?
-          case key_event.keyCode
-          when swt(:arrow_down)
-            Model::Game.current_tetromino.down
-          when swt(:arrow_left)
-            Model::Game.current_tetromino.left
-          when swt(:arrow_right)
-            Model::Game.current_tetromino.right
-          when swt(:shift)
-            if key_event.keyLocation == swt(:right) # right shift key
-              Model::Game.current_tetromino.rotate(:right)
-            elsif key_event.keyLocation == swt(:left) # left shift key
-              Model::Game.current_tetromino.rotate(:left)
-            end
-          when 'd'.bytes.first, swt(:arrow_up)
+        case key_event.keyCode
+        when swt(:arrow_down)
+          Model::Game.current_tetromino.down
+        when swt(:arrow_left)
+          Model::Game.current_tetromino.left
+        when swt(:arrow_right)
+          Model::Game.current_tetromino.right
+        when swt(:shift)
+          if key_event.keyLocation == swt(:right) # right shift key
             Model::Game.current_tetromino.rotate(:right)
-          when 'a'.bytes.first
+          elsif key_event.keyLocation == swt(:left) # left shift key
             Model::Game.current_tetromino.rotate(:left)
           end
+        when 'd'.bytes.first, swt(:arrow_up) # TODO consider changing up button to immediate drop
+          Model::Game.current_tetromino.rotate(:right)
+        when 'a'.bytes.first
+          Model::Game.current_tetromino.rotate(:left)
         end
       }
     }
@@ -68,21 +66,21 @@ class Tetris
   after_body {
     Thread.new {
       loop {
-        sleep(0.9)
+        sleep(1) # TODO make this configurable depending on level
+        # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
         sync_exec {
           unless @game_over
             Model::Game.current_tetromino.down
             if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row <= 0
               @game_over = true
               display.beep
-              message_box(:icon_error) {
+              message_box(:icon_warning) {
                 text 'Tetris'
                 message 'Game Over!'
               }.open
               Model::Game.restart
               @game_over = false
             end
-            Model::Game.consider_adding_tetromino
           end
         }
       }

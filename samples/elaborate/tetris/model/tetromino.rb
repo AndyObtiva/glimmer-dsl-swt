@@ -73,14 +73,20 @@ class Tetris
       end
       
       def stopped?(blocks: nil)
-        blocks ||= @blocks
+        return true if @stopped
+        # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         result = bottom_blocks(blocks).any? do |bottom_block|
           playfield_column = @column + bottom_block[:column_index]
           !bottom_block[:block].clear? &&
             (@row + bottom_block[:row]) >= playfield_remaining_heights[playfield_column] - 1
         end
-        Game.consider_eliminating_lines if result
+        # TODO consider using an observer instead for when a move is made
+        if result
+          @stopped = result
+          Game.consider_eliminating_lines
+          Model::Game.consider_adding_tetromino
+        end
         result
       end
       
