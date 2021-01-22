@@ -83,11 +83,10 @@ class Tetris
         blocks ||= @blocks
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         pd letter, playfield_remaining_heights, header: letter == :O
-        bottom_blocks(blocks).any? do |bottom_block, bottom_block_row, column_index|
-          playfield_column = @column + column_index
-          pd column_index, bottom_block_row
-          !bottom_block.clear? &&
-            (@row + bottom_block_row) >= playfield_remaining_heights[playfield_column] - 1
+        bottom_blocks(blocks).any? do |bottom_block|
+          playfield_column = @column + bottom_block[:column_index]
+          !bottom_block[:block].clear? &&
+            (@row + bottom_block[:row]) >= playfield_remaining_heights[playfield_column] - 1
         end
       end
       
@@ -100,9 +99,16 @@ class Tetris
           end
           bottom_block = row_blocks_with_row_index[0][column_index]
           bottom_block_row = row_blocks_with_row_index[1]
-          puts [bottom_block, bottom_block_row, column_index].inspect
-          [bottom_block, bottom_block_row, column_index]
+          {
+            block: bottom_block,
+            row: bottom_block_row,
+            column_index: column_index
+          }
         end
+      end
+      
+      def bottom_block_for_column(column)
+        bottom_blocks.detect {|bottom_block| (@column + bottom_block[:column_index]) == column}
       end
       
       def right_blocked?
@@ -289,12 +295,13 @@ class Tetris
       end
       
       def playfield_remaining_heights(tetromino = nil)
-        PLAYFIELD_WIDTH.times.map do |column_index|
-          (playfield.each_with_index.detect do |row, row_index|
-            !row[column_index].clear? &&
+        PLAYFIELD_WIDTH.times.map do |playfield_column|
+          (playfield.each_with_index.detect do |row, playfield_row|
+            !row[playfield_column].clear? &&
             (
               tetromino.nil? ||
-              row_index >= (tetromino.row + tetromino.height)
+              tetromino.bottom_block_for_column(playfield_column).nil? ||
+              (playfield_row > tetromino.row + tetromino.bottom_block_for_column(playfield_column)[:row])
             )
           end || [nil, PLAYFIELD_HEIGHT])[1]
         end.to_a
@@ -356,7 +363,7 @@ class Tetris
             Game.current_tetromino.down
             if Game.current_tetromino.stopped? && Game.current_tetromino.row == 0
               # TODO extract to a declare_game_over method
-              # TODO implement scoring (making blocks disappear)
+              # TODO implement scoring (making blocks disappear) (Consider using the display.beep effect)
               @game_over = true
               message_box {
                 text 'Tetris'
