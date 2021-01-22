@@ -83,22 +83,33 @@ class Tetris
         blocks ||= @blocks
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         pd letter, playfield_remaining_heights, header: letter == :O
-        # TODO replace bottom_border with bottom_blocks (could be up or down thus add both row and column coordinates of each)
-        bottom_border = blocks.last
-        bottom_border_row = @row + height - 1
-        bottom_border.each_with_index.any? do |column_block, index|
-          column_index = @column + index
-          pd !column_block.clear?, bottom_border_row, playfield_remaining_heights[column_index]
-          pd !column_block.clear? && bottom_border_row >= playfield_remaining_heights[column_index] - 1
-          !column_block.clear? && bottom_border_row >= playfield_remaining_heights[column_index] - 1
+        bottom_blocks(blocks).any? do |bottom_block, bottom_block_row, column_index|
+          playfield_column = @column + column_index
+          pd column_index, bottom_block_row
+          !bottom_block.clear? &&
+            (@row + bottom_block_row) >= playfield_remaining_heights[playfield_column] - 1
         end
       end
       
-      def right_against_tetromino_or_edge?
+      # Returns blocks at the bottom of a tetromino, which could be from multiple rows depending on shape (e.g. T)
+      def bottom_blocks(blocks = nil)
+        blocks ||= @blocks
+        width.times.map do |column_index|
+          row_blocks_with_row_index = @blocks.each_with_index.to_a.reverse.detect do |row_blocks, row_index|
+            !row_blocks[column_index].clear?
+          end
+          bottom_block = row_blocks_with_row_index[0][column_index]
+          bottom_block_row = row_blocks_with_row_index[1]
+          puts [bottom_block, bottom_block_row, column_index].inspect
+          [bottom_block, bottom_block_row, column_index]
+        end
+      end
+      
+      def right_blocked?
         @column == PLAYFIELD_WIDTH - width
       end
       
-      def left_against_tetromino_or_edge?
+      def left_blocked?
         @column == 0
       end
       
@@ -118,14 +129,14 @@ class Tetris
       end
       
       def left
-        unless left_against_tetromino_or_edge?
+        unless left_blocked?
           new_column = @column - 1
           update_playfield(@row, new_column)
         end
       end
       
       def right
-        unless right_against_tetromino_or_edge?
+        unless right_blocked?
           new_column = @column + 1
           update_playfield(@row, new_column)
         end
@@ -144,7 +155,7 @@ class Tetris
         end
         new_blocks = Matrix[*new_blocks].to_a
         # TODO update row and/or column based on rotation, recentering the tetromino
-        unless stopped?(blocks: new_blocks)
+        unless stopped?(blocks: new_blocks) || right_blocked? || left_blocked?
           remove_from_playfield
           self.blocks = new_blocks
           update_playfield(@row, @column)
@@ -345,6 +356,7 @@ class Tetris
             Game.current_tetromino.down
             if Game.current_tetromino.stopped? && Game.current_tetromino.row == 0
               # TODO extract to a declare_game_over method
+              # TODO implement scoring (making blocks disappear)
               @game_over = true
               message_box {
                 text 'Tetris'
@@ -362,7 +374,7 @@ class Tetris
   
   body {
     shell(:no_resize) {
-      text 'Tetris'
+      text 'Glimmer Tetris'
       background :gray
       
       composite {
