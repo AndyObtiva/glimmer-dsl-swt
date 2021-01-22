@@ -73,13 +73,8 @@ module Glimmer
       }
 
       DEFAULT_INITIALIZERS = {
-        composite: lambda do |composite|
-          if composite.get_layout.nil?
-            layout = GridLayout.new
-            layout.marginWidth = 15
-            layout.marginHeight = 15
-            composite.layout = layout
-          end
+        canvas: lambda do |canvas|
+          canvas.layout = nil
         end,
         scrolled_composite: lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true

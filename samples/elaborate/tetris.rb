@@ -21,10 +21,16 @@
 
 require 'matrix'
 
+# Tetris App View Custom Shell (represents `tetris` keyword)
 class Tetris
   include Glimmer::UI::CustomShell
   
-  class Model
+  BLOCK_SIZE = 25
+  PLAYFIELD_WIDTH = 10
+  PLAYFIELD_HEIGHT = 20
+  
+  # Game Presenter Model
+  class Game
     class Tetromino
       ORIENTATIONS = [:north, :east, :south, :west]
       
@@ -46,7 +52,7 @@ class Tetris
         @orientation = :north
         @blocks = default_blocks
         new_row = 0
-        new_column = (10 - width)/2 - 1
+        new_column = (PLAYFIELD_WIDTH - width)/2 - 1
         update_playfield(new_row, new_column)
       end
       
@@ -61,26 +67,39 @@ class Tetris
       
       def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Model.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color
+          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color unless blocks[row_index][column_index].clear?
         end
       end
       
       def remove_from_playfield
         return if @row.nil? || @column.nil?
         update_playfield_block do |playfield_row, playfield_column|
-          Model.playfield[playfield_row][playfield_column].clear
+          Game.playfield[playfield_row][playfield_column].clear
         end
       end
       
       def stopped?(blocks: nil)
+        # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
         blocks ||= @blocks
-        blocks.each do |row|
-          puts row.inspect
+        playfield_remaining_heights = Game.playfield_remaining_heights(self)
+        pd letter, playfield_remaining_heights, header: letter == :O
+        # TODO replace bottom_border with bottom_blocks (could be up or down thus add both row and column coordinates of each)
+        bottom_border = blocks.last
+        bottom_border_row = @row + height - 1
+        bottom_border.each_with_index.any? do |column_block, index|
+          column_index = @column + index
+          pd !column_block.clear?, bottom_border_row, playfield_remaining_heights[column_index]
+          pd !column_block.clear? && bottom_border_row >= playfield_remaining_heights[column_index] - 1
+          !column_block.clear? && bottom_border_row >= playfield_remaining_heights[column_index] - 1
         end
-        pd playfield_remaining_heights = Model.playfield_remaining_heights(self)
-        blocks.last.each_with_index.any? do |column, column_index|
-          @row == playfield_remaining_heights[column_index] - height
-        end
+      end
+      
+      def right_against_tetromino_or_edge?
+        @column == PLAYFIELD_WIDTH - width
+      end
+      
+      def left_against_tetromino_or_edge?
+        @column == 0
       end
       
       def width
@@ -99,14 +118,14 @@ class Tetris
       end
       
       def left
-        unless @column == 0
+        unless left_against_tetromino_or_edge?
           new_column = @column - 1
           update_playfield(@row, new_column)
         end
       end
       
       def right
-        unless @column == 10 - width
+        unless right_against_tetromino_or_edge?
           new_column = @column + 1
           update_playfield(@row, new_column)
         end
@@ -114,6 +133,7 @@ class Tetris
       
       # Rotate in specified direcation, which can be :right (clockwise) or :left (counterclockwise)
       def rotate(direction)
+        return if stopped?
         array_rotation_value = direction == :right ? -1 : 1
         self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(array_rotation_value).index(@orientation)]
         new_blocks = Matrix[*@blocks].transpose.to_a
@@ -217,7 +237,7 @@ class Tetris
     class << self
       # TODO convert to instance methods
       def consider_adding_tetromino
-        if tetrominoes.empty? || Model.current_tetromino.stopped?
+        if tetrominoes.empty? || Game.current_tetromino.stopped?
           tetrominoes << Tetromino.new
         end
       end
@@ -227,21 +247,30 @@ class Tetris
       end
     
       def tetrominoes
-        @tetrominoes ||= []
+        @tetrominoes ||= reset_tetrominoes
       end
       
       # Returns blocks in the playfield
       def playfield
-        @playfield ||= 20.times.map {
-          10.times.map {
+        @playfield ||= PLAYFIELD_HEIGHT.times.map {
+          PLAYFIELD_WIDTH.times.map {
             Block.new
           }
         }
       end
       
+      def restart
+        reset_playfield
+        reset_tetrominoes
+      end
+      alias start restart
+      
+      def reset_tetrominoes
+        @tetrominoes = [Tetromino.new]
+      end
+      
       def reset_playfield
-        @tetrominoes = []
-        @playfield.each do |row|
+        playfield.each do |row|
           row.each do |block|
             block.clear
           end
@@ -249,22 +278,14 @@ class Tetris
       end
       
       def playfield_remaining_heights(tetromino = nil)
-        # TODO optimize by limiting columns when teromino is passed
-        10.times.map do |column_index|
+        PLAYFIELD_WIDTH.times.map do |column_index|
           (playfield.each_with_index.detect do |row, row_index|
-            found = !row[column_index].clear?
-            if found && !tetromino.nil?
-              pd(found, header: true) if tetromino.letter == :O
-              pd row_index, tetromino.row, tetromino.row + tetromino.height - 1
-              pd column_index, tetromino.column, tetromino.column + tetromino.width - 1
-              pd !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1)
-              pd row_index > tetromino.row + tetromino.height - 1
-              found = ((found && !column_index.between?(tetromino.column, tetromino.column + tetromino.width - 1)) ||
-                        (found && row_index > tetromino.row + tetromino.height - 1))
-              pd found if tetromino.letter == :O
-            end
-           found
-          end || [nil, 20])[1]
+            !row[column_index].clear? &&
+            (
+              tetromino.nil? ||
+              row_index >= (tetromino.row + tetromino.height)
+            )
+          end || [nil, PLAYFIELD_HEIGHT])[1]
         end.to_a
       end
     end
@@ -286,80 +307,86 @@ class Tetris
 #   end
   
   before_body {
+    Game.start
+    
     display {
-      on_swt_keyup { |key_event|
-        case key_event.keyCode
-        when swt(:arrow_down)
-          Tetris::Model.current_tetromino.down
-        when swt(:arrow_left)
-          Tetris::Model.current_tetromino.left
-        when swt(:arrow_right)
-          Tetris::Model.current_tetromino.right
-        when swt(:shift)
-          if key_event.keyLocation == swt(:right) # right shift key
-            Tetris::Model.current_tetromino.rotate(:right)
-          elsif key_event.keyLocation == swt(:left) # left shift key
-            Tetris::Model.current_tetromino.rotate(:left)
+      on_swt_keydown { |key_event|
+        unless Tetris::Game.current_tetromino.stopped?
+          # TODO handle issue with down button holding off movevement of shapes once they touch down
+          case key_event.keyCode
+          when swt(:arrow_down)
+            Tetris::Game.current_tetromino.down
+          when swt(:arrow_left)
+            Tetris::Game.current_tetromino.left
+          when swt(:arrow_right)
+            Tetris::Game.current_tetromino.right
+          when swt(:shift)
+            if key_event.keyLocation == swt(:right) # right shift key
+              Tetris::Game.current_tetromino.rotate(:right)
+            elsif key_event.keyLocation == swt(:left) # left shift key
+              Tetris::Game.current_tetromino.rotate(:left)
+            end
+          when 'd'.bytes.first
+            Tetris::Game.current_tetromino.rotate(:right)
+          when 'a'.bytes.first
+            Tetris::Game.current_tetromino.rotate(:left)
           end
-        when 'd'.bytes.first
-          Tetris::Model.current_tetromino.rotate(:right)
-        when 'a'.bytes.first
-          Tetris::Model.current_tetromino.rotate(:left)
         end
       }
     }
   }
   
   after_body {
-    display # ensure display is pre-initialized on main thread # TODO look into why async_exec bombs otherwise or inspite of
     Thread.new {
       loop {
-        async_exec {
-          Model.consider_adding_tetromino unless @game_over
-        }
         sleep(1)
         async_exec {
           unless @game_over
-            Model.current_tetromino.down
-            if Model.current_tetromino.stopped? && Model.current_tetromino.row <= 0
+            Game.current_tetromino.down
+            if Game.current_tetromino.stopped? && Game.current_tetromino.row == 0
+              # TODO extract to a declare_game_over method
               @game_over = true
               message_box {
                 text 'Tetris'
                 message 'Game Over!'
               }.open
-              Model.reset_playfield
+              Game.restart
               @game_over = false
             end
+            Game.consider_adding_tetromino
           end
         }
       }
     }
   }
   
-  BLOCK_SIZE = 25
-  
   body {
-    shell { # TODO set to (:no_resize)
+    shell(:no_resize) {
       text 'Tetris'
       background :gray
       
       composite {
-        grid_layout(10, true) {
+        grid_layout(PLAYFIELD_WIDTH, true) {
           margin_width BLOCK_SIZE
           margin_height BLOCK_SIZE
           horizontal_spacing 0
           vertical_spacing 0
         }
         
-        20.times { |row|
-          10.times { |column|
+        PLAYFIELD_HEIGHT.times { |row|
+          PLAYFIELD_WIDTH.times { |column|
             composite {
               layout nil
               layout_data {
                 width_hint BLOCK_SIZE
                 height_hint BLOCK_SIZE
               }
-              background bind(Model.playfield[row][column], :color)
+              background bind(Game.playfield[row][column], :color)
+              # TODO improve shapes to have a bevel look
+              rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE)
+              rectangle(3, 3, BLOCK_SIZE - 6, BLOCK_SIZE - 6) {
+                foreground :gray
+              }
             }
           }
         }

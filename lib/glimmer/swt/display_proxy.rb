@@ -45,7 +45,7 @@ module Glimmer
       class << self
         # Returns singleton instance
         def instance(*args)
-          if @instance.nil? || @instance.swt_display.isDisposed
+          if @instance.nil? || @instance.swt_display.nil? || @instance.swt_display.isDisposed
             @instance = new(*args)
           end
           @instance
