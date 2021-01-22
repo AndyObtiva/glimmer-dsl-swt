@@ -57,6 +57,7 @@ class Tetris
       end
       
       def update_playfield(new_row = nil, new_column = nil)
+        # TODO consider using an observer instead
         remove_from_playfield
         if !new_row.nil? && !new_column.nil?
           @row = new_row
@@ -67,14 +68,14 @@ class Tetris
       
       def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color unless blocks[row_index][column_index].clear?
+          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if Game.playfield[playfield_row][playfield_column].clear? && !blocks[row_index][column_index].clear?
         end
       end
       
       def remove_from_playfield
         return if @row.nil? || @column.nil?
-        update_playfield_block do |playfield_row, playfield_column|
-          Game.playfield[playfield_row][playfield_column].clear
+        update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
+          Game.playfield[playfield_row][playfield_column].clear unless blocks[row_index][column_index].clear?
         end
       end
       
@@ -82,7 +83,6 @@ class Tetris
         # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
         blocks ||= @blocks
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
-        pd letter, playfield_remaining_heights, header: letter == :O
         bottom_blocks(blocks).any? do |bottom_block|
           playfield_column = @column + bottom_block[:column_index]
           !bottom_block[:block].clear? &&
@@ -131,6 +131,7 @@ class Tetris
         unless stopped?
           new_row = @row + 1
           update_playfield(new_row, @column)
+          Game.consider_eliminating_lines # TODO consider using an observer instead for when a move is made
         end
       end
       
@@ -138,6 +139,7 @@ class Tetris
         unless left_blocked?
           new_column = @column - 1
           update_playfield(@row, new_column)
+          Game.consider_eliminating_lines # TODO consider using an observer instead for when a move is made
         end
       end
       
@@ -145,6 +147,7 @@ class Tetris
         unless right_blocked?
           new_column = @column + 1
           update_playfield(@row, new_column)
+          Game.consider_eliminating_lines # TODO consider using an observer instead for when a move is made
         end
       end
       
@@ -276,6 +279,36 @@ class Tetris
         }
       end
       
+      def consider_eliminating_lines
+        cleared_line = false
+        playfield.each_with_index do |row, playfield_row|
+          if row.all? {|block| !block.clear?}
+            cleared_line = true
+            shift_blocks_down_above_row(playfield_row)
+          end
+        end
+        beep if cleared_line
+      end
+      
+      def beep
+        @beeper&.call
+      end
+      
+      def configure_beeper(&beeper)
+        @beeper = beeper
+      end
+      
+      def shift_blocks_down_above_row(row)
+        row.downto(0) do |playfield_row|
+           playfield[playfield_row].each_with_index do |block, playfield_column|
+             previous_row = playfield[playfield_row - 1]
+             previous_block = previous_row[playfield_column]
+             block.color = previous_block.color
+           end
+        end
+        playfield[0].each(&:clear)
+      end
+      
       def restart
         reset_playfield
         reset_tetrominoes
@@ -309,22 +342,55 @@ class Tetris
     end
   end
     
-#   class Block
-#     include Glimmer::UI::CustomWidget
-#
-#     options :block_color, :block_size
-#
-#     body {
-#       canvas {
-#         rectangle(0, 0, block_size, block_size, fill: true) {
-#           background block_color
-#         }
-#         rectangle(0, 0, block_size, block_size)
-#       }
-#     }
-#   end
+  class Block
+    include Glimmer::UI::CustomWidget
+
+    options :block_size, :row, :column
+
+    body {
+      composite {
+        layout nil
+        layout_data {
+          width_hint BLOCK_SIZE
+          height_hint BLOCK_SIZE
+        }
+        background bind(Game.playfield[row][column], :color)
+        # TODO improve shapes to have a bevel look
+        rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE)
+        rectangle(3, 3, BLOCK_SIZE - 6, BLOCK_SIZE - 6) {
+          foreground :gray
+        }
+      }
+    }
+  end
+  
+  class Block
+    include Glimmer::UI::CustomWidget
+
+    options :block_size, :row, :column
+
+    body {
+      composite {
+        layout nil
+        layout_data {
+          width_hint block_size
+          height_hint block_size
+        }
+        background bind(Game.playfield[row][column], :color)
+        # TODO improve shapes to have a bevel look
+        rectangle(0, 0, block_size, block_size)
+        rectangle(3, 3, block_size - 6, block_size - 6) {
+          foreground :gray
+        }
+      }
+    }
+  end
   
   before_body {
+    Game.configure_beeper do
+      display.beep
+    end
+    
     Game.start
     
     display {
@@ -344,7 +410,7 @@ class Tetris
             elsif key_event.keyLocation == swt(:left) # left shift key
               Tetris::Game.current_tetromino.rotate(:left)
             end
-          when 'd'.bytes.first
+          when 'd'.bytes.first, swt(:arrow_up) # TODO consider changing up button to immediate drop
             Tetris::Game.current_tetromino.rotate(:right)
           when 'a'.bytes.first
             Tetris::Game.current_tetromino.rotate(:left)
@@ -358,14 +424,15 @@ class Tetris
     Thread.new {
       loop {
         sleep(1)
+        # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
         async_exec {
           unless @game_over
             Game.current_tetromino.down
             if Game.current_tetromino.stopped? && Game.current_tetromino.row == 0
               # TODO extract to a declare_game_over method
-              # TODO implement scoring (making blocks disappear) (Consider using the display.beep effect)
               @game_over = true
-              message_box {
+              display.beep
+              message_box(:icon_error) {
                 text 'Tetris'
                 message 'Game Over!'
               }.open
@@ -384,6 +451,9 @@ class Tetris
       text 'Glimmer Tetris'
       background :gray
       
+      # TODO implement scoring
+      # TODO implement showing upcoming shape
+      # TODO implement differnet difficulty levels
       composite {
         grid_layout(PLAYFIELD_WIDTH, true) {
           margin_width BLOCK_SIZE
@@ -394,19 +464,7 @@ class Tetris
         
         PLAYFIELD_HEIGHT.times { |row|
           PLAYFIELD_WIDTH.times { |column|
-            composite {
-              layout nil
-              layout_data {
-                width_hint BLOCK_SIZE
-                height_hint BLOCK_SIZE
-              }
-              background bind(Game.playfield[row][column], :color)
-              # TODO improve shapes to have a bevel look
-              rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE)
-              rectangle(3, 3, BLOCK_SIZE - 6, BLOCK_SIZE - 6) {
-                foreground :gray
-              }
-            }
+            block(block_size: BLOCK_SIZE, row: row, column: column)
           }
         }
       }
