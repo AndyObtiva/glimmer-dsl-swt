@@ -4636,7 +4636,7 @@ Contact Manager - Edit Done
 
 #### Tetris
 
-This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, and keyboard events.
+This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, data-binding, canvas shape graphic decorations, and keyboard events.
 
 Code:
 
