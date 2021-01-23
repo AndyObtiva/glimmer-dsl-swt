@@ -103,6 +103,7 @@ class Tetris
       # TODO add a menu
       # TODO consider adding music via JSound
       # TODO refactor mutation methods to use bang
+      # TODO consider idea of painting my own icon with Glimmer canvas and setting on Shell
       
       playfield(playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
     }

@@ -31,6 +31,7 @@ class Tetris
         @color = color
       end
       
+      # Clears block color. `quietly` option indicates if it should not notify observers by setting value quietly via variable not attribute writer.
       def clear
         self.color = COLOR_CLEAR
       end
@@ -39,10 +40,8 @@ class Tetris
         self.color == COLOR_CLEAR
       end
       
-      def occupied?(other_than: nil)
-        pd color
-        pd clear?
-        !clear? && (other_than.nil? || !other_than.include_block?(self))
+      def occupied?
+        !clear?
       end
     end
   end
