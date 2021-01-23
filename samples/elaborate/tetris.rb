@@ -72,6 +72,7 @@ class Tetris
           unless @game_over
             Model::Game.current_tetromino.down
             if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row <= 0
+              # TODO extract to a declare_game_over method
               @game_over = true
               display.beep
               message_box(:icon_warning) {
@@ -91,6 +92,16 @@ class Tetris
     shell(:no_resize) {
       text 'Glimmer Tetris'
       background :gray
+      
+      # TODO implement scoring
+      # TODO implement eliminated line tracking
+      # TODO implement level tracking
+      # TODO implement showing upcoming shape
+      # TODO implement differnet difficulty levels
+      # TODO add an about dialog
+      # TODO add a menu
+      # TODO consider adding music via JSound
+      # TODO refactor mutation methods to use bang
       
       playfield(playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
     }

@@ -51,6 +51,7 @@ class Tetris
       end
       
       def update_playfield(new_row = nil, new_column = nil)
+        # TODO consider using an observer instead
         remove_from_playfield
         if !new_row.nil? && !new_column.nil?
           @row = new_row
@@ -75,6 +76,7 @@ class Tetris
       def stopped?(blocks: nil)
         return true if @stopped
         # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
+        pd Game.playfield_remaining_heights(self)
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         result = bottom_blocks(blocks).any? do |bottom_block|
           playfield_column = @column + bottom_block[:column_index]
@@ -112,14 +114,17 @@ class Tetris
       end
       
       def right_blocked?
+        # TODO do a more elaborate right blocks check (just like bottom blocks)
         (@column == PLAYFIELD_WIDTH - width) || Game.playfield[row][column + width].occupied?
       end
       
       def left_blocked?
+        # TODO do a more elaborate left blocks check (just like bottom blocks)
         (@column == 0) || Game.playfield[row][column - 1].occupied?
       end
       
       def width
+         # TODO update row and/or column based on rotation, recentering the tetromino
         @blocks[0].size
       end
       
