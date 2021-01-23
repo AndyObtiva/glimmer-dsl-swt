@@ -46,6 +46,7 @@ module Glimmer
           @swt_widget = swt_widget
         else
           if args.first.is_a?(ShellProxy)
+            @parent_proxy = args[0]
             args[0] = args[0].swt_widget
           end
           style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
@@ -56,7 +57,11 @@ module Glimmer
           end
           if args.first.nil? || (!args.first.is_a?(Display) && !args.first.is_a?(Shell))
             @display = DisplayProxy.instance.swt_display
-            args = [@display] + args
+            @parent = @display.shells.last
+            if @parent
+              @parent_proxy = @parent.get_data('proxy')
+              args = [@display.shells.last] + args
+            end
           end
           args = args.compact
           @swt_widget = Shell.new(*args)

@@ -62,14 +62,14 @@ class Tetris
       
       def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && Game.playfield[playfield_row][playfield_column].clear? && !blocks[row_index][column_index].clear?
+          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && Game.playfield[playfield_row][playfield_column]&.clear? && !blocks[row_index][column_index].clear?
         end
       end
       
       def remove_from_playfield
         return if @row.nil? || @column.nil?
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Game.playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && Game.playfield[playfield_row][playfield_column].color == color
+          Game.playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && Game.playfield[playfield_row][playfield_column]&.color == color
         end
       end
       
@@ -80,6 +80,7 @@ class Tetris
         result = bottom_most_blocks.any? do |bottom_most_block|
           playfield_column = @column + bottom_most_block[:column_index]
           !bottom_most_block[:block].clear? &&
+            playfield_remaining_heights[playfield_column] &&
             @row + bottom_most_block[:row] >= playfield_remaining_heights[playfield_column] - 1
         end
         # TODO consider using an observer instead for when a move is made

@@ -158,7 +158,7 @@ module Glimmer
           underscored_widget_name = self.class.underscored_widget_name(@swt_widget)
           parent_proxy_class = self.class.widget_proxy_class(self.class.underscored_widget_name(@swt_widget.parent))
           parent = swt_widget.parent
-          @parent_proxy = parent.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
+          @parent_proxy = parent&.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
         end
         if @swt_widget&.get_data('proxy').nil?
           @swt_widget.set_data('proxy', self)

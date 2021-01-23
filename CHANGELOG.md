@@ -3,6 +3,8 @@
 ### 4.18.2.4
 
 - Update CustomShell#center and ShellProxy#center to center_within_display to avoid clash with `row_layout` center property
+- Fixed issue with shell/dialog/custom-shell not maintaining parent when not passed and is derived automatically from last open shell
+- Added parent_proxy to CustomWidget and CustomShell classes
 
 ### 4.18.2.3
 

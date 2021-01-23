@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Fix custom widget/shell parent attribute (returns nil)
 - Tetris Sample Scoring, Leveling, and Next Tetromino Preview
 - Fix Tetris sideways edge detection
 - Consider tweaking the Tetris color scheme

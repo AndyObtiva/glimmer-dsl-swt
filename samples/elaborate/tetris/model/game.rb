@@ -26,6 +26,9 @@ class Tetris
   module Model
     class Game
       class << self
+        attr_accessor :game_over
+        alias game_over? game_over
+        
         def consider_adding_tetromino
           if tetrominoes.empty? || Game.current_tetromino.stopped?
             tetrominoes << Tetromino.new
@@ -100,6 +103,7 @@ class Tetris
         def restart
           reset_playfield
           reset_tetrominoes
+          self.game_over = false
         end
         alias start restart
         

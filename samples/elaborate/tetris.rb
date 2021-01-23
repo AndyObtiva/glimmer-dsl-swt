@@ -24,6 +24,7 @@
 require_relative 'tetris/model/game'
 
 require_relative 'tetris/view/playfield'
+require_relative 'tetris/view/game_over_dialog'
 
 class Tetris
   include Glimmer::UI::CustomShell
@@ -66,43 +67,13 @@ class Tetris
     
     Thread.new {
       loop {
-        puts 'GAME OVER' if @game_over
 #         break if @game_over # TODO exit out of loop/thread once game is over
         sleep(1) # TODO make this configurable depending on level
         # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
         sync_exec {
-          unless @game_over
+          unless Model::Game.game_over?
             Model::Game.current_tetromino.down
-            pd Model::Game.current_tetromino.stopped?, Model::Game.current_tetromino.row
-            if Model::Game.current_tetromino.row <= 0 && Model::Game.current_tetromino.stopped?
-              # TODO extract to a declare_game_over method
-              @game_over = true
-              display.beep
-              dialog { |dialog_proxy|
-                row_layout {
-                  type :vertical
-                  center true
-                }
-                text 'Tetris'
-                
-                label {
-                  text 'Game Over!'
-                  font height: 30
-                }
-                button {
-                  text 'Play Again?'
-                  on_widget_selected {
-                    Model::Game.restart
-                    @game_over = false
-                    dialog_proxy.close
-                  }
-                }
-                
-                on_shell_closed {
-                  body_root.close
-                }
-              }.open
-            end
+            game_over_dialog.open if Model::Game.current_tetromino.row <= 0 && Model::Game.current_tetromino.stopped?
           end
         }
       }

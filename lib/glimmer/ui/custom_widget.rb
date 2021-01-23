@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -141,10 +141,9 @@ module Glimmer
         end
       end
 
-      attr_reader :body_root, :swt_widget, :parent, :swt_style, :options
+      attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
-        @parent = parent
         @swt_style = SWT::SWTProxy[*swt_constants]
         options ||= {}
         @options = self.class.options.merge(options)
@@ -156,6 +155,9 @@ module Glimmer
         raise Glimmer::Error, 'Invalid custom widget for having an empty body! Please fill body block!' if @body_root.nil?
         @swt_widget = @body_root.swt_widget
         @swt_widget.set_data('custom_widget', self)
+        @parent = parent
+        @parent ||= @swt_widget.parent
+        @parent_proxy ||= @parent&.get_data('proxy')
         execute_hooks('after_body')
       end
       
@@ -211,10 +213,10 @@ module Glimmer
 
       # This method ensures it has an instance method not coming from Glimmer DSL
       def has_instance_method?(method_name)
-        respond_to?(method_name) and 
+        respond_to?(method_name) and
           !swt_widget&.respond_to?(method_name) and
           (method(method_name) rescue nil) and
-          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') and 
+          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') and
           !method(method_name)&.source_location&.first&.include?('glimmer/swt/widget_proxy.rb')
       end
 
@@ -265,13 +267,13 @@ module Glimmer
         end
       end
 
-      alias local_respond_to? respond_to?      
+      alias local_respond_to? respond_to?
       def respond_to?(method, *args, &block)
         super or
           can_handle_observation_request?(method) or
           body_root.respond_to?(method, *args, &block)
       end
-
+      
       private
 
       def execute_hooks(hook_name)
