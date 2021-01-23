@@ -2340,25 +2340,33 @@ Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 ```ruby
 include Glimmer
 
+# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
+image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
+
 shell {
   text 'Canvas Example'
   minimum_size 320, 400
 
   canvas {
-    background :yellow
+    background :dark_yellow
     rectangle(0, 0, 220, 400, fill: true) {
-      background :red
+      background :dark_red
     }
     rectangle(50, 20, 300, 150, 30, 50, round: true, fill: true) {
-      background :magenta
+      background :yellow
     }
     rectangle(150, 200, 100, 70, true, gradient: true) {
-      background :dark_magenta
+      background :dark_red
       foreground :yellow
     }
-    rectangle(200, 80, 108, 36) {
-      foreground color(:dark_blue)
+    text('Glimmer', 208, 83) {
+      font height: 25, style: :bold
     }
+    rectangle(200, 80, 108, 36) {
+      foreground :black
+      line_width 3
+    }
+    image(image_object, 70, 50)
   }
 }.open
 ```
@@ -4640,7 +4648,7 @@ Contact Manager - Edit Done
 
 #### Tetris
 
-This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, data-binding, canvas shape graphic decorations, and keyboard events.
+This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, and keyboard events.
 
 Code:
 

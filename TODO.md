@@ -4,8 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Consider supporting an open/close class method on custom shells as an alternative to using Glimmer DSL when launching shell as top level shell app to shield environment from method pollution
-- Tetris Sample
+- Tetris Sample Scoring, Leveling, and Next Tetromino Preview
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+- Reset Canvas common attributes at the close of a Shape to prepare for the next shape
+- Make Canvas patterns auto-dispose themselves when canvas is disposed
+- Make Canvas images auto-dispose themselves when canvas is disposed
 - Ensure Tetris exits thread gracefully
 - Look into issue of `tetris` keyword not found when run from sample app after running canvas animation and canvas first
 - Fix issue with Color not loading with full package name in Shape
@@ -39,7 +42,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
 
-- Canvas support a Transform DSL for methods that take Transform arguments
+- Canvas support a Transform DSL fluent interface for methods that take Transform arguments (auto-disposes when its owner is disposed)
+```ruby
+transform(1, 1, 4, 2, 2, 4).
+  multiply(1, 2, 3, 4,3,4).
+  scale(1, 2, 3, 4, 5, 6).
+  rotate(45).
+  scale(2, 4).
+  invert().
+  shear(2, 4).
+  translate(3, 7)
+```
 - Canvas support a Path DSL for methods that take Path arguments
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
 
@@ -181,10 +194,16 @@ composite {
 ```ruby
 items <=> 'model.property' # bidirectional
 items <= 'model.property' # ready-only
+items <=> [model, property] # bidirectional
+items <= [model, property] # ready-only
+items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
+items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
 items <=> binding('model.property') # bidirectional explicit binding
 items <= binding('model.property') # ready-only explicit binding
 items <= binding('model.property') {|x| x + 2} # read-only explicit binding with converter
-items <=> binding('model.property') { # bidirectional explicit binding on_read/on_write converters
+items <=> binding { # bidirectional explicit binding on_read/on_write converters
+  model model
+  property :property
   on_read {|v| !v}
   on_write {|v| !v}
 }
