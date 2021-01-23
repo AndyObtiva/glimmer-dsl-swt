@@ -50,45 +50,40 @@ class Tetris
         update_playfield(new_row, new_column)
       end
       
-      def update_playfield(new_row = nil, new_column = nil, playfield: nil)
-        playfield ||= Game.playfield
+      def update_playfield(new_row = nil, new_column = nil)
         # TODO consider using an observer instead
         remove_from_playfield
         if !new_row.nil? && !new_column.nil?
           @row = new_row
           @column = new_column
-          add_to_playfield(playfield: playfield)
+          add_to_playfield
         end
       end
       
-      def add_to_playfield(playfield: nil)
-        playfield ||= Game.playfield
+      def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && playfield[playfield_row][playfield_column].clear? && !blocks[row_index][column_index].clear?
+          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && Game.playfield[playfield_row][playfield_column].clear? && !blocks[row_index][column_index].clear?
         end
       end
       
-      def remove_from_playfield(playfield: nil)
+      def remove_from_playfield
         return if @row.nil? || @column.nil?
-        playfield ||= Game.playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && playfield[playfield_row][playfield_column].color == color
+          Game.playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && Game.playfield[playfield_row][playfield_column].color == color
         end
       end
       
-      def stopped?(playfield: nil)
+      def stopped?
         return true if @stopped
-        hypothetical = !playfield.nil?
-        playfield ||= Game.playfield
         # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
-        pd playfield_remaining_heights = Game.playfield_remaining_heights(self, playfield: playfield)
+        playfield_remaining_heights = Game.playfield_remaining_heights(self)
         result = bottom_most_blocks.any? do |bottom_most_block|
           playfield_column = @column + bottom_most_block[:column_index]
           !bottom_most_block[:block].clear? &&
-            pd(@row + bottom_most_block[:row]) >= playfield_remaining_heights[playfield_column] - 1
+            @row + bottom_most_block[:row] >= playfield_remaining_heights[playfield_column] - 1
         end
         # TODO consider using an observer instead for when a move is made
-        if result && !hypothetical
+        if result && !Game.hypothetical?
           @stopped = result
           Game.consider_eliminating_lines
           Model::Game.consider_adding_tetromino
@@ -116,11 +111,10 @@ class Tetris
         bottom_most_blocks.detect {|bottom_most_block| (@column + bottom_most_block[:column_index]) == column}
       end
       
-      def right_blocked?(playfield: nil)
-        playfield ||= Game.playfield
+      def right_blocked?
         # TODO do a more elaborate right blocks check (just like bottom blocks)
         # TODO check it is not an existing block location if it is a rotation
-        (@column == PLAYFIELD_WIDTH - width) || playfield[row][column + width].occupied?
+        (@column == PLAYFIELD_WIDTH - width) || Game.playfield[row][column + width].occupied?
       end
       
       # Returns right-most blocks of a tetromino, which could be from multiple columns depending on shape (e.g. T)
@@ -140,11 +134,10 @@ class Tetris
 #         end
 #       end
       
-      def left_blocked?(playfield: nil)
-        playfield ||= Game.playfield
+      def left_blocked?
         # TODO do a more elaborate left blocks check (just like bottom blocks)
         # TODO check it is not an existing block location if it is a rotation
-        (@column == 0) || playfield[row][column - 1].occupied?
+        (@column == 0) || Game.playfield[row][column - 1].occupied?
       end
       
       def width
@@ -180,25 +173,42 @@ class Tetris
       # Rotate in specified direcation, which can be :right (clockwise) or :left (counterclockwise)
       def rotate(direction)
         return if stopped?
-        hypothetical_playfield = Game.hypothetical_playfield
-        hypothetical_rotated_tetromino = self.clone
-        hypothetical_rotated_tetromino.blocks = hypothetical_rotated_tetromino.default_blocks
-        remove_from_playfield(playfield: hypothetical_playfield)
-        new_blocks = Matrix[*@blocks].transpose.to_a
-        if direction == :right
-          new_blocks = new_blocks.map(&:reverse)
-        else
-          new_blocks = new_blocks.reverse
+        can_rotate = nil
+        new_blocks = nil
+        Game.hypothetical do
+          hypothetical_rotated_tetromino = hypothetical_tetromino
+          new_blocks = hypothetical_rotated_tetromino.rotate_blocks(direction)
+          can_rotate = !hypothetical_rotated_tetromino.stopped? && !hypothetical_rotated_tetromino.right_blocked? && !hypothetical_rotated_tetromino.left_blocked?
         end
-        new_blocks = Matrix[*new_blocks].to_a
-        pd hypothetical_rotated_tetromino.blocks = new_blocks
-        pd blocks
-        if !hypothetical_rotated_tetromino.stopped?(playfield: hypothetical_playfield) && !hypothetical_rotated_tetromino.right_blocked?(playfield: hypothetical_playfield) && !hypothetical_rotated_tetromino.left_blocked?(playfield: hypothetical_playfield)
+        if can_rotate
           remove_from_playfield
           array_rotation_value = direction == :right ? -1 : 1
           self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(array_rotation_value).index(@orientation)]
           self.blocks = new_blocks
           update_playfield(@row, @column)
+        end
+      rescue => e
+        puts e.full_message
+      end
+      
+      def rotate_blocks(direction)
+          new_blocks = Matrix[*@blocks].transpose.to_a
+          if direction == :right
+            new_blocks = new_blocks.map(&:reverse)
+          else
+            new_blocks = new_blocks.reverse
+          end
+          Matrix[*new_blocks].to_a
+      end
+      
+      def hypothetical_tetromino
+        clone.tap do |hypo_clone|
+          remove_from_playfield
+          hypo_clone.blocks = @blocks.map do |row_blocks|
+            row_blocks.map do |column_block|
+              column_block.clone
+            end
+          end
         end
       end
       

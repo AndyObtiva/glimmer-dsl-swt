@@ -42,11 +42,21 @@ class Tetris
         
         # Returns blocks in the playfield
         def playfield
-          @playfield ||= PLAYFIELD_HEIGHT.times.map {
+          @playfield ||= @original_playfield = PLAYFIELD_HEIGHT.times.map {
             PLAYFIELD_WIDTH.times.map {
               Block.new
             }
           }
+        end
+        
+        def hypothetical(&block)
+          @playfield = hypothetical_playfield
+          block.call
+          @playfield = @original_playfield
+        end
+        
+        def hypothetical?
+          @playfield != @original_playfield
         end
         
         def hypothetical_playfield
@@ -105,15 +115,14 @@ class Tetris
           end
         end
         
-        def playfield_remaining_heights(tetromino = nil, playfield: nil)
-          playfield ||= self.playfield
+        def playfield_remaining_heights(tetromino = nil)
           PLAYFIELD_WIDTH.times.map do |playfield_column|
             (playfield.each_with_index.detect do |row, playfield_row|
               !row[playfield_column].clear? &&
               (
                 tetromino.nil? ||
                 (bottom_most_block = tetromino.bottom_most_block_for_column(playfield_column)).nil? ||
-                (playfield_row > pd(tetromino.row) + pd(bottom_most_block[:row]))
+                (playfield_row > tetromino.row + bottom_most_block[:row])
               )
             end || [nil, PLAYFIELD_HEIGHT])[1]
           end.to_a
