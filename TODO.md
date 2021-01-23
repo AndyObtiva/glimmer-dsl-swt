@@ -6,10 +6,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Tetris Sample Scoring, Leveling, and Next Tetromino Preview
 - Fix Tetris sideways edge detection
+- Consider tweaking the Tetris color scheme
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
+- Improve Canvas example further
 - Ensure Tetris exits thread gracefully
 - Look into issue of `tetris` keyword not found when run from sample app after running canvas animation and canvas first
 - Fix issue with Color not loading with full package name in Shape
@@ -18,6 +20,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Set glimmer logo as default logo for any run app till updated
 - Have Glimmer logger errors encountered in listeners even if it tolerates them
 
+- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking
@@ -338,7 +341,7 @@ items <=> binding {
 - Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
-- Consider adding a Glimmer::SWT::App that includes a Splash automatically and a hook for adding require statements so they'd happen after the splash shows up
+- Include Splash screen support automatically in CustomShell and a hook for adding require statements (or work) so they'd happen after the splash shows up or just automate all of it by convention
 
 ## Samples
 
@@ -383,19 +386,19 @@ A terminal written in Glimmer DSL for SWT.
 - Consider optional mouse interaction support and in-terminal GUI
 - Dark look and feel by default (themable through terminal command configuration only)
 
+### Glimmertalk project
+
+- Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
+
 ### Connector (Web Browser)
 
 - Chromium based Glimmer DSL for SWT Ruby web browser
 - Supports "Ruby powered web pages"
 - Supports Glimmer GUI apps natively via Glimmer DSL for SWT (Glimmer DSL for Opal automatically sends pure Ruby code instead of transpiling to JS)
 
-### Glimmertalk project
-
-- Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
-
 ### Glimmer Platform
 
-- A web-browser-like platform-app that opens web links hosting pure Ruby code, including Glimmer GUI DSL code.
+- A web-browser-like platform-app (perhaps builds on [Connector](#connector-web-browser)) that opens web links hosting pure Ruby code, including Glimmer GUI DSL code.
 - Ruby files are hyper-linked via require-like statements that do lazy-downloading/caching of Ruby files on a per-need basis (e.g. button click) while background-downloading/caching Ruby files ahead of time when the user is not taking actions (apps may have a specified list of initial vs delayed requires).
 - Allows distributing incrementally-updating apps very easily.
 - Integration with GitHub as the way to release app code
@@ -411,11 +414,13 @@ A terminal written in Glimmer DSL for SWT.
 - Glimmer Platform can integrate perfectly with the FreeHire website to deliver work for free
 - Add minimum_width and minimum_height convenience attributes on ShellProxy for `shell` keyword
 
+### UML For Life
+
+- A UML diagraming app (consider eventually webifying via Opal)
+
 ## Custom Widgets/Shells
 
-- glimmer-cs-splash: splash shell widget
-- glimmer-cw-datetimerange: start time end time (or date) duo that includes automatic validation/correctness (ensuring start is always before or equal to end depending on options)
-- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go
+- glimmer-cw-datetimerange: start time end time (or date) duo that includes automatic validation/correctness (ensuring start is always before or equal to end depending on options). Perhaps have it upgrade to Nebula CDateTime if available (or as an option)
 
 ## Documentation Tasks
 
