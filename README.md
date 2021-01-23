@@ -2404,7 +2404,7 @@ In any case, if there is anything missing you would like added to the Glimmer Sh
 
 #### Shapes in a Widget
 
-Keep in mind that the Shape DSL can be used inside any widget, not just canvas. Unlike shapes on a canvas, which are standalone, when included in a widget content block, shapes are used as decorative add-ons. For example, shapes were used to decorate composite blocks in the [Tetris](#tetris) sample to have a more bevel look.
+Keep in mind that the Shape DSL can be used inside any widget, not just canvas. Unlike shapes on a canvas, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its existing GUI look. For example, shapes were used to decorate composite blocks in the [Tetris](#tetris) sample to have a more bevel look.
 
 ### Canvas Animation DSL
 
