@@ -2402,6 +2402,10 @@ shell {
 
 In any case, if there is anything missing you would like added to the Glimmer Shape DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
 
+#### Shapes in a Widget
+
+Keep in mind that the Shape DSL can be used inside any widget, not just canvas. Unlike shapes on a canvas, which are standalone, when included in a widget content block, shapes are used as decorative add-ons. For example, shapes were used to decorate composite blocks in the [Tetris](#tetris) sample to have a more bevel look.
+
 ### Canvas Animation DSL
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
