@@ -4644,6 +4644,8 @@ Code:
 
 ![Tetris](images/glimmer-tetris.png)
 
+![Tetris Game Over](images/glimmer-tetris-game-over.png)
+
 ### External Samples
 
 #### Glimmer Calculator
