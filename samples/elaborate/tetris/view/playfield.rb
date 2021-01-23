@@ -30,7 +30,9 @@ class Tetris
   
       body {
         composite {
-          grid_layout(playfield_width, true) {
+          grid_layout {
+            num_columns playfield_width
+            make_columns_equal_width true
             margin_width block_size
             margin_height block_size
             horizontal_spacing 0

@@ -78,7 +78,7 @@ module Glimmer
       end
 
       # Centers shell within monitor it is in
-      def center
+      def center_within_display
         primary_monitor = @display.getPrimaryMonitor()
         monitor_bounds = primary_monitor.getBounds()
         shell_bounds = @swt_widget.getBounds()
@@ -101,7 +101,7 @@ module Glimmer
         else
           @opened_before = true
           @swt_widget.pack
-          center
+          center_within_display
           @swt_widget.open
         end
       end

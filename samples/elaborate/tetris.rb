@@ -76,12 +76,26 @@ class Tetris
               # TODO extract to a declare_game_over method
               @game_over = true
               display.beep
-              message_box(:icon_warning) {
+              dialog { |dialog_proxy|
+                row_layout {
+                  type :vertical
+                  center true
+                }
                 text 'Tetris'
-                message 'Game Over!'
+                
+                label {
+                  text 'Game Over!'
+                  font height: 30
+                }
+                button {
+                  text 'Play Again?'
+                  on_widget_selected {
+                    Model::Game.restart
+                    @game_over = false
+                    dialog_proxy.close
+                  }
+                }
               }.open
-              Model::Game.restart
-              @game_over = false
             end
           end
         }

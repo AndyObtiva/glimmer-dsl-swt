@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.2.4
+
+- Update CustomShell#center and ShellProxy#center to center_within_display to avoid clash with `row_layout` center property
+
 ### 4.18.2.3
 
 - Added Tetris Elaborate Sample

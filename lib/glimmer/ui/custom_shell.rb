@@ -68,8 +68,8 @@ module Glimmer
         body_root.visible?
       end
 
-      def center
-        body_root.center
+      def center_within_display
+        body_root.center_within_display
       end
 
       def start_event_loop

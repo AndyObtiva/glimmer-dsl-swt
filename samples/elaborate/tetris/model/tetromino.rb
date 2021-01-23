@@ -182,8 +182,7 @@ class Tetris
         end
         if can_rotate
           remove_from_playfield
-          array_rotation_value = direction == :right ? -1 : 1
-          self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(array_rotation_value).index(@orientation)]
+          self.orientation = ORIENTATIONS[ORIENTATIONS.rotate(direction == :right ? -1 : 1).index(@orientation)]
           self.blocks = new_blocks
           update_playfield(@row, @column)
         end
