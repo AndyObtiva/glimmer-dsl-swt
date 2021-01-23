@@ -4640,7 +4640,7 @@ This sample demonstrates how to build an interactive animated game with MVC arch
 
 Code:
 
-[samples/elaborate/tic_tac_toe.rb](samples/elaborate/tetris.rb)
+[samples/elaborate/tetris.rb](samples/elaborate/tetris.rb)
 
 ![Tetris](images/glimmer-tetris.png)
 
