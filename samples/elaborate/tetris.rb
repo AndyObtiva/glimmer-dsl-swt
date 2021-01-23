@@ -36,9 +36,7 @@ class Tetris
     Model::Game.configure_beeper do
       display.beep
     end
-    
-    Model::Game.start
-    
+        
     display {
       on_swt_keydown { |key_event|
         case key_event.keyCode
@@ -64,8 +62,12 @@ class Tetris
   }
   
   after_body {
+    Model::Game.start
+    
     Thread.new {
       loop {
+        puts 'GAME OVER' if @game_over
+#         break if @game_over # TODO exit out of loop/thread once game is over
         sleep(1) # TODO make this configurable depending on level
         # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
         sync_exec {
@@ -94,6 +96,10 @@ class Tetris
                     @game_over = false
                     dialog_proxy.close
                   }
+                }
+                
+                on_shell_closed {
+                  body_root.close
                 }
               }.open
             end
