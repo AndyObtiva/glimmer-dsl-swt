@@ -4715,7 +4715,8 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 ## Packaging & Distribution
 
 Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
-Note 2: Glimmer packaging has a strong dependency on JDK8 at the moment. JDK9 & JDK10 might work, but JDK11 and onward work since they dropped javapackager, which later came back as jpackage in JDK15, but it's not ready for prime time yet. Just stick to JDK8 for now, strongly supported by Oracle for the next 6 years at least. 
+
+Note 2: Glimmer packaging has a strong dependency on JDK8 at the moment. JDK9 & JDK10 might work, but JDK11 and onward definitely won't since they dropped javapackager, which later came back as jpackage in JDK15, but it's not ready for prime time yet. Just stick to JDK8 for now, strongly supported by Oracle for the next 6 years at least. 
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
