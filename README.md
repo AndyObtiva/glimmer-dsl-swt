@@ -2961,7 +2961,7 @@ If you need a better widget with the ability to customize the date format patter
 
 ### Observer
 
-Glimmer comes with `Observer` module, which is used internally for data-binding, but can also be used externally for custom use of the Observer Pattern. It is hidden when observing widgets, and used explicitly when observing models.
+Glimmer comes with the `Observer` mixin module, which is used internally for data-binding, but can also be used externally for custom use of the Observer Pattern. It is hidden when observing widgets, and used explicitly when observing models. In bidirectional data-binding, `Observer` is automatically unregistered from models once a widget is disposed to avoid memory leaks and worrying about managing them yourself.
 
 #### Observing Widgets
 
