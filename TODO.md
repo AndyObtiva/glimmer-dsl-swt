@@ -6,6 +6,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Consider supporting an open/close class method on custom shells as an alternative to using Glimmer DSL when launching shell as top level shell app to shield environment from method pollution
 - Tetris Sample
+- Ensure Tetris exits thread gracefully
+- Look into issue of `tetris` keyword not found when run from sample app after running canvas animation and canvas first
 - Fix issue with Color not loading with full package name in Shape
 - Canvas Shape DSL Data-Binding
 - Document Data-Binding Based Animation

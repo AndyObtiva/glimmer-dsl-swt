@@ -42,7 +42,6 @@ class Tetris
     display {
       on_swt_keydown { |key_event|
         unless Model::Game.current_tetromino.stopped?
-          # TODO handle issue with down button holding off movement of shapes once they touch down (starving async_exec queue)
           case key_event.keyCode
           when swt(:arrow_down)
             Model::Game.current_tetromino.down
@@ -56,7 +55,7 @@ class Tetris
             elsif key_event.keyLocation == swt(:left) # left shift key
               Model::Game.current_tetromino.rotate(:left)
             end
-          when 'd'.bytes.first, swt(:arrow_up) # TODO consider changing up button to immediate drop
+          when 'd'.bytes.first, swt(:arrow_up)
             Model::Game.current_tetromino.rotate(:right)
           when 'a'.bytes.first
             Model::Game.current_tetromino.rotate(:left)
@@ -69,13 +68,11 @@ class Tetris
   after_body {
     Thread.new {
       loop {
-        sleep(1)
-        # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
+        sleep(0.9)
         sync_exec {
           unless @game_over
             Model::Game.current_tetromino.down
             if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row <= 0
-              # TODO extract to a declare_game_over method
               @game_over = true
               display.beep
               message_box(:icon_error) {
@@ -96,16 +93,6 @@ class Tetris
     shell(:no_resize) {
       text 'Glimmer Tetris'
       background :gray
-      
-      # TODO implement scoring
-      # TODO implement eliminated line tracking
-      # TODO implement level tracking
-      # TODO implement showing upcoming shape
-      # TODO implement differnet difficulty levels
-      # TODO add an about dialog
-      # TODO add a menu
-      # TODO consider adding music via JSound
-      # TODO refactor mutation methods to use bang
       
       playfield(playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
     }

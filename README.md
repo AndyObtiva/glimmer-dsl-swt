@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.2.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.2.3
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -364,6 +364,7 @@ Glimmer App:
       - [Login](#login)
       - [Tic Tac Toe Sample](#tic-tac-toe-sample)
       - [Contact Manager Sample](#contact-manager-sample)
+      - [Tetris](#tetris)
     - [External Samples](#external-samples)
       - [Glimmer Calculator](#glimmer-calculator)
       - [Gladiator](#gladiator)
@@ -452,7 +453,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.2.2
+jgem install glimmer-dsl-swt -v 4.18.2.3
 
 
 ```
@@ -472,7 +473,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.2.2
+gem 'glimmer-dsl-swt', '~> 4.18.2.3
 '
 ```
 
@@ -531,7 +532,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.2.2
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.2.3
 
 
       
@@ -1012,7 +1013,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.2.2
+  Swt    glimmer-dsl-swt    4.18.2.3
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -4632,6 +4633,16 @@ Contact Manager - Edit In Progress
 Contact Manager - Edit Done
 
 ![Contact Manager](images/glimmer-contact-manager-edit-done.png)
+
+#### Tetris
+
+This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, and keyboard events.
+
+Code:
+
+[samples/elaborate/tic_tac_toe.rb](samples/elaborate/tetris.rb)
+
+![Tetris](images/glimmer-tetris.png)
 
 ### External Samples
 

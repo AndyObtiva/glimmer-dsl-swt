@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.2.3
+
+- Added Tetris Elaborate Sample
+- Added support for CustomShell `::launch` and `::shutdown` class methods to treat a top-level custom shell as a self contained launchable app (saving you from writing boilerplate code for launching Glimmer applications)
+
 ### 4.18.2.2
 
 - Fixed issue with processing shape color due to missing Color class package name

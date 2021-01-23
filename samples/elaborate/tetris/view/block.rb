@@ -34,7 +34,6 @@ class Tetris
             height_hint block_size
           }
           background bind(Model::Game.playfield[row][column], :color)
-          # TODO improve shapes to have a bevel look
           rectangle(0, 0, block_size, block_size)
           rectangle(3, 3, block_size - 6, block_size - 6) {
             foreground :gray
