@@ -103,8 +103,8 @@ class Tetris
               !row[playfield_column].clear? &&
               (
                 tetromino.nil? ||
-                tetromino.bottom_block_for_column(playfield_column).nil? ||
-                (playfield_row > tetromino.row + tetromino.bottom_block_for_column(playfield_column)[:row])
+                (bottom_most_block = tetromino.bottom_most_block_for_column(playfield_column)).nil? ||
+                (playfield_row > tetromino.row + bottom_most_block[:row])
               )
             end || [nil, PLAYFIELD_HEIGHT])[1]
           end.to_a

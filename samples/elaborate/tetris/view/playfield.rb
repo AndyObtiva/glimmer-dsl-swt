@@ -36,7 +36,7 @@ class Tetris
             horizontal_spacing 0
             vertical_spacing 0
           }
-          
+
           playfield_height.times { |row|
             playfield_width.times { |column|
               block(block_size: block_size, row: row, column: column)

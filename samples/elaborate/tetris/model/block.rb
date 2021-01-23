@@ -39,10 +39,11 @@ class Tetris
         self.color == COLOR_CLEAR
       end
       
-      def occupied?
-        !clear?
+      def occupied?(other_than: nil)
+        pd color
+        pd clear?
+        !clear? && (other_than.nil? || !other_than.include_block?(self))
       end
     end
   end
 end
-

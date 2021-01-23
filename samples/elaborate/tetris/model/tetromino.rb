@@ -76,12 +76,11 @@ class Tetris
       def stopped?(blocks: nil)
         return true if @stopped
         # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
-        pd Game.playfield_remaining_heights(self)
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
-        result = bottom_blocks(blocks).any? do |bottom_block|
-          playfield_column = @column + bottom_block[:column_index]
-          !bottom_block[:block].clear? &&
-            (@row + bottom_block[:row]) >= playfield_remaining_heights[playfield_column] - 1
+        result = bottom_most_blocks(blocks).any? do |bottom_most_block|
+          playfield_column = @column + bottom_most_block[:column_index]
+          !bottom_most_block[:block].clear? &&
+            (@row + bottom_most_block[:row]) >= playfield_remaining_heights[playfield_column] - 1
         end
         # TODO consider using an observer instead for when a move is made
         if result
@@ -93,24 +92,24 @@ class Tetris
       end
       
       # Returns blocks at the bottom of a tetromino, which could be from multiple rows depending on shape (e.g. T)
-      def bottom_blocks(blocks = nil)
+      def bottom_most_blocks(blocks = nil)
         blocks ||= @blocks
         width.times.map do |column_index|
           row_blocks_with_row_index = @blocks.each_with_index.to_a.reverse.detect do |row_blocks, row_index|
             !row_blocks[column_index].clear?
           end
-          bottom_block = row_blocks_with_row_index[0][column_index]
-          bottom_block_row = row_blocks_with_row_index[1]
+          bottom_most_block = row_blocks_with_row_index[0][column_index]
+          bottom_most_block_row = row_blocks_with_row_index[1]
           {
-            block: bottom_block,
-            row: bottom_block_row,
+            block: bottom_most_block,
+            row: bottom_most_block_row,
             column_index: column_index
           }
         end
       end
       
-      def bottom_block_for_column(column)
-        bottom_blocks.detect {|bottom_block| (@column + bottom_block[:column_index]) == column}
+      def bottom_most_block_for_column(column)
+        bottom_most_blocks.detect {|bottom_most_block| (@column + bottom_most_block[:column_index]) == column}
       end
       
       def right_blocked?

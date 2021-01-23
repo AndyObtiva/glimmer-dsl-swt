@@ -71,7 +71,8 @@ class Tetris
         sync_exec {
           unless @game_over
             Model::Game.current_tetromino.down
-            if Model::Game.current_tetromino.stopped? && Model::Game.current_tetromino.row <= 0
+            pd Model::Game.current_tetromino.stopped?, Model::Game.current_tetromino.row
+            if Model::Game.current_tetromino.row <= 0 && Model::Game.current_tetromino.stopped?
               # TODO extract to a declare_game_over method
               @game_over = true
               display.beep
