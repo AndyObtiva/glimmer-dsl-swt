@@ -5,6 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Tetris Sample Scoring, Leveling, and Next Tetromino Preview
+- Fix Tetris sideways edge detection
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape
 - Make Canvas patterns auto-dispose themselves when canvas is disposed

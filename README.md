@@ -226,6 +226,11 @@ Glimmer App:
 
 [![Math Bowling App Screenshot](https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/Math-Bowling-Screenshot.png)](https://github.com/AndyObtiva/MathBowling)
 
+I am offering Glimmer as an open-source project that represents my interests in Desktop GUI application development, Object Oriented Design, Design Patterns, and Software Architecture.
+Also, I am sharing my professional expertise in Eclipse SWT given that I am an EclipseCon/EclipseWorld presenter and have built professional applications in SWT/JFace/RCP for Obtiva and the Pampered Chef in the past.
+That said, keep in mind that I myself am learning topics in Software Engineering too everyday, including newer editions of SWT, which seem to pop up every quarter.
+If you see anything that could be improved upon, please do not hesitate to share on [Gitter](https://gitter.im/AndyObtiva/glimmer) or in an [Issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues)/[Pull-Request](https://github.com/AndyObtiva/glimmer-dsl-swt/pulls).
+
 ## Table of contents
 
 - [Glimmer (JRuby Desktop Development GUI Framework)](#jruby-desktop-development-gui-framework)
@@ -301,7 +306,7 @@ Glimmer App:
       - [Custom Widget API](#custom-widget-api)
       - [Content/Options Example](#contentoptions-example)
       - [Gotcha](#gotcha)
-      - [Final Notes](#final-notes)
+      - [Custom Widget Final Notes](#custom-widget-final-notes)
     - [Custom Shells](#custom-shells)
     - [Drag and Drop](#drag-and-drop)
     - [Miscellaneous](#miscellaneous)
@@ -2408,7 +2413,7 @@ shell {
 }.open
 ```
 
-In any case, if there is anything missing you would like added to the Glimmer Shape DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
+In any case, if there is anything missing you would like added to the Glimmer Shape DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-swt/pulls).
 
 #### Shapes inside a Widget
 
@@ -3322,7 +3327,7 @@ body {
 
 The `text` method invoked in the custom widget body will call the one you defined above it. To avoid this gotcha, simply name the text property above something else, like `custom_text`.
 
-#### Final Notes
+#### Custom Widget Final Notes
 
 This [Eclipse guide](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm) for how to write custom SWT widgets is also applicable to Glimmer Custom Widgets written in Ruby. I recommend reading it:
 [https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm)
