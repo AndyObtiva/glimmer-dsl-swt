@@ -4,15 +4,21 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Consider using flyweight pattern with colors (and fonts/cursors) scoping it by shell
+- Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
+- Canvas Shape DSL Shape Arguments Data-Binding support
+- Set Canvas Shape default font from parent
 - Tetris Immediate Drop on Arrow Up
+- Tetris Stop game
 - Consider breaking out of Thread loop if @game_over
 - Tetris add an about dialog
 - Tetris add a menu with beep enablement option
 - Tetris music via JSound
 - Tetris refactor mutation methods to use bang
-- Tetris consider idea of painting my own icon with Glimmer canvas and setting on Shell
+- Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
 - Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
 - Tetris consider using more observers instead of callbacks to Game
+- Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 - Consider tweaking the Tetris color scheme
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape
@@ -22,7 +28,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Ensure Tetris exits thread gracefully
 - Look into issue of `tetris` keyword not found when run from sample app after running canvas animation and canvas first
 - Fix issue with Color not loading with full package name in Shape
-- Canvas Shape DSL Data-Binding
 - Document Data-Binding Based Animation
 - Set glimmer logo as default logo for any run app till updated
 - Have Glimmer logger errors encountered in listeners even if it tolerates them

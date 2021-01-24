@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.3.0
+
+- ColorProxy args now are automatically fit into 0..255 bounds upon use of the `color`/`rgb`/`rgba` keywords
+- Canvas Shape DSL Property Data-Binding support
+- Add a more bevel 3D look to Tetris blocks
+
 ### 4.18.2.4
 
 - Tetris scoring

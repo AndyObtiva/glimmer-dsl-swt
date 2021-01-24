@@ -92,27 +92,11 @@ module Glimmer
         end
         
         def post_add_content
-          event_handler = lambda do |event|
-            @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
-            @properties['foreground'] = [@parent.foreground] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
-            @properties.each do |property, args|
-              method_name = attribute_setter(property)
-              apply_property_arg_conversions(method_name, args)
-              event.gc.send(method_name, *args)
-            end
-            apply_shape_arg_conversions(@method_name, @args)
-            apply_shape_arg_defaults(@method_name, @args)
-            tolerate_shape_extra_args(@method_name, @args)
-            event.gc.send(@method_name, *@args)
-          end
-          if parent.respond_to?(:swt_display)
-            @paint_listener_proxy = @parent.on_swt_paint(&event_handler)
-          else
-            @paint_listener_proxy = @parent.on_paint_control(&event_handler)
-          end
+          setup_paint_listener
+          @content_added = true
         end
         
-        def apply_property_arg_conversions(method_name, args)
+        def apply_property_arg_conversions(method_name, property, args)
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
           if (args.first.is_a?(Symbol) || args.first.is_a?(String))
             if the_java_method.parameter_types.first == Color.java_class
@@ -143,6 +127,7 @@ module Glimmer
             args[0] = org.eclipse.swt.graphics.Pattern.new(*new_args)
             args[1..-1] = []
           end
+          @properties[property] = args
         end
         
         def apply_shape_arg_conversions(method_name, args)
@@ -185,10 +170,40 @@ module Glimmer
   
         def set_attribute(attribute_name, *args)
           @properties[attribute_name] = args
+          if @content_added
+            @paint_listener_proxy.unregister
+            setup_paint_listener
+            @parent.redraw
+          end
         end
   
         def get_attribute(attribute_name)
           @properties.symbolize_keys[attribute_name.to_s.to_sym]
+        end
+        
+        private
+        
+        def setup_paint_listener
+          if parent.respond_to?(:swt_display)
+            @paint_listener_proxy = @parent.on_swt_paint(&method(:paint))
+          else
+            @paint_listener_proxy = @parent.on_paint_control(&method(:paint))
+          end
+        end
+        
+        def paint(paint_event)
+          @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
+          @properties['foreground'] = [@parent.foreground] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
+          @properties['font'] = [@parent.font] if draw? && !@properties.keys.map(&:to_s).include?('font')
+          @properties.each do |property, args|
+            method_name = attribute_setter(property)
+            apply_property_arg_conversions(method_name, property, args)
+            paint_event.gc.send(method_name, *args)
+          end
+          apply_shape_arg_conversions(@method_name, @args)
+          apply_shape_arg_defaults(@method_name, @args)
+          tolerate_shape_extra_args(@method_name, @args)
+          paint_event.gc.send(@method_name, *@args)
         end
     
       end

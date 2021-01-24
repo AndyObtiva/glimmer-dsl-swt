@@ -26,14 +26,37 @@ class Tetris
   
       options :game_playfield, :block_size, :row, :column
   
+      before_body {
+        @bevel_constant = 20
+      }
+  
       body {
-        composite {
+        canvas {
           layout nil
           background bind(game_playfield[row][column], :color)
-          # TODO improve shapes to have a bevel look
-          rectangle(0, 0, block_size, block_size)
-          rectangle(3, 3, block_size - 6, block_size - 6) {
-            foreground :gray
+          polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4, fill: true) {
+            background bind(game_playfield[row][column], :color) { |color_value|
+              color = color(color_value)
+              rgb(color.red + 4*@bevel_constant, color.green + 4*@bevel_constant, color.blue + 4*@bevel_constant)
+            }
+          }
+          polygon(block_size, 0, block_size - 4, 4, block_size - 4, block_size - 4, block_size, block_size, fill: true) {
+            background bind(game_playfield[row][column], :color) { |color_value|
+              color = color(color_value)
+              rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+            }
+          }
+          polygon(block_size, block_size, 0, block_size, 4, block_size - 4, block_size - 4, block_size - 4, fill: true) {
+            background bind(game_playfield[row][column], :color) { |color_value|
+              color = color(color_value)
+              rgb(color.red - 2*@bevel_constant, color.green - 2*@bevel_constant, color.blue - 2*@bevel_constant)
+            }
+          }
+          polygon(0, 0, 0, block_size, 4, block_size - 4, 4, 4, fill: true) {
+            background bind(game_playfield[row][column], :color) { |color_value|
+              color = color(color_value)
+              rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+            }
           }
         }
       }
