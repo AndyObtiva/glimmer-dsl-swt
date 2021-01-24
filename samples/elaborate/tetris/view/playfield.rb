@@ -41,7 +41,12 @@ class Tetris
 
           playfield_height.times { |row|
             playfield_width.times { |column|
-              block(game_playfield: game_playfield, block_size: block_size, row: row, column: column)
+              block(game_playfield: game_playfield, block_size: block_size, row: row, column: column) {
+                layout_data {
+                  width_hint block_size
+                  height_hint block_size
+                }
+              }
             }
           }
         }

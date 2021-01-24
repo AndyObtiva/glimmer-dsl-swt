@@ -34,7 +34,7 @@ class Tetris
   PLAYFIELD_WIDTH = 10
   PLAYFIELD_HEIGHT = 20
   PREVIEW_PLAYFIELD_WIDTH = 4
-  PREVIEW_PLAYFIELD_HEIGHT = 3
+  PREVIEW_PLAYFIELD_HEIGHT = 2
   
   before_body {
     display {
@@ -52,7 +52,7 @@ class Tetris
           elsif key_event.keyLocation == swt(:left) # left shift key
             Model::Game.current_tetromino.rotate(:left)
           end
-        when 'd'.bytes.first, swt(:arrow_up) # TODO consider changing up button to immediate drop
+        when 'd'.bytes.first, swt(:arrow_up)
           Model::Game.current_tetromino.rotate(:right)
         when 'a'.bytes.first
           Model::Game.current_tetromino.rotate(:left)
@@ -72,9 +72,7 @@ class Tetris
     
     Thread.new {
       loop {
-#         break if @game_over # TODO exit out of loop/thread once game is over
-        sleep(Model::Game.delay) # TODO make this configurable depending on level
-        # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
+        sleep(Model::Game.delay)
         sync_exec {
           unless Model::Game.game_over?
             Model::Game.current_tetromino.down
@@ -87,7 +85,9 @@ class Tetris
   
   body {
     shell(:no_resize) {
-      grid_layout(2, false) {
+      grid_layout {
+        num_columns 2
+        make_columns_equal_width false
         margin_width 0
         margin_height 0
         horizontal_spacing 0
@@ -95,13 +95,7 @@ class Tetris
       
       text 'Glimmer Tetris'
       background :gray
-      
-      # TODO add an about dialog
-      # TODO add a menu
-      # TODO consider adding music via JSound
-      # TODO refactor mutation methods to use bang
-      # TODO consider idea of painting my own icon with Glimmer canvas and setting on Shell
-      
+            
       playfield(game_playfield: Model::Game.playfield, playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
       
       score_lane(block_size: BLOCK_SIZE) {

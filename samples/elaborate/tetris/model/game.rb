@@ -95,7 +95,7 @@ class Tetris
         end
         
         def delay
-          [1 - (@level.to_i * 0.05), 0.001].max
+          [1.1 - (level.to_i * 0.1), 0.001].max
         end
         
         def consider_eliminating_lines
@@ -141,7 +141,7 @@ class Tetris
         end
         
         def start
-          self.level = 0
+          self.level = 1
           self.score = 0
           self.lines = @previoius_lines = 0
           reset_playfield

@@ -4,9 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix custom widget/shell parent attribute (returns nil)
-- Tetris Sample Scoring, Leveling, and Next Tetromino Preview
-- Fix Tetris sideways edge detection
+- Tetris Immediate Drop on Arrow Up
+- Consider breaking out of Thread loop if @game_over
+- Tetris add an about dialog
+- Tetris add a menu with beep enablement option
+- Tetris music via JSound
+- Tetris refactor mutation methods to use bang
+- Tetris consider idea of painting my own icon with Glimmer canvas and setting on Shell
+- Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
+- Tetris consider using more observers instead of callbacks to Game
 - Consider tweaking the Tetris color scheme
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape

@@ -29,10 +29,6 @@ class Tetris
       body {
         composite {
           layout nil
-          layout_data {
-            width_hint block_size
-            height_hint block_size
-          }
           background bind(game_playfield[row][column], :color)
           # TODO improve shapes to have a bevel look
           rectangle(0, 0, block_size, block_size)

@@ -48,7 +48,7 @@ class Tetris
         @blocks = default_blocks
         @preview = true
         new_row = 0
-        new_column = 0
+        new_column = (PREVIEW_PLAYFIELD_WIDTH - width)/2
         update_playfield(new_row, new_column)
       end
       
@@ -66,7 +66,6 @@ class Tetris
       end
       
       def update_playfield(new_row = nil, new_column = nil)
-        # TODO consider using an observer instead
         remove_from_playfield
         if !new_row.nil? && !new_column.nil?
           @row = new_row
@@ -90,15 +89,12 @@ class Tetris
       
       def stopped?
         return true if @stopped || @preview
-        # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         result = bottom_most_blocks.any? do |bottom_most_block|
           playfield_column = @column + bottom_most_block[:column_index]
-          !bottom_most_block[:block].clear? &&
             playfield_remaining_heights[playfield_column] &&
             @row + bottom_most_block[:row] >= playfield_remaining_heights[playfield_column] - 1
         end
-        # TODO consider using an observer instead for when a move is made
         if result && !Game.hypothetical?
           @stopped = result
           Game.consider_eliminating_lines
@@ -128,36 +124,54 @@ class Tetris
       end
       
       def right_blocked?
-        # TODO do a more elaborate right blocks check (just like bottom blocks)
-        # TODO check it is not an existing block location if it is a rotation
-        (@column == PLAYFIELD_WIDTH - width) || playfield[row][column + width].occupied?
+        (@column == PLAYFIELD_WIDTH - width) ||
+          right_most_blocks.any? { |right_most_block|
+            playfield[@row + right_most_block[:row_index]][@column + right_most_block[:column_index] + 1].occupied?
+          }
       end
       
       # Returns right-most blocks of a tetromino, which could be from multiple columns depending on shape (e.g. T)
-      # TODO
-#       def right_most_blocks(blocks = nil)
-#         width.times.map do |column_index|
-#           row_blocks_with_row_index = @blocks.each_with_index.to_a.reverse.detect do |row_blocks, row_index|
-#             !row_blocks[column_index].clear?
-#           end
-#           bottom_most_block = row_blocks_with_row_index[0][column_index]
-#           bottom_most_block_row = row_blocks_with_row_index[1]
-#           {
-#             block: bottom_most_block,
-#             row: bottom_most_block_row,
-#             column_index: column_index
-#           }
-#         end
-#       end
-      
-      def left_blocked?
-        # TODO do a more elaborate left blocks check (just like bottom blocks)
-        # TODO check it is not an existing block location if it is a rotation
-        (@column == 0) || playfield[row][column - 1].occupied?
+      def right_most_blocks
+        @blocks.each_with_index.map do |row_blocks, row_index|
+          column_block_with_column_index = row_blocks.each_with_index.to_a.reverse.detect do |column_block, column_index|
+            !column_block.clear?
+          end
+          if column_block_with_column_index
+            right_most_block = column_block_with_column_index[0]
+            {
+              block: right_most_block,
+              row_index: row_index,
+              column_index: column_block_with_column_index[1]
+            }
+          end
+        end.compact
       end
       
+      def left_blocked?
+        (@column == 0) ||
+          left_most_blocks.any? { |left_most_block|
+            playfield[@row + left_most_block[:row_index]][@column + left_most_block[:column_index] - 1].occupied?
+          }
+      end
+
+      # Returns right-most blocks of a tetromino, which could be from multiple columns depending on shape (e.g. T)
+      def left_most_blocks
+        @blocks.each_with_index.map do |row_blocks, row_index|
+          column_block_with_column_index = row_blocks.each_with_index.to_a.detect do |column_block, column_index|
+            !column_block.clear?
+          end
+          if column_block_with_column_index
+            left_most_block = column_block_with_column_index[0]
+            {
+              block: left_most_block,
+              row_index: row_index,
+              column_index: column_block_with_column_index[1]
+            }
+          end
+        end.compact
+      end
+            
       def width
-         # TODO update row and/or column based on rotation, recentering the tetromino
         @blocks[0].size
       end
       
