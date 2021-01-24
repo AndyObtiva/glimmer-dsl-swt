@@ -15,11 +15,13 @@ profile_printer = JRuby::Profiler::HtmlProfilePrinter.new(profile_data)
 ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 ```
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
+- Auto-Focusable canvas element (with keyboard)
 - Tetris High Scores
 - Canvas Shape DSL Shape Arguments Data-Binding support
-- Set Canvas Shape default font from parent
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Tetris Immediate Drop on Arrow Up
-- Tetris Stop game
+- Tetris Stop game if user does not play again in the end
+- Tetris Pause game
 - Consider breaking out of Thread loop if @game_over
 - Tetris add an about dialog
 - Tetris add a menu with beep enablement option
@@ -28,9 +30,10 @@ ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 - Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
 - Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
 - Tetris consider using more observers instead of callbacks to Game
+- Support Custom Shapes composed of a group of shapes
+- Auto-sync_exec all GUI calls from others threads instead of requiring users to use sync_exec. Also, offer an option to perform data-bindings async or configure globally as the default. 
 - Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 - Consider tweaking the Tetris color scheme
-- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
@@ -84,6 +87,7 @@ transform(1, 1, 4, 2, 2, 4).
 ```
 - Canvas support a Path DSL for methods that take Path arguments
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
+- Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
@@ -219,7 +223,7 @@ composite {
 
 ## Technical Tasks
 
-- Explore supporting new Shine data-binding syntax (data-binding with spaceship operator <=>):
+- Explore supporting new Shine View-Model Mapping DSL (data-binding with spaceship operator <=>):
 ```ruby
 items <=> 'model.property' # bidirectional
 items <= 'model.property' # ready-only
@@ -368,6 +372,8 @@ items <=> binding {
 - Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
 - Include Splash screen support automatically in CustomShell and a hook for adding require statements (or work) so they'd happen after the splash shows up or just automate all of it by convention
 - Consider supporting balanced_async_exec (balancing async_exec runs via an intermediate queue that segragates by passed in symbol argument and optional weight (default=1)) (e.g. balanced_async_exec('key_event', weight: 2, &runnable))
+- Consider the idea of shape (specific) layouts
+- Consider the idea of non-square bound widgets
 
 ## Samples
 

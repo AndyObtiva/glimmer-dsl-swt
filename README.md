@@ -8,7 +8,7 @@
 
 **[Contributors Wanted! (Submit a Glimmer App Sample to Get Started)](#contributing)**
 
-[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](#widgets), but it also supports drawing Canvas Graphics like [Shapes](#canvas-shape-dsl) and [Animations](#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
+[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](#widgets), but it also supports drawing Canvas Graphics like [Shapes](#canvas-shape-dsl) and [Animations](#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) s [scaffolding](#scaffolding) options for [Apps](#in-production), [Gems](#custom-shell-gem), and [Custom Widgets](#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](#packaging--distribution) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](#custom-shell-gem) on [Linux](https://www.linux.org/).
 
 [Glimmer receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer](https://rubygems.org/gems/glimmer) with your Ruby desktop GUI development needs. Please make [Glimmer](https://rubygems.org/gems/glimmer) even better by providing feedback and [contributing](#contributing) when possible.
 
@@ -24,7 +24,7 @@ Glimmer DSL gems:
 - [glimmer-dsl-opal](https://github.com/AndyObtiva/glimmer-dsl-opal): Glimmer DSL for Opal (Pure Ruby Web GUI and Auto-Webifier of Desktop Apps)
 - [glimmer-dsl-xml](https://github.com/AndyObtiva/glimmer-dsl-xml): Glimmer DSL for XML (& HTML)
 - [glimmer-dsl-css](https://github.com/AndyObtiva/glimmer-dsl-css): Glimmer DSL for CSS
-- [glimmer-dsl-tk](https://github.com/AndyObtiva/glimmer-dsl-tk): Glimmer DSL for Tk (Ruby Desktop Development GUI Library)
+- [glimmer-dsl-tk](https://github.com/AndyObtiva/glimmer-dsl-tk): Glimmer DSL for Tk (MRI Ruby Desktop Development GUI Library)
 
 ## Examples
 
@@ -226,7 +226,7 @@ Glimmer App:
 
 [![Math Bowling App Screenshot](https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/Math-Bowling-Screenshot.png)](https://github.com/AndyObtiva/MathBowling)
 
-**Note:** I offer Glimmer as an open-source project that represents my interests in Ruby Programming, Desktop GUI application development with SWT, Object Oriented Design, Design Patterns, and Software Architecture.
+**Note:** I offer Glimmer DSL for SWT as a free and open-source [Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt) that represents my interests in Ruby Programming, Desktop GUI application development with SWT, Object Oriented Design, Design Patterns, and Software Architecture.
 Additionally, I am sharing my professional experience and expertise in Eclipse SWT given that I am an [EclipseCon](http://andymaleh.blogspot.com/2007/03/eclipsecon-2007-day-3.html)/[EclipseWorld](http://andymaleh.blogspot.com/2008/11/eclipseworld-2008-highlights.html) presenter and have built professional applications in SWT/JFace/RCP for Obtiva and the Pampered Chef in the past. This is also done in the hopes that it would indirectly bring me work in a field I am extremely passionate about.
 That said, please keep in mind that I myself am learning topics in Software Engineering too everyday, including newer editions of SWT and JRuby, which seem to pop up every quarter.
 If you see anything that needs to be improved, please do not hesitate to contact me on [Gitter](https://gitter.im/AndyObtiva/glimmer) or submit [Issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues)/[Pull-Requests](https://github.com/AndyObtiva/glimmer-dsl-swt/pulls).
@@ -1507,7 +1507,7 @@ Although SWT Display is not technically a widget, it has similar APIs and DSL su
 
 #### Multi-Threading
 
-[JRuby](https://www.jruby.org/) supports [truly parallel multi-threading](https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) since it relies on the JVM (Java Virtual Machine). As such, it enables development of highly-interactive desktop applications that can do background work while the user is interacting with the GUI.
+[JRuby](https://www.jruby.org/) supports [truly parallel multi-threading](https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) since it relies on the JVM (Java Virtual Machine). As such, it enables development of highly-interactive desktop applications that can do background work while the user is interacting with the GUI. However, any code that interacts with the GUI from a thread other than the main (first) GUI thread must do so only through sync_exec (if it is standard synchronous code) or async_exec.
 
 ##### async_exec
 
@@ -1938,7 +1938,7 @@ style = swt(:shell_trim, :max!) # creates a shell trim style without the maximiz
 
 SWT Shell widget by default is resizable. To make it non-resizable, one must pass a complicated style bit concoction like `swt(:shell_trim, :resize!, :max!)`.
 
-Glimmer makes this easier by alternatively offering a `:no_resize` extra SWT style, added for convenience.
+Glimmer makes this easier by alternatively ing a `:no_resize` extra SWT style, added for convenience.
 This makes declaring a non-resizable window as easy as:
 
 ```ruby
@@ -2843,7 +2843,7 @@ Glimmer automatic table sorting supports `String`, `Integer`, and `Float` column
 
 In cases where data is nil, depending on the data-type, it is automatically converted to `Float` with `to_f`, `Integer` with `to_i`, or `String` with `to_s`.
 
-Should you have a special data type that could not be compared automatically, Glimmer offers the following 3 alternatives for custom sorting:
+Should you have a special data type that could not be compared automatically, Glimmer s the following 3 alternatives for custom sorting:
 - `sort_property`: this may be set to an alternative property to the one data-bound to the table column. For example, a table column called 'adult', which returns `true` or `false` may be sorted with `sort_property :dob` instead. This also support multi-property (aka multi-column) sorting (e.g. `sort_property :dob, :name`).
 - `sort_by(&block)`: this works just like Ruby `Enumerable` `sort_by`. The block receives the table column data as argument.
 - `sort(&comparator)`: this works just like Ruby `Enumerable` `sort`. The comparator block receives two objects from the table column data.
@@ -2938,7 +2938,7 @@ a text widget to the user to change the selected or passed tree item text into s
 
 `date_time` represents the SWT DateTime widget.
 
-Glimmer offers the following alias keywords for it for convenience:
+Glimmer s the following alias keywords for it for convenience:
 - `date`: `date_time(:date)`
 - `date_drop_down`: `date_time(:date, :drop_down)`
 - `time`: `date_time(:time)`
@@ -3143,7 +3143,7 @@ Approach #1 is a casual Ruby-based approach. Approach #2 is the official Glimmer
 
 A developer might start with approach #1 to eliminate duplication in a view and later upgrade it to approach #2 when needing to export a custom widget to make it available in many views.
 
-Class-based Custom Widgets offer a number of benefits over method-based custom widgets, such as built-in support for passing SWT style, nested block of extra widgets and properties, and `before_body`/`after_body` hooks.
+Class-based Custom Widgets  a number of benefits over method-based custom widgets, such as built-in support for passing SWT style, nested block of extra widgets and properties, and `before_body`/`after_body` hooks.
 
 #### Simple Example
 
@@ -3405,7 +3405,7 @@ You may check out [Hello, Custom Shell!](#hello-custom-shell) for another exampl
 
 ### Drag and Drop
 
-Glimmer offers Drag and Drop support, thanks to [SWT](https://www.eclipse.org/swt/) and Glimmer's lightweight [DSL syntax](#glimmer-dsl-syntax).
+Glimmer s Drag and Drop support, thanks to [SWT](https://www.eclipse.org/swt/) and Glimmer's lightweight [DSL syntax](#glimmer-dsl-syntax).
 
 You may learn more about SWT Drag and Drop support over here: [https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html](https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html)
 
@@ -4824,7 +4824,7 @@ Pass `-v` to javapackager in `Glimmer::RakeTask::Package.javapackager_extra_args
 
 ### Windows Application Packaging
 
-Windows offers two options for setup packaging:
+Windows s two options for setup packaging:
 - `msi` (recommended): simpler packaging option. Requires [WiX Toolset](https://wixtoolset.org/) and [.NET Framework](https://dotnet.microsoft.com/download/dotnet-framework). Simply run `glimmer package[msi]` (or `glimmer package:native[msi]` if it's not your first time) and it will give you more details on the pre-requisites you need to install (e.g. [WiX Toolset](https://wixtoolset.org/) and [.NET Framework 3.5 SP1](https://dotnet.microsoft.com/download/dotnet-framework/net35-sp1)).
 - `exe`: more advanced packaging option. Requires [Inno Setup](https://jrsoftware.org/isinfo.php). Simply run `glimmer package[exe]` (or `glimmer package:native[exe]` if it's not your first time) and it will tell you what you need to install.
 
