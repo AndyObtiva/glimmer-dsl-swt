@@ -1,13 +1,16 @@
 # Change Log
 
-### 4.18.3.0
+### 4.18.2.5
 
 - ColorProxy args now are automatically fit into 0..255 bounds upon use of the `color`/`rgb`/`rgba` keywords
-- Canvas Shape DSL Property Data-Binding support
+- Canvas Shape DSL (Property) Data-Binding support (No Argument Data-Binding support yet)
 - Add a more bevel 3D look to Tetris blocks
 - Use flyweight pattern with colors
 - Use flyweight pattern with widget classes
 - Use flyweight pattern with custom widget classes
+- Optimized performance of Canvas Shape DSL
+- Optimized performance of Tetris game
+- Fixed issue with top-level sync_exec/async_exec use randomly bombing
 
 ### 4.18.2.4
 

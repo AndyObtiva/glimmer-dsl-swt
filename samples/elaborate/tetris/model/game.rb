@@ -127,7 +127,7 @@ class Tetris
              playfield[playfield_row].each_with_index do |block, playfield_column|
                previous_row = playfield[playfield_row - 1]
                previous_block = previous_row[playfield_column]
-               block.color = previous_block.color
+               block.color = previous_block.color unless block.color == previous_block.color
              end
           end
           playfield[0].each(&:clear)

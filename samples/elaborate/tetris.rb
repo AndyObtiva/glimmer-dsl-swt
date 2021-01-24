@@ -21,7 +21,6 @@
 
 # Tetris App View Custom Shell (represents `tetris` keyword)
 
-require 'jruby/profiler'
 require_relative 'tetris/model/game'
 
 require_relative 'tetris/view/playfield'
@@ -62,9 +61,7 @@ class Tetris
     }
     
     Model::Game.configure_beeper do
-      async_exec {
-        display.beep
-      }
+      display.beep
     end
   }
   
@@ -102,18 +99,8 @@ class Tetris
       score_lane(block_size: BLOCK_SIZE) {
         layout_data(:fill, :fill, false, true)
       }
-      
-      on_swt_show {
-#         puts 'closing'
-#         exit(0)
-      }
     }
   }
 end
 
-# profile_data = JRuby::Profiler.profile do
-  Tetris.launch
-# end
-
-# profile_printer = JRuby::Profiler::HtmlProfilePrinter.new(profile_data)
-# ps = java.io.PrintStream.new(STDOUT.to_outputstream)
+Tetris.launch

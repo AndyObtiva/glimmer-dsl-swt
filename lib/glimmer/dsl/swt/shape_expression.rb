@@ -23,6 +23,7 @@ require 'glimmer/dsl/expression'
 require 'glimmer/dsl/parent_expression'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/custom/shape'
+require 'glimmer/swt/custom/drawable'
 
 module Glimmer
   module DSL
@@ -31,10 +32,7 @@ module Glimmer
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)
-          (
-            (parent.respond_to?(:swt_widget) and parent.swt_widget.is_a?(org.eclipse.swt.graphics.Drawable)) or
-            (parent.respond_to?(:swt_display) and parent.swt_display.is_a?(org.eclipse.swt.graphics.Drawable))
-          ) and
+          parent.is_a?(Glimmer::SWT::Custom::Drawable) and
             Glimmer::SWT::Custom::Shape.valid?(parent, keyword, *args, &block)
         end
         

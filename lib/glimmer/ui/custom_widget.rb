@@ -34,13 +34,14 @@ module Glimmer
       include DataBinding::ObservableModel
 
       super_module_included do |klass|
+        # TODO clear memoization of WidgetProxy.swt_widget_class_for for a keyword if a custom widget was defined with that keyword
         klass.include(Glimmer) unless klass.name.include?('Glimmer::UI::CustomShell')
         Glimmer::UI::CustomWidget.add_custom_widget_namespaces_for(klass) unless klass.name.include?('Glimmer::UI::CustomShell')
       end
 
       class << self
         def for(underscored_custom_widget_name)
-          if flyweight_custom_widget_classes[underscored_custom_widget_name].nil?
+          unless flyweight_custom_widget_classes.keys.include?(underscored_custom_widget_name)
             begin
               extracted_namespaces = underscored_custom_widget_name.
                 to_s.

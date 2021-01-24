@@ -22,6 +22,7 @@
 require 'glimmer'
 require 'glimmer/dsl/expression'
 require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/custom/shape'
 
 module Glimmer
   module DSL
@@ -29,7 +30,7 @@ module Glimmer
       class WidgetExpression < Expression
         include ParentExpression
 
-        EXCLUDED_KEYWORDS = %w[shell display tab_item]
+        EXCLUDED_KEYWORDS = %w[shell display tab_item] + Glimmer::SWT::Custom::Shape.keywords - ['text']
 
         def can_interpret?(parent, keyword, *args, &block)
           result = !EXCLUDED_KEYWORDS.include?(keyword) &&

@@ -5,7 +5,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Document profiling tips with Glimmer (like profiling till on_swt_show is triggered on shell)
+```ruby
+require 'jruby/profiler'
+profile_data = JRuby::Profiler.profile do
+  Tetris.launch
+end
+
+profile_printer = JRuby::Profiler::HtmlProfilePrinter.new(profile_data)
+ps = java.io.PrintStream.new(STDOUT.to_outputstream)
+```
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
+- Tetris High Scores
 - Canvas Shape DSL Shape Arguments Data-Binding support
 - Set Canvas Shape default font from parent
 - Tetris Immediate Drop on Arrow Up

@@ -43,7 +43,17 @@ module Glimmer
           end
           
           def gc_instance_methods
-            org.eclipse.swt.graphics.GC.instance_methods.map(&:to_s)
+            @gc_instance_methods ||= org.eclipse.swt.graphics.GC.instance_methods.map(&:to_s)
+          end
+          
+          def keywords
+            @keywords ||= gc_instance_methods.select do |method_name|
+              !method_name.end_with?('=') && (method_name.start_with?('draw_') || method_name.start_with?('fill_'))
+            end.reject do |method_name|
+              gc_instance_methods.include?("#{method_name}=") || gc_instance_methods.include?("set_#{method_name}")
+            end.map do |method_name|
+              method_name.gsub(/(draw|fill|gradient|round)_/, '')
+            end.uniq.compact.to_a
           end
           
           def arg_options(args, extract: false)
@@ -53,11 +63,19 @@ module Glimmer
           end
           
           def method_name(keyword, args)
-            keyword = keyword.to_s
-            gradient = 'gradient_' if arg_options(args)[:gradient]
-            round = 'round_' if arg_options(args)[:round]
-            gc_instance_method_name_prefix = !['polyline', 'point', 'image', 'focus'].include?(keyword) && (arg_options(args)[:fill] || arg_options(args)[:gradient]) ? 'fill_' : 'draw_'
-            "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword}"
+            method_arg_options = arg_options(args)
+            unless flyweight_method_names.keys.include?([keyword, method_arg_options])
+              keyword = keyword.to_s
+              gradient = 'gradient_' if method_arg_options[:gradient]
+              round = 'round_' if method_arg_options[:round]
+              gc_instance_method_name_prefix = !['polyline', 'point', 'image', 'focus'].include?(keyword) && (method_arg_options[:fill] || method_arg_options[:gradient]) ? 'fill_' : 'draw_'
+              flyweight_method_names[[keyword, method_arg_options]] = "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword}"
+            end
+            flyweight_method_names[[keyword, method_arg_options]]
+          end
+          
+          def flyweight_method_names
+            @flyweight_method_names ||= {}
           end
         end
         

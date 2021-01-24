@@ -498,7 +498,7 @@ module Glimmer
       # This supports widgets in and out of basic SWT
       def self.swt_widget_class_for(underscored_widget_name)
         # TODO clear memoization for a keyword if a custom widget was defined with that keyword
-        if flyweight_swt_widget_classes[underscored_widget_name].nil?
+        unless flyweight_swt_widget_classes.keys.include?(underscored_widget_name)
           begin
             underscored_widget_name = KEYWORD_ALIASES[underscored_widget_name] if KEYWORD_ALIASES[underscored_widget_name]
             swt_widget_name = underscored_widget_name.camelcase(:upper)
