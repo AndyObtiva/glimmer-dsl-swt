@@ -64,8 +64,6 @@ class Tetris
       }
       
       def exit_game
-        pd parent_proxy
-        pd parent
         display.dispose if Model::Game.game_over?
       end
     end

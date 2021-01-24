@@ -24,6 +24,7 @@
 require_relative 'tetris/model/game'
 
 require_relative 'tetris/view/playfield'
+require_relative 'tetris/view/score_lane'
 require_relative 'tetris/view/game_over_dialog'
 
 class Tetris
@@ -32,12 +33,10 @@ class Tetris
   BLOCK_SIZE = 25
   PLAYFIELD_WIDTH = 10
   PLAYFIELD_HEIGHT = 20
+  PREVIEW_PLAYFIELD_WIDTH = 4
+  PREVIEW_PLAYFIELD_HEIGHT = 3
   
   before_body {
-    Model::Game.configure_beeper do
-      display.beep
-    end
-        
     display {
       on_swt_keydown { |key_event|
         case key_event.keyCode
@@ -60,6 +59,12 @@ class Tetris
         end
       }
     }
+    
+    Model::Game.configure_beeper do
+      async_exec {
+        display.beep
+      }
+    end
   }
   
   after_body {
@@ -68,7 +73,7 @@ class Tetris
     Thread.new {
       loop {
 #         break if @game_over # TODO exit out of loop/thread once game is over
-        sleep(1) # TODO make this configurable depending on level
+        sleep(Model::Game.delay) # TODO make this configurable depending on level
         # TODO add processing delay for when stopped? status sticks so user can move block left and right still for a short period of time
         sync_exec {
           unless Model::Game.game_over?
@@ -82,21 +87,26 @@ class Tetris
   
   body {
     shell(:no_resize) {
+      grid_layout(2, false) {
+        margin_width 0
+        margin_height 0
+        horizontal_spacing 0
+      }
+      
       text 'Glimmer Tetris'
       background :gray
       
-      # TODO implement scoring
-      # TODO implement eliminated line tracking
-      # TODO implement level tracking
-      # TODO implement showing upcoming shape
-      # TODO implement differnet difficulty levels
       # TODO add an about dialog
       # TODO add a menu
       # TODO consider adding music via JSound
       # TODO refactor mutation methods to use bang
       # TODO consider idea of painting my own icon with Glimmer canvas and setting on Shell
       
-      playfield(playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
+      playfield(game_playfield: Model::Game.playfield, playfield_width: PLAYFIELD_WIDTH, playfield_height: PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
+      
+      score_lane(block_size: BLOCK_SIZE) {
+        layout_data(:fill, :fill, false, true)
+      }
     }
   }
 end

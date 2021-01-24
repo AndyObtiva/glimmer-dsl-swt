@@ -26,7 +26,7 @@ class Tetris
     class Playfield
       include Glimmer::UI::CustomWidget
   
-      options :playfield_width, :playfield_height, :block_size
+      options :game_playfield, :playfield_width, :playfield_height, :block_size
   
       body {
         composite {
@@ -41,7 +41,7 @@ class Tetris
 
           playfield_height.times { |row|
             playfield_width.times { |column|
-              block(block_size: block_size, row: row, column: column)
+              block(game_playfield: game_playfield, block_size: block_size, row: row, column: column)
             }
           }
         }

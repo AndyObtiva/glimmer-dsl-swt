@@ -25,13 +25,16 @@ require_relative 'tetromino'
 class Tetris
   module Model
     class Game
+      SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
+      
       class << self
-        attr_accessor :game_over
+        attr_accessor :game_over, :preview_tetromino, :lines, :score, :level
         alias game_over? game_over
         
         def consider_adding_tetromino
           if tetrominoes.empty? || Game.current_tetromino.stopped?
-            tetrominoes << Tetromino.new
+            preview_tetromino.launch!
+            preview_next_tetromino!
           end
         end
         
@@ -70,19 +73,56 @@ class Tetris
           }
         end
         
+        def preview_playfield
+          @preview_playfield ||= PREVIEW_PLAYFIELD_HEIGHT.times.map {|row|
+            PREVIEW_PLAYFIELD_WIDTH.times.map {|column|
+              Block.new
+            }
+          }
+        end
+        
+        def preview_next_tetromino!
+          self.preview_tetromino = Tetromino.new
+        end
+        
+        def calculate_score!(eliminated_lines)
+          new_score = SCORE_MULTIPLIER[eliminated_lines] * (level + 1)
+          self.score += new_score
+        end
+        
+        def level_up!
+          self.level += 1 if lines > (self.level + 1)*10
+        end
+        
+        def delay
+          [1 - (@level.to_i * 0.05), 0.001].max
+        end
+        
         def consider_eliminating_lines
-          cleared_line = false
+          eliminated_lines = 0
           playfield.each_with_index do |row, playfield_row|
             if row.all? {|block| !block.clear?}
-              cleared_line = true
+              eliminated_lines += 1
               shift_blocks_down_above_row(playfield_row)
             end
           end
-          beep if cleared_line
+          if eliminated_lines > 0
+            beep(eliminated_lines)
+            self.lines += eliminated_lines
+            level_up!
+            calculate_score!(eliminated_lines)
+          end
         end
         
-        def beep
-          @beeper&.call
+        def beep(beep_count = 1)
+          Thread.new {
+            beep_count.times {
+              @beeper&.call
+              
+              # Need a delay between beeps for consecutive ones to be perceivable
+              sleep(0.5)
+            }
+          }
         end
         
         def configure_beeper(&beeper)
@@ -100,19 +140,33 @@ class Tetris
           playfield[0].each(&:clear)
         end
         
-        def restart
+        def start
+          self.level = 0
+          self.score = 0
+          self.lines = @previoius_lines = 0
           reset_playfield
+          reset_preview_playfield
           reset_tetrominoes
+          preview_next_tetromino!
+          consider_adding_tetromino
           self.game_over = false
         end
-        alias start restart
+        alias restart start
         
         def reset_tetrominoes
-          @tetrominoes = [Tetromino.new]
+          @tetrominoes = []
         end
         
         def reset_playfield
           playfield.each do |row|
+            row.each do |block|
+              block.clear
+            end
+          end
+        end
+        
+        def reset_preview_playfield
+          preview_playfield.each do |row|
             row.each do |block|
               block.clear
             end

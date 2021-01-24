@@ -38,16 +38,31 @@ class Tetris
         Z: :red,
       }
       
-      attr_reader :letter
+      attr_reader :letter, :preview
+      alias preview? preview
       attr_accessor :orientation, :blocks, :row, :column
       
       def initialize
         @letter = LETTER_COLORS.keys.sample
         @orientation = :north
         @blocks = default_blocks
+        @preview = true
+        new_row = 0
+        new_column = 0
+        update_playfield(new_row, new_column)
+      end
+      
+      def playfield
+        @preview ? Game.preview_playfield : Game.playfield
+      end
+      
+      def launch!
+        remove_from_playfield
+        @preview = false
         new_row = 1 - height
         new_column = (PLAYFIELD_WIDTH - width)/2
         update_playfield(new_row, new_column)
+        Game.tetrominoes << self
       end
       
       def update_playfield(new_row = nil, new_column = nil)
@@ -62,19 +77,19 @@ class Tetris
       
       def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Game.playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && Game.playfield[playfield_row][playfield_column]&.clear? && !blocks[row_index][column_index].clear?
+          playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && playfield[playfield_row][playfield_column]&.clear? && !blocks[row_index][column_index].clear?
         end
       end
       
       def remove_from_playfield
         return if @row.nil? || @column.nil?
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          Game.playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && Game.playfield[playfield_row][playfield_column]&.color == color
+          playfield[playfield_row][playfield_column].clear if playfield_row >= 0 && !blocks[row_index][column_index].clear? && playfield[playfield_row][playfield_column]&.color == color
         end
       end
       
       def stopped?
-        return true if @stopped
+        return true if @stopped || @preview
         # TODO add time delay for when stopped? status sticks so user can move block left and right still for a short period of time
         playfield_remaining_heights = Game.playfield_remaining_heights(self)
         result = bottom_most_blocks.any? do |bottom_most_block|
@@ -115,7 +130,7 @@ class Tetris
       def right_blocked?
         # TODO do a more elaborate right blocks check (just like bottom blocks)
         # TODO check it is not an existing block location if it is a rotation
-        (@column == PLAYFIELD_WIDTH - width) || Game.playfield[row][column + width].occupied?
+        (@column == PLAYFIELD_WIDTH - width) || playfield[row][column + width].occupied?
       end
       
       # Returns right-most blocks of a tetromino, which could be from multiple columns depending on shape (e.g. T)
@@ -138,7 +153,7 @@ class Tetris
       def left_blocked?
         # TODO do a more elaborate left blocks check (just like bottom blocks)
         # TODO check it is not an existing block location if it is a rotation
-        (@column == 0) || Game.playfield[row][column - 1].occupied?
+        (@column == 0) || playfield[row][column - 1].occupied?
       end
       
       def width
@@ -151,6 +166,7 @@ class Tetris
       end
       
       def down
+        launch! if preview?
         unless stopped?
           new_row = @row + 1
           update_playfield(new_row, @column)
