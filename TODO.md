@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Consider using flyweight pattern with colors (and fonts/cursors) scoping it by shell
+- Document profiling tips with Glimmer (like profiling till on_swt_show is triggered on shell)
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Canvas Shape DSL Shape Arguments Data-Binding support
 - Set Canvas Shape default font from parent
@@ -45,6 +45,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document use of jruby in rails and ability to switch manually to CRuby with RVM
 
 ## Soon
+
+- Use flyweight pattern with fonts
+- Use flyweight pattern with cursors
 
 - Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
 - Consider adding `glimmer release` task to publish a Glimmer app as a gem (not just custom widgets or custom shells)

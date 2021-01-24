@@ -108,7 +108,7 @@ module Glimmer
       end
       
       def nested?
-        !parent.nil?
+        !swt_widget&.parent.nil?
       end
 
       def hide

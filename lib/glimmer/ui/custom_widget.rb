@@ -40,31 +40,41 @@ module Glimmer
 
       class << self
         def for(underscored_custom_widget_name)
-          extracted_namespaces = underscored_custom_widget_name.
-            to_s.
-            split(/__/).map do |namespace|
-              namespace.camelcase(:upper)
-            end
-          custom_widget_namespaces.each do |base|
-            extracted_namespaces.reduce(base) do |result, namespace|
-              if !result.constants.include?(namespace)
-                namespace = result.constants.detect {|c| c.to_s.upcase == namespace.to_s.upcase } || namespace
+          if flyweight_custom_widget_classes[underscored_custom_widget_name].nil?
+            begin
+              extracted_namespaces = underscored_custom_widget_name.
+                to_s.
+                split(/__/).map do |namespace|
+                  namespace.camelcase(:upper)
+                end
+              custom_widget_namespaces.each do |base|
+                extracted_namespaces.reduce(base) do |result, namespace|
+                  if !result.constants.include?(namespace)
+                    namespace = result.constants.detect {|c| c.to_s.upcase == namespace.to_s.upcase } || namespace
+                  end
+                  begin
+                    flyweight_custom_widget_classes[underscored_custom_widget_name] = constant = result.const_get(namespace)
+                    return constant if constant.ancestors.include?(Glimmer::UI::CustomWidget)
+                    flyweight_custom_widget_classes[underscored_custom_widget_name] = constant
+                  rescue => e
+                    # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
+                    flyweight_custom_widget_classes[underscored_custom_widget_name] = result
+                  end
+                end
               end
-              begin
-                constant = result.const_get(namespace)
-                return constant if constant.ancestors.include?(Glimmer::UI::CustomWidget)
-                constant
-              rescue => e
-                # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
-                result
-              end
+              raise "#{underscored_custom_widget_name} has no custom widget class!"
+            rescue => e
+              Glimmer::Config.logger.debug {e.message}
+              Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
+              flyweight_custom_widget_classes[underscored_custom_widget_name] = nil
             end
           end
-          raise "#{underscored_custom_widget_name} has no custom widget class!"
-        rescue => e
-          Glimmer::Config.logger.debug {e.message}
-          Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
-          nil
+          flyweight_custom_widget_classes[underscored_custom_widget_name]
+        end
+        
+        # Flyweight Design Pattern memoization cache. Can be cleared if memory is needed.
+        def flyweight_custom_widget_classes
+          @flyweight_custom_widget_classes ||= {}
         end
  
         def add_custom_widget_namespaces_for(klass)

@@ -58,6 +58,11 @@ class Tetris
               rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
             }
           }
+          rectangle(0, 0, block_size, block_size) {
+            foreground bind(game_playfield[row][column], :color) { |color_value|
+              color_value == Model::Block::COLOR_CLEAR ? :gray : color_value
+            }
+          }
         }
       }
     end

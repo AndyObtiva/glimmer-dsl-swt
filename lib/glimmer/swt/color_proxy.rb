@@ -28,9 +28,20 @@ module Glimmer
     #
     # Invoking `#swt_color` returns the SWT Color object wrapped by this proxy
     #
-    # Follows the Proxy Design Pattern
+    # Follows the Proxy Design Pattern and Flyweight Design Pattern (caching memoization)
     class ColorProxy
       include_package 'org.eclipse.swt.graphics'
+      
+      class << self
+        def flyweight(*args)
+          flyweight_color_proxies[args] ||= new(*args)
+        end
+        
+        # Flyweight Design Pattern memoization cache. Can be cleared if memory is needed.
+        def flyweight_color_proxies
+          @flyweight_color_proxies ||= {}
+        end
+      end
 
       # Initializes a proxy for an SWT Color object
       #
@@ -65,7 +76,7 @@ module Glimmer
             end
           when 3..4
             red, green, blue, alpha = @args
-            @swt_color = Color.new(DisplayProxy.instance.swt_display, *[red, green, blue, alpha].compact)
+            @swt_color = Color.new(*[red, green, blue, alpha].compact)
           end
         end
         @swt_color

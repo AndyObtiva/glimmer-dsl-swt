@@ -34,6 +34,14 @@ module Glimmer
             shapes.delete(shape)
           end
         end
+        
+        def resetup_shape_paint_listeners
+          # TODO consider performance optimizations relating to order of shape rendering (affecting only further shapes not previous ones)
+          shapes.each do |shape|
+            shape.paint_listener_proxy&.unregister
+            shape.setup_paint_listener
+          end
+        end
       end
       
     end

@@ -5,6 +5,9 @@
 - ColorProxy args now are automatically fit into 0..255 bounds upon use of the `color`/`rgb`/`rgba` keywords
 - Canvas Shape DSL Property Data-Binding support
 - Add a more bevel 3D look to Tetris blocks
+- Use flyweight pattern with colors
+- Use flyweight pattern with widget classes
+- Use flyweight pattern with custom widget classes
 
 ### 4.18.2.4
 

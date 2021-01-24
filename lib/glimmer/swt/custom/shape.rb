@@ -171,8 +171,7 @@ module Glimmer
         def set_attribute(attribute_name, *args)
           @properties[attribute_name] = args
           if @content_added
-            @paint_listener_proxy.unregister
-            setup_paint_listener
+            @parent.resetup_shape_paint_listeners
             @parent.redraw
           end
         end
@@ -180,8 +179,6 @@ module Glimmer
         def get_attribute(attribute_name)
           @properties.symbolize_keys[attribute_name.to_s.to_sym]
         end
-        
-        private
         
         def setup_paint_listener
           if parent.respond_to?(:swt_display)

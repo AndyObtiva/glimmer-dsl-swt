@@ -76,7 +76,7 @@ class Tetris
       
       def add_to_playfield
         update_playfield_block do |playfield_row, playfield_column, row_index, column_index|
-          playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && playfield[playfield_row][playfield_column]&.clear? && !blocks[row_index][column_index].clear?
+          playfield[playfield_row][playfield_column].color = blocks[row_index][column_index].color if playfield_row >= 0 && playfield[playfield_row][playfield_column]&.clear? && !blocks[row_index][column_index].clear? && playfield[playfield_row][playfield_column].color != blocks[row_index][column_index].color
         end
       end
       
