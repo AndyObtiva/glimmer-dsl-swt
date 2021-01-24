@@ -57,11 +57,7 @@ module Glimmer
           end
           if args.first.nil? || (!args.first.is_a?(Display) && !args.first.is_a?(Shell))
             @display = DisplayProxy.instance.swt_display
-            @parent = @display.shells.last
-            if @parent
-              @parent_proxy = @parent.get_data('proxy')
-              args = [@display.shells.last] + args
-            end
+            args = [@display] + args
           end
           args = args.compact
           @swt_widget = Shell.new(*args)

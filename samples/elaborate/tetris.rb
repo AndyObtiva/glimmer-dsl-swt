@@ -76,7 +76,7 @@ class Tetris
         sync_exec {
           unless Model::Game.game_over?
             Model::Game.current_tetromino.down
-            game_over_dialog.open if Model::Game.current_tetromino.row <= 0 && Model::Game.current_tetromino.stopped?
+            game_over_dialog(parent_shell: body_root).open if Model::Game.current_tetromino.row <= 0 && Model::Game.current_tetromino.stopped?
           end
         }
       }

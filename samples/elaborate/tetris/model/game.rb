@@ -91,7 +91,7 @@ class Tetris
         end
         
         def level_up!
-          self.level += 1 if lines > (self.level + 1)*10
+          self.level += 1 if lines >= self.level*10
         end
         
         def delay
@@ -107,22 +107,15 @@ class Tetris
             end
           end
           if eliminated_lines > 0
-            beep(eliminated_lines)
+            beep
             self.lines += eliminated_lines
             level_up!
             calculate_score!(eliminated_lines)
           end
         end
         
-        def beep(beep_count = 1)
-          Thread.new {
-            beep_count.times {
-              @beeper&.call
-              
-              # Need a delay between beeps for consecutive ones to be perceivable
-              sleep(0.5)
-            }
-          }
+        def beep
+          @beeper&.call
         end
         
         def configure_beeper(&beeper)

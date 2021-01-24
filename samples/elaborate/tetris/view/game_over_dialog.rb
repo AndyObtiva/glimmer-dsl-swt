@@ -24,27 +24,28 @@ class Tetris
     class GameOverDialog
       include Glimmer::UI::CustomShell
   
-      options :block_size, :row, :column
+      options :parent_shell
       
       body {
-        dialog { |dialog_proxy|
+        dialog(parent_shell) {
           row_layout {
             type :vertical
             center true
           }
           text 'Tetris'
           
-          label {
+          label(:center) {
             text 'Game Over!'
-            font height: 30
+            font name: 'Menlo', height: 30, style: :bold
           }
+          label # filler
           button {
             text 'Play Again?'
             
             on_widget_selected {
               Model::Game.restart
               
-              dialog_proxy.close
+              body_root.close
             }
           }
           
