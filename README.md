@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.2.5
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -288,6 +288,7 @@ If you see anything that needs to be improved, please do not hesitate to contact
     - [Layouts](#layouts)
     - [Layout Data](#layout-data)
     - [Canvas Shape DSL](#canvas-shape-dsl)
+    - [Canvas Transform DSL](#canvas-transform-dsl)
     - [Canvas Animation DSL](#canvas-animation-dsl)
     - [Data-Binding](#data-binding)
       - [General Examples](#general-examples)
@@ -364,6 +365,7 @@ If you see anything that needs to be improved, please do not hesitate to contact
       - [Hello, Dialog!](#hello-dialog)
       - [Hello, Canvas!](#hello-canvas)
       - [Hello, Canvas Animation!](#hello-canvas-animation)
+      - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
@@ -403,7 +405,7 @@ If you see anything that needs to be improved, please do not hesitate to contact
   
 ## Background
 
-Ruby is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the Ruby on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that Java libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as SWT, JFace, and RCP can help fill the gap of desktop application development with Ruby.
+[Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that Java libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
 
 ## Platform Support
 
@@ -458,7 +460,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.2.5
+jgem install glimmer-dsl-swt -v 4.18.3.0
 
 
 ```
@@ -478,7 +480,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.2.5
+gem 'glimmer-dsl-swt', '~> 4.18.3.0
 '
 ```
 
@@ -537,7 +539,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.2.5
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.0
 
 
       
@@ -1018,7 +1020,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.2.5
+  Swt    glimmer-dsl-swt    4.18.3.0
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -1097,6 +1099,8 @@ bin/girb
 Watch out for hands-on examples in this README indicated by "you may copy/paste in [`girb`](#girb-glimmer-irb-command)"
 
 Keep in mind that all samples live under [https://github.com/AndyObtiva/glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt)
+
+If you need a more GUI interactive option to experiement with Glimmer GUI DSL Syntax, you may try the ["Ugliest Editor Ever"](https://github.com/AndyObtiva/glimmer-cs-gladiator) or just build your own using the [Glimmer DSL for SWT Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt).
 
 ## Glimmer GUI DSL Syntax
 
@@ -2339,6 +2343,7 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `line_style` line join style (SWT style value of `:line_solid`, `:line_dash`, `:line_dot`, `:line_dashdot`, or `:line_dashdotdot`)
 - `line_width` line width in integer (used in draw operations)
 - `text_anti_alias` enables text antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
+- `transform` sets transform object using [Canvas Transform DSL](#canvas-transform-dsl) syntax
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -2387,6 +2392,8 @@ If you get extremely stuck, remember that you could always default to direct [SW
 Example of manually doing the same things as in the above example without relying on the declarative Glimmer Shape DSL:
 
 ```ruby
+image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
+
 include Glimmer
 
 shell {
@@ -2397,17 +2404,23 @@ shell {
     background :yellow
     
     on_paint_control { |event|
-      event.gc.setBackground(color(:red).swt_color)
-      event.gc.fillRectangle(0, 0, 220, 400)
+      event.gc.set_background(color(:red).swt_color)
+      event.gc.fill_rectangle(0, 0, 220, 400)
       
-      event.gc.setBackground(color(:magenta).swt_color)
-      event.gc.fillRoundRectangle(50, 20, 300, 150, 30, 50)
+      event.gc.set_background(color(:magenta).swt_color)
+      event.gc.fill_roundRectangle(50, 20, 300, 150, 30, 50)
       
-      event.gc.setBackground(color(:dark_magenta).swt_color)
-      event.gc.fillGradientRectangle(150, 200, 100, 70, true)
+      event.gc.set_background(color(:dark_magenta).swt_color)
+      event.gc.fill_gradientRectangle(150, 200, 100, 70, true)
       
-      event.gc.setForeground(color(:dark_blue).swt_color)
-      event.gc.drawRectangle(200, 80, 108, 36)
+      event.gc.set_foreground(color(:dark_blue).swt_color)
+      event.gc.draw_rectangle(200, 80, 108, 36)
+      
+      event.gc.set_foreground(color(:black).swt_color)
+      event.gc.set_lineWidth(3)
+      event.gc.draw_rectangle(200, 80, 108, 36)
+      
+      event.gc.draw_image(image_object.swt_image, 70, 50)
     }
   }
 }.open
@@ -2418,6 +2431,86 @@ In any case, if there is anything missing you would like added to the Glimmer Sh
 #### Shapes inside a Widget
 
 Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
+
+### Canvas Transform DSL
+
+The transform DSL builds [org.eclipse.swt.graphics.Transform](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Transform.html) objects with a nice declarative syntax.
+
+`transform` keyword builds a `Transform` object. It optionally takes the transformation matrix elements: (m11, m12, m21, m22, dx, dy)
+
+The first 2 values represent the 1st row, the second 2 values represent the 2nd row, and the last 2 values represent translation on the x and y axes
+
+Additionally, Transform operation keywords may be nested within the `transform` keyword to set its properties:
+- `identity` resets transform to identity (no transformation)
+- `invert` inverts a transform
+- `multiply(&block)` multiplies by another transform (takes a block representing properties of another transform, no need for using the word transform again)
+- `rotate(angle)` rotates by angle degrees
+- `scale(x, y)` scales a shape (stretch)
+- `shear(x, y)` shear effect
+- `translate(x, y)` translate x and y coordinates (move)
+- `elements(m11, m12, m21, m22, dx, dy)` resets all values of the transform matrix (first 2 values represent the 1st row, second 2 values represent the 2nd row, the last 2 values represent translation on x and y axes)
+ 
+Also, setting `transform` to `nil` after a previous `transform` has been set is like calling `identity`. It resets the transform.
+ 
+Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```ruby
+include Glimmer
+
+shell {
+  text 'Canvas Transform Example'
+  minimum_size 330, 352
+  
+  canvas { |canvas_proxy|
+    background :white
+
+    text('glimmer', 0, 0) {
+      foreground :red
+      transform {
+        translate 220, 100
+        scale 2.5, 2.5
+        rotate 90
+      }
+    }
+    text('glimmer', 0, 0) {
+      foreground :dark_green
+      transform {
+        translate 0, 0
+        shear 2, 3
+        scale 2, 2
+      }
+    }
+    text('glimmer', 0, 0) {
+      foreground :blue
+      transform {
+        translate 0, 220
+        scale 3, 3
+      }
+    }
+  }
+}.open
+```
+
+![Canvas Transform Example](images/glimmer-example-canvas-transform.png)
+
+#### Top-Level Transform Fluent Interface
+
+When using a transform at the top-level (outside of shell), you get a fluent interface to faciliate manual constructioni and use.
+
+Example:
+
+```ruby
+transform(1, 1, 4, 2, 2, 4).
+  multiply(1, 2, 3, 4,3,4).
+  scale(1, 2, 3, 4, 5, 6).
+  rotate(45).
+  scale(2, 4).
+  invert.
+  shear(2, 4).
+  translate(3, 7)
+```
+
+Learn more at the [Hello, Canvas Transform! Sample](#hello-canvas-transform).
 
 ### Canvas Animation DSL
 
@@ -4580,6 +4673,19 @@ Hello, Canvas Animation!
 Hello, Canvas Animation Another Frame!
 
 ![Hello Canvas Animation Frame 2](images/glimmer-hello-canvas-animation-frame2.png)
+
+#### Hello, Canvas Transform!
+
+This sample demonstrates the use of the `transform` keyword as part of the [Transform DSL](#canvas-transform-dsl) within the [Shape DSL](#canvas-shape-dsl).
+
+Code:
+
+[samples/hello/hello_canvas_transform.rb](samples/hello/hello_canvas_transform.rb)
+
+Hello, Canvas Transform!
+
+![Hello Canvas Transform](images/glimmer-hello-canvas-transform.png)
+
 
 ### Elaborate Samples
 

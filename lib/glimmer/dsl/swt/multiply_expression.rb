@@ -20,27 +20,34 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/dsl/expression'
-
+require 'glimmer/dsl/parent_expression'
 require 'glimmer/swt/transform_proxy'
 
 module Glimmer
   module DSL
     module SWT
-      class PropertyExpression < Expression
+      # Special treatment for transform {multiply(){} } operation
+      class MultiplyExpression < Expression
+        include ParentExpression
+
         def can_interpret?(parent, keyword, *args, &block)
-          block.nil? and
-            (args.size > 0 || parent.is_a?(Glimmer::SWT::TransformProxy)) and
-            parent.respond_to?(:set_attribute) and
-            parent.respond_to?(:has_attribute?) and
-            parent.has_attribute?(keyword, *args) and
-            !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')
+          keyword == 'multiply' and
+            parent.is_a?(Glimmer::SWT::TransformProxy)
         end
-  
+
         def interpret(parent, keyword, *args, &block)
-          parent.set_attribute(keyword, *args)
-          parent
+          Glimmer::SWT::TransformProxy.new(parent, *args, multiply: true)
         end
+        
+        def add_content(parent, &block)
+          super
+          parent.post_add_content
+        end
+      
       end
+
     end
+
   end
+
 end

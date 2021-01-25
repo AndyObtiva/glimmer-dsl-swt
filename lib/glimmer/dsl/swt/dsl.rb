@@ -50,6 +50,7 @@ module Glimmer
           cursor
           font
           image
+          multiply
           property
           block_property
           widget

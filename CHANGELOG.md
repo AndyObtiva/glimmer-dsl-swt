@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.3.0
+
+- Canvas Transform DSL (DSL declared Transform objects are auto-disposed after getting used by their parent shape)
+- Canvas support a top-level Transform DSL fluent interface for methods that use Transform arguments manually (e.g. tr1 = transform.rotate(90).translate(0, -100))
+- Hello, Canvas Transformation!
+
 ### 4.18.2.5
 
 - ColorProxy args now are automatically fit into 0..255 bounds upon use of the `color`/`rgb`/`rgba` keywords

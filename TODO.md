@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+
 - Document profiling tips with Glimmer (like profiling till on_swt_show is triggered on shell)
 ```ruby
 require 'jruby/profiler'
@@ -14,6 +15,8 @@ end
 profile_printer = JRuby::Profiler::HtmlProfilePrinter.new(profile_data)
 ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 ```
+- Auto-Dispose Transforms during animation and setting another transform on owner
+- Consider extending Hello, Transform! with text
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Auto-Focusable canvas element (with keyboard)
 - Tetris High Scores
@@ -31,7 +34,7 @@ ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 - Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
 - Tetris consider using more observers instead of callbacks to Game
 - Support Custom Shapes composed of a group of shapes
-- Auto-sync_exec all GUI calls from others threads instead of requiring users to use sync_exec. Also, offer an option to perform data-bindings async or configure globally as the default. 
+- Auto-sync_exec all GUI calls from others threads instead of requiring users to use sync_exec. Also, offer an option to perform data-bindings async or configure globally as the default.
 - Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 - Consider tweaking the Tetris color scheme
 - Reset Canvas common attributes at the close of a Shape to prepare for the next shape
@@ -45,6 +48,7 @@ ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 - Set glimmer logo as default logo for any run app till updated
 - Have Glimmer logger errors encountered in listeners even if it tolerates them
 
+- Extract glimmer-scaffolding as a gem
 - glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
@@ -74,17 +78,8 @@ ps = java.io.PrintStream.new(STDOUT.to_outputstream)
 - Update Hello, Menu Bar! sample to show images on menu items
 - Hello, Font Dialog!
 
-- Canvas support a Transform DSL fluent interface for methods that take Transform arguments (auto-disposes when its owner is disposed)
-```ruby
-transform(1, 1, 4, 2, 2, 4).
-  multiply(1, 2, 3, 4,3,4).
-  scale(1, 2, 3, 4, 5, 6).
-  rotate(45).
-  scale(2, 4).
-  invert().
-  shear(2, 4).
-  translate(3, 7)
-```
+- Support passing transform matrices as double-arrays to be more readable if needed
+- Support passing setElements to transform as just `elements` keyword
 - Canvas support a Path DSL for methods that take Path arguments
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
 - Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
@@ -223,7 +218,7 @@ composite {
 
 ## Technical Tasks
 
-- Explore supporting new Shine View-Model Mapping DSL (data-binding with spaceship operator <=>):
+- Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
 ```ruby
 items <=> 'model.property' # bidirectional
 items <= 'model.property' # ready-only
@@ -374,10 +369,11 @@ items <=> binding {
 - Consider supporting balanced_async_exec (balancing async_exec runs via an intermediate queue that segragates by passed in symbol argument and optional weight (default=1)) (e.g. balanced_async_exec('key_event', weight: 2, &runnable))
 - Consider the idea of shape (specific) layouts
 - Consider the idea of non-square bound widgets
+- Implement a variation on puts_debuggerer that shows logging in a Glimmer window for Glimmer apps (perhaps pd with glimmer: true which can be configured globally)
 
 ## Samples
 
-- Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, etc...)
+- Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
 - Add hello samples for every built-in SWT widget including the custom package
 - HR Employee Management app
 - Medical Patient Management app

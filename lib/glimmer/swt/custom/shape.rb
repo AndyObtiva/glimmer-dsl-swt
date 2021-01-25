@@ -24,6 +24,7 @@ require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
+require 'glimmer/swt/transform_proxy'
 
 module Glimmer
   module SWT
@@ -115,6 +116,7 @@ module Glimmer
         end
         
         def apply_property_arg_conversions(method_name, property, args)
+          args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
           if (args.first.is_a?(Symbol) || args.first.is_a?(String))
             if the_java_method.parameter_types.first == Color.java_class
@@ -133,6 +135,9 @@ module Glimmer
           if args.first.is_a?(FontProxy)
             args[0] = args[0].swt_font
           end
+          if args.first.is_a?(TransformProxy)
+            args[0] = args[0].swt_transform
+          end
           if ['setBackgroundPattern', 'setForegroundPattern'].include?(method_name.to_s)
             args.each_with_index do |arg, i|
               if arg.is_a?(Symbol) || arg.is_a?(String)
@@ -145,7 +150,7 @@ module Glimmer
             args[0] = org.eclipse.swt.graphics.Pattern.new(*new_args)
             args[1..-1] = []
           end
-          @properties[property] = args
+          args
         end
         
         def apply_shape_arg_conversions(method_name, args)
@@ -193,7 +198,7 @@ module Glimmer
             @parent.redraw
           end
         end
-  
+        
         def get_attribute(attribute_name)
           @properties.symbolize_keys[attribute_name.to_s.to_sym]
         end
@@ -210,10 +215,14 @@ module Glimmer
           @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
           @properties['foreground'] = [@parent.foreground] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
           @properties['font'] = [@parent.font] if draw? && !@properties.keys.map(&:to_s).include?('font')
+          @properties['transform'] = [nil] if !@properties.keys.map(&:to_s).include?('transform')
           @properties.each do |property, args|
             method_name = attribute_setter(property)
-            apply_property_arg_conversions(method_name, property, args)
-            paint_event.gc.send(method_name, *args)
+            converted_args = apply_property_arg_conversions(method_name, property, args)
+            paint_event.gc.send(method_name, *converted_args)
+            if property == 'transform' && args.first.is_a?(TransformProxy)
+              args.first.swt_transform.dispose
+            end
           end
           apply_shape_arg_conversions(@method_name, @args)
           apply_shape_arg_defaults(@method_name, @args)
