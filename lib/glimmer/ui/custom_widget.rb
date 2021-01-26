@@ -77,7 +77,17 @@ module Glimmer
         def flyweight_custom_widget_classes
           @flyweight_custom_widget_classes ||= {}
         end
- 
+        
+        # Returns keyword to use for this custom widget
+        def keyword
+          self.name.underscore.gsub('::', '__')
+        end
+        
+        # Returns shortcut keyword to use for this custom widget (keyword minus namespace)
+        def shortcut_keyword
+          self.name.underscore.gsub('::', '__').split('__').last
+        end
+        
         def add_custom_widget_namespaces_for(klass)
           Glimmer::UI::CustomWidget.namespaces_for_class(klass).drop(1).each do |namespace|
             Glimmer::UI::CustomWidget.custom_widget_namespaces << namespace
@@ -138,8 +148,7 @@ module Glimmer
         end
 
         def before_body(&block)
-          @before_body_blocks ||= []
-          @before_body_blocks << block
+          @before_body_block = block
         end
 
         def body(&block)
@@ -147,8 +156,7 @@ module Glimmer
         end
 
         def after_body(&block)
-          @after_body_blocks ||= []
-          @after_body_blocks << block
+          @after_body_block = block
         end
       end
 
@@ -159,7 +167,7 @@ module Glimmer
         options ||= {}
         @options = self.class.options.merge(options)
         @content = Util::ProcTracker.new(content) if content
-        execute_hooks('before_body')
+        execute_hook('before_body')
         body_block = self.class.instance_variable_get("@body_block")
         raise Glimmer::Error, 'Invalid custom widget for having no body! Please define body block!' if body_block.nil?
         @body_root = instance_exec(&body_block)
@@ -169,7 +177,7 @@ module Glimmer
         @parent = parent
         @parent ||= @swt_widget.parent
         @parent_proxy ||= @parent&.get_data('proxy')
-        execute_hooks('after_body')
+        execute_hook('after_body')
       end
       
       # Subclasses may override to perform post initialization work on an added child
@@ -287,13 +295,13 @@ module Glimmer
       
       private
 
-      def execute_hooks(hook_name)
-        self.class.instance_variable_get("@#{hook_name}_blocks")&.each do |hook_block|
-          temp_method_name = "#{hook_name}_block_#{hook_block.hash.abs}_#{(Time.now.to_f * 1_000_000).to_i}"
-          singleton_class.define_method(temp_method_name, &hook_block)
-          send(temp_method_name)
-          singleton_class.send(:remove_method, temp_method_name)
-        end
+      def execute_hook(hook_name)
+        hook_block = self.class.instance_variable_get("@#{hook_name}_block")
+        return if hook_block.nil?
+        temp_method_name = "#{hook_name}_block_#{hook_block.hash.abs}_#{(Time.now.to_f * 1_000_000).to_i}"
+        singleton_class.define_method(temp_method_name, &hook_block)
+        send(temp_method_name)
+        singleton_class.send(:remove_method, temp_method_name)
       end
     end
   end

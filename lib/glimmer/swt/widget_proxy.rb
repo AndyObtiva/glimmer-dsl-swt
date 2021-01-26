@@ -696,7 +696,7 @@ module Glimmer
         safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
         listener = listener_class.new(listener_method => safe_block)
         @swt_widget.send(widget_add_listener_method, listener)
-        widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
+        WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
       end
 
       # Looks through SWT class add***Listener methods till it finds one for which

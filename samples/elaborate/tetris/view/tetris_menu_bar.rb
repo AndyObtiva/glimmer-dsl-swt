@@ -19,47 +19,51 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'tetris_menu_bar'
-
 class Tetris
   module View
-    class GameOverDialog
-      include Glimmer::UI::CustomShell
+    class TetrisMenuBar
+      include Glimmer::UI::CustomWidget
   
-      options :parent_shell, :game
-      
-      after_body {
-        observe(game, :game_over) do |game_over|
-          hide if !game_over
-        end
-      }
+      options :game
       
       body {
-        dialog(parent_shell) {
-          row_layout {
-            type :vertical
-            center true
-          }
-          text 'Tetris'
-          
-          tetris_menu_bar(game: game)
-          
-          label(:center) {
-            text 'Game Over!'
-            font name: 'Menlo', height: 30, style: :bold
-          }
-          label # filler
-          button {
-            text 'Play Again?'
+        menu_bar {
+          menu {
+            text '&Game'
             
-            on_widget_selected {
-              hide
-              game.restart!
+            menu_item {
+              text '&Start'
+              enabled bind(game, :game_over)
+              accelerator :command, :s
+              
+              on_widget_selected {
+                game.start!
+              }
             }
-          }
-          
-          on_shell_activated {
-            display.beep
+            menu_item(:check) {
+              text '&Pause'
+              accelerator :command, :p
+              enabled bind(game, :game_over, on_read: :!)
+              selection bind(game, :paused)
+            }
+            menu_item {
+              text '&Restart'
+              accelerator :command, :r
+              enabled bind(game, :game_over, on_read: :!)
+              
+              on_widget_selected {
+                game.restart!
+              }
+            }
+            menu_item(:separator)
+            menu_item {
+              text '&Exit'
+              accelerator :command, :x
+              
+              on_widget_selected {
+                parent_proxy.close
+              }
+            }
           }
         }
       }

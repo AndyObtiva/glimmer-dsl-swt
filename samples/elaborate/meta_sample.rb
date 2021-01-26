@@ -25,6 +25,24 @@ require 'etc'
 class Sample
   include Glimmer::DataBinding::ObservableModel
   
+  class << self
+    def glimmer_directory
+      File.expand_path('../../..', __FILE__)
+    end
+  
+    def user_glimmer_directory
+      File.join(Etc.getpwuid.dir, '.glimmer-dsl-swt')
+    end
+    
+    def ensure_user_glimmer_directory
+      unless @ensured_glimmer_directory
+        FileUtils.rm_rf(user_glimmer_directory)
+        FileUtils.cp_r(glimmer_directory, user_glimmer_directory)
+        @ensured_glimmer_directory = true
+      end
+    end
+  end
+
   attr_accessor :sample_directory, :file, :selected
   
   def initialize(file, sample_directory: )
@@ -59,25 +77,35 @@ class Sample
     File.basename(file) != 'meta_sample.rb'
   end
   alias launchable editable
+    
+  def file_relative_path
+    file.sub(self.class.glimmer_directory, '')
+  end
   
+  def user_file
+    File.join(self.class.user_glimmer_directory, file_relative_path)
+  end
+    
+  def user_file_parent_directory
+    File.dirname(user_file)
+  end
+  
+  def directory
+    file.sub(/\.rb/, '')
+  end
+    
   def launch(modified_code)
-    parent_directory = File.basename(File.dirname(file))
-    modified_file_parent_directory = File.join(Etc.getpwuid.dir, '.glimmer', 'samples', parent_directory)
-    launch_file = modified_file = File.join(modified_file_parent_directory, File.basename(file))
+    launch_file = user_file
     begin
-      FileUtils.mkdir_p(modified_file_parent_directory)
-      FileUtils.cp_r(file, modified_file_parent_directory)
-      FileUtils.cp_r(file.sub(/\.rb/, ''), modified_file_parent_directory) if File.exist?(file.sub(/\.rb/, ''))
-      File.write(modified_file, modified_code)
+      FileUtils.cp_r(file, user_file_parent_directory)
+      FileUtils.cp_r(directory, user_file_parent_directory) if File.exist?(directory)
+      File.write(user_file, modified_code)
     rescue => e
       puts 'Error writing sample modifications. Launching original sample.'
       puts e.full_message
       launch_file = file # load original file if failed to write changes
     end
     load(launch_file)
-  ensure
-    FileUtils.rm_rf(modified_file)
-    FileUtils.rm_rf(modified_file.sub(/\.rb/, ''))
   end
 end
 
@@ -162,17 +190,18 @@ class SampleDirectory
 end
 
 class MetaSampleApplication
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def initialize
+  before_body {
+    Sample.ensure_user_glimmer_directory
     selected_sample_directory = SampleDirectory.sample_directories.first
     selected_sample = selected_sample_directory.samples.first
     selected_sample_directory.selected_sample_name = selected_sample.name
-  end
-  
-  def launch
     Display.app_name = 'Glimmer Meta-Sample'
-    shell {
+  }
+  
+  body {
+    shell(:fill_screen) {
       minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'
       image File.expand_path('../../icons/scaffold_app.png', __dir__)
@@ -218,11 +247,8 @@ class MetaSampleApplication
               on_widget_selected {
                 begin
                   SampleDirectory.selected_sample.launch(@code_text.text)
-                rescue StandardError, SyntaxError => launch_error
-                  message_box {
-                    text 'Error Launching'
-                    message launch_error.full_message
-                  }.open
+                rescue LoadError, StandardError, SyntaxError => launch_error
+                  error_dialog(message: launch_error.full_message).open
                 end
               }
             }
@@ -243,10 +269,41 @@ class MetaSampleApplication
           editable bind(SampleDirectory, 'selected_sample.editable')
         }
         
-        weights 4, 9
+        weights 4, 11
       }
-    }.open
+    }
+  }
+  
+  # Method-based error_dialog custom widget
+  def error_dialog(message:)
+    return if message.nil?
+    dialog(body_root) { |dialog_proxy|
+      row_layout(:vertical) {
+        center true
+      }
+      
+      text 'Error Launching'
+        
+      styled_text(:border, :h_scroll, :v_scroll) {
+        layout_data {
+          width body_root.bounds.width*0.75
+          height body_root.bounds.height*0.75
+        }
+        
+        text message
+        editable false
+        caret nil
+      }
+      
+      button {
+        text 'Close'
+        
+        on_widget_selected {
+          dialog_proxy.close
+        }
+      }
+    }
   end
 end
 
-MetaSampleApplication.new.launch
+MetaSampleApplication.launch

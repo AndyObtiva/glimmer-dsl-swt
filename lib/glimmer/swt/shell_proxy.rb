@@ -45,11 +45,17 @@ module Glimmer
         if swt_widget
           @swt_widget = swt_widget
         else
-          if args.first.is_a?(ShellProxy)
+          if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
             @parent_proxy = args[0]
             args[0] = args[0].swt_widget
           end
-          style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
+          style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}.map(&:to_sym)
+          fill_screen = nil
+          if style_args.include?(:fill_screen)
+            args.delete(:fill_screen)
+            style_args.delete(:fill_screen)
+            fill_screen = true
+          end
           if style_args.any?
             style_arg_start_index = args.index(style_args.first)
             style_arg_last_index = args.index(style_args.last)
@@ -67,6 +73,7 @@ module Glimmer
           # TODO make this an option not the default
           shell_swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
           on_swt_show do
+            @swt_widget.set_size(@display.bounds.width, @display.bounds.height) if fill_screen
             Thread.new do
               sleep(0.25)
               shell_swt_display.async_exec do
@@ -109,6 +116,10 @@ module Glimmer
       
       def nested?
         !swt_widget&.parent.nil?
+      end
+      
+      def disposed?
+        swt_widget.isDisposed
       end
 
       def hide

@@ -110,12 +110,14 @@ module GlimmerSpec
 
         before_body {
           @background = :red
+          @foreground = :green
         }
 
         after_body {
           @label.swt_widget.setText "Before and After"
+          @label.swt_widget.setEnabled(false)
         }
-        
+
         body {
           composite {
             background @background
@@ -127,14 +129,6 @@ module GlimmerSpec
               }
             }
           }
-        }
-
-        after_body {
-          @label.swt_widget.setEnabled(false)
-        }
-
-        before_body {
-          @foreground = :green
         }
       end
 
@@ -153,7 +147,7 @@ module GlimmerSpec
       Object.send(:remove_const, :InvalidCustomWidget) if Object.const_defined?(:InvalidCustomWidget)
       Object.send(:remove_const, :RedLabel) if Object.const_defined?(:RedLabel)
       Object.send(:remove_const, :ColoredLabel) if Object.const_defined?(:ColoredLabel)
-      Object.send(:remove_const, :MultiColorLabel) if Object.const_defined?(:MultiColorLabel) 
+      Object.send(:remove_const, :MultiColorLabel) if Object.const_defined?(:MultiColorLabel)
       GlimmerSpec::Red.send(:remove_const, :Composite) if GlimmerSpec::Red.const_defined?(:Composite)
       GlimmerSpec::Red.send(:remove_const, :Label) if GlimmerSpec::Red.const_defined?(:Label)
       GlimmerSpec.send(:remove_const, :Red) if GlimmerSpec.const_defined?(:Red)

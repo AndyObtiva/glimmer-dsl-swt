@@ -1,5 +1,24 @@
 # Change Log
 
+### 4.18.3.1
+
+- Provide an auto_sync_exec all data-binding config option to automatically sync_exec GUI calls from other threads instead of requiring users to use sync_exec on model attribute-change logic. Default value to false.
+- Have CustomShell::launch method take options to pass to custom shell keyword invocation
+- Update Glimmer Meta-Sample to load entire gem into user directory (since some new samples rely on images)
+- Update Glimmer Meta-Sample to display errors in a `dialog` instead of a `message_box` to allow scrolling
+- Removed newly added CustomShell::shutdown as unnecessary (could just do CustomShell::launchd_custom_shell.close)
+- Supporting deregistering Display listeners just like standard listeners via deregister
+- Enhance performance of excluded keyword check
+- Remove CustomWidget support for multiple before_body/after_body blocks instead of one each since it is not needed.
+- Tetris Menu Bar with Game Menu -> Start, Pause, Restart, and Exit
+- Tetris refactor mutation methods to end with bangs
+- Add new :fill_screen style for `shell` to start app filling the screen size (not full screen mode though)
+- Tetris Stop game if user does not play again in the end (instead of closing it)
+- End Tetris Thread loop gracefully if game over is encountered
+- Tetris use more observers instead of callbacks to Game
+- Turn Tetris::Model::Game class from a singleton class to a standard class supporting instances
+- Fix issue of `tetris` keyword not found when run from meta-sample app
+
 ### 4.18.3.0
 
 - Canvas Transform DSL (DSL declared Transform objects are auto-disposed after getting used by their parent shape)

@@ -48,12 +48,12 @@ module Glimmer
             style_arg_last_index = args.index(style_args.last)
             args[style_arg_start_index..style_arg_last_index] = SWTProxy[style_args]
           end
+          if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
+            args[0] = args[0].swt_widget
+          end
           if !args.first.is_a?(Shell)
             current_shell = DisplayProxy.instance.swt_display.shells.first
             args.unshift(current_shell.nil? ? ShellProxy.new : current_shell)
-          end
-          if args.first.is_a?(ShellProxy)
-            args[0] = args[0].swt_widget
           end
           parent = args[0]
           @parent_proxy = parent.is_a?(Shell) ? ShellProxy.new(swt_widget: parent) : parent

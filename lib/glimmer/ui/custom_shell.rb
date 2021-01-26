@@ -28,15 +28,11 @@ module Glimmer
       include Glimmer::UI::CustomWidget
       
       class << self
-        attr_reader :custom_shell
+        attr_reader :launched_custom_shell
         
-        def launch
-          @custom_shell = send(self.name.underscore.gsub('::', '__'))
-          @custom_shell.open
-        end
-        
-        def shutdown
-          @custom_shell.close
+        def launch(*args, &content)
+          @launched_custom_shell = send(keyword, *args, &content) if @launched_custom_shell.nil? || @launched_custom_shell.disposed?
+          @launched_custom_shell.open
         end
       end
       
@@ -45,7 +41,7 @@ module Glimmer
         @swt_widget.set_data('custom_shell', self)
         raise Error, 'Invalid custom shell body root! Must be a shell or another custom shell.' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
       end
-
+      
       # Classes may override
       def open
         body_root.open
@@ -56,6 +52,7 @@ module Glimmer
         open
       end
 
+      # TODO consider using Forwardable instead
       def close
         body_root.close
       end
@@ -66,6 +63,10 @@ module Glimmer
 
       def visible?
         body_root.visible?
+      end
+
+      def disposed?
+        swt_widget.is_disposed
       end
 
       def center_within_display

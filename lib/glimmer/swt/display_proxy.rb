@@ -39,8 +39,20 @@ module Glimmer
       include_package 'org.eclipse.swt.widgets'
       
       include Custom::Drawable
-
+      
       OBSERVED_MENU_ITEMS = ['about', 'preferences']
+      
+      class FilterListener
+        include org.eclipse.swt.widgets.Listener
+        
+        def initialize(&listener_block)
+          @listener_block = listener_block
+        end
+        
+        def handleEvent(event)
+          @listener_block.call(event)
+        end
+      end
 
       class << self
         # Returns singleton instance
@@ -111,7 +123,7 @@ module Glimmer
         observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
-          add_swt_event_listener(constant_name, &block)
+          add_swt_event_filter(constant_name, &block)
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')
           if OBSERVED_MENU_ITEMS.include?(event_name)
@@ -124,10 +136,19 @@ module Glimmer
         end
       end
 
-      def add_swt_event_listener(swt_constant, &block)
+      def add_swt_event_filter(swt_constant, &block)
         event_type = SWTProxy[swt_constant]
-        @swt_display.addFilter(event_type, &block)
+        @swt_display.addFilter(event_type, FilterListener.new(&block))
         #WidgetListenerProxy.new(@swt_display.getListeners(event_type).last)
+        WidgetListenerProxy.new(
+          swt_display: @swt_display,
+          event_type: event_type,
+          filter: true,
+          swt_listener: block,
+          widget_add_listener_method: 'addFilter',
+          swt_listener_class:  FilterListener,
+          swt_listener_method: 'handleEvent'
+        )
       end
     end
   end

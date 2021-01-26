@@ -27,7 +27,7 @@ class Tetris
     class ScoreLane
       include Glimmer::UI::CustomWidget
   
-      options :block_size
+      options :block_size, :game
       
       before_body {
         @font_name = 'Menlo'
@@ -48,14 +48,14 @@ class Tetris
             text 'Next'
             font name: @font_name, height: @font_height, style: :bold
           }
-          playfield(game_playfield: Model::Game.preview_playfield, playfield_width: PREVIEW_PLAYFIELD_WIDTH, playfield_height: PREVIEW_PLAYFIELD_HEIGHT, block_size: BLOCK_SIZE)
+          playfield(game_playfield: game.preview_playfield, playfield_width: Model::Game::PREVIEW_PLAYFIELD_WIDTH, playfield_height: Model::Game::PREVIEW_PLAYFIELD_HEIGHT, block_size: block_size)
 
           label(:center) {
             text 'Score'
             font name: @font_name, height: @font_height, style: :bold
           }
           label(:center) {
-            text bind(Model::Game, :score)
+            text bind(game, :score)
             font height: @font_height
           }
           
@@ -66,7 +66,7 @@ class Tetris
             font name: @font_name, height: @font_height, style: :bold
           }
           label(:center) {
-            text bind(Model::Game, :lines)
+            text bind(game, :lines)
             font height: @font_height
           }
           
@@ -77,7 +77,7 @@ class Tetris
             font name: @font_name, height: @font_height, style: :bold
           }
           label(:center) {
-            text bind(Model::Game, :level)
+            text bind(game, :level)
             font height: @font_height
           }
         }

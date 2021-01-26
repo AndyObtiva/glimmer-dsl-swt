@@ -6,7 +6,7 @@ shell {
   text 'Hello, Canvas Transform!'
   minimum_size 330, 352
   
-  canvas { |canvas_proxy|
+  canvas {
     background :white
 
     image(glimmer_logo, 0, 0) {

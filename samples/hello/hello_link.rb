@@ -49,7 +49,7 @@ shell { |main_shell|
     }
     on_mouse_up { |mouse_event|
       unless @selected_link.nil?
-        @help_shell.close unless @help_shell.nil? || @help_shell.is_disposed
+        @help_shell.close unless @help_shell.nil? || @help_shell.disposed?
         @help_shell = shell(:no_trim) {
           grid_layout {
             margin_width 10

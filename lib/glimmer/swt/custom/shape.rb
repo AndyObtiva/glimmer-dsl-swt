@@ -193,7 +193,7 @@ module Glimmer
   
         def set_attribute(attribute_name, *args)
           @properties[attribute_name] = args
-          if @content_added
+          if @content_added && !@parent.is_disposed
             @parent.resetup_shape_paint_listeners
             @parent.redraw
           end
@@ -204,9 +204,10 @@ module Glimmer
         end
         
         def setup_paint_listener
+          return if @parent.is_disposed
           if parent.respond_to?(:swt_display)
             @paint_listener_proxy = @parent.on_swt_paint(&method(:paint))
-          else
+          elsif parent.respond_to?(:swt_widget)
             @paint_listener_proxy = @parent.on_paint_control(&method(:paint))
           end
         end

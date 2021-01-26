@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -21,6 +21,8 @@
 
 require 'glimmer/data_binding/observable'
 require 'glimmer/data_binding/observer'
+
+require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module DataBinding
@@ -44,7 +46,15 @@ module Glimmer
       
       def call(value)
         converted_value = translated_value = @translator.call(value)
-        @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
+      
+        update_operation = lambda do
+          @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
+        end
+        if Config.auto_sync_exec? && Config.require_sync_exec?
+          SWT::DisplayProxy.instance.sync_exec(&update_operation)
+        else
+          update_operation.call
+        end
       end
       
       def evaluate_property

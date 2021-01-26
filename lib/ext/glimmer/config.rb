@@ -32,6 +32,8 @@ module Glimmer
       'org.eclipse.swt.custom',
       'org.eclipse.swt.dnd',
     ]
+    DEFAULT_AUTO_SYNC_EXEC = false
+    GUI_THREAD = Thread.current
     
     class << self
       # Tells Glimmer to import SWT packages into including class (default: true)
@@ -43,6 +45,22 @@ module Glimmer
       def import_swt_packages
         @@import_swt_packages = DEFAULT_IMPORT_SWT_PACKAGES if !defined?(@@import_swt_packages) || (defined?(@@import_swt_packages) && @@import_swt_packages == true)
         @@import_swt_packages
+      end
+      
+      # Tells Glimmer to avoid automatic use of sync_exec when invoking GUI calls from another thread (default: true)
+      def auto_sync_exec=(value)
+        @@auto_sync_exec = value
+      end
+  
+      # Returns whether Glimmer will import SWT packages into including class
+      def auto_sync_exec
+        @@auto_sync_exec = DEFAULT_AUTO_SYNC_EXEC if !defined?(@@auto_sync_exec)
+        @@auto_sync_exec
+      end
+      alias auto_sync_exec? auto_sync_exec
+      
+      def require_sync_exec?
+        Thread.current != GUI_THREAD
       end
       
       # Returns Logging Devices. Default is [:stdout, :syslog]
@@ -140,11 +158,10 @@ end
 
 Glimmer::Config.excluded_keyword_checkers << lambda do |method_symbol, *args|
   method = method_symbol.to_s
-  result = false
-  result ||= method == 'dispose' && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
-  result ||= ['drag_source_proxy', 'drop_target_proxy'].include?(method) && is_a?(Glimmer::UI::CustomWidget)
-  result ||= method == 'post_initialize_child'
-  result ||= method == 'handle'
-  result ||= method.end_with?('=')
-  result ||= ['finish_edit!', 'search', 'all_tree_items', 'depth_first_search'].include?(method) && is_a?(Glimmer::UI::CustomWidget) && body_root.respond_to?(method)
+  return true if method == 'post_initialize_child'
+  return true if method == 'handle'
+  return true if method.end_with?('=')
+  return true if ['drag_source_proxy', 'drop_target_proxy'].include?(method) && is_a?(Glimmer::UI::CustomWidget)
+  return true if method == 'dispose' && is_a?(Glimmer::UI::CustomWidget) && respond_to?(method)
+  return true if ['finish_edit!', 'search', 'all_tree_items', 'depth_first_search'].include?(method) && is_a?(Glimmer::UI::CustomWidget) && body_root.respond_to?(method)
 end

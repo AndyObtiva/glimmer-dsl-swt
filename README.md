@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.1
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -460,7 +460,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.3.0
+jgem install glimmer-dsl-swt -v 4.18.3.1
 
 
 ```
@@ -480,7 +480,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.3.0
+gem 'glimmer-dsl-swt', '~> 4.18.3.1
 '
 ```
 
@@ -539,7 +539,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.0
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.1
 
 
       
@@ -1020,7 +1020,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.3.0
+  Swt    glimmer-dsl-swt    4.18.3.1
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -2500,6 +2500,8 @@ When using a transform at the top-level (outside of shell), you get a fluent int
 Example:
 
 ```ruby
+include Glimmer # make sure it is included in your class/module before using the fluent interface
+
 transform(1, 1, 4, 2, 2, 4).
   multiply(1, 2, 3, 4,3,4).
   scale(1, 2, 3, 4, 5, 6).
@@ -3774,6 +3776,41 @@ shell(:no_resize) {
 
 Also, you may invoke `Display.app_version = '1.0.0'` if needed for OS app version identification reasons during development, replacing `'1.0.0'` with your application version.
 
+#### Performance Profiling
+
+JRuby comes with built-in support for performance profiling via the `--profile` option (with some code shown below), which can be accepted by the `glimmer` command too:
+
+`glimmer --profile path_to_glimmer_app.rb`
+
+Additionally, add this code to monitor Glimmer app performance around its launch method:
+
+```ruby
+require 'jruby/profiler'
+profile_data = JRuby::Profiler.profile do
+  SomeGlimmerApp.launch
+end
+
+profile_printer = JRuby::Profiler::HtmlProfilePrinter.new(profile_data)
+ps = java.io.PrintStream.new(STDOUT.to_outputstream)
+```
+
+When monitoring app startup time performance, make sure to add a hook to the top-level `shell` `on_swt_show` event that exits the app as soon as the shell shows up to end performance profiling and get the results.
+
+Example:
+
+```ruby
+shell {
+  # some code
+  on_swt_show {
+    exit(0)
+  }
+}
+```
+
+You may run `glimmer` with the `--profile.graph` instead for a more detailed output.
+
+Learn more at the [JRuby Performance Profile WIKI page](https://github.com/jruby/jruby/wiki/Profiling-JRuby).
+
 #### Checkbox Group Widget
 
 `checkbox_group` (or alias `check_group`) is a Glimmer built-in custom widget that displays a list of `checkbox` buttons (`button(:check)`) based on its `items` property.
@@ -4186,6 +4223,12 @@ This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elabora
 ![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
 
 You may edit the code of any sample before launching it by clicking on the "Launch" button. This helps you learn by experimenting with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button.
+
+Note that if you fail to run any sample through the Glimmer Meta-Sample for whatever reason, you could always run directly by cloning the project, running `bundle`, and then this command (drop the "bin" if you install the glimmer-dsl-swt gem instead):
+
+```ruby
+bin/glimmer samples/hello/hello_canvas_transform.rb   
+```
 
 ### Hello Samples
 

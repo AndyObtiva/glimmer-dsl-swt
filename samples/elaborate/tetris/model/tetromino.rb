@@ -38,31 +38,32 @@ class Tetris
         Z: :red,
       }
       
-      attr_reader :letter, :preview
+      attr_reader :game, :letter, :preview
       alias preview? preview
       attr_accessor :orientation, :blocks, :row, :column
       
-      def initialize
+      def initialize(game)
+        @game = game
         @letter = LETTER_COLORS.keys.sample
         @orientation = :north
         @blocks = default_blocks
         @preview = true
         new_row = 0
-        new_column = (PREVIEW_PLAYFIELD_WIDTH - width)/2
+        new_column = (Model::Game::PREVIEW_PLAYFIELD_WIDTH - width)/2
         update_playfield(new_row, new_column)
       end
       
       def playfield
-        @preview ? Game.preview_playfield : Game.playfield
+        @preview ? game.preview_playfield : game.playfield
       end
       
       def launch!
         remove_from_playfield
         @preview = false
         new_row = 1 - height
-        new_column = (PLAYFIELD_WIDTH - width)/2
+        new_column = (game.playfield_width - width)/2
         update_playfield(new_row, new_column)
-        Game.tetrominoes << self
+        game.tetrominoes << self
       end
       
       def update_playfield(new_row = nil, new_column = nil)
@@ -89,16 +90,16 @@ class Tetris
       
       def stopped?
         return true if @stopped || @preview
-        playfield_remaining_heights = Game.playfield_remaining_heights(self)
+        playfield_remaining_heights = game.playfield_remaining_heights(self)
         result = bottom_most_blocks.any? do |bottom_most_block|
           playfield_column = @column + bottom_most_block[:column_index]
             playfield_remaining_heights[playfield_column] &&
             @row + bottom_most_block[:row] >= playfield_remaining_heights[playfield_column] - 1
         end
-        if result && !Game.hypothetical?
+        if result && !game.hypothetical?
           @stopped = result
-          Game.consider_eliminating_lines
-          Model::Game.consider_adding_tetromino
+          game.consider_eliminating_lines
+          @game.consider_adding_tetromino
         end
         result
       end
@@ -124,9 +125,10 @@ class Tetris
       end
       
       def right_blocked?
-        (@column == PLAYFIELD_WIDTH - width) ||
+        (@column == game.playfield_width - width) ||
           right_most_blocks.any? { |right_most_block|
-            playfield[@row + right_most_block[:row_index]][@column + right_most_block[:column_index] + 1].occupied?
+            (@row + right_most_block[:row_index]) >= 0 &&
+              playfield[@row + right_most_block[:row_index]][@column + right_most_block[:column_index] + 1].occupied?
           }
       end
       
@@ -150,7 +152,8 @@ class Tetris
       def left_blocked?
         (@column == 0) ||
           left_most_blocks.any? { |left_most_block|
-            playfield[@row + left_most_block[:row_index]][@column + left_most_block[:column_index] - 1].occupied?
+            (@row + left_most_block[:row_index]) >= 0 &&
+              playfield[@row + left_most_block[:row_index]][@column + left_most_block[:column_index] - 1].occupied?
           }
       end
 
@@ -179,7 +182,7 @@ class Tetris
         @blocks.size
       end
       
-      def down
+      def down!
         launch! if preview?
         unless stopped?
           new_row = @row + 1
@@ -187,14 +190,14 @@ class Tetris
         end
       end
       
-      def left
+      def left!
         unless left_blocked?
           new_column = @column - 1
           update_playfield(@row, new_column)
         end
       end
       
-      def right
+      def right!
         unless right_blocked?
           new_column = @column + 1
           update_playfield(@row, new_column)
@@ -202,11 +205,11 @@ class Tetris
       end
       
       # Rotate in specified direcation, which can be :right (clockwise) or :left (counterclockwise)
-      def rotate(direction)
+      def rotate!(direction)
         return if stopped?
         can_rotate = nil
         new_blocks = nil
-        Game.hypothetical do
+        game.hypothetical do
           hypothetical_rotated_tetromino = hypothetical_tetromino
           new_blocks = hypothetical_rotated_tetromino.rotate_blocks(direction)
           can_rotate = !hypothetical_rotated_tetromino.stopped? && !hypothetical_rotated_tetromino.right_blocked? && !hypothetical_rotated_tetromino.left_blocked?
@@ -222,13 +225,13 @@ class Tetris
       end
       
       def rotate_blocks(direction)
-          new_blocks = Matrix[*@blocks].transpose.to_a
-          if direction == :right
-            new_blocks = new_blocks.map(&:reverse)
-          else
-            new_blocks = new_blocks.reverse
-          end
-          Matrix[*new_blocks].to_a
+        new_blocks = Matrix[*@blocks].transpose.to_a
+        if direction == :right
+          new_blocks = new_blocks.map(&:reverse)
+        else
+          new_blocks = new_blocks.reverse
+        end
+        Matrix[*new_blocks].to_a
       end
       
       def hypothetical_tetromino
