@@ -241,6 +241,7 @@ If you see anything that needs to be improved, please do not hesitate to contact
     - [Desktop Apps Built with Glimmer DSL for SWT](#desktop-apps-built-with-glimmer-dsl-for-swt)
   - [Table of contents](#table-of-contents)
   - [Background](#background)
+  - [Software Architecture](#software-architecture)
   - [Platform Support](#platform-support)
   - [Pre-requisites](#pre-requisites)
   - [Setup](#setup)
@@ -406,6 +407,38 @@ If you see anything that needs to be improved, please do not hesitate to contact
 ## Background
 
 [Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that Java libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
+
+## Software Architecture
+
+There are several requirements for building enterprise-level/consumer-level desktop GUI applications:
+- Cross-Platform Support (Mac, Windows, Linux) without compilation/recompilation
+- OS Native Look & Feel
+- High Performance
+- Productivity
+- Maintainability
+- Extensibility
+- Native Executable Packaging
+- Multi-Threading / Parallel Programming
+- Arbitrary Graphics Painting
+- Audio Support
+
+Glimmer provides cross-platform support that does not require Ruby compilation (like Tk does), thanks to JRuby, a JVM (Java Virtual Machine) faster OS-threaded version of Ruby.
+
+Glimmer leverages SWT (Standard Widget Toolkit), which provides cross-platform widgets that automatically use the native GUI libraries under each operating system, such as Win32 on Windows, Cocoa on Mac, and GTK on Linux. 
+
+Furthermore, what is special about SWT regarding "High Performance" is that it does all the GUI painting natively outside of Java, thus producing GUI that runs at maximum performance even in Ruby. As such, you do not need to worry about Ruby dynamic typing getting in the way of GUI performance. It has ZERO effect on it and since SWT supports making asynchronous calls for GUI rendering, you could avoid blocking the GUI completely with any computations happening in Ruby no matter how complex, thus never affecting the responsiveness of GUI of applications while taking full advantage of the productivity benefits of Ruby dynamic typing.
+
+Glimmer takes this further by providing a very programmer friendly DSL (Domain Specific Language) that visually maps lightweight Ruby syntax to the containment hierarchy of GUI widgets (meaning Ruby blocks nested within each other map to GUI widgets nested within each other). This provides maximum productivity and maintainability.
+
+Extensibility has never been simpler in desktop GUI application development than with Glimmer, which provides the ability to support any new custom keywords through custom widgets and custom shells (windows). Basically, you map a keyword by declaring a view class matching its name by convention with a GUI body that simply consists of reusable Glimmer GUI syntax. They can be passive views or smart views with additional logic. This provides the ultimate realization of Object Oriented Programming and micro-level MVC pattern.
+
+Thanks to Java and JRuby, Glimmer apps can be packaged as cross-platform JAR files (with JRuby Warbler) and native executables (with Java Packager) as Mac APP/DMG/PACKAGE or Windows EXE/MSI.
+
+The Java Virtual Machine already supports OS-native threads, so Glimmer apps can have multiple things running in parallel with no problem.
+
+SWT supports Canvas graphics drawing, and Glimmer takes that further by provding a Canvas Shape/Transform/Animation DSL, making it very simple to decorate any existing widgets or add new widgets with a completely custom look and feel if needed for branding or entertainment (gaming) purposes.
+
+Audio is supported via the Java Sound library in a cross-platform approach and video is supported via a Glimmer custom widget, so any Glimmer app can be enhanced with audio and video where needed.
 
 ## Platform Support
 
@@ -815,7 +848,7 @@ glimmer run
 
 #### Custom Shell
 
-To scaffold a Glimmer custom shell (full window view) for an existing Glimmer app, run the following command:
+To scaffold a Glimmer [custom shell](#custom-shells) (full window view) for an existing Glimmer app, run the following command:
 
 ```
 glimmer scaffold:customshell[name]
@@ -829,7 +862,7 @@ glimmer scaffold:cs[name]
 
 #### Custom Widget
 
-To scaffold a Glimmer custom widget (part of a view) for an existing Glimmer app, run the following command:
+To scaffold a Glimmer [custom widget](#custom-widgets) (part of a view) for an existing Glimmer app, run the following command:
 
 ```
 glimmer scaffold:customwidget[name]
@@ -843,7 +876,7 @@ glimmer scaffold:cw[name]
 
 #### Custom Shell Gem
 
-Custom shell gems are self-contained Glimmer apps as well as reusable custom shells.
+Custom shell gems are self-contained Glimmer apps as well as reusable [custom shells](#custom-shells).
 They have everything scaffolded Glimmer apps come with in addition to gem content like a [Juwelier](https://rubygems.org/gems/juwelier) Rakefile that can build gemspec and release gems.
 Unlike scaffolded Glimmer apps, custom shell gem content lives under the `lib` directory (not `app`).
 They can be packaged as both a native executable (e.g. Mac DMG/PKG/APP) and a Ruby gem.
@@ -878,7 +911,7 @@ Examples:
 
 #### Custom Widget Gem
 
-To scaffold a Glimmer custom widget gem (part of a view distributed as a Ruby gem), run the following command:
+To scaffold a Glimmer [custom widget](#custom-widgets) gem (part of a view distributed as a Ruby gem), run the following command:
 
 ```
 glimmer scaffold:gem:customwidget[name,namespace]
@@ -904,7 +937,7 @@ Examples:
 
 ### Gem Listing
 
-The `glimmer` command comes with tasks for listing Glimmer related gems to make it easy to find Glimmer Custom Shells, Custom Widgets, and DSLs published by others in the Glimmer community on [rubygems.org](http://www.rubygems.org).
+The `glimmer` command comes with tasks for listing Glimmer related gems to make it easy to find Glimmer [Custom Shells](#custom-shells), [Custom Widgets](#custom-widgets), and DSLs published by others in the Glimmer community on [rubygems.org](http://www.rubygems.org).
 
 #### Listing Custom Shell Gems
 
@@ -1098,9 +1131,12 @@ bin/girb
 
 Watch out for hands-on examples in this README indicated by "you may copy/paste in [`girb`](#girb-glimmer-irb-command)"
 
-Keep in mind that all samples live under [https://github.com/AndyObtiva/glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt)
+Keep in mind that all samples live under [https://github.com/AndyObtiva/glimmer-dsl-swt/samples](https://github.com/AndyObtiva/glimmer-dsl-swt/samples)
 
-If you need a more GUI interactive option to experiement with Glimmer GUI DSL Syntax, you may try the ["Ugliest Editor Ever"](https://github.com/AndyObtiva/glimmer-cs-gladiator) or just build your own using the [Glimmer DSL for SWT Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt).
+If you need a more GUI interactive option to experiement with Glimmer GUI DSL Syntax, you may try:
+- [Glimmer Meta-Sample (The Sample of Samples)](#samples): allows launching Glimmer samples and viewing/editing code to learn/experiment too.
+- ["Ugliest Editor Ever"](https://github.com/AndyObtiva/glimmer-cs-gladiator)
+- Just build your own GUI editor using the [Glimmer DSL for SWT Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt).
 
 ## Glimmer GUI DSL Syntax
 

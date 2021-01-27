@@ -354,6 +354,7 @@ items <=> binding {
 - Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
+- Canvas animation supporting multiple parallel animations per canvas
 - Include Splash screen support automatically in CustomShell and a hook for adding require statements (or work) so they'd happen after the splash shows up or just automate all of it by convention
 - Consider supporting balanced_async_exec (balancing async_exec runs via an intermediate queue that segragates by passed in symbol argument and optional weight (default=1)) (e.g. balanced_async_exec('key_event', weight: 2, &runnable))
 - Consider the idea of shape (specific) layouts
