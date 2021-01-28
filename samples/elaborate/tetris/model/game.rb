@@ -38,7 +38,7 @@ class Tetris
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
       
       attr_reader :playfield_width, :playfield_height
-      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score
+      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores
       alias game_over? game_over
       alias paused? paused
       alias beeping? beeping
@@ -48,6 +48,7 @@ class Tetris
         @playfield_width = playfield_width
         @playfield_height = playfield_height
         @high_scores = []
+        @show_high_scores = false
         @beeping = true
         load_high_scores!
       end
@@ -61,6 +62,7 @@ class Tetris
       end
       
       def start!
+        self.show_high_scores = false
         self.paused = false
         self.level = 1
         self.score = 0

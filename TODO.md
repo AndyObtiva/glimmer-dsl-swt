@@ -4,16 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Pause game when showing high scores and resume if wasn't paused originally
-- Make High Scores -> Show a check menu item
-- Use newly added Glimmer support for array all elements observation
-- Make table data binding sorting optionally not get propagated to model
-- Fix Quit Tetris CMD+Q shortcut
+- Fix Quit Tetris CMD+Q shortcut by adding on_quit event to display
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Tetris Immediate Drop on Arrow Up
-- Document read_only_sort table data binding option
-- Tetris add an about dialog
-- Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
+- Tetris consider idea of painting my own icon in-game (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
@@ -27,8 +21,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 - Canvas Shape DSL Shape Arguments Data-Binding support
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
-- Tetris music via JSound
-- Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
+- Tetris music via JSound (Java Sound)
 - Support Custom Shapes composed of a group of shapes
 - Offer an option to perform data-bindings async (e.g. `bind(model, :property, async: true)`)
 - Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
@@ -87,6 +80,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
+- Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)
 - Improve `link` widget support to make it work just like `button` by not requiring HTML (auto-generated) and auto-aligning with labels around the link (improving upon the original SWT widget API design)
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
 - Support passing spinner table editor properties

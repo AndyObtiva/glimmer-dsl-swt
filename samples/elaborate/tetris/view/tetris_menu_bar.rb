@@ -43,7 +43,8 @@ class Tetris
             menu_item(:check) {
               text '&Pause'
               accelerator :command, :p
-              enabled bind(game, :game_over, on_read: :!)
+              enabled bind(game, :game_over, on_read: :!) {|value| value && !game.show_high_scores}
+              enabled bind(game, :show_high_scores, on_read: :!) {|value| value && !game.game_over}
               selection bind(game, :paused)
             }
             menu_item {
@@ -70,13 +71,10 @@ class Tetris
             
             menu {
               text '&High Scores'
-              menu_item {
+              menu_item(:check) {
                 text '&Show'
                 accelerator :command, :shift, :h
-                
-                on_widget_selected {
-                  parent_custom_shell&.show_high_score_dialog
-                }
+                selection bind(game, :show_high_scores)
               }
               menu_item {
                 text '&Clear'

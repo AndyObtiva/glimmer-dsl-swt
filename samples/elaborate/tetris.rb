@@ -87,6 +87,13 @@ class Tetris
         start_moving_tetrominos_down
       end
     end
+    @high_score_dialog_observer = observe(@game, :show_high_scores) do |show_high_scores|
+      if show_high_scores
+        show_high_score_dialog
+      else
+        @high_score_dialog&.close
+      end
+    end
     @game.start!
   }
   
