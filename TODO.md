@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix Quit Tetris CMD+Q shortcut by adding on_quit event to display
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Tetris Immediate Drop on Arrow Up
 - Tetris consider idea of painting my own icon in-game (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell

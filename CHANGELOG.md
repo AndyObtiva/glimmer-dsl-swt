@@ -7,6 +7,7 @@
 - Tetris Pause on showing High Score Dialog
 - Tetris Make High Scores -> Show a check menu item
 - Tetris Disable pause button upon showing High Score Dialog
+- Fix Quit Tetris CMD+Q shortcut by adding on_quit event to display
 
 ### 4.18.3.2
 

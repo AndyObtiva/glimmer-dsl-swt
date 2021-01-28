@@ -76,6 +76,10 @@ class Tetris
       @about_observer = on_about {
         show_about_dialog
       }
+      
+      @quit_observer = on_quit {
+        exit(0)
+      }
     }
   }
   
@@ -87,7 +91,7 @@ class Tetris
         start_moving_tetrominos_down
       end
     end
-    @high_score_dialog_observer = observe(@game, :show_high_scores) do |show_high_scores|
+    @show_high_scores_observer = observe(@game, :show_high_scores) do |show_high_scores|
       if show_high_scores
         show_high_score_dialog
       else
@@ -154,10 +158,11 @@ class Tetris
   end
   
   def deregister_observers
-    @show_high_scores_observer.deregister
-    @game_over_observer.deregister
-    @keyboard_listener.deregister
+    @show_high_scores_observer&.deregister
+    @game_over_observer&.deregister
+    @keyboard_listener&.deregister
     @about_observer&.deregister
+    @quit_observer&.deregister
   end
 end
 

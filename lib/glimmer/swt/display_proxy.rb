@@ -40,7 +40,7 @@ module Glimmer
       
       include Custom::Drawable
       
-      OBSERVED_MENU_ITEMS = ['about', 'preferences']
+      OBSERVED_MENU_ITEMS = ['about', 'preferences', 'quit']
       
       class FilterListener
         include org.eclipse.swt.widgets.Listener
