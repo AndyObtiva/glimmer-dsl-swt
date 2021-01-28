@@ -59,8 +59,14 @@ class Tetris
             table_column {
               text 'Score'
             }
+            table_column {
+              text 'Lines'
+            }
+            table_column {
+              text 'Level'
+            }
             
-            items bind(game, :high_scores), column_properties(:name, :score)
+            items bind(game, :high_scores), column_properties(:name, :score, :lines, :level)
           }
           composite {
             row_layout :horizontal

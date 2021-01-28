@@ -4860,6 +4860,8 @@ Code:
 
 ![Tetris Game Over](images/glimmer-tetris-game-over.png)
 
+![Tetris Game Over](images/glimmer-tetris-game-over-sorted-by-score.png)
+
 ![Tetris High Scores](images/glimmer-tetris-high-score-dialog.png)
 
 ![Tetris Game Menu](images/glimmer-tetris-game-menu.png)

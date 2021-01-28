@@ -21,6 +21,6 @@
 
 class Tetris
   module Model
-    PastGame = Struct.new(:name, :score)
+    PastGame = Struct.new(:name, :score, :lines, :level)
   end
 end

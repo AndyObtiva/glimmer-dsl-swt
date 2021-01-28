@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.3.3
+
+- Tetris Add lines and level to High Score Dialog
+
 ### 4.18.3.2
 
 - Tetris High Scores
