@@ -163,6 +163,8 @@ module Glimmer
       attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
+        @parent = parent
+        @parent_proxy = @parent&.get_data('proxy')
         @swt_style = SWT::SWTProxy[*swt_constants]
         options ||= {}
         @options = self.class.options.merge(options)
@@ -174,9 +176,6 @@ module Glimmer
         raise Glimmer::Error, 'Invalid custom widget for having an empty body! Please fill body block!' if @body_root.nil?
         @swt_widget = @body_root.swt_widget
         @swt_widget.set_data('custom_widget', self)
-        @parent = parent
-        @parent ||= @swt_widget.parent
-        @parent_proxy ||= @parent&.get_data('proxy')
         execute_hook('after_body')
       end
       
@@ -253,6 +252,10 @@ module Glimmer
 
       def has_style?(style)
         (swt_style & SWT::SWTProxy[style]) == SWT::SWTProxy[style]
+      end
+      
+      def pack(*args)
+        body_root.pack(*args)
       end
 
       # TODO see if it is worth it to eliminate duplication of async_exec/sync_exec

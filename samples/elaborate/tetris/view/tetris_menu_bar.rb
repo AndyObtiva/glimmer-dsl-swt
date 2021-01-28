@@ -49,7 +49,6 @@ class Tetris
             menu_item {
               text '&Restart'
               accelerator :command, :r
-              enabled bind(game, :game_over, on_read: :!)
               
               on_widget_selected {
                 game.restart!
@@ -64,9 +63,61 @@ class Tetris
                 parent_proxy.close
               }
             }
-          }
+          } # end of menu
+          
+          menu {
+            text '&View'
+            
+            menu {
+              text '&High Scores'
+              menu_item {
+                text '&Show'
+                accelerator :command, :shift, :h
+                
+                on_widget_selected {
+                  parent_custom_shell&.show_high_score_dialog
+                }
+              }
+              menu_item {
+                text '&Clear'
+                accelerator :command, :shift, :c
+                
+                on_widget_selected {
+                  game.clear_high_scores!
+                }
+              }
+            }
+          } # end of menu
+          
+          menu {
+            text '&Options'
+            menu_item(:check) {
+              text '&Beeping'
+              accelerator :command, :b
+              selection bind(game, :beeping)
+            }
+          } # end of menu
+          
+          menu {
+            text '&Help'
+            
+            menu_item {
+              text '&About'
+              accelerator :command, :shift, :a
+              
+              on_widget_selected {
+                parent_custom_shell&.show_about_dialog
+              }
+            }
+          } # end of menu
         }
       }
+      
+      def parent_custom_shell
+        # grab custom shell widget wrapping parent widget proxy (i.e. Tetris) and invoke method on it
+        the_parent_custom_shell = parent_proxy&.get_data('custom_shell')
+        the_parent_custom_shell if the_parent_custom_shell&.visible?
+      end
     end
   end
 end

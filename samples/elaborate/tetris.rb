@@ -25,13 +25,16 @@ require_relative 'tetris/model/game'
 
 require_relative 'tetris/view/playfield'
 require_relative 'tetris/view/score_lane'
-require_relative 'tetris/view/game_over_dialog'
+require_relative 'tetris/view/high_score_dialog'
 require_relative 'tetris/view/tetris_menu_bar'
 
 class Tetris
   include Glimmer::UI::CustomShell
   
   BLOCK_SIZE = 25
+  FONT_NAME = 'Menlo'
+  FONT_TITLE_HEIGHT = 32
+  FONT_TITLE_STYLE = :bold
   
   option :playfield_width, default: Model::Game::PLAYFIELD_WIDTH
   option :playfield_height, default: Model::Game::PLAYFIELD_HEIGHT
@@ -50,23 +53,28 @@ class Tetris
     display {
       @keyboard_listener = on_swt_keydown { |key_event|
         case key_event.keyCode
-        when swt(:arrow_down)
+        when swt(:arrow_down), 's'.bytes.first
           game.down!
-        when swt(:arrow_left)
+        when swt(:arrow_left), 'a'.bytes.first
           game.left!
-        when swt(:arrow_right)
+        when swt(:arrow_right), 'd'.bytes.first
           game.right!
-        when swt(:shift)
+        when swt(:shift), swt(:alt)
           if key_event.keyLocation == swt(:right) # right shift key
             game.rotate!(:right)
           elsif key_event.keyLocation == swt(:left) # left shift key
             game.rotate!(:left)
           end
-        when 'd'.bytes.first, swt(:arrow_up)
+        when swt(:arrow_up)
           game.rotate!(:right)
-        when 'a'.bytes.first
+        when swt(:ctrl)
           game.rotate!(:left)
         end
+      }
+      
+      # if running in app mode, set the Mac app about dialog (ignored in platforms)
+      @about_observer = on_about {
+        show_about_dialog
       }
     }
   }
@@ -74,8 +82,7 @@ class Tetris
   after_body {
     @game_over_observer = observe(@game, :game_over) do |game_over|
       if game_over
-        @game_over_dialog = game_over_dialog(parent_shell: body_root, game: @game) if @game_over_dialog.nil? || @game_over_dialog.disposed?
-        @game_over_dialog.show
+        show_high_score_dialog
       else
         start_moving_tetrominos_down
       end
@@ -92,19 +99,19 @@ class Tetris
         margin_height 0
         horizontal_spacing 0
       }
-      
+
       text 'Glimmer Tetris'
       minimum_size 475, 500
       background :gray
-      
+
       tetris_menu_bar(game: game)
-            
+
       playfield(game_playfield: game.playfield, playfield_width: playfield_width, playfield_height: playfield_height, block_size: BLOCK_SIZE)
-      
+
       score_lane(game: game, block_size: BLOCK_SIZE) {
         layout_data(:fill, :fill, true, true)
       }
-      
+
       on_widget_disposed {
         deregister_observers
       }
@@ -126,11 +133,24 @@ class Tetris
     end
   end
   
+  def show_high_score_dialog
+    return if @high_score_dialog&.visible?
+    @high_score_dialog = high_score_dialog(parent_shell: body_root, game: @game) if @high_score_dialog.nil? || @high_score_dialog.disposed?
+    @high_score_dialog.show
+  end
+  
+  def show_about_dialog
+    message_box {
+      text 'Glimmer Tetris'
+      message "Glimmer Tetris\n\nGlimmer DSL for SWT Sample\n\nCopyright (c) 2007-2021 Andy Maleh"
+    }.open
+  end
+  
   def deregister_observers
-    @game_over_observer&.deregister
-    @game_over_observer = nil
-    @keyboard_listener&.deregister
-    @keyboard_listener = nil
+    @show_high_scores_observer.deregister
+    @game_over_observer.deregister
+    @keyboard_listener.deregister
+    @about_observer&.deregister
   end
 end
 

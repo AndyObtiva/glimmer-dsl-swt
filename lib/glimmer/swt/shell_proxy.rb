@@ -117,10 +117,12 @@ module Glimmer
       def nested?
         !swt_widget&.parent.nil?
       end
+      alias nested nested?
       
       def disposed?
         swt_widget.isDisposed
       end
+      alias disposed disposed?
 
       def hide
         @swt_widget.setVisible(false)
@@ -129,6 +131,7 @@ module Glimmer
       def visible?
         @swt_widget.isDisposed ? false : @swt_widget.isVisible
       end
+      alias visible visible?
 
       # Setting to true opens/shows shell. Setting to false hides the shell.
       def visible=(visibility)

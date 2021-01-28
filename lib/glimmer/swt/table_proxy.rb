@@ -265,6 +265,10 @@ module Glimmer
         end
       end
 
+      def items
+        swt_widget.get_items
+      end
+
       def model_binding
         swt_widget.data
       end
@@ -445,7 +449,6 @@ module Glimmer
       end
             
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
-        require 'facets/hash/symbolize_keys'
         return if table_item.nil?
         model = table_item.data
         property = column_properties[column_index]
@@ -467,7 +470,11 @@ module Glimmer
           @cancel_in_progress = true
           @table_editor_widget_proxy&.swt_widget&.dispose
           @table_editor_widget_proxy = nil
-          after_cancel&.call
+          if after_cancel&.arity == 0
+            after_cancel&.call
+          else
+            after_cancel&.call(table_item)
+          end
           @edit_in_progress = false
           @cancel_in_progress = false
           @cancel_edit = nil
@@ -484,14 +491,22 @@ module Glimmer
             if new_value == model.send(model_editing_property)
               @cancel_edit.call
             else
-              before_write&.call
+              if before_write&.arity == 0
+                before_write&.call
+              else
+                before_write&.call(edited_table_item)
+              end
               model.send("#{model_editing_property}=", new_value) # makes table update itself, so must search for selected table item again
               # Table refresh happens here because of model update triggering observers, so must retrieve table item again
               edited_table_item = search { |ti| ti.getData == model }.first
               swt_widget.showItem(edited_table_item)
               @table_editor_widget_proxy&.swt_widget&.dispose
               @table_editor_widget_proxy = nil
-              after_write&.call(edited_table_item)
+              if after_write&.arity == 0
+                after_write&.call
+              else
+                after_write&.call(edited_table_item)
+              end
               @edit_in_progress = false
             end
           end

@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.2
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -424,7 +424,7 @@ There are several requirements for building enterprise-level/consumer-level desk
 
 Glimmer provides cross-platform support that does not require Ruby compilation (like Tk does), thanks to JRuby, a JVM (Java Virtual Machine) faster OS-threaded version of Ruby.
 
-Glimmer leverages SWT (Standard Widget Toolkit), which provides cross-platform widgets that automatically use the native GUI libraries under each operating system, such as Win32 on Windows, Cocoa on Mac, and GTK on Linux. 
+Glimmer leverages SWT (Standard Widget Toolkit), which provides cross-platform widgets that automatically use the native GUI libraries under each operating system, such as Win32 on Windows, Cocoa on Mac, and GTK on Linux.
 
 Furthermore, what is special about SWT regarding "High Performance" is that it does all the GUI painting natively outside of Java, thus producing GUI that runs at maximum performance even in Ruby. As such, you do not need to worry about Ruby dynamic typing getting in the way of GUI performance. It has ZERO effect on it and since SWT supports making asynchronous calls for GUI rendering, you could avoid blocking the GUI completely with any computations happening in Ruby no matter how complex, thus never affecting the responsiveness of GUI of applications while taking full advantage of the productivity benefits of Ruby dynamic typing.
 
@@ -493,7 +493,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.3.1
+jgem install glimmer-dsl-swt -v 4.18.3.2
 
 
 ```
@@ -513,7 +513,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.3.1
+gem 'glimmer-dsl-swt', '~> 4.18.3.2
 '
 ```
 
@@ -572,7 +572,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.1
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.2
 
 
       
@@ -1053,7 +1053,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.3.1
+  Swt    glimmer-dsl-swt    4.18.3.2
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -3532,6 +3532,8 @@ shell { |app_shell|
 }.open
 ```
 
+If you use a Custom Shell as the top-level app shell, you may invoke the class method `::launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
+
 You may check out [Hello, Custom Shell!](#hello-custom-shell) for another example.
 
 ### Drag and Drop
@@ -4183,7 +4185,17 @@ end
 
 ### log_excluded_keywords
 
+(default = false)
+
 This just tells Glimmer whether to log excluded keywords or not (at the debug level). It is off by default.
+
+### auto_sync_exec
+
+(default = false)
+
+This automatically uses sync_exec on GUI calls from threads other than the main GUI thread instead of requiring users to manually use sync_exec. Default value to false.
+
+Keep in mind the caveat that it would force redraws on every minor changein the models instead of applying large scope changes all together, thus causing too much drawing/stutter in the GUI. As such, this is a good fit for simpler GUIs, not ones used with highly sophisticated 2D graphics. It may be mitigated in the future by introducing the idea of large-scale observation events that wrap around smaller events. Until then, keep the caveat in mind or just use sync_exec manually as usually done with Java SWT apps.
 
 ## Glimmer Style Guide
 
@@ -4263,7 +4275,7 @@ You may edit the code of any sample before launching it by clicking on the "Laun
 Note that if you fail to run any sample through the Glimmer Meta-Sample for whatever reason, you could always run directly by cloning the project, running `bundle`, and then this command (drop the "bin" if you install the glimmer-dsl-swt gem instead):
 
 ```ruby
-bin/glimmer samples/hello/hello_canvas_transform.rb   
+bin/glimmer samples/hello/hello_canvas_transform.rb
 ```
 
 ### Hello Samples
@@ -4847,6 +4859,16 @@ Code:
 ![Tetris](images/glimmer-tetris.png)
 
 ![Tetris Game Over](images/glimmer-tetris-game-over.png)
+
+![Tetris High Scores](images/glimmer-tetris-high-score-dialog.png)
+
+![Tetris Game Menu](images/glimmer-tetris-game-menu.png)
+
+![Tetris View Menu](images/glimmer-tetris-view-menu.png)
+
+![Tetris Options Menu](images/glimmer-tetris-options-menu.png)
+
+![Tetris Help Menu](images/glimmer-tetris-help-menu.png)
 
 ### External Samples
 

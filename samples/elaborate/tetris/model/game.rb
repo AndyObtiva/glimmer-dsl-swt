@@ -19,8 +19,14 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'fileutils'
+require 'etc'
+require 'glimmer/data_binding/observer'
+require 'glimmer/config'
+
 require_relative 'block'
 require_relative 'tetromino'
+require_relative 'past_game'
 
 class Tetris
   module Model
@@ -32,13 +38,18 @@ class Tetris
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
       
       attr_reader :playfield_width, :playfield_height
-      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level
+      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score
       alias game_over? game_over
       alias paused? paused
+      alias beeping? beeping
+      alias added_high_score? added_high_score
       
       def initialize(playfield_width = PLAYFIELD_WIDTH, playfield_height = PLAYFIELD_HEIGHT)
         @playfield_width = playfield_width
         @playfield_height = playfield_height
+        @high_scores = []
+        @beeping = true
+        load_high_scores!
       end
     
       def configure_beeper(&beeper)
@@ -63,10 +74,51 @@ class Tetris
       end
       alias restart! start!
       
+      def game_over!
+        add_high_score!
+        beep
+        self.game_over = true
+      end
+      
+      def clear_high_scores!
+        high_scores.clear
+      end
+      
+      def add_high_score!
+        self.added_high_score = true
+        high_scores.prepend(PastGame.new("Player #{high_scores.count + 1}", score))
+      end
+      
+      def save_high_scores!
+        high_score_file_content = @high_scores.map {|past_game| past_game.to_a.join("\t") }.join("\n")
+        FileUtils.mkdir_p(tetris_dir)
+        File.write(tetris_high_score_file, high_score_file_content)
+      rescue => e
+        # Fail safely by keeping high scores in memory if unable to access disk
+        Glimmer::Config.logger.error {"Failed to save high scores in: #{tetris_high_score_file}\n#{e.full_message}"}
+      end
+      
+      def load_high_scores!
+        if File.exist?(tetris_high_score_file)
+          self.high_scores = File.read(tetris_high_score_file).split("\n").map {|line| PastGame.new(*line.split("\t")) }
+        end
+      rescue => e
+        # Fail safely by keeping high scores in memory if unable to access disk
+        Glimmer::Config.logger.error {"Failed to load high scores from: #{tetris_high_score_file}\n#{e.full_message}"}
+      end
+      
+      def tetris_dir
+        @tetris_dir ||= File.join(Etc.getpwuid.dir, '.glimmer-tetris')
+      end
+      
+      def tetris_high_score_file
+        File.join(tetris_dir, "high_scores.txt")
+      end
+      
       def down!
         return unless game_in_progress?
         current_tetromino.down!
-        self.game_over = true if current_tetromino.row <= 0 && current_tetromino.stopped?
+        game_over! if current_tetromino.row <= 0 && current_tetromino.stopped?
       end
       
       def right!
@@ -147,7 +199,7 @@ class Tetris
       end
       
       def beep
-        @beeper&.call
+        @beeper&.call if beeping
       end
       
       def reset_tetrominoes

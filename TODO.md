@@ -4,6 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make High Scores -> Show a check menu item
+- Fix Quit Tetris CMD+Q shortcut
+- Tetris Immediate Drop on Arrow Up
+- Tetris add an about dialog
+- Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
+
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
@@ -14,15 +20,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Auto-Focusable canvas element (with keyboard)
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
-- Tetris High Scores
+- Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 - Canvas Shape DSL Shape Arguments Data-Binding support
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
-- Tetris Immediate Drop on Arrow Up
-- Tetris Pause game
-- Tetris add an about dialog
-- Tetris add a menu with beep enablement option
 - Tetris music via JSound
-- Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
 - Tetris update row and/or column based on rotation, recentering the tetromino for some of them like 4-block line
 - Support Custom Shapes composed of a group of shapes
 - Offer an option to perform data-bindings async (e.g. `bind(model, :property, async: true)`)
@@ -47,6 +48,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document webify and scaffold:webready
 - Document Heroku pre-requisite as optional for webready/webify modes.
 - Document use of jruby in rails and ability to switch manually to CRuby with RVM
+- Make display detect if an on_about dialog is already setup before adding one (like in Tetris)
 
 ## Soon
 
@@ -72,6 +74,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
 - Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
+- Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
+- Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
 - Look into why closing down a tetris app from meta-sample and re-opening ends up firing events via display keyboard events to previous model for disposed shell
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
@@ -360,11 +364,15 @@ items <=> binding {
 - Consider the idea of shape (specific) layouts
 - Consider the idea of non-square bound widgets
 - Implement a variation on puts_debuggerer that shows logging in a Glimmer window for Glimmer apps (perhaps pd with glimmer: true which can be configured globally)
+- Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/)
+- Make table bind column_properties a hash option of bind statement
+- Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
 
 ## Samples
 
 - Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
 - Add hello samples for every built-in SWT widget including the custom package
+- Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app

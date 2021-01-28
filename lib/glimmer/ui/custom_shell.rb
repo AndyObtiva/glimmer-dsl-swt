@@ -32,6 +32,7 @@ module Glimmer
         
         def launch(*args, &content)
           @launched_custom_shell = send(keyword, *args, &content) if @launched_custom_shell.nil? || @launched_custom_shell.disposed?
+          @launched_custom_shell.swt_widget.set_data('launched', true)
           @launched_custom_shell.open
         end
       end

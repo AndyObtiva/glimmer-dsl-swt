@@ -30,8 +30,8 @@ class Tetris
       options :block_size, :game
       
       before_body {
-        @font_name = 'Menlo'
-        @font_height = 32
+        @font_name = FONT_NAME
+        @font_height = FONT_TITLE_HEIGHT
       }
   
       body {
@@ -46,13 +46,13 @@ class Tetris
           }
           label(:center) {
             text 'Next'
-            font name: @font_name, height: @font_height, style: :bold
+            font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           playfield(game_playfield: game.preview_playfield, playfield_width: Model::Game::PREVIEW_PLAYFIELD_WIDTH, playfield_height: Model::Game::PREVIEW_PLAYFIELD_HEIGHT, block_size: block_size)
 
           label(:center) {
             text 'Score'
-            font name: @font_name, height: @font_height, style: :bold
+            font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
             text bind(game, :score)
@@ -63,7 +63,7 @@ class Tetris
           
           label(:center) {
             text 'Lines'
-            font name: @font_name, height: @font_height, style: :bold
+            font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
             text bind(game, :lines)
@@ -74,7 +74,7 @@ class Tetris
           
           label(:center) {
             text 'Level'
-            font name: @font_name, height: @font_height, style: :bold
+            font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
             text bind(game, :level)
