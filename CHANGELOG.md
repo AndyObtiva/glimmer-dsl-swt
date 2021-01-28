@@ -3,6 +3,8 @@
 ### 4.18.3.3
 
 - Tetris Add lines and level to High Score Dialog
+- Support Table data binding read_only_sort: true option to allow visual sorting without affecting model data
+- Pause on showing High Score Dialog
 
 ### 4.18.3.2
 

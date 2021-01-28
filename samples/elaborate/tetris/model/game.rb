@@ -51,7 +51,7 @@ class Tetris
         @beeping = true
         load_high_scores!
       end
-    
+      
       def configure_beeper(&beeper)
         @beeper = beeper
       end

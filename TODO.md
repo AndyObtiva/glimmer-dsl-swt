@@ -4,9 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Pause game when showing high scores and resume if wasn't paused originally
 - Make High Scores -> Show a check menu item
+- Use newly added Glimmer support for array all elements observation
+- Make table data binding sorting optionally not get propagated to model
 - Fix Quit Tetris CMD+Q shortcut
+- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Tetris Immediate Drop on Arrow Up
+- Document read_only_sort table data binding option
 - Tetris add an about dialog
 - Tetris consider idea of painting my own icon (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
 
@@ -15,7 +20,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make Canvas images auto-dispose themselves when canvas is disposed
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
-- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Consider extending Hello, Transform! with text
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Auto-Focusable canvas element (with keyboard)

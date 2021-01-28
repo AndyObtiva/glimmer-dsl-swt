@@ -36,7 +36,9 @@ module Glimmer
       def initialize(parent, model_binding, column_properties)
         @table = parent
         @model_binding = model_binding
+        @read_only_sort = @model_binding.binding_options[:read_only_sort]
         @table.swt_widget.data = @model_binding
+        @table.swt_widget.set_data('table_items_binding', self)
         @column_properties = column_properties
         @table.on_widget_disposed do |dispose_event|
           unregister_all_observables
@@ -50,8 +52,8 @@ module Glimmer
         call
       end
 
-      def call(new_model_collection=nil)
-        new_model_collection = @model_binding.evaluate_property # this ensures applying converters (e.g. :on_read)
+      def call(new_model_collection=nil, internal_sort: false)
+        new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
         table_cells = @table.swt_widget.items.map {|item| @table.column_properties.size.times.map {|i| item.get_text(i)} }
         model_cells = new_model_collection.to_a.map {|m| @table.cells_for(m)}
         return if table_cells == model_cells
@@ -61,10 +63,10 @@ module Glimmer
           add_dependent(@table_observer_registration => @table_items_observer_registration)
           @model_collection = new_model_collection
         end
-        populate_table(@model_collection, @table, @column_properties)
+        populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)
       end
       
-      def populate_table(model_collection, parent, column_properties)
+      def populate_table(model_collection, parent, column_properties, internal_sort: false)
         selected_table_item_models = parent.swt_widget.getSelection.map(&:get_data)
         parent.finish_edit!
         parent.swt_widget.items.each(&:dispose)
@@ -78,7 +80,8 @@ module Glimmer
         end
         selected_table_items = parent.search {|item| selected_table_item_models.include?(item.get_data) }
         parent.swt_widget.setSelection(selected_table_items)
-        parent.sort!
+        sorted_model_collection = parent.sort!(internal_sort: internal_sort)
+        call(sorted_model_collection, internal_sort: true) if @read_only_sort && !internal_sort && !sorted_model_collection.nil?
         parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
       end
     end

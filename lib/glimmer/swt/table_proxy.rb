@@ -273,6 +273,10 @@ module Glimmer
         swt_widget.data
       end
       
+      def table_items_binding
+        swt_widget.get_data('table_items_binding')
+      end
+      
       def sort_block=(comparator)
         @sort_block = comparator
       end
@@ -357,9 +361,9 @@ module Glimmer
         @additional_sort_properties = args unless args.empty?
       end
       
-      def sort!
+      def sort!(internal_sort: false)
         return unless sort_property && (sort_type || sort_block || sort_by_block)
-        array = model_binding.evaluate_property
+        original_array = array = model_binding.evaluate_property
         array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
         # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
         if sort_block
@@ -383,7 +387,12 @@ module Glimmer
           end
         end
         sorted_array = sorted_array.reverse if sort_direction == :descending
-        model_binding.call(sorted_array)
+        if model_binding.binding_options.symbolize_keys[:read_only_sort]
+          table_items_binding.call(sorted_array, internal_sort: true) unless internal_sort
+        else
+          model_binding.call(sorted_array)
+        end
+        sorted_array
       end
       
       def editor=(args)

@@ -66,7 +66,7 @@ class Tetris
               text 'Level'
             }
             
-            items bind(game, :high_scores), column_properties(:name, :score, :lines, :level)
+            items bind(game, :high_scores, read_only_sort: true), column_properties(:name, :score, :lines, :level)
           }
           composite {
             row_layout :horizontal
@@ -90,6 +90,8 @@ class Tetris
           }
           
           on_swt_show {
+            @game_paused = game.paused?
+            game.paused = true
             if game.game_over? && game.added_high_score?
               game.added_high_score = false
               @high_score_table.edit_table_item(
@@ -107,6 +109,7 @@ class Tetris
           }
           
           on_shell_closed {
+            game.paused = @game_paused
             @high_score_table.cancel_edit!
           }
           

@@ -1635,6 +1635,42 @@ module GlimmerSpec
         expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)
       end
       
+      it 'has sorting changes not propagated to the model with data-binding (but applied to table)' do
+        @target = shell {
+          @table = table {
+            @table_column1 = table_column {
+              text "Name"
+              width 120
+            }
+            items bind(group, :people, read_only_sort: true), column_properties(:name, :age, :adult, :dob)
+          }
+        }
+        
+        initial_no_sort_array_of_people = group.people.dup
+        initial_no_sort_array_of_values = @table.swt_widget.items.map {|i| i.get_text(0)}
+        
+        event = Event.new
+        event.doit = true
+        event.display = @table_column1.swt_widget.getDisplay
+        event.item = @table_column1.swt_widget
+        event.widget = @table_column1.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:selection]
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(initial_no_sort_array_of_values)
+        expect(group.people).to eq(initial_no_sort_array_of_people)
+  
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+        
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Julia Fang', 'Bruce Ting'])
+        expect(group.people).to eq(initial_no_sort_array_of_people)
+        
+        @table_column1.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
+  
+        expect(@table.swt_widget.items.map {|i| i.get_text(0)}).to eq(['Bruce Ting', 'Julia Fang'])
+        expect(group.people).to eq(initial_no_sort_array_of_people)
+      end
+      
       it 'has a custom sort comparator' do
         @target = shell {
           @table = table {
