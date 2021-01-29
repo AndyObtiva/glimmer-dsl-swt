@@ -4,10 +4,13 @@
 
 - Support Table data binding read_only_sort: true option to allow visual sorting without affecting model data
 - Tetris Add lines and level to High Score Dialog
+- Tetris Immediate Drop on Arrow Up
 - Tetris Pause on showing High Score Dialog
 - Tetris Make High Scores -> Show a check menu item
 - Tetris Disable pause button upon showing High Score Dialog
 - Fix Quit Tetris CMD+Q shortcut by adding on_quit event to display
+- Tetris Fix escape button upon entering high score name
+- If WidgetBinding encounters a disposed widget, it deregisters all observables that it is observing
 
 ### 4.18.3.2
 

@@ -124,8 +124,14 @@ module Glimmer
       end
       alias disposed disposed?
 
+      # Hides shell. Automatically checks if widget is disposed to avoid crashing.
       def hide
-        @swt_widget.setVisible(false)
+        @swt_widget.setVisible(false) unless @swt_widget.isDisposed
+      end
+      
+      # Closes shell. Automatically checks if widget is disposed to avoid crashing.
+      def close
+        @swt_widget.close unless @swt_widget.isDisposed
       end
 
       def visible?

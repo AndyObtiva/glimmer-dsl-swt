@@ -249,6 +249,10 @@ module Glimmer
       def attribute_setter(attribute_name)
         "#{attribute_name}="
       end
+      
+      def disposed?
+        swt_widget.isDisposed
+      end
 
       def has_style?(style)
         (swt_style & SWT::SWTProxy[style]) == SWT::SWTProxy[style]

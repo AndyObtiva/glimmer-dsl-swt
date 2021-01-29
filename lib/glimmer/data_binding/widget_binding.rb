@@ -48,6 +48,10 @@ module Glimmer
         converted_value = translated_value = @translator.call(value)
       
         update_operation = lambda do
+          if @widget.respond_to?(:disposed?) && @widget.disposed?
+            unregister_all_observables
+            return
+          end
           @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
         end
         if Config.auto_sync_exec? && Config.require_sync_exec?
@@ -58,6 +62,10 @@ module Glimmer
       end
       
       def evaluate_property
+        if @widget.respond_to?(:disposed?) && @widget.disposed?
+          unregister_all_observables
+          return
+        end
         @widget.get_attribute(@property)
       end
     end

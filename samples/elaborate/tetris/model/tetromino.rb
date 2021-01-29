@@ -93,8 +93,8 @@ class Tetris
         playfield_remaining_heights = game.playfield_remaining_heights(self)
         result = bottom_most_blocks.any? do |bottom_most_block|
           playfield_column = @column + bottom_most_block[:column_index]
-            playfield_remaining_heights[playfield_column] &&
-            @row + bottom_most_block[:row] >= playfield_remaining_heights[playfield_column] - 1
+          playfield_remaining_heights[playfield_column] &&
+            @row + bottom_most_block[:row_index] >= playfield_remaining_heights[playfield_column] - 1
         end
         if result && !game.hypothetical?
           @stopped = result
@@ -114,7 +114,7 @@ class Tetris
           bottom_most_block_row = row_blocks_with_row_index[1]
           {
             block: bottom_most_block,
-            row: bottom_most_block_row,
+            row_index: bottom_most_block_row,
             column_index: column_index
           }
         end
@@ -182,10 +182,15 @@ class Tetris
         @blocks.size
       end
       
-      def down!
+      def down!(immediate: false)
         launch! if preview?
         unless stopped?
-          new_row = @row + 1
+          block_count = 1
+          if immediate
+            remaining_height, bottom_touching_block = remaining_height_and_bottom_touching_block
+            block_count = remaining_height - @row
+          end
+          new_row = @row + block_count
           update_playfield(new_row, @column)
         end
       end
@@ -243,6 +248,14 @@ class Tetris
             end
           end
         end
+      end
+      
+      def remaining_height_and_bottom_touching_block
+        playfield_remaining_heights = game.playfield_remaining_heights(self)
+        bottom_most_blocks.map do |bottom_most_block|
+          playfield_column = @column + bottom_most_block[:column_index]
+          [playfield_remaining_heights[playfield_column] - (bottom_most_block[:row_index] + 1), bottom_most_block]
+        end.min_by(&:first)
       end
       
       def default_blocks

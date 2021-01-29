@@ -55,6 +55,8 @@ class Tetris
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
           game.down!
+        when swt(:arrow_up)
+          game.down!(immediate: true)
         when swt(:arrow_left), 'a'.bytes.first
           game.left!
         when swt(:arrow_right), 'd'.bytes.first
@@ -65,8 +67,6 @@ class Tetris
           elsif key_event.keyLocation == swt(:left) # left shift key
             game.rotate!(:left)
           end
-        when swt(:arrow_up)
-          game.rotate!(:right)
         when swt(:ctrl)
           game.rotate!(:left)
         end
@@ -95,7 +95,7 @@ class Tetris
       if show_high_scores
         show_high_score_dialog
       else
-        @high_score_dialog&.close
+        @high_score_dialog.close unless @high_score_dialog.nil? || @high_score_dialog.disposed? || !@high_score_dialog.visible?
       end
     end
     @game.start!

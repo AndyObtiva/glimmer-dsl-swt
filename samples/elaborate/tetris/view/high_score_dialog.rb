@@ -83,7 +83,8 @@ class Tetris
               focus true # initial focus
               
               on_widget_selected {
-                close
+                async_exec { close }
+                game.paused = @game_paused
                 game.restart! if game.game_over?
               }
             }
@@ -94,6 +95,7 @@ class Tetris
             game.paused = true
             if game.game_over? && game.added_high_score?
               game.added_high_score = false
+              game.save_high_scores!
               @high_score_table.edit_table_item(
                 @high_score_table.items.first, # row item
                 0, # column
@@ -109,8 +111,16 @@ class Tetris
           }
           
           on_shell_closed {
-            game.paused = @game_paused
-            @high_score_table.cancel_edit!
+            # guard is needed because there is an observer in Tetris closing on
+            # game.show_high_scores change, which gets set below
+            unless @closing
+              @closing = true
+              @high_score_table.cancel_edit!
+              game.paused = @game_paused
+              game.show_high_scores = false
+            else
+              @closing = false
+            end
           }
           
           on_widget_disposed {

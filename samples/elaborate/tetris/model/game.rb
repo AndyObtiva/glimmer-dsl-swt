@@ -117,9 +117,9 @@ class Tetris
         File.join(tetris_dir, "high_scores.txt")
       end
       
-      def down!
+      def down!(immediate: false)
         return unless game_in_progress?
-        current_tetromino.down!
+        current_tetromino.down!(immediate: immediate)
         game_over! if current_tetromino.row <= 0 && current_tetromino.stopped?
       end
       
@@ -249,12 +249,13 @@ class Tetris
             
       def playfield_remaining_heights(tetromino = nil)
         @playfield_width.times.map do |playfield_column|
+          bottom_most_block = tetromino.bottom_most_block_for_column(playfield_column)
           (playfield.each_with_index.detect do |row, playfield_row|
             !row[playfield_column].clear? &&
             (
               tetromino.nil? ||
-              (bottom_most_block = tetromino.bottom_most_block_for_column(playfield_column)).nil? ||
-              (playfield_row > tetromino.row + bottom_most_block[:row])
+              bottom_most_block.nil? ||
+              (playfield_row > tetromino.row + bottom_most_block[:row_index])
             )
           end || [nil, @playfield_height])[1]
         end.to_a

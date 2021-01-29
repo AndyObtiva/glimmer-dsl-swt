@@ -547,6 +547,10 @@ module Glimmer
         @swt_widget.dispose
       end
 
+      def disposed?
+        @swt_widget.isDisposed
+      end
+
       # TODO Consider renaming these methods as they are mainly used for data-binding
 
       def can_add_observer?(property_name)
@@ -663,7 +667,7 @@ module Glimmer
           can_handle_observation_request?(method) ||
           swt_widget.respond_to?(method, *args, &block)
       end
-
+      
       private
 
       def style(underscored_widget_name, styles)

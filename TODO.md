@@ -5,14 +5,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
-- Tetris Immediate Drop on Arrow Up
-- Tetris consider idea of painting my own icon in-game (icon widget ? or bitmap dsl) with Glimmer canvas and setting on Shell
+- Tetris consider idea of painting my own icon in-game (icon widget ? or bitmap dsl) with bitmap double-array or Glimmer canvas and setting on Shell
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
+- Tetris Immediate Drop playfield collision shake animation on impact
+- Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Auto-Focusable canvas element (with keyboard)
