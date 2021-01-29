@@ -35,11 +35,12 @@ module Glimmer
           end
         end
         
-        def resetup_shape_paint_listeners
+        def resetup_shape_painting
           # TODO consider performance optimization relating to order of shape rendering (affecting only further shapes not previous ones)
+          reset_gc if respond_to?(:reset_gc)
           shapes.each do |shape|
             shape.paint_listener_proxy&.unregister
-            shape.setup_paint_listener
+            shape.setup_painting
           end
         end
       end

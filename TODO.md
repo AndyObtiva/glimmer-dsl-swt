@@ -4,9 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
-- Tetris consider idea of painting my own icon in-game (icon widget ? or bitmap dsl) with bitmap double-array or Glimmer canvas and setting on Shell
+- Canvas Make shapes autofill if you specify a background (no need to say fill: true) or not fill if you specify a foreground
+- Support Custom Images
+- Support Custom Shapes composed of a group of shapes
+- Provide Tetris option to switch instant drop with rotate right
 
+- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
@@ -22,7 +25,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Shape DSL Shape Arguments Data-Binding support
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Tetris music via JSound (Java Sound)
-- Support Custom Shapes composed of a group of shapes
 - Offer an option to perform data-bindings async (e.g. `bind(model, :property, async: true)`)
 - Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 - Consider tweaking the Tetris color scheme
@@ -52,6 +54,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors
 
+- add a config file during scaffolding that lists glimmer options (consider using a config dsl)
 - Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
 - Consider adding `glimmer release` task to publish a Glimmer app as a gem (not just custom widgets or custom shells)
 - Expose system menu items via proxies
@@ -365,6 +368,7 @@ items <=> binding {
 - Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/)
 - Make table bind column_properties a hash option of bind statement
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
+- Support spriting of images with Glimmer DSL syntax (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
 
 ## Samples
 

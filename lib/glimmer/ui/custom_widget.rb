@@ -163,8 +163,8 @@ module Glimmer
       attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
-        @parent = parent
-        @parent_proxy = @parent&.get_data('proxy')
+        @parent_proxy = @parent = parent
+        @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
         @swt_style = SWT::SWTProxy[*swt_constants]
         options ||= {}
         @options = self.class.options.merge(options)

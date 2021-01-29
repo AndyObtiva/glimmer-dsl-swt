@@ -1,8 +1,14 @@
 # Change Log
 
+### 4.18.3.4
+
+- Support building Image objects with the Glimmer Canvas Shape DSL
+- Tetris build icon image in-game by nesting Glimmer Shape DSL syntax
+
 ### 4.18.3.3
 
 - Support Table data binding read_only_sort: true option to allow visual sorting without affecting model data
+-  on_quit to
 - Tetris Add lines and level to High Score Dialog
 - Tetris Immediate Drop on Arrow Up
 - Tetris Pause on showing High Score Dialog

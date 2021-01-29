@@ -32,7 +32,6 @@ class Tetris
   
       body {
         canvas {
-          layout nil
           background bind(game_playfield[row][column], :color)
           polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4, fill: true) {
             background bind(game_playfield[row][column], :color) { |color_value|

@@ -44,6 +44,7 @@ class Tetris
   before_body {
     @mutex = Mutex.new
     @game = Model::Game.new(playfield_width, playfield_height)
+    @bevel_constant = 20
         
     @game.configure_beeper do
       display.beep
@@ -110,10 +111,10 @@ class Tetris
         margin_height 0
         horizontal_spacing 0
       }
-
+      
       text 'Glimmer Tetris'
       minimum_size 475, 500
-      background :gray
+      image tetris_icon
 
       tetris_menu_bar(game: game)
 
@@ -128,6 +129,39 @@ class Tetris
       }
     }
   }
+  
+  def tetris_icon
+    icon_block_size = 64
+    icon_bevel_size = icon_block_size.to_f / 25.to_f
+    icon_bevel_pixel_size = 0.16*icon_block_size.to_f
+    icon_size = 8
+    icon_pixel_size = icon_block_size * icon_size
+    image(icon_pixel_size, icon_pixel_size) {
+      icon_size.times { |row|
+        icon_size.times { |column|
+          colored = row >= 1 && column.between?(1, 6)
+          color = colored ? color(([:white] + Model::Tetromino::LETTER_COLORS.values).sample) : color(:white)
+          x = column * icon_block_size
+          y = row * icon_block_size
+          rectangle(x, y, icon_block_size, icon_block_size, fill: true) {
+            background color
+          }
+          polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+            background rgb(color.red + 4*@bevel_constant, color.green + 4*@bevel_constant, color.blue + 4*@bevel_constant)
+          }
+          polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size, fill: true) {
+            background rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+          }
+          polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, fill: true) {
+            background rgb(color.red - 2*@bevel_constant, color.green - 2*@bevel_constant, color.blue - 2*@bevel_constant)
+          }
+          polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+            background rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+          }
+        }
+      }
+    }
+  end
   
   def start_moving_tetrominos_down
     Thread.new do

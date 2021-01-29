@@ -77,7 +77,7 @@ module Glimmer
           composite.layout = GridLayout.new if composite.get_layout.nil?
         end,
         canvas: lambda do |canvas|
-          canvas.layout = nil unless canvas.get_layout.nil?
+          canvas.layout = nil if canvas.respond_to?('layout=') && !canvas.get_layout.nil?
         end,
         scrolled_composite: lambda do |scrolled_composite|
           scrolled_composite.expand_horizontal = true

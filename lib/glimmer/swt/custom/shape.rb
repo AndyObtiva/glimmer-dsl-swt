@@ -30,7 +30,6 @@ module Glimmer
   module SWT
     module Custom
       # Represents a shape (graphics) to be drawn on a control/widget/canvas/display
-      # swt_widget returns the parent (e.g. a `canvas` WidgetProxy), equivalent to `parent.swt_widget`
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         include Packages
@@ -80,7 +79,7 @@ module Glimmer
           end
         end
         
-        attr_reader :parent, :name, :args, :options, :swt_widget, :paint_listener_proxy
+        attr_reader :parent, :name, :args, :options, :paint_listener_proxy
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -88,7 +87,6 @@ module Glimmer
           @method_name = self.class.method_name(keyword, args)
           @options = self.class.arg_options(args, extract: true)
           @args = args
-          @swt_widget = parent.respond_to?(:swt_display) ? parent.swt_display : parent.swt_widget
           @properties = {}
           @parent.shapes << self
           post_add_content if property_block.nil?
@@ -111,7 +109,7 @@ module Glimmer
         end
         
         def post_add_content
-          setup_paint_listener
+          setup_painting
           @content_added = true
         end
         
@@ -194,7 +192,7 @@ module Glimmer
         def set_attribute(attribute_name, *args)
           @properties[attribute_name] = args
           if @content_added && !@parent.is_disposed
-            @parent.resetup_shape_paint_listeners
+            @parent.resetup_shape_painting
             @parent.redraw
           end
         end
@@ -203,10 +201,13 @@ module Glimmer
           @properties.symbolize_keys[attribute_name.to_s.to_sym]
         end
         
-        def setup_paint_listener
+        def setup_painting
+          # TODO consider moving this method to parent (making the logic polymorphic)
           return if @parent.is_disposed
           if parent.respond_to?(:swt_display)
             @paint_listener_proxy = @parent.on_swt_paint(&method(:paint))
+          elsif parent.respond_to?(:swt_image)
+            paint(parent) # treat parent as paint event since you don't do repaints with images, it's a one time deal.
           elsif parent.respond_to?(:swt_widget)
             @paint_listener_proxy = @parent.on_paint_control(&method(:paint))
           end
@@ -214,9 +215,9 @@ module Glimmer
         
         def paint(paint_event)
           @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
-          @properties['foreground'] = [@parent.foreground] if draw? && !@properties.keys.map(&:to_s).include?('foreground')
-          @properties['font'] = [@parent.font] if draw? && !@properties.keys.map(&:to_s).include?('font')
-          @properties['transform'] = [nil] if !@properties.keys.map(&:to_s).include?('transform')
+          @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !@properties.keys.map(&:to_s).include?('foreground')
+          @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+          @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
           @properties.each do |property, args|
             method_name = attribute_setter(property)
             converted_args = apply_property_arg_conversions(method_name, property, args)

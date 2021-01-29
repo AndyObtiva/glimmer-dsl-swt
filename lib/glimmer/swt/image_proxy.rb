@@ -19,6 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer/swt/custom/drawable'
+require 'glimmer/swt/properties'
+
 module Glimmer
   module SWT
     # Proxy for org.eclipse.swt.graphics.Image
@@ -27,6 +30,9 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class ImageProxy
+      include Custom::Drawable
+      include Properties
+      
       class << self
         def create(*args)
           if args.size == 1 && args.first.is_a?(ImageProxy)
@@ -37,6 +43,7 @@ module Glimmer
         end
       end
       
+      include_package 'org.eclipse.swt.widgets'
       include_package 'org.eclipse.swt.graphics'
       
       attr_reader :file_path, :jar_file_path, :image_data, :swt_image
@@ -48,12 +55,20 @@ module Glimmer
       # and returns an image object.
       def initialize(*args)
         @args = args
+        @parent_proxy = nil
+        if @args.first.is_a?(WidgetProxy)
+          @parent_proxy = @args.shift
+          @parent = @parent_proxy.swt_widget
+        end
         options = @args.last.is_a?(Hash) ? @args.delete_at(-1) : {}
         options[:swt_image] = @args.first if @args.size == 1 && @args.first.is_a?(Image)
         @file_path = @args.first if @args.size == 1 && @args.first.is_a?(String)
         @args = @args.first if @args.size == 1 && @args.first.is_a?(Array)
         if options&.keys&.include?(:swt_image)
           @swt_image = options[:swt_image]
+          @original_image_data = @image_data = @swt_image.image_data
+        elsif args.size == 1 && args.first.is_a?(ImageProxy)
+          @swt_image = @args.first.swt_image
           @original_image_data = @image_data = @swt_image.image_data
         elsif @file_path
           @original_image_data = @image_data = ImageData.new(input_stream || @file_path)
@@ -64,9 +79,14 @@ module Glimmer
           width = (@image_data.width.to_f / @image_data.height.to_f)*height.to_f if !height.nil? && width.nil?
           scale_to(width, height) unless width.nil? || height.nil?
         else
+          @args.prepend(DisplayProxy.instance.swt_display) unless @args.first.is_a?(Display)
           @swt_image = Image.new(*@args)
           @original_image_data = @image_data = @swt_image.image_data
         end
+      end
+      
+      def post_add_content
+        @parent&.image = swt_image
       end
       
       def input_stream
@@ -89,6 +109,52 @@ module Glimmer
         @swt_image = Image.new(device, scaled_image_data)
         @image_data = @swt_image.image_data
         self
+      end
+      
+      def gc
+        @gc ||= reset_gc
+      end
+      
+      def reset_gc
+        @gc = org.eclipse.swt.graphics.GC.new(swt_image)
+      end
+      
+      def has_attribute?(attribute_name, *args)
+        @swt_image.respond_to?(attribute_setter(attribute_name), args) || respond_to?(ruby_attribute_setter(attribute_name), args)
+      end
+
+      def set_attribute(attribute_name, *args)
+        # TODO consider refactoring/unifying this code with WidgetProxy and elsewhere
+        if args.count == 1
+          if args.first.is_a?(Symbol) || args.first.is_a?(String)
+            args[0] = ColorProxy.new(args.first).swt_color
+          end
+          if args.first.is_a?(ColorProxy)
+            args[0] = args.first.swt_color
+          end
+        end
+
+        if @swt_image.respond_to?(attribute_setter(attribute_name))
+          @swt_image.send(attribute_setter(attribute_name), *args) unless @swt_image.send(attribute_getter(attribute_name)) == args.first
+        elsif @swt_image.respond_to?(ruby_attribute_setter(attribute_name))
+          @swt_image.send(ruby_attribute_setter(attribute_name), args)
+        else
+          send(ruby_attribute_setter(attribute_name), args)
+        end
+      end
+
+      def get_attribute(attribute_name)
+        if @swt_image.respond_to?(attribute_getter(attribute_name))
+          @swt_image.send(attribute_getter(attribute_name))
+        elsif @swt_image.respond_to?(ruby_attribute_getter(attribute_name))
+          @swt_image.send(ruby_attribute_getter(attribute_name))
+        elsif @swt_image.respond_to?(attribute_name)
+          @swt_image.send(attribute_name)
+        elsif respond_to?(ruby_attribute_getter(attribute_name))
+          send(ruby_attribute_getter(attribute_name))
+        else
+          send(attribute_name)
+        end
       end
       
       def method_missing(method, *args, &block)
