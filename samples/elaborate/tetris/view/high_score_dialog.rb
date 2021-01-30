@@ -99,11 +99,9 @@ class Tetris
               @high_score_table.edit_table_item(
                 @high_score_table.items.first, # row item
                 0, # column
+                write_on_cancel: true,
                 after_write: -> {
                   game.save_high_scores!
-                  @play_close_button.set_focus
-                },
-                after_cancel: -> {
                   @play_close_button.set_focus
                 },
               )

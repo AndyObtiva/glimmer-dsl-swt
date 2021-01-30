@@ -4,13 +4,30 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support Glimmer::UI::CustomImage to build an image using the Canvas Shape DSL
-- Support Glimmer::UI::CustomShape composed of a group of shapes
-
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
-- Add progress dialog to meta-sample for launching bigger apps like Tetris
+
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
+
+- Canvas support a Path DSL for methods that take Path arguments
+- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
+- Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
+
+- Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
+- Hello, Custom Image (build an image from shapes giving it a name)
+- Support Glimmer::UI::CustomShape composed of a group of shapes
+- Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect, or other things done in css which can be done even more simply with glimmer, etc..)
+- Canvas animation frame_rate property to set frames per second rate of rendering
+- Canvas animation property data-binding
+- Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
+- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
+- Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
+- Canvas animation supporting multiple parallel animations per canvas
+- Optimize animation stutter/performance
+- Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
+- Figure out how to do layers
+
+- Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
@@ -67,12 +84,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add support for specifying maximum size on shells and composites
 
 - Support passing transform matrices as double-arrays to be more readable if needed
-- Canvas support a Path DSL for methods that take Path arguments
-- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered)
 - Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
 - Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
+- Tetris remember options by saving to disk (switching from tdf tab delimited format to json)
 - Look into why closing down a tetris app from meta-sample and re-opening ends up firing events via display keyboard events to previous model for disposed shell
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
@@ -351,12 +367,6 @@ items <=> binding {
 - Consider generalizing DataBindingExpression and moving to glimmer (making class for WidgetBinding configurable or generalized via a Binding ancestor to it and ModelBinding)
 - Support ability o data-bind widgets to each other directly
 - Upgrade to JDK15
-- Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing)
-- Canvas animation property data-binding
-- Canvas animation enabled property (with data-binding support) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
-- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
-- Canvas animation `animating` property (data-binding alternative to invoking start/stop/resume/restart methods)
-- Canvas animation supporting multiple parallel animations per canvas
 - Include Splash screen support automatically in CustomShell and a hook for adding require statements (or work) so they'd happen after the splash shows up or just automate all of it by convention
 - Consider supporting balanced_async_exec (balancing async_exec runs via an intermediate queue that segragates by passed in symbol argument and optional weight (default=1)) (e.g. balanced_async_exec('key_event', weight: 2, &runnable))
 - Consider the idea of shape (specific) layouts
@@ -365,8 +375,8 @@ items <=> binding {
 - Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/)
 - Make table bind column_properties a hash option of bind statement
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
-- Support spriting of images with Glimmer DSL syntax (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
 - Tetris Immediate Drop playfield collision shake animation effect on impact
+- Support spriting of images using standard SWT layout techniques like GridLayout (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
 
 ## Samples
 

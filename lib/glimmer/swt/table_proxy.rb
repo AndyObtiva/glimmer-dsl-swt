@@ -457,7 +457,7 @@ module Glimmer
         edit_table_item(swt_widget.getSelection.first, column_index, before_write: before_write, after_write: after_write, after_cancel: after_cancel)
       end
             
-      def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)
+      def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil, write_on_cancel: false)
         return if table_item.nil?
         model = table_item.data
         property = column_properties[column_index]
@@ -476,18 +476,22 @@ module Glimmer
         widget_value_property = TableProxy::editors.symbolize_keys[editor_widget][:widget_value_property]
         
         @cancel_edit = lambda do |event=nil|
-          @cancel_in_progress = true
-          @table_editor_widget_proxy&.swt_widget&.dispose
-          @table_editor_widget_proxy = nil
-          if after_cancel&.arity == 0
-            after_cancel&.call
+          if write_on_cancel
+            @finish_edit.call(event)
           else
-            after_cancel&.call(table_item)
+            @cancel_in_progress = true
+            @table_editor_widget_proxy&.swt_widget&.dispose
+            @table_editor_widget_proxy = nil
+            if after_cancel&.arity == 0
+              after_cancel&.call
+            else
+              after_cancel&.call(table_item)
+            end
+            @edit_in_progress = false
+            @cancel_in_progress = false
+            @cancel_edit = nil
+            @edit_mode = false
           end
-          @edit_in_progress = false
-          @cancel_in_progress = false
-          @cancel_edit = nil
-          @edit_mode = false
         end
         
         @finish_edit = lambda do |event=nil|

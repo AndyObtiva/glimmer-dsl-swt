@@ -21,6 +21,7 @@
 
 require 'fileutils'
 require 'etc'
+require 'json'
 require 'glimmer/data_binding/observer'
 require 'glimmer/config'
 

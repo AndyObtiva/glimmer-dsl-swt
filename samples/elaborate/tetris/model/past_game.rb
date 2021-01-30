@@ -21,6 +21,19 @@
 
 class Tetris
   module Model
-    PastGame = Struct.new(:name, :score, :lines, :level)
+    class PastGame
+      attr_accessor :name, :score, :lines, :level
+      
+      def initialize(name, score, lines, level)
+        @name = name
+        @score = score.to_i
+        @lines = lines.to_i
+        @level = level.to_i
+      end
+      
+      def to_a
+        [@name, @score, @lines, @level]
+      end
+    end
   end
 end

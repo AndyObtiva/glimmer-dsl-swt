@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.4.0
+
+- Fix issue with High Score Dialog in Tetris Sample not sorting by scores correctly (string compare instead of numeric compare) until first game is completed
+- Add `write_on_cancel: true` option for TableProxy#edit_table_item to make cancel behave just like save for special cases where you cannot cancel except the edit mode itself
+
 ### 4.18.3.4
 
 - Support building Image objects with the Glimmer Canvas Shape DSL
