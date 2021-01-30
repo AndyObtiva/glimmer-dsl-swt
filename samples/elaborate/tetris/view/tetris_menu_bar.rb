@@ -94,6 +94,24 @@ class Tetris
               accelerator :command, :b
               selection bind(game, :beeping)
             }
+            menu {
+              text 'Up Arrow'
+              menu_item(:radio) {
+                text '&Instant Down'
+                accelerator :command, :shift, :i
+                selection bind(game, :instant_down_on_up, computed_by: :up_arrow_action)
+              }
+              menu_item(:radio) {
+                text 'Rotate &Right'
+                accelerator :command, :shift, :r
+                selection bind(game, :rotate_right_on_up, computed_by: :up_arrow_action)
+              }
+              menu_item(:radio) {
+                text 'Rotate &Left'
+                accelerator :command, :shift, :l
+                selection bind(game, :rotate_left_on_up, computed_by: :up_arrow_action)
+              }
+            }
           } # end of menu
           
           menu {

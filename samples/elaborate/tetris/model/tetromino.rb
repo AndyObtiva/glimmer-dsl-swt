@@ -182,11 +182,11 @@ class Tetris
         @blocks.size
       end
       
-      def down!(immediate: false)
+      def down!(instant: false)
         launch! if preview?
         unless stopped?
           block_count = 1
-          if immediate
+          if instant
             remaining_height, bottom_touching_block = remaining_height_and_bottom_touching_block
             block_count = remaining_height - @row
           end

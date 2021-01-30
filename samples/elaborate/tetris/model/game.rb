@@ -38,7 +38,7 @@ class Tetris
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
       
       attr_reader :playfield_width, :playfield_height
-      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores
+      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores, :up_arrow_action
       alias game_over? game_over
       alias paused? paused
       alias beeping? beeping
@@ -50,6 +50,7 @@ class Tetris
         @high_scores = []
         @show_high_scores = false
         @beeping = true
+        @up_arrow_action = :instant_down
         load_high_scores!
       end
       
@@ -117,9 +118,9 @@ class Tetris
         File.join(tetris_dir, "high_scores.txt")
       end
       
-      def down!(immediate: false)
+      def down!(instant: false)
         return unless game_in_progress?
-        current_tetromino.down!(immediate: immediate)
+        current_tetromino.down!(instant: instant)
         game_over! if current_tetromino.row <= 0 && current_tetromino.stopped?
       end
       
@@ -202,6 +203,30 @@ class Tetris
       
       def beep
         @beeper&.call if beeping
+      end
+      
+      def instant_down_on_up=(value)
+        self.up_arrow_action = :instant_down if value
+      end
+      
+      def instant_down_on_up
+        self.up_arrow_action == :instant_down
+      end
+      
+      def rotate_right_on_up=(value)
+        self.up_arrow_action = :rotate_right if value
+      end
+      
+      def rotate_right_on_up
+        self.up_arrow_action == :rotate_right
+      end
+      
+      def rotate_left_on_up=(value)
+        self.up_arrow_action = :rotate_left if value
+      end
+      
+      def rotate_left_on_up
+        self.up_arrow_action == :rotate_left
       end
       
       def reset_tetrominoes

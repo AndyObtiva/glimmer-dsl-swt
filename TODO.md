@@ -4,9 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support Custom Images
-- Support Custom Shapes composed of a group of shapes
-- Provide Tetris option to switch instant drop with rotate right
+- Support Glimmer::UI::CustomImage to build an image using the Canvas Shape DSL
+- Support Glimmer::UI::CustomShape composed of a group of shapes
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
 - Add progress dialog to meta-sample for launching bigger apps like Tetris

@@ -5,6 +5,7 @@
 - Support building Image objects with the Glimmer Canvas Shape DSL
 - Tetris build icon image in-game by nesting Glimmer Shape DSL syntax
 - Canvas Make shapes auto-fill if you specify a background only (no need to say fill: true) or not fill if you specify a foreground only
+- Tetris option to switch Up Arrow between Instant Down, Rotate Right, and Rotate Left
 
 ### 4.18.3.3
 

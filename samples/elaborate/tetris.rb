@@ -35,6 +35,7 @@ class Tetris
   FONT_NAME = 'Menlo'
   FONT_TITLE_HEIGHT = 32
   FONT_TITLE_STYLE = :bold
+  BEVEL_CONSTANT = 20
   
   option :playfield_width, default: Model::Game::PLAYFIELD_WIDTH
   option :playfield_height, default: Model::Game::PLAYFIELD_HEIGHT
@@ -44,7 +45,6 @@ class Tetris
   before_body {
     @mutex = Mutex.new
     @game = Model::Game.new(playfield_width, playfield_height)
-    @bevel_constant = 20
         
     @game.configure_beeper do
       display.beep
@@ -57,7 +57,14 @@ class Tetris
         when swt(:arrow_down), 's'.bytes.first
           game.down!
         when swt(:arrow_up)
-          game.down!(immediate: true)
+          case game.up_arrow_action
+          when :instant_down
+            game.down!(instant: true)
+          when :rotate_right
+            game.rotate!(:right)
+          when :rotate_left
+            game.rotate!(:left)
+          end
         when swt(:arrow_left), 'a'.bytes.first
           game.left!
         when swt(:arrow_right), 'd'.bytes.first
@@ -147,16 +154,16 @@ class Tetris
             background color
           }
           polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
-            background rgb(color.red + 4*@bevel_constant, color.green + 4*@bevel_constant, color.blue + 4*@bevel_constant)
+            background rgb(color.red + 4*BEVEL_CONSTANT, color.green + 4*BEVEL_CONSTANT, color.blue + 4*BEVEL_CONSTANT)
           }
           polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size, fill: true) {
-            background rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+            background rgb(color.red - BEVEL_CONSTANT, color.green - BEVEL_CONSTANT, color.blue - BEVEL_CONSTANT)
           }
           polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, fill: true) {
-            background rgb(color.red - 2*@bevel_constant, color.green - 2*@bevel_constant, color.blue - 2*@bevel_constant)
+            background rgb(color.red - 2*BEVEL_CONSTANT, color.green - 2*BEVEL_CONSTANT, color.blue - 2*BEVEL_CONSTANT)
           }
           polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
-            background rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+            background rgb(color.red - BEVEL_CONSTANT, color.green - BEVEL_CONSTANT, color.blue - BEVEL_CONSTANT)
           }
         }
       }

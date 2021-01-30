@@ -26,35 +26,31 @@ class Tetris
   
       options :game_playfield, :block_size, :row, :column
   
-      before_body {
-        @bevel_constant = 20
-      }
-  
       body {
         canvas {
           background bind(game_playfield[row][column], :color)
           polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
-              rgb(color.red + 4*@bevel_constant, color.green + 4*@bevel_constant, color.blue + 4*@bevel_constant)
+              rgb(color.red + 4*BEVEL_CONSTANT, color.green + 4*BEVEL_CONSTANT, color.blue + 4*BEVEL_CONSTANT)
             }
           }
           polygon(block_size, 0, block_size - 4, 4, block_size - 4, block_size - 4, block_size, block_size) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
-              rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+              rgb(color.red - BEVEL_CONSTANT, color.green - BEVEL_CONSTANT, color.blue - BEVEL_CONSTANT)
             }
           }
           polygon(block_size, block_size, 0, block_size, 4, block_size - 4, block_size - 4, block_size - 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
-              rgb(color.red - 2*@bevel_constant, color.green - 2*@bevel_constant, color.blue - 2*@bevel_constant)
+              rgb(color.red - 2*BEVEL_CONSTANT, color.green - 2*BEVEL_CONSTANT, color.blue - 2*BEVEL_CONSTANT)
             }
           }
           polygon(0, 0, 0, block_size, 4, block_size - 4, 4, 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
-              rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
+              rgb(color.red - BEVEL_CONSTANT, color.green - BEVEL_CONSTANT, color.blue - BEVEL_CONSTANT)
             }
           }
           rectangle(0, 0, block_size, block_size) {
