@@ -2357,7 +2357,7 @@ Shape keywords and their args (including defaults) are listed below (they basica
 - `rectangle​(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 - `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
-Shape keywords that can be filled with color can take an keyword argument `fill: true` (defaults to false when not specified)
+Shape keywords that can be filled with color can take an keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
 
 Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.
 
@@ -2395,10 +2395,10 @@ shell {
 
   canvas {
     background :dark_yellow
-    rectangle(0, 0, 220, 400, fill: true) {
+    rectangle(0, 0, 220, 400) {
       background :dark_red
     }
-    rectangle(50, 20, 300, 150, 30, 50, round: true, fill: true) {
+    rectangle(50, 20, 300, 150, 30, 50, round: true) {
       background :yellow
     }
     rectangle(150, 200, 100, 70, true, gradient: true) {
@@ -2493,19 +2493,19 @@ shell {
           color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
           x = column * icon_block_size
           y = row * icon_block_size
-          rectangle(x, y, icon_block_size, icon_block_size, fill: true) {
+          rectangle(x, y, icon_block_size, icon_block_size) {
             background color
           }
-          polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+          polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
             background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
           }
-          polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size, fill: true) {
+          polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
             background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
           }
-          polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, fill: true) {
+          polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
             background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
           }
-          polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+          polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
             background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
           }
         }
@@ -2541,19 +2541,19 @@ shell {
         color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
         x = column * icon_block_size
         y = row * icon_block_size
-        rectangle(x, y, icon_block_size, icon_block_size, fill: true) {
+        rectangle(x, y, icon_block_size, icon_block_size) {
           background color
         }
-        polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+        polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
           background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
         }
-        polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size, fill: true) {
+        polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
           background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
         }
-        polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, fill: true) {
+        polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
           background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
         }
-        polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size, fill: true) {
+        polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
           background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
         }
       }
@@ -2670,7 +2670,7 @@ shell {
       
       frame { |index|
         background rgb(index%100, index%100 + 100, index%55 + 200)
-        rectangle(index, index, 20, 20, fill: true) {
+        rectangle(index, index, 20, 20) {
           background :red
         }
       }

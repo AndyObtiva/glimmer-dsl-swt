@@ -77,6 +77,8 @@ module Glimmer
           def flyweight_method_names
             @flyweight_method_names ||= {}
           end
+          
+          
         end
         
         attr_reader :parent, :name, :args, :options, :paint_listener_proxy
@@ -109,6 +111,7 @@ module Glimmer
         end
         
         def post_add_content
+          amend_method_name_options_based_on_properties
           setup_painting
           @content_added = true
         end
@@ -183,6 +186,15 @@ module Glimmer
           if args.size > the_java_method_arg_count
             args[the_java_method_arg_count..-1] = []
           end
+        end
+        
+        def amend_method_name_options_based_on_properties
+          if @properties.keys.map(&:to_s).include?('background') && !@properties.keys.map(&:to_s).include?('foreground')
+            @options[:fill] = true
+          elsif @properties.keys.map(&:to_s).include?('foreground') && !@properties.keys.map(&:to_s).include?('background')
+            @options[:fill] = false
+          end
+          @method_name = self.class.method_name(@name, @args + [@options])
         end
                 
         def has_attribute?(attribute_name, *args)

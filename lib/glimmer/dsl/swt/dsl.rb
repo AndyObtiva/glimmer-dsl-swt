@@ -49,6 +49,7 @@ module Glimmer
           data_binding
           cursor
           font
+          image
           multiply
           property
           block_property

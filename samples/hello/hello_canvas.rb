@@ -30,7 +30,7 @@ shell {
     rectangle(0, 0, 220, 400, fill: true) {
       background :red
     }
-    rectangle(50, 20, 300, 150, 30, 50, round: true, fill: true) {
+    rectangle(50, 20, 300, 150, 30, 50, round: true) {
       background :magenta
     }
     rectangle(150, 200, 100, 70, true, gradient: true) {
@@ -49,13 +49,13 @@ shell {
       foreground :dark_magenta
       font name: 'Courier', height: 30
     }
-    oval(110, 310, 100, 100, fill: true) {
+    oval(110, 310, 100, 100) {
       background rgb(128, 138, 248)
     }
-    arc(210, 210, 100, 100, 30, -77, fill: true) {
+    arc(210, 210, 100, 100, 30, -77) {
       background :red
     }
-    polygon(250, 210, 260, 170, 270, 210, 290, 230, fill: true) {
+    polygon(250, 210, 260, 170, 270, 210, 290, 230) {
       background :dark_yellow
     }
     polyline(250, 110, 260, 70, 270, 110, 290, 130, 250, 110)

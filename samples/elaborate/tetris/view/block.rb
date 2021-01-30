@@ -33,25 +33,25 @@ class Tetris
       body {
         canvas {
           background bind(game_playfield[row][column], :color)
-          polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4, fill: true) {
+          polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
               rgb(color.red + 4*@bevel_constant, color.green + 4*@bevel_constant, color.blue + 4*@bevel_constant)
             }
           }
-          polygon(block_size, 0, block_size - 4, 4, block_size - 4, block_size - 4, block_size, block_size, fill: true) {
+          polygon(block_size, 0, block_size - 4, 4, block_size - 4, block_size - 4, block_size, block_size) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
               rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)
             }
           }
-          polygon(block_size, block_size, 0, block_size, 4, block_size - 4, block_size - 4, block_size - 4, fill: true) {
+          polygon(block_size, block_size, 0, block_size, 4, block_size - 4, block_size - 4, block_size - 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
               rgb(color.red - 2*@bevel_constant, color.green - 2*@bevel_constant, color.blue - 2*@bevel_constant)
             }
           }
-          polygon(0, 0, 0, block_size, 4, block_size - 4, 4, 4, fill: true) {
+          polygon(0, 0, 0, block_size, 4, block_size - 4, 4, 4) {
             background bind(game_playfield[row][column], :color) { |color_value|
               color = color(color_value)
               rgb(color.red - @bevel_constant, color.green - @bevel_constant, color.blue - @bevel_constant)

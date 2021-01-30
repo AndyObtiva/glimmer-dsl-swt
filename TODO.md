@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Make shapes autofill if you specify a background (no need to say fill: true) or not fill if you specify a foreground
 - Support Custom Images
 - Support Custom Shapes composed of a group of shapes
 - Provide Tetris option to switch instant drop with rotate right
@@ -15,7 +14,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make Canvas images auto-dispose themselves when canvas is disposed
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
-- Tetris Immediate Drop playfield collision shake animation on impact
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
@@ -369,6 +367,7 @@ items <=> binding {
 - Make table bind column_properties a hash option of bind statement
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
 - Support spriting of images with Glimmer DSL syntax (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
+- Tetris Immediate Drop playfield collision shake animation effect on impact
 
 ## Samples
 

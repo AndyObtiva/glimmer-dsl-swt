@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/dsl/static_expression'
+require 'glimmer/dsl/expression'
 require 'glimmer/swt/image_proxy'
 
 module Glimmer
@@ -27,12 +27,17 @@ module Glimmer
     module SWT
       # image expression
       # Note: Cannot be a static expression because it clashes with image property expression
-      class ImageExpression < StaticExpression
+      class ImageExpression < Expression
         include ParentExpression
+        
+        def can_interpret?(parent, keyword, *args, &block)
+          (keyword == 'image') and
+            (parent.nil? or parent.respond_to?('image='))
+        end
   
         def interpret(parent, keyword, *args, &block)
           args.unshift(parent) unless parent.nil?
-          Glimmer::SWT::ImageProxy.new(*args)
+          Glimmer::SWT::ImageProxy.new(*args, &block)
         end
 
         def add_content(parent, &block)

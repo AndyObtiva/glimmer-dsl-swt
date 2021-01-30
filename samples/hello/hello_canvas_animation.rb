@@ -35,7 +35,7 @@ shell {
         oval(0, 0, 400, 400) { # x, y, width, height
           foreground :black # sets oval background color
         }
-        arc(0, 0, 400, 400, -1.4*index%360, 10, fill: true) {  # x, y, width, height, start angle, arc angle
+        arc(0, 0, 400, 400, -1.4*index%360, 10) {  # x, y, width, height, start angle, arc angle
           background rgb(200, 200, 50) # sets arc background color
         }
       }
@@ -54,10 +54,10 @@ shell {
         
         background outside_color # sets canvas background color
         
-        rectangle(0, 0, 200, 200, fill: true) {
+        rectangle(0, 0, 200, 200) {
           background inside_color # sets rectangle background color
         }
-        rectangle(200, 200, 200, 200, fill: true) {
+        rectangle(200, 200, 200, 200) {
           background inside_color # sets rectangle background color
         }
       }
