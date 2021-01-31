@@ -92,7 +92,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Look into why closing down a tetris app from meta-sample and re-opening ends up firing events via display keyboard events to previous model for disposed shell
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
-- Make code_text custom widget support multiple programming languages
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
@@ -117,6 +116,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support glimmer list:gems (listing all types of gems together)
 - Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
 
+- Move ext folder underneath glimmer-dsl-swt
 - Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)

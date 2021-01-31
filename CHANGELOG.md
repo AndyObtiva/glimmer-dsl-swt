@@ -4,6 +4,8 @@
 
 - Fix issue with High Score Dialog in Tetris Sample not sorting by scores correctly (string compare instead of numeric compare) until first game is completed
 - Add `write_on_cancel: true` option for TableProxy#edit_table_item to make cancel behave just like save for special cases where you cannot cancel except the edit mode itself
+- Make code_text custom widget support multiple code languages via `language: 'java'` option
+- Make code_text custom widget support multiple themes via `theme: 'github'` option
 
 ### 4.18.3.4
 

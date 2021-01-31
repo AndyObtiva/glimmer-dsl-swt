@@ -43,6 +43,7 @@ module Glimmer
 
       attr_reader :widget_proxy, :swt_font, :font_properties
 
+
       # Builds a new font proxy from passed in widget_proxy and font_properties hash,
       #
       # It begins with existing SWT widget font and amends it with font properties.
