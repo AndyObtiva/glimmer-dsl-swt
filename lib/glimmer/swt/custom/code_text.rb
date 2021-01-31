@@ -7,40 +7,59 @@ module Glimmer
       class CodeText
         include Glimmer::UI::CustomWidget
         
+        class << self
+          def languages
+            require 'rouge'
+            Rouge::Lexer.all.map {|lexer| lexer.tag}.sort
+          end
+          
+          def lexers
+            require 'rouge'
+            Rouge::Lexer.all.sort_by(&:title)
+          end
+        end
+        
         REGEX_COLOR_HEX6 = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/
         
         # TODO support auto language detection
-      
+        # TODO support end of line via CMD+E and beginning of line via CMD+A
+        # TODO support select all via CMD+A
+              
         option :language, default: 'ruby'
+        # TODO consider supporting data-binding of language
+        # TODO support switcher of language that automatically updates the lexer
+        # TODO support method for redrawing the syntax highlighting
         option :theme, default: 'glimmer'
-        option :lines, default: false
+#         option :lines, default: false
       
-        attr_accessor :code_text_widget_text, :code_text_widget_top_pixel
-        attr_reader :code_text_proxy
+#         attr_accessor :code_text_widget_text, :code_text_widget_top_pixel
+#         attr_reader :styled_text_proxy
+        
+        
       
-        def text=(value)
-          if lines
-            @code_text_proxy&.swt_widget&.text = value
-          else
-            super
-          end
-        end
+#         def text=(value)
+#           if lines
+#             @styled_text_proxy&.swt_widget&.text = value
+#           else
+#             super
+#           end
+#         end
         
-        def text(*args)
-          if lines
-            @code_text_proxy&.swt_widget&.text
-          else
-            super
-          end
-        end
+#         def text(*args)
+#           if lines
+#             @styled_text_proxy&.swt_widget&.text
+#           else
+#             super
+#           end
+#         end
         
-        def lines_width
-          if lines == true
-            4
-          elsif lines.is_a?(Hash)
-            lines[:width]
-          end
-        end
+#         def lines_width
+#           if lines == true
+#             4
+#           elsif lines.is_a?(Hash)
+#             lines[:width]
+#           end
+#         end
         
         def syntax_highlighting(text)
           return [] if text.to_s.strip.empty?
@@ -71,56 +90,57 @@ module Glimmer
         }
         
         body {
-          if lines
-            composite {
-              grid_layout(2, false)
-              layout_data :fill, :fill, true, true
-              @line_numbers_text = styled_text(:multi, :border) {
-                layout_data(:right, :fill, false, true)
-                text '   1'
-                line_count = code_text_widget_text.to_s.split("\n").count
-                line_count = 1 if line_count == 0
-                lines_text_size = [line_count.to_s.size, 4].max
-                text line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
-                text bind(self, :code_text_widget_text, read_only: true) { |text_value|
-                  line_count = text_value.to_s.split("\n").count
-                  line_count = 1 if line_count == 0
-                  lines_text_size = [line_count.to_s.size, 4].max
-                  line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
-                }
-                top_pixel bind(self, :code_text_widget_top_pixel, read_only: true)
-                font name: @font_name, height: OS.mac? ? 15 : 12
-                background color(:widget_background)
-                foreground :dark_blue
-                top_margin 5
-                right_margin 5
-                bottom_margin 5
-                left_margin 5
-                editable false
-                caret nil
-                on_focus_gained {
-                  @code_text_proxy&.swt_widget.setFocus
-                }
-                on_key_pressed {
-                  @code_text_proxy&.swt_widget.setFocus
-                }
-                on_mouse_up {
-                  @code_text_proxy&.swt_widget.setFocus
-                }
-              }
-              
-              code_text_widget
-            }
-          else
+          # TODO enable this once fully implemented
+#           if lines
+#             composite {
+#               grid_layout(2, false)
+#               layout_data :fill, :fill, true, true
+#               @line_numbers_text = styled_text(:multi, :border) {
+#                 layout_data(:right, :fill, false, true)
+#                 text '   1'
+#                 line_count = code_text_widget_text.to_s.split("\n").count
+#                 line_count = 1 if line_count == 0
+#                 lines_text_size = [line_count.to_s.size, 4].max
+#                 text line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
+#                 text bind(self, :code_text_widget_text, read_only: true) { |text_value|
+#                   line_count = text_value.to_s.split("\n").count
+#                   line_count = 1 if line_count == 0
+#                   lines_text_size = [line_count.to_s.size, 4].max
+#                   line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
+#                 }
+#                 top_pixel bind(self, :code_text_widget_top_pixel, read_only: true)
+#                 font name: @font_name, height: OS.mac? ? 15 : 12
+#                 background color(:widget_background)
+#                 foreground :dark_blue
+#                 top_margin 5
+#                 right_margin 5
+#                 bottom_margin 5
+#                 left_margin 5
+#                 editable false
+#                 caret nil
+#                 on_focus_gained {
+#                   @styled_text_proxy&.swt_widget.setFocus
+#                 }
+#                 on_key_pressed {
+#                   @styled_text_proxy&.swt_widget.setFocus
+#                 }
+#                 on_mouse_up {
+#                   @styled_text_proxy&.swt_widget.setFocus
+#                 }
+#               }
+#
+#               code_text_widget
+#             }
+#           else
             code_text_widget
-          end
+#           end
         }
         
         def code_text_widget
-          @code_text_proxy = styled_text(swt_style) {
-            layout_data :fill, :fill, true, true
-            text bind(self, :code_text_widget_text)
-            top_pixel bind(self, :code_text_widget_top_pixel) if lines
+          @styled_text_proxy = styled_text(swt_style) {
+#             layout_data :fill, :fill, true, true if lines
+#             text bind(self, :code_text_widget_text) if lines
+#             top_pixel bind(self, :code_text_widget_top_pixel) if lines
             font name: @font_name, height: 15
             foreground rgb(75, 75, 75)
             left_margin 5

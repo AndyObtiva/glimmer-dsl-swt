@@ -5,6 +5,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
+# TODO support end of line via CMD+E and beginning of line via CMD+A
+# TODO support select all via CMD+A
+# TODO consider supporting data-binding of language
+# TODO support switcher of language that automatically updates the lexer
+# TODO support method for redrawing the syntax highlighting
+
 
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
