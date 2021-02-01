@@ -28,9 +28,10 @@ Glimmer DSL gems:
 
 ## Examples
 
-### Hello, World!
+### Hello, World! Sample
 
-Glimmer code (from [samples/hello/hello_world.rb](samples/hello/hello_world.rb)):
+Glimmer GUI DSL code (from [samples/hello/hello_world.rb](samples/hello/hello_world.rb)):
+
 ```ruby
 include Glimmer
 
@@ -52,169 +53,157 @@ Glimmer app:
 
 ![Hello World](images/glimmer-hello-world.png)
 
-### Tic Tac Toe
+### Hello, Table! Sample
 
-Glimmer code (from [samples/elaborate/tic_tac_toe.rb](samples/elaborate/tic_tac_toe.rb)):
+Glimmer GUI DSL code (from [samples/hello/hello_table.rb](samples/hello/hello_table.rb)):
 
 ```ruby
-# ...
-    @shell = shell {
-      text "Tic-Tac-Toe"
-      minimum_size 150, 178
-      composite {
-        grid_layout 3, true
-        (1..3).each { |row|
-          (1..3).each { |column|
-            button {
-              layout_data :fill, :fill, true, true
-              text        bind(@tic_tac_toe_board[row, column], :sign)
-              enabled     bind(@tic_tac_toe_board[row, column], :empty)
-              font        style: :bold, height: 20
-              on_widget_selected {
-                @tic_tac_toe_board.mark(row, column)
-              }
-            }
-          }
+# ... model code precedes
+shell {
+  grid_layout
+  
+  text 'Hello, Table!'
+  
+  label {
+    layout_data :center, :center, true, false
+    
+    text 'Baseball Playoff Schedule'
+    font height: 30, style: :bold
+  }
+  
+  combo(:read_only) {
+    layout_data :center, :center, true, false
+    selection bind(BaseballGame, :playoff_type)
+    font height: 16
+  }
+  
+  table(:editable) { |table_proxy|
+    layout_data :fill, :fill, true, true
+  
+    table_column {
+      text 'Game Date'
+      width 150
+      sort_property :date # ensure sorting by real date value (not `game_date` string specified in items below)
+      editor :date_drop_down, property: :date_time
+    }
+    table_column {
+      text 'Game Time'
+      width 150
+      sort_property :time # ensure sorting by real time value (not `game_time` string specified in items below)
+      editor :time, property: :date_time
+    }
+    table_column {
+      text 'Ballpark'
+      width 180
+      editor :none
+    }
+    table_column {
+      text 'Home Team'
+      width 150
+      editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
+    }
+    table_column {
+      text 'Away Team'
+      width 150
+      editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
+    }
+    table_column {
+      text 'Promotion'
+      width 150
+      # default text editor is used here
+    }
+    
+    # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
+    items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
+    
+    # Data-bind table selection
+    selection bind(BaseballGame, :selected_game)
+    
+    # Default initial sort property
+    sort_property :date
+    
+    # Sort by these additional properties after handling sort by the column the user clicked
+    additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :promotion
+    
+    menu {
+      menu_item {
+        text 'Book'
+        
+        on_widget_selected {
+          book_selected_game
         }
       }
     }
+  }
+  
+  button {
+    text 'Book Selected Game'
+    layout_data :center, :center, true, false
+    font height: 16
+    enabled bind(BaseballGame, :selected_game)
+    
+    on_widget_selected {
+      book_selected_game
+    }
+  }
+}.open
 # ...
 ```
 
 Run via `glimmer samples` or directly:
 
 ```
-glimmer samples/elaborate/tic_tac_toe.rb
-```
-
-Glimmer app:
-
-![Tic Tac Toe](images/glimmer-tic-tac-toe-in-progress.png)
-
-### Contact Manager
-
-Glimmer code (from [samples/elaborate/contact_manager.rb](samples/elaborate/contact_manager.rb)):
-
-```ruby
-# ...
-    shell {
-      text "Contact Manager"
-      composite {
-        group {
-          grid_layout(2, false) {
-            margin_width 0
-            margin_height 0
-          }
-          layout_data :fill, :center, true, false
-          text 'Lookup Contacts'
-          font height: 24
-          
-          label {
-            layout_data :right, :center, false, false
-            text "First &Name: "
-            font height: 16
-          }
-          text {
-            layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :first_name)
-            on_key_pressed {|key_event|
-              @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
-          }
-          
-          label {
-            layout_data :right, :center, false, false
-            text "&Last Name: "
-            font height: 16
-          }
-          text {
-            layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :last_name)
-            on_key_pressed {|key_event|
-              @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
-          }
-          
-          label {
-            layout_data :right, :center, false, false
-            text "&Email: "
-            font height: 16
-          }
-          text {
-            layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :email)
-            on_key_pressed {|key_event|
-              @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
-          }
-          
-          composite {
-            row_layout {
-              margin_width 0
-              margin_height 0
-            }
-            layout_data(:right, :center, false, false) {
-              horizontal_span 2
-            }
-            
-            button {
-              text "&Find"
-              on_widget_selected { @contact_manager_presenter.find }
-              on_key_pressed {|key_event|
-                @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-              }
-            }
-            
-            button {
-              text "&List All"
-              on_widget_selected { @contact_manager_presenter.list }
-              on_key_pressed {|key_event|
-                @contact_manager_presenter.list if key_event.keyCode == swt(:cr)
-              }
-            }
-          }
-        }
-
-        table(:multi) { |table_proxy|
-          layout_data {
-            horizontal_alignment :fill
-            vertical_alignment :fill
-            grab_excess_horizontal_space true
-            grab_excess_vertical_space true
-            height_hint 200
-          }
-          table_column {
-            text "First Name"
-            width 80
-          }
-          table_column {
-            text "Last Name"
-            width 80
-          }
-          table_column {
-            text "Email"
-            width 200
-          }
-          items bind(@contact_manager_presenter, :results),
-          column_properties(:first_name, :last_name, :email)
-          on_mouse_up { |event|
-            table_proxy.edit_table_item(event.table_item, event.column_index)
-          }
-        }
-      }
-    }.open
-# ...
-```
-
-Run via `glimmer samples` or directly:
-
-```
-glimmer samples/elaborate/contact_manager.rb
+glimmer samples/hello/hello_table.rb
 ```
 
 Glimmer App:
 
-![Contact Manager](images/glimmer-contact-manager.png)
+![Hello Table](images/glimmer-hello-table.png)
+
+### Tetris
+
+Glimmer GUI DSL code (from [samples/elaborate/tetris.rb](samples/elaborate/tetris.rb)):
+
+```ruby
+# ... more code resides in other files (navigate sample files to learn more)
+shell(:no_resize) {
+  grid_layout {
+    num_columns 2
+    make_columns_equal_width false
+    margin_width 0
+    margin_height 0
+    horizontal_spacing 0
+  }
+  
+  text 'Glimmer Tetris'
+  minimum_size 475, 500
+  image tetris_icon
+
+  tetris_menu_bar(game: game)
+
+  playfield(game_playfield: game.playfield, playfield_width: playfield_width, playfield_height: playfield_height, block_size: BLOCK_SIZE)
+
+  score_lane(game: game, block_size: BLOCK_SIZE) {
+    layout_data(:fill, :fill, true, true)
+  }
+
+  on_widget_disposed {
+    deregister_observers
+  }
+}
+# ...
+```
+
+Run via `glimmer samples` or directly:
+
+```
+glimmer samples/elaborate/tetris.rb
+```
+
+Glimmer app:
+
+![Tetris](images/glimmer-tetris.png)
+
 
 ### Desktop Apps Built with Glimmer DSL for SWT
 
@@ -235,9 +224,9 @@ If you see anything that needs to be improved, please do not hesitate to contact
 
 - [Glimmer (JRuby Desktop Development GUI Framework)](#jruby-desktop-development-gui-framework)
   - [Examples](#examples)
-    - [Hello, World!](#hello-world)
-    - [Tic Tac Toe](#tic-tac-toe)
-    - [Contact Manager](#contact-manager)
+    - [Hello, World! Sample](#hello-world-sample)
+    - [Hello, Table! Sample](#hello-table-sample)
+    - [Tetris](#tetris)
     - [Desktop Apps Built with Glimmer DSL for SWT](#desktop-apps-built-with-glimmer-dsl-for-swt)
   - [Table of contents](#table-of-contents)
   - [Background](#background)
@@ -370,9 +359,9 @@ If you see anything that needs to be improved, please do not hesitate to contact
     - [Elaborate Samples](#elaborate-samples)
       - [User Profile](#user-profile)
       - [Login](#login)
-      - [Tic Tac Toe Sample](#tic-tac-toe-sample)
-      - [Contact Manager Sample](#contact-manager-sample)
-      - [Tetris](#tetris)
+      - [Tic Tac Toe Sample](#tic-tac-toe)
+      - [Contact Manager Sample](#contact-manager)
+      - [Glimmer Tetris](#glimmer-tetris)
     - [External Samples](#external-samples)
       - [Glimmer Calculator](#glimmer-calculator)
       - [Gladiator](#gladiator)
@@ -4599,7 +4588,7 @@ bin/glimmer samples/hello/hello_canvas_transform.rb
 
 For hello-type simple samples, check the following.
 
-#### Hello, World! Sample
+#### Hello, World!
 
 Code:
 
@@ -5123,7 +5112,7 @@ Code:
 ![Login Filled In](images/glimmer-login-filled-in.png)
 ![Login Logged In](images/glimmer-login-logged-in.png)
 
-#### Tic Tac Toe Sample
+#### Tic Tac Toe
 
 This sample demonstrates a full MVC application, including GUI layout, text and enablement data-binding, and test-driven development (has [specs](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/spec/samples/elaborate/tic_tac_toe/board_spec.rb)).
 
@@ -5137,7 +5126,7 @@ Code:
 ![Tic Tac Toe In Progress](images/glimmer-tic-tac-toe-in-progress.png)
 ![Tic Tac Toe Game Over](images/glimmer-tic-tac-toe-game-over.png)
 
-#### Contact Manager Sample
+#### Contact Manager
 
 This sample demonstrates table data-binding, sorting, filtering, GUI layout, MVP pattern, and test-driven development (has [specs](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/spec/samples/elaborate/contact_manager/contact_manager_presenter_spec.rb)).
 
@@ -5165,7 +5154,7 @@ Contact Manager - Edit Done
 
 ![Contact Manager](images/glimmer-contact-manager-edit-done.png)
 
-#### Tetris
+#### Glimmer Tetris
 
 This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, canvas shape icon image generation, and keyboard events/shortcuts.
 

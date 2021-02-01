@@ -4,15 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- code_text consider supporting data-binding of language
-- code_text consider supporting data-binding of theme
-- code_text consider supporting data-binding of lines enablement
-- code_text consider supporting data-binding of lines_width change
-- code_text support switcher of language that automatically updates the lexer redrawing styled_text completely
-- code_text support method for redrawing the syntax highlighting
-- Add real code examples in every language supported for Hello, code_text sample
-
-
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
 
@@ -196,6 +187,10 @@ composite {
 - Provide a Glimmer App Store for Windows and Linux with Automatic Update support given that Glimmer only supports Mac App Store. Consider expanding to the Mac too with the selling point over the Mac store being that it does not require notarization (approval) though any apps that violate Glimmer's policy (no profane language or evil purposes) might be taken down permanently after distribution without warning.
 - Support a Glimmer DSL for TUI that can convert any desktop app into a textual user interface without needing a change of code just like the Glimmer DSL for Opal
 - Provide a performance troubleshooting option that automatically logs all method activities if any GUI action takes more than a few seconds to complete (i.e. hung temporarily while showing a spinning wheel)
+- code_text support method switcher of language that automatically updates the lexer redrawing styled_text completely
+- code_text support method for redrawing the syntax highlighting
+- Support CustomWidget/CustomShell option data-binding with the ability to pass options via content block if needed (update hello code text example to use data binding of its options)
+- Consider marking custom widget options as required when you have to have them at construction time before rendering content block
 
 ## Issues
 

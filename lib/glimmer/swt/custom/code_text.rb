@@ -191,6 +191,7 @@ module Glimmer
         end
         
         def lexer
+          require 'rouge'
           # TODO Try to use Rouge::Lexer.find_fancy('guess', code) in the future to guess the language or otherwise detect it from file extension
           @lexer ||= Rouge::Lexer.find_fancy(language)
         end

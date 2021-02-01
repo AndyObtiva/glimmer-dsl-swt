@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.4.1
+
+- Fix issue with "undefined method lex for nil:NilClass" in `code_text`
+
+
 ### 4.18.4.0
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
