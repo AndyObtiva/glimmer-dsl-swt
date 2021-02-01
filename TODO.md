@@ -389,6 +389,7 @@ items <=> binding {
 - Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
 - Add hello samples for every built-in SWT widget including the custom package
 - Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
+- Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
@@ -396,7 +397,6 @@ items <=> binding {
 ## Side Projects
 
 - Publish a Glimmer app on the Mac App Store
-- Make a Ruqqus App using the [Ruqqus Ruby API](https://github.com/ForeverZer0/ruqqus) and then webify with Glimmer DSL for Opal
 
 ### Glimmer Time Tracker (Demo Video App)
 

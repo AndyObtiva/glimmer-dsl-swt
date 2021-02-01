@@ -28,9 +28,9 @@ module GlimmerSpec
     it "renders date_time with default :date style, data-binding year, month, day" do
       @target = shell {
         @date_time = date_time {
-          year bind(person, :dob, on_read: ->(v) {v.year}, on_write: ->(v) {DateTime.new(v, person.dob.month, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
-          month bind(person, :dob, on_read: ->(v) {v.month}, on_write: ->(v) {DateTime.new(person.dob.year, v, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
           day bind(person, :dob, on_read: ->(v) {v.day}, on_write: ->(v) {DateTime.new(person.dob.year, person.dob.month, v, person.dob.hour, person.dob.min, person.dob.sec)})
+          month bind(person, :dob, on_read: ->(v) {v.month}, on_write: ->(v) {DateTime.new(person.dob.year, v, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
+          year bind(person, :dob, on_read: ->(v) {v.year}, on_write: ->(v) {DateTime.new(v, person.dob.month, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
         }
       }
 
@@ -41,14 +41,14 @@ module GlimmerSpec
       expect(@date_time.month).to eq(11)
       expect(@date_time.day).to eq(29)
       
-      @date_time.year = 2020
+      @date_time.day = 18
       event = Event.new
       event.display = @date_time.swt_widget.getDisplay
       event.item = @date_time.swt_widget
       event.widget = @date_time.swt_widget
       event.type = Glimmer::SWT::SWTProxy[:selection]
       @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-      expect(person.dob.year).to eq(2020)
+      expect(person.dob.day).to eq(18)
       
       @date_time.month = 7
       event = Event.new
@@ -59,14 +59,14 @@ module GlimmerSpec
       @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
       expect(person.dob.month).to eq(7)
       
-      @date_time.day = 18
+      @date_time.year = 2020
       event = Event.new
       event.display = @date_time.swt_widget.getDisplay
       event.item = @date_time.swt_widget
       event.widget = @date_time.swt_widget
       event.type = Glimmer::SWT::SWTProxy[:selection]
       @date_time.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
-      expect(person.dob.day).to eq(18)
+      expect(person.dob.year).to eq(2020)
       
       person.dob = DateTime.new(2033, 3, 2, 12, 47, 32)
       expect(@date_time.year).to eq(2033)
