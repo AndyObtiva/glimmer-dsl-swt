@@ -30,56 +30,23 @@ module Glimmer
         # TODO support switcher of language that automatically updates the lexer
         # TODO support method for redrawing the syntax highlighting
         option :theme, default: 'glimmer'
-#         option :lines, default: false
+        option :lines, default: false
       
-#         attr_accessor :code_text_widget_text, :code_text_widget_top_pixel
-#         attr_reader :styled_text_proxy
+        alias lines? lines
+        attr_accessor :styled_text_proxy_text, :styled_text_proxy_top_pixel
+        attr_reader :styled_text_proxy, :lines_width
         
-        
-      
-#         def text=(value)
-#           if lines
-#             @styled_text_proxy&.swt_widget&.text = value
-#           else
-#             super
-#           end
-#         end
-        
-#         def text(*args)
-#           if lines
-#             @styled_text_proxy&.swt_widget&.text
-#           else
-#             super
-#           end
-#         end
-        
-#         def lines_width
-#           if lines == true
-#             4
-#           elsif lines.is_a?(Hash)
-#             lines[:width]
-#           end
-#         end
-        
-        def syntax_highlighting(text)
-          return [] if text.to_s.strip.empty?
-          @syntax_highlighting ||= {}
-          unless @syntax_highlighting.keys.include?(text)
-            lex = lexer.lex(text).to_a
-            text_size = 0
-            @syntax_highlighting[text] = lex.map do |pair|
-              {token_type: pair.first, token_text: pair.last}
-            end.each do |hash|
-              hash[:token_index] = text_size
-              text_size += hash[:token_text].size
-            end
-          end
-          @syntax_highlighting[text]
+        def text=(value)
+          @styled_text_proxy&.swt_widget&.text = value
         end
         
-        def lexer
-          # TODO Try to use Rouge::Lexer.find_fancy('guess', code) in the future to guess the language or otherwise detect it from file extension
-          @lexer ||= Rouge::Lexer.find_fancy(language)
+        def text(*args, dsl: false, &block)
+          # If dsl: true is passed, operate using Glimmer DSL (which is the default that happens through super method_missing)
+          if dsl
+            super(*args, &block)
+          else
+            @styled_text_proxy&.swt_widget&.text
+          end
         end
         
         before_body {
@@ -87,66 +54,85 @@ module Glimmer
           require 'ext/rouge/themes/glimmer'
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
           @font_name = display.get_font_list(nil, true).map(&:name).include?('Consolas') ? 'Consolas' : 'Courier'
+          if lines == true
+            @lines_width = 4
+          elsif lines.is_a?(Hash)
+            @lines_width = lines[:width]
+          end
         }
         
         body {
           # TODO enable this once fully implemented
-#           if lines
-#             composite {
-#               grid_layout(2, false)
-#               layout_data :fill, :fill, true, true
-#               @line_numbers_text = styled_text(:multi, :border) {
-#                 layout_data(:right, :fill, false, true)
-#                 text '   1'
-#                 line_count = code_text_widget_text.to_s.split("\n").count
-#                 line_count = 1 if line_count == 0
-#                 lines_text_size = [line_count.to_s.size, 4].max
-#                 text line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
-#                 text bind(self, :code_text_widget_text, read_only: true) { |text_value|
-#                   line_count = text_value.to_s.split("\n").count
-#                   line_count = 1 if line_count == 0
-#                   lines_text_size = [line_count.to_s.size, 4].max
-#                   line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n")
-#                 }
-#                 top_pixel bind(self, :code_text_widget_top_pixel, read_only: true)
-#                 font name: @font_name, height: OS.mac? ? 15 : 12
-#                 background color(:widget_background)
-#                 foreground :dark_blue
-#                 top_margin 5
-#                 right_margin 5
-#                 bottom_margin 5
-#                 left_margin 5
-#                 editable false
-#                 caret nil
-#                 on_focus_gained {
-#                   @styled_text_proxy&.swt_widget.setFocus
-#                 }
-#                 on_key_pressed {
-#                   @styled_text_proxy&.swt_widget.setFocus
-#                 }
-#                 on_mouse_up {
-#                   @styled_text_proxy&.swt_widget.setFocus
-#                 }
-#               }
-#
-#               code_text_widget
-#             }
-#           else
+          if lines
+            composite {
+              grid_layout(2, false)
+              
+              @line_numbers_text = styled_text(:multi, :border) {
+                layout_data(:right, :fill, false, true)
+                text ' '*lines_width.to_i
+                text(bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
+                  line_count = text_value.to_s.split("\n").count
+                  line_count = 1 if line_count == 0
+                  lines_text_size = [line_count.to_s.size, @lines_width].max
+                  if lines_text_size > @lines_width
+                    async_exec { swt_widget.layout }
+                    @lines_width = lines_text_size
+                  end
+                  line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
+                }, dsl: true)
+                top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)
+                font name: @font_name, height: OS.mac? ? 15 : 12
+                background color(:widget_background)
+                foreground :dark_blue
+                top_margin 5
+                right_margin 5
+                bottom_margin 5
+                left_margin 5
+                editable false
+                caret nil
+                on_focus_gained {
+                  @styled_text_proxy&.swt_widget.setFocus
+                }
+                on_key_pressed {
+                  @styled_text_proxy&.swt_widget.setFocus
+                }
+                on_mouse_up {
+                  @styled_text_proxy&.swt_widget.setFocus
+                }
+              }
+
+              code_text_widget
+            }
+          else
             code_text_widget
-#           end
+          end
         }
         
         def code_text_widget
           @styled_text_proxy = styled_text(swt_style) {
-#             layout_data :fill, :fill, true, true if lines
-#             text bind(self, :code_text_widget_text) if lines
-#             top_pixel bind(self, :code_text_widget_top_pixel) if lines
+            layout_data :fill, :fill, true, true if lines
+            text(bind(self, :styled_text_proxy_text), dsl: true) if lines
+            top_pixel bind(self, :styled_text_proxy_top_pixel) if lines
             font name: @font_name, height: 15
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5
             right_margin 5
             bottom_margin 5
+            
+            if lines
+              on_key_pressed { |event|
+                character = event.keyCode.chr rescue nil
+                case [event.stateMask, character]
+                when [(OS.mac? ? swt(:command) : swt(:ctrl)), 'a']
+                  @styled_text_proxy.swt_widget.selectAll
+                when [(swt(:ctrl) unless OS.windows?), 'a']
+                  jump_to_beginning_of_line
+                when [(swt(:ctrl) unless OS.windows?), 'e']
+                  jump_to_end_of_line
+                end
+              }
+            end
             
             on_modify_text { |event|
               # clear unnecessary syntax highlighting cache on text updates, and do it async to avoid affecting performance
@@ -188,12 +174,47 @@ module Glimmer
           }
         end
         
+        def syntax_highlighting(text)
+          return [] if text.to_s.strip.empty?
+          @syntax_highlighting ||= {}
+          unless @syntax_highlighting.keys.include?(text)
+            lex = lexer.lex(text).to_a
+            text_size = 0
+            @syntax_highlighting[text] = lex.map do |pair|
+              {token_type: pair.first, token_text: pair.last}
+            end.each do |hash|
+              hash[:token_index] = text_size
+              text_size += hash[:token_text].size
+            end
+          end
+          @syntax_highlighting[text]
+        end
+        
+        def lexer
+          # TODO Try to use Rouge::Lexer.find_fancy('guess', code) in the future to guess the language or otherwise detect it from file extension
+          @lexer ||= Rouge::Lexer.find_fancy(language)
+        end
+        
         def hex_color_to_swt_color(color_data, default_color)
           color_data = "##{color_data.chars.drop(1).map {|c| c*2}.join}" if color_data.is_a?(String) && color_data.start_with?('#') && color_data&.size == 4
           color_data = color_data.match(REGEX_COLOR_HEX6).to_a.drop(1).map {|c| "0x#{c}".hex}.to_a if color_data.is_a?(String) && color_data.start_with?('#')
           color_data = [color_data] unless color_data.nil? || color_data.empty? || color_data.is_a?(Array)
           color_data = default_color if color_data.nil? || color_data.empty?
           color(*color_data).swt_color
+        end
+        
+        def jump_to_beginning_of_line
+          current_line_index = @styled_text_proxy.swt_widget.getLineAtOffset(@styled_text_proxy.swt_widget.getCaretOffset)
+          beginning_of_current_line_offset = @styled_text_proxy.swt_widget.getOffsetAtLine(current_line_index)
+          @styled_text_proxy.swt_widget.setSelection(beginning_of_current_line_offset, beginning_of_current_line_offset)
+        end
+        
+        def jump_to_end_of_line
+          current_line_index = @styled_text_proxy.swt_widget.getLineAtOffset(@styled_text_proxy.swt_widget.getCaretOffset)
+          current_line = @styled_text_proxy.swt_widget.getLine(current_line_index)
+          beginning_of_current_line_offset = @styled_text_proxy.swt_widget.getOffsetAtLine(current_line_index)
+          new_offset = beginning_of_current_line_offset + current_line.size
+          @styled_text_proxy.swt_widget.setSelection(new_offset, new_offset)
         end
       end
     end

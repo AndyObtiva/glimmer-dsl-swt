@@ -29,7 +29,7 @@ shell {
     tab_item {
       fill_layout
       text 'ruby (glimmer theme)'
-      code_text(language: 'ruby', theme: 'glimmer') {
+      code_text(language: 'ruby', theme: 'glimmer', lines: true) {
         text <<~CODE
           greeting = 'Hello, World!'
           

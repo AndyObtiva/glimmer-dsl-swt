@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.4.0
+
+- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
+- code_text support select all via CMD+A
+- code_text support end of line via CTRL+E and beginning of line via CTRL+A
+
 ### 4.18.3.5
 
 - Add `write_on_cancel: true` option for TableProxy#edit_table_item to make cancel behave just like save for special cases where you cannot cancel except the edit mode itself

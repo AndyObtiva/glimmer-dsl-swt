@@ -4,12 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true, lines_width: 4)
-# TODO support end of line via CMD+E and beginning of line via CMD+A
-# TODO support select all via CMD+A
-# TODO consider supporting data-binding of language
-# TODO support switcher of language that automatically updates the lexer
-# TODO support method for redrawing the syntax highlighting
+- code_text consider supporting data-binding of language
+- code_text consider supporting data-binding of theme
+- code_text consider supporting data-binding of lines enablement
+- code_text consider supporting data-binding of lines_width change
+- code_text support switcher of language that automatically updates the lexer redrawing styled_text completely
+- code_text support method for redrawing the syntax highlighting
+- Add real code examples in every language supported for Hello, code_text sample
 
 
 - Make Canvas patterns auto-dispose themselves when canvas is disposed
@@ -74,6 +75,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors
 
+- Provide a way to customize display in its own file in scaffolded app (just like configuration) instead of embedding in custom shell which custom shells invoke automatically behind the scenes instead of having to add to before_block
 - add a config file during scaffolding that lists glimmer options (consider using a config dsl)
 - Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
 - Consider adding `glimmer release` task to publish a Glimmer app as a gem (not just custom widgets or custom shells)
