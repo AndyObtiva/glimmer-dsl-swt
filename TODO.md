@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-
-- Make Canvas images auto-dispose themselves when canvas is disposed
 - Document Hello, Code Text!
 
 - Canvas support a Path DSL for methods that take Path arguments

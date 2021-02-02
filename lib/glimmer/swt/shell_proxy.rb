@@ -82,6 +82,9 @@ module Glimmer
             end
           end
         end
+        on_widget_disposed {
+          clear_shapes
+        }
         @display ||= @swt_widget.getDisplay
       end
 

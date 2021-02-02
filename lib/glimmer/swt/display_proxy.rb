@@ -71,6 +71,9 @@ module Glimmer
         Display.app_name ||= 'Glimmer'
         @swt_display = Display.new(*args)
         @swt_display.set_data('proxy', self)
+        on_swt_Dispose {
+          clear_shapes
+        }
       end
       
       def content(&block)

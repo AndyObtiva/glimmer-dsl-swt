@@ -3,6 +3,7 @@
 ### 4.18.4.1
 
 - Make Canvas patterns auto-reused and auto-disposed when canvas is disposed
+- Make Canvas images auto-dispose themselves when canvas is disposed
 - Fix issue with "undefined method lex for nil:NilClass" in `code_text`
 
 ### 4.18.4.0

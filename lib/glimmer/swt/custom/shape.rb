@@ -191,7 +191,7 @@ module Glimmer
             args[0] = ImageProxy.new(args[0])
           end
           if method_name.include?('image') && args.first.is_a?(ImageProxy)
-            args[0] = args[0].swt_image
+            @image = args[0] = args[0].swt_image
           end
         end
                 
@@ -246,6 +246,8 @@ module Glimmer
           @background_pattern = nil
           @foreground_pattern&.dispose
           @foreground_pattern = nil
+          @image&.dispose
+          @image = nil
           @parent.shapes.delete(self)
         end
         
