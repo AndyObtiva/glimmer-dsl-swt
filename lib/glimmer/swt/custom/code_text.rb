@@ -36,17 +36,30 @@ module Glimmer
         attr_accessor :styled_text_proxy_text, :styled_text_proxy_top_pixel
         attr_reader :styled_text_proxy, :lines_width
         
-        def text=(value)
-          @styled_text_proxy&.swt_widget&.text = value
+        def method_missing(method_name, *args, &block)
+          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
+          if dsl_mode
+            args.pop if args.last.is_a?(Hash) && args.last[:dsl]
+            super(method_name, *args, &block)
+          elsif pd(@styled_text_proxy)&.respond_to?(method_name, *args, &block)
+            @styled_text_proxy&.send(method_name, *args, &block)
+          else
+            super
+          end
         end
         
-        def text(*args, dsl: false, &block)
-          # If dsl: true is passed, operate using Glimmer DSL (which is the default that happens through super method_missing)
-          if dsl
-            super(*args, &block)
+        def respond_to?(method_name, *args, &block)
+          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
+          if dsl_mode
+            args = args[0...-1] if args.last.is_a?(Hash) && args.last[:dsl]
+            super(method_name, *args, &block)
           else
-            @styled_text_proxy&.swt_widget&.text
+            super || @styled_text_proxy&.respond_to?(method_name, *args, &block)
           end
+        end
+        
+        def has_instance_method?(method_name)
+          respond_to?(method_name)
         end
         
         before_body {
@@ -59,6 +72,11 @@ module Glimmer
           elsif lines.is_a?(Hash)
             @lines_width = lines[:width]
           end
+          @dsl_mode = true
+        }
+        
+        after_body {
+          @dsl_mode = nil
         }
         
         body {
@@ -70,7 +88,7 @@ module Glimmer
               @line_numbers_text = styled_text(:multi, :border) {
                 layout_data(:right, :fill, false, true)
                 text ' '*lines_width.to_i
-                text(bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
+                text bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
                   line_count = text_value.to_s.split("\n").count
                   line_count = 1 if line_count == 0
                   lines_text_size = [line_count.to_s.size, @lines_width].max
@@ -79,7 +97,7 @@ module Glimmer
                     @lines_width = lines_text_size
                   end
                   line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
-                }, dsl: true)
+                }
                 top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)
                 font name: @font_name, height: OS.mac? ? 15 : 12
                 background color(:widget_background)
@@ -111,7 +129,7 @@ module Glimmer
         def code_text_widget
           @styled_text_proxy = styled_text(swt_style) {
             layout_data :fill, :fill, true, true if lines
-            text(bind(self, :styled_text_proxy_text), dsl: true) if lines
+            text bind(self, :styled_text_proxy_text) if lines
             top_pixel bind(self, :styled_text_proxy_top_pixel) if lines
             font name: @font_name, height: 15
             foreground rgb(75, 75, 75)

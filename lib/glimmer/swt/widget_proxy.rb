@@ -165,6 +165,7 @@ module Glimmer
           DEFAULT_INITIALIZERS[underscored_widget_name.to_s.to_sym]&.call(@swt_widget)
           @parent_proxy.post_initialize_child(self)
         end
+        @keyword = underscored_widget_name.to_s
         if respond_to?(:on_widget_disposed)
           on_widget_disposed {
             clear_shapes

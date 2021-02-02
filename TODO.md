@@ -4,7 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction) with the observe keyword
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
+- Introduce a tetromino mutex for operations like down and rotate to avoid them contradicting each other
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
@@ -95,6 +97,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make code_text custom widget auto-detect current programming language
 - Hello, Code Text! Sample
 
+- Accept :read_only alternative to :readonly SWT style
 - Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)
 - Improve `link` widget support to make it work just like `button` by not requiring HTML (auto-generated) and auto-aligning with labels around the link (improving upon the original SWT widget API design)
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
@@ -155,6 +158,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Look into making properties that expect an SWT widget auto-call .swt_widget if they receive a proxy
 - Consider splitting more glimmer command dependencies (e.g. rake-tui) from glimmer GUI gem dependencies
+- Support multiple consecutive font names specified in an array to use in order of availability (better than comma separated text that is error prone in CSS)
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)

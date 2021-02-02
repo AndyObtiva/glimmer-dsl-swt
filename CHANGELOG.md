@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.4.1
+
+- Support data-binding of `code_text` with lines enabled.
+- Upgrade the Glimmer Meta-Sample with code_text lines: {width: 2}
+
+
 ### 4.18.4.0
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
