@@ -194,6 +194,7 @@ module Glimmer
           require 'rouge'
           # TODO Try to use Rouge::Lexer.find_fancy('guess', code) in the future to guess the language or otherwise detect it from file extension
           @lexer ||= Rouge::Lexer.find_fancy(language)
+          @lexer ||= Rouge::Lexer.find_fancy('ruby') # default to Ruby if no lexer is found
         end
         
         def hex_color_to_swt_color(color_data, default_color)

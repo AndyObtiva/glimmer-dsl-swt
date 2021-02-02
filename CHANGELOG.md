@@ -1,7 +1,10 @@
 # Change Log
 
-### 4.18.4.1
+### 4.18.4.0
 
+- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
+- code_text support select all via CMD+A
+- code_text support end of line via CTRL+E and beginning of line via CTRL+A
 - Support automatic inferrence of Canvas Shape DSL gradient option (just like fill option)
 - Support automatic inferrence of Canvas Shape DSL round option (just like fill option)
 - Add a background image to Hello, Table! Sample + font/color changes
@@ -10,12 +13,6 @@
 - Update Hello, Code Text!
 - Change Glimmer Tetris Sample up arrow default to rotate left
 - Fix issue with "undefined method lex for nil:NilClass" in `code_text`
-
-### 4.18.4.0
-
-- Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
-- code_text support select all via CMD+A
-- code_text support end of line via CTRL+E and beginning of line via CTRL+A
 
 ### 4.18.3.5
 

@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Document Data-Binding Based Animation
-- Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
-
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - Canvas support a Path DSL for methods that take Path arguments
@@ -25,7 +22,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Figure out how to do layers
 
-- Canvas animation frame_rate property to set frames per second rate of rendering
+- Canvas animation frame_rate/fps property to set frames per second rate of rendering
 - Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)

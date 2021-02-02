@@ -28,9 +28,9 @@ module GlimmerSpec
     it "renders date_time with default :date style, data-binding year, month, day" do
       @target = shell {
         @date_time = date_time {
-          day bind(person, :dob, on_read: ->(v) {v.day}, on_write: ->(v) {DateTime.new(person.dob.year, person.dob.month, v, person.dob.hour, person.dob.min, person.dob.sec)})
           month bind(person, :dob, on_read: ->(v) {v.month}, on_write: ->(v) {DateTime.new(person.dob.year, v, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
           year bind(person, :dob, on_read: ->(v) {v.year}, on_write: ->(v) {DateTime.new(v, person.dob.month, person.dob.day, person.dob.hour, person.dob.min, person.dob.sec)})
+          day bind(person, :dob, on_read: ->(v) {v.day}, on_write: ->(v) {DateTime.new(person.dob.year, person.dob.month, v, person.dob.hour, person.dob.min, person.dob.sec)})
         }
       }
 

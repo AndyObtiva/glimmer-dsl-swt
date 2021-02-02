@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.3.5
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -489,7 +489,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.3.5
+jgem install glimmer-dsl-swt -v 4.18.4.0
 
 
 ```
@@ -509,7 +509,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.3.5
+gem 'glimmer-dsl-swt', '~> 4.18.4.0
 '
 ```
 
@@ -568,7 +568,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.3.5
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.0
 
 
       
@@ -1049,7 +1049,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.3.5
+  Swt    glimmer-dsl-swt    4.18.4.0
 
   AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
@@ -2451,6 +2451,8 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `text_anti_alias` enables text antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `transform` sets transform object using [Canvas Transform DSL](#canvas-transform-dsl) syntax
 
+Keep in mind that ordering of shapes matters as it is followed in painting. For example, it is recommended you paint filled shapes first and then drawn ones.
+
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
 ```ruby
@@ -2778,6 +2780,12 @@ API of Animation Object (returned from `animation` keyword):
 Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
 
 If there is anything missing you would like added to the Glimmer Animation DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
+
+#### Animation via Data-Binding
+
+Animation could be alternatively implemented without the `animation` keyword through a loop that invokes model methods inside `sync_exec {}` (or `async_exec {}`), which indirectly cause updates to the GUI via data-binding.
+
+The [Glimmer Tetris](#glimmer-tetris) sample provides a good example of that.
 
 ### Data-Binding
 
@@ -5070,10 +5078,16 @@ Code:
 
 [samples/hello/hello_code_text.rb](samples/hello/hello_code_text.rb)
 
-Hello, Code Text!
+Hello, Code Text! Ruby Language / Glimmer Theme / Show Line Numbers (default width of 4)
 
 ![Hello Code Text Ruby](images/glimmer-hello-code-text-ruby.png)
+
+Hello, Code Text! JavaScript Language / Pastie Theme / Show Line Numbers (custom width of 2)
+
 ![Hello Code Text JavaScript](images/glimmer-hello-code-text-javascript.png)
+
+Hello, Code Text! HTML Language / GitHub Theme / No Line Numbers
+
 ![Hello Code Text HTML](images/glimmer-hello-code-text-html.png)
 
 #### Hello, Canvas!
