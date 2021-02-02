@@ -271,6 +271,8 @@ If you see anything that needs to be improved, please do not hesitate to contact
       - [Multi-Threading](#multi-threading)
       - [Menus](#menus)
       - [ScrolledComposite](#scrolledcomposite)
+      - [Sash Form Widget](#sash-form-widget)
+      - [Browser Widget](#browser-widget)
     - [Widget Styles](#widget-styles)
       - [Explicit SWT Style Bit](#explicit-swt-style-bit)
       - [Negative SWT Style Bits](#negative-swt-style-bits)
@@ -302,7 +304,12 @@ If you see anything that needs to be improved, please do not hesitate to contact
       - [Lifecycle Hooks Example](#lifecycle-hooks-example)
       - [Custom Widget API](#custom-widget-api)
       - [Content/Options Example](#contentoptions-example)
-      - [Gotcha](#gotcha)
+      - [Custom Widget Gotchas](#custom-widget-gotchas)
+      - [Built-In Custom Widgets](#built-in-custom-widgets)
+        - [Checkbox Group Custom Widget](#checkbox-group-custom-widget)
+        - [Radio Group Custom Widget](#radio-group-custom-widget)
+        - [Code Text Custom Widget](#code-text-custom-widget)
+        - [Video Custom Widget](#video-custom-widget)
       - [Custom Widget Final Notes](#custom-widget-final-notes)
     - [Custom Shells](#custom-shells)
     - [Drag and Drop](#drag-and-drop)
@@ -310,12 +317,6 @@ If you see anything that needs to be improved, please do not hesitate to contact
       - [Multi-DSL Support](#multi-dsl-support)
       - [Application Menu Items (About/Preferences)](#application-menu-items-aboutpreferences)
       - [App Name and Version](#app-name-and-version)
-      - [Checkbox Group Widget](#checkbox-group-widget)
-      - [Radio Group Widget](#radio-group-widget)
-      - [Code Text Widget](#code-text-widget)
-      - [Video Widget](#video-widget)
-      - [Sash Form Widget](#sash-form-widget)
-      - [Browser Widget](#browser-widget)
   - [Glimmer Configuration](#glimmer-configuration)
     - [logger](#logger)
       - [logging_devices](#loggingdevices)
@@ -1889,6 +1890,79 @@ Glimmer provides smart defaults for the `scrolled_composite` widget by:
 - Automatically setting the nested widget as its content (meaning use can just like a plain old `composite` to add scrolling)
 - Automatically setting the :h_scroll and :v_scroll SWT styles (can be set manually if only one of either :h_scroll or :v_scroll is desired )
 - Automatically setting the expand horizontal and expand vertical SWT properties to `true`
+
+#### Sash Form Widget
+
+`sash_form` is an SWT built-in custom widget that provides a resizable sash that splits a window area into two or more panes.
+
+It can be customized with the `weights` attribute by setting initial weights to size the panes at first display.
+
+One noteworthy thing about the Glimmer implementation is that, unlike behavior in SWT, it allows declaring `weights` before the content of the `sash_form`, thus providing more natural and convenient syntax (Glimmer automatically takes care of sending that declaration to SWT at the end of declaring `sash_form` content as per the SWT requirements)
+
+Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```ruby
+shell {
+  text 'Sash Form Example'
+  sash_form {
+    label {
+      text '(resize >>)'
+      background :dark_green
+      foreground :white
+      font height: 20
+    }
+    label {
+      text '(<< resize)'
+      background :red
+      foreground :white
+      font height: 20
+    }
+    weights 1, 2
+  }
+}.open
+```
+
+You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash-form)
+
+![Hello Sash Form](images/glimmer-hello-sash-form.png)
+
+#### Browser Widget
+
+![Hello Browser](images/glimmer-hello-browser.png)
+
+Glimmer supports the SWT Browser widget, which can load URLs or render HTML. It can even be instrumented with JavaScript when needed (though highly discouraged since it defeats the purpose of using Ruby except in very rare cases like leveraging a pre-existing web codebase in a desktop app).
+
+Example loading a URL (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
+
+```ruby
+shell {
+  minimum_size 1024, 860
+  browser {
+    url 'http://brightonresort.com/about'
+  }
+}.open
+```
+
+Example rendering HTML with JavaScript on document ready (you may copy/paste in [`girb`](#girb-glimmer-irb-command) provided you install and require [glimmer-dsl-xml gem](https://github.com/AndyObtiva/glimmer-dsl-xml)):
+
+```ruby
+shell {
+  minimum_size 130, 130
+  @browser = browser {
+    text html {
+      head {
+        meta(name: "viewport", content: "width=device-width, initial-scale=2.0")
+      }
+      body {
+        h1 { "Hello, World!" }
+      }
+    }
+    on_completed { # on load of the page execute this JavaScript
+      @browser.swt_widget.execute("alert('Hello, World!');")
+    }
+  }
+}.open
+```
 
 ### Widget Styles
 
@@ -3521,7 +3595,7 @@ shell {
 
 Notice how `:no_focus` was the `swt_style` value, followed by the `options` hash `{orientation: :horizontal, bg_color: :white}`, and finally the `content` block containing the label with `'SANDWICH CONTENT'`
 
-#### Gotcha
+#### Custom Widget Gotchas
 
 Beware of defining a custom attribute that is a common SWT widget property name.
 For example, if you define `text=` and `text` methods to accept a custom text and then later you write this body:
@@ -3550,6 +3624,314 @@ body {
 ```
 
 The `text` method invoked in the custom widget body will call the one you defined above it. To avoid this gotcha, simply name the text property above something else, like `custom_text`.
+
+#### Built-In Custom Widgets
+
+##### Checkbox Group Custom Widget
+
+`checkbox_group` (or alias `check_group`) is a Glimmer built-in custom widget that displays a list of `checkbox` buttons (`button(:check)`) based on its `items` property.
+
+`checkbox_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `checkbox` (`button(:check)`) widgets.
+
+The `selection` property determines which `checkbox` buttons are checked. It expects an `Array` of `String` objects
+The `selection_indices` property determines which `checkbox` button indices are checked. It expects an `Array` of index `Integer` objects that are zero-based.
+The `checkboxes` property returns the list of nested `checkbox` widgets.
+
+When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `activities_options` for `activities`) to provide an `Array` of `String` objects for `checkbox` buttons.
+
+You may see an example at the [Hello, Checkbox Group!](#hello-checkbox-group) sample.
+
+![Hello Checkbox Group](images/glimmer-hello-checkbox-group.png)
+
+##### Radio Group Custom Widget
+
+`radio_group` is a Glimmer built-in custom widget that displays a list of `radio` buttons (`button(:radio)`) based on its `items` property, which expects an `Array` of `String` objects.
+
+`radio_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `radio` widgets.
+
+The `selection` property determines which `radio` button is selected. It expects a `String`
+The `selection_index` property determines which `radio` button index is selected. It expects an index integer that is zero-based.
+The `radios` property returns the list of nested `radio` widgets.
+
+When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `country_options` for `country`) to provide text for `radio` buttons.
+
+This custom widget is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+Glimmer Meta-Sample Code Example:
+
+```ruby
+# ...
+radio_group { |radio_group_proxy|
+  row_layout(:vertical) {
+    fill true
+  }
+  selection bind(sample_directory, :selected_sample_name)
+  font height: 24
+}
+
+# ...
+```
+
+You may see another example at the [Hello, Radio Group!](#hello-radio-group) sample.
+
+##### Code Text Custom Widget
+
+`code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
+
+It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
+
+![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
+
+Glimmer Meta-Sample Code Example:
+
+```ruby
+# ...
+@code_text = code_text {
+  text bind(SampleDirectory, 'selected_sample.code', read_only: true)
+  editable bind(SampleDirectory, 'selected_sample.editable')
+}
+# ...
+```
+
+To use, simply use `code_text` in place of the `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
+
+###### Options
+
+**lines**
+(default: false)
+
+Shows line numbers when set to true.
+
+If set to a hash like `{width: 4}`, it sets the width of the line numbers lane in character count (default: 4)
+
+**theme**
+(default: 'glimmer')
+
+Changes syntax color highlighting theme. Can be one of the following:
+- glimmer
+- github
+- pastie
+
+**language**
+(default: `'ruby'`)
+
+Sets the code language, which can be one of the following [rouge gem](#https://rubygems.org/gems/rouge) supported languages:
+- abap
+- actionscript
+- ada
+- apache
+- apex
+- apiblueprint
+- apple_script
+- armasm
+- augeas
+- awk
+- batchfile
+- bbcbasic
+- bibtex
+- biml
+- bpf
+- brainfuck
+- brightscript
+- bsl
+- c
+- ceylon
+- cfscript
+- clean
+- clojure
+- cmake
+- cmhg
+- coffeescript
+- common_lisp
+- conf
+- console
+- coq
+- cpp
+- crystal
+- csharp
+- css
+- csvs
+- cuda
+- cypher
+- cython
+- d
+- dart
+- datastudio
+- diff
+- digdag
+- docker
+- dot
+- ecl
+- eex
+- eiffel
+- elixir
+- elm
+- email
+- epp
+- erb
+- erlang
+- escape
+- factor
+- fortran
+- freefem
+- fsharp
+- gdscript
+- ghc_cmm
+- ghc_core
+- gherkin
+- glsl
+- go
+- gradle
+- graphql
+- groovy
+- hack
+- haml
+- handlebars
+- haskell
+- haxe
+- hcl
+- hlsl
+- hocon
+- hql
+- html
+- http
+- hylang
+- idlang
+- igorpro
+- ini
+- io
+- irb
+- isbl
+- j
+- janet
+- java
+- javascript
+- jinja
+- jsl
+- json
+- json_doc
+- jsonnet
+- jsp
+- jsx
+- julia
+- kotlin
+- lasso
+- liquid
+- literate_coffeescript
+- literate_haskell
+- livescript
+- llvm
+- lua
+- lustre
+- lutin
+- m68k
+- magik
+- make
+- markdown
+- mason
+- mathematica
+- matlab
+- minizinc
+- moonscript
+- mosel
+- msgtrans
+- mxml
+- nasm
+- nesasm
+- nginx
+- nim
+- nix
+- objective_c
+- objective_cpp
+- ocaml
+- ocl
+- openedge
+- opentype_feature_file
+- pascal
+- perl
+- php
+- plain_text
+- plist
+- pony
+- postscript
+- powershell
+- praat
+- prolog
+- prometheus
+- properties
+- protobuf
+- puppet
+- python
+- q
+- qml
+- r
+- racket
+- reasonml
+- rego
+- rescript
+- robot_framework
+- ruby
+- rust
+- sas
+- sass
+- scala
+- scheme
+- scss
+- sed
+- shell
+- sieve
+- slice
+- slim
+- smalltalk
+- smarty
+- sml
+- solidity
+- sparql
+- sqf
+- sql
+- ssh
+- supercollider
+- swift
+- systemd
+- tap
+- tcl
+- terraform
+- tex
+- toml
+- tsx
+- ttcn3
+- tulip
+- turtle
+- twig
+- typescript
+- vala
+- varnish
+- vb
+- velocity
+- verilog
+- vhdl
+- viml
+- vue
+- wollok
+- xml
+- xojo
+- xpath
+- xquery
+- yaml
+- yang
+- zig
+
+Learn more at [Hello, Code Text!](#hello-code-text)
+
+##### Video Custom Custom Widget
+
+[![Video Widget](images/glimmer-video-widget.png)](https://github.com/AndyObtiva/glimmer-cw-video)
+
+Glimmer supports a [video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) not in SWT, which was originally a Glimmer built-in custom widget, but has been later extracted into its own [Ruby gem](https://rubygems.org/gems/glimmer-cw-video).
+
+Simply install the [glimmer-cw-video](https://rubygems.org/gems/glimmer-cw-video) gem.
 
 #### Custom Widget Final Notes
 
@@ -3941,376 +4323,6 @@ shell {
 You may run `glimmer` with the `--profile.graph` instead for a more detailed output.
 
 Learn more at the [JRuby Performance Profile WIKI page](https://github.com/jruby/jruby/wiki/Profiling-JRuby).
-
-#### Checkbox Group Widget
-
-`checkbox_group` (or alias `check_group`) is a Glimmer built-in custom widget that displays a list of `checkbox` buttons (`button(:check)`) based on its `items` property.
-
-`checkbox_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `checkbox` (`button(:check)`) widgets.
-
-The `selection` property determines which `checkbox` buttons are checked. It expects an `Array` of `String` objects
-The `selection_indices` property determines which `checkbox` button indices are checked. It expects an `Array` of index `Integer` objects that are zero-based.
-The `checkboxes` property returns the list of nested `checkbox` widgets.
-
-When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `activities_options` for `activities`) to provide an `Array` of `String` objects for `checkbox` buttons.
-
-You may see an example at the [Hello, Checkbox Group!](#hello-checkbox-group) sample.
-
-![Hello Checkbox Group](images/glimmer-hello-checkbox-group.png)
-
-#### Radio Group Widget
-
-`radio_group` is a Glimmer built-in custom widget that displays a list of `radio` buttons (`button(:radio)`) based on its `items` property, which expects an `Array` of `String` objects.
-
-`radio_group` consists of a root `composite` (with `grid_layout 1, false` by default) that holds nested `radio` widgets.
-
-The `selection` property determines which `radio` button is selected. It expects a `String`
-The `selection_index` property determines which `radio` button index is selected. It expects an index integer that is zero-based.
-The `radios` property returns the list of nested `radio` widgets.
-
-When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `country_options` for `country`) to provide text for `radio` buttons.
-
-This custom widget is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
-
-![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
-
-Glimmer Meta-Sample Code Example:
-
-```ruby
-# ...
-radio_group { |radio_group_proxy|
-  row_layout(:vertical) {
-    fill true
-  }
-  selection bind(sample_directory, :selected_sample_name)
-  font height: 24
-}
-
-# ...
-```
-
-You may see another example at the [Hello, Radio Group!](#hello-radio-group) sample.
-
-#### Code Text Widget
-
-`code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
-
-It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
-
-![Glimmer Meta-Sample](images/glimmer-meta-sample.png)
-
-Glimmer Meta-Sample Code Example:
-
-```ruby
-# ...
-@code_text = code_text {
-  text bind(SampleDirectory, 'selected_sample.code', read_only: true)
-  editable bind(SampleDirectory, 'selected_sample.editable')
-}
-# ...
-```
-
-To use, simply use `code_text` in place of the `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
-
-##### Options
-
-**theme**
-(default: 'glimmer')
-
-Changes syntax color highlighting theme. Can be one of the following:
-- glimmer
-- github
-- pastie
-
-**language**
-(default: `'ruby'`)
-
-Sets the code language, which can be one of the following supported rouge gem languages:
-- abap
-- actionscript
-- ada
-- apache
-- apex
-- apiblueprint
-- apple_script
-- armasm
-- augeas
-- awk
-- batchfile
-- bbcbasic
-- bibtex
-- biml
-- bpf
-- brainfuck
-- brightscript
-- bsl
-- c
-- ceylon
-- cfscript
-- clean
-- clojure
-- cmake
-- cmhg
-- coffeescript
-- common_lisp
-- conf
-- console
-- coq
-- cpp
-- crystal
-- csharp
-- css
-- csvs
-- cuda
-- cypher
-- cython
-- d
-- dart
-- datastudio
-- diff
-- digdag
-- docker
-- dot
-- ecl
-- eex
-- eiffel
-- elixir
-- elm
-- email
-- epp
-- erb
-- erlang
-- escape
-- factor
-- fortran
-- freefem
-- fsharp
-- gdscript
-- ghc_cmm
-- ghc_core
-- gherkin
-- glsl
-- go
-- gradle
-- graphql
-- groovy
-- hack
-- haml
-- handlebars
-- haskell
-- haxe
-- hcl
-- hlsl
-- hocon
-- hql
-- html
-- http
-- hylang
-- idlang
-- igorpro
-- ini
-- io
-- irb
-- isbl
-- j
-- janet
-- java
-- javascript
-- jinja
-- jsl
-- json
-- json_doc
-- jsonnet
-- jsp
-- jsx
-- julia
-- kotlin
-- lasso
-- liquid
-- literate_coffeescript
-- literate_haskell
-- livescript
-- llvm
-- lua
-- lustre
-- lutin
-- m68k
-- magik
-- make
-- markdown
-- mason
-- mathematica
-- matlab
-- minizinc
-- moonscript
-- mosel
-- msgtrans
-- mxml
-- nasm
-- nesasm
-- nginx
-- nim
-- nix
-- objective_c
-- objective_cpp
-- ocaml
-- ocl
-- openedge
-- opentype_feature_file
-- pascal
-- perl
-- php
-- plain_text
-- plist
-- pony
-- postscript
-- powershell
-- praat
-- prolog
-- prometheus
-- properties
-- protobuf
-- puppet
-- python
-- q
-- qml
-- r
-- racket
-- reasonml
-- rego
-- rescript
-- robot_framework
-- ruby
-- rust
-- sas
-- sass
-- scala
-- scheme
-- scss
-- sed
-- shell
-- sieve
-- slice
-- slim
-- smalltalk
-- smarty
-- sml
-- solidity
-- sparql
-- sqf
-- sql
-- ssh
-- supercollider
-- swift
-- systemd
-- tap
-- tcl
-- terraform
-- tex
-- toml
-- tsx
-- ttcn3
-- tulip
-- turtle
-- twig
-- typescript
-- vala
-- varnish
-- vb
-- velocity
-- verilog
-- vhdl
-- viml
-- vue
-- wollok
-- xml
-- xojo
-- xpath
-- xquery
-- yaml
-- yang
-- zig
-
-#### Video Widget
-
-[![Video Widget](images/glimmer-video-widget.png)](https://github.com/AndyObtiva/glimmer-cw-video)
-
-Glimmer supports a [video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) not in SWT.
-
-You may obtain via `glimmer-cw-video` gem.
-
-#### Sash Form Widget
-
-`sash_form` is an SWT built-in custom widget that provides a resizable sash that splits a window area into two or more panes.
-
-It can be customized with the `weights` attribute by setting initial weights to size the panes at first display.
-
-One noteworthy thing about the Glimmer implementation is that, unlike behavior in SWT, it allows declaring `weights` before the content of the `sash_form`, thus providing more natural and convenient syntax (Glimmer automatically takes care of sending that declaration to SWT at the end of declaring `sash_form` content as per the SWT requirements)
-
-Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
-
-```ruby
-shell {
-  text 'Sash Form Example'
-  sash_form {
-    label {
-      text '(resize >>)'
-      background :dark_green
-      foreground :white
-      font height: 20
-    }
-    label {
-      text '(<< resize)'
-      background :red
-      foreground :white
-      font height: 20
-    }
-    weights 1, 2
-  }
-}.open
-```
-
-You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash-form)
-
-![Hello Sash Form](images/glimmer-hello-sash-form.png)
-
-#### Browser Widget
-
-![Hello Browser](images/glimmer-hello-browser.png)
-
-Glimmer supports the SWT Browser widget, which can load URLs or render HTML. It can even be instrumented with JavaScript when needed (though highly discouraged since it defeats the purpose of using Ruby except in very rare cases like leveraging a pre-existing web codebase in a desktop app).
-
-Example loading a URL (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
-
-```ruby
-shell {
-  minimum_size 1024, 860
-  browser {
-    url 'http://brightonresort.com/about'
-  }
-}.open
-```
-
-Example rendering HTML with JavaScript on document ready (you may copy/paste in [`girb`](#girb-glimmer-irb-command) provided you install and require [glimmer-dsl-xml gem](https://github.com/AndyObtiva/glimmer-dsl-xml)):
-
-```ruby
-shell {
-  minimum_size 130, 130
-  @browser = browser {
-    text html {
-      head {
-        meta(name: "viewport", content: "width=device-width, initial-scale=2.0")
-      }
-      body {
-        h1 { "Hello, World!" }
-      }
-    }
-    on_completed { # on load of the page execute this JavaScript
-      @browser.swt_widget.execute("alert('Hello, World!');")
-    }
-  }
-}.open
-```
 
 ##### SWT Browser Style Options
 
@@ -5048,6 +5060,20 @@ Hello, Dialog!
 Hello, Dialog! Open Dialog
 
 ![Hello Dialog Open Dialog](images/glimmer-hello-dialog-open-dialog.png)
+
+#### Hello, Code Text!
+
+This sample demonstrates the Glimmer Built-In [Code Text Custom Widget](#code-text-custom-widget).
+
+Code:
+
+[samples/hello/hello_code_text.rb](samples/hello/hello_code_text.rb)
+
+Hello, Code Text!
+
+![Hello Code Text Ruby](images/glimmer-hello-code-text-ruby.png)
+![Hello Code Text JavaScript](images/glimmer-hello-code-text-javascript.png)
+![Hello Code Text HTML](images/glimmer-hello-code-text-html.png)
 
 #### Hello, Canvas!
 

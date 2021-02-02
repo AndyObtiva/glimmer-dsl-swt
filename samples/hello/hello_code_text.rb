@@ -28,7 +28,7 @@ shell {
   tab_folder {
     tab_item {
       fill_layout
-      text 'ruby (glimmer theme)'
+      text 'Ruby (glimmer theme)'
       code_text(language: 'ruby', theme: 'glimmer', lines: true) {
         text <<~CODE
           greeting = 'Hello, World!'
@@ -42,13 +42,34 @@ shell {
               text greeting
               font height: 30, style: :bold
             }
+          }.open
+        CODE
+      }
+    }
+    tab_item {
+      fill_layout
+      text 'JavaScript (pastie theme)'
+      code_text(language: 'javascript', theme: 'pastie', lines: {width: 2}) {
+        text <<~CODE
+          function greet(greeting) {
+            alert(greeting);
+          }
+          
+          var greetingString = 'Hello, World!';
+          
+          greet(greetingString);
+          
+          var moreGreetings = ['Howdy!', 'Aloha!', 'Hey!']
+          
+          for(var greeting of moreGreetings) {
+            greet(greeting)
           }
         CODE
       }
     }
     tab_item {
       fill_layout
-      text 'html (github theme)'
+      text 'HTML (github theme)'
       code_text(language: 'html', theme: 'github') {
         text <<~CODE
           <html>
@@ -64,19 +85,6 @@ shell {
               </section>
             </body>
           </html>
-        CODE
-      }
-    }
-    tab_item {
-      fill_layout
-      text 'javascript (pastie theme)'
-      code_text(language: 'javascript', theme: 'pastie') {
-        text <<~CODE
-          function helloWorld(greeting) {
-            alert(greeting);
-          }
-          var greetingString = 'Hello, World!';
-          helloWorld(greetingString);
         CODE
       }
     }

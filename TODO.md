@@ -4,16 +4,29 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 - Document Hello, Code Text!
+- Hello, Canvas Image Icon!
+- Document Data-Binding Based Animation
+- Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
+
+- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 
-- Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
-- Hello, Custom Image (build an image from shapes giving it a name)
+- Canvas Shape DSL Shape Arguments Data-Binding support
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+
 - Support Glimmer::UI::CustomShape composed of a group of shapes
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect, or other things done in css which can be done even more simply with glimmer, etc..)
+
+- Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
+- Hello, Custom Image (build an image from shapes giving it a name)
+
+- Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
+
+- Figure out how to do layers
+
 - Canvas animation frame_rate property to set frames per second rate of rendering
 - Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
@@ -21,8 +34,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
 - Optimize animation stutter/performance
-- Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
-- Figure out how to do layers
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
@@ -33,13 +44,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Auto-Focusable canvas element (with keyboard)
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
-- Canvas Shape DSL Shape Arguments Data-Binding support
-- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 - Tetris music via JSound (Java Sound)
 - Offer an option to perform data-bindings async (e.g. `bind(model, :property, async: true)`)
-- Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 - Consider tweaking the Tetris color scheme
-- Document Data-Binding Based Animation
 - Make disposed? alternative to is_disposed on all widgets
 - Set glimmer logo as default logo for any run app till updated
 - Have Glimmer log errors encountered in listeners even if it tolerates them
