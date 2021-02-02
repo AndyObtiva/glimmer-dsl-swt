@@ -84,10 +84,12 @@ module Glimmer
           @original_image_data = @image_data = @swt_image.image_data
         end
         @swt_image.singleton_class.alias_method(:dispose_without_glimmer, :dispose)
-        @swt_image.singleton_class.define_method(:dispose) {
-          clear_shapes
+        proxy = self
+        # TODO consider adding a get_data/set_data method to conform with other SWT widgets
+        @swt_image.singleton_class.define_method(:dispose) do
+          proxy.clear_shapes
           dispose_without_glimmer
-        }
+        end
         post_add_content if content.nil?
       end
       
@@ -123,6 +125,10 @@ module Glimmer
       
       def reset_gc
         @gc = org.eclipse.swt.graphics.GC.new(swt_image)
+      end
+      
+      def disposed?
+        @swt_image.isDisposed
       end
       
       def has_attribute?(attribute_name, *args)

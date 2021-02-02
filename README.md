@@ -53,6 +53,8 @@ Glimmer app:
 
 ![Hello World](images/glimmer-hello-world.png)
 
+Learn more about [Hello, World!](#hello-world).
+
 ### Hello, Table! Sample
 
 Glimmer GUI DSL code (from [samples/hello/hello_table.rb](samples/hello/hello_table.rb)):
@@ -63,18 +65,20 @@ shell {
   grid_layout
   
   text 'Hello, Table!'
+  background_image File.expand_path('hello_table/baseball_park.png', __dir__)
   
   label {
     layout_data :center, :center, true, false
     
-    text 'Baseball Playoff Schedule'
-    font height: 30, style: :bold
+    text 'BASEBALL PLAYOFF SCHEDULE'
+    foreground rgb(94, 107, 103)
+    font name: 'Optima', height: 38, style: :bold
   }
   
   combo(:read_only) {
     layout_data :center, :center, true, false
     selection bind(BaseballGame, :playoff_type)
-    font height: 16
+    font height: 14
   }
   
   table(:editable) { |table_proxy|
@@ -139,7 +143,7 @@ shell {
   button {
     text 'Book Selected Game'
     layout_data :center, :center, true, false
-    font height: 16
+    font height: 14
     enabled bind(BaseballGame, :selected_game)
     
     on_widget_selected {
@@ -159,6 +163,8 @@ glimmer samples/hello/hello_table.rb
 Glimmer App:
 
 ![Hello Table](images/glimmer-hello-table.png)
+
+Learn more about [Hello, Table!](#hello-table).
 
 ### Tetris
 

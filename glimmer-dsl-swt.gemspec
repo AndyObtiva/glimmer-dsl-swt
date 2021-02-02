@@ -183,6 +183,7 @@ Gem::Specification.new do |s|
     "samples/hello/hello_styled_text.rb",
     "samples/hello/hello_tab.rb",
     "samples/hello/hello_table.rb",
+    "samples/hello/hello_table/baseball_park.png",
     "samples/hello/hello_world.rb",
     "vendor/swt/linux/swt.jar",
     "vendor/swt/mac/swt.jar",

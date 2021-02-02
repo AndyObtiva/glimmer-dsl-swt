@@ -186,18 +186,20 @@ class HelloTable
       grid_layout
       
       text 'Hello, Table!'
+      background_image File.expand_path('hello_table/baseball_park.png', __dir__)
       
       label {
         layout_data :center, :center, true, false
         
-        text 'Baseball Playoff Schedule'
-        font height: 30, style: :bold
+        text 'BASEBALL PLAYOFF SCHEDULE'
+        foreground rgb(94, 107, 103)
+        font name: 'Optima', height: 38, style: :bold
       }
       
       combo(:read_only) {
         layout_data :center, :center, true, false
         selection bind(BaseballGame, :playoff_type)
-        font height: 16
+        font height: 14
       }
       
       table(:editable) { |table_proxy|
@@ -262,7 +264,7 @@ class HelloTable
       button {
         text 'Book Selected Game'
         layout_data :center, :center, true, false
-        font height: 16
+        font height: 14
         enabled bind(BaseballGame, :selected_game)
         
         on_widget_selected {

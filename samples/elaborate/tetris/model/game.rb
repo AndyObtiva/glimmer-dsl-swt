@@ -51,7 +51,7 @@ class Tetris
         @high_scores = []
         @show_high_scores = false
         @beeping = true
-        @up_arrow_action = :instant_down
+        @up_arrow_action = :rotate_left
         load_high_scores!
       end
       

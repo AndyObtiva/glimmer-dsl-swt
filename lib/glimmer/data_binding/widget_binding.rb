@@ -37,7 +37,7 @@ module Glimmer
         @property = property
         @translator = translator || proc {|value| value} #TODO check on this it doesn't seem used
 
-        if @widget.respond_to?(:dispose)
+        if @widget.respond_to?(:on_widget_disposed)
           @widget.on_widget_disposed do |dispose_event|
             unregister_all_observables
           end

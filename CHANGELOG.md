@@ -2,8 +2,10 @@
 
 ### 4.18.4.1
 
+- Add a background image to Hello, Table! Sample + font/color changes
 - Make Canvas patterns auto-reused and auto-disposed when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
+- Change Glimmer Tetris Sample up arrow default to rotate left
 - Fix issue with "undefined method lex for nil:NilClass" in `code_text`
 
 ### 4.18.4.0

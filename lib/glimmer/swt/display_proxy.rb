@@ -91,6 +91,14 @@ module Glimmer
       def timer_exec(&block)
         @swt_display.timer_exec(&block)
       end
+      
+      def on_widget_disposed(&block)
+        on_swt_Dispose(&block)
+      end
+      
+      def disposed?
+        @swt_display.isDisposed
+      end
 
       def method_missing(method, *args, &block)
         if can_handle_observation_request?(method)
