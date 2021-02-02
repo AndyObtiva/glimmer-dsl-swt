@@ -29,10 +29,7 @@ module Glimmer
         end
         
         def clear_shapes
-          shapes.dup.each do |shape|
-            shape.paint_listener_proxy&.unregister
-            shapes.delete(shape)
-          end
+          shapes.dup.each(&:dispose)
         end
         
         def resetup_shape_painting

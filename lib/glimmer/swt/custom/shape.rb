@@ -78,7 +78,17 @@ module Glimmer
             @flyweight_method_names ||= {}
           end
           
+          def pattern(*args)
+            found_pattern = flyweigh_patterns[args]
+            if found_pattern.nil? || found_pattern.is_disposed
+              found_pattern = flyweigh_patterns[args] = org.eclipse.swt.graphics.Pattern.new(*args)
+            end
+            found_pattern
+          end
           
+          def flyweigh_patterns
+            @flyweigh_patterns ||= {}
+          end
         end
         
         attr_reader :parent, :name, :args, :options, :paint_listener_proxy
@@ -108,6 +118,14 @@ module Glimmer
         
         def round?
           @options[:round]
+        end
+        
+        def has_some_background?
+          @properties.keys.map(&:to_s).include?('background') || @properties.keys.map(&:to_s).include?('background_pattern')
+        end
+        
+        def has_some_foreground?
+          @properties.keys.map(&:to_s).include?('foreground') || @properties.keys.map(&:to_s).include?('foreground_pattern')
         end
         
         def post_add_content
@@ -148,7 +166,7 @@ module Glimmer
               end
             end
             new_args = [DisplayProxy.instance.swt_display] + args
-            args[0] = org.eclipse.swt.graphics.Pattern.new(*new_args)
+            args[0] = pattern(*new_args, type: method_name.to_s.match(/set(.+)Pattern/)[1])
             args[1..-1] = []
           end
           args
@@ -189,9 +207,9 @@ module Glimmer
         end
         
         def amend_method_name_options_based_on_properties
-          if @properties.keys.map(&:to_s).include?('background') && !@properties.keys.map(&:to_s).include?('foreground')
+          if has_some_background? && !has_some_foreground?
             @options[:fill] = true
-          elsif @properties.keys.map(&:to_s).include?('foreground') && !@properties.keys.map(&:to_s).include?('background')
+          elsif !has_some_background? && has_some_foreground?
             @options[:fill] = false
           end
           @method_name = self.class.method_name(@name, @args + [@options])
@@ -213,6 +231,24 @@ module Glimmer
           @properties.symbolize_keys[attribute_name.to_s.to_sym]
         end
         
+        def pattern(*args, type: nil)
+          instance_variable_name = "@#{type}_pattern"
+          the_pattern = instance_variable_get(instance_variable_name)
+          if the_pattern.nil?
+            the_pattern = self.class.pattern(*args)
+          end
+          the_pattern
+        end
+        
+        def dispose
+          paint_listener_proxy&.unregister
+          @background_pattern&.dispose
+          @background_pattern = nil
+          @foreground_pattern&.dispose
+          @foreground_pattern = nil
+          @parent.shapes.delete(self)
+        end
+        
         def setup_painting
           # TODO consider moving this method to parent (making the logic polymorphic)
           return if @parent.is_disposed
@@ -226,8 +262,8 @@ module Glimmer
         end
         
         def paint(paint_event)
-          @properties['background'] = [@parent.background] if fill? && !@properties.keys.map(&:to_s).include?('background')
-          @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !@properties.keys.map(&:to_s).include?('foreground')
+          @properties['background'] = [@parent.background] if fill? && !has_some_background?
+          @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
           @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
           @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
           @properties.each do |property, args|

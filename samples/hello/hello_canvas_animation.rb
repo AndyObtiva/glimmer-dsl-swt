@@ -51,9 +51,9 @@ shell {
       frame { |index, color| # frame block loops indefinitely (unless frame_count or cycle_count is set to an integer)
         outside_color = colors[index % 2]
         inside_color = colors[(index + 1) % 2]
-        
+
         background outside_color # sets canvas background color
-        
+
         rectangle(0, 0, 200, 200) {
           background inside_color # sets rectangle background color
         }

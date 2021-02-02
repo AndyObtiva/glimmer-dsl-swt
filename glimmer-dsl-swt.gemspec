@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2021-02-01"
+  s.date = "2021-02-02"
   s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Framework) is a native-GUI cross-platform desktop development library written in JRuby, an OS-threaded faster JVM version of Ruby. Glimmer's main innovation is a declarative Ruby DSL that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust Eclipse SWT library. Glimmer additionally innovates by having built-in data-binding support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI widgets, but it also supports drawing Canvas Graphics like Shapes and Animations. To get started quickly, Glimmer offers scaffolding options for Apps, Gems, and Custom Widgets. Glimmer also includes native-executable packaging support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in Ruby as truly native DMG/PKG/APP files on the Mac + App Store, MSI/EXE files on Windows, and Gem Packaged Shell Scripts on Linux.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]

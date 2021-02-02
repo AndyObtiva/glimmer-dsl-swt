@@ -4,8 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make Canvas patterns auto-dispose themselves when canvas is disposed
+
 - Make Canvas images auto-dispose themselves when canvas is disposed
+- Document Hello, Code Text!
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)

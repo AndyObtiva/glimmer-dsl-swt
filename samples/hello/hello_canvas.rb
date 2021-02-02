@@ -50,7 +50,8 @@ shell {
       font name: 'Courier', height: 30
     }
     oval(110, 310, 100, 100) {
-      background rgb(128, 138, 248)
+      # patterns provide a differnet way to make gradients
+      background_pattern 0, 0, 105, 0, :yellow, rgb(128, 138, 248)
     }
     arc(210, 210, 100, 100, 30, -77) {
       background :red
