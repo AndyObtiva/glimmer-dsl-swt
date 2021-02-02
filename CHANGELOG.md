@@ -2,9 +2,12 @@
 
 ### 4.18.4.1
 
+- Support automatic inferrence of Canvas Shape DSL gradient option (just like fill option)
+- Support automatic inferrence of Canvas Shape DSL round option (just like fill option)
 - Add a background image to Hello, Table! Sample + font/color changes
 - Make Canvas patterns auto-reused and auto-disposed when canvas is disposed
 - Make Canvas images auto-dispose themselves when canvas is disposed
+- Update Hello, Code Text!
 - Change Glimmer Tetris Sample up arrow default to rotate left
 - Fix issue with "undefined method lex for nil:NilClass" in `code_text`
 

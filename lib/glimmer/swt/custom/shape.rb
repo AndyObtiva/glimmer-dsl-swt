@@ -211,6 +211,12 @@ module Glimmer
             @options[:fill] = true
           elsif !has_some_background? && has_some_foreground?
             @options[:fill] = false
+          elsif @name == 'rectangle' && has_some_background? && has_some_foreground?
+            @options[:fill] = true
+            @options[:gradient] = true
+          end
+          if @name == 'rectangle' && @args.size > 4 && @args.last.is_a?(Numeric)
+            @options[:round] = true
           end
           @method_name = self.class.method_name(@name, @args + [@options])
         end

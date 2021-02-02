@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Document Hello, Code Text!
-- Hello, Canvas Image Icon!
 - Document Data-Binding Based Animation
 - Document guidelines for using canvas shapes like putting filled shapes before drawn ones to see the lines
 

@@ -22,22 +22,22 @@
 include Glimmer
 
 shell {
-  text 'Hello, Canvas!'
+  text 'Hello, Canvas Image Icon!'
   minimum_size 320, 400
 
   canvas {
     background :yellow
-    rectangle(0, 0, 220, 400, fill: true) {
+    rectangle(0, 0, 220, 400) {
       background :red
     }
-    rectangle(50, 20, 300, 150, 30, 50, round: true) {
+    rectangle(50, 20, 300, 150, 30, 50) {
       background :magenta
     }
-    rectangle(150, 200, 100, 70, true, gradient: true) {
+    rectangle(150, 200, 100, 70, true) {
       background :dark_magenta
       foreground :yellow
     }
-    rectangle(50, 200, 30, 70, false, gradient: true) {
+    rectangle(50, 200, 30, 70, false) {
       background :magenta
       foreground :dark_blue
     }
