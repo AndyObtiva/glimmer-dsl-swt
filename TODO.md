@@ -402,6 +402,7 @@ items <=> binding {
 - Add hello samples for every built-in SWT widget including the custom package
 - Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
+- Music playing app
 - Web data API connected sample app (something that perhaps pulls governmental data and summarizes it/graphs it). Demonstrate how you can write this in a fraction of web code.
 - HR Employee Management app
 - Medical Patient Management app
