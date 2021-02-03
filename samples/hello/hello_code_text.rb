@@ -49,7 +49,19 @@ shell {
     tab_item {
       fill_layout
       text 'JavaScript (pastie theme)'
-      code_text(language: 'javascript', theme: 'pastie', lines: {width: 2}) {
+      # No border (SWT styles are passed explicitly)
+      code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'pastie', lines: {width: 2}) {
+        # With lines, the custom widget has a root composite, which can be configured separately
+        root {
+          grid_layout(2, false) {
+            margin_width 2
+          }
+          background :white
+        }
+        # With lines, the line numbers widget can be configured separately
+        line_numbers {
+          background :white
+        }
         text <<~CODE
           function greet(greeting) {
             alert(greeting);

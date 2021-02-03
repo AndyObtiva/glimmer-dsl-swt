@@ -34,14 +34,14 @@ module Glimmer
       
         alias lines? lines
         attr_accessor :styled_text_proxy_text, :styled_text_proxy_top_pixel
-        attr_reader :styled_text_proxy, :lines_width
+        attr_reader :styled_text_proxy, :lines_width, :line_numbers_styled_text_proxy
         
         def method_missing(method_name, *args, &block)
           dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
           if dsl_mode
             args.pop if args.last.is_a?(Hash) && args.last[:dsl]
             super(method_name, *args, &block)
-          elsif pd(@styled_text_proxy)&.respond_to?(method_name, *args, &block)
+          elsif @styled_text_proxy&.respond_to?(method_name, *args, &block)
             @styled_text_proxy&.send(method_name, *args, &block)
           else
             super
@@ -60,6 +60,14 @@ module Glimmer
         
         def has_instance_method?(method_name)
           respond_to?(method_name)
+        end
+        
+        def root_block=(block)
+          body_root.content(&block)
+        end
+        
+        def line_numbers_block=(block)
+          @line_numbers_styled_text_proxy.content(&block)
         end
         
         before_body {
@@ -85,7 +93,7 @@ module Glimmer
             composite {
               grid_layout(2, false)
               
-              @line_numbers_text = styled_text(:multi, :border) {
+              @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
                 text ' '*lines_width.to_i
                 text bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
@@ -128,6 +136,7 @@ module Glimmer
         
         def code_text_widget
           @styled_text_proxy = styled_text(swt_style) {
+#             custom_widget_property_owner # TODO implement to route properties here without declaring method_missing
             layout_data :fill, :fill, true, true if lines
             text bind(self, :styled_text_proxy_text) if lines
             top_pixel bind(self, :styled_text_proxy_top_pixel) if lines

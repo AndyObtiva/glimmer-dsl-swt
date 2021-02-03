@@ -267,6 +267,9 @@ class MetaSampleApplication
         @code_text = code_text(lines: {width: 2}) {
           text bind(SampleDirectory, 'selected_sample.code', read_only: true)
           editable bind(SampleDirectory, 'selected_sample.editable')
+          line_numbers {
+            background :white
+          }
         }
         
         weights 4, 11

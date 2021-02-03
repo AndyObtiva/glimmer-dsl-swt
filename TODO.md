@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
+- Document custom widget technique for routing property data binding to a nested widget manually via block properties
+- Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
 - Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction) with the observe keyword
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 - Introduce a tetromino mutex for operations like down and rotate to avoid them contradicting each other
@@ -301,6 +304,7 @@ items <=> binding {
 - Test DB support with Derby DB
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
+- Support HTML-like CSS styling by translating SWT widgets into HTML equivalents in an inspector and then applying CSS styles with another translater. This makes styling desktop apps appealing to web designers.
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too
 - Wrap SWT as a Maven plugin and use jar-dependencies gem to rely on it instead of including it in the project gem

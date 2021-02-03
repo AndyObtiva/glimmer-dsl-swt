@@ -4,7 +4,10 @@
 
 - Support data-binding of `code_text` with lines enabled.
 - Upgrade the Glimmer Meta-Sample with code_text lines: {width: 2}
-
+- With code_text lines enabled, support setting/data-binding properties on root composite via nesting `root { }` underneath
+- With code_text lines enabled, support setting/data-binding properties on line numbers styled text widget via nesting `line_numbers { }` underneath
+- Update the Hello, Code Text! sample to remove borders and line numbers background in the JavaScript example
+- Fix issue with updating layout upon later reopening layout/layout data via `proxy.content {}` method
 
 ### 4.18.4.0
 

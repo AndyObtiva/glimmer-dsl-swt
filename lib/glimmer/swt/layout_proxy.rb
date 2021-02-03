@@ -72,7 +72,9 @@ module Glimmer
         @swt_layout.marginRight = 0 if @swt_layout.respond_to?(:marginRight)
         @swt_layout.marginBottom = 0 if @swt_layout.respond_to?(:marginBottom)
         @swt_layout.marginLeft = 0 if @swt_layout.respond_to?(:marginLeft)
+        old_layout = @widget_proxy.swt_widget.getLayout
         @widget_proxy.swt_widget.setLayout(@swt_layout)
+        @widget_proxy.swt_widget.layout if old_layout
       end
 
       def has_attribute?(attribute_name, *args)
@@ -83,7 +85,8 @@ module Glimmer
         apply_property_type_converters(attribute_name, args)
         if args.first != @swt_layout.send(attribute_getter(attribute_name))
           @swt_layout.send(attribute_setter(attribute_name), *args)
-          @widget_proxy.swt_widget.getShell.pack
+          @widget_proxy.swt_widget.layout
+          @widget_proxy.swt_widget.getShell.layout
         end
       end
 
