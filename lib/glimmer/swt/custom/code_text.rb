@@ -231,6 +231,7 @@ module Glimmer
           @lexer ||= Rouge::Lexer.find_fancy('ruby') # default to Ruby if no lexer is found
         end
         
+        # TODO extract this to ColorProxy
         def hex_color_to_swt_color(color_data, default_color)
           color_data = "##{color_data.chars.drop(1).map {|c| c*2}.join}" if color_data.is_a?(String) && color_data.start_with?('#') && color_data&.size == 4
           color_data = color_data.match(REGEX_COLOR_HEX6).to_a.drop(1).map {|c| "0x#{c}".hex}.to_a if color_data.is_a?(String) && color_data.start_with?('#')
