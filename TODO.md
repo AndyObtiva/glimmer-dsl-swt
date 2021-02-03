@@ -4,12 +4,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Use after_read data binding option to update top pixel in code text line numbers after updating text
 - Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
+- Document that setting a lines width means it is the initial width, but it expands if needed.
 - Document custom widget technique for routing property data binding to a nested widget manually via block properties
 - Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
 - Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction) with the observe keyword
-- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 - Introduce a tetromino mutex for operations like down and rotate to avoid them contradicting each other
+- Document that desktop development limitations make developers more productive on the desktop
+- Split README.md into multiple help/SOMETOPIC.md files
+- Take a screenshot of new meta sample with code line numbers
+- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
@@ -18,7 +23,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes
-- Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect, or other things done in css which can be done even more simply with glimmer, etc..)
+- Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..)
 
 - Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
 - Hello, Custom Image (build an image from shapes giving it a name)
@@ -161,7 +166,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Look into making properties that expect an SWT widget auto-call .swt_widget if they receive a proxy
 - Consider splitting more glimmer command dependencies (e.g. rake-tui) from glimmer GUI gem dependencies
-- Support multiple consecutive font names specified in an array to use in order of availability (better than comma separated text that is error prone in CSS)
+- Support multiple consecutive font names specified in an array to use in order of availability (better than comma separated text that is error prone)
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
@@ -304,6 +309,7 @@ items <=> binding {
 - Test DB support with Derby DB
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
+- Support Glimmer CSS styling alternative to SWT CSS in case it is too complicated to use
 - Support HTML-like CSS styling by translating SWT widgets into HTML equivalents in an inspector and then applying CSS styles with another translater. This makes styling desktop apps appealing to web designers.
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
 - Make app scaffolding building a full MVP app not just hello world, with database access too

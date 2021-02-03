@@ -95,15 +95,19 @@ module Glimmer
               
               @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
-                text ' '*lines_width.to_i
                 text bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
-                  line_count = text_value.to_s.split("\n").count
+                  line_count = "#{text_value} ".split("\n").count
                   line_count = 1 if line_count == 0
                   lines_text_size = [line_count.to_s.size, @lines_width].max
                   if lines_text_size > @lines_width
-                    async_exec { swt_widget.layout }
+                    async_exec {
+                      swt_widget.layout
+                    }
                     @lines_width = lines_text_size
                   end
+                  async_exec {
+                    @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel
+                  }
                   line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
                 }
                 top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)

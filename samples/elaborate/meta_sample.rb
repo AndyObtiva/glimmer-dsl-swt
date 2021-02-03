@@ -264,12 +264,21 @@ class MetaSampleApplication
           }
         }
             
-        @code_text = code_text(lines: {width: 2}) {
-          text bind(SampleDirectory, 'selected_sample.code', read_only: true)
-          editable bind(SampleDirectory, 'selected_sample.editable')
+        @code_text = code_text(lines: {width: 3}) {
+          root {
+            grid_layout(2, false) {
+              horizontal_spacing 0
+              margin_width 0
+              margin_height 0
+            }
+          }
           line_numbers {
             background :white
           }
+          text bind(SampleDirectory, 'selected_sample.code', read_only: true)
+          editable bind(SampleDirectory, 'selected_sample.editable')
+          left_margin 7
+          right_margin 7
         }
         
         weights 4, 11

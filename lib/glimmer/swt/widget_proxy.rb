@@ -565,9 +565,11 @@ module Glimmer
 
       # Used for data-binding only. Consider renaming or improving to avoid the confusion it causes
       def add_observer(observer, property_name)
-        property_listener_installers = @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact
-        widget_listener_installers = property_listener_installers.map{|installer| installer[property_name.to_s.to_sym]}.compact if !property_listener_installers.empty?
-        widget_listener_installers.to_a.first&.call(observer)
+        if !observer.respond_to?(:binding_options) || !observer.binding_options[:read_only]
+          property_listener_installers = @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact
+          widget_listener_installers = property_listener_installers.map{|installer| installer[property_name.to_s.to_sym]}.compact if !property_listener_installers.empty?
+          widget_listener_installers.to_a.first&.call(observer)
+        end
       end
 
       def remove_observer(observer, property_name)

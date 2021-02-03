@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.18.4.2
+
+- Avoid adding the widget listeners for read_only data-binding (instead of just relying on ModelBinding raising exceptions)
+- Clean up the meta sample code_text style by removing root composite margins/spacing
+- Fix issue with adding content to the end of a styled text widget breaking line number scrolling
+- Fix issue with code_text not showing line numbers for extra new lines at the end
+
 ### 4.18.4.1
 
 - Support data-binding of `code_text` with lines enabled.
