@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "complex"
+# require "concurrent-ruby"
 
 # Mandelbrot implementation
 # Courtesy of open-source code at:
@@ -30,6 +31,13 @@ class Mandelbrot
 
   def initialize(max_iterations)
     @max_iterations = max_iterations
+    @pool = Concurrent::FixedThreadPool.new(8) # 5 threads
+  end
+  
+  def calculate_all(x_array, y_array)
+    @pool.post do
+       # some parallel work
+    end
   end
 
   def calculate(x,y)
