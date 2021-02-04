@@ -21,6 +21,9 @@
 
 require "complex"
 
+# Mandelbrot implementation
+# Courtesy of open-source code at:
+# https://github.com/gotbadger/ruby-mandelbrot
 class Mandelbrot
 
   attr_accessor :max_iterations
@@ -28,51 +31,41 @@ class Mandelbrot
   def initialize(max_iterations)
     @max_iterations = max_iterations
   end
-  
+
   def calculate(x,y)
-    itr = 0
-    val = 3
-    z = base = Complex(x,y)
-    until itr == @max_iterations || val.abs < 2
+    base_case = [Complex(x,y), 0]
+    Array.new(max_iterations, base_case).inject(base_case) do |prev ,base|
+      z, itr = prev
       c, _ = base
       val = z*z + c
-      itr += 1
-      z = val
+      itr += 1 unless val.abs < 2
+      [val, itr]
     end
-    z
   end
 end
 
-max_iter = 16
-
-mandelbrot = Mandelbrot.new(max_iter)
-REGEX_COLOR_HEX6 = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/
-
-dimension = 70
-
-# TODO calculate using 8 threads to take advantage of multiple cores
-# mandelbrots = 70.times.map {[]}
-
 include Glimmer
 
+colors = [[0, 0, 0]] + 40.times.map { |i| [255 - i*5, 255 - i*5, 55 + i*5] }
+colors = colors.map {|color_data| rgb(*color_data).swt_color}
+max_iter = colors.size - 1
+mandelbrot = Mandelbrot.new(max_iter)
+y_array = (1.0).step(-1,-0.0030).to_a
+x_array = (-2.0).step(0.5,0.0030).to_a
+height = y_array.size
+width = x_array.size
+
 shell {
-  minimum_size dimension, dimension + 12
+  text 'Mandelbrot Fractal'
+  minimum_size width, height + 12
+  
   canvas {
     on_paint_control { |e|
-      dimension.times { |x|
-        dimension.times { |y|
-  #         point(x, y) {
-            calc = mandelbrot.calculate(x, y)
-            
-#             color_data = '#'+(calc.real%16_777_216).to_s(16)
-#             color_data = color_data.match(REGEX_COLOR_HEX6).to_a.drop(1).map {|c| "0x#{c}".hex}.to_a
-#             color_data = [:white] if color_data.nil? || color_data.empty?
-            
-#             foreground rgb(*color_data)
-#             e.gc.setForeground rgb(*color_data).swt_color
-            e.gc.setForeground rgb(calc.real > 0 ? :black : :white).swt_color
-            e.gc.drawPoint(x, y)
-  #         }
+      height.times { |y|
+        width.times { |x|
+          _, itr = mandelbrot.calculate(x_array[x], y_array[y])
+          e.gc.foreground = colors[itr]
+          e.gc.draw_point x, y
         }
       }
     }
