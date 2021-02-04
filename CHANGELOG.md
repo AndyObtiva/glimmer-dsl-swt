@@ -2,6 +2,10 @@
 
 ### 4.18.4.2
 
+- Fix flashing issue when using ShellProxy#pack_same_size on Windows
+
+### 4.18.4.2
+
 - Remove Tetris Clear button from High Score dialog (since it is available via menu and is rarely used)
 - Make right control button rotate right with Tetris
 - Avoid adding the widget listeners for read_only data-binding (instead of just relying on ModelBinding raising exceptions)

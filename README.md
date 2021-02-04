@@ -456,9 +456,10 @@ https://www.eclipse.org/swt/faq.php
 
 ## Pre-requisites
 
-- JDK 8u241 (1.8.0_241) (find at https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html)
+- JDK 8u241 (1.8.0_241) (find at https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html / On Windows, ensure PATH includes Java bin directory  like C:\Program Files\Java\jdk1.8.0_241\bin for javapackager to work during packaging Glimmer applications)
 - JRuby 9.2.14.0 (supporting Ruby 2.5.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux or find at [https://www.jruby.org/download](https://www.jruby.org/download) for Windows)
 - SWT 4.18 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem)
+- Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 To obtain JRuby through [RVM](http://rvm.io), you may run:
 
@@ -478,7 +479,7 @@ If you intend to build a Glimmer app from scratch with [scaffolding](#scaffoldin
 
 Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases where you want to build an app without [scaffolding](#scaffolding).
 
-Note: if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then install a previous version instead from the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions).
+**Note:** if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then install a previous version instead from the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions) (keep looking back till you find one that works). Do not be disheartened as nearly everything is only a few days of work away. That said, keep in mind that this project is free and open source, meaning provided as is, so do not expect anything, but if you help with reporting and contributing, you could speed things up or even become part of the project.
 
 ### Option 1: Direct Install
 (Use for [Scaffolding](#scaffolding))
@@ -2402,6 +2403,8 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 ### Canvas Shape DSL
 
+**(ALPHA FEATURE)**
+
 Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
@@ -2633,6 +2636,8 @@ shell {
 
 ### Canvas Transform DSL
 
+**(ALPHA FEATURE)**
+
 The transform DSL builds [org.eclipse.swt.graphics.Transform](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Transform.html) objects with a nice declarative syntax.
 
 `transform` keyword builds a `Transform` object. It optionally takes the transformation matrix elements: (m11, m12, m21, m22, dx, dy)
@@ -2714,6 +2719,8 @@ transform(1, 1, 4, 2, 2, 4).
 Learn more at the [Hello, Canvas Transform! Sample](#hello-canvas-transform).
 
 ### Canvas Animation DSL
+
+**(EARLY ALPHA FEATURE)**
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
@@ -3704,6 +3711,7 @@ To use, simply use `code_text` in place of the `text` or `styled_text` widget. I
 
 **lines**
 (default: false)
+**(ALPHA OPTION)**
 
 Shows line numbers when set to true.
 
@@ -5199,6 +5207,8 @@ Contact Manager - Edit Done
 
 This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, canvas shape icon image generation, and keyboard events/shortcuts.
 
+Note that it works optimally on the Mac. It is very new, so it has not been optimized for Windows and Linux yet given their minor differences from the Mac. 
+
 Code:
 
 [samples/elaborate/tetris.rb](samples/elaborate/tetris.rb)
@@ -5272,7 +5282,7 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ## Packaging & Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem)
+Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory like "C:\Program Files\Java\jdk1.8.0_241\bin" for javapackager command to work during packaging Glimmer applications.
 
 Note 2: Glimmer packaging has a strong dependency on JDK8 at the moment. JDK9 & JDK10 might work, but JDK11 and onward definitely won't since they dropped javapackager, which later came back as jpackage in JDK14, but it's not ready for prime time yet. Just stick to JDK8 for now, strongly supported by Oracle for the next 6 years at least.
 
@@ -5282,7 +5292,7 @@ Glimmer simplifies the process of native-executable packaging and distribution o
 glimmer package
 ```
 
-It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating all available packaging types on the current platform (e.g. `DMG`, `PKG`, `APP` on the Mac) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows)
+It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating all available packaging types on the current platform (e.g. `DMG`, `PKG`, `APP` on the Mac) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows). If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.
 
 You may choose to generate a specific type of packaging instead by addionally passing in the `[type]` option. For example, this generates an MSI setup file on Windows:
 
@@ -5430,7 +5440,7 @@ Glimmer::RakeTask::Package.javapackager_extra_args = '-Bmac.signing-key-develope
 
 Now, when you run `glimmer package`, it builds a self-signed DMG file. When you make available online, and users download, upon launching application, they are presented with your certificate, which they have to sign if they trust you in order to use the application.
 
-### Gotchas
+### Packaging Gotchas
 
 1. Specifying License File
 
@@ -5462,6 +5472,16 @@ You can get around that in zsh by running glimmer package commands with `bash -c
 ```
 bash -c 'glimmer package'
 ```
+
+4. Java on Windows System PATH
+
+If you get any errors running Java on Windows, keep in mind that you need to have the Java binaries on the Windows System PATH environment variable:
+c:\program files\java\jre1.8.0_241
+
+The problem is Oracle seems to be adding an indirect Java path junction in later versions of their installer:
+C:\Program Files (x86)\Common Files\Oracle\Java\javapath
+
+Simply replace with the simple one above (setting the correct version number) and then reinstall JRuby to have it use Java from the right path. 
 
 ## App Updates
 
