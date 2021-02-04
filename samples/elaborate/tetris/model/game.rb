@@ -20,7 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'fileutils'
-require 'etc'
 require 'json'
 require 'glimmer/data_binding/observer'
 require 'glimmer/config'
@@ -112,7 +111,7 @@ class Tetris
       end
       
       def tetris_dir
-        @tetris_dir ||= File.join(Etc.getpwuid.dir, '.glimmer-tetris')
+        @tetris_dir ||= File.join(File.expand_path('~'), '.glimmer-tetris')
       end
       
       def tetris_high_score_file

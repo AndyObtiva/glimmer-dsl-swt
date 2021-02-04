@@ -71,13 +71,6 @@ class Tetris
           composite {
             row_layout :horizontal
                         
-            button {
-              text 'Clear'
-              
-              on_widget_selected {
-                game.clear_high_scores!
-              }
-            }
             @play_close_button = button {
               text bind(game, :game_over) {|game_over| game_over ? 'Play Again?' : 'Close'}
               focus true # initial focus

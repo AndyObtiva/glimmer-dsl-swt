@@ -192,6 +192,7 @@ class HelloTable
         layout_data :center, :center, true, false
         
         text 'BASEBALL PLAYOFF SCHEDULE'
+        background :transparent
         foreground rgb(94, 107, 103)
         font name: 'Optima', height: 38, style: :bold
       }

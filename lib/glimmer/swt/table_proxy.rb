@@ -497,12 +497,12 @@ module Glimmer
         @finish_edit = lambda do |event=nil|
           new_value = @table_editor_widget_proxy&.send(widget_value_property)
           if table_item.isDisposed
-            @cancel_edit.call
+            @cancel_edit.call unless write_on_cancel
           elsif !new_value.nil? && !action_taken && !@edit_in_progress && !@cancel_in_progress
             action_taken = true
             @edit_in_progress = true
             if new_value == model.send(model_editing_property)
-              @cancel_edit.call
+              @cancel_edit.call unless write_on_cancel
             else
               if before_write&.arity == 0
                 before_write&.call

@@ -69,14 +69,12 @@ class Tetris
           game.left!
         when swt(:arrow_right), 'd'.bytes.first
           game.right!
-        when swt(:shift), swt(:alt)
+        when swt(:shift), swt(:alt), swt(:ctrl)
           if key_event.keyLocation == swt(:right) # right shift key
             game.rotate!(:right)
           elsif key_event.keyLocation == swt(:left) # left shift key
             game.rotate!(:left)
           end
-        when swt(:ctrl)
-          game.rotate!(:left)
         end
       }
       

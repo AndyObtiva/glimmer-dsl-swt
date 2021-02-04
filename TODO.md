@@ -16,6 +16,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Take a screenshot of new meta sample with code line numbers
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
+- autocomplete rb file if launching via glimmer command and .rb is missing
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 

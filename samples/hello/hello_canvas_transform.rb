@@ -1,6 +1,6 @@
 include Glimmer
 
-glimmer_logo = File.expand_path('../../images/glimmer-logo-hi-res.png', __dir__)
+glimmer_logo = File.expand_path('./hello_canvas_transform/hello_canvas_transform_image.png', __dir__)
 
 shell {
   text 'Hello, Canvas Transform!'

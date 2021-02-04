@@ -2,8 +2,16 @@
 
 ### 4.18.4.2
 
+- Remove Tetris Clear button from High Score dialog (since it is available via menu and is rarely used)
+- Make right control button rotate right with Tetris
 - Avoid adding the widget listeners for read_only data-binding (instead of just relying on ModelBinding raising exceptions)
 - Clean up the meta sample code_text style by removing root composite margins/spacing
+- Made background for top label of Hello, Table! transparent for Windows
+- Fix `glimmer samples` command and Meta-Sample on Windows
+- Fix Tetris on Windows
+- Fix Hello, Canvas on Windows
+- Fix Hello, Canvas Transform when launched from `glimmer samples`
+- Fix Table editing write_on_cancel option use on Windows
 - Fix issue with adding content to the end of a styled text widget breaking line number scrolling
 - Fix issue with code_text not showing line numbers for extra new lines at the end
 

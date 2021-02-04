@@ -20,7 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'fileutils'
-require 'etc'
 
 class Sample
   include Glimmer::DataBinding::ObservableModel
@@ -31,7 +30,7 @@ class Sample
     end
   
     def user_glimmer_directory
-      File.join(Etc.getpwuid.dir, '.glimmer-dsl-swt')
+      File.join(File.expand_path('~'), '.glimmer-dsl-swt')
     end
     
     def ensure_user_glimmer_directory
