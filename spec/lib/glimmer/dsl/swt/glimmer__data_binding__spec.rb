@@ -426,9 +426,7 @@ module GlimmerSpec
       expect(@menu_item.swt_widget.getSelection).to eq(true)
 
       @menu_item.swt_widget.setSelection(false)
-      expect {
-        @menu_item.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
-      }.to raise_error('Cannot invoke `age=` because ModelBinding#binding_options[:read_only]=true')
+      @menu_item.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
       expect(person.age).to eq(20)
     end
 
