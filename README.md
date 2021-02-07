@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.3
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -491,7 +491,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.4.2
+jgem install glimmer-dsl-swt -v 4.18.4.3
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -509,7 +509,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.4.2'
+gem 'glimmer-dsl-swt', '~> 4.18.4.3'
 ```
 
 And, then run:
@@ -567,7 +567,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.2
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.3
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -589,8 +589,8 @@ Tasks are run via rake. Some tasks take arguments in square brackets.
 
 Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
 
-Select a Glimmer task to run: (Press â†‘/â†“ arrow to move, Enter to select and letters to filter)
-â€£ glimmer list:gems:customshell[query]                       # List Glimmer custom shell gems available at rubygems.org (query is optional) [alt: list:gems:cs]
+Select a Glimmer task to run: (Press ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Ëœ/ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Å“ arrow to move, Enter to select and letters to filter)
+ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â£ glimmer list:gems:customshell[query]                       # List Glimmer custom shell gems available at rubygems.org (query is optional) [alt: list:gems:cs]
   glimmer list:gems:customwidget[query]                      # List Glimmer custom widget gems available at rubygems.org (query is optional) [alt: list:gems:cw]
   glimmer list:gems:dsl[query]                               # List Glimmer DSL gems available at rubygems.org (query is optional)
   glimmer package[type]                                      # Package app for distribution (generating config, jar, and native files) (type is optional)
@@ -1046,7 +1046,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.4.2  AndyMaleh    Glimmer DSL for SWT
+  Swt    glimmer-dsl-swt    4.18.4.3  AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
 ```
@@ -2410,17 +2410,17 @@ Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
-- `arc​(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
-- `focus​(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
+- `arcÃ¢â‚¬â€¹(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
+- `focusÃ¢â‚¬â€¹(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
 - `image(image, x, y)` [image](#image)
 - `line(x1, y1, x2, y2)` line
 - `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
-- `point​(x, y)` point
+- `pointÃ¢â‚¬â€¹(x, y)` point
 - `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
 - `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
 - `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
 - `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
-- `rectangle​(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
+- `rectangleÃ¢â‚¬â€¹(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 - `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
 Shape keywords that can be filled with color can take an keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
@@ -2434,7 +2434,7 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `antialias` enables antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `background` sets fill color for fillable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
 - `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
-- `clipping` clips area of painting (​numeric values for `(x, y, width, height)`)
+- `clipping` clips area of painting (Ã¢â‚¬â€¹numeric values for `(x, y, width, height)`)
 - `fill_rule` sets filling rule (SWT style value of `:fill_even_odd` or `:fill_winding`)
 - `font` sets font (Hash of `:name`, `:height`, and `:style` just like standard widget font property, or Font/FontProxy object directly)
 - `foreground` sets draw color for drawable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
@@ -3290,7 +3290,7 @@ https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.platform.doc.isv
 
 It has `addSelectionListener`. Additionally, under its `Control` super class, it has `addControlListener`, `addDragDetectListener`, `addFocusListener`, `addGestureListener`, `addHelpListener`, `addKeyListener`, `addMenuDetectListener`, `addMouseListener`, `addMouseMoveListener`, `addMouseTrackListener`, `addMouseWheelListener`, `addPaintListener`, `addTouchListener`, and `addTraverseListener`
 
-Suppose, we select `addSelectionListener`, which is responsible for what happens when a user selects a button (clicks it). Then, open its argument `SelectionListener` SWT API, and you find the event (instance) methods: `widgetDefaultSelected` and `widgetSelected​`. Let's select the second one, which is what gets invoked when a button is clicked.
+Suppose, we select `addSelectionListener`, which is responsible for what happens when a user selects a button (clicks it). Then, open its argument `SelectionListener` SWT API, and you find the event (instance) methods: `widgetDefaultSelected` and `widgetSelectedÃ¢â‚¬â€¹`. Let's select the second one, which is what gets invoked when a button is clicked.
 
 Now, Glimmer simplifies the process of hooking into that listener (observer) by neither requiring you to call the `addSelectionListener` method nor requiring you to implement/extend the `SelectionListener` API.
 
@@ -5207,7 +5207,7 @@ Contact Manager - Edit Done
 
 This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, canvas shape icon image generation, and keyboard events/shortcuts.
 
-Note that it works optimally on the Mac. It is very new, so it has not been optimized for Windows and Linux yet given their minor differences from the Mac. 
+Note that it works optimally on the Mac. It is very new, so it has not been optimized for Windows and Linux yet given their minor differences from the Mac.
 
 Code:
 
@@ -5481,7 +5481,7 @@ c:\program files\java\jre1.8.0_241
 The problem is Oracle seems to be adding an indirect Java path junction in later versions of their installer:
 C:\Program Files (x86)\Common Files\Oracle\Java\javapath
 
-Simply replace with the simple one above (setting the correct version number) and then reinstall JRuby to have it use Java from the right path. 
+Simply replace with the simple one above (setting the correct version number) and then reinstall JRuby to have it use Java from the right path.
 
 ## App Updates
 
