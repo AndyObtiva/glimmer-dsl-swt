@@ -27,7 +27,7 @@ class Tetris
       options :game_playfield, :block_size, :row, :column
   
       body {
-        canvas {
+        canvas(:double_buffered) {
           background bind(game_playfield[row][column], :color)
           polygon(0, 0, block_size, 0, block_size - 4, 4, 4, 4) {
             background bind(game_playfield[row][column], :color) { |color_value|

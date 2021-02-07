@@ -51,11 +51,12 @@ class Tetris
     end
     
     Display.app_name = 'Glimmer Tetris'
+
     display {
-      @keyboard_listener = on_swt_keydown { |key_event|
+      @keyboard_down_listener = on_swt_keydown { |key_event|
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
-          game.down!
+          game.down! if OS.mac?
         when swt(:arrow_up)
           case game.up_arrow_action
           when :instant_down
@@ -69,7 +70,7 @@ class Tetris
           game.left!
         when swt(:arrow_right), 'd'.bytes.first
           game.right!
-        when swt(:shift), swt(:alt), swt(:ctrl)
+        when swt(:shift), swt(:alt)
           if key_event.keyLocation == swt(:right) # right shift key
             game.rotate!(:right)
           elsif key_event.keyLocation == swt(:left) # left shift key
@@ -77,6 +78,16 @@ class Tetris
           end
         end
       }
+
+      # invoke game.down! on keyup with Windows/Linux since they seem to group-render similar events, preventing intermediate renders (causing invisiblity while holding keys)
+      if !OS.mac?
+        @keyboard_up_listener = on_swt_keyup { |key_event|
+          case key_event.keyCode
+          when swt(:arrow_down), 's'.bytes.first
+            game.down!
+          end
+        }
+      end
       
       # if running in app mode, set the Mac app about dialog (ignored in platforms)
       @about_observer = on_about {
@@ -167,7 +178,7 @@ class Tetris
       }
     }
   end
-  
+
   def start_moving_tetrominos_down
     Thread.new do
       @mutex.synchronize do
@@ -199,7 +210,8 @@ class Tetris
   def deregister_observers
     @show_high_scores_observer&.deregister
     @game_over_observer&.deregister
-    @keyboard_listener&.deregister
+    @keyboard_down_listener&.deregister
+    @keyboard_up_listener&.deregister
     @about_observer&.deregister
     @quit_observer&.deregister
   end

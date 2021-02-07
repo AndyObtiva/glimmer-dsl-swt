@@ -3,6 +3,9 @@
 ### 4.18.4.2
 
 - Fix flashing issue when using ShellProxy#pack_same_size on Windows
+- Tetris - Added `:double_buffered` SWT style for Tetris Playfield and Block to avoid rendering flicker on Windows
+- Tetris - Substituted command key with control on Windows/Linux to make Tetris menu shortcuts work (e.g. CTRL+P pauses)
+- Tetris - Workaround for Windows issue with  tetromino down invisibility upon holding down arrow key (now holding down does only one down)
 
 ### 4.18.4.2
 

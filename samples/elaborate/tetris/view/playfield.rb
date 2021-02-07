@@ -29,7 +29,7 @@ class Tetris
       options :game_playfield, :playfield_width, :playfield_height, :block_size
   
       body {
-        composite {
+        composite(:double_buffered) {
           grid_layout {
             num_columns playfield_width
             make_columns_equal_width true

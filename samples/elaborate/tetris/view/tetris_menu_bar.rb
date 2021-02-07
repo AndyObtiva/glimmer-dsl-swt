@@ -23,6 +23,8 @@ class Tetris
   module View
     class TetrisMenuBar
       include Glimmer::UI::CustomWidget
+
+      COMMAND_KEY = OS.mac? ? :command : :ctrl
   
       options :game
       
@@ -34,7 +36,7 @@ class Tetris
             menu_item {
               text '&Start'
               enabled bind(game, :game_over)
-              accelerator :command, :s
+              accelerator COMMAND_KEY, :s
               
               on_widget_selected {
                 game.start!
@@ -42,14 +44,14 @@ class Tetris
             }
             menu_item(:check) {
               text '&Pause'
-              accelerator :command, :p
+              accelerator COMMAND_KEY, :p
               enabled bind(game, :game_over, on_read: :!) {|value| value && !game.show_high_scores}
               enabled bind(game, :show_high_scores, on_read: :!) {|value| value && !game.game_over}
               selection bind(game, :paused)
             }
             menu_item {
               text '&Restart'
-              accelerator :command, :r
+              accelerator COMMAND_KEY, :r
               
               on_widget_selected {
                 game.restart!
@@ -58,7 +60,7 @@ class Tetris
             menu_item(:separator)
             menu_item {
               text '&Exit'
-              accelerator :command, :x
+              accelerator COMMAND_KEY, :x
               
               on_widget_selected {
                 parent_proxy.close
@@ -73,12 +75,12 @@ class Tetris
               text '&High Scores'
               menu_item(:check) {
                 text '&Show'
-                accelerator :command, :shift, :h
+                accelerator COMMAND_KEY, :shift, :h
                 selection bind(game, :show_high_scores)
               }
               menu_item {
                 text '&Clear'
-                accelerator :command, :shift, :c
+                accelerator COMMAND_KEY, :shift, :c
                 
                 on_widget_selected {
                   game.clear_high_scores!
@@ -91,24 +93,24 @@ class Tetris
             text '&Options'
             menu_item(:check) {
               text '&Beeping'
-              accelerator :command, :b
+              accelerator COMMAND_KEY, :b
               selection bind(game, :beeping)
             }
             menu {
               text 'Up Arrow'
               menu_item(:radio) {
                 text '&Instant Down'
-                accelerator :command, :shift, :i
+                accelerator COMMAND_KEY, :shift, :i
                 selection bind(game, :instant_down_on_up, computed_by: :up_arrow_action)
               }
               menu_item(:radio) {
                 text 'Rotate &Right'
-                accelerator :command, :shift, :r
+                accelerator COMMAND_KEY, :shift, :r
                 selection bind(game, :rotate_right_on_up, computed_by: :up_arrow_action)
               }
               menu_item(:radio) {
                 text 'Rotate &Left'
-                accelerator :command, :shift, :l
+                accelerator COMMAND_KEY, :shift, :l
                 selection bind(game, :rotate_left_on_up, computed_by: :up_arrow_action)
               }
             }
@@ -119,7 +121,7 @@ class Tetris
             
             menu_item {
               text '&About'
-              accelerator :command, :shift, :a
+              accelerator COMMAND_KEY, :shift, :a
               
               on_widget_selected {
                 parent_custom_shell&.show_about_dialog
