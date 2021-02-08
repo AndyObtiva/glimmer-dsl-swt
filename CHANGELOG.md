@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.4.4
+
+- Ensure code_text line numbers text font matches that of the actual styled_text widget
+- Use after_read data binding option to update top pixel in code text line numbers after updating text (ensuring top_pixel remains in sync after text changes)
+- Remove unnecessary image copies in hello canvas transform and meta-sample samples
+
 ### 4.18.4.3
 
 - Fix flashing issue when using ShellProxy#pack_same_size on Windows

@@ -61,4 +61,4 @@ namespace :build do
   end
 end
 
-Rake::Task["build"].enhance [:no_puts_debuggerer, :spec]
+Rake::Task["build"].enhance [:no_puts_debuggerer, :spec] unless OS.windows? && ARGV.include?('release')

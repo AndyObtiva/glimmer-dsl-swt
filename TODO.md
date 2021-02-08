@@ -4,16 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Use after_read data binding option to update top pixel in code text line numbers after updating text
-- Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
-- Document that setting a lines width means it is the initial width, but it expands if needed.
-- Document custom widget technique for routing property data binding to a nested widget manually via block properties
-- Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
-- Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction) with the observe keyword
-- Introduce a tetromino mutex for operations like down and rotate to avoid them contradicting each other
-- Document that desktop development limitations make developers more productive on the desktop
+- Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction with before_body, body, and after_body) with the observe keyword. Apply in Tetris sample
 - Split README.md into multiple help/SOMETOPIC.md files
-- Take a screenshot of new meta sample with code line numbers
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - autocomplete rb file if launching via glimmer command and .rb is missing
@@ -117,6 +109,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Move glimmer projects underneath glimmer organization
 
+- Add a right-click menu to code_text for undo/redo/cut/copy/paste/select-all
 - Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
@@ -396,6 +389,8 @@ items <=> binding {
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
 - Tetris Immediate Drop playfield collision shake animation effect on impact
 - Support spriting of images using standard SWT layout techniques like GridLayout (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
+- Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
+- Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
 
 ## Samples
 

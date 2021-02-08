@@ -203,7 +203,7 @@ class MetaSampleApplication
     shell(:fill_screen) {
       minimum_size 1280, 768
       text 'Glimmer Meta-Sample (The Sample of Samples)'
-      image File.expand_path('meta_sample/meta_sample_logo.png', __dir__)
+      image File.expand_path('../../icons/scaffold_app.png', __dir__)
       
       sash_form {
         composite {

@@ -22,8 +22,6 @@ module Glimmer
         REGEX_COLOR_HEX6 = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/
         
         # TODO support auto language detection
-        # TODO support end of line via CMD+E and beginning of line via CMD+A
-        # TODO support select all via CMD+A
               
         option :language, default: 'ruby'
         # TODO consider supporting data-binding of language
@@ -31,6 +29,9 @@ module Glimmer
         # TODO support method for redrawing the syntax highlighting
         option :theme, default: 'glimmer'
         option :lines, default: false
+
+        # This option indicates if default keyboard handlers/menus should be activated
+        option :default_behavior, default: true
       
         alias lines? lines
         attr_accessor :styled_text_proxy_text, :styled_text_proxy_top_pixel
@@ -42,6 +43,7 @@ module Glimmer
             args.pop if args.last.is_a?(Hash) && args.last[:dsl]
             super(method_name, *args, &block)
           elsif @styled_text_proxy&.respond_to?(method_name, *args, &block)
+            @line_numbers_styled_text_proxy&.send(method_name, *args, &block) if method_name.to_s == 'font='
             @styled_text_proxy&.send(method_name, *args, &block)
           else
             super
@@ -88,28 +90,29 @@ module Glimmer
         }
         
         body {
-          # TODO enable this once fully implemented
           if lines
             composite {
               grid_layout(2, false)
               
               @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
-                text bind(self, :styled_text_proxy_text, read_only: true) { |text_value|
-                  line_count = "#{text_value} ".split("\n").count
-                  line_count = 1 if line_count == 0
-                  lines_text_size = [line_count.to_s.size, @lines_width].max
-                  if lines_text_size > @lines_width
-                    async_exec {
-                      swt_widget.layout
-                    }
-                    @lines_width = lines_text_size
-                  end
-                  async_exec {
+                top_pixel_before_read = nil
+                text bind(self,
+                  :styled_text_proxy_text,
+                  read_only: true,
+                  on_read: lambda { |text_value|
+                    line_count = "#{text_value} ".split("\n").count
+                    line_count = 1 if line_count == 0
+                    lines_text_size = [line_count.to_s.size, @lines_width].max
+                    if lines_text_size > @lines_width
+                      @lines_width = lines_text_size
+                    end
+                    line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
+                  },
+                  after_read: lambda {
                     @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel
                   }
-                  line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
-                }
+                )
                 top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)
                 font name: @font_name, height: OS.mac? ? 15 : 12
                 background color(:widget_background)
@@ -144,22 +147,22 @@ module Glimmer
             layout_data :fill, :fill, true, true if lines
             text bind(self, :styled_text_proxy_text) if lines
             top_pixel bind(self, :styled_text_proxy_top_pixel) if lines
-            font name: @font_name, height: 15
+            font name: @font_name, height: OS.mac? ? 15 : 12
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5
             right_margin 5
             bottom_margin 5
             
-            if lines
+            if default_behavior
               on_key_pressed { |event|
                 character = event.keyCode.chr rescue nil
                 case [event.stateMask, character]
                 when [(OS.mac? ? swt(:command) : swt(:ctrl)), 'a']
                   @styled_text_proxy.swt_widget.selectAll
-                when [(swt(:ctrl) unless OS.windows?), 'a']
+                when [(swt(:ctrl) if OS.mac?), 'a']
                   jump_to_beginning_of_line
-                when [(swt(:ctrl) unless OS.windows?), 'e']
+                when [(swt(:ctrl) if OS.mac?), 'e']
                   jump_to_end_of_line
                 end
               }

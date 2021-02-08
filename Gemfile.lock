@@ -31,7 +31,7 @@ GEM
       faraday (>= 0.8, < 2)
       hashie (~> 3.5, >= 3.5.2)
       oauth2 (~> 1.0)
-    glimmer (1.0.11)
+    glimmer (1.1.1)
       array_include_methods (>= 1.0.4, < 2.0.0)
       concurrent-ruby (>= 1.1.7, < 2.0.0)
       facets (>= 3.1.0, < 4.0.0)
@@ -40,7 +40,6 @@ GEM
     jar-dependencies (0.4.1)
     jruby-jars (9.2.14.0)
     jruby-rack (1.1.21)
-    json (2.5.1)
     json (2.5.1-java)
     juwelier (2.4.9)
       builder
@@ -62,14 +61,10 @@ GEM
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
     method_source (1.0.0)
-    mini_portile2 (2.5.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.11.1)
-      mini_portile2 (~> 2.5.0)
-      racc (~> 1.4)
     nokogiri (1.11.1-java)
       racc (~> 1.4)
     oauth2 (1.4.4)
@@ -81,13 +76,11 @@ GEM
     os (1.1.1)
     pastel (0.8.0)
       tty-color (~> 0.5)
-    psych (3.3.0)
     psych (3.3.0-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (4.0.6)
     puts_debuggerer (0.11.0)
       awesome_print (~> 1.8.0)
-    racc (1.5.2)
     racc (1.5.2-java)
     rack (2.2.3)
     rake (13.0.3)
@@ -125,7 +118,6 @@ GEM
       tins (~> 1.0)
     text-table (1.2.4)
     thor (1.1.0)
-    thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tins (1.28.0)
       sync
@@ -147,15 +139,12 @@ GEM
     wisper (2.0.1)
 
 PLATFORMS
-  java
-  ruby
   universal-java-1.8
-  universal-java-15
 
 DEPENDENCIES
   coveralls (= 0.8.23)
   git (= 1.8.1)
-  glimmer (~> 1.0.11)
+  glimmer (~> 1.1.1)
   juwelier (>= 2.4.9, < 3.0.0)
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (>= 0.3.0, < 2.0.0)
@@ -173,7 +162,7 @@ DEPENDENCIES
   warbler (>= 2.0.5, < 3.0.0)
 
 RUBY VERSION
-   ruby 2.5.7p0 (jruby 9.2.13.0)
+   ruby 2.5.7p0 (jruby 9.2.14.0)
 
 BUNDLED WITH
    2.2.8

@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.3
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.4
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -71,6 +71,7 @@ shell {
     layout_data :center, :center, true, false
     
     text 'BASEBALL PLAYOFF SCHEDULE'
+    background :transparent
     foreground rgb(94, 107, 103)
     font name: 'Optima', height: 38, style: :bold
   }
@@ -328,7 +329,6 @@ If you see anything that needs to be improved, please do not hesitate to contact
     - [excluded_keyword_checkers](#excludedkeywordcheckers)
     - [log_excluded_keywords](#logexcludedkeywords)
   - [Glimmer Style Guide](#glimmer-style-guide)
-  - [SWT Reference](#swt-reference)
   - [Samples](#samples)
     - [Hello Samples](#hello-samples)
       - [Hello, World! Sample](#hello-world-sample)
@@ -391,6 +391,7 @@ If you see anything that needs to be improved, please do not hesitate to contact
   - [Glimmer Supporting Libraries](#glimmer-supporting-libraries)
   - [Glimmer Process](#glimmer-process)
   - [Resources](#resources)
+    - [SWT Reference](#swt-reference)
   - [Help](#help)
     - [Issues](#issues)
     - [Chat](#chat)
@@ -491,7 +492,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.4.3
+jgem install glimmer-dsl-swt -v 4.18.4.4
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -509,7 +510,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.4.3'
+gem 'glimmer-dsl-swt', '~> 4.18.4.4'
 ```
 
 And, then run:
@@ -567,7 +568,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.3
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.4
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -1046,7 +1047,7 @@ Output:
                                                                          
   Css    glimmer-dsl-css    1.1.0     AndyMaleh    Glimmer DSL for CSS
   Opal   glimmer-dsl-opal   0.10.2     AndyMaleh    Glimmer DSL for Opal
-  Swt    glimmer-dsl-swt    4.18.4.3  AndyMaleh    Glimmer DSL for SWT
+  Swt    glimmer-dsl-swt    4.18.4.4  AndyMaleh    Glimmer DSL for SWT
   Tk     glimmer-dsl-tk     0.0.6     AndyMaleh    Glimmer DSL for Tk
   Xml    glimmer-dsl-xml    1.1.0     AndyMaleh    Glimmer DSL for XML
 ```
@@ -1130,6 +1131,8 @@ If you need a more GUI interactive option to experiement with Glimmer GUI DSL Sy
 - Just build your own GUI editor using the [Glimmer DSL for SWT Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt).
 
 ## Glimmer GUI DSL Syntax
+
+This guide should help you get started with Glimmer DSL for SWT. For more advanced SWT details, please refer to the [SWT Reference](#swt-reference).
 
 Glimmer's core is a GUI DSL with a lightweight visual syntax that makes it easy to visualize the nesting of widgets in the GUI hierarchy tree.
 
@@ -2410,17 +2413,17 @@ Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
-- `arcÃ¢â‚¬â€¹(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
-- `focusÃ¢â‚¬â€¹(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
+- `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
+- `focus(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
 - `image(image, x, y)` [image](#image)
 - `line(x1, y1, x2, y2)` line
 - `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
-- `pointÃ¢â‚¬â€¹(x, y)` point
+- `point(x, y)` point
 - `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
 - `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
 - `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
 - `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
-- `rectangleÃ¢â‚¬â€¹(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
+- `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 - `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
 Shape keywords that can be filled with color can take an keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
@@ -2434,7 +2437,7 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `antialias` enables antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `background` sets fill color for fillable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
 - `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
-- `clipping` clips area of painting (Ã¢â‚¬â€¹numeric values for `(x, y, width, height)`)
+- `clipping` clips area of painting (numeric values for `(x, y, width, height)`)
 - `fill_rule` sets filling rule (SWT style value of `:fill_even_odd` or `:fill_winding`)
 - `font` sets font (Hash of `:name`, `:height`, and `:style` just like standard widget font property, or Font/FontProxy object directly)
 - `foreground` sets draw color for drawable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
@@ -3290,7 +3293,7 @@ https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.platform.doc.isv
 
 It has `addSelectionListener`. Additionally, under its `Control` super class, it has `addControlListener`, `addDragDetectListener`, `addFocusListener`, `addGestureListener`, `addHelpListener`, `addKeyListener`, `addMenuDetectListener`, `addMouseListener`, `addMouseMoveListener`, `addMouseTrackListener`, `addMouseWheelListener`, `addPaintListener`, `addTouchListener`, and `addTraverseListener`
 
-Suppose, we select `addSelectionListener`, which is responsible for what happens when a user selects a button (clicks it). Then, open its argument `SelectionListener` SWT API, and you find the event (instance) methods: `widgetDefaultSelected` and `widgetSelectedÃ¢â‚¬â€¹`. Let's select the second one, which is what gets invoked when a button is clicked.
+Suppose, we select `addSelectionListener`, which is responsible for what happens when a user selects a button (clicks it). Then, open its argument `SelectionListener` SWT API, and you find the event (instance) methods: `widgetDefaultSelected` and `widgetSelected`. Let's select the second one, which is what gets invoked when a button is clicked.
 
 Now, Glimmer simplifies the process of hooking into that listener (observer) by neither requiring you to call the `addSelectionListener` method nor requiring you to implement/extend the `SelectionListener` API.
 
@@ -3688,6 +3691,8 @@ You may see another example at the [Hello, Radio Group!](#hello-radio-group) sam
 
 ##### Code Text Custom Widget
 
+**(BETA FEATURE)**
+
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
 It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
@@ -3710,15 +3715,16 @@ To use, simply use `code_text` in place of the `text` or `styled_text` widget. I
 ###### Options
 
 **lines**
-(default: false)
-**(ALPHA OPTION)**
+(default: `false`)
 
 Shows line numbers when set to true.
 
-If set to a hash like `{width: 4}`, it sets the width of the line numbers lane in character count (default: 4)
+If set to a hash like `{width: 4}`, it sets the initial width of the line numbers lane in character count (default: 4)
+
+Keep in mind that if the text grows and required a wider line numbers area, it grows automatically regardless of initial width.
 
 **theme**
-(default: 'glimmer')
+(default: `'glimmer'`)
 
 Changes syntax color highlighting theme. Can be one of the following:
 - glimmer
@@ -3933,6 +3939,16 @@ Sets the code language, which can be one of the following [rouge gem](#https://r
 - yaml
 - yang
 - zig
+
+**default_behavior**
+(default: true)
+
+This adds some default keyboard shortcuts:
+- CMD+A (CTRL+A on Windows/Linux) to select all
+- CTRL+A on Mac to jump to beginning of line
+- CTRL+E on Mac to jump to end of line
+
+If you prefer it to be vanilla with no default key event listeners, then pass the `default_behavior: false` option.
 
 Learn more at [Hello, Code Text!](#hello-code-text)
 
@@ -4546,50 +4562,6 @@ Keep in mind the caveat that it would force redraws on every minor changein the 
 - Data-binding is done via `bind` keyword, which always takes arguments wrapped in parentheses
 - Custom widget body, before_body, and after_body blocks open their blocks and close them with curly braces.
 - Custom widgets receive additional arguments to SWT style called options. These are passed as the last argument inside the parentheses, a hash of option names pointing to values.
-
-## SWT Reference
-
-https://www.eclipse.org/swt/docs.php
-
-Here is the SWT API:
-
-https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/index.html
-
-Here is a visual list of SWT widgets:
-
-https://www.eclipse.org/swt/widgets/
-
-Here is a textual list of SWT widgets:
-
-https://help.eclipse.org/2019-12/topic/org.eclipse.platform.doc.isv/guide/swt_widgets_controls.htm?cp=2_0_7_0_0
-
-Here is a list of SWT style bits as used in widget declaration:
-
-https://wiki.eclipse.org/SWT_Widget_Style_Bits
-
-Here is a SWT style bit constant reference:
-
-https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/SWT.html
-
-Here is an SWT Drag and Drop guide:
-
-https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
-
-Here is an SWT Custom Widget guide:
-
-https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
-
-Here is an SWT Image guide:
-
-https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
-
-Here is an SWT Graphics / Canvas-Drawing guide:
-
-https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html
-
-Here is the Nebula Project (custom widget library) homepage:
-
-https://www.eclipse.org/nebula/
 
 ## Samples
 
@@ -5516,6 +5488,50 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 * [DZone Tutorial](https://dzone.com/articles/an-introduction-glimmer)
 * [MountainWest RubyConf 2011 Video](https://confreaks.tv/videos/mwrc2011-whatever-happened-to-desktop-development-in-ruby)
 * [RubyConf 2008 Video](https://confreaks.tv/videos/rubyconf2008-desktop-development-with-glimmer)
+
+### SWT Reference
+
+https://www.eclipse.org/swt/docs.php
+
+Here is the SWT API:
+
+https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/index.html
+
+Here is a visual list of SWT widgets:
+
+https://www.eclipse.org/swt/widgets/
+
+Here is a textual list of SWT widgets:
+
+https://help.eclipse.org/2019-12/topic/org.eclipse.platform.doc.isv/guide/swt_widgets_controls.htm?cp=2_0_7_0_0
+
+Here is a list of SWT style bits as used in widget declaration:
+
+https://wiki.eclipse.org/SWT_Widget_Style_Bits
+
+Here is a SWT style bit constant reference:
+
+https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/SWT.html
+
+Here is an SWT Drag and Drop guide:
+
+https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
+
+Here is an SWT Custom Widget guide:
+
+https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
+
+Here is an SWT Image guide:
+
+https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
+
+Here is an SWT Graphics / Canvas-Drawing guide:
+
+https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html
+
+Here is the Nebula Project (custom widget library) homepage:
+
+https://www.eclipse.org/nebula/
 
 ## Help
 
