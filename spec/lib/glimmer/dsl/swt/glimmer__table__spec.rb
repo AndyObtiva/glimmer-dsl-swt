@@ -481,7 +481,7 @@ module GlimmerSpec
             event.widget = @table.swt_widget
             event.type = Glimmer::SWT::SWTProxy[:mouseup]
             event.x = 5
-            event.y = item_height + 5 # skip first item, go to the second item
+            event.y = item_height + (OS.mac? ? 5 : 10) # skip first item, go to the second item
             @table.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
   
             expect(@table.table_editor_widget_proxy).to_not be_nil

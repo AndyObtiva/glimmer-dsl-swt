@@ -36,7 +36,7 @@ module GlimmerSpec
         @expand_bar = expand_bar {
           @expand_item_composite = expand_item {
             text "Expand Item 1"
-            height 501
+            height OS.windows? ? 500 : 501
             expanded false
             label {text "Hello"}
           }
