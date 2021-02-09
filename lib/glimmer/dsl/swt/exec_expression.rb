@@ -41,7 +41,7 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::DisplayProxy.instance.swt_display.send(exec_operation) do |*args|
+          Glimmer::SWT::DisplayProxy.instance.swt_display.send(exec_operation, *args) do |*args|
             begin
               block.call(*args)
             rescue => e

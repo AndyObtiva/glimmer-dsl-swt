@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.4.5
+
+- Added double_buffered SWT style as default for `canvas` widget to ensure smooth animations
+- Officially support `timer_exec` keyword to execute code asynchronously after time has elapsed
+- Added `disposed?` guard to animation frames regarding parent widget for extra safety if a widget was disposed in the middle of an animation
+
 ### 4.18.4.4
 
 - Ensure code_text line numbers text font matches that of the actual styled_text widget

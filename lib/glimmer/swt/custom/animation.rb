@@ -26,7 +26,7 @@ module Glimmer
     module Custom
       # Represents an animation declaratively
       class Animation
-        include Properties # TODO rename to Properties
+        include Properties
         
         class << self
           def schedule_frame_animation(animation, &frame_animation_block)
@@ -212,11 +212,13 @@ module Glimmer
           current_cycle_count_index = @cycle_count_index
           self.class.schedule_frame_animation(self) do
             if started? && start_number == @start_number && within_duration_limit?
-              @parent.clear_shapes
-              @parent.content {
-                frame_block.call(*block_args)
-              }
-              @parent.redraw
+              unless @parent.isDisposed
+                @parent.clear_shapes
+                @parent.content {
+                  frame_block.call(*block_args)
+                }
+                @parent.redraw
+              end
             else
               if stopped? && @frame_index > current_frame_index
                 @started = false

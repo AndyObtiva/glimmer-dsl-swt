@@ -81,15 +81,15 @@ module Glimmer
       end
       
       def async_exec(&block)
-        @swt_display.async_exec(&block)
+        @swt_display.asyncExec(&block)
       end
 
       def sync_exec(&block)
-        @swt_display.sync_exec(&block)
+        @swt_display.syncExec(&block)
       end
 
-      def timer_exec(&block)
-        @swt_display.timer_exec(&block)
+      def timer_exec(delay_in_millis, &block)
+        @swt_display.timerExec(delay_in_millis, &block)
       end
       
       def on_widget_disposed(&block)

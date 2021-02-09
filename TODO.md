@@ -31,7 +31,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
-- Optimize animation stutter/performance
+- Optimize animation performance by combining multiple shapes in a single paint listener
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)

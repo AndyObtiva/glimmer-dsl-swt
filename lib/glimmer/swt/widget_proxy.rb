@@ -50,6 +50,7 @@ module Glimmer
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],
         'button'              => [:push],
+        'canvas'              => [:double_buffered],
         'checkbox'            => [:check],
         'check'               => [:check],
         'drag_source'         => [:drop_copy],
@@ -542,6 +543,10 @@ module Glimmer
 
       def sync_exec(&block)
         DisplayProxy.instance.sync_exec(&block)
+      end
+
+      def timer_exec(delay_in_millis, &block)
+        DisplayProxy.instance.timer_exec(delay_in_millis, &block)
       end
 
       def has_style?(style)

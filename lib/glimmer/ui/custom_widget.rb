@@ -273,6 +273,10 @@ module Glimmer
         SWT::DisplayProxy.instance.sync_exec(&block)
       end
 
+      def timer_exec(delay_in_millis, &block)
+        SWT::DisplayProxy.instance.timer_exec(delay_in_millis, &block)
+      end
+
       # Returns content block if used as an attribute reader (no args)
       # Otherwise, if a block is passed, it adds it as content to this custom widget
       def content(&block)

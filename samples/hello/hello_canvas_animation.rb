@@ -25,7 +25,7 @@ shell {
   text 'Hello, Canvas Animation!'
   minimum_size 800, 420
 
-  canvas(:double_buffered) {
+  canvas {
     animation {
       every 0.01 # in seconds (one hundredth)
             

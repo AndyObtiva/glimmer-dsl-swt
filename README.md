@@ -1545,7 +1545,7 @@ Although SWT Display is not technically a widget, it has similar APIs and DSL su
 
 ##### async_exec
 
-`async_exec` is a Glimmer DSL keyword in addition to being a method on `display`. It accepts a block and when invoked, adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
+`async_exec {}` is a Glimmer DSL keyword in addition to being a method on `display`. It accepts a block and when invoked, adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
 
 Example (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 
@@ -1573,7 +1573,11 @@ Thread.new {
 
 ##### sync_exec
 
-`sync_exec` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
+`sync_exec {}` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
+
+##### timer_exec
+
+`timer_exec(delay_in_milliseconds) {}` works just like `async_exec` except it executes the block after a delay has elapsed.
 
 #### Menus
 
