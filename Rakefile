@@ -26,7 +26,7 @@ unless juwelier_required.nil?
     gem.email = "andy.am@gmail.com"
     gem.authors = ["AndyMaleh"]
     gem.executables = ['glimmer', 'girb']
-    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'CHANGELOG.md', 'glimmer-dsl-swt.gemspec', 'bin/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
+    gem.files = Dir['README.md', 'LICENSE.txt', 'RUBY_VERSION', 'VERSION', 'CHANGELOG.md', 'glimmer-dsl-swt.gemspec', 'bin/**/*', 'docs/**/*', 'lib/**/*', 'vendor/**/*', 'icons/**/*', 'samples/**/*']
     gem.required_ruby_version = ">= 2.5.3"
     # dependencies defined in Gemfile
   end

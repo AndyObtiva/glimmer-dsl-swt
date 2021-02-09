@@ -193,10 +193,6 @@ shell(:no_resize) {
   score_lane(game: game, block_size: BLOCK_SIZE) {
     layout_data(:fill, :fill, true, true)
   }
-
-  on_widget_disposed {
-    deregister_observers
-  }
 }
 # ...
 ```
@@ -2733,7 +2729,9 @@ Learn more at the [Hello, Canvas Transform! Sample](#hello-canvas-transform).
 
 Glimmer additionally provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
 
-Animations take advantage of multi-threading, each animation runs in its own independent thread of execution while updating the GUI asynchronously.
+Animations take advantage of multi-threading, automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
+
+Multiple simultaneous animations are supported by declaring an animation per `canvas` (or widget) parent.
 
 This example says it all (it moves a tiny red square across a blue background) (you may copy/paste in [`girb`](#girb-glimmer-irb-command)):
 

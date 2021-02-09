@@ -139,10 +139,6 @@ class Tetris
       score_lane(game: game, block_size: BLOCK_SIZE) {
         layout_data(:fill, :fill, true, true)
       }
-
-      on_widget_disposed {
-        deregister_observers
-      }
     }
   }
   
@@ -205,15 +201,6 @@ class Tetris
       text 'Glimmer Tetris'
       message "Glimmer Tetris\n\nGlimmer DSL for SWT Sample\n\nCopyright (c) 2007-2021 Andy Maleh"
     }.open
-  end
-  
-  def deregister_observers
-    @show_high_scores_observer&.deregister
-    @game_over_observer&.deregister
-    @keyboard_down_listener&.deregister
-    @keyboard_up_listener&.deregister
-    @about_observer&.deregister
-    @quit_observer&.deregister
   end
 end
 

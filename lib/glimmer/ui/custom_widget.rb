@@ -158,11 +158,17 @@ module Glimmer
         def after_body(&block)
           @after_body_block = block
         end
+
+        # Current custom widgets being rendered. Useful to yoke all observers evaluated during rendering of their custom widgets for automatical disposal on_widget_disposed
+        def current_custom_widgets
+          @current_custom_widgets ||= []
+        end
       end
 
       attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
+        Glimmer::UI::CustomWidget.current_custom_widgets << self
         @parent_proxy = @parent = parent
         @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
         @swt_style = SWT::SWTProxy[*swt_constants]
@@ -177,11 +183,18 @@ module Glimmer
         @swt_widget = @body_root.swt_widget
         @swt_widget.set_data('custom_widget', self)
         execute_hook('after_body')
+        @dispose_listener_registration = @body_root.on_widget_disposed do
+          observer_registrations.each(&:deregister)
+        end
       end
       
       # Subclasses may override to perform post initialization work on an added child
       def post_initialize_child(child)
         # No Op by default
+      end
+
+      def observer_registrations
+        @observer_registrations ||= []
       end
 
       def can_handle_observation_request?(observation_request)

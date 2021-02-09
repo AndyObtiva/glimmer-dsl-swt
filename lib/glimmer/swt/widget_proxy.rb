@@ -179,7 +179,9 @@ module Glimmer
         # No Op by default
       end
 
-      # Subclasses may override to perform post add_content work
+      # Subclasses may override to perform post add_content work.
+      # Make sure its logic detects if it ran before since it could run multiple times
+      # when adding content multiple times post creation.
       def post_add_content
         # No Op by default
       end

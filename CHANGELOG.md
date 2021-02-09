@@ -5,6 +5,8 @@
 - Added double_buffered SWT style as default for `canvas` widget to ensure smooth animations
 - Officially support `timer_exec` keyword to execute code asynchronously after time has elapsed
 - Added `disposed?` guard to animation frames regarding parent widget for extra safety if a widget was disposed in the middle of an animation
+- Auto-Dispose observers declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
+- Refactor Tetris sample to remove observer deregister calls now that they happen automatically
 
 ### 4.18.4.4
 

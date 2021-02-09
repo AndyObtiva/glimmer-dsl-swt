@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,6 +23,7 @@ require 'glimmer/dsl/static_expression'
 require 'glimmer/dsl/top_level_expression'
 require 'glimmer/data_binding/observer'
 require 'glimmer/data_binding/model_binding'
+require 'glimmer/ui/custom_widget'
 
 module Glimmer
   module DSL
@@ -42,10 +43,12 @@ module Glimmer
         def interpret(parent, keyword, *args, &block)
           observer = DataBinding::Observer.proc(&block)
           if args[1].to_s.match(REGEX_NESTED_OR_INDEXED_PROPERTY)
-            observer.observe(DataBinding::ModelBinding.new(args[0], args[1]))
+            observer_registration = observer.observe(DataBinding::ModelBinding.new(args[0], args[1]))
           else
-            observer.observe(args[0], args[1])
+            observer_registration = observer.observe(args[0], args[1])
           end
+          Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(observer_registration)
+          observer_registration
         end
       end
     end

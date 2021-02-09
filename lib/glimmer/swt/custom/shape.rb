@@ -129,9 +129,11 @@ module Glimmer
         end
         
         def post_add_content
-          amend_method_name_options_based_on_properties
-          setup_painting
-          @content_added = true
+          unless @content_added
+            amend_method_name_options_based_on_properties
+            setup_painting
+            @content_added = true
+          end
         end
         
         def apply_property_arg_conversions(method_name, property, args)

@@ -92,8 +92,10 @@ module Glimmer
         end
         
         def post_add_content
-          @parent.on_widget_disposed { stop }
-          start if started?
+          if @dispose_listener_registration.nil?
+            @dispose_listener_registration = @parent.on_widget_disposed { stop }
+            start if started?
+          end
         end
         
         # Starts an animation that is indefinite or has never been started before (i.e. having `started: false` option).

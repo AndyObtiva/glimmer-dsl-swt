@@ -137,12 +137,13 @@ module Glimmer
           add_swt_event_filter(constant_name, &block)
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')
-          if OBSERVED_MENU_ITEMS.include?(event_name)
-            if OS.mac?
-              system_menu = swt_display.getSystemMenu
-              menu_item = system_menu.getItems.find {|menu_item| menu_item.getID == SWTProxy["ID_#{event_name.upcase}"]}
-              menu_item.addListener(SWTProxy[:Selection], &block)
-            end
+          if OBSERVED_MENU_ITEMS.include?(event_name) && OS.mac?
+            system_menu = swt_display.getSystemMenu
+            menu_item = system_menu.getItems.find {|menu_item| menu_item.getID == SWTProxy["ID_#{event_name.upcase}"]}
+            display_mac_event_registration = menu_item.addListener(SWTProxy[:Selection], &block)
+            # TODO enable this code and test on the Mac to ensure automatic cleanup of mac event registrations in custom widgets
+#             Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(display_mac_event_registration)
+            display_mac_event_registration
           end
         end
       end

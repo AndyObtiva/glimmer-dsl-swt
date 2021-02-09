@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Auto-Dispose observers relating to self-contained CustomShells (as captured during their construction with before_body, body, and after_body) with the observe keyword. Apply in Tetris sample
 - Split README.md into multiple help/SOMETOPIC.md files
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
@@ -36,6 +35,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
+- Auto-Dispose display macos event listener registrations declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
+
+- Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
 - Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
