@@ -433,7 +433,7 @@ Glimmer simplifies the process of native-executable packaging and distribution o
 
 ## App Updates
 
-Glimmer already supports automatic (and manual) app updates via the Mac App Store for Mac apps. Simply run the `glimmer package` command with the Mac App Store keys configured as per [Mac Application Distribution](mac-application-distribution) instructions and you get automatic (and manual) app update support courtesy of the Mac App Store.
+Glimmer should already support automatic (and manual) app updates via the Mac App Store for Mac apps (though I haven't personally tried. Be my guest if you want to call shotgun on this, and share your experience with us). Simply run the `glimmer package` command with the Mac App Store keys configured as per [Mac Application Distribution](mac-application-distribution) instructions and you get automatic (and manual) app update support courtesy of the Mac App Store.
 
 ## Glimmer Supporting Libraries
 

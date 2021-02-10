@@ -1,6 +1,6 @@
 ## Glimmer GUI DSL Syntax
 
-This guide should help you get started with Glimmer DSL for SWT. For more advanced SWT details, please refer to the [SWT Reference](README.md#swt-reference).
+This guide should help you get started with Glimmer DSL for SWT. For more advanced SWT details, please refer to the [SWT Reference](/README.md#swt-reference).
 
 Glimmer's core is a GUI DSL with a lightweight visual syntax that makes it easy to visualize the nesting of widgets in the GUI hierarchy tree.
 

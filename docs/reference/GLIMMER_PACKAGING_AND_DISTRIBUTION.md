@@ -18,7 +18,7 @@ You may choose to generate a specific type of packaging instead by addionally pa
 glimmer package[msi]
 ```
 
-- Available Mac packaging types are `dmg`, `pkg`, and `image` (image means a pure Mac `app` without a setup program)
+- Available Mac packaging types are `dmg`, `pkg`, and `image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
 - Available Windows packaging types are `msi`, `exe`, and `image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
 
 Note: if you are using Glimmer manually, to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
