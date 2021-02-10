@@ -71,10 +71,11 @@ class MandelbrotFractal
   attr_accessor :scale_value
   
   def scale_transform
-    transform.scale(scale_value.to_i, scale_value.to_i).swt_transform
+    transform.scale(scale_value.to_f, scale_value.to_f).swt_transform
   end
   
   before_body {
+    @scale_value = 1.0
     @colors = [[0, 0, 0]] + 40.times.map { |i| [255 - i*5, 255 - i*5, 55 + i*5] }
     @colors = @colors.map {|color_data| rgb(*color_data).swt_color}
     mandelbrot = Mandelbrot.new(@colors.size - 1)
@@ -93,10 +94,18 @@ class MandelbrotFractal
       minimum_size @width, @height + 12
     
       label {
-        'Scale'
+        text 'Scale'
       }
       spinner {
-        selection bind(self, :scale_value, on_read: :to_i)
+        digits 1
+        increment 5
+        selection bind(
+          self,
+          :scale_value,
+          on_read: ->(v) {v.to_f*10.0},
+          on_write: ->(v) {v.to_f/10.0},
+          after_write: ->() {@canvas.redraw}
+        )
         
         on_key_pressed { |key_event|
           @canvas.redraw if key_event.keyCode == swt(:cr)
@@ -104,9 +113,13 @@ class MandelbrotFractal
       }
     
       @canvas = canvas {
-        layout_data :fill, :fill, true, true
+        layout_data(:fill, :fill, true, true) {
+          width_hint @width
+          height_hint @height
+        }
+        # Consider double buffering
         on_paint_control { |e|
-          e.gc.transform = scale_transform if scale_value.to_i > 0
+          e.gc.transform = scale_transform if scale_value > 0 && scale_value != 1.0
           @height.times { |y|
             @width.times { |x|
               itr = @pixel_rows_array[y][x]
