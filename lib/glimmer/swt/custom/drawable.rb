@@ -32,14 +32,31 @@ module Glimmer
           shapes.dup.each(&:dispose)
         end
         
-        def resetup_shape_painting
+        def deregister_shape_painting
+          @paint_listener_proxy&.deregister
+        end
+        
+        def setup_shape_painting
           # TODO consider performance optimization relating to order of shape rendering (affecting only further shapes not previous ones)
-          reset_gc if respond_to?(:reset_gc)
-          shapes.each do |shape|
-            shape.paint_listener_proxy&.unregister
-            shape.setup_painting
+          return if is_disposed
+          if @paint_listener_proxy.nil?
+            shape_painter = lambda do |paint_event|
+              shapes.each do |shape|
+                shape.paint(paint_event)
+              end
+            end
+            
+            # TODO consider making this logic polymorphic (image vs other)
+            if respond_to?(:swt_image)
+              shape_painter.call(self) # treat self as paint event since image has its own gc and doesn't do repaints (it's a one time deal for now though could be adjusted in the future.)
+            else
+              @paint_listener_proxy = on_swt_paint(&shape_painter)
+            end
+          else
+            redraw
           end
         end
+        alias resetup_shape_painting setup_shape_painting
       end
       
     end

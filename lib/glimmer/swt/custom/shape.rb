@@ -91,7 +91,7 @@ module Glimmer
           end
         end
         
-        attr_reader :parent, :name, :args, :options, :paint_listener_proxy
+        attr_reader :parent, :name, :args, :options
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -131,7 +131,7 @@ module Glimmer
         def post_add_content
           unless @content_added
             amend_method_name_options_based_on_properties
-            setup_painting
+            @parent.setup_shape_painting
             @content_added = true
           end
         end
@@ -230,7 +230,7 @@ module Glimmer
         def set_attribute(attribute_name, *args)
           @properties[attribute_name] = args
           if @content_added && !@parent.is_disposed
-            @parent.resetup_shape_painting
+            @calculated_paint_args = false
             @parent.redraw
           end
         end
@@ -249,7 +249,6 @@ module Glimmer
         end
         
         def dispose
-          paint_listener_proxy&.unregister
           @background_pattern&.dispose
           @background_pattern = nil
           @foreground_pattern&.dispose
@@ -259,35 +258,34 @@ module Glimmer
           @parent.shapes.delete(self)
         end
         
-        def setup_painting
-          # TODO consider moving this method to parent (making the logic polymorphic)
-          return if @parent.is_disposed
-          if parent.respond_to?(:swt_display)
-            @paint_listener_proxy = @parent.on_swt_paint(&method(:paint))
-          elsif parent.respond_to?(:swt_image)
-            paint(parent) # treat parent as paint event since you don't do repaints with images, it's a one time deal.
-          elsif parent.respond_to?(:swt_widget)
-            @paint_listener_proxy = @parent.on_paint_control(&method(:paint))
-          end
-        end
-        
         def paint(paint_event)
-          @properties['background'] = [@parent.background] if fill? && !has_some_background?
-          @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
-          @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
-          @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
+          calculate_paint_args!
           @properties.each do |property, args|
             method_name = attribute_setter(property)
-            converted_args = apply_property_arg_conversions(method_name, property, args)
-            paint_event.gc.send(method_name, *converted_args)
+            paint_event.gc.send(method_name, *args)
             if property == 'transform' && args.first.is_a?(TransformProxy)
               args.first.swt_transform.dispose
             end
           end
-          apply_shape_arg_conversions(@method_name, @args)
-          apply_shape_arg_defaults(@method_name, @args)
-          tolerate_shape_extra_args(@method_name, @args)
           paint_event.gc.send(@method_name, *@args)
+        end
+        
+        def calculate_paint_args!
+          unless @calculated_paint_args
+            @properties['background'] = [@parent.background] if fill? && !has_some_background?
+            @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
+            @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+            @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
+            @properties.each do |property, args|
+              method_name = attribute_setter(property)
+              converted_args = apply_property_arg_conversions(method_name, property, args)
+              @properties[property] = converted_args
+            end
+            apply_shape_arg_conversions(@method_name, @args)
+            apply_shape_arg_defaults(@method_name, @args)
+            tolerate_shape_extra_args(@method_name, @args)
+            @calculated_paint_args = true
+          end
         end
     
       end

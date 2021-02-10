@@ -50,7 +50,7 @@ module Glimmer
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],
         'button'              => [:push],
-        'canvas'              => [:double_buffered],
+        'canvas'              => ([:double_buffered] unless OS.mac?),
         'checkbox'            => [:check],
         'check'               => [:check],
         'drag_source'         => [:drop_copy],
@@ -170,6 +170,7 @@ module Glimmer
         if respond_to?(:on_widget_disposed)
           on_widget_disposed {
             clear_shapes
+            deregister_shape_painting
           }
         end
       end

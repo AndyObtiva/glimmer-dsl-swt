@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.4.6
+
+- Mandlebrot Fractal Elaborate Sample
+- Optimize animation performance by combining multiple shapes in a single paint listener
+
 ### 4.18.4.5
 
 - Added double_buffered SWT style as default for `canvas` widget to ensure smooth animations
