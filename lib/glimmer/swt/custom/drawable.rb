@@ -24,12 +24,16 @@ module Glimmer
     module Custom
       # Represents SWT drawable controls (widgets like canvas) and display
       module Drawable
+        attr_accessor :requires_shape_disposal
+        alias requires_shape_disposal? requires_shape_disposal
+      
         def shapes
           @shapes ||= []
         end
         
         def clear_shapes
-          shapes.dup.each(&:dispose)
+          # Optimize further by having a collection of disposable_shapes independent of shapes, which is much smaller and only has shapes that require disposal (shapes with patterns or image)
+          shapes.dup.each(&:dispose) if requires_shape_disposal?
         end
         
         def deregister_shape_painting

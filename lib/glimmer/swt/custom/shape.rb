@@ -142,7 +142,10 @@ module Glimmer
         def apply_property_arg_conversions(method_name, property, args)
           args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
-          if (args.first.is_a?(Symbol) || args.first.is_a?(String))
+          if ['setBackground', 'setForeground'].include?(method_name.to_s) && args.first.is_a?(Array)
+            args[0] = ColorProxy.new(args[0])
+          end
+          if args.first.is_a?(Symbol) || args.first.is_a?(String)
             if the_java_method.parameter_types.first == Color.java_class
               args[0] = ColorProxy.new(args[0])
             end
@@ -163,6 +166,7 @@ module Glimmer
             args[0] = args[0].swt_transform
           end
           if ['setBackgroundPattern', 'setForegroundPattern'].include?(method_name.to_s)
+            @parent.requires_shape_disposal = true
             args.each_with_index do |arg, i|
               if arg.is_a?(Symbol) || arg.is_a?(String)
                 args[i] = ColorProxy.new(arg).swt_color
@@ -192,11 +196,18 @@ module Glimmer
           elsif (@name.include?('text') || @name.include?('String')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
             @args << true
           end
-          if @name.include?('image') && @args.first.is_a?(String)
-            @args[0] = ImageProxy.new(@args[0])
-          end
-          if @name.include?('image') && @args.first.is_a?(ImageProxy)
-            @image = @args[0] = @args[0].swt_image
+          if @name.include?('image')
+            @parent.requires_shape_disposal = true
+            if @args.size == 1
+              @args[1] = 0
+              @args[2] = 0
+            end
+            if @args.first.is_a?(String)
+              @args[0] = ImageProxy.new(@args[0])
+            end
+            if @args.first.is_a?(ImageProxy)
+              @image = @args[0] = @args[0].swt_image
+            end
           end
         end
                 
@@ -276,20 +287,35 @@ module Glimmer
         end
         
         def calculate_paint_args!
-          unless @name == 'point' || @calculated_paint_args
-            @properties['background'] = [@parent.background] if fill? && !has_some_background?
-            @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
-            @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
-            @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
-            @properties.each do |property, args|
-              method_name = attribute_setter(property)
-              converted_args = apply_property_arg_conversions(method_name, property, args)
-              @properties[property] = converted_args
+          unless @calculated_paint_args
+            if @name == 'point'
+              # optimized performance calculation for pixel points
+              if !@properties[:foreground].is_a?(Color)
+                if @properties[:foreground].is_a?(Array)
+                  @properties[:foreground] = ColorProxy.new(@properties[:foreground], ensure_bounds: false)
+                end
+                if @properties[:foreground].is_a?(Symbol) || @properties[:foreground].is_a?(String)
+                 @properties[:foreground] = ColorProxy.new(@properties[:foreground], ensure_bounds: false)
+                end
+                if @properties[:foreground].is_a?(ColorProxy)
+                  @properties[:foreground] = @properties[:foreground].swt_color
+                end
+              end
+            else
+              @properties['background'] = [@parent.background] if fill? && !has_some_background?
+              @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
+              @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+              @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
+              @properties.each do |property, args|
+                method_name = attribute_setter(property)
+                converted_args = apply_property_arg_conversions(method_name, property, args)
+                @properties[property] = converted_args
+              end
+              apply_shape_arg_conversions!
+              apply_shape_arg_defaults!
+              tolerate_shape_extra_args!
+              @calculated_paint_args = true
             end
-            apply_shape_arg_conversions!
-            apply_shape_arg_defaults!
-            tolerate_shape_extra_args!
-            @calculated_paint_args = true
           end
         end
     

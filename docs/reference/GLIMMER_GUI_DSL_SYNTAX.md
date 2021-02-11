@@ -1289,7 +1289,7 @@ This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which m
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
 - `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
 - `focus(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
-- `image(image, x, y)` [image](#image)
+- `image(image, x = 0, y = 0)` sets [image](#image), which could be an [org.eclipse.swt.graphics.Image](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Image.html) object or just a file path string
 - `line(x1, y1, x2, y2)` line
 - `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
 - `point(x, y)` point
@@ -1369,7 +1369,7 @@ Screenshot:
 
 Learn more at the [Hello, Canvas! Sample](#hello-canvas).
 
-If you ever have special needs or optimizations, you could always directly rely on direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+If you ever have special needs or optimizations, you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
 
 Example of manually doing the same things as in the previous example without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
@@ -1427,7 +1427,7 @@ shell {
   canvas {
     250.times {|y|
       250.times {|x|
-        pixel(x, y, foreground: color(y%255, x%255, (x+y)%255).swt_color)
+        pixel(x, y, foreground: [y%255, x%255, (x+y)%255])
       }
     }
   }
@@ -1454,7 +1454,7 @@ shell {
       gc = paint_event.gc
       250.times {|y|
         250.times {|x|
-          gc.foreground = color(y%255, x%255, (x+y)%255).swt_color
+          gc.foreground = Color.new(y%255, x%255, (x+y)%255)
           gc.draw_point(x, y)
         }
       }
@@ -1474,7 +1474,7 @@ include Glimmer
 gc = org.eclipse.swt.graphics.GC.new(@the_image)
 250.times {|y|
   250.times {|x|
-    gc.foreground = color(y%255, x%255, (x+y)%255).swt_color
+    gc.foreground = Color.new(y%255, x%255, (x+y)%255)
     gc.draw_point(x, y)
   }
 }
@@ -1485,7 +1485,7 @@ shell {
   image @the_image
   
   canvas {
-    image(@the_image, 0, 0)
+    image @the_image
   }
 }.open
 ```

@@ -59,8 +59,10 @@ module Glimmer
       # rgba is 4 arguments representing Red, Green, Blue, and Alpha numeric values
       #
       def initialize(*args)
+        @options = args.last.is_a?(Hash) ? args.pop : {}
         @args = args
-        ensure_arg_values_within_valid_bounds
+        @args = @args.first if @args.first.is_a?(Array)
+        ensure_arg_values_within_valid_bounds unless @options[:ensure_bounds] == false
       end
 
       def swt_color
@@ -75,8 +77,7 @@ module Glimmer
               @swt_color = @args.first
             end
           when 3..4
-            red, green, blue, alpha = @args
-            @swt_color = Color.new(*[red, green, blue, alpha].compact)
+            @swt_color = Color.new(*@args)
           end
         end
         @swt_color

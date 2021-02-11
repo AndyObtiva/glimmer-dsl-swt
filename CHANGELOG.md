@@ -3,6 +3,9 @@
 ### 4.18.4.8
 
 - Make `image` a top-level expression keyword
+- Default placing image on Canvas at coordinates 0, 0 if they are not specified (e.g. canvas {image some_image})
+- Support passing in color args directly to the `pixel` keyword as an rgb value array without using the `color`/`rgb` keyword, to improve performance for large pixel counts
+- Fix issue with closing a canvas shell with pixel graphics freezing temporarily for a long time while disposing shapes
 - Fix issue with disposing `image` having shapes
 
 ### 4.18.4.7
