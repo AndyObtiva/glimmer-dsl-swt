@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/dsl/expression'
+require 'glimmer/dsl/top_level_expression'
 require 'glimmer/swt/image_proxy'
 
 module Glimmer
@@ -28,6 +29,7 @@ module Glimmer
       # image expression
       # Note: Cannot be a static expression because it clashes with image property expression
       class ImageExpression < Expression
+        include TopLevelExpression
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)

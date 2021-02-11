@@ -1369,36 +1369,14 @@ Screenshot:
 
 Learn more at the [Hello, Canvas! Sample](#hello-canvas).
 
-#### Pixel Graphics
+If you ever have special needs or optimizations, you could always directly rely on direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
 
-**(Early Alpha Feature)**
-
-If you need to paint pixel graphics, use the optimized `pixel` keyword alternative to `point`, which takes foreground as a hash argument and bypasses the [Glimmer DSL Engine chain of responsibility](https://github.com/AndyObtiva/glimmer#dsl-engine), thus rendering faster when having very large pixel numbers.
-
-Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+Example of manually doing the same things as in the previous example without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
-shell {
-  minimum_size 250, 265
-  
-  canvas {
-    250.times {|y|
-      250.times {|x|
-        pixel(x, y, foreground: color(y%255, x%255, (x+y)%255).swt_color)
-      }
-    }
-  }
-}.open
-```
-
-Remember that you could always default to direct [SWT GC Usage]([org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) too for even faster performance (when rarely needed). Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
-
-Example of manually doing the same things as in the Canvas Shape DSL example without relying on the declarative Glimmer Shape DSL:
-
-```ruby
-image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
-
 include Glimmer
+
+image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
 
 shell {
   text 'Canvas Manual Example'
@@ -1427,6 +1405,87 @@ shell {
       
       gc.draw_image(image_object.swt_image, 70, 50)
     }
+  }
+}.open
+```
+
+#### Pixel Graphics
+
+**(Early Alpha Feature)**
+
+If you need to paint pixel graphics, use the optimized `pixel` keyword alternative to `point`, which takes foreground as a hash argument and bypasses the [Glimmer DSL Engine chain of responsibility](https://github.com/AndyObtiva/glimmer#dsl-engine), thus rendering faster when having very large pixel counts.
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  
+  canvas {
+    250.times {|y|
+      250.times {|x|
+        pixel(x, y, foreground: color(y%255, x%255, (x+y)%255).swt_color)
+      }
+    }
+  }
+}.open
+```
+
+Result:
+
+![glimmer example pixel graphics](/images/glimmer-example-pixel-graphics.png)
+
+Remember that you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) too for even faster performance when needed in rare circumstances. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+
+Example of manually doing the same things as in the previous example without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  
+  canvas {
+    on_paint_control { |paint_event|
+      gc = paint_event.gc
+      250.times {|y|
+        250.times {|x|
+          gc.foreground = color(y%255, x%255, (x+y)%255).swt_color
+          gc.draw_point(x, y)
+        }
+      }
+    }
+  }
+}.open
+```
+
+The only downside with the approach above is that it repaints all pixels on repaints to the window (e.g. during window resize). To get around that, we can rely on a technique called Image Double-Buffering. That is to buffer the graphics on an Image first and then set it on the Canvas so that resizes of the shell dont cause a repaint of all the pixels. Additionally, this gives us the added benefit of being able to use the image as a Shell icon via its `image` property.
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+@the_image = image(display.swt_display, 250, 250)
+gc = org.eclipse.swt.graphics.GC.new(@the_image)
+250.times {|y|
+  250.times {|x|
+    gc.foreground = color(y%255, x%255, (x+y)%255).swt_color
+    gc.draw_point(x, y)
+  }
+}
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  image @the_image
+  
+  canvas {
+    image(@the_image, 0, 0)
   }
 }.open
 ```
@@ -1597,7 +1656,7 @@ shell {
 
 #### Top-Level Transform Fluent Interface
 
-When using a transform at the top-level (outside of shell), you get a fluent interface to faciliate manual constructioni and use.
+When using a transform at the top-level (outside of shell), you get a fluent interface to faciliate manual construction and use.
 
 Example:
 

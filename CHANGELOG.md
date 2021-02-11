@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.4.8
+
+- Make `image` a top-level expression keyword
+- Fix issue with disposing `image` having shapes
+
 ### 4.18.4.7
 
 - Fixed issue with Tetris breaking with the latest Canvas Shape/Animation DSL performance optimizations

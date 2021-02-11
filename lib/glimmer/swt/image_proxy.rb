@@ -83,12 +83,11 @@ module Glimmer
           @swt_image = Image.new(*@args)
           @original_image_data = @image_data = @swt_image.image_data
         end
-        @swt_image.singleton_class.alias_method(:dispose_without_glimmer, :dispose)
         proxy = self
         # TODO consider adding a get_data/set_data method to conform with other SWT widgets
         @swt_image.singleton_class.define_method(:dispose) do
           proxy.clear_shapes
-          dispose_without_glimmer
+          super
         end
         post_add_content if content.nil?
       end
