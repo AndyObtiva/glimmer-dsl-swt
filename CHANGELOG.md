@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.4.7
+
+- Fixed issue with Tetris breaking with the latest Canvas Shape/Animation DSL performance optimizations
+
 ### 4.18.4.6
 
 - Mandlebrot Fractal Elaborate Sample

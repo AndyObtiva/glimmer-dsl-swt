@@ -133,7 +133,7 @@ module Glimmer
         
         def post_add_content
           unless @content_added
-            amend_method_name_options_based_on_properties
+            amend_method_name_options_based_on_properties!
             @parent.setup_shape_painting
             @content_added = true
           end
@@ -177,41 +177,41 @@ module Glimmer
           args
         end
         
-        def apply_shape_arg_conversions(method_name, args)
-          if args.size > 1 && (method_name.include?('polygon') || method_name.include?('polyline'))
-            args[0] = args.dup
-            args[1..-1] = []
+        def apply_shape_arg_conversions!
+          if @args.size > 1 && (['polygon', 'polyline'].include?(@name))
+            @args[0] = @args.dup
+            @args[1..-1] = []
           end
         end
         
-        def apply_shape_arg_defaults(method_name, args)
-          if method_name.include?('round_rectangle') && args.size.between?(4, 5)
-            (6 - args.size).times {args << 60}
-          elsif method_name.include?('rectangle') && gradient? && args.size == 4
-            args << true
-          elsif (method_name.include?('text') || method_name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && args.size == 3
-            args << true
+        def apply_shape_arg_defaults!
+          if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
+            (6 - @args.size).times {@args << 60}
+          elsif @name.include?('rectangle') && gradient? && @args.size == 4
+            @args << true
+          elsif (@name.include?('text') || @name.include?('String')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
+            @args << true
           end
-          if method_name.include?('image') && args.first.is_a?(String)
-            args[0] = ImageProxy.new(args[0])
+          if @name.include?('image') && @args.first.is_a?(String)
+            @args[0] = ImageProxy.new(@args[0])
           end
-          if method_name.include?('image') && args.first.is_a?(ImageProxy)
-            @image = args[0] = args[0].swt_image
+          if @name.include?('image') && @args.first.is_a?(ImageProxy)
+            @image = @args[0] = @args[0].swt_image
           end
         end
                 
         # Tolerates shape extra args added by user by mistake
         # (e.g. happens when switching from round rectangle to a standard one without removing all extra args)
-        def tolerate_shape_extra_args(method_name, args)
+        def tolerate_shape_extra_args!
           the_java_method_arg_count = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.select do |m|
-            m.name == method_name.camelcase(:lower)
+            m.name == @method_name.camelcase(:lower)
           end.map(&:parameter_types).map(&:size).max
-          if args.size > the_java_method_arg_count
-            args[the_java_method_arg_count..-1] = []
+          if @args.size > the_java_method_arg_count
+            @args[the_java_method_arg_count..-1] = []
           end
         end
         
-        def amend_method_name_options_based_on_properties
+        def amend_method_name_options_based_on_properties!
           return if @name == 'point'
           if has_some_background? && !has_some_foreground?
             @options[:fill] = true
@@ -286,9 +286,9 @@ module Glimmer
               converted_args = apply_property_arg_conversions(method_name, property, args)
               @properties[property] = converted_args
             end
-            apply_shape_arg_conversions(@method_name, @args)
-            apply_shape_arg_defaults(@method_name, @args)
-            tolerate_shape_extra_args(@method_name, @args)
+            apply_shape_arg_conversions!
+            apply_shape_arg_defaults!
+            tolerate_shape_extra_args!
             @calculated_paint_args = true
           end
         end

@@ -50,7 +50,7 @@ module Glimmer
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],
         'button'              => [:push],
-        'canvas'              => ([:double_buffered] unless OS.mac?),
+        'canvas'              => [:double_buffered],
         'checkbox'            => [:check],
         'check'               => [:check],
         'drag_source'         => [:drop_copy],

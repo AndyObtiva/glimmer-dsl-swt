@@ -1282,6 +1282,8 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
 
+`canvas` has the `:double_buffered` SWT style by default to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
+
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
@@ -1367,9 +1369,31 @@ Screenshot:
 
 Learn more at the [Hello, Canvas! Sample](#hello-canvas).
 
-If you get extremely stuck, remember that you could always default to direct [SWT GC usage]([org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) and learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+#### Pixel Graphics
 
-Example of manually doing the same things as in the above example without relying on the declarative Glimmer Shape DSL:
+**(Early Alpha Feature)**
+
+If you need to paint pixel graphics, use the optimized `pixel` keyword alternative to `point`, which takes foreground as a hash argument and bypasses the [Glimmer DSL Engine chain of responsibility](https://github.com/AndyObtiva/glimmer#dsl-engine), thus rendering faster when having very large pixel numbers.
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+shell {
+  minimum_size 250, 265
+  
+  canvas {
+    250.times {|y|
+      250.times {|x|
+        pixel(x, y, foreground: color(y%255, x%255, (x+y)%255).swt_color)
+      }
+    }
+  }
+}.open
+```
+
+Remember that you could always default to direct [SWT GC Usage]([org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) too for even faster performance (when rarely needed). Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+
+Example of manually doing the same things as in the Canvas Shape DSL example without relying on the declarative Glimmer Shape DSL:
 
 ```ruby
 image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
@@ -1383,30 +1407,29 @@ shell {
   canvas {
     background :yellow
     
-    on_paint_control { |event|
-      event.gc.set_background(color(:red).swt_color)
-      event.gc.fill_rectangle(0, 0, 220, 400)
+    on_paint_control { |paint_event|
+      gc = paint_event.gc
+      gc.background = color(:red).swt_color
+      gc.fill_rectangle(0, 0, 220, 400)
       
-      event.gc.set_background(color(:magenta).swt_color)
-      event.gc.fill_roundRectangle(50, 20, 300, 150, 30, 50)
+      gc.background = color(:magenta).swt_color
+      gc.fill_roundRectangle(50, 20, 300, 150, 30, 50)
       
-      event.gc.set_background(color(:dark_magenta).swt_color)
-      event.gc.fill_gradientRectangle(150, 200, 100, 70, true)
+      gc.background = color(:dark_magenta).swt_color
+      gc.fill_gradientRectangle(150, 200, 100, 70, true)
       
-      event.gc.set_foreground(color(:dark_blue).swt_color)
-      event.gc.draw_rectangle(200, 80, 108, 36)
+      gc.foreground = color(:dark_blue).swt_color
+      gc.draw_rectangle(200, 80, 108, 36)
       
-      event.gc.set_foreground(color(:black).swt_color)
-      event.gc.set_lineWidth(3)
-      event.gc.draw_rectangle(200, 80, 108, 36)
+      gc.foreground = color(:black).swt_color
+      gc.line_width = 3
+      gc.draw_rectangle(200, 80, 108, 36)
       
-      event.gc.draw_image(image_object.swt_image, 70, 50)
+      gc.draw_image(image_object.swt_image, 70, 50)
     }
   }
 }.open
 ```
-
-In any case, if there is anything missing you would like added to the Glimmer Shape DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-swt/pulls).
 
 #### Shapes inside a Widget
 
@@ -1595,7 +1618,7 @@ Learn more at the [Hello, Canvas Transform! Sample](#hello-canvas-transform).
 
 ### Canvas Animation DSL
 
-**(EARLY ALPHA FEATURE)**
+**(ALPHA FEATURE)**
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
@@ -1604,6 +1627,8 @@ Glimmer additionally provides built-in support for animations via a declarative 
 Animations take advantage of multi-threading, automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
 
 Multiple simultaneous animations are supported by declaring an animation per `canvas` (or widget) parent.
+
+`canvas` has the `:double_buffered` SWT style by default to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
 This example says it all (it moves a tiny red square across a blue background) (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
