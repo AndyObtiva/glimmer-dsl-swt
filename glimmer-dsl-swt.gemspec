@@ -139,7 +139,6 @@ Gem::Specification.new do |s|
     "lib/glimmer/ui/custom_shell.rb",
     "lib/glimmer/ui/custom_widget.rb",
     "lib/glimmer/util/proc_tracker.rb",
-    "samples/elaborate/clock.rb",
     "samples/elaborate/contact_manager.rb",
     "samples/elaborate/contact_manager/contact.rb",
     "samples/elaborate/contact_manager/contact_manager_presenter.rb",
