@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Shrink image of baseball background for Hello, Table! Sample
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 - Support building transforms easily inside a on_paint_control block (just like at the root)
 - Make image constructor accept DisplayProxy in place of display

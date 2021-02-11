@@ -84,6 +84,7 @@ module Glimmer
         
         def initialize(parent)
           @parent = parent
+          @parent.requires_shape_disposal = true
           @started = true
           @frame_index = 0
           @cycle_count_index = 0
