@@ -38,7 +38,6 @@ module Glimmer
         
         def setup_shape_painting
           # TODO consider performance optimization relating to order of shape rendering (affecting only further shapes not previous ones)
-          return if is_disposed
           if @paint_listener_proxy.nil?
             shape_painter = lambda do |paint_event|
               shapes.each do |shape|
@@ -53,7 +52,7 @@ module Glimmer
               @paint_listener_proxy = on_swt_paint(&shape_painter)
             end
           else
-            redraw
+            redraw if @finished_add_content && !is_disposed
           end
         end
         alias resetup_shape_painting setup_shape_painting

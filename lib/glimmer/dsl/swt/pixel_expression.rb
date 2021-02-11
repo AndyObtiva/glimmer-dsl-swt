@@ -19,49 +19,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer'
-require 'glimmer/dsl/expression'
-require 'glimmer/dsl/parent_expression'
+require 'glimmer/dsl/static_expression'
+require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/custom/shape'
+require 'glimmer/swt/custom/drawable'
 
 module Glimmer
   module DSL
     module SWT
-      class WidgetExpression < Expression
-        include ParentExpression
-
-        EXCLUDED_KEYWORDS = %w[shell display tab_item] + Glimmer::SWT::Custom::Shape.keywords - ['text']
-
-        def can_interpret?(parent, keyword, *args, &block)
-          result = !EXCLUDED_KEYWORDS.include?(keyword) &&
-            parent.respond_to?(:swt_widget) && #TODO change to composite?(parent)
-            Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
-          (keyword.to_s == 'text' && args.first.is_a?(String)) ? false : result
-        end
+      class PixelExpression < StaticExpression
 
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
+          Glimmer::SWT::Custom::Shape.new(parent, 'point', *args, &block)
         end
-
-        def add_content(parent, &block)
-          super
-          parent.post_add_content
-          parent.finish_add_content!
-        end
-
       end
-      
     end
-    
   end
-  
 end
-
-require 'glimmer/swt/widget_proxy'
-require 'glimmer/swt/scrolled_composite_proxy'
-require 'glimmer/swt/tree_proxy'
-require 'glimmer/swt/table_proxy'
-require 'glimmer/swt/table_column_proxy'
-require 'glimmer/swt/sash_form_proxy'
-require 'glimmer/swt/styled_text_proxy'
-require 'glimmer/swt/date_time_proxy'

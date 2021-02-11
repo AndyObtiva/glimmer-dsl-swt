@@ -39,7 +39,7 @@ module Glimmer
         
         class << self
           def valid?(parent, keyword, *args, &block)
-            gc_instance_methods.include?(method_name(keyword, args))
+            gc_instance_methods.include?(method_name(keyword, arg_options(args)))
           end
           
           def gc_instance_methods
@@ -62,14 +62,14 @@ module Glimmer
             options.nil? ? {} : options.symbolize_keys
           end
           
-          def method_name(keyword, args)
-            method_arg_options = arg_options(args)
+          def method_name(keyword, method_arg_options)
+            keyword = keyword.to_s
+            method_arg_options = method_arg_options.select {|key, value| %w[fill gradient round].include?(key.to_s)}
             unless flyweight_method_names.keys.include?([keyword, method_arg_options])
-              keyword = keyword.to_s
-              gradient = 'gradient_' if method_arg_options[:gradient]
-              round = 'round_' if method_arg_options[:round]
-              gc_instance_method_name_prefix = !['polyline', 'point', 'image', 'focus'].include?(keyword) && (method_arg_options[:fill] || method_arg_options[:gradient]) ? 'fill_' : 'draw_'
-              flyweight_method_names[[keyword, method_arg_options]] = "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword}"
+              gradient = 'Gradient' if method_arg_options[:gradient]
+              round = 'Round' if method_arg_options[:round]
+              gc_instance_method_name_prefix = !['polyline', 'point', 'image', 'focus'].include?(keyword) && (method_arg_options[:fill] || method_arg_options[:gradient]) ? 'fill' : 'draw'
+              flyweight_method_names[[keyword, method_arg_options]] = "#{gc_instance_method_name_prefix}#{gradient}#{round}#{keyword.capitalize}"
             end
             flyweight_method_names[[keyword, method_arg_options]]
           end
@@ -96,10 +96,13 @@ module Glimmer
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
           @name = keyword
-          @method_name = self.class.method_name(keyword, args)
           @options = self.class.arg_options(args, extract: true)
+          @method_name = self.class.method_name(keyword, @options)
           @args = args
           @properties = {}
+          @options.reject {|key, value| %w[fill gradient round].include?(key.to_s)}.each do |property, property_args|
+            @properties[property] = property_args
+          end
           @parent.shapes << self
           post_add_content if property_block.nil?
         end
@@ -209,6 +212,7 @@ module Glimmer
         end
         
         def amend_method_name_options_based_on_properties
+          return if @name == 'point'
           if has_some_background? && !has_some_foreground?
             @options[:fill] = true
           elsif !has_some_background? && has_some_foreground?
@@ -220,7 +224,7 @@ module Glimmer
           if @name == 'rectangle' && @args.size > 4 && @args.last.is_a?(Numeric)
             @options[:round] = true
           end
-          @method_name = self.class.method_name(@name, @args + [@options])
+          @method_name = self.class.method_name(@name, @options)
         end
                 
         def has_attribute?(attribute_name, *args)
@@ -271,7 +275,7 @@ module Glimmer
         end
         
         def calculate_paint_args!
-          unless @calculated_paint_args
+          unless @name == 'point' || @calculated_paint_args
             @properties['background'] = [@parent.background] if fill? && !has_some_background?
             @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
             @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')

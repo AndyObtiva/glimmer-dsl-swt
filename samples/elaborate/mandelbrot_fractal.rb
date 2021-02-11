@@ -32,24 +32,23 @@ class Mandelbrot
 
   def initialize(max_iterations)
     @max_iterations = max_iterations
-    @pool = Concurrent::FixedThreadPool.new(Concurrent.processor_count)
   end
   
   def calculate_all(x_array, y_array)
+    thread_pool = Concurrent::FixedThreadPool.new(Concurrent.processor_count)
     width = x_array.size
     height = y_array.size
     pixel_rows_array = Concurrent::Array.new(height)
     height.times do |y|
       pixel_rows_array[y] ||= Concurrent::Array.new(width)
       width.times do |x|
-        @pool.post do
+        thread_pool.post do
           pixel_rows_array[y][x] = calculate(x_array[x], y_array[y]).last
         end
       end
     end
-    while pixel_rows_array.flatten.include?(nil)
-      sleep(0.1)
-    end
+    thread_pool.shutdown
+    thread_pool.wait_for_termination
     pixel_rows_array
   end
 
@@ -86,7 +85,6 @@ class MandelbrotFractal
     @pixel_rows_array = mandelbrot.calculate_all(@x_array, @y_array)
   }
 
-
   body {
     shell {
       grid_layout
@@ -117,18 +115,21 @@ class MandelbrotFractal
           width_hint @width
           height_hint @height
         }
-        # Consider double buffering
-        on_paint_control { |e|
-          e.gc.transform = scale_transform if scale_value > 0 && scale_value != 1.0
+        
+        # Consider double buffering with an image (so that resizing the window does not take time)
+        on_paint_control { |paint_event|
+          gc = paint_event.gc
+          gc.transform = scale_transform if scale_value > 0 && scale_value != 1.0
           @height.times { |y|
             @width.times { |x|
-              itr = @pixel_rows_array[y][x]
-              e.gc.foreground = @colors[itr]
-              e.gc.draw_point x, y
+              gc.foreground = @colors[@pixel_rows_array[y][x]]
+              gc.draw_point x, y
             }
           }
         }
+        
       }
+    
     }
   }
 end

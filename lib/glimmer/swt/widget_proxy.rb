@@ -137,7 +137,8 @@ module Glimmer
         end
       end
 
-      attr_reader :parent_proxy, :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer
+      attr_reader :parent_proxy, :swt_widget, :drag_source_proxy, :drop_target_proxy, :drag_source_style, :drag_source_transfer, :drop_target_transfer, :finished_add_content
+      alias finished_add_content? finished_add_content
       
       # Initializes a new SWT Widget
       #
@@ -186,7 +187,11 @@ module Glimmer
       def post_add_content
         # No Op by default
       end
-
+      
+      def finish_add_content!
+        @finished_add_content = true
+      end
+      
       def extract_args(underscored_widget_name, args)
         @arg_extractor_mapping ||= {
           'menu_item' => lambda do |args|

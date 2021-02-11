@@ -22,28 +22,53 @@
 module Glimmer
   module SWT
     module Properties
+      class << self
+        def ruby_attribute_setter(attribute_name)
+          @ruby_attribute_setters ||= {}
+          @ruby_attribute_setters[attribute_name] ||= "#{normalized_attribute(attribute_name)}="
+        end
+  
+        def attribute_setter(attribute_name)
+          @attribute_setters ||= {}
+          @attribute_setters[attribute_name] ||= "set#{normalized_attribute(attribute_name).camelcase(:upper)}"
+        end
+  
+        def attribute_getter(attribute_name)
+          @attribute_getters ||= {}
+          @attribute_getters[attribute_name] ||= "get#{normalized_attribute(attribute_name).camelcase(:upper)}"
+        end
+        
+        def normalized_attribute(attribute_name)
+          @normalized_attributes ||= {}
+          if @normalized_attributes[attribute_name].nil?
+            attribute_name = attribute_name.to_s if attribute_name.is_a?(Symbol)
+            attribute_name = attribute_name.underscore unless attribute_name.downcase?
+            attribute_name = attribute_name.sub(/^get_/, '') if attribute_name.start_with?('get_')
+            attribute_name = attribute_name.sub(/^set_/, '') if attribute_name.start_with?('set_')
+            attribute_name = attribute_name.sub(/=$/, '') if attribute_name.end_with?('=')
+            @normalized_attributes[attribute_name] = attribute_name
+          end
+          @normalized_attributes[attribute_name]
+        end
+        alias ruby_attribute_getter normalized_attribute
+      end
+      
       def ruby_attribute_setter(attribute_name)
-        "#{normalized_attribute(attribute_name)}="
+        Glimmer::SWT::Properties.ruby_attribute_setter(attribute_name)
       end
 
       def attribute_setter(attribute_name)
-        "set#{normalized_attribute(attribute_name).camelcase(:upper)}"
+        Glimmer::SWT::Properties.attribute_setter(attribute_name)
       end
 
       def attribute_getter(attribute_name)
-        "get#{normalized_attribute(attribute_name).camelcase(:upper)}"
+        Glimmer::SWT::Properties.attribute_getter(attribute_name)
       end
       
       def normalized_attribute(attribute_name)
-        attribute_name = attribute_name.to_s if attribute_name.is_a?(Symbol)
-        attribute_name = attribute_name.underscore unless attribute_name.downcase?
-        attribute_name = attribute_name.sub(/^get_/, '') if attribute_name.start_with?('get_')
-        attribute_name = attribute_name.sub(/^set_/, '') if attribute_name.start_with?('set_')
-        attribute_name = attribute_name.sub(/=$/, '') if attribute_name.end_with?('=')
-        attribute_name
+        Glimmer::SWT::Properties.normalized_attribute(attribute_name)
       end
       alias ruby_attribute_getter normalized_attribute
-      
     end
   end
 end
