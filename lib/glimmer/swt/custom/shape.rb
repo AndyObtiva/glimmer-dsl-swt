@@ -103,7 +103,7 @@ module Glimmer
           @options.reject {|key, value| %w[fill gradient round].include?(key.to_s)}.each do |property, property_args|
             @properties[property] = property_args
           end
-          @parent.shapes << self
+          @parent.add_shape(self)
           post_add_content if property_block.nil?
         end
         
@@ -134,7 +134,7 @@ module Glimmer
         def post_add_content
           unless @content_added
             amend_method_name_options_based_on_properties!
-            @parent.setup_shape_painting
+            @parent.setup_shape_painting unless @parent.is_a?(ImageProxy)
             @content_added = true
           end
         end

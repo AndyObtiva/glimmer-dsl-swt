@@ -1463,14 +1463,14 @@ shell {
 }.open
 ```
 
-The only downside with the approach above is that it repaints all pixels on repaints to the window (e.g. during window resize). To get around that, we can rely on a technique called Image Double-Buffering. That is to buffer the graphics on an Image first and then set it on the Canvas so that resizes of the shell dont cause a repaint of all the pixels. Additionally, this gives us the added benefit of being able to use the image as a Shell icon via its `image` property.
+The only downside with the approach above is that it repaints all pixels on repaints to the window (e.g. during window resize). To get around that, we can rely on a technique called **Image Double-Buffering**. That is to buffer the graphics on an Image first and then set it on the Canvas so that resizes of the shell dont cause a repaint of all the pixels. Additionally, this gives us the added benefit of being able to use the image as a Shell icon via its `image` property.
 
 Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
 include Glimmer
 
-@the_image = image(display.swt_display, 250, 250)
+@the_image = image(250, 250)
 gc = org.eclipse.swt.graphics.GC.new(@the_image)
 250.times {|y|
   250.times {|x|
@@ -1486,6 +1486,37 @@ shell {
   
   canvas {
     image @the_image
+  }
+}.open
+```
+
+If you need a transparent background for the image, replace the image construction line with the following:
+
+```ruby
+@the_image = image(250, 250)
+@the_image.image_data.alpha = 0
+@the_image = image(@the_image.image_data)
+```
+
+That way, wherever you don't draw a point, you get transparency (seeing what is behind the image).
+
+If you don't need a `shell` image icon and `pixel` performance is enough, you can automatically apply **Image Double-Buffering** with the `:image_double_buffered` SWT style (custom Glimmer style not available in SWT itself)
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  
+  canvas(:image_double_buffered) {
+    250.times {|y|
+      250.times {|x|
+        pixel(x, y, foreground: [y%255, x%255, (x+y)%255])
+      }
+    }
   }
 }.open
 ```

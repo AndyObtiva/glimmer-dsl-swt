@@ -4,12 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
-- Support building transforms easily inside a on_paint_control block (just like at the root)
-- Make image constructor accept DisplayProxy in place of display
-- Support auto-nesting of image built with shapes within a canvas to automate image double-buffering
+- Support Mandelbrot Fractical Infinite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
+- Support Mandelbrot Fractical Infinite Panning through drag event.
 
-- autocomplete rb file if launching via glimmer command and .rb is missing
+- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
+
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 
@@ -37,6 +36,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add pixel alias to point in Canvas Shape DSL
 - Support z_order property for Canvas Shape DSL
 
+- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)

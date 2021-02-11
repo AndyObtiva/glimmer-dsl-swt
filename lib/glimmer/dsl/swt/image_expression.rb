@@ -22,6 +22,7 @@
 require 'glimmer/dsl/expression'
 require 'glimmer/dsl/top_level_expression'
 require 'glimmer/swt/image_proxy'
+require 'glimmer/swt/widget_proxy'
 
 module Glimmer
   module DSL

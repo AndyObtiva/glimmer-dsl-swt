@@ -24,11 +24,26 @@ module Glimmer
     module Custom
       # Represents SWT drawable controls (widgets like canvas) and display
       module Drawable
-        attr_accessor :requires_shape_disposal
+        attr_accessor :requires_shape_disposal, :image_double_buffered
         alias requires_shape_disposal? requires_shape_disposal
+        alias image_double_buffered? image_double_buffered
+        
+        include_package 'org.eclipse.swt.graphics'
       
         def shapes
           @shapes ||= []
+        end
+        
+        def image_buffered_shapes
+          @image_buffered_shapes ||= []
+        end
+        
+        def add_shape(shape)
+          if !@image_double_buffered || shape.args.first == @image_proxy_buffer
+            shapes << shape
+          else
+            image_buffered_shapes << shape
+          end
         end
         
         def clear_shapes
@@ -44,8 +59,21 @@ module Glimmer
           # TODO consider performance optimization relating to order of shape rendering (affecting only further shapes not previous ones)
           if @paint_listener_proxy.nil?
             shape_painter = lambda do |paint_event|
-              shapes.each do |shape|
-                shape.paint(paint_event)
+              shape_painting_work = lambda do |paint_event|
+                paintable_shapes = @image_double_buffered ? image_buffered_shapes : shapes
+                paintable_shapes.each do |shape|
+                  shape.paint(paint_event)
+                end
+              end
+              if @image_double_buffered
+                if @image_proxy_buffer.nil?
+                  swt_image = Image.new(DisplayProxy.instance.swt_display, bounds.width, bounds.height)
+                  @image_proxy_buffer = ImageProxy.new(swt_image: swt_image)
+                  shape_painting_work.call(@image_proxy_buffer)
+                end
+                @image_proxy_buffer.shape(self).paint(paint_event)
+              else
+                shape_painting_work.call(paint_event)
               end
             end
             

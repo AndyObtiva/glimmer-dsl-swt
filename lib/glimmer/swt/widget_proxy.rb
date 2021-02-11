@@ -149,6 +149,7 @@ module Glimmer
       #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
       def initialize(*init_args, swt_widget: nil)
+        @image_double_buffered = !!(init_args&.last&.include?(:image_double_buffered) && init_args&.last&.delete(:image_double_buffered))
         if swt_widget.nil?
           underscored_widget_name, parent, args = init_args
           @parent_proxy = parent

@@ -94,7 +94,7 @@ class MandelbrotFractal
       image @image
       
       canvas {
-        image(@image, 0, 0)
+        image @image
       }
     }
   }
