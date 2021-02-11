@@ -326,14 +326,14 @@ Please follow these instructions to make the `glimmer` command available on your
 
 If you intend to learn the basics of Glimmer but are not ready to build a Glimmer app yet, pick Option 1 ([Direct Install](#option-1-direct-install)).
 
-If you intend to build a Glimmer app from scratch with [scaffolding](#scaffolding), pick Option 1 ([Direct Install](#option-1-direct-install)) as well.
+If you intend to build a Glimmer app from scratch with [scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding), pick Option 1 ([Direct Install](#option-1-direct-install)) as well.
 
-Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases where you want to build an app without [scaffolding](#scaffolding).
+Otherwise, Option 2 ([Bundler](#option-2-bundler)) can be followed in rare cases where you want to build an app without [scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding).
 
 **Note:** if you encounter any [issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues), please [report](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) and then install a previous version instead from the list of [Glimmer Releases](https://rubygems.org/gems/glimmer-dsl-swt/versions) (keep looking back till you find one that works). Do not be disheartened as nearly everything is only a few days of work away. That said, keep in mind that this project is free and open source, meaning provided as is, so do not expect anything, but if you help with reporting and contributing, you could speed things up or even become part of the project.
 
 ### Option 1: Direct Install
-(Use for [Scaffolding](#scaffolding))
+(Use for [Scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding))
 
 Run this command to install directly:
 ```
@@ -351,7 +351,7 @@ Otherwise, you may also run `jruby -S gem install ...`
 
 If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](https://github.com/AndyObtiva/glimmer#glimmer-command) section.
 
-Otherwise, if you are ready to build a Glimmer app, you can jump to the [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer#scaffolding) section next.
+Otherwise, if you are ready to build a Glimmer app, you can jump to the [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding) section next.
 
 Note: if you're using activerecord or activesupport, keep in mind that Glimmer unhooks ActiveSupport::Dependencies as it does not rely on it.
 
@@ -386,10 +386,11 @@ You can use `girb` as an alternative to `irb` when prototyping Glimmer DSL for S
 
 ## Glimmer GUI DSL Syntax
 
-This guide should help you get started with Glimmer DSL for SWT. For more advanced SWT details, please refer to the [SWT Reference](#swt-reference).
-
+This guide should help you get started with Glimmer DSL for SWT.
 
 [docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
+
+For more advanced SWT details, please refer to the [SWT Reference](#swt-reference).
 
 ## Glimmer Configuration
 
@@ -425,6 +426,14 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 [<img alt="Garderie Rainbow Daily Agenda Logo" src="https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_logo.png" width="40" />Garderie Rainbow Daily Agenda](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda): A child nursery daily agenda reporting desktop app
 
+### Glimmer Gab
+
+[<img alt="Glimmer Gab Logo" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_gab/master/package/linux/Glimmer%20Gab.png" height=40 /> Glimmer Gab](https://github.com/AndyObtiva/glimmer_gab): Desktop App for Gab.com
+
+### Connector
+
+[<img alt="Connector Logo" src="https://raw.githubusercontent.com/AndyObtiva/connector/master/package/linux/Connector.png" height=40 /> Connector](https://github.com/AndyObtiva/connector): A minimalist open-source web browser
+
 ## Packaging & Distribution
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
@@ -438,7 +447,7 @@ Glimmer already supports automatic (and manual) app updates via the Mac App Stor
 ## Glimmer Supporting Libraries
 
 Here is a list of notable 3rd party gems used by Glimmer:
-- [juwelier](https://rubygems.org/gems/juwelier): generates app gems during [Glimmer Scaffolding](#scaffolding)
+- [juwelier](https://rubygems.org/gems/juwelier): generates app gems during [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding)
 - [logging](https://github.com/TwP/logging): provides extra logging capabilities not available in Ruby Logger such as multi-threaded buffered asynchronous logging (to avoid affecting app performance) and support for multiple appenders such as stdout, syslog, and log files (the last one is needed on Windows where syslog is not supported)
 - [nested_inherited_jruby_include_package](https://github.com/AndyObtiva/nested_inherited_jruby_include_package): makes included [SWT](https://www.eclipse.org/swt/)/[Java](https://www.java.com/en/) packages available to all classes/modules that mix in the Glimmer module without having to manually reimport
 - [os](https://github.com/rdp/os): provides OS detection capabilities (e.g. `OS.mac?` or `OS.windows?`) to write cross-platform code inexpensively

@@ -4,8 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support Mandelbrot Fractical Infinite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
-- Support Mandelbrot Fractical Infinite Panning through drag event.
+- Support Mandelbrot Fractal Finite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
+- Support Mandelbrot Fractal Finite Panning through drag event.
+
+- Support Mandelbrot Fractal Infinite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
+- Support Mandelbrot Fractal Infinite Panning through drag event.
 
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
@@ -478,9 +481,18 @@ A terminal written in Glimmer DSL for SWT.
 
 - A UML diagraming app (consider eventually webifying via Opal)
 
-## Custom Widgets/Shells
+## Custom Widgets/Shells/Shapes/Images
+
+Acronyms:
+cw: custom widget
+cs: custom shell
+cp: custom shape
+ci: custom image
 
 - glimmer-cw-datetimerange: start time end time (or date) duo that includes automatic validation/correctness (ensuring start is always before or equal to end depending on options). Perhaps have it upgrade to Nebula CDateTime if available (or as an option)
+- glimmer-cw-gif
+- weather custom widget example leveraging shapes too
+- glimmer-cp-audiovisualizer. Options include audio data and time input.
 
 ## Documentation Tasks
 

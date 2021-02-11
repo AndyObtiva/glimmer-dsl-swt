@@ -800,7 +800,7 @@ You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash
 
 ![Hello Browser](/images/glimmer-hello-browser.png)
 
-Glimmer supports the SWT Browser widget, which can load URLs or render HTML. It can even be instrumented with JavaScript when needed (though highly discouraged since it defeats the purpose of using Ruby except in very rare cases like leveraging a pre-existing web codebase in a desktop app).
+Glimmer supports the [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html), which can load URLs or render HTML. It can even be instrumented with JavaScript when needed (though highly discouraged since it defeats the purpose of using Ruby except in very rare cases like leveraging a pre-existing web codebase in a desktop app).
 
 Example loading a URL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
@@ -833,6 +833,8 @@ shell {
   }
 }.open
 ```
+
+Learn more at the [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html) API.
 
 ### Widget Styles
 
@@ -1471,11 +1473,10 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 include Glimmer
 
 @the_image = image(250, 250)
-gc = org.eclipse.swt.graphics.GC.new(@the_image)
 250.times {|y|
   250.times {|x|
-    gc.foreground = Color.new(y%255, x%255, (x+y)%255)
-    gc.draw_point(x, y)
+    @the_image.gc.foreground = Color.new(y%255, x%255, (x+y)%255)
+    @the_image.gc.draw_point(x, y)
   }
 }
 
