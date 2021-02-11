@@ -67,14 +67,7 @@ end
 class MandelbrotFractal
   include Glimmer::UI::CustomShell
   
-  attr_accessor :scale_value
-  
-  def scale_transform
-    transform.scale(scale_value.to_f, scale_value.to_f).swt_transform
-  end
-  
   before_body {
-    @scale_value = 1.0
     @colors = [[0, 0, 0]] + 40.times.map { |i| [255 - i*5, 255 - i*5, 55 + i*5] }
     @colors = @colors.map {|color_data| rgb(*color_data).swt_color}
     mandelbrot = Mandelbrot.new(@colors.size - 1)
@@ -83,53 +76,26 @@ class MandelbrotFractal
     @height = @y_array.size
     @width = @x_array.size
     @pixel_rows_array = mandelbrot.calculate_all(@x_array, @y_array)
+    @image = Image.new(display.swt_display, @width, @height)
+    image_gc = org.eclipse.swt.graphics.GC.new(@image)
+    @height.times { |y|
+      @width.times { |x|
+        new_foreground = @colors[@pixel_rows_array[y][x]]
+        image_gc.foreground = @current_foreground = new_foreground unless new_foreground == @current_foreground
+        image_gc.draw_point x, y
+      }
+    }
   }
 
   body {
     shell {
-      grid_layout
       text 'Mandelbrot Fractal'
       minimum_size @width, @height + 12
-    
-      label {
-        text 'Scale'
+      image @image
+      
+      canvas {
+        image(@image, 0, 0)
       }
-      spinner {
-        digits 1
-        increment 5
-        selection bind(
-          self,
-          :scale_value,
-          on_read: ->(v) {v.to_f*10.0},
-          on_write: ->(v) {v.to_f/10.0},
-          after_write: ->() {@canvas.redraw}
-        )
-        
-        on_key_pressed { |key_event|
-          @canvas.redraw if key_event.keyCode == swt(:cr)
-        }
-      }
-    
-      @canvas = canvas {
-        layout_data(:fill, :fill, true, true) {
-          width_hint @width
-          height_hint @height
-        }
-        
-        # Consider double buffering with an image (so that resizing the window does not take time)
-        on_paint_control { |paint_event|
-          gc = paint_event.gc
-          gc.transform = scale_transform if scale_value > 0 && scale_value != 1.0
-          @height.times { |y|
-            @width.times { |x|
-              gc.foreground = @colors[@pixel_rows_array[y][x]]
-              gc.draw_point x, y
-            }
-          }
-        }
-        
-      }
-    
     }
   }
 end

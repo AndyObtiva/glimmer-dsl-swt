@@ -3,9 +3,9 @@
 ### 4.18.4.6
 
 - Mandlebrot Fractal Elaborate Sample
-- Optimize animation performance by combining multiple shapes in a single paint listener
+- Optimize Canvas Shape/Animation DSL performance by combining multiple shapes in a single paint listener
 - Memoized attribute-to-SWT-property-method-name translation
-- Support `pixel` static expression that is an optimized `point`, which takes foreground hash property to bypass dynamic DSL
+- Support a `pixel` static expression that is an optimized `point`, which takes a foreground hash property to bypass the dynamic DSL chain of responsibility
 
 ### 4.18.4.5
 

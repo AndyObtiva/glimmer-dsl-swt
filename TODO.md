@@ -4,9 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Slider! Sample
+- Hello, Scale! Sample
 - Shrink image of baseball background for Hello, Table! Sample
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
+- Make x,y optional in canvas { image(image,x,y) }
 
 - autocomplete rb file if launching via glimmer command and .rb is missing
 - Canvas support a Path DSL for methods that take Path arguments

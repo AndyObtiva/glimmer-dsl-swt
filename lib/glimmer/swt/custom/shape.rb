@@ -266,6 +266,7 @@ module Glimmer
           calculate_paint_args!
           @properties.each do |property, args|
             method_name = attribute_setter(property)
+            # TODO consider optimization of not setting a background/foreground/font if it didn't change from last shape
             paint_event.gc.send(method_name, *args)
             if property == 'transform' && args.first.is_a?(TransformProxy)
               args.first.swt_transform.dispose
