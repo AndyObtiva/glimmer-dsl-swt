@@ -4,12 +4,16 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Log exceptions that occur in event listener blocks
+- Provide an alias for shell as window and Glimmer::UI::CustomShell as Glimmer::UI::CustomWindow
+
 - Support Mandelbrot Fractal Finite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
 - Support Mandelbrot Fractal Finite Panning through drag event.
 
 - Support Mandelbrot Fractal Infinite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
 - Support Mandelbrot Fractal Infinite Panning through drag event.
 
+- Make setting text on tab_item_proxy sets it on the tab_item directly
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - Canvas support a Path DSL for methods that take Path arguments
@@ -46,6 +50,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Auto-Dispose display macos event listener registrations declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
 
+- Handle listener name space clashes by providing on_listener_event option instead of typical on_event
+
+- Take off git gem if no longer needed in Gemfile
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
@@ -132,8 +139,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support glimmer list:gems (listing all types of gems together)
 - Support a background Glimmer runner that keeps a Glimmer daemon running in the background and enables running any Glimmer app instantly. Should work on Windows and Linux fine. On the Mac, perhaps it would work handicapped since all apps will nest under one icon in the dock
 
+- Simplify tab_folder/tab_item api (like having methods for switch to next tab and previous tab, and instead of relying on selection and get_data('proxy'), provide a shortcut)
 - Move ext folder underneath glimmer-dsl-swt
-- Log exceptions that occur in event listener blocks
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
 - Autodiscover samples in glimmer gems (instead of just allowing their configuration)
@@ -312,6 +319,7 @@ items <=> binding {
 - Scaffold a model + view form + data-binding connecting the two
 - Scaffold an ActiveRecord model + migration + view form + data-binding connecting the two
 - Test DB support with Derby DB
+- Support c_tab_folder/c_tab_item
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
 - Support Glimmer CSS styling alternative to SWT CSS in case it is too complicated to use

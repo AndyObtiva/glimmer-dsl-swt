@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.4.9
+
+- Hello, Cursor! Sample
+
 ### 4.18.4.8
 
 - Make `image` a top-level expression keyword

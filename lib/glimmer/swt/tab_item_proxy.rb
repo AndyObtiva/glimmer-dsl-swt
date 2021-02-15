@@ -49,6 +49,7 @@ module Glimmer
         @widget_proxy = SWT::WidgetProxy.new('tab_item', parent, style)
         @swt_tab_item = @widget_proxy.swt_widget
         @swt_tab_item.control = swt_widget
+#         parent.pack # TODO auto fix the tab folder to avoid having to do this manually (including maintaining bounds and minimum size of shell)
       end
 
       def has_attribute?(attribute_name, *args)

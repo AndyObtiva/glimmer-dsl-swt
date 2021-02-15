@@ -51,6 +51,7 @@ module Glimmer
           widget_binding.call(model_binding.evaluate_property)
           widget_binding.observe(model, model_binding.property_name_expression)
   
+          raise(Glimmer::Error, "No radios found! Make sure radio selection is data-bound to a property having property_options as non-empty array!") if parent.items.empty?
           parent.on_widget_selected do
             model_binding.call(widget_binding.evaluate_property)
           end

@@ -73,7 +73,8 @@ module Glimmer
         end
         
         def can_handle_observation_request?(observation_request)
-          radios.first&.can_handle_observation_request?(observation_request) || super(observation_request)
+          radios.first&.can_handle_observation_request?(observation_request) or
+            super(observation_request)
         end
         
         def handle_observation_request(observation_request, &block)

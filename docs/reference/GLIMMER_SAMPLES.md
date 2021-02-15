@@ -1,6 +1,6 @@
 ## Samples
 
-Check the [samples](samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
+Check the [samples](/samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
 
 You may run any sample via this command:
 
@@ -8,7 +8,7 @@ You may run any sample via this command:
 glimmer samples
 ```
 
-This brings up the [Glimmer Meta-Sample (The Sample of Samples)](samples/elaborate/meta_sample.rb)
+This brings up the [Glimmer Meta-Sample (The Sample of Samples)](/samples/elaborate/meta_sample.rb)
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
 
@@ -28,7 +28,7 @@ For hello-type simple samples, check the following.
 
 Code:
 
-[samples/hello/hello_world.rb](samples/hello/hello_world.rb)
+[samples/hello/hello_world.rb](/samples/hello/hello_world.rb)
 
 ![Hello World](/images/glimmer-hello-world.png)
 
@@ -36,7 +36,7 @@ Code:
 
 Code:
 
-[samples/hello/hello_tab.rb](samples/hello/hello_tab.rb)
+[samples/hello/hello_tab.rb](/samples/hello/hello_tab.rb)
 
 ![Hello Tab English](/images/glimmer-hello-tab-english.png)
 ![Hello Tab French](/images/glimmer-hello-tab-french.png)
@@ -47,7 +47,7 @@ This sample demonstrates combo data-binding.
 
 Code:
 
-[samples/hello/hello_combo.rb](samples/hello/hello_combo.rb)
+[samples/hello/hello_combo.rb](/samples/hello/hello_combo.rb)
 
 ![Hello Combo](/images/glimmer-hello-combo.png)
 ![Hello Combo Expanded](/images/glimmer-hello-combo-expanded.png)
@@ -58,7 +58,7 @@ This sample demonstrates list single-selection data-binding.
 
 Code:
 
-[samples/hello/hello_list_single_selection.rb](samples/hello/hello_list_single_selection.rb)
+[samples/hello/hello_list_single_selection.rb](/samples/hello/hello_list_single_selection.rb)
 
 ![Hello List Single Selection](/images/glimmer-hello-list-single-selection.png)
 
@@ -68,7 +68,7 @@ This sample demonstrates list multi-selection data-binding.
 
 Code:
 
-[samples/hello/hello_list_multi_selection.rb](samples/hello/hello_list_multi_selection.rb)
+[samples/hello/hello_list_multi_selection.rb](/samples/hello/hello_list_multi_selection.rb)
 
 ![Hello List Multi Selection](/images/glimmer-hello-list-multi-selection.png)
 
@@ -78,7 +78,7 @@ This sample demonstrates computed data-binding.
 
 Code:
 
-[samples/hello/hello_computed.rb](samples/hello/hello_computed.rb)
+[samples/hello/hello_computed.rb](/samples/hello/hello_computed.rb)
 
 ![Hello Browser](/images/glimmer-hello-computed.png)
 
@@ -88,7 +88,7 @@ This sample demonstrates a `message_box` dialog.
 
 Code:
 
-[samples/hello/hello_message_box.rb](samples/hello/hello_message_box.rb)
+[samples/hello/hello_message_box.rb](/samples/hello/hello_message_box.rb)
 
 ![Hello Message Box](/images/glimmer-hello-message-box.png)
 ![Hello Message Box Dialog](/images/glimmer-hello-message-box-dialog.png)
@@ -99,7 +99,7 @@ This sample demonstrates the `browser` widget.
 
 Code:
 
-[samples/hello/hello_browser.rb](samples/hello/hello_browser.rb)
+[samples/hello/hello_browser.rb](/samples/hello/hello_browser.rb)
 
 ![Hello Browser](/images/glimmer-hello-browser.png)
 
@@ -109,7 +109,7 @@ This sample demonstrates drag and drop in Glimmer.
 
 Code:
 
-[samples/hello/hello_drag_and_drop.rb](samples/hello/hello_drag_and_drop.rb)
+[samples/hello/hello_drag_and_drop.rb](/samples/hello/hello_drag_and_drop.rb)
 
 ![Hello Drag and Drop](/images/glimmer-hello-drag-and-drop.gif)
 
@@ -119,7 +119,7 @@ This sample demonstrates menus in Glimmer, including accelerators on the Mac.
 
 Code:
 
-[samples/hello/hello_menu_bar.rb](samples/hello/hello_menu_bar.rb)
+[samples/hello/hello_menu_bar.rb](/samples/hello/hello_menu_bar.rb)
 
 ![Hello Menu Bar](/images/glimmer-hello-menu-bar.png)
 
@@ -163,7 +163,7 @@ This sample demonstrates pop up context menus in Glimmer.
 
 Code:
 
-[samples/hello/hello_pop_up_context_menu.rb](samples/hello/hello_pop_up_context_menu.rb)
+[samples/hello/hello_pop_up_context_menu.rb](/samples/hello/hello_pop_up_context_menu.rb)
 
 ![Hello Pop Up Context Menu](/images/glimmer-hello-pop-up-context-menu.png)
 ![Hello Pop Up Context Menu Popped Up](/images/glimmer-hello-pop-up-context-menu-popped-up.png)
@@ -174,7 +174,7 @@ This sample demonstrates the use of a custom widget in Glimmer.
 
 Code:
 
-[samples/hello/hello_custom_widget.rb](samples/hello/hello_custom_widget.rb)
+[samples/hello/hello_custom_widget.rb](/samples/hello/hello_custom_widget.rb)
 
 ![Hello Custom Widget](/images/glimmer-hello-custom-widget.gif)
 
@@ -184,7 +184,7 @@ This sample demonstrates the use of a custom shell (aka custom window) in Glimme
 
 Code:
 
-[samples/hello/hello_custom_shell.rb](samples/hello/hello_custom_shell.rb)
+[samples/hello/hello_custom_shell.rb](/samples/hello/hello_custom_shell.rb)
 
 ![Hello Custom Shell](/images/glimmer-hello-custom-shell.png)
 ![Hello Custom Shell Email1](/images/glimmer-hello-custom-shell-email1.png)
@@ -197,7 +197,7 @@ This sample demonstrates the use of a `sash_form` in Glimmer.
 
 Code:
 
-[samples/hello/hello_sash_form.rb](samples/hello/hello_sash_form.rb)
+[samples/hello/hello_sash_form.rb](/samples/hello/hello_sash_form.rb)
 
 Hello, Sash Form! Horizontal Orientation
 
@@ -229,7 +229,7 @@ This sample demonstrates the use of a `styled_text` in Glimmer.
 
 Code:
 
-[samples/hello/hello_styled_text.rb](samples/hello/hello_styled_text.rb)
+[samples/hello/hello_styled_text.rb](/samples/hello/hello_styled_text.rb)
 
 Hello, Styled Text!
 
@@ -241,7 +241,7 @@ This sample demonstrates the use of a `expand_bar` and `expand_item` in Glimmer.
 
 Code:
 
-[samples/hello/hello_expand_bar.rb](samples/hello/hello_expand_bar.rb)
+[samples/hello/hello_expand_bar.rb](/samples/hello/hello_expand_bar.rb)
 
 Hello, Expand Bar! All Expanded
 
@@ -265,7 +265,7 @@ This sample demonstrates the use of a `radio` (aka `button(:radio)`) in Glimmer.
 
 Code:
 
-[samples/hello/hello_radio.rb](samples/hello/hello_radio.rb)
+[samples/hello/hello_radio.rb](/samples/hello/hello_radio.rb)
 
 Hello, Radio!
 
@@ -277,7 +277,7 @@ This sample demonstrates the use of a `radio_group` in Glimmer, which provides t
 
 Code:
 
-[samples/hello/hello_radio_group.rb](samples/hello/hello_radio_group.rb)
+[samples/hello/hello_radio_group.rb](/samples/hello/hello_radio_group.rb)
 
 Hello, Radio Group!
 
@@ -289,7 +289,7 @@ This sample demonstrates the use of a `group` in Glimmer (not to be confused wit
 
 Code:
 
-[samples/hello/hello_group.rb](samples/hello/hello_group.rb)
+[samples/hello/hello_group.rb](/samples/hello/hello_group.rb)
 
 Hello, Group!
 
@@ -301,7 +301,7 @@ This sample demonstrates the use of a `checkbox` (aka `check` or `button(:check)
 
 Code:
 
-[samples/hello/hello_checkbox.rb](samples/hello/hello_checkbox.rb)
+[samples/hello/hello_checkbox.rb](/samples/hello/hello_checkbox.rb)
 
 Hello, Checkbox!
 
@@ -313,7 +313,7 @@ This sample demonstrates the use of a `checkbox_group` (aka `check_group`) in Gl
 
 Code:
 
-[samples/hello/hello_checkbox_group.rb](samples/hello/hello_checkbox_group.rb)
+[samples/hello/hello_checkbox_group.rb](/samples/hello/hello_checkbox_group.rb)
 
 Hello, Checkbox Group!
 
@@ -325,7 +325,7 @@ This sample demonstrates the use of a `directory_dialog` in Glimmer.
 
 Code:
 
-[samples/hello/hello_directory_dialog.rb](samples/hello/hello_directory_dialog.rb)
+[samples/hello/hello_directory_dialog.rb](/samples/hello/hello_directory_dialog.rb)
 
 Hello, Directory Dialog!
 
@@ -345,7 +345,7 @@ This sample demonstrates the use of a `file_dialog` in Glimmer.
 
 Code:
 
-[samples/hello/hello_file_dialog.rb](samples/hello/hello_file_dialog.rb)
+[samples/hello/hello_file_dialog.rb](/samples/hello/hello_file_dialog.rb)
 
 Hello, File Dialog!
 
@@ -365,7 +365,7 @@ This sample demonstrates the use of [date_time](#datetime) widget keywords in Gl
 
 Code:
 
-[samples/hello/hello_date_time.rb](samples/hello/hello_date_time.rb)
+[samples/hello/hello_date_time.rb](/samples/hello/hello_date_time.rb)
 
 Hello, Date Time!
 
@@ -377,7 +377,7 @@ This sample demonstrates the use of `spinner` widget in Glimmer
 
 Code:
 
-[samples/hello/hello_spinner.rb](samples/hello/hello_spinner.rb)
+[samples/hello/hello_spinner.rb](/samples/hello/hello_spinner.rb)
 
 Hello, Spinner!
 
@@ -389,7 +389,7 @@ This sample demonstrates the use of [table](#table) widget in Glimmer, including
 
 Code:
 
-[samples/hello/hello_table.rb](samples/hello/hello_table.rb)
+[samples/hello/hello_table.rb](/samples/hello/hello_table.rb)
 
 Hello, Table!
 
@@ -437,7 +437,7 @@ This sample demonstrates the use of the `button` widget in Glimmer, including da
 
 Code:
 
-[samples/hello/hello_button.rb](samples/hello/hello_button.rb)
+[samples/hello/hello_button.rb](/samples/hello/hello_button.rb)
 
 Hello, Button!
 
@@ -453,7 +453,7 @@ This sample demonstrates the use of the `link` widget in Glimmer, including iden
 
 Code:
 
-[samples/hello/hello_link.rb](samples/hello/hello_link.rb)
+[samples/hello/hello_link.rb](/samples/hello/hello_link.rb)
 
 Hello, Link!
 
@@ -469,7 +469,7 @@ This sample demonstrates the use of the `dialog` widget in Glimmer, which provid
 
 Code:
 
-[samples/hello/hello_dialog.rb](samples/hello/hello_dialog.rb)
+[samples/hello/hello_dialog.rb](/samples/hello/hello_dialog.rb)
 
 Hello, Dialog!
 
@@ -485,7 +485,7 @@ This sample demonstrates the Glimmer Built-In [Code Text Custom Widget](#code-te
 
 Code:
 
-[samples/hello/hello_code_text.rb](samples/hello/hello_code_text.rb)
+[samples/hello/hello_code_text.rb](/samples/hello/hello_code_text.rb)
 
 Hello, Code Text! Ruby Language / Glimmer Theme / Show Line Numbers (default width of 4)
 
@@ -505,7 +505,7 @@ This sample demonstrates the use of the `canvas` widget and [Shape DSL](#canvas-
 
 Code:
 
-[samples/hello/hello_canvas.rb](samples/hello/hello_canvas.rb)
+[samples/hello/hello_canvas.rb](/samples/hello/hello_canvas.rb)
 
 Hello, Canvas!
 
@@ -517,7 +517,7 @@ This sample demonstrates the use of the `canvas` widget and [Animation DSL](#can
 
 Code:
 
-[samples/hello/hello_canvas_animation.rb](samples/hello/hello_canvas_animation.rb)
+[samples/hello/hello_canvas_animation.rb](/samples/hello/hello_canvas_animation.rb)
 
 Hello, Canvas Animation!
 
@@ -533,11 +533,23 @@ This sample demonstrates the use of the `transform` keyword as part of the [Tran
 
 Code:
 
-[samples/hello/hello_canvas_transform.rb](samples/hello/hello_canvas_transform.rb)
+[samples/hello/hello_canvas_transform.rb](/samples/hello/hello_canvas_transform.rb)
 
 Hello, Canvas Transform!
 
 ![Hello Canvas Transform](/images/glimmer-hello-canvas-transform.png)
+
+#### Hello, Cursor!
+
+This sample demonstrates the use of the `cursor` property keyword to change the mouse cursor.
+
+Code:
+
+[samples/hello/hello_cursor.rb](/samples/hello/hello_cursor.rb)
+
+Hello, Cursor!
+
+![Hello Cursor](/images/glimmer-hello-cursor.gif)
 
 
 ### Elaborate Samples
@@ -552,7 +564,7 @@ Please note that the code has changed since that article was written (the GUI DS
 
 Code:
 
-[samples/elaborate/user_profile.rb](samples/elaborate/user_profile.rb)
+[samples/elaborate/user_profile.rb](/samples/elaborate/user_profile.rb)
 
 ![User Profile](/images/glimmer-user-profile.png)
 
@@ -562,7 +574,7 @@ This sample demonstrates basic data-binding, password and text fields, and field
 
 Code:
 
-[samples/elaborate/login.rb](samples/elaborate/login.rb)
+[samples/elaborate/login.rb](/samples/elaborate/login.rb)
 
 ![Login](/images/glimmer-login.png)
 ![Login Filled In](/images/glimmer-login-filled-in.png)
@@ -576,7 +588,7 @@ Code:
 
 (Please note that on some Linux instances where the display x-axis is set to double-scale, you need to set the `shell` `minimum_size` to `300, 178` instead of `150, 178`)
 
-[samples/elaborate/tic_tac_toe.rb](samples/elaborate/tic_tac_toe.rb)
+[samples/elaborate/tic_tac_toe.rb](/samples/elaborate/tic_tac_toe.rb)
 
 ![Tic Tac Toe](/images/glimmer-tic-tac-toe.png)
 ![Tic Tac Toe In Progress](/images/glimmer-tic-tac-toe-in-progress.png)
@@ -588,7 +600,7 @@ This sample demonstrates table data-binding, sorting, filtering, GUI layout, MVP
 
 Code:
 
-[samples/elaborate/contact_manager.rb](samples/elaborate/contact_manager.rb)
+[samples/elaborate/contact_manager.rb](/samples/elaborate/contact_manager.rb)
 
 Contact Manager
 
@@ -618,7 +630,7 @@ Note that it works optimally on the Mac. It is very new, so it has not been opti
 
 Code:
 
-[samples/elaborate/tetris.rb](samples/elaborate/tetris.rb)
+[samples/elaborate/tetris.rb](/samples/elaborate/tetris.rb)
 
 ![Tetris Icon](/images/glimmer-tetris-icon.png)
 
