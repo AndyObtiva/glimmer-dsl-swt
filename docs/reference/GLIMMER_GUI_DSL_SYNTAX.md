@@ -284,7 +284,7 @@ Shell widget proxy has extra methods specific to SWT Shell:
 - `#show`: Alias for `#open`
 - `#hide`: Hides a shell setting "visible" property to false
 - `#close`: Closes the shell
-- `#center`: Centers the shell within monitor it is in
+- `#center_within_display`: Centers the shell within monitor it is in
 - `#start_event_loop`: (happens as part of `#open`) Starts SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). This method is not needed except in rare circumstances where there is a need to start the SWT Event Loop before opening the shell.
 - `#visible?`: Returns whether a shell is visible
 - `#opened_before?`: Returns whether a shell has been opened at least once before (additionally implying the SWT Event Loop has been started already)

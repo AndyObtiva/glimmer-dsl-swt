@@ -74,9 +74,10 @@ class Mandelbrot
     x_array.size
   end
   
-  def points
+  def points(background: false)
     unless flyweight_points.keys.include?(zoom)
-      thread_pool = Concurrent::FixedThreadPool.new(Concurrent.processor_count)
+      thread_count = background ? [Concurrent.processor_count - 2, 1].max : Concurrent.processor_count
+      thread_pool = Concurrent::FixedThreadPool.new(thread_count)
       width = x_array.size
       height = y_array.size
       pixel_rows_array = Concurrent::Array.new(height)
@@ -127,16 +128,18 @@ class MandelbrotFractal
       minimum_size width, height + 12
       image @mandelbrot_image
       
-      @canvas = canvas {
-        image @mandelbrot_image
-        cursor :cross
-        
-        on_mouse_down { |mouse_event|
-          if mouse_event.button == 1
-            zoom_in
-          elsif mouse_event.button > 2
-            zoom_out
-          end
+      @scrolled_composite = scrolled_composite {
+        @canvas = canvas {
+          image @mandelbrot_image
+          cursor :cross
+          
+          on_mouse_down { |mouse_event|
+            if mouse_event.button == 1
+              zoom_in
+            elsif mouse_event.button > 2
+              zoom_out
+            end
+          }
         }
       }
     }
@@ -144,19 +147,24 @@ class MandelbrotFractal
   
   def build_mandelbrot_image
     mandelbrot.zoom = zoom
-    pixels = mandelbrot.points
-#     @mandelbrot_image ||= image(width, height) TODO cache images for better performance
-    @mandelbrot_image = image(width, height)
-    height.times { |y|
-      width.times { |x|
-        new_foreground = color_palette[pixels[y][x]]
-        @mandelbrot_image.gc.foreground = @current_foreground = new_foreground unless new_foreground == @current_foreground
-        @mandelbrot_image.gc.draw_point x, y
+    unless flyweight_mandelbrot_images.keys.include?(zoom)
+      pixels = mandelbrot.points
+      @mandelbrot_image = image(width, height)
+      height.times { |y|
+        width.times { |x|
+          new_foreground = color_palette[pixels[y][x]]
+          @mandelbrot_image.gc.foreground = @current_foreground = new_foreground unless new_foreground == @current_foreground
+          @mandelbrot_image.gc.draw_point x, y
+        }
       }
-    }
-    @mandelbrot_image
+      flyweight_mandelbrot_images[zoom] = @mandelbrot_image
+    end
+    @mandelbrot_image = flyweight_mandelbrot_images[zoom]
   end
-  alias rebuild_mandelbrot_image build_mandelbrot_image
+  
+  def flyweight_mandelbrot_images
+    @flyweight_mandelbrot_images ||= {}
+  end
   
   def mandelbrot
     @mandelbrot ||= Mandelbrot.new(color_palette.size - 1)
@@ -189,16 +197,16 @@ class MandelbrotFractal
   def perform_zoom(zoom_value)
     @canvas.cursor = :wait
     self.zoom = [self.zoom + zoom_value, 1.0].max
-  #           @canvas.clear_shapes(dispose_images: false)
-    @canvas.clear_shapes
-    rebuild_mandelbrot_image
+    @canvas.clear_shapes(dispose_images: false)
+    build_mandelbrot_image
     body_root.content {
       image @mandelbrot_image
     }
     @canvas.content {
       image @mandelbrot_image
     }
-    @canvas.redraw
+    @canvas.set_size @mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height
+    @scrolled_composite.swt_widget.set_min_size(Point.new(@mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height))
     @canvas.cursor = :cross
   end
     
