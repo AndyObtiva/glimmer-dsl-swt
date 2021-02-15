@@ -36,7 +36,7 @@ class Mandelbrot
   end
   
   def step_for(zoom)
-    DEFAULT_STEP * zoom
+    DEFAULT_STEP / zoom
   end
     
   def y_start
@@ -117,7 +117,7 @@ class MandelbrotFractal
   
   before_body {
     # precalculate mandelbrot image
-    calculate_mandelbrot_image
+    build_mandelbrot_image
   }
   
   body {
@@ -130,27 +130,18 @@ class MandelbrotFractal
         image @mandelbrot_image
         cursor :cross
         
-        on_mouse_down {
-          @canvas.cursor = :wait
-#           self.zoom = self.zoom + 0.5
-#           @canvas.clear_shapes(dispose_images: false)
-          @canvas.clear_shapes(dispose_images: true)
-          calculate_mandelbrot_image
-          body_root.content {
-            # Update app icon
-            image @mandelbrot_image
-          }
-          @canvas.content {
-            image @mandelbrot_image
-          }
-          @canvas.redraw
-          @canvas.cursor = :cross
+        on_mouse_down { |mouse_event|
+          if mouse_event.button == 1
+            zoom_in
+          elsif mouse_event.button > 2
+            zoom_out
+          end
         }
       }
     }
   }
   
-  def calculate_mandelbrot_image
+  def build_mandelbrot_image
     pixels = mandelbrot.calculate_all(zoom)
 #     @mandelbrot_image ||= image(width, height) TODO cache images for better performance
     @mandelbrot_image = image(width, height)
@@ -163,6 +154,7 @@ class MandelbrotFractal
     }
     @mandelbrot_image
   end
+  alias rebuild_mandelbrot_image build_mandelbrot_image
   
   def mandelbrot
     @mandelbrot ||= Mandelbrot.new(color_palette.size - 1)
@@ -182,6 +174,31 @@ class MandelbrotFractal
   
   def width
     mandelbrot.width_for(zoom)
+  end
+  
+  def zoom_in
+    perform_zoom(0.5)
+  end
+  
+  def zoom_out
+    perform_zoom(-0.5)
+  end
+  
+  def perform_zoom(zoom_value)
+    @canvas.cursor = :wait
+    self.zoom = [self.zoom + zoom_value, 1.0].max
+  #           @canvas.clear_shapes(dispose_images: false)
+    @canvas.clear_shapes
+    rebuild_mandelbrot_image
+    body_root.content {
+      # Update app icon
+      image @mandelbrot_image
+    }
+    @canvas.content {
+      image @mandelbrot_image
+    }
+    @canvas.redraw
+    @canvas.cursor = :cross
   end
     
 end
