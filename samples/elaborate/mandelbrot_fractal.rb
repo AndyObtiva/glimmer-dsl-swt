@@ -23,9 +23,7 @@ require 'complex'
 require 'bigdecimal'
 require 'concurrent-ruby'
 
-# Mandelbrot implementation, borrowing some open-source code from:
-# https://github.com/gotbadger/ruby-mandelbrot
-# This version is multi-threaded, leveraging all processor cores.
+# Mandelbrot multi-threaded implementation leveraging all processor cores.
 class Mandelbrot
   DEFAULT_STEP = 0.0030
   Y_START = -1.0
@@ -33,11 +31,34 @@ class Mandelbrot
   X_START = -2.0
   X_END = 0.5
   
-  attr_accessor :max_iterations, :zoom
-
-  def initialize(max_iterations)
+  class << self
+    def for(max_iterations:, zoom:, background: false)
+      key = [max_iterations, zoom]
+      @for_mutex ||= Mutex.new
+      @for_mutex.synchronize do
+        unless flyweight_mandelbrots.keys.include?(key)
+          flyweight_mandelbrots[key] = new(max_iterations: max_iterations, zoom: zoom, background: background)
+        end
+      end
+      flyweight_mandelbrots[key]
+    end
+    
+    def flyweight_mandelbrots
+      @flyweight_mandelbrots ||= {}
+    end
+  end
+  
+  attr_accessor :max_iterations
+  attr_reader :zoom
+  
+  # max_iterations is the maximum number of Mandelbrot calculation iterations
+  # zoom is how much zoom there is on the Mandelbrot points from the default view of zoom 1
+  # background indicates whether to do calculation in the background for caching purposes,
+  # thus utilizing less CPU cores to avoid disrupting user experience
+  def initialize(max_iterations:, zoom: 1.0, background: false)
     @max_iterations = max_iterations
-    @zoom = 1.0
+    @zoom = zoom
+    @background = background
   end
   
   def step
@@ -45,25 +66,11 @@ class Mandelbrot
   end
     
   def y_array
-    unless flyweight_y_arrays.keys.include?(zoom)
-      flyweight_y_arrays[zoom] = Y_START.step(Y_END, step).to_a
-    end
-    flyweight_y_arrays[zoom]
-  end
-  
-  def flyweight_y_arrays
-    @flyweight_y_arrays ||= {}
+    @y_array ||= Y_START.step(Y_END, step).to_a
   end
   
   def x_array
-    unless flyweight_x_arrays.keys.include?(zoom)
-      flyweight_x_arrays[zoom] = X_START.step(X_END, step).to_a
-    end
-    flyweight_x_arrays[zoom]
-  end
-  
-  def flyweight_x_arrays
-    @flyweight_x_arrays ||= {}
+    @x_array ||= X_START.step(X_END, step).to_a
   end
   
   def height
@@ -74,32 +81,33 @@ class Mandelbrot
     x_array.size
   end
   
-  def points(background: false)
-    unless flyweight_points.keys.include?(zoom)
-      thread_count = background ? [Concurrent.processor_count - 2, 1].max : Concurrent.processor_count
-      thread_pool = Concurrent::FixedThreadPool.new(thread_count)
-      width = x_array.size
-      height = y_array.size
-      pixel_rows_array = Concurrent::Array.new(height)
-      height.times do |y|
-        pixel_rows_array[y] ||= Concurrent::Array.new(width)
-        width.times do |x|
+  def points
+    @points = calculate_points if @points.nil? || !@points_calculated
+  end
+  
+  def calculate_points
+    thread_count = @background ? [Concurrent.processor_count - 2, 1].max : Concurrent.processor_count
+    # TODO shut down previous thread pool if exists
+    thread_pool = Concurrent::FixedThreadPool.new(thread_count)
+    @points ||= Concurrent::Array.new(height)
+    height.times do |y|
+      @points[y] ||= Concurrent::Array.new(width)
+      width.times do |x|
+        if @points[y][x].nil?
           thread_pool.post do
-            pixel_rows_array[y][x] = calculate(x_array[x], y_array[y]).last
+            @points[y][x] = calculate(x_array[x], y_array[y]).last
           end
         end
       end
-      thread_pool.shutdown
-      thread_pool.wait_for_termination
-      flyweight_points[zoom] = pixel_rows_array
     end
-    flyweight_points[zoom]
+    thread_pool.shutdown
+    thread_pool.wait_for_termination
+    @points_calculated = true
+    @points
   end
   
-  def flyweight_points
-    @flyweight_points ||= {}
-  end
-
+  # Calculates a Mandelbrot point, borrowing some open-source code from:
+  # https://github.com/gotbadger/ruby-mandelbrot
   def calculate(x,y)
     base_case = [Complex(x,y), 0]
     Array.new(max_iterations, base_case).inject(base_case) do |prev ,base|
@@ -118,8 +126,17 @@ class MandelbrotFractal
   option :zoom, default: 1.0
   
   before_body {
-    # precalculate mandelbrot image
+    # pre-calculate mandelbrot image
     build_mandelbrot_image
+  }
+  
+  after_body {
+    # pre-calculate zoomed mandelbrot images even before the user zooming
+#     Thread.new {
+#       loop {
+#         mandelbrot.zoom
+#       }
+#     }
   }
   
   body {
@@ -146,7 +163,6 @@ class MandelbrotFractal
   }
   
   def build_mandelbrot_image
-    mandelbrot.zoom = zoom
     unless flyweight_mandelbrot_images.keys.include?(zoom)
       pixels = mandelbrot.points
       @mandelbrot_image = image(width, height)
@@ -167,7 +183,7 @@ class MandelbrotFractal
   end
   
   def mandelbrot
-    @mandelbrot ||= Mandelbrot.new(color_palette.size - 1)
+    Mandelbrot.for(max_iterations: color_palette.size - 1, zoom: zoom)
   end
   
   def color_palette
