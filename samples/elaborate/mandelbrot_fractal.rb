@@ -100,16 +100,16 @@ class Mandelbrot
   def calculate_points
     puts "Background calculation activated at zoom #{zoom}" if @background
     while @background && Mandelbrot.calculating?
-      puts "Detected foreground calculation in progress. Sleeping for 1 second..."
+      puts "Detected foreground calculation in progress for zoom #{zoom}. Sleeping for 1 second..."
       sleep(1)
     end
     puts "Points calculated already. Returning previously calculated points..." if @points_calculated
     return @points if @points_calculated
     if !@thread_pool.nil?
-      puts 'Detected background calculation thread pool. Killing...'
+      puts "Detected background calculation thread pool for zoom #{zoom}. Killing..."
       @thread_pool.kill
     end
-    Mandelbrot.calculating = true
+    Mandelbrot.calculating = true if !@background
     @thread_pool = Concurrent::FixedThreadPool.new(thread_count, fallback_policy: :discard)
     @points ||= Concurrent::Array.new(height)
     height.times do |y|
@@ -117,6 +117,7 @@ class Mandelbrot
       width.times do |x|
         if @points[y][x].nil?
           @thread_pool.post do
+            sleep(1) while @background && Mandelbrot.calculating # ensure not slowing down foreground calculation
             @points[y][x] = calculate(x_array[x], y_array[y]).last
           end
         end
@@ -126,8 +127,11 @@ class Mandelbrot
     success = @thread_pool.wait_for_termination
     return false unless success
     @points_calculated = true
-    Mandelbrot.calculating = false
+    Mandelbrot.calculating = false if !@background
     @points
+  rescue => e
+    puts e.full_message
+    false
   end
   
   # Calculates a Mandelbrot point, borrowing some open-source code from:
@@ -146,6 +150,8 @@ end
 
 class MandelbrotFractal
   include Glimmer::UI::CustomShell
+  
+  COMMAND = OS.mac? ? :command : :ctrl
     
   option :zoom, default: 1.0
   
@@ -165,7 +171,7 @@ class MandelbrotFractal
         the_mandelbrot = Mandelbrot.for(max_iterations: color_palette.size - 1, zoom: future_zoom, background: true)
         pixels = the_mandelbrot.points
         build_mandelbrot_image(mandelbrot_zoom: future_zoom) if pixels
-        async_exec { swt_widget.text = mandelbrot_shell_title }
+        sync_exec { swt_widget.text = mandelbrot_shell_title }
         future_zoom += 0.5
       }
     }
@@ -182,12 +188,87 @@ class MandelbrotFractal
           image @mandelbrot_image
           cursor :cross
           
-          on_mouse_down { |mouse_event|
-            if mouse_event.button == 1
-              zoom_in
-            elsif mouse_event.button > 2
-              zoom_out
+          on_mouse_down {
+            @drag_detected = false
+            @canvas.cursor = :hand
+          }
+          
+          on_drag_detected { |drag_detect_event|
+            @drag_detected = true
+            @drag_start_x = drag_detect_event.x
+            @drag_start_y = drag_detect_event.y
+          }
+          
+          on_mouse_move { |mouse_event|
+            if @drag_detected
+              origin = @scrolled_composite.origin
+              new_x = origin.x - (mouse_event.x - @drag_start_x)
+              new_y = origin.y - (mouse_event.y - @drag_start_y)
+              @scrolled_composite.set_origin(new_x, new_y)
             end
+          }
+          
+          on_mouse_up { |mouse_event|
+            if !@drag_detected
+              if mouse_event.button == 1
+                zoom_in
+              elsif mouse_event.button > 2
+                zoom_out
+              end
+            end
+            @canvas.cursor = :cross
+            @drag_detected = false
+          }
+          
+        }
+      }
+      
+      menu_bar {
+        menu {
+          text '&View'
+          
+          menu_item {
+            text 'Zoom &In'
+            accelerator COMMAND, '+'
+            
+            on_widget_selected { zoom_in }
+          }
+          
+          menu_item {
+            text 'Zoom &Out'
+            accelerator COMMAND, '-'
+            
+            on_widget_selected { zoom_out }
+          }
+          
+          menu_item {
+            text '&Reset Zoom'
+            accelerator COMMAND, '0'
+            
+            on_widget_selected { perform_zoom(mandelbrot_zoom: 1.0) }
+          }
+        }
+        menu {
+          text '&Help'
+          
+          menu_item {
+            text '&Instructions'
+            accelerator COMMAND, :shift, :i
+            
+            on_widget_selected {
+              message_box {
+                text 'Mandelbrot Fractal - Help'
+                message <<~MULTI_LINE_STRING
+                  The Mandelbrot Fractal precalculates zoomed rendering in the background. Wait if you hit a zoom level not calculated yet.
+
+                  Left-click to zoom in.
+                  Right-click to zoom out.
+                  Scroll or drag to pan.
+                  
+                  Enjoy!
+                MULTI_LINE_STRING
+              }.open
+            }
           }
         }
       }
@@ -205,13 +286,15 @@ class MandelbrotFractal
       width = the_mandelbrot.width
       height = the_mandelbrot.height
       pixels = the_mandelbrot.points
+      pixels ||= the_mandelbrot.points # in case something happens with regards to background thread
       new_mandelbrot_image = image(width, height)
+      new_mandelbrot_image_gc = new_mandelbrot_image.gc
       current_foreground = nil
       height.times { |y|
         width.times { |x|
           new_foreground = color_palette[pixels[y][x]]
-          new_mandelbrot_image.gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
-          new_mandelbrot_image.gc.draw_point x, y
+          new_mandelbrot_image_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
+          new_mandelbrot_image_gc.draw_point x, y
         }
       }
       flyweight_mandelbrot_images[mandelbrot_zoom] = new_mandelbrot_image
@@ -237,16 +320,17 @@ class MandelbrotFractal
   end
     
   def zoom_in
-    perform_zoom(0.5)
+    perform_zoom(zoom_delta: 0.5)
   end
   
   def zoom_out
-    perform_zoom(-0.5)
+    perform_zoom(zoom_delta: -0.5)
   end
   
-  def perform_zoom(zoom_value)
+  def perform_zoom(zoom_delta: 0, mandelbrot_zoom: nil)
+    mandelbrot_zoom ||= self.zoom + zoom_delta
     @canvas.cursor = :wait
-    self.zoom = [self.zoom + zoom_value, 1.0].max
+    self.zoom = [mandelbrot_zoom, 1.0].max
     @canvas.clear_shapes(dispose_images: false)
     @mandelbrot_image = build_mandelbrot_image
     body_root.content {
@@ -258,6 +342,7 @@ class MandelbrotFractal
     @canvas.set_size @mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height
     @scrolled_composite.swt_widget.set_min_size(Point.new(@mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height))
     @canvas.cursor = :cross
+    swt_widget.text = mandelbrot_shell_title
   end
     
 end
