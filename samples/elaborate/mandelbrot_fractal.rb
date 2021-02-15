@@ -28,53 +28,54 @@ require 'concurrent-ruby'
 # This version is multi-threaded, leveraging all processor cores.
 class Mandelbrot
   DEFAULT_STEP = 0.0030
+  Y_START = -1.0
+  Y_END = 1.0
+  X_START = -2.0
+  X_END = 0.5
   
-  attr_accessor :max_iterations
+  attr_accessor :max_iterations, :zoom
 
   def initialize(max_iterations)
     @max_iterations = max_iterations
+    @zoom = 1.0
   end
   
-  def step_for(zoom)
+  def step
     DEFAULT_STEP / zoom
   end
     
-  def y_start
-    -1.0
+  def y_array
+    unless flyweight_y_arrays.keys.include?(zoom)
+      flyweight_y_arrays[zoom] = Y_START.step(Y_END, step).to_a
+    end
+    flyweight_y_arrays[zoom]
   end
   
-  def y_end
-    1.0
+  def flyweight_y_arrays
+    @flyweight_y_arrays ||= {}
   end
   
-  def y_array_for(zoom)
-    y_start.step(y_end, step_for(zoom)).to_a
+  def x_array
+    unless flyweight_x_arrays.keys.include?(zoom)
+      flyweight_x_arrays[zoom] = X_START.step(X_END, step).to_a
+    end
+    flyweight_x_arrays[zoom]
   end
   
-  def x_start
-    -2.0
+  def flyweight_x_arrays
+    @flyweight_x_arrays ||= {}
   end
   
-  def x_end
-    0.5
+  def height
+    y_array.size
   end
   
-  def x_array_for(zoom)
-    x_start.step(x_end, step_for(zoom)).to_a
+  def width
+    x_array.size
   end
   
-  def height_for(zoom)
-    y_array_for(zoom).size
-  end
-  
-  def width_for(zoom)
-    x_array_for(zoom).size
-  end
-  
-  def calculate_all(zoom)
-    unless calculations.keys.include?(zoom)
-      x_array = x_array_for(zoom)
-      y_array = y_array_for(zoom)
+  def points
+    unless flyweight_points.keys.include?(zoom)
       thread_pool = Concurrent::FixedThreadPool.new(Concurrent.processor_count)
       width = x_array.size
       height = y_array.size
@@ -89,13 +90,13 @@ class Mandelbrot
       end
       thread_pool.shutdown
       thread_pool.wait_for_termination
-      calculations[zoom] = pixel_rows_array
+      flyweight_points[zoom] = pixel_rows_array
     end
-    calculations[zoom]
+    flyweight_points[zoom]
   end
   
-  def calculations
-    @calculations ||= {}
+  def flyweight_points
+    @flyweight_points ||= {}
   end
 
   def calculate(x,y)
@@ -142,7 +143,8 @@ class MandelbrotFractal
   }
   
   def build_mandelbrot_image
-    pixels = mandelbrot.calculate_all(zoom)
+    mandelbrot.zoom = zoom
+    pixels = mandelbrot.points
 #     @mandelbrot_image ||= image(width, height) TODO cache images for better performance
     @mandelbrot_image = image(width, height)
     height.times { |y|
@@ -169,11 +171,11 @@ class MandelbrotFractal
   end
     
   def height
-    mandelbrot.height_for(zoom)
+    mandelbrot.height
   end
   
   def width
-    mandelbrot.width_for(zoom)
+    mandelbrot.width
   end
   
   def zoom_in
@@ -191,7 +193,6 @@ class MandelbrotFractal
     @canvas.clear_shapes
     rebuild_mandelbrot_image
     body_root.content {
-      # Update app icon
       image @mandelbrot_image
     }
     @canvas.content {

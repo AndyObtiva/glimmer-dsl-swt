@@ -19,6 +19,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 
 - Canvas Shape DSL Shape Arguments Data-Binding support
+- Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes
@@ -55,7 +56,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
-- Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
 - Auto-Focusable canvas element (with keyboard)
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
