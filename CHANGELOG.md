@@ -3,6 +3,10 @@
 ### 4.18.4.9
 
 - Hello, Cursor! Sample
+- Log errors that occur in widget event listener blocks to help with troubleshooting
+- disposed? method for Shape objects
+- Add `dispose_images: false, dispose_patterns: false` options to `Shape#dispose` to avoid disposing images/patterns when needed
+
 
 ### 4.18.4.8
 

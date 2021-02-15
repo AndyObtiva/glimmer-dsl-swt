@@ -46,9 +46,9 @@ module Glimmer
           end
         end
         
-        def clear_shapes
+        def clear_shapes(dispose_images: true, dispose_patterns: true)
           # Optimize further by having a collection of disposable_shapes independent of shapes, which is much smaller and only has shapes that require disposal (shapes with patterns or image)
-          shapes.dup.each(&:dispose) if requires_shape_disposal?
+          shapes.dup.each {|s| s.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns) } if requires_shape_disposal?
         end
         
         def deregister_shape_painting

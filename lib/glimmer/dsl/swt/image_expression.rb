@@ -35,7 +35,7 @@ module Glimmer
         
         def can_interpret?(parent, keyword, *args, &block)
           (keyword == 'image') and
-            (parent.nil? or parent.respond_to?('image='))
+            (parent.nil? or parent.respond_to?('image=') or args.first.is_a?(Numeric))
         end
   
         def interpret(parent, keyword, *args, &block)

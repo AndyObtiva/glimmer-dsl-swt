@@ -263,15 +263,25 @@ module Glimmer
           the_pattern
         end
         
-        def dispose
-          @background_pattern&.dispose
-          @background_pattern = nil
-          @foreground_pattern&.dispose
-          @foreground_pattern = nil
-          @image&.dispose
-          @image = nil
+        def dispose(dispose_images: true, dispose_patterns: true)
+          if dispose_patterns
+            @background_pattern&.dispose
+            @background_pattern = nil
+            @foreground_pattern&.dispose
+            @foreground_pattern = nil
+          end
+          if dispose_images
+            @image&.dispose
+            @image = nil
+          end
           @parent.shapes.delete(self)
         end
+        
+        def disposed?
+          @background_pattern.nil? && @foreground_pattern.nil? && @image.nil? && @parent.shapes.include?(self)
+        end
+        alias is_disposed disposed?
+        alias isDisposed disposed?
         
         def paint(paint_event)
           calculate_paint_args!

@@ -719,7 +719,13 @@ module Glimmer
       def add_listener(underscored_listener_name, &block)
         widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)
         widget_listener_proxy = nil
-        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
+        safe_block = lambda do |*args|
+          begin
+            block.call(*args) unless @swt_widget.isDisposed
+          rescue => e
+            Glimmer::Config.logger.error {e}
+          end
+        end
         listener = listener_class.new(listener_method => safe_block)
         @swt_widget.send(widget_add_listener_method, listener)
         WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
