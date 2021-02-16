@@ -39,7 +39,8 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          args.unshift(parent) unless parent.nil?
+          options = args.last.is_a?(Hash) ? args.pop : {}
+          args.unshift(parent) unless parent.nil? || options[:top_level]
           Glimmer::SWT::ImageProxy.new(*args, &block)
         end
 

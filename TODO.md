@@ -410,6 +410,7 @@ items <=> binding {
 - Support spriting of images using standard SWT layout techniques like GridLayout (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)
 - Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
 - Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
+- Consider building drag panning into ScrolledComposite ( scrolled_composite ) as an option
 
 ## Samples
 

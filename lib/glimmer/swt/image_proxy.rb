@@ -97,7 +97,7 @@ module Glimmer
         if shapes.any?
           setup_shape_painting
         end
-        if @parent.respond_to?('image=')
+        if @parent.respond_to?('image=') && !@parent.is_disposed
           @parent&.image = swt_image
         end
       end
