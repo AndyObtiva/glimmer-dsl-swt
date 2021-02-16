@@ -10,6 +10,21 @@ example:
 new_mandelbrot_image.draw_each_pixel do |x, y|
   color_palette[pixels[y][x]]
 end
+
+# or
+
+image(300, 300) {
+  each_pixel do |x, y|
+    color_palette[pixels[y][x]]
+  end
+}
+
+# or
+
+image(300, 300) { |x, y|
+  color_palette[pixels[y][x]]
+}
+
 ```
 
 - Center mandelbrot where mouse is clicked upon zoom

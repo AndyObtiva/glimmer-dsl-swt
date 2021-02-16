@@ -33,6 +33,7 @@ class Mandelbrot
   
   class << self
     attr_accessor :progress, :work_in_progress
+    attr_writer :processor_count
   
     def for(max_iterations:, zoom:, background: false)
       key = [max_iterations, zoom]
@@ -52,6 +53,10 @@ class Mandelbrot
     def creation_mutex
       @creation_mutex ||= Mutex.new
     end
+    
+    def processor_count
+      @processor_count ||= Concurrent.processor_count
+    end
   end
   
   attr_accessor :max_iterations, :background
@@ -65,7 +70,6 @@ class Mandelbrot
   def initialize(max_iterations:, zoom: 1.0, background: false)
     @max_iterations = max_iterations
     @zoom = zoom
-    @background = background
   end
   
   def step
@@ -92,18 +96,13 @@ class Mandelbrot
     @points ||= calculate_points
   end
   
-  def thread_count
-    # except on launch, shave two cores out for graphical user interface interaction and progress reporting to provide a better experience
-    @background ? [Concurrent.processor_count - 2, 1].max : Concurrent.processor_count
-  end
-  
   def calculate_points
     puts "Background calculation activated at zoom #{zoom}" if @background
     if @points_calculated
       puts "Points calculated already. Returning previously calculated points..."
       return @points
     end
-    thread_pool = Concurrent::FixedThreadPool.new(thread_count, fallback_policy: :discard)
+    thread_pool = Concurrent::FixedThreadPool.new(Mandelbrot.processor_count, fallback_policy: :discard)
     @points = Concurrent::Array.new(height)
     Mandelbrot.work_in_progress = "Calculating Mandelbrot Points for Zoom #{zoom}x"
     Mandelbrot.progress = 0
@@ -264,6 +263,31 @@ class MandelbrotFractal
           }
         }
         menu {
+          text '&Cores'
+          
+          Concurrent.processor_count.times {|n|
+            processor_number = n + 1
+            menu_item(:radio) {
+              text "&#{processor_number}"
+                
+              case processor_number
+              when 0..9
+                accelerator COMMAND, processor_number.to_s
+              when 10..19
+                accelerator COMMAND, :shift, (processor_number - 10).to_s
+              when 20..29
+                accelerator COMMAND, :alt, (processor_number - 20).to_s
+              end
+              
+              selection true if processor_number == Concurrent.processor_count
+              
+              on_widget_selected {
+                Mandelbrot.processor_count = n
+              }
+            }
+          }
+        }
+        menu {
           text '&Help'
           
           menu_item {
@@ -380,6 +404,7 @@ class MandelbrotFractal
         Left-click to zoom in.
         Right-click to zoom out.
         Scroll or drag to pan.
+        Lower cores to get more responsive interaction.
         
         Enjoy!
       MULTI_LINE_STRING

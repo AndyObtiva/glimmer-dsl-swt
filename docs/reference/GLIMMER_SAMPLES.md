@@ -36,6 +36,7 @@
     - [Hello, Canvas Animation!](#hello-canvas-animation)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Cursor!](#hello-cursor)
+    - [Hello, Progress Bar!](#hello-progress-bar)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -600,6 +601,17 @@ Hello, Cursor!
 
 ![Hello Cursor](/images/glimmer-hello-cursor.gif)
 
+#### Hello, Progress Bar!
+
+This sample demonstrates the use of the `progress_bar` widget keyword.
+
+Code:
+
+[samples/hello/hello_progress_bar.rb](/samples/hello/hello_progress_bar.rb)
+
+Hello, Progress Bar!
+
+![Hello Progress Bar](/images/glimmer-hello-progress-bar.gif)
 
 ### Elaborate Samples
 
@@ -706,6 +718,8 @@ This sample demonstrates how to render canvas graphics with multi-threaded proce
 It renders the famous Mandelbrot Fractal, enabling zooming and panning (go to Help -> Instructions for more details)
 
 The Mandelbrot Fractal is known to take a long time to render, but thanks to multi-core processing, the app starts in about 10 seconds with 4 CPU cores (runs faster the more cores you have)
+
+Lower the cores in the menu to get more responsive interaction (e.g. zooming/panning). Once you change the cores, the change will not take effect till the next zoom calculation cycle.
 
 Code:
 
