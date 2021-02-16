@@ -1,5 +1,54 @@
 ## Samples
 
+- [Samples](#samples)
+  - [Hello Samples](#hello-samples)
+    - [Hello, World!](#hello-world)
+    - [Hello, Tab!](#hello-tab)
+    - [Hello, Combo!](#hello-combo)
+    - [Hello, List Single Selection!](#hello-list-single-selection)
+    - [Hello, List Multi Selection!](#hello-list-multi-selection)
+    - [Hello, Computed!](#hello-computed)
+    - [Hello, Message Box!](#hello-message-box)
+    - [Hello, Browser!](#hello-browser)
+    - [Hello, Drag and Drop!](#hello-drag-and-drop)
+    - [Hello, Menu Bar!](#hello-menu-bar)
+    - [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu)
+    - [Hello, Custom Widget!](#hello-custom-widget)
+    - [Hello, Custom Shell!](#hello-custom-shell)
+    - [Hello, Sash Form!](#hello-sash-form)
+    - [Hello, Styled Text!](#hello-styled-text)
+    - [Hello, Expand Bar!](#hello-expand-bar)
+    - [Hello, Radio!](#hello-radio)
+    - [Hello, Radio Group!](#hello-radio-group)
+    - [Hello, Group!](#hello-group)
+    - [Hello, Checkbox!](#hello-checkbox)
+    - [Hello, Checkbox Group!](#hello-checkbox-group)
+    - [Hello, Directory Dialog!](#hello-directory-dialog)
+    - [Hello, File Dialog!](#hello-file-dialog)
+    - [Hello, Date Time!](#hello-date-time)
+    - [Hello, Spinner!](#hello-spinner)
+    - [Hello, Table!](#hello-table)
+    - [Hello, Button!](#hello-button)
+    - [Hello, Link!](#hello-link)
+    - [Hello, Dialog!](#hello-dialog)
+    - [Hello, Code Text!](#hello-code-text)
+    - [Hello, Canvas!](#hello-canvas)
+    - [Hello, Canvas Animation!](#hello-canvas-animation)
+    - [Hello, Canvas Transform!](#hello-canvas-transform)
+    - [Hello, Cursor!](#hello-cursor)
+  - [Elaborate Samples](#elaborate-samples)
+    - [User Profile](#user-profile)
+    - [Login](#login)
+    - [Tic Tac Toe](#tic-tac-toe)
+    - [Contact Manager](#contact-manager)
+    - [Glimmer Tetris](#glimmer-tetris)
+    - [Mandelbrot Fractal](#mandelbrot-fractal)
+  - [External Samples](#external-samples)
+    - [Glimmer Calculator](#glimmer-calculator)
+    - [Gladiator](#gladiator)
+    - [Timer](#timer)
+- [License](#license)
+
 Check the [samples](/samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
 
 You may run any sample via this command:
@@ -652,7 +701,7 @@ Code:
 
 #### Mandelbrot Fractal
 
-This sample demonstrates how to render canvas graphics with multi-threaded processing taking advantage of all CPU cores and doing background processing of images in the background.
+This sample demonstrates how to render canvas graphics with multi-threaded processing taking advantage of all CPU cores and doing background processing of images.
 
 It renders the famous Mandelbrot Fractal, enabling zooming and panning (go to Help -> Instructions for more details)
 
