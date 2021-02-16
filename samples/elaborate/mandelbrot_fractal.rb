@@ -22,7 +22,6 @@
 require 'complex'
 require 'bigdecimal'
 require 'concurrent-ruby'
-require 'pd'
 
 # Mandelbrot multi-threaded implementation leveraging all processor cores.
 class Mandelbrot
@@ -245,18 +244,7 @@ class MandelbrotFractal
             accelerator COMMAND, :shift, :i
             
             on_widget_selected {
-              message_box {
-                text 'Mandelbrot Fractal - Help'
-                message <<~MULTI_LINE_STRING
-                  The Mandelbrot Fractal precalculates zoomed rendering in the background. Wait if you hit a zoom level not calculated yet.
-
-                  Left-click to zoom in.
-                  Right-click to zoom out.
-                  Scroll or drag to pan.
-                  
-                  Enjoy!
-                MULTI_LINE_STRING
-              }.open
+              display_help_instructions
             }
           }
         }
@@ -344,6 +332,21 @@ class MandelbrotFractal
     end
     @canvas.cursor = :cross
     swt_widget.text = mandelbrot_shell_title
+  end
+  
+  def display_help_instructions
+    message_box(body_root) {
+      text 'Mandelbrot Fractal - Help'
+      message <<~MULTI_LINE_STRING
+        The Mandelbrot Fractal precalculates zoomed renderings in the background. Wait if you hit a zoom level that is not calculated yet.
+
+        Left-click to zoom in.
+        Right-click to zoom out.
+        Scroll or drag to pan.
+        
+        Enjoy!
+      MULTI_LINE_STRING
+    }.open
   end
     
 end
