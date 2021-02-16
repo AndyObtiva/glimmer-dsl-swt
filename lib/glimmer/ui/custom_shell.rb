@@ -28,8 +28,6 @@ module Glimmer
       include Glimmer::UI::CustomWidget
       
       class << self
-        attr_reader :launched_custom_shell
-        
         def launch(*args, &content)
           @launched_custom_shell = send(keyword, *args, &content) if @launched_custom_shell.nil? || @launched_custom_shell.disposed?
           @launched_custom_shell.swt_widget.set_data('launched', true)
@@ -40,7 +38,8 @@ module Glimmer
       def initialize(parent, *swt_constants, options, &content)
         super
         @swt_widget.set_data('custom_shell', self)
-        raise Error, 'Invalid custom shell body root! Must be a shell or another custom shell.' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
+        @swt_widget.set_data('custom_window', self)
+        raise Error, 'Invalid custom shell (window) body root! Must be a shell (window) or another custom shell (window).' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
       end
       
       # Classes may override
@@ -78,5 +77,6 @@ module Glimmer
         body_root.start_event_loop
       end
     end
+    CustomWindow = CustomShell
   end
 end

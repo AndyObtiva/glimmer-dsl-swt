@@ -608,7 +608,7 @@ module Glimmer
       # TODO eliminate duplication in the following methods perhaps by relying on exceptions
 
       def can_handle_observation_request?(observation_request)
-        observation_request = observation_request.to_s
+        observation_request = normalize_observation_request(observation_request)
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           SWTProxy.has_constant?(constant_name)
@@ -646,7 +646,7 @@ module Glimmer
       end
 
       def handle_observation_request(observation_request, &block)
-        observation_request = observation_request.to_s
+        observation_request = normalize_observation_request(observation_request)
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)
@@ -788,6 +788,10 @@ module Glimmer
       def widget_custom_attribute_mapping
         # TODO scope per widget class type just like other mappings
         @swt_widget_custom_attribute_mapping ||= {
+          'window' => {
+            getter: {name: 'getShell'},
+            setter: {name: 'getShell', invoker: lambda { |widget, args| @swt_widget.getShell }}, # No Op
+          },
           'focus' => {
             getter: {name: 'isFocusControl'},
             setter: {name: 'setFocus', invoker: lambda { |widget, args| @swt_widget.setFocus if args.first }},
@@ -839,6 +843,14 @@ module Glimmer
         args = args.first if args.is_a?(Array)
         ensure_drop_target_proxy
         @drop_target_proxy.set_attribute(:drop_target_effect, args)
+      end
+      
+      def normalize_observation_request(observation_request)
+        observation_request = observation_request.to_s
+        if @swt_widget.is_a?(Shell) && observation_request.downcase.include?('window')
+          observation_request = observation_request.sub('window', 'shell').sub('Window', 'Shell')
+        end
+        observation_request
       end
 
       def apply_property_type_converters(attribute_name, args)

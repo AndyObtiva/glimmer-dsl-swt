@@ -53,6 +53,7 @@ module Glimmer
       
       EXTRA_STYLES = {
         NO_RESIZE: self[:shell_trim, :resize!, :max!],
+        WINDOW_TRIM: self[:shell_trim],
       }
     end
   end

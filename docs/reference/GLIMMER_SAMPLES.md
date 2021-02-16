@@ -705,7 +705,7 @@ This sample demonstrates how to render canvas graphics with multi-threaded proce
 
 It renders the famous Mandelbrot Fractal, enabling zooming and panning (go to Help -> Instructions for more details)
 
-The Mandelbrot Fractal is known to take a long time to render, but thanks to multi-core processing, the app starts in about 10 seconds (runs faster the more cores you have)
+The Mandelbrot Fractal is known to take a long time to render, but thanks to multi-core processing, the app starts in about 10 seconds with 4 CPU cores (runs faster the more cores you have)
 
 Code:
 

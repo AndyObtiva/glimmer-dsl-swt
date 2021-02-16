@@ -209,6 +209,8 @@ module Glimmer
       
     end
     
+    WindowProxy = ShellProxy
+    
   end
   
 end

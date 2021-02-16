@@ -4,14 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Provide an alias for shell as window and Glimmer::UI::CustomShell as Glimmer::UI::CustomWindow
 - Show progress bar for Mandelbrot calculation
-
-- Support Mandelbrot Fractal Finite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
-- Support Mandelbrot Fractal Finite Panning through drag event.
-
-- Support Mandelbrot Fractal Infinite Zooming through left-click (zoom in by 0.5 increments), and right-click (zoom out by 0.5 increments)
-- Support Mandelbrot Fractal Infinite Panning through drag event.
 
 - Make setting text on tab_item_proxy sets it on the tab_item directly
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)

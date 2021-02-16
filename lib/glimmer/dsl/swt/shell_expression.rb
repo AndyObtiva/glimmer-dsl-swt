@@ -32,7 +32,7 @@ module Glimmer
         include ParentExpression
 
         def can_interpret?(parent, keyword, *args, &block)
-          keyword == 'shell' and
+          super and
             (parent.nil? or parent.is_a?(Glimmer::SWT::ShellProxy))
         end
   
@@ -40,6 +40,9 @@ module Glimmer
           args = [parent] + args unless parent.nil?
           Glimmer::SWT::ShellProxy.send(:new, *args)
         end
+      end
+      class WindowExpression < ShellExpression
+        # Alias
       end
     end
   end

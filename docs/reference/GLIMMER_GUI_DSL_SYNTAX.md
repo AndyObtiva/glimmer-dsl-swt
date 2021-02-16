@@ -201,60 +201,60 @@ https://www.eclipse.org/nebula/
 This is not an exaustive list, but should give you a good start in learning Glimmer GUI DSL keywords, keeping in mind that the full list can be derived from the [SWT documentation](https://www.eclipse.org/swt/widgets/). More will be explained in the following sections.
 
 **Widgets:**
-- `button`: featured in [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Message Box!](#hello-message-box) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Contact Manager](#contact-manager) / [Tic Tac Toe](#tic-tac-toe) / [Login](#login)
-- `browser`: featured in [Hello, Browser!](#hello-browser)
-- `calendar`: featured in [Hello, Date Time!](#hello-date-time)
-- `checkbox`: featured in [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox)
-- `checkbox_group`: featured in [Hello, Checkbox Group!](#hello-checkbox-group)
-- `combo`: featured in [Hello, Table!](#hello-table) / [Hello, Combo!](#hello-combo)
-- `composite`: featured in [Hello, Radio!](#hello-radio) / [Hello, Computed!](#hello-computed) / [Hello, Checkbox!](#hello-checkbox) / [Tic Tac Toe](#tic-tac-toe) / [Login](#login) / [Contact Manager](#contact-manager)
-- `date`: featured in [Hello, Table!](#hello-table) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Shell!](#hello-custom-shell) / [Tic Tac Toe](#tic-tac-toe)
-- `date_drop_down`: featured in [Hello, Table!](#hello-table) / [Hello, Date Time!](#hello-date-time)
-- `group`: featured in [Hello, Group!](#hello-group) / [Contact Manager](#contact-manager)
-- `label`: featured in [Hello, Computed!](#hello-computed) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, World!](#hello-world) / [Hello, Table!](#hello-table) / [Hello, Tab!](#hello-tab) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Menu Bar!](#hello-menu-bar) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Custom Shell!](#hello-custom-shell) / [Contact Manager](#contact-manager) / [Login](#login)
-- `list` (w/ optional `:multi` SWT style): featured in [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Contact Manager](#contact-manager)
-- `menu`: featured in [Hello, Menu Bar!](#hello-menu-bar) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Table!](#hello-table)
-- `menu_bar`: featured in [Hello, Menu Bar!](#hello-menu-bar)
-- `menu_item`: featured in [Hello, Table!](#hello-table) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Menu Bar!](#hello-menu-bar)
-- `message_box`: featured in [Hello, Table!](#hello-table) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Message Box!](#hello-message-box) / [Hello, Menu Bar!](#hello-menu-bar)
-- `radio`: featured in [Hello, Radio!](#hello-radio) / [Hello, Group!](#hello-group)
-- `radio_group`: featured in [Hello, Radio Group!](#hello-radio-group)
+- `button`: featured in [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login)
+- `browser`: featured in [Hello, Browser!](GLIMMER_SAMPLES.md#hello-browser)
+- `calendar`: featured in [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
+- `checkbox`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox)
+- `checkbox_group`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group)
+- `combo`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo)
+- `composite`: featured in [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `date`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `date_drop_down`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
+- `group`: featured in [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `label`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, World!](GLIMMER_SAMPLES.md#hello-world) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login)
+- `list` (w/ optional `:multi` SWT style): featured in [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `menu`: featured in [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table)
+- `menu_bar`: featured in [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
+- `menu_item`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
+- `message_box`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
+- `radio`: featured in [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group)
+- `radio_group`: featured in [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group)
 - `scrolled_composite`
-- `shell`: featured in [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Tab!](#hello-tab) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Shell!](#hello-custom-shell) / [Hello, Computed!](#hello-computed) / [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Contact Manager](#contact-manager) / [Tic Tac Toe](#tic-tac-toe) / [Login](#login)
-- `tab_folder`: featured in [Hello, Tab!](#hello-tab)
-- `tab_item`: featured in [Hello, Tab!](#hello-tab)
-- `table`: featured in [Hello, Custom Shell!](#hello-custom-shell) / [Hello, Table!](#hello-table) / [Contact Manager](#contact-manager)
-- `table_column`: featured in [Hello, Table!](#hello-table) / [Hello, Custom Shell!](#hello-custom-shell) / [Contact Manager](#contact-manager)
-- `text`: featured in [Hello, Computed!](#hello-computed) / [Login](#login) / [Contact Manager](#contact-manager)
-- `time`: featured in [Hello, Table!](#hello-table) / [Hello, Date Time!](#hello-date-time)
-- Glimmer::UI::CustomWidget: ability to define any keyword as a custom widget - featured in [Hello, Custom Widget!](#hello-custom-widget)
-- Glimmer::UI::CustomShell: ability to define any keyword as a custom shell (aka custom window) that opens in a new browser window (tab) automatically unless there is no shell open in the current browser window (tab) - featured in [Hello, Custom Shell!](#hello-custom-shell)
+- `shell`: featured in [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login)
+- `tab_folder`: featured in [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab)
+- `tab_item`: featured in [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab)
+- `table`: featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `table_column`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `text`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `time`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
+- Glimmer::UI::CustomWidget: ability to define any keyword as a custom widget - featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
+- Glimmer::UI::CustomShell: ability to define any keyword as a custom shell (aka custom window) that opens in a new browser window (tab) automatically unless there is no shell open in the current browser window (tab) - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
 
 **Layouts:**
-- `grid_layout`: featured in [Hello, Custom Shell!](#hello-custom-shell) / [Hello, Computed!](#hello-computed) / [Hello, Table!](#hello-table) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Menu Bar!](#hello-menu-bar) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Contact Manager](#contact-manager) / [Login](#login) / [Tic Tac Toe](#tic-tac-toe)
-- `row_layout`: featured in [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Group!](#hello-group) / [Hello, Date Time!](#hello-date-time) / [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Contact Manager](#contact-manager)
-- `fill_layout`: featured in [Hello, Custom Widget!](#hello-custom-widget)
-- `layout_data`: featured in [Hello, Table!](#hello-table) / [Hello, Custom Shell!](#hello-custom-shell) / [Hello, Computed!](#hello-computed) / [Tic Tac Toe](#tic-tac-toe) / [Contact Manager](#contact-manager)
+- `grid_layout`: featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `row_layout`: featured in [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `fill_layout`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
+- `layout_data`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 
 **Graphics/Style:**
-- `color`: featured in [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Menu Bar!](#hello-menu-bar)
-- `font`: featured in [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Menu Bar!](#hello-menu-bar) / [Hello, Group!](#hello-group) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Custom Shell!](#hello-custom-shell) / [Contact Manager](#contact-manager) / [Tic Tac Toe](#tic-tac-toe)
+- `color`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
+- `font`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
 - `Point` class used in setting location on widgets
-- `swt` and `SWT` class to set SWT styles on widgets - featured in [Hello, Custom Shell!](#hello-custom-shell) / [Login](#login) / [Contact Manager](#contact-manager)
+- `swt` and `SWT` class to set SWT styles on widgets - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 
 **Data-Binding/Observers:**
-- `bind`: featured in [Hello, Computed!](#hello-computed) / [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Custom Shell!](#hello-custom-shell) / [Login](#login) / [Contact Manager](#contact-manager) / [Tic Tac Toe](#tic-tac-toe)
-- `observe`: featured in [Hello, Table!](#hello-table) / [Tic Tac Toe](#tic-tac-toe)
-- `on_widget_selected`: featured in [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Message Box!](#hello-message-box) / [Hello, Menu Bar!](#hello-menu-bar) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Contact Manager](#contact-manager) / [Login](#login) / [Tic Tac Toe](#tic-tac-toe)
+- `bind`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `observe`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `on_widget_selected`: featured in [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
 - `on_modify_text`
-- `on_key_pressed` (and SWT alias `on_swt_keydown`) - featured in [Login](#login) / [Contact Manager](#contact-manager)
+- `on_key_pressed` (and SWT alias `on_swt_keydown`) - featured in [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 - `on_key_released` (and SWT alias `on_swt_keyup`)
 - `on_mouse_down` (and SWT alias `on_swt_mousedown`)
-- `on_mouse_up` (and SWT alias `on_swt_mouseup`) - featured in [Hello, Custom Shell!](#hello-custom-shell) / [Contact Manager](#contact-manager)
+- `on_mouse_up` (and SWT alias `on_swt_mouseup`) - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 
 **Event loop:**
-- `display`: featured in [Tic Tac Toe](#tic-tac-toe)
-- `async_exec`: featured in [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Custom Shell!](#hello-custom-shell)
+- `display`: featured in [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `async_exec`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
 - `sync_exec`: executes a block on the event loop synchronously (usually from another thread)
 - `timer_exec`: executes a block after a delay of time has passed
 
@@ -334,7 +334,7 @@ shell {
 
 ###### Shell Icon Tip for Packaging on Windows
 
-When setting shell icon for a [packaged](#packaging--distribution) app, which has a JAR file at its core, you can reference the `ico` file that ships with the app by going one level up (e.g. `'../AppName.ico'`)
+When setting shell icon for a [packaged](GLIMMER_PACKAGING_AND_DISTRIBUTION.md#packaging--distribution) app, which has a JAR file at its core, you can reference the `ico` file that ships with the app by going one level up (e.g. `'../AppName.ico'`)
 
 #### Dialog
 
