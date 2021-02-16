@@ -29,8 +29,11 @@ class Mandelbrot
   Y_END = 1.0
   X_START = -2.0
   X_END = 0.5
+  PROGRESS_MAX = 40
   
   class << self
+    attr_accessor :progress, :work_in_progress
+  
     def for(max_iterations:, zoom:, background: false)
       key = [max_iterations, zoom]
       creation_mutex.synchronize do
@@ -90,7 +93,8 @@ class Mandelbrot
   end
   
   def thread_count
-    @background ? [Concurrent.processor_count - 1, 1].max : Concurrent.processor_count
+    # except on launch, shave two cores out for graphical user interface interaction and progress reporting to provide a better experience
+    @background ? [Concurrent.processor_count - 2, 1].max : Concurrent.processor_count
   end
   
   def calculate_points
@@ -101,16 +105,23 @@ class Mandelbrot
     end
     thread_pool = Concurrent::FixedThreadPool.new(thread_count, fallback_policy: :discard)
     @points = Concurrent::Array.new(height)
+    Mandelbrot.work_in_progress = "Calculating Mandelbrot Points for Zoom #{zoom}x"
+    Mandelbrot.progress = 0
+    point_index = 0
+    point_count = width*height
     height.times do |y|
       @points[y] ||= Concurrent::Array.new(width)
       width.times do |x|
         thread_pool.post do
           @points[y][x] = calculate(x_array[x], y_array[y]).last
+          point_index += 1
+          Mandelbrot.progress += 1 if (point_index.to_f / point_count.to_f)*PROGRESS_MAX >= Mandelbrot.progress
         end
       end
     end
     thread_pool.shutdown
     thread_pool.wait_for_termination
+    Mandelbrot.progress = PROGRESS_MAX
     @points_calculated = true
     @points
   end
@@ -131,9 +142,11 @@ end
 
 class MandelbrotFractal
   include Glimmer::UI::CustomShell
-  
-  COMMAND = OS.mac? ? :command : :ctrl
     
+  COMMAND = OS.mac? ? :command : :ctrl
+  
+  attr_accessor :mandelbrot_shell_title
+      
   option :zoom, default: 1.0
   
   before_body {
@@ -143,6 +156,12 @@ class MandelbrotFractal
   }
   
   after_body {
+    observe(Mandelbrot, :work_in_progress) {
+      update_mandelbrot_shell_title!
+    }
+    observe(Mandelbrot, :zoom) {
+      update_mandelbrot_shell_title!
+    }
     # pre-calculate zoomed mandelbrot images even before the user zooms in
     puts 'Starting background calculation thread...'
     Thread.new {
@@ -153,7 +172,6 @@ class MandelbrotFractal
         pixels = the_mandelbrot.calculate_points
         build_mandelbrot_image(mandelbrot_zoom: future_zoom)
         sync_exec {
-          swt_widget.text = mandelbrot_shell_title
           @canvas.cursor = :cross
         }
         future_zoom += 0.5
@@ -163,11 +181,21 @@ class MandelbrotFractal
   
   body {
     shell(:no_resize) {
-      text mandelbrot_shell_title
-      minimum_size mandelbrot.width, mandelbrot.height + 30
+      grid_layout
+      text bind(self, :mandelbrot_shell_title, sync_exec: true)
+      minimum_size mandelbrot.width + 29, mandelbrot.height + 77
       image @mandelbrot_image
       
+      progress_bar {
+        layout_data :fill, :center, true, false
+
+        minimum 0
+        maximum Mandelbrot::PROGRESS_MAX
+        selection bind(Mandelbrot, :progress, sync_exec: true)
+      }
+          
       @scrolled_composite = scrolled_composite {
+        layout_data :fill, :fill, true, true
         @canvas = canvas {
           image @mandelbrot_image
           cursor :no
@@ -250,9 +278,11 @@ class MandelbrotFractal
       }
     }
   }
-  
-  def mandelbrot_shell_title
-    "Mandelbrot Fractal - Zoom #{zoom}x (Calculated Max: #{flyweight_mandelbrot_images.keys.max}x)"
+      
+  def update_mandelbrot_shell_title!
+    new_title = "Mandelbrot Fractal - Zoom #{zoom}x (Calculated Max: #{flyweight_mandelbrot_images.keys.max}x)"
+    new_title += " - #{Mandelbrot.work_in_progress}" if Mandelbrot.work_in_progress
+    self.mandelbrot_shell_title = new_title
   end
   
   def build_mandelbrot_image(mandelbrot_zoom: nil)
@@ -265,14 +295,22 @@ class MandelbrotFractal
       new_mandelbrot_image = image(width, height, top_level: true) # invoke as a top-level parentless keyword to avoid nesting under any widget
       new_mandelbrot_image_gc = new_mandelbrot_image.gc
       current_foreground = nil
+      Mandelbrot.work_in_progress = "Consuming Points To Build Image for Zoom #{mandelbrot_zoom}x"
+      Mandelbrot.progress = Mandelbrot::PROGRESS_MAX
+      point_index = 0
+      point_count = width*height
       height.times { |y|
         width.times { |x|
           new_foreground = color_palette[pixels[y][x]]
           new_mandelbrot_image_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
           new_mandelbrot_image_gc.draw_point x, y
+          point_index += 1
+          Mandelbrot.progress -= 1 if (Mandelbrot::PROGRESS_MAX - (point_index.to_f / point_count.to_f)*Mandelbrot::PROGRESS_MAX) < Mandelbrot.progress
         }
       }
+      Mandelbrot.progress = 0
       flyweight_mandelbrot_images[mandelbrot_zoom] = new_mandelbrot_image
+      update_mandelbrot_shell_title!
     end
     flyweight_mandelbrot_images[mandelbrot_zoom]
   end
@@ -329,8 +367,8 @@ class MandelbrotFractal
       @scrolled_composite.set_origin(factor*@location_x, factor*@location_y)
       @location_x = @location_y = nil
     end
+    update_mandelbrot_shell_title!
     @canvas.cursor = :cross
-    swt_widget.text = mandelbrot_shell_title
   end
   
   def display_help_instructions

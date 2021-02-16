@@ -5,6 +5,7 @@
 - Hello, Progress Bar!
 - Alias shell as window, Glimmer::UI::CustomShell as Glimmer::UI::CustomWindow, on_shell_xyz events as on_window_xyz events, and :shell_trim SWT style as :window_trim SWT Glimmer custom style
 - `bind` option of `async_exec` or `sync_exec` (e.g. `bind(model, :property, async_exec: true)`) to perform GUI updates from another thread safely
+- Show progress bar for Mandelbrot calculation
 
 ### 4.18.4.9
 

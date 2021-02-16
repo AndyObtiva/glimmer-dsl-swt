@@ -597,7 +597,7 @@ module Glimmer
       end
       
       def ensure_drop_target_proxy(style=[])
-        @drop_target_proxy ||= self.class.new('drop_target', self, style).tap do |proxy|
+        @drop_target_proxy ||= WidgetProxy.new('drop_target', self, style).tap do |proxy|
           proxy.set_attribute(:transfer, :text)
           proxy.on_drag_enter { |event|
             event.detail = DNDProxy[:drop_copy]

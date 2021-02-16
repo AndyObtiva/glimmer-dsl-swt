@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Show progress bar for Mandelbrot calculation
 - Consider supporting canvas functions that take x, y point coordinates based on canvas size and give back a pixel color (perhaps call widget_size { |x,y| [255, 3, 4]})
 example:
 ```ruby
