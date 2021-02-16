@@ -276,13 +276,7 @@ module Glimmer
           end
           @parent.shapes.delete(self)
         end
-        
-        def disposed?
-          @background_pattern.nil? && @foreground_pattern.nil? && @image.nil? && @parent.shapes.include?(self)
-        end
-        alias is_disposed disposed?
-        alias isDisposed disposed?
-        
+                
         def paint(paint_event)
           calculate_paint_args!
           @properties.each do |property, args|
