@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.18.4.11
+
+- Support creating images pixel by pixel with `image(width, height) {|x,y| [r, g, b]}` keyword, which takes a block with x, y coordinates based on the image width and height and returns a pixel foreground color per point
+- Add proper indentation in code_text upon hitting ENTER
+- Fix use of on_events in code_text widget with lines mode true
+
+
 ### 4.18.4.10
 
 - Hello, Progress Bar!

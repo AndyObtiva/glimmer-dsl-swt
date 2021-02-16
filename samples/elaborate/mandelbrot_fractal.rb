@@ -316,21 +316,17 @@ class MandelbrotFractal
       width = the_mandelbrot.width
       height = the_mandelbrot.height
       pixels = the_mandelbrot.points
-      new_mandelbrot_image = image(width, height, top_level: true) # invoke as a top-level parentless keyword to avoid nesting under any widget
-      new_mandelbrot_image_gc = new_mandelbrot_image.gc
-      current_foreground = nil
       Mandelbrot.work_in_progress = "Consuming Points To Build Image for Zoom #{mandelbrot_zoom}x"
-      Mandelbrot.progress = Mandelbrot::PROGRESS_MAX
+      Mandelbrot.progress = Mandelbrot::PROGRESS_MAX + 1
       point_index = 0
       point_count = width*height
-      height.times { |y|
-        width.times { |x|
-          new_foreground = color_palette[pixels[y][x]]
-          new_mandelbrot_image_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
-          new_mandelbrot_image_gc.draw_point x, y
-          point_index += 1
-          Mandelbrot.progress -= 1 if (Mandelbrot::PROGRESS_MAX - (point_index.to_f / point_count.to_f)*Mandelbrot::PROGRESS_MAX) < Mandelbrot.progress
-        }
+      progress_reporter = lambda do |x, y|
+      end
+      # invoke as a top-level parentless keyword to avoid nesting under any widget
+      new_mandelbrot_image = image(width, height, top_level: true, progress_reporter: progress_reporter) { |x, y|
+        point_index += 1
+        Mandelbrot.progress -= 1 if (Mandelbrot::PROGRESS_MAX - (point_index.to_f / point_count.to_f)*Mandelbrot::PROGRESS_MAX) < Mandelbrot.progress
+        color_palette[pixels[y][x]]
       }
       Mandelbrot.progress = 0
       flyweight_mandelbrot_images[mandelbrot_zoom] = new_mandelbrot_image

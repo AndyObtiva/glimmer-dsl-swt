@@ -1501,7 +1501,44 @@ If you need a transparent background for the image, replace the image constructi
 
 That way, wherever you don't draw a point, you get transparency (seeing what is behind the image).
 
-If you don't need a `shell` image icon and `pixel` performance is enough, you can automatically apply **Image Double-Buffering** with the `:image_double_buffered` SWT style (custom Glimmer style not available in SWT itself)
+Alternatively, with a very minor performance penalty, Glimmer enables you to build the image pixel by pixel with a friendly Ruby syntax by passing a block that takes the x and y coordinates and returns a foreground color rgb array or Color/ColorProxy object.
+
+```ruby
+include Glimmer
+
+@the_image = image(250, 250) {|x, y|
+  [y%255, x%255, (x+y)%255]
+}
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  image @the_image
+  
+  canvas {
+    image @the_image
+  }
+}.open
+```
+
+If you don't need a `shell` image (icon), you can nest the image directly under the canvas by passing in the `top_level` keyword to treat `image` as a top-level keyword (pretending it is built outside the shell).
+
+```ruby
+include Glimmer
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  
+  canvas {
+    image image(250, 250, top_level: true) {|x, y|
+      [y%255, x%255, (x+y)%255]
+    }
+  }
+}.open
+```
+
+If you don't need a `shell` image (icon) and `pixel` performance is enough, you can automatically apply **Image Double-Buffering** with the `:image_double_buffered` SWT style (custom Glimmer style not available in SWT itself)
 
 Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
@@ -2715,6 +2752,8 @@ To use, simply use `code_text` in place of the `text` or `styled_text` widget. I
 **lines**
 (default: `false`)
 
+**(BETA FEATURE)**
+
 Shows line numbers when set to true.
 
 If set to a hash like `{width: 4}`, it sets the initial width of the line numbers lane in character count (default: 4)
@@ -2724,6 +2763,8 @@ Keep in mind that if the text grows and required a wider line numbers area, it g
 **theme**
 (default: `'glimmer'`)
 
+**(BETA FEATURE)**
+
 Changes syntax color highlighting theme. Can be one of the following:
 - glimmer
 - github
@@ -2731,6 +2772,8 @@ Changes syntax color highlighting theme. Can be one of the following:
 
 **language**
 (default: `'ruby'`)
+
+**(BETA FEATURE)**
 
 Sets the code language, which can be one of the following [rouge gem](#https://rubygems.org/gems/rouge) supported languages:
 - abap
@@ -2941,10 +2984,13 @@ Sets the code language, which can be one of the following [rouge gem](#https://r
 **default_behavior**
 (default: true)
 
+**(BETA FEATURE)**
+
 This adds some default keyboard shortcuts:
 - CMD+A (CTRL+A on Windows/Linux) to select all
 - CTRL+A on Mac to jump to beginning of line
 - CTRL+E on Mac to jump to end of line
+- Attempts to add proper indentation upon adding a new line when hitting ENTER (currently supporting Ruby only)
 
 If you prefer it to be vanilla with no default key event listeners, then pass the `default_behavior: false` option.
 

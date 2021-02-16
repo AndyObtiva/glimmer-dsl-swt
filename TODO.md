@@ -4,28 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Consider supporting canvas functions that take x, y point coordinates based on canvas size and give back a pixel color (perhaps call widget_size { |x,y| [255, 3, 4]})
-example:
+- Build image with a transparent background by default
+- Provide terse syntax for building canvas objects (that autodetects its width and height):
 ```ruby
-new_mandelbrot_image.draw_each_pixel do |x, y|
-  color_palette[pixels[y][x]]
-end
-
-# or
-
-image(300, 300) {
-  each_pixel do |x, y|
-    color_palette[pixels[y][x]]
-  end
-}
-
-# or
-
-image(300, 300) { |x, y|
-  color_palette[pixels[y][x]]
-}
-
+  canvas(:image_double_buffered) { |x, y|
+    [y%255, x%255, (x+y)%255]
+  }
 ```
+
 
 - Center mandelbrot where mouse is clicked upon zoom
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
@@ -58,11 +44,11 @@ image(300, 300) { |x, y|
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
 
-
+- Look into the idea of applying `transform` objects on any widget's rendering
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
-- Auto-Dispose display macos event listener registrations declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
+- Auto-Dispose `display` MacOS event listener registrations (e.g. `on_about`) declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 

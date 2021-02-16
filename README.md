@@ -432,7 +432,7 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ### Connector
 
-[<img alt="Connector Logo" src="https://raw.githubusercontent.com/AndyObtiva/connector/master/package/linux/Connector.png" height=40 /> Connector](https://github.com/AndyObtiva/connector): A minimalist open-source web browser
+[<img alt="Connector Logo" src="https://raw.githubusercontent.com/AndyObtiva/connector/master/package/linux/Connector.png" height=40 /> Connector](https://github.com/AndyObtiva/connector): A minimalist open-source multi-engine web browser
 
 ## Packaging & Distribution
 

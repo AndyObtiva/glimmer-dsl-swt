@@ -605,6 +605,10 @@ Hello, Cursor!
 
 This sample demonstrates the use of the `progress_bar` widget keyword.
 
+It includes an `:indeterminate` progress bar on top, for cases when you could not calculate progress, but still want to inform the user there is an operation happening in the background.
+
+Below it, there are a determinate `:horizontal` (default) progress bar and a `:vertical` progress bar. 
+
 Code:
 
 [samples/hello/hello_progress_bar.rb](/samples/hello/hello_progress_bar.rb)

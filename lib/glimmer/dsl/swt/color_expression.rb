@@ -32,7 +32,7 @@ module Glimmer
         include_package 'org.eclipse.swt.widgets'
   
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::ColorProxy.flyweight(*args)
+          Glimmer::SWT::ColorProxy.create(*args)
         end
       end
     end

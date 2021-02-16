@@ -64,6 +64,18 @@ module Glimmer
           respond_to?(method_name)
         end
         
+        def can_handle_observation_request?(observation_request)
+          @styled_text_proxy.can_handle_observation_request?(observation_request)
+        rescue
+          super
+        end
+        
+        def handle_observation_request(observation_request, &block)
+          @styled_text_proxy.handle_observation_request(observation_request, &block)
+        rescue
+          super
+        end
+        
         def root_block=(block)
           body_root.content(&block)
         end
@@ -153,6 +165,7 @@ module Glimmer
             top_margin 5
             right_margin 5
             bottom_margin 5
+            tabs 2
             
             if default_behavior
               on_key_pressed { |event|
@@ -164,6 +177,15 @@ module Glimmer
                   jump_to_beginning_of_line
                 when [(swt(:ctrl) if OS.mac?), 'e']
                   jump_to_end_of_line
+                end
+              }
+              on_verify_text { |verify_event|
+                if verify_event.text == "\n"
+                  line_index = verify_event.widget.get_line_at_offset(verify_event.widget.get_caret_offset)
+                  line = verify_event.widget.get_line(line_index)
+                  line_indent = line.match(/^([ ]*)/)[1].to_s.size
+                  verify_event.text += ' '*line_indent
+                  verify_event.text += ' '*2 if line.strip.end_with?('{') || line.strip.match(/do([ ]*[|][^|]*[|])?$/) || line.start_with?('class') || line.start_with?('module') || line.strip.start_with?('def')
                 end
               }
             end

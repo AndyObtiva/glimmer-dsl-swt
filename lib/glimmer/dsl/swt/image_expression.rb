@@ -40,11 +40,18 @@ module Glimmer
   
         def interpret(parent, keyword, *args, &block)
           options = args.last.is_a?(Hash) ? args.last : {}
+          coordinate_args = args.size == (options.empty? ? 2 : 3)
           args.unshift(parent) unless parent.nil? || options[:top_level]
-          Glimmer::SWT::ImageProxy.new(*args, &block)
+          @create_pixel_by_pixel = coordinate_args && block&.parameters&.count == 2
+          if @create_pixel_by_pixel
+            Glimmer::SWT::ImageProxy.create_pixel_by_pixel(*args, &block)
+          else
+            Glimmer::SWT::ImageProxy.create(*args, &block)
+          end
         end
 
         def add_content(parent, &block)
+          return if @create_pixel_by_pixel
           super
           parent.post_add_content
         end

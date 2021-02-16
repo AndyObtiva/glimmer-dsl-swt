@@ -33,7 +33,7 @@ module Glimmer
       include_package 'org.eclipse.swt.graphics'
       
       class << self
-        def flyweight(*args)
+        def create(*args)
           flyweight_color_proxies[args] ||= new(*args)
         end
         
