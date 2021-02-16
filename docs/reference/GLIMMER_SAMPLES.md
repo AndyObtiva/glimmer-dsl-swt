@@ -650,6 +650,24 @@ Code:
 
 ![Tetris Help Menu](/images/glimmer-tetris-help-menu.png)
 
+#### Mandelbrot Fractal
+
+This sample demonstrates how to render canvas graphics with multi-threaded processing taking advantage of all CPU cores and doing background processing of images in the background.
+
+It renders the famous Mandelbrot Fractal, enabling zooming and panning (go to Help -> Instructions for more details)
+
+The Mandelbrot Fractal is known to take a long time to render, but thanks to multi-core processing, the app starts in about 10 seconds (runs faster the more cores you have)
+
+Code:
+
+[samples/elaborate/mandelbrot_fractal.rb](/samples/elaborate/mandelbrot_fractal.rb)
+
+![Mandelbrot Fractal Zoom 1](/images/glimmer-mandelbrot-zoom1.png)
+
+![Mandelbrot Fractal Zoom 3](/images/glimmer-mandelbrot-zoom3.png)
+
+![Mandelbrot Fractal Zoom 5](/images/glimmer-mandelbrot-zoom5.png)
+
 ### External Samples
 
 #### Glimmer Calculator

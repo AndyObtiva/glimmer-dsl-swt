@@ -197,13 +197,8 @@ class MandelbrotFractal
           on_mouse_up { |mouse_event|
             if !@drag_detected
               origin = @scrolled_composite.origin
-              pd @scrolled_composite.bounds.width, @scrolled_composite.bounds.height
-              pd origin.x, origin.y
-              pd mouse_event.x, mouse_event.y
               @location_x = [[origin.x + mouse_event.x - @scrolled_composite.bounds.width / 2.0, 0].max, @scrolled_composite.bounds.width].min
               @location_y = [[origin.y + mouse_event.y - @scrolled_composite.bounds.height / 2.0, 0].max, @scrolled_composite.bounds.height].min
-              pd @location_x, @location_y
-              pd @location_x / zoom, @location_y / zoom
               if mouse_event.button == 1
                 zoom_in
               elsif mouse_event.button > 2
