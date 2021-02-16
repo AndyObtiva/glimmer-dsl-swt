@@ -20,7 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'complex'
-require 'bigdecimal'
 require 'concurrent-ruby'
 
 # Mandelbrot multi-threaded implementation leveraging all processor cores.

@@ -2,6 +2,7 @@
 
 ### 4.18.4.10
 
+- Hello, Progress Bar!
 - Alias shell as window, Glimmer::UI::CustomShell as Glimmer::UI::CustomWindow, on_shell_xyz events as on_window_xyz events, and :shell_trim SWT style as :window_trim SWT Glimmer custom style
 
 ### 4.18.4.9

@@ -5,16 +5,29 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Show progress bar for Mandelbrot calculation
+- Consider supporting canvas functions that take x, y point coordinates based on canvas size and give back a pixel color (perhaps call widget_size { |x,y| [255, 3, 4]})
+example:
+```ruby
+new_mandelbrot_image.draw_each_pixel do |x, y|
+  color_palette[pixels[y][x]]
+end
+```
 
-- Make setting text on tab_item_proxy sets it on the tab_item directly
+- Center mandelbrot where mouse is clicked upon zoom
+- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
+- Canvas Shape DSL Shape Arguments Data-Binding support
+- Reset alpha value to 255 when not explicitly set on a shape (Apply in Hello, Canvas! Sample)
+- Enhance Hello, Canvas! with Color base selector
+- Hello, Color Dialog!
+- Hello, Font Dialog!
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order
+- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
+
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
-
-- Canvas Shape DSL Shape Arguments Data-Binding support
-- Enhance Hello, Canvas! with Color base selector or create a new sample: Hello, Canvas Data-Binding!
-- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..)
@@ -24,20 +37,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
 
-- Figure out how to do layers
-
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
 - Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
-- Consider providing an alternative to SWT's imperative canvas painting syntax
-- Consider supporting infinite canvas functions that take x, y point coordinates and give back a pixel color (perhaps call widget_size { |x,y| })
-- Add pixel alias to point in Canvas Shape DSL
-- Support z_order property for Canvas Shape DSL
 
-- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
@@ -93,7 +99,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
 - Update Hello, Menu Bar! sample to show images on menu items
-- Hello, Font Dialog!
 
 - Add support for specifying maximum size on shells and composites
 
