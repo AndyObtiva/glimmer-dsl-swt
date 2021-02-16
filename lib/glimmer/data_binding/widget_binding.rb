@@ -32,10 +32,12 @@ module Glimmer
       include Observer
 
       attr_reader :widget, :property
-      def initialize(widget, property, translator = nil)
+      def initialize(widget, property, translator = nil, sync_exec: false, async_exec: false)
         @widget = widget
         @property = property
         @translator = translator || proc {|value| value} #TODO check on this it doesn't seem used
+        @sync_exec = sync_exec
+        @async_exec = async_exec
 
         if @widget.respond_to?(:on_widget_disposed)
           @widget.on_widget_disposed do |dispose_event|
@@ -54,8 +56,10 @@ module Glimmer
           end
           @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
         end
-        if Config.auto_sync_exec? && Config.require_sync_exec?
+        if @sync_exec || Config.auto_sync_exec? && Config.require_sync_exec?
           SWT::DisplayProxy.instance.sync_exec(&update_operation)
+        elsif @async_exec
+          SWT::DisplayProxy.instance.async_exec(&update_operation)
         else
           update_operation.call
         end
@@ -66,7 +70,16 @@ module Glimmer
           unregister_all_observables
           return
         end
-        @widget.get_attribute(@property)
+        read_operation = lambda do
+          @widget.get_attribute(@property)
+        end
+        if @sync_exec || Config.auto_sync_exec? && Config.require_sync_exec?
+          SWT::DisplayProxy.instance.sync_exec(&read_operation)
+        elsif @async_exec
+          SWT::DisplayProxy.instance.async_exec(&read_operation)
+        else
+          read_operation.call
+        end
       end
     end
   end

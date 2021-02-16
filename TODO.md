@@ -60,7 +60,6 @@ end
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 - Tetris music via JSound (Java Sound)
-- Offer an option to perform data-bindings async (e.g. `bind(model, :property, async: true)`)
 - Consider tweaking the Tetris color scheme
 - Make disposed? alternative to is_disposed on all widgets
 - Set glimmer logo as default logo for any run app till updated

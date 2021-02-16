@@ -1800,6 +1800,14 @@ the address of a contact. This is called nested property data binding.
 
 This example adds on the one above it by specifying converters on read and write of the model property, like in the case of a `text` widget. The text widget will then displays the street upper case and the model will store it lower case. When specifying converters, read and write operations must be symmetric (to avoid an infinite update loop between the widget and the model since the widget checks first if value changed before updating)
 
+`text bind(contact, 'address.street', sync_exec: true)`
+
+This example adds does GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
+
+`text bind(contact, 'address.street', async_exec: true)`
+
+This example adds does GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
+
 `text bind(contact, 'address.street', on_read: lambda { |s| s[0..10] })`
 
 This example also specifies a converter on read of the model property, but via a lambda, which truncates the street to 10 characters only. Note that the read and write operations are assymetric. This is fine in the case of formatting data for a read-only widget like `label`

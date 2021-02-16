@@ -22,6 +22,7 @@
 require 'glimmer/dsl/expression'
 require 'glimmer/data_binding/model_binding'
 require 'glimmer/data_binding/widget_binding'
+require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module DSL
@@ -41,7 +42,7 @@ module Glimmer
   
         def interpret(parent, keyword, *args, &block)
           model_binding = args[0]
-          widget_binding_parameters = [parent, keyword]
+          widget_binding_parameters = [parent, keyword, {async_exec: model_binding.binding_options[:async_exec], sync_exec: model_binding.binding_options[:sync_exec]}]
           widget_binding = DataBinding::WidgetBinding.new(*widget_binding_parameters)
           widget_binding.call(model_binding.evaluate_property)
           #TODO make this options observer dependent and all similar observers in widget specific data binding handlers
