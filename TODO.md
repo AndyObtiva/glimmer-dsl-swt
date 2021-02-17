@@ -7,17 +7,18 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build image with a transparent background by default
 - Provide terse syntax for building canvas objects (that autodetects its width and height):
 ```ruby
+  canvas { |x, y|
+    [y%255, x%255, (x+y)%255]
+  }
   canvas(:image_double_buffered) { |x, y|
     [y%255, x%255, (x+y)%255]
   }
 ```
-
-
 - Center mandelbrot where mouse is clicked upon zoom
-- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
 - Canvas Shape DSL Shape Arguments Data-Binding support
-- Reset alpha value to 255 when not explicitly set on a shape (Apply in Hello, Canvas! Sample)
+
 - Enhance Hello, Canvas! with Color base selector
+- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
 - Hello, Color Dialog!
 - Hello, Font Dialog!
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
@@ -43,6 +44,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
+
+- Pixel Graphics data-binding
 
 - Look into the idea of applying `transform` objects on any widget's rendering
 - Add progress dialog to meta-sample for launching bigger apps like Tetris

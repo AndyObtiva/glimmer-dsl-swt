@@ -411,6 +411,10 @@ Although SWT Display is not technically a widget, it has similar APIs and DSL su
 
 [JRuby](https://www.jruby.org/) supports [truly parallel multi-threading](https://github.com/jruby/jruby/wiki/Concurrency-in-jruby) since it relies on the JVM (Java Virtual Machine). As such, it enables development of highly-interactive desktop applications that can do background work while the user is interacting with the GUI. However, any code that interacts with the GUI from a thread other than the main (first) GUI thread must do so only through sync_exec (if it is standard synchronous code) or async_exec.
 
+Most of the time, you simply get away with Ruby [Threads](https://ruby-doc.org/core-2.5.7/Thread.html) and [Mutexes](https://ruby-doc.org/core-2.5.7/Mutex.html).
+
+Otherwise, if you need more advanced concurrency, Glimmer includes the [concurrent-ruby gem](https://rubygems.org/gems/concurrent-ruby), which supports many helpful concurrency techniques such as [Thread Pools](http://ruby-concurrency.github.io/concurrent-ruby/master/file.thread_pools.html) (used in the [Mandelbrot Fractal](GLIMMER_SAMPLES.md#mandelbrot-fractal) sample).
+
 ##### async_exec
 
 `async_exec {}` is a Glimmer DSL keyword in addition to being a method on `display`. It accepts a block and when invoked, adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.

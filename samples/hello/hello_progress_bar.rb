@@ -110,6 +110,8 @@ class HelloProgressBar
           # (killing is not dangerous since it is only a thread about updating progress)
           @current_thread&.kill
           @current_thread = Thread.new {
+            # GUI updates must happen in sync_exec calls.
+            # Alternatively, add `sync_exec: true` to all the updated property `bind(...)` statements above
             sync_exec { @progress_model.selection = @progress_model.minimum }
             (@progress_model.minimum..@progress_model.maximum).to_a.each do |n|
               sync_exec {

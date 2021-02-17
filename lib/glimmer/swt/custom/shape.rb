@@ -308,7 +308,11 @@ module Glimmer
             else
               @properties['background'] = [@parent.background] if fill? && !has_some_background?
               @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
+              # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
+              @properties['alpha'] ||= [255]
               @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+              # TODO regarding transform, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
+              # Also do that with all future-added properties
               @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
               @properties.each do |property, args|
                 method_name = attribute_setter(property)

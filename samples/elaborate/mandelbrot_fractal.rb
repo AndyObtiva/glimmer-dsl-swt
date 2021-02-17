@@ -55,7 +55,7 @@ class Mandelbrot
     end
     
     def processor_count
-      @processor_count ||= Concurrent.processor_count
+      @processor_count ||= Concurrent.physical_processor_count
     end
   end
   
@@ -265,7 +265,7 @@ class MandelbrotFractal
         menu {
           text '&Cores'
           
-          Concurrent.processor_count.times {|n|
+          Concurrent.physical_processor_count.times {|n|
             processor_number = n + 1
             menu_item(:radio) {
               text "&#{processor_number}"
@@ -279,7 +279,7 @@ class MandelbrotFractal
                 accelerator COMMAND, :alt, (processor_number - 20).to_s
               end
               
-              selection true if processor_number == Concurrent.processor_count
+              selection true if processor_number == Concurrent.physical_processor_count
               
               on_widget_selected {
                 Mandelbrot.processor_count = n

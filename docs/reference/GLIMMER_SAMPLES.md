@@ -735,6 +735,12 @@ Code:
 
 ![Mandelbrot Fractal Zoom 5](/images/glimmer-mandelbrot-zoom5.png)
 
+![Mandelbrot Fractal View Menu](/images/glimmer-mandelbrot-menu-view.png)
+
+![Mandelbrot Fractal Cores Menu](/images/glimmer-mandelbrot-menu-cores.png)
+
+![Mandelbrot Fractal Help Menu](/images/glimmer-mandelbrot-menu-help.png)
+
 ### External Samples
 
 #### Glimmer Calculator
