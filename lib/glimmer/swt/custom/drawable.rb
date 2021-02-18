@@ -52,18 +52,27 @@ module Glimmer
         end
         
         def paint_pixel_by_pixel(width = nil, height = nil, &each_pixel_color)
-          work = lambda do |event_or_image|
-            the_gc = event_or_image.gc
-            current_foreground = nil
-            width ||= swt_drawable.bounds.width
-            height ||= swt_drawable.bounds.height
-            height.times do |y|
-              width.times do |x|
-                new_foreground = each_pixel_color.call(x, y)
-                new_foreground = Glimmer::SWT::ColorProxy.create(new_foreground, ensure_bounds: false) unless new_foreground.is_a?(ColorProxy) || new_foreground.is_a?(Color)
-                new_foreground = new_foreground.swt_color if new_foreground.is_a?(Glimmer::SWT::ColorProxy)
-                the_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
-                the_gc.draw_point x, y
+          if @image_double_buffered
+            work = lambda do |paint_event|
+              width ||= swt_drawable.bounds.width
+              height ||= swt_drawable.bounds.height
+              @image_proxy_buffer ||= ImageProxy.create_pixel_by_pixel(width, height, &each_pixel_color)
+              @image_proxy_buffer.shape(self).paint(paint_event)
+            end
+          else
+            work = lambda do |paint_event_or_image|
+              the_gc = paint_event_or_image.gc
+              current_foreground = nil
+              width ||= swt_drawable.bounds.width
+              height ||= swt_drawable.bounds.height
+              height.times do |y|
+                width.times do |x|
+                  new_foreground = each_pixel_color.call(x, y)
+                  new_foreground = Glimmer::SWT::ColorProxy.create(new_foreground, ensure_bounds: false) unless new_foreground.is_a?(ColorProxy) || new_foreground.is_a?(Color)
+                  new_foreground = new_foreground.swt_color if new_foreground.is_a?(Glimmer::SWT::ColorProxy)
+                  the_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
+                  the_gc.draw_point x, y
+                end
               end
             end
           end

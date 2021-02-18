@@ -4,12 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Provide terse syntax for building `:image_double_buffered` canvas objects (autodetecting its width and height):
-```ruby
-  canvas(:image_double_buffered) { |x, y|
-    [y%255, x%255, (x+y)%255]
-  }
-```
 - Center mandelbrot where mouse is clicked upon zoom
 - Canvas Shape DSL Shape Arguments Data-Binding support
 

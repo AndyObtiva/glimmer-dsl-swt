@@ -1580,6 +1580,23 @@ shell {
 }.open
 ```
 
+Of course, you could also take advantage of the pixel-less terser syntax:
+
+```ruby
+include Glimmer
+
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+  
+  canvas(:image_double_buffered) { |x, y|
+    [y%255, x%255, (x+y)%255]
+  }
+}.open
+```
+
+As they say, there are many ways to skin a cat! This is in line with the Ruby way of providing more ways than one. Pick and choose the right tool for the job just like true software engineers.
+
 #### Shapes inside a Widget
 
 Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.

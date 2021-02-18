@@ -99,7 +99,7 @@ module Glimmer
         # TODO consider adding a get_data/set_data method to conform with other SWT widgets
         @swt_image.singleton_class.define_method(:dispose) do
           proxy.clear_shapes
-          super
+          super()
         end
         post_add_content if content.nil?
       end
