@@ -4,12 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Build image with a transparent background by default
-- Provide terse syntax for building canvas objects (that autodetects its width and height):
+- Provide terse syntax for building `:image_double_buffered` canvas objects (autodetecting its width and height):
 ```ruby
-  canvas { |x, y|
-    [y%255, x%255, (x+y)%255]
-  }
   canvas(:image_double_buffered) { |x, y|
     [y%255, x%255, (x+y)%255]
   }
@@ -411,6 +407,7 @@ items <=> binding {
 - Support routing of property setting/data-binding in a custom widget to a nested widget underneath its body root using the custom_widget_property_owner desginator method (called in the body of the widget that owns the properties or else body_root is the one)
 - Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
 - Consider building drag panning into ScrolledComposite ( scrolled_composite ) as an option
+- Build image with a transparent background by default
 
 ## Samples
 

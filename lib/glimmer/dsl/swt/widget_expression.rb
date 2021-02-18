@@ -40,10 +40,14 @@ module Glimmer
         end
 
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::WidgetProxy.create(keyword, parent, args)
+          @create_pixel_by_pixel = block&.parameters&.count == 2
+          Glimmer::SWT::WidgetProxy.create(keyword, parent, args).tap do |new_widget_proxy|
+            new_widget_proxy.paint_pixel_by_pixel(&block) if @create_pixel_by_pixel
+          end
         end
 
         def add_content(parent, &block)
+          return if @create_pixel_by_pixel
           super
           parent.post_add_content
           parent.finish_add_content!

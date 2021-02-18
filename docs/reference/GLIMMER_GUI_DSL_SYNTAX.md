@@ -1444,6 +1444,21 @@ Result:
 
 ![glimmer example pixel graphics](/images/glimmer-example-pixel-graphics.png)
 
+If you are strictly dealing with pixels (no other shapes), you could even avoid the `pixel` keyword altogether and just provide direct foreground colors by passing a block that receives x, y coordinates:
+
+```ruby
+include Glimmer
+ 
+shell {
+  minimum_size 250, 265
+  text 'Pixel Graphics Example'
+   
+  canvas { |x, y|
+    [y%255, x%255, (x+y)%255]
+  }
+}.open
+```
+
 Remember that you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) too for even faster performance when needed in rare circumstances. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
 
 Example of manually doing the same things as in the previous example without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
@@ -1468,6 +1483,8 @@ shell {
   }
 }.open
 ```
+
+(the code could be optimized further if you are repeating colors by simply reusing `Color` objects instead of re-constructing them)
 
 The only downside with the approach above is that it repaints all pixels on repaints to the window (e.g. during window resize). To get around that, we can rely on a technique called **Image Double-Buffering**. That is to buffer the graphics on an Image first and then set it on the Canvas so that resizes of the shell dont cause a repaint of all the pixels. Additionally, this gives us the added benefit of being able to use the image as a Shell icon via its `image` property.
 

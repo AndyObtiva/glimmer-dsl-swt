@@ -51,6 +51,41 @@ module Glimmer
           shapes.dup.each {|s| s.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns) } if requires_shape_disposal?
         end
         
+        def paint_pixel_by_pixel(width = nil, height = nil, &each_pixel_color)
+          work = lambda do |event_or_image|
+            the_gc = event_or_image.gc
+            current_foreground = nil
+            width ||= swt_drawable.bounds.width
+            height ||= swt_drawable.bounds.height
+            height.times do |y|
+              width.times do |x|
+                new_foreground = each_pixel_color.call(x, y)
+                new_foreground = Glimmer::SWT::ColorProxy.create(new_foreground, ensure_bounds: false) unless new_foreground.is_a?(ColorProxy) || new_foreground.is_a?(Color)
+                new_foreground = new_foreground.swt_color if new_foreground.is_a?(Glimmer::SWT::ColorProxy)
+                the_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
+                the_gc.draw_point x, y
+              end
+            end
+          end
+          if respond_to?(:gc)
+            work.call(self)
+          else
+            on_swt_paint(&work)
+          end
+        end
+        
+        def swt_drawable
+          swt_drawable = nil
+          if respond_to?(:swt_image)
+            swt_drawable = swt_image
+          elsif respond_to?(:swt_display)
+            swt_drawable = swt_display
+          elsif respond_to?(:swt_widget)
+            swt_drawable = swt_widget
+          end
+          swt_drawable
+        end
+        
         def deregister_shape_painting
           @paint_listener_proxy&.deregister
         end

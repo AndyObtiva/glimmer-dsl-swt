@@ -49,17 +49,7 @@ module Glimmer
           options = args.last.is_a?(Hash) ? args.pop : {}
           height = args[-1]
           width = args[-2]
-          image_gc = image_proxy.gc
-          current_foreground = nil
-          height.times do |y|
-            width.times do |x|
-              new_foreground = each_pixel_color.call(x, y)
-              new_foreground = ColorProxy.create(new_foreground, ensure_bounds: false) unless new_foreground.is_a?(ColorProxy) || new_foreground.is_a?(Color)
-              new_foreground = new_foreground.swt_color if new_foreground.is_a?(ColorProxy)
-              image_gc.foreground = current_foreground = new_foreground unless new_foreground == current_foreground
-              image_gc.draw_point x, y
-            end
-          end
+          image_proxy.paint_pixel_by_pixel(width, height, &each_pixel_color)
           image_proxy
         end
       end

@@ -5,6 +5,7 @@
 - Support creating images pixel by pixel with `image(width, height) {|x,y| [r, g, b]}` keyword, which takes a block with x, y coordinates based on the image width and height and returns a pixel foreground color per point
 - Add proper indentation in code_text upon hitting ENTER
 - Reset Canvas Shape DSL alpha value to 255 when not explicitly set on a shape (Apply in Hello, Canvas! Sample)
+- Provide terse syntax for building canvas objects (autodetecting its width and height)
 - Fix use of on_events in code_text widget with lines mode true
 
 ### 4.18.4.10
