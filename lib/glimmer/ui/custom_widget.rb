@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer'
+require 'glimmer/ui'
 require 'glimmer/error'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
@@ -271,10 +272,6 @@ module Glimmer
         (swt_style & SWT::SWTProxy[style]) == SWT::SWTProxy[style]
       end
       
-      def pack(*args)
-        body_root.pack(*args)
-      end
-
       # TODO see if it is worth it to eliminate duplication of async_exec/sync_exec
       # delegation to DisplayProxy, via a module
 

@@ -151,10 +151,6 @@ module Glimmer
         DisplayProxy.instance.focus_control&.shell == swt_widget
       end
 
-      def pack
-        @swt_widget.pack
-      end
-
       def pack_same_size
         bounds = @swt_widget.getBounds
         if OS.mac?

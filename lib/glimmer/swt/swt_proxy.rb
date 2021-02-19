@@ -49,6 +49,22 @@ module Glimmer
         def extra_styles
           EXTRA_STYLES
         end
+        
+        def cursor_styles
+          SWT.constants.select {|c| c.to_s.start_with?('CURSOR_')}
+        end
+        
+        def color_styles
+          SWT.constants.select {|c| c.to_s.start_with?('COLOR_')}
+        end
+        
+        def cursor_options
+          cursor_styles.map {|c| c.to_s.sub('CURSOR_', '').downcase}.map(&:to_sym)
+        end
+        
+        def color_options
+          color_styles.map {|c| c.to_s.sub('COLOR_', '').downcase}.map(&:to_sym)
+        end
       end
       
       EXTRA_STYLES = {

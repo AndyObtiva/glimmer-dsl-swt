@@ -4,15 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
-- Canvas Shape DSL Shape Arguments Data-Binding support
+- Take off git gem if no longer needed in Gemfile
+- Canvas Shape DSL Shape Arguments Data-Binding support (and use with mandelbrot sample)
 - Enhance Hello, Canvas! with Color base selector
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
 - Hello, Color Dialog!
 - Hello, Font Dialog!
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order
-- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
 
@@ -34,9 +32,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
 
-- Pixel Graphics data-binding
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
-- Look into the idea of applying `transform` objects on any widget's rendering
+- Pixel Graphics data-binding
+- Build a game sample to demonstrate all the latest canvas graphics features (above)
+
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
@@ -44,7 +45,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
-- Take off git gem if no longer needed in Gemfile
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text
@@ -392,7 +392,7 @@ items <=> binding {
 - Consider the idea of shape (specific) layouts
 - Consider the idea of non-square bound widgets
 - Implement a variation on puts_debuggerer that shows logging in a Glimmer window for Glimmer apps (perhaps pd with glimmer: true which can be configured globally)
-- Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/)
+- Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/) (JOGL)
 - Make table bind column_properties a hash option of bind statement
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
 - Tetris Immediate Drop playfield collision shake animation effect on impact
@@ -401,18 +401,43 @@ items <=> binding {
 - Provide a way to still route property setting/data-binding to root composite if need be in a custom widget with a nested property owner
 - Consider building drag panning into ScrolledComposite ( scrolled_composite ) as an option
 - Build image with a transparent background by default
+- Look into the idea of applying `transform` objects on any widget's rendering
 
 ## Samples
 
 - Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
 - Add hello samples for every built-in SWT widget including the custom package
 - Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
+- An elaborate sample that demos every widget that comes with SWT out of the box
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - Music playing app
 - Web data API connected sample app (something that perhaps pulls governmental data and summarizes it/graphs it). Demonstrate how you can write this in a fraction of web code.
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
+
+### 2D Games
+
+These games are built with 2D graphics and include sound (probably via the Java Sound library, available through JRuby)
+
+1. Galaga Simplistic Clone
+2. Side-scroller: obstacle dodging to complete levels
+3. Side-scroller: treasure hunting (outdoor scenery)
+4. Side-scroller: treasure hunting (toy collection game for young boys, collecting action figures)
+5. Side-scroller: treasure hunting (gems, rubies, and jewelry collecting game for young girls)
+6. RPG game similar to Final Fantasy
+7. Fighting game similar to Street Fighter
+8. Vertical-scroller: flying game (fighter jet)
+9. Vertical-scroller: racing game (birds)
+10. Vertical-scroller: racing game (animals like lions, tigers, and cheetahs)
+11. Vertical-scroller: racing game (cars)
+12. Vertical-scroller: ant nest navigation game (score higher the sooner you find your way out of each level)
+
+### 3D Games
+
+This depends on adding SWT OpenGL support (JOGL)
+
+- Strategy Game similar to Total Annihilation / Supreme Commander
 
 ## Side Projects
 

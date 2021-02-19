@@ -24,8 +24,9 @@ class HelloCursor
   
   attr_accessor :selected_cursor
   
+  # This method matches the name of the :selected_cursor property by convention
   def selected_cursor_options
-    org.eclipse.swt.SWT.constants.select {|c| c.to_s.start_with?('CURSOR_')}.map {|c| c.to_s.sub('CURSOR_', '').downcase}
+    Glimmer::SWT::SWTProxy.cursor_options
   end
   
   after_body {

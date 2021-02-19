@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer/ui'
 require 'glimmer/error'
 
 module Glimmer
@@ -29,7 +30,7 @@ module Glimmer
       
       class << self
         def launch(*args, &content)
-          @launched_custom_shell = send(keyword, *args, &content) if @launched_custom_shell.nil? || @launched_custom_shell.disposed?
+          @launched_custom_shell = send(keyword, *args, &content)
           @launched_custom_shell.swt_widget.set_data('launched', true)
           @launched_custom_shell.open
         end

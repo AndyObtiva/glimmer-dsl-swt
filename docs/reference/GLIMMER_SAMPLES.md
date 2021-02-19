@@ -1,5 +1,3 @@
-## Samples
-
 - [Samples](#samples)
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
@@ -50,7 +48,9 @@
     - [Timer](#timer)
 - [License](#license)
 
-Check the [samples](/samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
+## Samples
+
+Check the [samples](/samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer-dsl-swt` gem first and then use the `glimmer samples` command to run it (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`).
 
 You may run any sample via this command:
 
