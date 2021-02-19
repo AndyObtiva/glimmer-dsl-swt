@@ -12,10 +12,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Shape DSL argument data-binding support for `point(x, y)` point
 - Canvas Shape DSL argument data-binding support for `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
 - Canvas Shape DSL argument data-binding support for `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
-- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
-- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
-- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 - Canvas Shape DSL argument data-binding support for `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
+
+- Consider defaulting starting dimensions (x, y) to 0, 0 for most shapes
 
 - Canvas Shape DSL autoscalable shapes or canvases
 - Enhance Hello, Canvas! with Color base selector

@@ -261,6 +261,10 @@ module Glimmer
           []
         end
         
+        def possible_parameter_names
+          parameter_names
+        end
+        
         def parameter_name?(attribute_name)
           possible_parameter_names.map(&:to_s).include?(ruby_attribute_getter(attribute_name))
         end

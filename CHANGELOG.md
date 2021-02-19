@@ -1,13 +1,17 @@
 # Change Log
 
-### 4.18.4.12
+### 4.18.5.0
 
 - Add Glimmer::GUI alias for Glimmer::UI module, thus permitting inclusion of Glimmer::GUI::CustomWidget, Glimmer::GUI::CustomShell, and Glimmer::GUI::CustomWindow
 - Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Remove explicit git gem dependency given that it is installed via juwelier during scaffolding and is not needed otherwise
-- Support alternate Canvas Shape DSL syntax for `image` by passing nested `image`, `x`, and `y` properties instead of `image(image, x, y)`
-- Support partial image shape drawing by passing source and destination dimensions to `image` shape in Canvas Shape DSL or passing them as nested properties (new syntax) [documented in docs]
+- Support partial image shape drawing by passing source and destination dimensions to `image` shape [documented in docs]
+- Support alternate Canvas Shape DSL syntax for `image` by passing nested properties
 - Canvas Shape DSL argument data-binding support for `image`
+- Support alternate Canvas Shape DSL syntax for `rectangle` by passing nested properties
+- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
+- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
+- Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 
 ### 4.18.4.11
 

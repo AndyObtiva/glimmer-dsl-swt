@@ -22,7 +22,7 @@
 include Glimmer
 
 shell {
-  text 'Hello, Canvas Image Icon!'
+  text 'Hello, Canvas!'
   minimum_size 320, 400
 
   canvas {
