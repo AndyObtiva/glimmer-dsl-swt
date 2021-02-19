@@ -10,7 +10,6 @@ gem 'puts_debuggerer', '>= 0.11.0', '< 2.0.0', require: false
 gem 'rake-tui', '>= 0.2.3', '< 2.0.0'
 
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)
-gem 'git', '1.8.1'
 gem 'logging', '>= 2.3.0', '< 3.0.0'
 gem 'os', '>= 1.0.0', '< 2.0.0'
 gem 'rake', '>= 10.1.0', '< 14.0.0'

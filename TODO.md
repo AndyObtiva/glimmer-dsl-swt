@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Take off git gem if no longer needed in Gemfile
 - Canvas Shape DSL Shape Arguments Data-Binding support (and use with mandelbrot sample)
 - Enhance Hello, Canvas! with Color base selector
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
