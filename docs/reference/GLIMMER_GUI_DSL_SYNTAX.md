@@ -1384,6 +1384,7 @@ Shape keywords and their args (including defaults) are listed below (they basica
 - `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
 - `focus(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
 - `image(image, x = 0, y = 0)` sets [image](#image), which could be an [org.eclipse.swt.graphics.Image](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Image.html) object or just a file path string
+- `image(image, source_x, source_y, source_width, source_height, destination_x, destination_y, destination_width, destination_height)` sets part of an [image](#image) and scales it to fit destination dimensions on parent canvas/widget
 - `line(x1, y1, x2, y2)` line
 - `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
 - `point(x, y)` point

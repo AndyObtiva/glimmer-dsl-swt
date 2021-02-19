@@ -115,6 +115,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/swt/custom/drawable.rb",
     "lib/glimmer/swt/custom/radio_group.rb",
     "lib/glimmer/swt/custom/shape.rb",
+    "lib/glimmer/swt/custom/shape/image.rb",
     "lib/glimmer/swt/date_time_proxy.rb",
     "lib/glimmer/swt/directory_dialog_proxy.rb",
     "lib/glimmer/swt/display_proxy.rb",

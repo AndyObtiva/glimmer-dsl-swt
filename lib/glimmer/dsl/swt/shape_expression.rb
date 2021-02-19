@@ -37,7 +37,7 @@ module Glimmer
         end
         
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::Custom::Shape.new(parent, keyword, *args, &block)
+          Glimmer::SWT::Custom::Shape.create(parent, keyword, *args, &block)
         end
         
         def add_content(parent, &block)

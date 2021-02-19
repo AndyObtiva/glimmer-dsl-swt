@@ -38,6 +38,15 @@ module Glimmer
         # TODO support a Pattern DSL for methods that take Pattern arguments
         
         class << self
+          def create(parent, keyword, *args, &property_block)
+            potential_shape_class_name = keyword.to_s.camelcase(:upper).to_sym
+            if constants.include?(potential_shape_class_name)
+              const_get(potential_shape_class_name).new(parent, keyword, *args, &property_block)
+            else
+              new(parent, keyword, *args, &property_block)
+            end
+          end
+        
           def valid?(parent, keyword, *args, &block)
             gc_instance_methods.include?(method_name(keyword, arg_options(args)))
           end
@@ -79,15 +88,15 @@ module Glimmer
           end
           
           def pattern(*args)
-            found_pattern = flyweigh_patterns[args]
+            found_pattern = flyweight_patterns[args]
             if found_pattern.nil? || found_pattern.is_disposed
-              found_pattern = flyweigh_patterns[args] = org.eclipse.swt.graphics.Pattern.new(*args)
+              found_pattern = flyweight_patterns[args] = org.eclipse.swt.graphics.Pattern.new(*args)
             end
             found_pattern
           end
           
-          def flyweigh_patterns
-            @flyweigh_patterns ||= {}
+          def flyweight_patterns
+            @flyweight_patterns ||= {}
           end
         end
         
@@ -186,6 +195,21 @@ module Glimmer
             @args[0] = @args.dup
             @args[1..-1] = []
           end
+          if @name.include?('image')
+            if @args.first.is_a?(String)
+              @args[0] = ImageProxy.new(@args[0])
+            end
+            if @args.first.is_a?(ImageProxy)
+              @args[0] = @args[0].swt_image
+            end
+            if args.first.nil?
+              @image = nil
+            else
+              @image = @args[0]
+              @image_width = @args.first.bounds.width
+              @image_height = @args.first.bounds.height
+            end
+          end
         end
         
         def apply_shape_arg_defaults!
@@ -201,12 +225,6 @@ module Glimmer
             if @args.size == 1
               @args[1] = 0
               @args[2] = 0
-            end
-            if @args.first.is_a?(String)
-              @args[0] = ImageProxy.new(@args[0])
-            end
-            if @args.first.is_a?(ImageProxy)
-              @image = @args[0] = @args[0].swt_image
             end
           end
         end
@@ -237,13 +255,30 @@ module Glimmer
           end
           @method_name = self.class.method_name(@name, @options)
         end
-                
+        
+        # parameter names for arguments to pass to SWT GC.xyz method for rendering shape (e.g. draw_image(image, x, y) yields :image, :x, :y parameter names)
+        def parameter_names
+          []
+        end
+        
+        def parameter_name?(attribute_name)
+          possible_parameter_names.map(&:to_s).include?(ruby_attribute_getter(attribute_name))
+        end
+        
+        def parameter_index(attribute_name)
+          parameter_names.map(&:to_s).index(attribute_name.to_s)
+        end
+        
         def has_attribute?(attribute_name, *args)
-          self.class.gc_instance_methods.include?(attribute_setter(attribute_name))
+          self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) || parameter_name?(attribute_name)
         end
   
         def set_attribute(attribute_name, *args)
-          @properties[attribute_name] = args
+          if parameter_name?(attribute_name)
+            @args[parameter_index(attribute_name)] = args.first
+          else
+            @properties[attribute_name] = args
+          end
           if @content_added && !@parent.is_disposed
             @calculated_paint_args = false
             @parent.redraw
@@ -251,7 +286,11 @@ module Glimmer
         end
         
         def get_attribute(attribute_name)
-          @properties.symbolize_keys[attribute_name.to_s.to_sym]
+          if parameter_name?(attribute_name)
+            @args[parameter_index(attribute_name)]
+          else
+            @properties.symbolize_keys[attribute_name.to_s.to_sym]
+          end
         end
         
         def pattern(*args, type: nil)
@@ -287,7 +326,14 @@ module Glimmer
               args.first.swt_transform.dispose
             end
           end
-          paint_event.gc.send(@method_name, *@args)
+          if @name == 'image' && @args.first.nil?
+            unless @image_width.nil? || @image_height.nil?
+              paint_event.gc.send('fill_rectangle', @args[1], @args[2], @image_width, @image_height)
+              @image_width = @image_height = nil
+            end
+          else
+            paint_event.gc.send(@method_name, *@args)
+          end
         end
         
         def calculate_paint_args!
@@ -334,3 +380,5 @@ module Glimmer
   end
   
 end
+
+Dir[File.expand_path(File.join(__dir__, 'shape', '**', '*.rb'))].each {|shape_file| require(shape_file)}

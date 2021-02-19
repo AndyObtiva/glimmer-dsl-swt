@@ -32,12 +32,10 @@ module Glimmer
       include Observer
 
       attr_reader :widget, :property
-      def initialize(widget, property, translator = nil, sync_exec: false, async_exec: false)
+      def initialize(widget, property, sync_exec: false)
         @widget = widget
         @property = property
-        @translator = translator || proc {|value| value} #TODO check on this it doesn't seem used
         @sync_exec = sync_exec
-        @async_exec = async_exec
 
         if @widget.respond_to?(:on_widget_disposed)
           @widget.on_widget_disposed do |dispose_event|
@@ -47,19 +45,15 @@ module Glimmer
       end
       
       def call(value)
-        converted_value = translated_value = @translator.call(value)
-      
         update_operation = lambda do
           if @widget.respond_to?(:disposed?) && @widget.disposed?
             unregister_all_observables
             return
           end
-          @widget.set_attribute(@property, converted_value) unless evaluate_property == converted_value
+          @widget.set_attribute(@property, value) unless evaluate_property == value
         end
         if @sync_exec || Config.auto_sync_exec? && Config.require_sync_exec?
           SWT::DisplayProxy.instance.sync_exec(&update_operation)
-        elsif @async_exec
-          SWT::DisplayProxy.instance.async_exec(&update_operation)
         else
           update_operation.call
         end
@@ -70,16 +64,16 @@ module Glimmer
           unregister_all_observables
           return
         end
+        return_value = nil
         read_operation = lambda do
-          @widget.get_attribute(@property)
+          return_value = @widget.get_attribute(@property)
         end
         if @sync_exec || Config.auto_sync_exec? && Config.require_sync_exec?
           SWT::DisplayProxy.instance.sync_exec(&read_operation)
-        elsif @async_exec
-          SWT::DisplayProxy.instance.async_exec(&read_operation)
         else
           read_operation.call
         end
+        return_value
       end
     end
   end

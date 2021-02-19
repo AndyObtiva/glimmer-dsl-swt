@@ -5,6 +5,9 @@
 - Add Glimmer::GUI alias for Glimmer::UI module, thus permitting inclusion of Glimmer::GUI::CustomWidget, Glimmer::GUI::CustomShell, and Glimmer::GUI::CustomWindow
 - Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Remove explicit git gem dependency given that it is installed via juwelier during scaffolding and is not needed otherwise
+- Support alternate Canvas Shape DSL syntax for `image` by passing nested `image`, `x`, and `y` properties instead of `image(image, x, y)`
+- Support partial image shape drawing by passing source and destination dimensions to `image` shape in Canvas Shape DSL or passing them as nested properties (new syntax) [documented in docs]
+- Canvas Shape DSL argument data-binding support for `image`
 
 ### 4.18.4.11
 
