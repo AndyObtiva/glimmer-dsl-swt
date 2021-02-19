@@ -222,8 +222,8 @@ class MandelbrotFractal
           on_mouse_up { |mouse_event|
             if !@drag_detected
               origin = @scrolled_composite.origin
-              @location_x = [[origin.x + mouse_event.x - @scrolled_composite.bounds.width / 2.0, 0].max, @scrolled_composite.bounds.width].min
-              @location_y = [[origin.y + mouse_event.y - @scrolled_composite.bounds.height / 2.0, 0].max, @scrolled_composite.bounds.height].min
+              @location_x = mouse_event.x
+              @location_y = mouse_event.y
               if mouse_event.button == 1
                 zoom_in
               elsif mouse_event.button > 2
@@ -282,7 +282,7 @@ class MandelbrotFractal
               selection true if processor_number == Concurrent.physical_processor_count
               
               on_widget_selected {
-                Mandelbrot.processor_count = n
+                Mandelbrot.processor_count = processor_number
               }
             }
           }
@@ -320,13 +320,12 @@ class MandelbrotFractal
       Mandelbrot.progress = Mandelbrot::PROGRESS_MAX + 1
       point_index = 0
       point_count = width*height
-      progress_reporter = lambda do |x, y|
-      end
       # invoke as a top-level parentless keyword to avoid nesting under any widget
-      new_mandelbrot_image = image(width, height, top_level: true, progress_reporter: progress_reporter) { |x, y|
+      new_mandelbrot_image = image(width, height, top_level: true) { |x, y|
         point_index += 1
         Mandelbrot.progress -= 1 if (Mandelbrot::PROGRESS_MAX - (point_index.to_f / point_count.to_f)*Mandelbrot::PROGRESS_MAX) < Mandelbrot.progress
-        color_palette[pixels[y][x]]
+        pixel_color_index = pixels[y][x]
+        color_palette[pixel_color_index]
       }
       Mandelbrot.progress = 0
       flyweight_mandelbrot_images[mandelbrot_zoom] = new_mandelbrot_image
@@ -383,8 +382,9 @@ class MandelbrotFractal
     @canvas.set_size @mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height
     @scrolled_composite.swt_widget.set_min_size(Point.new(@mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height))
     if @location_x && @location_y
+      # center on mouse click location
       factor = (zoom / last_zoom)
-      @scrolled_composite.set_origin(factor*@location_x, factor*@location_y)
+      @scrolled_composite.set_origin(factor*@location_x - @scrolled_composite.client_area.width/2.0, factor*@location_y - @scrolled_composite.client_area.height/2.0)
       @location_x = @location_y = nil
     end
     update_mandelbrot_shell_title!
@@ -400,7 +400,7 @@ class MandelbrotFractal
         Left-click to zoom in.
         Right-click to zoom out.
         Scroll or drag to pan.
-        Lower cores to get more responsive interaction.
+        Adjust cores to get a more responsive interaction.
         
         Enjoy!
       MULTI_LINE_STRING

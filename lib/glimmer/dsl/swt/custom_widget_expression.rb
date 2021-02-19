@@ -46,11 +46,14 @@ module Glimmer
   
         def interpret(parent, keyword, *args, &block)
           options = args.last.is_a?(Hash) ? args.pop : {}
-          UI::CustomWidget.for(keyword).new(parent, *args, options, &block)
+          UI::CustomWidget.for(keyword).new(parent, *args, options, &block).tap do |new_custom_widget|
+            new_custom_widget.body_root.paint_pixel_by_pixel(&block) if block&.parameters&.count == 2
+          end
         end
   
         def add_content(parent, &block)
           # TODO consider avoiding source_location
+          return if block&.parameters&.count == 2
           if block.source_location == parent.content&.__getobj__.source_location
             parent.content.call(parent) unless parent.content.called?
           else

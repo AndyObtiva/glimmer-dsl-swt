@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.10
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.4.11
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -342,7 +342,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.4.10
+jgem install glimmer-dsl-swt -v 4.18.4.11
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -360,7 +360,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.4.10'
+gem 'glimmer-dsl-swt', '~> 4.18.4.11'
 ```
 
 And, then run:

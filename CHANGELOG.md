@@ -7,6 +7,8 @@
 - Reset Canvas Shape DSL alpha value to 255 when not explicitly set on a shape (Apply in Hello, Canvas! Sample)
 - Provide terse syntax for building canvas objects (autodetecting its width and height)
 - Provide terse syntax for building `:image_double_buffered` canvas objects (autodetecting its width and height):
+- Center mandelbrot where mouse is clicked upon zoom
+- Fix issue with Mandelbrot sample off by one error on Cores selected via Menu
 - Fix use of on_events in code_text widget with lines mode true
 
 ### 4.18.4.10

@@ -59,7 +59,7 @@ class HelloListMultiSelection
       text 'Hello, List Multi Selection!'
       
       list(:multi) {
-        selection bind(person, :provinces)
+        selection bind(person, :provinces) # also binds to provinces_options by convention
       }
       
       button {

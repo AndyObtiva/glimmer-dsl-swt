@@ -51,7 +51,7 @@ module Glimmer
         end
 
         def add_content(parent, &block)
-          return if @create_pixel_by_pixel
+          return if @create_pixel_by_pixel || block&.parameters&.count == 2
           super
           parent.post_add_content
         end

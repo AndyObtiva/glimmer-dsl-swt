@@ -1415,6 +1415,106 @@ shell {
 }.open
 ```
 
+#### Shapes inside a Widget
+
+Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
+
+#### Shapes inside an Image
+
+You can build an image using the Canvas Shape DSL (including setting the icon of the application).
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```
+include Glimmer
+
+shell {
+  text 'Image Shape DSL Example'
+  label {
+    bevel_constant = 20
+    icon_block_size = 64
+    icon_bevel_size = icon_block_size.to_f / 25.to_f
+    icon_bevel_pixel_size = 0.16*icon_block_size.to_f
+    icon_size = 8
+    icon_pixel_size = icon_block_size * icon_size
+    image(icon_pixel_size, icon_pixel_size) {
+      icon_size.times { |row|
+        icon_size.times { |column|
+          colored = row >= 1 && column.between?(1, 6)
+          color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
+          x = column * icon_block_size
+          y = row * icon_block_size
+          rectangle(x, y, icon_block_size, icon_block_size) {
+            background color
+          }
+          polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
+            background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
+          }
+          polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
+            background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
+          }
+          polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
+            background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
+          }
+          polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
+            background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
+          }
+        }
+      }
+    }
+  }
+}.open
+```
+
+![Image Shape DSL](/images/glimmer-example-image-shape-dsl.png)
+
+Example setting the icon of the application (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```
+include Glimmer
+
+shell {
+  text 'Image Shape DSL Example'
+  label {
+    text 'Image Shape DSL Example'
+    font height: 30
+  }
+  bevel_constant = 20
+  icon_block_size = 64
+  icon_bevel_size = icon_block_size.to_f / 25.to_f
+  icon_bevel_pixel_size = 0.16*icon_block_size.to_f
+  icon_size = 8
+  icon_pixel_size = icon_block_size * icon_size
+  image(icon_pixel_size, icon_pixel_size) {
+    icon_size.times { |row|
+      icon_size.times { |column|
+        colored = row >= 1 && column.between?(1, 6)
+        color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
+        x = column * icon_block_size
+        y = row * icon_block_size
+        rectangle(x, y, icon_block_size, icon_block_size) {
+          background color
+        }
+        polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
+          background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
+        }
+        polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
+          background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
+        }
+        polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
+          background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
+        }
+        polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
+          background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
+        }
+      }
+    }
+  }
+}.open
+```
+
+![Image Shape DSL](/images/glimmer-example-image-shape-dsl-app-switcher-icon.png)
+
 #### Pixel Graphics
 
 **(Early Alpha Feature)**
@@ -1596,107 +1696,6 @@ shell {
 ```
 
 As they say, there are many ways to skin a cat! This is in line with the Ruby way of providing more ways than one. Pick and choose the right tool for the job just like true software engineers.
-
-#### Shapes inside a Widget
-
-Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
-
-#### Shapes inside an Image
-
-You can build an image using the Canvas Shape DSL (including setting the icon of the application).
-
-Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
-
-```
-include Glimmer
-
-shell {
-  text 'Image Shape DSL Example'
-  label {
-    bevel_constant = 20
-    icon_block_size = 64
-    icon_bevel_size = icon_block_size.to_f / 25.to_f
-    icon_bevel_pixel_size = 0.16*icon_block_size.to_f
-    icon_size = 8
-    icon_pixel_size = icon_block_size * icon_size
-    image(icon_pixel_size, icon_pixel_size) {
-      icon_size.times { |row|
-        icon_size.times { |column|
-          colored = row >= 1 && column.between?(1, 6)
-          color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
-          x = column * icon_block_size
-          y = row * icon_block_size
-          rectangle(x, y, icon_block_size, icon_block_size) {
-            background color
-          }
-          polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
-            background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
-          }
-          polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
-            background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
-          }
-          polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
-            background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
-          }
-          polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
-            background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
-          }
-        }
-      }
-    }
-  }
-}.open
-```
-
-![Image Shape DSL](/images/glimmer-example-image-shape-dsl.png)
-
-Example setting the icon of the application (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
-
-```
-include Glimmer
-
-shell {
-  text 'Image Shape DSL Example'
-  label {
-    text 'Image Shape DSL Example'
-    font height: 30
-  }
-  bevel_constant = 20
-  icon_block_size = 64
-  icon_bevel_size = icon_block_size.to_f / 25.to_f
-  icon_bevel_pixel_size = 0.16*icon_block_size.to_f
-  icon_size = 8
-  icon_pixel_size = icon_block_size * icon_size
-  image(icon_pixel_size, icon_pixel_size) {
-    icon_size.times { |row|
-      icon_size.times { |column|
-        colored = row >= 1 && column.between?(1, 6)
-        color = colored ? color([:white, :red, :blue, :green, :yellow, :magenta, :cyan, :dark_blue].sample) : color(:white)
-        x = column * icon_block_size
-        y = row * icon_block_size
-        rectangle(x, y, icon_block_size, icon_block_size) {
-          background color
-        }
-        polygon(x, y, x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
-          background rgb(color.red + 4*bevel_constant, color.green + 4*bevel_constant, color.blue + 4*bevel_constant)
-        }
-        polygon(x + icon_block_size, y, x + icon_block_size - icon_bevel_pixel_size, y + icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size, y + icon_block_size) {
-          background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
-        }
-        polygon(x + icon_block_size, y + icon_block_size, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_block_size - icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size) {
-          background rgb(color.red - 2*bevel_constant, color.green - 2*bevel_constant, color.blue - 2*bevel_constant)
-        }
-        polygon(x, y, x, y + icon_block_size, x + icon_bevel_pixel_size, y + icon_block_size - icon_bevel_pixel_size, x + icon_bevel_pixel_size, y + icon_bevel_pixel_size) {
-          background rgb(color.red - bevel_constant, color.green - bevel_constant, color.blue - bevel_constant)
-        }
-      }
-    }
-  }
-}.open
-```
-
-![Image Shape DSL](/images/glimmer-example-image-shape-dsl-app-switcher-icon.png)
-
 
 ### Canvas Transform DSL
 

@@ -44,7 +44,7 @@ class HelloListSingleSelection
       text 'Hello, List Single Selection!'
       
       list {
-        selection bind(person, :country)
+        selection bind(person, :country) # also binds to country_options by convention
       }
       
       button {

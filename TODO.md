@@ -4,9 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Center mandelbrot where mouse is clicked upon zoom
+- Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Canvas Shape DSL Shape Arguments Data-Binding support
-
 - Enhance Hello, Canvas! with Color base selector
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
 - Hello, Color Dialog!
