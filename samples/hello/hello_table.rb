@@ -181,12 +181,17 @@ class HelloTable
 
   include Glimmer::UI::CustomShell
   
+  before_body {
+    Display.app_name = 'Hello, Table!'
+  }
+  
   body {
     shell {
       grid_layout
       
       text 'Hello, Table!'
       background_image File.expand_path('hello_table/baseball_park.png', __dir__)
+      image File.expand_path('hello_table/baseball_park.png', __dir__)
       
       label {
         layout_data :center, :center, true, false
