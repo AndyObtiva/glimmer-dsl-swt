@@ -12,6 +12,10 @@
 - Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
 - Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
 - Canvas Shape DSL argument data-binding support for `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
+- Canvas Shape DSL argument data-binding support for `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
+- Canvas Shape DSL argument data-binding support for `focus(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
+- Canvas Shape DSL argument data-binding support for `line(x1, y1, x2, y2)` line
+- Canvas Shape DSL argument data-binding support for `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
 
 ### 4.18.4.11
 

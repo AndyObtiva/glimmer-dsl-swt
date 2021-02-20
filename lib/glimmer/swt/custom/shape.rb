@@ -200,14 +200,10 @@ module Glimmer
               @args[0] = ImageProxy.new(@args[0])
             end
             if @args.first.is_a?(ImageProxy)
-              @args[0] = @args[0].swt_image
+              @image = @args[0] = @args[0].swt_image
             end
-            if args.first.nil?
+            if @args.first.nil?
               @image = nil
-            else
-              @image = @args[0]
-              @image_width = @args.first.bounds.width
-              @image_height = @args.first.bounds.height
             end
           end
         end
@@ -330,14 +326,7 @@ module Glimmer
               args.first.swt_transform.dispose
             end
           end
-          if @name == 'image' && @args.first.nil?
-            unless @image_width.nil? || @image_height.nil?
-              paint_event.gc.send('fill_rectangle', @args[1], @args[2], @image_width, @image_height)
-              @image_width = @image_height = nil
-            end
-          else
-            paint_event.gc.send(@method_name, *@args)
-          end
+          paint_event.gc.send(@method_name, *@args)
         end
         
         def calculate_paint_args!

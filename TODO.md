@@ -5,15 +5,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Fix async_exec option for `bind` keyword (covering data_binding_expression.rb with async_exec properly)
-- Canvas Shape DSL argument data-binding support for `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)
-- Canvas Shape DSL argument data-binding support for `focus(x, y, width, height)` this is just like rectangle but its foreground color is always that of the OS widget focus color (useful when capturing user interaction via a shape)
-- Canvas Shape DSL argument data-binding support for `line(x1, y1, x2, y2)` line
-- Canvas Shape DSL argument data-binding support for `oval(x, y, width, height, fill: false)` oval if width does not match heigh and circle if width matches height. Can be optionally filled.
 - Canvas Shape DSL argument data-binding support for `point(x, y)` point
 - Canvas Shape DSL argument data-binding support for `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
 - Canvas Shape DSL argument data-binding support for `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
 - Canvas Shape DSL argument data-binding support for `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
-
+- Canvas Shape DSL argument data-binding support for `pixel(x, y, foreground)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
+- Refactor `pixel(x, y, foreground: [r, g, b])` to `pixel(x, y, [r, g, b])`
 - Consider defaulting starting dimensions (x, y) to 0, 0 for most shapes
 
 - Canvas Shape DSL autoscalable shapes or canvases
