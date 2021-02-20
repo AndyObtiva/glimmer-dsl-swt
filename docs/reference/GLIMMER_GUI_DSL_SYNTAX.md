@@ -1965,9 +1965,13 @@ This example adds on the one above it by specifying converters on read and write
 
 `text bind(contact, 'address.street', sync_exec: true)`
 
+**(ALPHA FEATURE)**
+
 This example adds does GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
 
 `text bind(contact, 'address.street', async_exec: true)`
+
+**(ALPHA FEATURE)**
 
 This example adds does GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
 

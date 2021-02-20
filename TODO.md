@@ -4,14 +4,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Check if sync_exec option in `bind` keyword works with table, tree, combo, and list data-binding (other data-binding types other than standard, basically)
+- Add async_exec option to `bind` keyword (covering data_binding_expression.rb with async_exec properly)
+- Enhance Hello, Canvas! with Movement
+
+- Enhance Hello, Canvas! with Color selector
+- Hello, Color Dialog!
+- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
+- Hello, Font Dialog!
 - Refactor text, rectangle, and image to share commonalities
-- Fix async_exec option for `bind` keyword (covering data_binding_expression.rb with async_exec properly)
 
 - Canvas Shape DSL autoscalable shapes or canvases
-- Enhance Hello, Canvas! with Color base selector
-- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
-- Hello, Color Dialog!
-- Hello, Font Dialog!
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
 - Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)

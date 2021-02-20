@@ -179,9 +179,9 @@ class HelloTable
     end
   end
 
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
+  body {
     shell {
       grid_layout
       
@@ -240,7 +240,7 @@ class HelloTable
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
+        items bind(BaseballGame, :schedule, sync_exec: true), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
         
         # Data-bind table selection
         selection bind(BaseballGame, :selected_game)
@@ -272,8 +272,8 @@ class HelloTable
           book_selected_game
         }
       }
-    }.open
-  end
+    }
+  }
   
   def book_selected_game
     message_box {
@@ -283,4 +283,4 @@ class HelloTable
   end
 end
 
-HelloTable.new.launch
+HelloTable.launch
