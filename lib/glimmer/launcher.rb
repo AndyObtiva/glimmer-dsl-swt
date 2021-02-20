@@ -27,8 +27,11 @@ require 'fileutils'
 require 'os'
 
 module Glimmer
+  # Launcher of glimmer applications and main entry point for the `glimmer` command.
   class Launcher
     OPERATING_SYSTEMS_SUPPORTED = ["mac", "windows", "linux"]
+    
+    # TODO convert to a bash script to achieve faster startup time
     
     TEXT_USAGE = <<~MULTI_LINE_STRING
       Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}

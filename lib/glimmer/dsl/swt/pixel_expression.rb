@@ -30,7 +30,7 @@ module Glimmer
       class PixelExpression < StaticExpression
 
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::Custom::Shape.new(parent, 'point', *args, &block)
+          Glimmer::SWT::Custom::Shape.new(parent, 'pixel', *args, &block)
         end
       end
     end

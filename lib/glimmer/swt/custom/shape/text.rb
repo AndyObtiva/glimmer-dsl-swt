@@ -32,34 +32,38 @@ module Glimmer
       # Represents a shape (graphics) to be drawn on a control/widget/canvas/display
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
-        class Image < Shape
+        class Text < Shape
           def parameter_names
-            if @args.to_a.size > 3
-              image_part_parameter_names
-            else
-              image_whole_parameter_names
-            end
+            @parameter_names || text_parameter_names
           end
           
           def possible_parameter_names
-            (image_part_parameter_names + image_whole_parameter_names).uniq
+            # TODO refactor and improve this method through meta-programming (and share across other shapes)
+            (text_parameter_names + text_transparent_parameter_names + text_flags_parameter_names).uniq
           end
           
-          def image_part_parameter_names
-            [:image, :src_x, :src_y, :src_width, :src_height, :dest_x, :dest_y, :dest_width, :dest_height]
+          def text_parameter_names
+            [:text, :x, :y]
           end
           
-          def image_whole_parameter_names
-            [:image, :x, :y]
+          def text_transparent_parameter_names
+            [:text, :x, :y, :is_transparent]
           end
           
-          def parameter_index(attribute_name)
-            ####TODO refactor and improve this method through meta-programming (and share across other shapes)
-            if image_part_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_part_parameter_names.map(&:to_s).index(attribute_name.to_s)
-            elsif image_whole_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_whole_parameter_names.map(&:to_s).index(attribute_name.to_s)
+          def text_flags_parameter_names
+            [:text, :x, :y, :flags]
+          end
+          
+          def set_parameter_attribute(attribute_name, *args)
+            return super if @parameter_names.to_a.map(&:to_s).include?(attribute_name.to_s)
+            if text_parameter_names.map(&:to_s).include?(attribute_name.to_s)
+              @parameter_names = text_parameter_names
+            elsif text_transparent_parameter_names.map(&:to_s).include?(attribute_name.to_s)
+              @parameter_names = text_transparent_parameter_names
+            elsif text_flags_parameter_names.map(&:to_s).include?(attribute_name.to_s)
+              @parameter_names = text_flags_parameter_names
             end
+            super
           end
           
         end

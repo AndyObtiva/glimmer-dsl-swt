@@ -195,7 +195,7 @@ module Glimmer
             @args[0] = @args.dup
             @args[1..-1] = []
           end
-          if @name.include?('image')
+          if @name == 'image'
             if @args.first.is_a?(String)
               @args[0] = ImageProxy.new(@args[0])
             end
@@ -204,6 +204,17 @@ module Glimmer
             end
             if @args.first.nil?
               @image = nil
+            end
+          end
+          if @name == 'text'
+            if @args[3].is_a?(Symbol) || @args[3].is_a?(String)
+              @args[3] = [@args[3]]
+            end
+            if @args[3].is_a?(Array)
+              if @args[3].size == 1 && @args[3].first.is_a?(Array)
+                @args[3] = @args[3].first
+              end
+              @args[3] = SWTProxy[*@args[3]]
             end
           end
         end
@@ -231,14 +242,14 @@ module Glimmer
           the_java_method_arg_count = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.select do |m|
             m.name == @method_name.camelcase(:lower)
           end.map(&:parameter_types).map(&:size).max
-          if @args.size > the_java_method_arg_count
+          if the_java_method_arg_count && @args.to_a.size > the_java_method_arg_count
             @args[the_java_method_arg_count..-1] = []
           end
         end
         
         def amend_method_name_options_based_on_properties!
           return if @name == 'point'
-          if has_some_background? && !has_some_foreground?
+          if @name != 'text' && has_some_background? && !has_some_foreground?
             @options[:fill] = true
           elsif !has_some_background? && has_some_foreground?
             @options[:fill] = false
@@ -269,13 +280,18 @@ module Glimmer
           parameter_names.map(&:to_s).index(attribute_name.to_s)
         end
         
+        def set_parameter_attribute(attribute_name, *args)
+          @args[parameter_index(attribute_name)] = args.size == 1 ? args.first : args
+        end
+        
         def has_attribute?(attribute_name, *args)
-          self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) || parameter_name?(attribute_name)
+          self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) or
+            parameter_name?(attribute_name)
         end
   
         def set_attribute(attribute_name, *args)
           if parameter_name?(attribute_name)
-            @args[parameter_index(attribute_name)] = args.first
+            set_parameter_attribute(attribute_name, *args)
           else
             @properties[attribute_name] = args
           end
@@ -327,11 +343,15 @@ module Glimmer
             end
           end
           paint_event.gc.send(@method_name, *@args)
+        rescue => e
+          Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
+          Glimmer::Config.logger.error {e.full_message}
         end
         
         def calculate_paint_args!
           unless @calculated_paint_args
-            if @name == 'point'
+            if @name == 'pixel'
+              @name = 'point'
               # optimized performance calculation for pixel points
               if !@properties[:foreground].is_a?(Color)
                 if @properties[:foreground].is_a?(Array)

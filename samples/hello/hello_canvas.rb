@@ -65,5 +65,10 @@ shell {
         foreground :yellow
       }
     }
+    10.times {|n|
+      point(220 + n*5, 100 + n*5) {
+        foreground :yellow
+      }
+    }
   }
 }.open

@@ -4,14 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Refactor text, rectangle, and image to share commonalities
 - Fix async_exec option for `bind` keyword (covering data_binding_expression.rb with async_exec properly)
-- Canvas Shape DSL argument data-binding support for `point(x, y)` point
-- Canvas Shape DSL argument data-binding support for `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
-- Canvas Shape DSL argument data-binding support for `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
-- Canvas Shape DSL argument data-binding support for `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
-- Canvas Shape DSL argument data-binding support for `pixel(x, y, foreground)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
-- Refactor `pixel(x, y, foreground: [r, g, b])` to `pixel(x, y, [r, g, b])`
-- Consider defaulting starting dimensions (x, y) to 0, 0 for most shapes
 
 - Canvas Shape DSL autoscalable shapes or canvases
 - Enhance Hello, Canvas! with Color base selector
@@ -54,6 +48,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Consider extending Hello, Transform! with text

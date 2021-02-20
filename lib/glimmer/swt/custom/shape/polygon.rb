@@ -32,36 +32,10 @@ module Glimmer
       # Represents a shape (graphics) to be drawn on a control/widget/canvas/display
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
-        class Image < Shape
+        class Polygon < Shape
           def parameter_names
-            if @args.to_a.size > 3
-              image_part_parameter_names
-            else
-              image_whole_parameter_names
-            end
+            [:point_array]
           end
-          
-          def possible_parameter_names
-            (image_part_parameter_names + image_whole_parameter_names).uniq
-          end
-          
-          def image_part_parameter_names
-            [:image, :src_x, :src_y, :src_width, :src_height, :dest_x, :dest_y, :dest_width, :dest_height]
-          end
-          
-          def image_whole_parameter_names
-            [:image, :x, :y]
-          end
-          
-          def parameter_index(attribute_name)
-            ####TODO refactor and improve this method through meta-programming (and share across other shapes)
-            if image_part_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_part_parameter_names.map(&:to_s).index(attribute_name.to_s)
-            elsif image_whole_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_whole_parameter_names.map(&:to_s).index(attribute_name.to_s)
-            end
-          end
-          
         end
       end
     end

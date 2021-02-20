@@ -33,10 +33,11 @@ module Glimmer
         EXCLUDED_KEYWORDS = %w[shell display tab_item] + Glimmer::SWT::Custom::Shape.keywords - ['text']
 
         def can_interpret?(parent, keyword, *args, &block)
-          result = !EXCLUDED_KEYWORDS.include?(keyword) &&
-            parent.respond_to?(:swt_widget) && #TODO change to composite?(parent)
+          !EXCLUDED_KEYWORDS.include?(keyword) and
+            parent.respond_to?(:swt_widget) and
+            !parent.is_a?(Glimmer::SWT::Custom::Shape) and
+            !((keyword.to_s == 'text') and (args.first.is_a?(String) or parent.swt_widget.is_a?(org.eclipse.swt.widgets.Canvas))) and
             Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
-          (keyword.to_s == 'text' && args.first.is_a?(String)) ? false : result
         end
 
         def interpret(parent, keyword, *args, &block)
