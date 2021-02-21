@@ -25,39 +25,41 @@ class HelloCombo
   
     def initialize
       self.country_options = ['', 'Canada', 'US', 'Mexico']
-      reset_country
+      reset_country!
     end
   
-    def reset_country
+    def reset_country!
       self.country = 'Canada'
     end
   end
 
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       row_layout(:vertical) {
-        pack false
+        fill true
       }
       
       text 'Hello, Combo!'
       
       combo(:read_only) {
-        selection bind(person, :country) # also binds to country_options by convention
+        selection bind(@person, :country) # also binds to country_options by convention
       }
       
       button {
         text 'Reset Selection'
         
         on_widget_selected do
-          person.reset_country
+          @person.reset_country!
         end
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloCombo.new.launch
+HelloCombo.launch

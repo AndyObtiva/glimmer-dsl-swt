@@ -24,10 +24,10 @@ class HelloCheckbox
     attr_accessor :skiing, :snowboarding, :snowmobiling, :snowshoeing
     
     def initialize
-      reset_activities
+      reset_activities!
     end
     
-    def reset_activities
+    def reset_activities!
       self.skiing = false
       self.snowboarding = true
       self.snowmobiling = false
@@ -75,7 +75,7 @@ class HelloCheckbox
         text 'Reset Activities'
         
         on_widget_selected do
-          person.reset_activities
+          person.reset_activities!
         end
       }
     }.open

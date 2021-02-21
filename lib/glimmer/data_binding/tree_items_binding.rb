@@ -43,22 +43,26 @@ module Glimmer
         else # assume custom widget
           @tree.body_root.tree_properties = @tree_properties
         end
-        call
-        model = model_binding.base_model
-        observe(model, model_binding.property_name_expression)
-        @tree.on_widget_disposed do |dispose_event|
-          unregister_all_observables
+        Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
+          call
+          model = model_binding.base_model
+          observe(model, model_binding.property_name_expression)
+          @tree.on_widget_disposed do |dispose_event|
+            unregister_all_observables
+          end
         end
       end
 
       def call(new_value=nil)
-        @model_tree_root_node = @model_binding.evaluate_property
-        old_tree_items = @tree.all_tree_items
-        old_model_tree_nodes = old_tree_items.map(&:get_data)
-        new_model_tree_nodes = []
-        recursive_depth_first_search(@model_tree_root_node, @tree_properties, new_model_tree_nodes)
-        return if old_model_tree_nodes == new_model_tree_nodes && old_tree_items.map(&:text) == new_model_tree_nodes.map {|model_tree_node| model_tree_node.send(@tree_properties[:text])}
-        populate_tree(@model_tree_root_node, @tree, @tree_properties)
+        Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
+          @model_tree_root_node = @model_binding.evaluate_property
+          old_tree_items = @tree.all_tree_items
+          old_model_tree_nodes = old_tree_items.map(&:get_data)
+          new_model_tree_nodes = []
+          recursive_depth_first_search(@model_tree_root_node, @tree_properties, new_model_tree_nodes)
+          return if old_model_tree_nodes == new_model_tree_nodes && old_tree_items.map(&:text) == new_model_tree_nodes.map {|model_tree_node| model_tree_node.send(@tree_properties[:text])}
+          populate_tree(@model_tree_root_node, @tree, @tree_properties)
+        end
       end
 
       def populate_tree(model_tree_root_node, parent, tree_properties)

@@ -20,15 +20,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloButton
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
   attr_accessor :count
   
-  def initialize
+  before_body {
     @count = 0
-  end
+  }
   
-  def launch
+  body {
     shell {
       text 'Hello, Button!'
       
@@ -39,8 +39,8 @@ class HelloButton
           self.count += 1
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloButton.new.launch
+HelloButton.launch

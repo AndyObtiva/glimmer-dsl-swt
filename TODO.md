@@ -4,8 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Check if sync_exec option in `bind` keyword works with table, tree, combo, and list data-binding (other data-binding types other than standard, basically)
-- Add async_exec option to `bind` keyword (covering data_binding_expression.rb with async_exec properly)
+- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
 - Enhance Hello, Canvas! with Movement
 
 - Enhance Hello, Canvas! with Color selector
@@ -124,7 +123,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Move glimmer projects underneath glimmer organization
 
 - Add a right-click menu to code_text for undo/redo/cut/copy/paste/select-all
-- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
 - Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app

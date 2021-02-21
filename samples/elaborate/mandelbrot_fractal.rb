@@ -170,9 +170,7 @@ class MandelbrotFractal
         the_mandelbrot = Mandelbrot.for(max_iterations: color_palette.size - 1, zoom: future_zoom, background: true)
         pixels = the_mandelbrot.calculate_points
         build_mandelbrot_image(mandelbrot_zoom: future_zoom)
-        sync_exec {
-          @canvas.cursor = :cross
-        }
+        @canvas.cursor = :cross
         future_zoom += 0.5
       }
     }
@@ -181,7 +179,7 @@ class MandelbrotFractal
   body {
     shell(:no_resize) {
       grid_layout
-      text bind(self, :mandelbrot_shell_title, sync_exec: true)
+      text bind(self, :mandelbrot_shell_title)
       minimum_size mandelbrot.width + 29, mandelbrot.height + 77
       image @mandelbrot_image
       
@@ -190,7 +188,7 @@ class MandelbrotFractal
 
         minimum 0
         maximum Mandelbrot::PROGRESS_MAX
-        selection bind(Mandelbrot, :progress, sync_exec: true)
+        selection bind(Mandelbrot, :progress)
       }
           
       @scrolled_composite = scrolled_composite {

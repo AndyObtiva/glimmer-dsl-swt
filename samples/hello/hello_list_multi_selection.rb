@@ -40,35 +40,37 @@ class HelloListMultiSelection
         'Saskatchewan',
         'Yukon'
       ]
-      reset_provinces
+      reset_provinces!
     end
   
-    def reset_provinces
+    def reset_provinces!
       self.provinces = ['Quebec', 'Manitoba', 'Alberta']
     end
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       grid_layout
       
       text 'Hello, List Multi Selection!'
       
       list(:multi) {
-        selection bind(person, :provinces) # also binds to provinces_options by convention
+        selection bind(@person, :provinces) # also binds to provinces_options by convention
       }
       
       button {
         text 'Reset Selections To Default Values'
         
-        on_widget_selected { person.reset_provinces }
+        on_widget_selected { @person.reset_provinces! }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloListMultiSelection.new.launch
+HelloListMultiSelection.launch

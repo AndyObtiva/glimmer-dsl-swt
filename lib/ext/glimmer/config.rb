@@ -32,8 +32,7 @@ module Glimmer
       'org.eclipse.swt.custom',
       'org.eclipse.swt.dnd',
     ]
-    DEFAULT_AUTO_SYNC_EXEC = false
-    GUI_THREAD = Thread.current
+    DEFAULT_AUTO_SYNC_EXEC = true
     
     class << self
       # Tells Glimmer to import SWT packages into including class (default: true)
@@ -58,10 +57,6 @@ module Glimmer
         @@auto_sync_exec
       end
       alias auto_sync_exec? auto_sync_exec
-      
-      def require_sync_exec?
-        Thread.current != GUI_THREAD
-      end
       
       # Returns Logging Devices. Default is [:stdout, :syslog]
       def logging_devices

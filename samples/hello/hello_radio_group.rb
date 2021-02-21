@@ -27,7 +27,7 @@ class HelloRadioGroup
     attr_accessor :gender, :age_group
     
     def initialize
-      reset
+      reset!
     end
     
     def gender_options
@@ -38,17 +38,19 @@ class HelloRadioGroup
       ['Child', 'Teen', 'Adult', 'Senior']
     end
     
-    def reset
+    def reset!
       self.gender = nil
       self.age_group = 'Adult'
     end
   end
 
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       text 'Hello, Radio Group!'
       row_layout :vertical
@@ -60,7 +62,7 @@ class HelloRadioGroup
       
       radio_group {
         row_layout :horizontal
-        selection bind(person, :gender)
+        selection bind(@person, :gender)
       }
             
       label {
@@ -70,18 +72,18 @@ class HelloRadioGroup
       
       radio_group {
         row_layout :horizontal
-        selection bind(person, :age_group)
+        selection bind(@person, :age_group)
       }
       
       button {
         text 'Reset'
         
         on_widget_selected do
-          person.reset
+          @person.reset!
         end
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloRadioGroup.new.launch
+HelloRadioGroup.launch

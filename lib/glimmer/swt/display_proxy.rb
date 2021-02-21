@@ -58,9 +58,15 @@ module Glimmer
         # Returns singleton instance
         def instance(*args)
           if @instance.nil? || @instance.swt_display.nil? || @instance.swt_display.isDisposed
+            @thread = Thread.current
             @instance = new(*args)
           end
           @instance
+        end
+        
+        def thread
+          instance # ensure instance
+          @thread
         end
       end
 
@@ -71,6 +77,7 @@ module Glimmer
         Display.app_name ||= 'Glimmer'
         @swt_display = Display.new(*args)
         @swt_display.set_data('proxy', self)
+        @execs_in_progress = []
         on_swt_Dispose {
           clear_shapes
         }
@@ -80,18 +87,61 @@ module Glimmer
         Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::DisplayExpression.new, &block)
       end
       
+      # asynchronously executes the block (required from threads other than first GUI thread)
+      # does not return the value produced by the block since it is async, running after the return
       def async_exec(&block)
-        @swt_display.asyncExec(&block)
+        @swt_display.asyncExec do
+          @execs_in_progress << :async_exec
+          block.call
+          @execs_in_progress.pop
+        end
       end
 
+      # synchronously executes the block (required from threads other than first GUI thread)
+      # returns the value produced by the block
       def sync_exec(&block)
-        @swt_display.syncExec(&block)
+        result = nil
+        @swt_display.syncExec do
+          @execs_in_progress << :sync_exec
+          result = block.call
+          @execs_in_progress.pop
+        end
+        result
       end
 
       def timer_exec(delay_in_millis, &block)
         @swt_display.timerExec(delay_in_millis, &block)
       end
       
+      # Indicates whether `sync_exec` is required because of running in a different thread from the GUI thread
+      # `async_exec` could be used as an alternative to `sync_exec` when required.
+      def sync_exec_required?
+        Thread.current != DisplayProxy.thread
+      end
+      
+      def async_exec_in_progress?
+        @execs_in_progress.last == :async_exec
+      end
+      
+      def sync_exec_in_progress?
+        @execs_in_progress.include?(:sync_exec)
+      end
+      
+      # Invoke block with `sync_exec` only when necessary (running from a separate thread)
+      # Override sync_exec as `true` to force using or `false` to force avoiding
+      # Override async_exec as `true` to force using or `:unless_in_progress` to force using only if no `async_exec` is in progress
+      # Disable auto execution of `sync_exec` via `Glimmer::Config.auto_sync_exec = false`
+      # Otherwise, runs normally, thus allowing SWT to decide how to batch/optimize GUI updates
+      def auto_exec(override_sync_exec: nil, override_async_exec: nil, &block)
+        if override_sync_exec || override_sync_exec.nil? && !override_async_exec && sync_exec_required? && Config.auto_sync_exec? && !sync_exec_in_progress? && !async_exec_in_progress?
+          sync_exec(&block)
+        elsif override_async_exec || override_async_exec.to_s == 'unless_in_progress' && !async_exec_in_progress?
+          async_exec(&block)
+        else
+          block.call
+        end
+      end
+
       def on_widget_disposed(&block)
         on_swt_Dispose(&block)
       end

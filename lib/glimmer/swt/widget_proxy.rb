@@ -50,7 +50,7 @@ module Glimmer
       DEFAULT_STYLES = {
         'arrow'               => [:arrow],
         'button'              => [:push],
-        'canvas'              => [:double_buffered],
+        'canvas'              => ([:double_buffered] if OS.windows?),
         'checkbox'            => [:check],
         'check'               => [:check],
         'drag_source'         => [:drop_copy],
@@ -112,13 +112,15 @@ module Glimmer
         # Instantiates the right WidgetProxy subclass for passed in keyword
         # Args are: keyword, parent, swt_widget_args (including styles)
         def create(*init_args, swt_widget: nil)
-          return swt_widget.get_data('proxy') if swt_widget&.get_data('proxy')
-          keyword, parent, args = init_args
-          selected_widget_proxy_class = widget_proxy_class(keyword || underscored_widget_name(swt_widget))
-          if init_args.empty?
-            selected_widget_proxy_class.new(swt_widget: swt_widget)
-          else
-            selected_widget_proxy_class.new(*init_args)
+          DisplayProxy.instance.auto_exec do
+            return swt_widget.get_data('proxy') if swt_widget&.get_data('proxy')
+            keyword, parent, args = init_args
+            selected_widget_proxy_class = widget_proxy_class(keyword || underscored_widget_name(swt_widget))
+            if init_args.empty?
+              selected_widget_proxy_class.new(swt_widget: swt_widget)
+            else
+              selected_widget_proxy_class.new(*init_args)
+            end
           end
         end
         
@@ -149,31 +151,33 @@ module Glimmer
       #
       # Styles is a comma separate list of symbols representing SWT styles in lower case
       def initialize(*init_args, swt_widget: nil)
-        @image_double_buffered = !!(init_args&.last&.include?(:image_double_buffered) && init_args&.last&.delete(:image_double_buffered))
-        if swt_widget.nil?
-          underscored_widget_name, parent, args = init_args
-          @parent_proxy = parent
-          styles, extra_options = extract_args(underscored_widget_name, args)
-          swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
-          @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
-        else
-          @swt_widget = swt_widget
-          underscored_widget_name = self.class.underscored_widget_name(@swt_widget)
-          parent_proxy_class = self.class.widget_proxy_class(self.class.underscored_widget_name(@swt_widget.parent))
-          parent = swt_widget.parent
-          @parent_proxy = parent&.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
-        end
-        if @swt_widget&.get_data('proxy').nil?
-          @swt_widget.set_data('proxy', self)
-          DEFAULT_INITIALIZERS[underscored_widget_name.to_s.to_sym]&.call(@swt_widget)
-          @parent_proxy.post_initialize_child(self)
-        end
-        @keyword = underscored_widget_name.to_s
-        if respond_to?(:on_widget_disposed)
-          on_widget_disposed {
-            clear_shapes
-            deregister_shape_painting
-          }
+        auto_exec do
+          @image_double_buffered = !!(init_args&.last&.include?(:image_double_buffered) && init_args&.last&.delete(:image_double_buffered))
+          if swt_widget.nil?
+            underscored_widget_name, parent, args = init_args
+            @parent_proxy = parent
+            styles, extra_options = extract_args(underscored_widget_name, args)
+            swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
+            @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
+          else
+            @swt_widget = swt_widget
+            underscored_widget_name = self.class.underscored_widget_name(@swt_widget)
+            parent_proxy_class = self.class.widget_proxy_class(self.class.underscored_widget_name(@swt_widget.parent))
+            parent = swt_widget.parent
+            @parent_proxy = parent&.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
+          end
+          if @swt_widget&.get_data('proxy').nil?
+            @swt_widget.set_data('proxy', self)
+            DEFAULT_INITIALIZERS[underscored_widget_name.to_s.to_sym]&.call(@swt_widget)
+            @parent_proxy.post_initialize_child(self)
+          end
+          @keyword = underscored_widget_name.to_s
+          if respond_to?(:on_widget_disposed)
+            on_widget_disposed {
+              clear_shapes
+              deregister_shape_painting
+            }
+          end
         end
       end
       
@@ -223,7 +227,9 @@ module Glimmer
       def has_attribute_getter?(attribute_getter_name, *args)
         attribute_getter_name = attribute_getter_name.to_s.underscore
         return false unless !attribute_getter_name.end_with?('=') && !attribute_getter_name.start_with?('set_')
-        args.empty? && swt_widget.respond_to?(attribute_getter_name)
+        auto_exec do
+          args.empty? && swt_widget.respond_to?(attribute_getter_name)
+        end
       end
       
       def has_attribute_setter?(attribute_setter_name, *args)
@@ -237,61 +243,88 @@ module Glimmer
       def has_attribute?(attribute_name, *args)
         # TODO test that attribute getter responds too
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
-        if widget_custom_attribute
-          @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
-        else
-          @swt_widget.respond_to?(attribute_setter(attribute_name), args) || respond_to?(ruby_attribute_setter(attribute_name), args)
+        auto_exec do
+          if widget_custom_attribute
+            @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
+          else
+            @swt_widget.respond_to?(attribute_setter(attribute_name), args) || respond_to?(ruby_attribute_setter(attribute_name), args)
+          end
         end
       end
 
       def set_attribute(attribute_name, *args)
         # TODO Think about widget subclasses overriding set_attribute to add more attributes vs adding as Ruby attributes directly
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
-        apply_property_type_converters(normalized_attribute(attribute_name), args)
-        if widget_custom_attribute
-          widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
-        elsif @swt_widget.respond_to?(attribute_setter(attribute_name))
-          @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
-        elsif @swt_widget.respond_to?(ruby_attribute_setter(attribute_name))
-          @swt_widget.send(ruby_attribute_setter(attribute_name), args)
-        else
-          send(ruby_attribute_setter(attribute_name), args)
+        auto_exec do
+          apply_property_type_converters(normalized_attribute(attribute_name), args)
         end
+        swt_widget_operation = false
+        result = nil
+        auto_exec do
+          result = if widget_custom_attribute
+            swt_widget_operation = true
+            widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
+          elsif @swt_widget.respond_to?(attribute_setter(attribute_name))
+            swt_widget_operation = true
+            @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
+          elsif @swt_widget.respond_to?(ruby_attribute_setter(attribute_name))
+            swt_widget_operation = true
+            @swt_widget.send(ruby_attribute_setter(attribute_name), args)
+          end
+        end
+        unless swt_widget_operation
+          result = send(ruby_attribute_setter(attribute_name), args)
+        end
+        result
       end
 
       def get_attribute(attribute_name)
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
-        if widget_custom_attribute
-          if widget_custom_attribute[:getter][:invoker]
-            widget_custom_attribute[:getter][:invoker].call(@swt_widget, [])
-          else
-            @swt_widget.send(widget_custom_attribute[:getter][:name])
+        swt_widget_operation = false
+        result = nil
+        auto_exec do
+          result = if widget_custom_attribute
+            swt_widget_operation = true
+            if widget_custom_attribute[:getter][:invoker]
+              widget_custom_attribute[:getter][:invoker].call(@swt_widget, [])
+            else
+              @swt_widget.send(widget_custom_attribute[:getter][:name])
+            end
+          elsif @swt_widget.respond_to?(attribute_getter(attribute_name))
+            swt_widget_operation = true
+            @swt_widget.send(attribute_getter(attribute_name))
+          elsif @swt_widget.respond_to?(ruby_attribute_getter(attribute_name))
+            swt_widget_operation = true
+            @swt_widget.send(ruby_attribute_getter(attribute_name))
+          elsif @swt_widget.respond_to?(attribute_name)
+            swt_widget_operation = true
+            @swt_widget.send(attribute_name)
           end
-        elsif @swt_widget.respond_to?(attribute_getter(attribute_name))
-          @swt_widget.send(attribute_getter(attribute_name))
-        elsif @swt_widget.respond_to?(ruby_attribute_getter(attribute_name))
-          @swt_widget.send(ruby_attribute_getter(attribute_name))
-        elsif @swt_widget.respond_to?(attribute_name)
-          @swt_widget.send(attribute_name)
-        elsif respond_to?(ruby_attribute_getter(attribute_name))
-          send(ruby_attribute_getter(attribute_name))
-        else
-          send(attribute_name)
         end
+        unless swt_widget_operation
+          result = if respond_to?(ruby_attribute_getter(attribute_name))
+            send(ruby_attribute_getter(attribute_name))
+          else
+            send(attribute_name)
+          end
+        end
+        result
       end
 
       def pack_same_size
-        bounds = @swt_widget.getBounds
-        listener = on_control_resized {
-          @swt_widget.setSize(bounds.width, bounds.height)
-          @swt_widget.setLocation(bounds.x, bounds.y)
-        }
-        if @swt_widget.is_a?(Composite)
-          @swt_widget.layout(true, true)
-        else
-          @swt_widget.pack(true)
+        auto_exec do
+          bounds = @swt_widget.getBounds
+          listener = on_control_resized {
+            @swt_widget.setSize(bounds.width, bounds.height)
+            @swt_widget.setLocation(bounds.x, bounds.y)
+          }
+          if @swt_widget.is_a?(Composite)
+            @swt_widget.layout(true, true)
+          else
+            @swt_widget.pack(true)
+          end
+          @swt_widget.removeControlListener(listener.swt_listener)
         end
-        @swt_widget.removeControlListener(listener.swt_listener)
       end
 
       def widget_property_listener_installers
@@ -546,25 +579,37 @@ module Glimmer
         @flyweight_swt_widget_classes ||= {}
       end
 
+      # delegates to DisplayProxy
       def async_exec(&block)
         DisplayProxy.instance.async_exec(&block)
       end
 
+      # delegates to DisplayProxy
       def sync_exec(&block)
         DisplayProxy.instance.sync_exec(&block)
       end
 
+      # delegates to DisplayProxy
       def timer_exec(delay_in_millis, &block)
         DisplayProxy.instance.timer_exec(delay_in_millis, &block)
       end
 
+      # delegates to DisplayProxy
+      def auto_exec(*args, &block)
+        DisplayProxy.instance.auto_exec(*args, &block)
+      end
+
       def has_style?(style)
         comparison = interpret_style(style)
-        (@swt_widget.style & comparison) == comparison
+        auto_exec do
+          (@swt_widget.style & comparison) == comparison
+        end
       end
 
       def dispose
-        @swt_widget.dispose
+        auto_exec do
+          @swt_widget.dispose
+        end
       end
 
       def disposed?
@@ -574,15 +619,19 @@ module Glimmer
       # TODO Consider renaming these methods as they are mainly used for data-binding
 
       def can_add_observer?(property_name)
-        @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact.map(&:keys).flatten.map(&:to_s).include?(property_name.to_s)
+        auto_exec do
+          @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact.map(&:keys).flatten.map(&:to_s).include?(property_name.to_s)
+        end
       end
 
       # Used for data-binding only. Consider renaming or improving to avoid the confusion it causes
       def add_observer(observer, property_name)
         if !observer.respond_to?(:binding_options) || !observer.binding_options[:read_only]
-          property_listener_installers = @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact
-          widget_listener_installers = property_listener_installers.map{|installer| installer[property_name.to_s.to_sym]}.compact if !property_listener_installers.empty?
-          widget_listener_installers.to_a.first&.call(observer)
+          auto_exec do
+            property_listener_installers = @swt_widget.class.ancestors.map {|ancestor| widget_property_listener_installers[ancestor]}.compact
+            widget_listener_installers = property_listener_installers.map{|installer| installer[property_name.to_s.to_sym]}.compact if !property_listener_installers.empty?
+            widget_listener_installers.to_a.first&.call(observer)
+          end
         end
       end
 
@@ -619,13 +668,15 @@ module Glimmer
       end
       
       def can_handle_drag_observation_request?(observation_request)
-        return false unless swt_widget.is_a?(Control)
-        potential_drag_source = @drag_source_proxy.nil?
-        ensure_drag_source_proxy
-        @drag_source_proxy.can_handle_observation_request?(observation_request).tap do |result|
-          if potential_drag_source && !result
-            @drag_source_proxy.swt_widget.dispose
-            @drag_source_proxy = nil
+        auto_exec do
+          return false unless swt_widget.is_a?(Control)
+          potential_drag_source = @drag_source_proxy.nil?
+          ensure_drag_source_proxy
+          @drag_source_proxy.can_handle_observation_request?(observation_request).tap do |result|
+            if potential_drag_source && !result
+              @drag_source_proxy.swt_widget.dispose
+              @drag_source_proxy = nil
+            end
           end
         end
       rescue => e
@@ -634,13 +685,15 @@ module Glimmer
       end
 
       def can_handle_drop_observation_request?(observation_request)
-        return false unless swt_widget.is_a?(Control)
-        potential_drop_target = @drop_target_proxy.nil?
-        ensure_drop_target_proxy
-        @drop_target_proxy.can_handle_observation_request?(observation_request).tap do |result|
-          if potential_drop_target && !result
-            @drop_target_proxy.swt_widget.dispose
-            @drop_target_proxy = nil
+        auto_exec do
+          return false unless swt_widget.is_a?(Control)
+          potential_drop_target = @drop_target_proxy.nil?
+          ensure_drop_target_proxy
+          @drop_target_proxy.can_handle_observation_request?(observation_request).tap do |result|
+            if potential_drop_target && !result
+              @drop_target_proxy.swt_widget.dispose
+              @drop_target_proxy = nil
+            end
           end
         end
       end
@@ -664,7 +717,9 @@ module Glimmer
       end
 
       def content(&block)
-        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::WidgetExpression.new, &block)
+        auto_exec do
+          Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::WidgetExpression.new, &block)
+        end
       end
 
       def method_missing(method, *args, &block)
@@ -675,19 +730,26 @@ module Glimmer
         elsif has_attribute_getter?(method, *args)
           get_attribute(method, *args)
         else
-          swt_widget.send(method, *args, &block)
+          auto_exec do
+            swt_widget.send(method, *args, &block)
+          end
         end
       rescue => e
-        Glimmer::Config.logger.debug { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
-        Glimmer::Config.logger.debug { e.full_message }
-        super
-        # TODO consider get_attribute too
+        begin
+          super
+        rescue Exception => inner_error
+          Glimmer::Config.logger.error { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
+          Glimmer::Config.logger.error { e.full_message }
+          raise inner_error
+        end
       end
       
       def respond_to?(method, *args, &block)
-        super ||
-          can_handle_observation_request?(method) ||
-          swt_widget.respond_to?(method, *args, &block)
+        result = super
+        return true if result
+        auto_exec do
+          can_handle_observation_request?(method) || swt_widget.respond_to?(method, *args, &block)
+        end
       end
       
       private
@@ -713,22 +775,26 @@ module Glimmer
       # add_listener knowing it will be called for sure afterwards
 
       def can_add_listener?(underscored_listener_name)
-        !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
+        auto_exec do
+          !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
+        end
       end
 
       def add_listener(underscored_listener_name, &block)
-        widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)
-        widget_listener_proxy = nil
-        safe_block = lambda do |*args|
-          begin
-            block.call(*args) unless @swt_widget.isDisposed
-          rescue => e
-            Glimmer::Config.logger.error {e}
+        auto_exec do
+          widget_add_listener_method, listener_class, listener_method = self.class.find_listener(@swt_widget.getClass, underscored_listener_name)
+          widget_listener_proxy = nil
+          safe_block = lambda do |*args|
+            begin
+              block.call(*args) unless @swt_widget.isDisposed
+            rescue => e
+              Glimmer::Config.logger.error {e}
+            end
           end
+          listener = listener_class.new(listener_method => safe_block)
+          @swt_widget.send(widget_add_listener_method, listener)
+          WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
         end
-        listener = listener_class.new(listener_method => safe_block)
-        @swt_widget.send(widget_add_listener_method, listener)
-        WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
       end
 
       # Looks through SWT class add***Listener methods till it finds one for which
@@ -778,11 +844,13 @@ module Glimmer
       end
 
       def add_swt_event_listener(swt_constant, &block)
-        event_type = SWTProxy[swt_constant]
-        widget_listener_proxy = nil
-        safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
-        @swt_widget.addListener(event_type, &safe_block)
-        widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
+        auto_exec do
+          event_type = SWTProxy[swt_constant]
+          widget_listener_proxy = nil
+          safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
+          @swt_widget.addListener(event_type, &safe_block)
+          widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
+        end
       end
 
       def widget_custom_attribute_mapping

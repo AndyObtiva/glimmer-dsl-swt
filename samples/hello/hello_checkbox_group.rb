@@ -39,11 +39,13 @@ class HelloCheckboxGroup
     end
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       text 'Hello, Checkbox Group!'
       row_layout :vertical
@@ -54,18 +56,18 @@ class HelloCheckboxGroup
       }
       
       checkbox_group {
-        selection bind(person, :activities)
+        selection bind(@person, :activities)
       }
     
       button {
         text 'Reset Activities'
         
         on_widget_selected do
-          person.reset_activities
+          @person.reset_activities
         end
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloCheckboxGroup.new.launch
+HelloCheckboxGroup.launch

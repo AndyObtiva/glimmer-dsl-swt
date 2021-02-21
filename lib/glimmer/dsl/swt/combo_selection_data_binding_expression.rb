@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,6 +22,7 @@
 require 'glimmer/dsl/expression'
 require 'glimmer/data_binding/model_binding'
 require 'glimmer/data_binding/widget_binding'
+require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module DSL
@@ -44,21 +45,23 @@ module Glimmer
   
           #TODO make this options observer dependent and all similar observers in widget specific data binding handlers
           # TODO consider delegating some of this work
-          widget_binding = DataBinding::WidgetBinding.new(parent, 'items')
+          widget_binding = DataBinding::WidgetBinding.new(parent, 'items', sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_options_property)
           model = model_binding.base_model
           widget_binding.observe(model, model_binding.options_property_name)
   
-          widget_binding = DataBinding::WidgetBinding.new(parent, 'text')
+          widget_binding = DataBinding::WidgetBinding.new(parent, 'text', sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_property)
           widget_binding.observe(model, model_binding.property_name_expression)
   
-          parent.on_widget_selected do
-            model_binding.call(widget_binding.evaluate_property)
-          end
-          
-          parent.on_modify_text do
-            model_binding.call(widget_binding.evaluate_property)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: model_binding.binding_options[:sync_exec], override_async_exec: model_binding.binding_options[:async_exec]) do
+            parent.on_widget_selected do
+              model_binding.call(widget_binding.evaluate_property)
+            end
+            
+            parent.on_modify_text do
+              model_binding.call(widget_binding.evaluate_property)
+            end
           end
         end
       end

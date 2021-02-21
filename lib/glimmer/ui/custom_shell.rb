@@ -79,5 +79,6 @@ module Glimmer
       end
     end
     CustomWindow = CustomShell
+    Application = CustomShell
   end
 end

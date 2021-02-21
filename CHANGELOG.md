@@ -2,6 +2,10 @@
 
 ### 4.18.5.0
 
+- Automatic `sync_exec` usage from threads other than the GUI thread, thus absolving software engineers from the need to use `sync_exec` explicitly anymore.
+- `auto_exec` keyword to automatically use `sync_exec` with SWT code when needed (running from a thread other than GUI thread)
+- Implement `sync_exec:` option in `bind` keyword with table, tree, combo, and list data-binding (other data-binding types than the standard)
+- Add `async_exec` option to `bind` keyword (covering `data_binding_expression.rb` with `async_exec` properly)
 - Add Glimmer::GUI alias for Glimmer::UI module, thus permitting inclusion of Glimmer::GUI::CustomWidget, Glimmer::GUI::CustomShell, and Glimmer::GUI::CustomWindow
 - Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Remove explicit git gem dependency given that it is installed via juwelier during scaffolding and is not needed otherwise
@@ -20,6 +24,7 @@
 - Canvas Shape DSL argument data-binding support for `polygon(pointArray, fill: false)` polygon consisting of points, which close automatically to form a shape that can be optionally filled (when points only form a line, it does not show up as filled)
 - Canvas Shape DSL argument data-binding support for `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
 - Canvas Shape DSL argument data-binding support for `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
+- Update Hello, Button!, Hello, Table! sample, Hello, Checkbox Group! sample, Hello, Radio Group! sample, Hello, Combo! sample, Hello, List Single Selection! sample, Hello, List Multi Selection! sample to utilize a CustomShell
 - Fix issue with logging remaining async in debug mode
 
 ### 4.18.4.11

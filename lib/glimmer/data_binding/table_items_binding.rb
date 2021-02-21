@@ -24,6 +24,7 @@ require 'glimmer/data_binding/observable_model'
 require 'glimmer/data_binding/observable'
 require 'glimmer/data_binding/observer'
 require 'glimmer/swt/swt_proxy'
+require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module DataBinding
@@ -37,33 +38,37 @@ module Glimmer
         @table = parent
         @model_binding = model_binding
         @read_only_sort = @model_binding.binding_options[:read_only_sort]
-        @table.swt_widget.data = @model_binding
-        @table.swt_widget.set_data('table_items_binding', self)
         @column_properties = column_properties
-        @table.on_widget_disposed do |dispose_event|
-          unregister_all_observables
-        end
         if @table.respond_to?(:column_properties=)
           @table.column_properties = @column_properties
         else # assume custom widget
           @table.body_root.column_properties = @column_properties
         end
-        @table_observer_registration = observe(model_binding)
-        call
+        Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
+          @table.swt_widget.data = @model_binding
+          @table.swt_widget.set_data('table_items_binding', self)
+          @table.on_widget_disposed do |dispose_event|
+            unregister_all_observables
+          end
+          @table_observer_registration = observe(model_binding)
+          call
+        end
       end
 
       def call(new_model_collection=nil, internal_sort: false)
-        new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
-        table_cells = @table.swt_widget.items.map {|item| @table.column_properties.size.times.map {|i| item.get_text(i)} }
-        model_cells = new_model_collection.to_a.map {|m| @table.cells_for(m)}
-        return if table_cells == model_cells
-        if new_model_collection and new_model_collection.is_a?(Array)
-          @table_items_observer_registration&.unobserve
-          @table_items_observer_registration = observe(new_model_collection, @column_properties)
-          add_dependent(@table_observer_registration => @table_items_observer_registration)
-          @model_collection = new_model_collection
+        Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
+          new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
+          table_cells = @table.swt_widget.items.map {|item| @table.column_properties.size.times.map {|i| item.get_text(i)} }
+          model_cells = new_model_collection.to_a.map {|m| @table.cells_for(m)}
+          return if table_cells == model_cells
+          if new_model_collection and new_model_collection.is_a?(Array)
+            @table_items_observer_registration&.unobserve
+            @table_items_observer_registration = observe(new_model_collection, @column_properties)
+            add_dependent(@table_observer_registration => @table_items_observer_registration)
+            @model_collection = new_model_collection
+          end
+          populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)
         end
-        populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)
       end
       
       def populate_table(model_collection, parent, column_properties, internal_sort: false)

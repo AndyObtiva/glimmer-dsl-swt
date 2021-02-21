@@ -42,7 +42,7 @@ module Glimmer
   
         def interpret(parent, keyword, *args, &block)
           model_binding = args[0]
-          widget_binding = DataBinding::WidgetBinding.new(parent, keyword, sync_exec: model_binding.binding_options[:sync_exec])
+          widget_binding = DataBinding::WidgetBinding.new(parent, keyword, sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_property)
           #TODO make this options observer dependent and all similar observers in widget specific data binding handlers
           widget_binding.observe(model_binding)

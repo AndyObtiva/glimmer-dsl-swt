@@ -25,35 +25,37 @@ class HelloListSingleSelection
   
     def initialize
       self.country_options = ['', 'Canada', 'US', 'Mexico']
-      reset_country
+      reset_country!
     end
   
-    def reset_country
+    def reset_country!
       self.country = 'Canada'
     end
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       grid_layout
       
       text 'Hello, List Single Selection!'
       
       list {
-        selection bind(person, :country) # also binds to country_options by convention
+        selection bind(@person, :country) # also binds to country_options by convention
       }
       
       button {
         text 'Reset Selection To Default Value'
         
-        on_widget_selected { person.reset_country }
+        on_widget_selected { @person.reset_country! }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloListSingleSelection.new.launch
+HelloListSingleSelection.launch
