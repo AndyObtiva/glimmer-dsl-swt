@@ -36,7 +36,7 @@ module Glimmer
           !EXCLUDED_KEYWORDS.include?(keyword) and
             parent.respond_to?(:swt_widget) and
             !parent.is_a?(Glimmer::SWT::Custom::Shape) and
-            !((keyword.to_s == 'text') and (args.first.is_a?(String) or parent.swt_widget.is_a?(org.eclipse.swt.widgets.Canvas))) and
+            !((keyword.to_s == 'text') and (args.first.is_a?(String) or parent.swt_widget.class == org.eclipse.swt.widgets.Canvas)) and
             Glimmer::SWT::WidgetProxy.widget_exists?(keyword)
         end
 

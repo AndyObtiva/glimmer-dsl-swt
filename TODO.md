@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Document auto_exec
 - Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
 - Enhance Hello, Canvas! with Movement
 

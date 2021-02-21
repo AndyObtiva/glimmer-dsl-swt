@@ -30,16 +30,20 @@ module Glimmer
       
       class << self
         def launch(*args, &content)
-          @launched_custom_shell = send(keyword, *args, &content)
-          @launched_custom_shell.swt_widget.set_data('launched', true)
-          @launched_custom_shell.open
+          auto_exec do
+            @launched_custom_shell = send(keyword, *args, &content)
+            @launched_custom_shell.swt_widget.set_data('launched', true)
+            @launched_custom_shell.open
+          end
         end
       end
       
       def initialize(parent, *swt_constants, options, &content)
         super
-        @swt_widget.set_data('custom_shell', self)
-        @swt_widget.set_data('custom_window', self)
+        auto_exec do
+          @swt_widget.set_data('custom_shell', self)
+          @swt_widget.set_data('custom_window', self)
+        end
         raise Error, 'Invalid custom shell (window) body root! Must be a shell (window) or another custom shell (window).' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
       end
       

@@ -42,50 +42,52 @@ module Glimmer
       # if swt_widget keyword arg was passed, then it is assumed the shell has already been instantiated
       # and the proxy wraps it instead of creating a new one.
       def initialize(*args, swt_widget: nil)
-        if swt_widget
-          @swt_widget = swt_widget
-        else
-          if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
-            @parent_proxy = args[0]
-            args[0] = args[0].swt_widget
-          end
-          style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}.map(&:to_sym)
-          fill_screen = nil
-          if style_args.include?(:fill_screen)
-            args.delete(:fill_screen)
-            style_args.delete(:fill_screen)
-            fill_screen = true
-          end
-          if style_args.any?
-            style_arg_start_index = args.index(style_args.first)
-            style_arg_last_index = args.index(style_args.last)
-            args[style_arg_start_index..style_arg_last_index] = SWTProxy[style_args]
-          end
-          if args.first.nil? || (!args.first.is_a?(Display) && !args.first.is_a?(Shell))
-            @display = DisplayProxy.instance.swt_display
-            args = [@display] + args
-          end
-          args = args.compact
-          @swt_widget = Shell.new(*args)
-          @swt_widget.set_data('proxy', self)
-          @swt_widget.setLayout(FillLayout.new)
-          @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
-          # TODO make this an option not the default
-          shell_swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
-          on_swt_show do
-            @swt_widget.set_size(@display.bounds.width, @display.bounds.height) if fill_screen
-            Thread.new do
-              sleep(0.25)
-              shell_swt_display.async_exec do
-                @swt_widget.setActive unless @swt_widget.isDisposed
+        auto_exec do
+          if swt_widget
+            @swt_widget = swt_widget
+          else
+            if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
+              @parent_proxy = args[0]
+              args[0] = args[0].swt_widget
+            end
+            style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}.map(&:to_sym)
+            fill_screen = nil
+            if style_args.include?(:fill_screen)
+              args.delete(:fill_screen)
+              style_args.delete(:fill_screen)
+              fill_screen = true
+            end
+            if style_args.any?
+              style_arg_start_index = args.index(style_args.first)
+              style_arg_last_index = args.index(style_args.last)
+              args[style_arg_start_index..style_arg_last_index] = SWTProxy[style_args]
+            end
+            if args.first.nil? || (!args.first.is_a?(Display) && !args.first.is_a?(Shell))
+              @display = DisplayProxy.instance.swt_display
+              args = [@display] + args
+            end
+            args = args.compact
+            @swt_widget = Shell.new(*args)
+            @swt_widget.set_data('proxy', self)
+            @swt_widget.setLayout(FillLayout.new)
+            @swt_widget.setMinimumSize(WIDTH_MIN, HEIGHT_MIN)
+            # TODO make this an option not the default
+            shell_swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
+            on_swt_show do
+              @swt_widget.set_size(@display.bounds.width, @display.bounds.height) if fill_screen
+              Thread.new do
+                sleep(0.25)
+                shell_swt_display.async_exec do
+                  @swt_widget.setActive unless @swt_widget.isDisposed
+                end
               end
             end
           end
+          on_widget_disposed {
+            clear_shapes
+          }
+          @display ||= @swt_widget.getDisplay
         end
-        on_widget_disposed {
-          clear_shapes
-        }
-        @display ||= @swt_widget.getDisplay
       end
 
       # Centers shell within monitor it is in
