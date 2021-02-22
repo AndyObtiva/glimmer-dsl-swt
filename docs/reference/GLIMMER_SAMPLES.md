@@ -35,6 +35,7 @@
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
+    - [Hello, Tree!](#hello-tree)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -607,7 +608,7 @@ This sample demonstrates the use of the `progress_bar` widget keyword.
 
 It includes an `:indeterminate` progress bar on top, for cases when you could not calculate progress, but still want to inform the user there is an operation happening in the background.
 
-Below it, there are a determinate `:horizontal` (default) progress bar and a `:vertical` progress bar. 
+Below it, there are a determinate `:horizontal` (default) progress bar and a `:vertical` progress bar.
 
 Code:
 
@@ -616,6 +617,18 @@ Code:
 Hello, Progress Bar!
 
 ![Hello Progress Bar](/images/glimmer-hello-progress-bar.gif)
+
+#### Hello, Tree!
+
+This sample demonstrates the use of the `tree` widget along with tree data-binding.
+
+Code:
+
+[samples/hello/hello_tree.rb](/samples/hello/hello_tree.rb)
+
+Hello, Tree!
+
+![Hello Tree](/images/glimmer-hello-tree.png)
 
 ### Elaborate Samples
 

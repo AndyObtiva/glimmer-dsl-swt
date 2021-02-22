@@ -38,6 +38,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
   - [Canvas Shape DSL](#canvas-shape-dsl)
     - [Shapes inside a Widget](#shapes-inside-a-widget)
     - [Shapes inside an Image](#shapes-inside-an-image)
+    - [Canvas Shape API](#canvas-shape-api)
     - [Pixel Graphics](#pixel-graphics)
   - [Canvas Transform DSL](#canvas-transform-dsl)
     - [Top-Level Transform Fluent Interface](#top-level-transform-fluent-interface)
@@ -2429,6 +2430,8 @@ This finds the root node. The array is a Java array. This enables easy passing o
 
 To edit a tree, you must invoke `TreeProxy#edit_selected_tree_item` or `TreeProxy#edit_tree_item`. This automatically leverages the SWT TreeEditor custom class behind the scenes, displaying
 a text widget to the user to change the selected or passed tree item text into something else. It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
+
+Learn more at the [Hello, Tree!](GLIMMER_SAMPLES.md#hello-tree) and [Gladiator](GLIMMER_SAMPLES.md#gladiator) samples.
 
 #### DateTime
 

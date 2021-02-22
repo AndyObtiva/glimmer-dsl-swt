@@ -170,7 +170,7 @@ class MandelbrotFractal
         the_mandelbrot = Mandelbrot.for(max_iterations: color_palette.size - 1, zoom: future_zoom, background: true)
         pixels = the_mandelbrot.calculate_points
         build_mandelbrot_image(mandelbrot_zoom: future_zoom)
-        @canvas.cursor = :cross
+        @canvas.cursor = :cross unless @canvas.disposed?
         future_zoom += 0.5
       }
     }
