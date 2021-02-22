@@ -83,9 +83,11 @@ module Glimmer
       end
       
       def dispose
-        swt_tab_item.setControl(nil)
-        swt_widget.dispose
-        swt_tab_item.dispose
+        auto_exec do
+          swt_tab_item.setControl(nil)
+          swt_widget.dispose
+          swt_tab_item.dispose
+        end
       end
     end
   end

@@ -26,7 +26,9 @@ module Glimmer
   module SWT
     class ScrolledCompositeProxy < Glimmer::SWT::WidgetProxy
       def post_initialize_child(child)
-        swt_widget.content = child.swt_widget
+        auto_exec do
+          swt_widget.content = child.swt_widget
+        end
         # TODO consider triggering this method in the future upon resizing of content with a listener (on_control_resized)
 #         child.on_control_resized do
 #           swt_widget.set_min_size(swt_widget.computeSize(child.bounds.width, child.bounds.height))
@@ -38,7 +40,9 @@ module Glimmer
       end
       
       def calculate_min_size
-        swt_widget.set_min_size(swt_widget.computeSize(SWTProxy[:default], SWTProxy[:default]))
+        auto_exec do
+          swt_widget.set_min_size(swt_widget.computeSize(SWTProxy[:default], SWTProxy[:default]))
+        end
       end
       alias recalculate_min_size calculate_min_size
     end

@@ -62,19 +62,21 @@ module Glimmer
       end
 
       def initialize(underscored_layout_name, widget_proxy, args)
-        @underscored_layout_name = underscored_layout_name
-        @widget_proxy = widget_proxy
-        args = SWTProxy.constantify_args(args)
-        @swt_layout = self.class.swt_layout_class_for(underscored_layout_name).new(*args)
-        @swt_layout.marginWidth = 15 if @swt_layout.respond_to?(:marginWidth)
-        @swt_layout.marginHeight = 15 if @swt_layout.respond_to?(:marginHeight)
-        @swt_layout.marginTop = 0 if @swt_layout.respond_to?(:marginTop)
-        @swt_layout.marginRight = 0 if @swt_layout.respond_to?(:marginRight)
-        @swt_layout.marginBottom = 0 if @swt_layout.respond_to?(:marginBottom)
-        @swt_layout.marginLeft = 0 if @swt_layout.respond_to?(:marginLeft)
-        old_layout = @widget_proxy.swt_widget.getLayout
-        @widget_proxy.swt_widget.setLayout(@swt_layout)
-        @widget_proxy.swt_widget.layout if old_layout
+        DisplayProxy.instance.auto_exec do
+          @underscored_layout_name = underscored_layout_name
+          @widget_proxy = widget_proxy
+          args = SWTProxy.constantify_args(args)
+          @swt_layout = self.class.swt_layout_class_for(underscored_layout_name).new(*args)
+          @swt_layout.marginWidth = 15 if @swt_layout.respond_to?(:marginWidth)
+          @swt_layout.marginHeight = 15 if @swt_layout.respond_to?(:marginHeight)
+          @swt_layout.marginTop = 0 if @swt_layout.respond_to?(:marginTop)
+          @swt_layout.marginRight = 0 if @swt_layout.respond_to?(:marginRight)
+          @swt_layout.marginBottom = 0 if @swt_layout.respond_to?(:marginBottom)
+          @swt_layout.marginLeft = 0 if @swt_layout.respond_to?(:marginLeft)
+          old_layout = @widget_proxy.swt_widget.getLayout
+          @widget_proxy.swt_widget.setLayout(@swt_layout)
+          @widget_proxy.swt_widget.layout if old_layout
+        end
       end
 
       def has_attribute?(attribute_name, *args)
@@ -82,11 +84,13 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
-        apply_property_type_converters(attribute_name, args)
-        if args.first != @swt_layout.send(attribute_getter(attribute_name))
+        DisplayProxy.instance.auto_exec do
+          apply_property_type_converters(attribute_name, args)
+          if args.first != @swt_layout.send(attribute_getter(attribute_name))
           @swt_layout.send(attribute_setter(attribute_name), *args)
           @widget_proxy.swt_widget.layout
           @widget_proxy.swt_widget.getShell.layout
+          end
         end
       end
 

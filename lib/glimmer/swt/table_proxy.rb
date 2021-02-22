@@ -266,15 +266,21 @@ module Glimmer
       end
 
       def items
-        swt_widget.get_items
+        auto_exec do
+          swt_widget.get_items
+        end
       end
 
       def model_binding
-        swt_widget.data
+        auto_exec do
+          swt_widget.data
+        end
       end
       
       def table_items_binding
-        swt_widget.get_data('table_items_binding')
+        auto_exec do
+          swt_widget.get_data('table_items_binding')
+        end
       end
       
       def sort_block=(comparator)
@@ -313,7 +319,10 @@ module Glimmer
       
       # Sorts by specified TableColumnProxy object. If nil, it uses the table default sort instead.
       def sort_by_column!(table_column_proxy=nil)
-        index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget) unless table_column_proxy.nil?
+        index = nil
+        auto_exec do
+          index = swt_widget.columns.to_a.index(table_column_proxy.swt_widget) unless table_column_proxy.nil?
+        end
         new_sort_property = table_column_proxy.nil? ? @sort_property : table_column_proxy.sort_property || [column_properties[index]]
         return if table_column_proxy.nil? && new_sort_property.nil? && @sort_block.nil? && @sort_by_block.nil?
         if new_sort_property && table_column_proxy.nil? && new_sort_property.size == 1 && (index = column_sort_properties.index(new_sort_property))
@@ -330,12 +339,16 @@ module Glimmer
         end
         
         @sort_direction = @sort_direction.nil? || @sort_property.first != new_sort_property.first || @sort_direction == :descending ? :ascending : :descending
-        swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
+        auto_exec do
+          swt_widget.sort_direction = @sort_direction == :ascending ? SWTProxy[:up] : SWTProxy[:down]
+        end
         
         @sort_property = [new_sort_property].flatten.compact
         table_column_index = column_properties.index(new_sort_property.to_s.to_sym)
         table_column_proxy ||= table_column_proxies[table_column_index] if table_column_index
-        swt_widget.sort_column = table_column_proxy.swt_widget if table_column_proxy
+        auto_exec do
+          swt_widget.sort_column = table_column_proxy.swt_widget if table_column_proxy
+        end
                 
         if table_column_proxy
           @sort_by_block = nil
@@ -405,14 +418,18 @@ module Glimmer
       
       def cells
         column_count = @table.column_properties.size
-        swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
+        auto_exec do
+          swt_widget.items.map {|item| column_count.times.map {|i| item.get_text(i)} }
+        end
       end
             
       # Performs a search for table items matching block condition
       # If no condition block is passed, returns all table items
       # Returns a Java TableItem array to easily set as selection on org.eclipse.swt.Table if needed
       def search(&condition)
-        swt_widget.getItems.select {|item| condition.nil? || condition.call(item)}.to_java(TableItem)
+        auto_exec do
+          swt_widget.getItems.select {|item| condition.nil? || condition.call(item)}.to_java(TableItem)
+        end
       end
       
       # Returns all table items including descendants
@@ -454,7 +471,9 @@ module Glimmer
       end
       
       def edit_selected_table_item(column_index, before_write: nil, after_write: nil, after_cancel: nil)
-        edit_table_item(swt_widget.getSelection.first, column_index, before_write: before_write, after_write: after_write, after_cancel: after_cancel)
+        auto_exec do
+          edit_table_item(swt_widget.getSelection.first, column_index, before_write: before_write, after_write: after_write, after_cancel: after_cancel)
+        end
       end
             
       def edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil, write_on_cancel: false)
@@ -512,7 +531,9 @@ module Glimmer
               model.send("#{model_editing_property}=", new_value) # makes table update itself, so must search for selected table item again
               # Table refresh happens here because of model update triggering observers, so must retrieve table item again
               edited_table_item = search { |ti| ti.getData == model }.first
-              swt_widget.showItem(edited_table_item)
+              auto_exec do
+                swt_widget.showItem(edited_table_item)
+              end
               @table_editor_widget_proxy&.swt_widget&.dispose
               @table_editor_widget_proxy = nil
               if after_write&.arity == 0
@@ -524,7 +545,7 @@ module Glimmer
             end
           end
         end
-
+        
         content {
           @table_editor_widget_proxy = TableProxy::editors.symbolize_keys[editor_widget][:editor_gui].call(editor_widget_args, model, model_editing_property, self)
         }

@@ -68,9 +68,9 @@ module Glimmer
         end
 
         if styles.include?(:bar)
-          parent.swt_widget.setMenuBar(swt_widget)
+          DisplayProxy.instance.auto_exec { parent.swt_widget.setMenuBar(swt_widget) }
         elsif styles.include?(:pop_up)
-          parent.swt_widget.setMenu(swt_widget)
+          DisplayProxy.instance.auto_exec { parent.swt_widget.setMenu(swt_widget) }
         end
       end
 

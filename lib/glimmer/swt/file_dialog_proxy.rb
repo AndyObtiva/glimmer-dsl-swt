@@ -39,25 +39,27 @@ module Glimmer
       include_package 'org.eclipse.swt.widgets'
 
       def initialize(*args, swt_widget: nil)
-        if swt_widget
-          @swt_widget = swt_widget
-        else
-          style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
-          if style_args.any?
-            style_arg_start_index = args.index(style_args.first)
-            style_arg_last_index = args.index(style_args.last)
-            args[style_arg_start_index..style_arg_last_index] = SWTProxy[style_args]
+        auto_exec do
+          if swt_widget
+            @swt_widget = swt_widget
+          else
+            style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
+            if style_args.any?
+              style_arg_start_index = args.index(style_args.first)
+              style_arg_last_index = args.index(style_args.last)
+              args[style_arg_start_index..style_arg_last_index] = SWTProxy[style_args]
+            end
+            if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
+              args[0] = args[0].swt_widget
+            end
+            if !args.first.is_a?(Shell)
+              current_shell = DisplayProxy.instance.swt_display.shells.first
+              args.unshift(current_shell.nil? ? ShellProxy.new : current_shell)
+            end
+            parent = args[0]
+            @parent_proxy = parent.is_a?(Shell) ? ShellProxy.new(swt_widget: parent) : parent
+            @swt_widget = FileDialog.new(*args)
           end
-          if args.first.respond_to?(:swt_widget) && args.first.swt_widget.is_a?(Shell)
-            args[0] = args[0].swt_widget
-          end
-          if !args.first.is_a?(Shell)
-            current_shell = DisplayProxy.instance.swt_display.shells.first
-            args.unshift(current_shell.nil? ? ShellProxy.new : current_shell)
-          end
-          parent = args[0]
-          @parent_proxy = parent.is_a?(Shell) ? ShellProxy.new(swt_widget: parent) : parent
-          @swt_widget = FileDialog.new(*args)
         end
       end
 

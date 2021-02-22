@@ -79,7 +79,7 @@ module Glimmer
       private
 
       def font_datum
-        @font_datum ||= @widget_proxy ? @widget_proxy.swt_widget.getFont.getFontData[0] : FontData.new
+        @font_datum ||= DisplayProxy.instance.auto_exec { @widget_proxy ? @widget_proxy.swt_widget.getFont.getFontData[0] : FontData.new }
       end
 
       def detect_invalid_font_property(font_properties)

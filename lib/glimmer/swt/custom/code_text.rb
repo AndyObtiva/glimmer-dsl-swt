@@ -136,13 +136,13 @@ module Glimmer
                 editable false
                 caret nil
                 on_focus_gained {
-                  @styled_text_proxy&.swt_widget.setFocus
+                  @styled_text_proxy&.setFocus
                 }
                 on_key_pressed {
-                  @styled_text_proxy&.swt_widget.setFocus
+                  @styled_text_proxy&.setFocus
                 }
                 on_mouse_up {
-                  @styled_text_proxy&.swt_widget.setFocus
+                  @styled_text_proxy&.setFocus
                 }
               }
 
@@ -172,7 +172,7 @@ module Glimmer
                 character = event.keyCode.chr rescue nil
                 case [event.stateMask, character]
                 when [(OS.mac? ? swt(:command) : swt(:ctrl)), 'a']
-                  @styled_text_proxy.swt_widget.selectAll
+                  @styled_text_proxy.selectAll
                 when [(swt(:ctrl) if OS.mac?), 'a']
                   jump_to_beginning_of_line
                 when [(swt(:ctrl) if OS.mac?), 'e']
@@ -263,17 +263,17 @@ module Glimmer
         end
         
         def jump_to_beginning_of_line
-          current_line_index = @styled_text_proxy.swt_widget.getLineAtOffset(@styled_text_proxy.swt_widget.getCaretOffset)
-          beginning_of_current_line_offset = @styled_text_proxy.swt_widget.getOffsetAtLine(current_line_index)
-          @styled_text_proxy.swt_widget.setSelection(beginning_of_current_line_offset, beginning_of_current_line_offset)
+          current_line_index = @styled_text_proxy.getLineAtOffset(@styled_text_proxy.getCaretOffset)
+          beginning_of_current_line_offset = @styled_text_proxy.getOffsetAtLine(current_line_index)
+          @styled_text_proxy.setSelection(beginning_of_current_line_offset, beginning_of_current_line_offset)
         end
         
         def jump_to_end_of_line
-          current_line_index = @styled_text_proxy.swt_widget.getLineAtOffset(@styled_text_proxy.swt_widget.getCaretOffset)
-          current_line = @styled_text_proxy.swt_widget.getLine(current_line_index)
-          beginning_of_current_line_offset = @styled_text_proxy.swt_widget.getOffsetAtLine(current_line_index)
+          current_line_index = @styled_text_proxy.getLineAtOffset(@styled_text_proxy.getCaretOffset)
+          current_line = @styled_text_proxy.getLine(current_line_index)
+          beginning_of_current_line_offset = @styled_text_proxy.getOffsetAtLine(current_line_index)
           new_offset = beginning_of_current_line_offset + current_line.size
-          @styled_text_proxy.swt_widget.setSelection(new_offset, new_offset)
+          @styled_text_proxy.setSelection(new_offset, new_offset)
         end
       end
     end

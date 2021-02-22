@@ -53,9 +53,13 @@ module Glimmer
             @swt_display.removeListener(@event_type, @swt_listener)
           end
         elsif @event_type
-          @swt_widget.removeListener(@event_type, @swt_listener)
+          DisplayProxy.instance.auto_exec do
+            @swt_widget.removeListener(@event_type, @swt_listener)
+          end
         else
-          @swt_widget.send(widget_remove_listener_method, @swt_listener)
+          DisplayProxy.instance.auto_exec do
+            @swt_widget.send(widget_remove_listener_method, @swt_listener)
+          end
         end
       end
       alias unregister deregister # TODO consider dropping unregister (and in Observer too)

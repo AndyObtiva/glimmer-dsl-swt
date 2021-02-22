@@ -47,15 +47,17 @@ module Glimmer
 
       # Inititalizes with owning widget proxy and layout data arguments
       def initialize(widget_proxy, args)
-        @widget_proxy = widget_proxy
-        args = SWTProxy.constantify_args(args)
-        begin
-          @swt_layout_data = swt_layout_data_class.new(*args)
-        rescue => e
-          Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
-          @swt_layout_data = args.first if args.count == 1
+        DisplayProxy.instance.auto_exec do
+          @widget_proxy = widget_proxy
+          args = SWTProxy.constantify_args(args)
+          begin
+            @swt_layout_data = swt_layout_data_class.new(*args)
+          rescue => e
+            Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
+            @swt_layout_data = args.first if args.count == 1
+          end
+          @widget_proxy.swt_widget.setLayoutData(@swt_layout_data)
         end
-        @widget_proxy.swt_widget.setLayoutData(@swt_layout_data)
       end
 
       # This figures out the right SWT layout data class name
@@ -72,9 +74,11 @@ module Glimmer
       # - org.eclipse.swt.layout.GridData for org.eclipse.swt.layout.GridLayout
       #
       def swt_layout_data_class
-        parent_layout_class_name = @widget_proxy.swt_widget.getParent.getLayout.class.name
-        layout_data_class_name = parent_layout_class_name.sub(/Layout$/, 'Data')
-        eval(layout_data_class_name)
+        DisplayProxy.instance.auto_exec do
+          parent_layout_class_name = @widget_proxy.swt_widget.getParent.getLayout.class.name
+          layout_data_class_name = parent_layout_class_name.sub(/Layout$/, 'Data')
+          eval(layout_data_class_name)
+        end
       end
 
       def has_attribute?(attribute_name, *args)
@@ -82,10 +86,12 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
-        args = SWTProxy.constantify_args(args)
-        if args.first != @swt_layout_data.send(attribute_getter(attribute_name))
-          @swt_layout_data.send(attribute_setter(attribute_name), *args)
-          @widget_proxy.swt_widget.getShell.pack
+        DisplayProxy.instance.auto_exec do
+          args = SWTProxy.constantify_args(args)
+          if args.first != @swt_layout_data.send(attribute_getter(attribute_name))
+            @swt_layout_data.send(attribute_setter(attribute_name), *args)
+            @widget_proxy.swt_widget.getShell.pack
+          end
         end
       end
 

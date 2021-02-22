@@ -43,7 +43,9 @@ module Glimmer
       end
       
       def date=(date_value)
-        swt_widget.setDate(date_value.year, date_value.month - 1, date_value.day)
+        auto_exec do
+          swt_widget.setDate(date_value.year, date_value.month - 1, date_value.day)
+        end
       end
       
       def time
@@ -58,11 +60,15 @@ module Glimmer
       end
       
       def month
-        swt_widget.month + 1
+        auto_exec do
+          swt_widget.month + 1
+        end
       end
       
       def month=(new_value)
-        swt_widget.month = new_value - 1
+        auto_exec do
+          swt_widget.month = new_value - 1
+        end
       end
       
       def set_attribute(attribute_name, *args)

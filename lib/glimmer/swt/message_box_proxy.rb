@@ -42,8 +42,10 @@ module Glimmer
       end
       
       def open
-        @swt_widget.open.tap do |result|
-          @temporary_parent&.dispose
+        auto_exec do
+          @swt_widget.open.tap do |result|
+            @temporary_parent&.dispose
+          end
         end
       end
       
@@ -66,15 +68,21 @@ module Glimmer
       end
 
       def set_attribute(attribute_name, *args)
-        @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
+        auto_exec do
+          @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
+        end
       end
 
       def get_attribute(attribute_name)
-        @swt_widget.send(attribute_getter(attribute_name))
+        auto_exec do
+          @swt_widget.send(attribute_getter(attribute_name))
+        end
       end
       
       def method_missing(method, *args, &block)
-        swt_widget.send(method, *args, &block)
+        auto_exec do
+          swt_widget.send(method, *args, &block)
+        end
       rescue => e
         Glimmer::Config.logger.debug {"Neither MessageBoxProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
         super

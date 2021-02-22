@@ -42,7 +42,8 @@ module Glimmer
       # Returns a Java TreeItem array to easily set as selection on org.eclipse.swt.Tree if needed
       def depth_first_search(&condition)
         found = []
-        recursive_depth_first_search(swt_widget.getItems.first, found, &condition)
+        DisplayProxy.instance.auto_exec { first_item = swt_widget.getItems.first }
+        recursive_depth_first_search(first_item, found, &condition)
         found.to_java(TreeItem)
       end
       
@@ -127,8 +128,9 @@ module Glimmer
 
       def recursive_depth_first_search(tree_item, found, &condition)
         return if tree_item.nil?
-        found << tree_item if condition.nil? || condition.call(tree_item)
-        tree_item.getItems.each do |child_tree_item|
+        found << tree_item if condition.nil? || DisplayProxy.instance.auto_exec {condition.call(tree_item)}
+        tree_items = DisplayProxy.instance.auto_exec {tree_item.getItems}
+        tree_items.each do |child_tree_item|
           recursive_depth_first_search(child_tree_item, found, &condition)
         end
       end
