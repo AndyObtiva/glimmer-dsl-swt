@@ -6,6 +6,8 @@
 - `auto_exec` keyword to automatically use `sync_exec` with SWT code when needed (running from a thread other than GUI thread)
 - Implement `sync_exec:` option in `bind` keyword with table, tree, combo, and list data-binding (other data-binding types than the standard)
 - Add `async_exec` option to `bind` keyword (covering `data_binding_expression.rb` with `async_exec` properly)
+- Support tree multi-selection data-binding
+- Optimize tree selection performance for single-selection
 - Add Glimmer::GUI alias for Glimmer::UI module, thus permitting inclusion of Glimmer::GUI::CustomWidget, Glimmer::GUI::CustomShell, and Glimmer::GUI::CustomWindow
 - Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Remove explicit git gem dependency given that it is installed via juwelier during scaffolding and is not needed otherwise

@@ -50,7 +50,7 @@ module Glimmer
   
           widget_binding = DataBinding::WidgetBinding.new(parent, 'selection', sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_property)
-          widget_binding.observe(model, model_binding.property_name_expression)
+          widget_binding.observe(model_binding)
   
           Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: model_binding.binding_options[:sync_exec], override_async_exec: model_binding.binding_options[:async_exec]) do
             parent.on_widget_selected do

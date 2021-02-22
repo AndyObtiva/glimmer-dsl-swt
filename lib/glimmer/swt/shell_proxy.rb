@@ -92,12 +92,14 @@ module Glimmer
 
       # Centers shell within monitor it is in
       def center_within_display
-        primary_monitor = @display.getPrimaryMonitor()
-        monitor_bounds = primary_monitor.getBounds()
-        shell_bounds = @swt_widget.getBounds()
-        location_x = monitor_bounds.x + (monitor_bounds.width - shell_bounds.width) / 2
-        location_y = monitor_bounds.y + (monitor_bounds.height - shell_bounds.height) / 2
-        @swt_widget.setLocation(location_x, location_y)
+        auto_exec do
+          primary_monitor = @display.getPrimaryMonitor()
+          monitor_bounds = primary_monitor.getBounds()
+          shell_bounds = @swt_widget.getBounds()
+          location_x = monitor_bounds.x + (monitor_bounds.width - shell_bounds.width) / 2
+          location_y = monitor_bounds.y + (monitor_bounds.height - shell_bounds.height) / 2
+          @swt_widget.setLocation(location_x, location_y)
+        end
       end
 
       # Opens shell and starts SWT's UI thread event loop
@@ -109,18 +111,22 @@ module Glimmer
       
       # Opens without starting the event loop.
       def open_only
-        if @opened_before
-          @swt_widget.setVisible(true)
-        else
-          @opened_before = true
-          @swt_widget.pack
-          center_within_display
-          @swt_widget.open
+        auto_exec do
+          if @opened_before
+            @swt_widget.setVisible(true)
+          else
+            @opened_before = true
+            @swt_widget.pack
+            center_within_display
+            @swt_widget.open
+          end
         end
       end
       
       def nested?
-        !swt_widget&.parent.nil?
+        auto_exec do
+          !swt_widget&.parent.nil?
+        end
       end
       alias nested nested?
       
@@ -131,16 +137,22 @@ module Glimmer
 
       # Hides shell. Automatically checks if widget is disposed to avoid crashing.
       def hide
-        @swt_widget.setVisible(false) unless @swt_widget.isDisposed
+        auto_exec do
+          @swt_widget.setVisible(false) unless @swt_widget.isDisposed
+        end
       end
       
       # Closes shell. Automatically checks if widget is disposed to avoid crashing.
       def close
-        @swt_widget.close unless @swt_widget.isDisposed
+        auto_exec do
+          @swt_widget.close unless @swt_widget.isDisposed
+        end
       end
 
       def visible?
-        @swt_widget.isDisposed ? false : @swt_widget.isVisible
+        auto_exec do
+          @swt_widget.isDisposed ? false : @swt_widget.isVisible
+        end
       end
       alias visible visible?
 
@@ -154,20 +166,22 @@ module Glimmer
       end
 
       def pack_same_size
-        bounds = @swt_widget.getBounds
-        if OS.mac?
-          @swt_widget.pack
-          @swt_widget.setBounds(bounds)
-        elsif OS.windows? || OS::Underlying.windows?
-          minimum_size = @swt_widget.getMinimumSize
-          @swt_widget.setMinimumSize(bounds.width, bounds.height)
-          listener = on_control_resized { @swt_widget.setBounds(bounds) }
-          @swt_widget.layout(true, true)
-          @swt_widget.removeControlListener(listener.swt_listener)
-          @swt_widget.setMinimumSize(minimum_size)
-        elsif OS.linux?
-          @swt_widget.layout(true, true)
-          @swt_widget.setBounds(bounds)
+        auto_exec do
+          bounds = @swt_widget.getBounds
+          if OS.mac?
+            @swt_widget.pack
+            @swt_widget.setBounds(bounds)
+          elsif OS.windows? || OS::Underlying.windows?
+            minimum_size = @swt_widget.getMinimumSize
+            @swt_widget.setMinimumSize(bounds.width, bounds.height)
+            listener = on_control_resized { @swt_widget.setBounds(bounds) }
+            @swt_widget.layout(true, true)
+            @swt_widget.removeControlListener(listener.swt_listener)
+            @swt_widget.setMinimumSize(minimum_size)
+          elsif OS.linux?
+            @swt_widget.layout(true, true)
+            @swt_widget.setBounds(bounds)
+          end
         end
       end
 
@@ -182,11 +196,13 @@ module Glimmer
       # https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html
       # This method is not needed except in rare circumstances where there is a need to start the SWT Event Loop before opening the shell.
       def start_event_loop
-        until @swt_widget.isDisposed
-          begin
-            @display.sleep unless @display.readAndDispatch
-          rescue => e
-            Glimmer::Config.logger.info {e.full_message}
+        auto_exec do
+          until @swt_widget.isDisposed
+            begin
+              @display.sleep unless @display.readAndDispatch
+            rescue => e
+              Glimmer::Config.logger.info {e.full_message}
+            end
           end
         end
       end

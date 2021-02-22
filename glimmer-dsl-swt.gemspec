@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["AndyMaleh".freeze]
-  s.date = "2021-02-19"
+  s.date = "2021-02-22"
   s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Framework) is a native-GUI cross-platform desktop development library written in JRuby, an OS-threaded faster JVM version of Ruby. Glimmer's main innovation is a declarative Ruby DSL that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust Eclipse SWT library. Glimmer additionally innovates by having built-in data-binding support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI widgets, but it also supports drawing Canvas Graphics like Shapes and Animations. To get started quickly, Glimmer offers scaffolding options for Apps, Gems, and Custom Widgets. Glimmer also includes native-executable packaging support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in Ruby as truly native DMG/PKG/APP files on the Mac + App Store, MSI/EXE files on Windows, and Gem Packaged Shell Scripts on Linux.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.executables = ["glimmer".freeze, "girb".freeze]
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/data_binding/widget_binding.rb",
     "lib/glimmer/dsl/swt/animation_expression.rb",
     "lib/glimmer/dsl/swt/async_exec_expression.rb",
+    "lib/glimmer/dsl/swt/auto_exec_expression.rb",
     "lib/glimmer/dsl/swt/bind_expression.rb",
     "lib/glimmer/dsl/swt/block_property_expression.rb",
     "lib/glimmer/dsl/swt/checkbox_group_selection_data_binding_expression.rb",
@@ -115,8 +116,16 @@ Gem::Specification.new do |s|
     "lib/glimmer/swt/custom/drawable.rb",
     "lib/glimmer/swt/custom/radio_group.rb",
     "lib/glimmer/swt/custom/shape.rb",
+    "lib/glimmer/swt/custom/shape/arc.rb",
+    "lib/glimmer/swt/custom/shape/focus.rb",
     "lib/glimmer/swt/custom/shape/image.rb",
+    "lib/glimmer/swt/custom/shape/line.rb",
+    "lib/glimmer/swt/custom/shape/oval.rb",
+    "lib/glimmer/swt/custom/shape/point.rb",
+    "lib/glimmer/swt/custom/shape/polygon.rb",
+    "lib/glimmer/swt/custom/shape/polyline.rb",
     "lib/glimmer/swt/custom/shape/rectangle.rb",
+    "lib/glimmer/swt/custom/shape/text.rb",
     "lib/glimmer/swt/date_time_proxy.rb",
     "lib/glimmer/swt/directory_dialog_proxy.rb",
     "lib/glimmer/swt/display_proxy.rb",
@@ -205,6 +214,7 @@ Gem::Specification.new do |s|
     "samples/hello/hello_tab.rb",
     "samples/hello/hello_table.rb",
     "samples/hello/hello_table/baseball_park.png",
+    "samples/hello/hello_tree.rb",
     "samples/hello/hello_world.rb",
     "vendor/swt/linux/swt.jar",
     "vendor/swt/mac/swt.jar",
@@ -220,7 +230,7 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.1.1"])
+      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
       s.add_runtime_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_runtime_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_runtime_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -238,7 +248,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.16.1"])
       s.add_development_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     else
-      s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.1"])
+      s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
       s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -257,7 +267,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     end
   else
-    s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.1"])
+    s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
     s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
     s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
     s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])

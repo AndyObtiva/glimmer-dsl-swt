@@ -69,7 +69,7 @@ module Glimmer
         # TODO get rid of model_tree_root_node, parent, tree_properties as an argument given it is stored as an instance variable
         # TODO make it change things by delta instead of removing all
         old_tree_items = parent.all_tree_items
-        selected_tree_item_model = parent.swt_widget.getSelection.map(&:get_data).first
+        selected_tree_item_models = parent.swt_widget.getSelection.map(&:get_data)
         old_tree_item_expansion_by_data = old_tree_items.reduce({}) {|hash, ti| hash.merge(ti.getData => ti.getExpanded)}
         old_tree_items.each do |tree_item|
           tree_item.getData('observer_registrations').each(&:unregister)
@@ -78,8 +78,8 @@ module Glimmer
         parent.swt_widget.removeAll
         populate_tree_node(model_tree_root_node, parent.swt_widget, tree_properties)
         parent.all_tree_items.each { |ti| ti.setExpanded(!!old_tree_item_expansion_by_data[ti.getData]) }
-        tree_item_to_select = parent.depth_first_search {|ti| ti.getData == selected_tree_item_model}
-        parent.swt_widget.setSelection(tree_item_to_select)
+        selected_tree_items = parent.depth_first_search {|item| selected_tree_item_models.include?(item.get_data) }
+        parent.swt_widget.setSelection(selected_tree_items)
       end
 
       def populate_tree_node(model_tree_node, parent, tree_properties)

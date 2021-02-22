@@ -52,18 +52,6 @@ module Glimmer
         depth_first_search
       end
 
-      def widget_property_listener_installers
-        super.merge({
-          Java::OrgEclipseSwtWidgets::Tree => {
-            selection: lambda do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(@swt_widget.getSelection)
-              }
-            end
-          },
-        })
-      end
-      
       def edit_in_progress?
         !!@edit_in_progress
       end
@@ -129,6 +117,7 @@ module Glimmer
       def recursive_depth_first_search(tree_item, found, &condition)
         return if tree_item.nil?
         found << tree_item if condition.nil? || DisplayProxy.instance.auto_exec {condition.call(tree_item)}
+        return if found.any? && !has_style?(:multi)
         tree_items = DisplayProxy.instance.auto_exec {tree_item.getItems}
         tree_items.each do |child_tree_item|
           recursive_depth_first_search(child_tree_item, found, &condition)
@@ -138,7 +127,11 @@ module Glimmer
       def property_type_converters
         super.merge({
           selection: lambda do |value|
-            depth_first_search {|ti| ti.getData == value}
+            if value.is_a?(Array)
+              depth_first_search {|ti| value.include?(ti.getData) }
+            else
+              depth_first_search {|ti| ti.getData == value}
+            end
           end,
         })
       end

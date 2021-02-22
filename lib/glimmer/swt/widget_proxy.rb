@@ -367,6 +367,17 @@ module Glimmer
               }
             end,
           },
+          Java::OrgEclipseSwtWidgets::Tree => {
+            :selection => lambda do |observer|
+              on_widget_selected { |selection_event|
+                if has_style?(:multi)
+                  observer.call(@swt_widget.getSelection.map(&:get_data))
+                else
+                  observer.call(@swt_widget.getSelection.first&.get_data)
+                end
+              }
+            end,
+          },
           Java::OrgEclipseSwtWidgets::Text => {
             :text => lambda do |observer|
               on_modify_text { |modify_event|

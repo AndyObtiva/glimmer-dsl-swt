@@ -54,7 +54,7 @@ module Glimmer
           list_selection_binding = DataBinding::ListSelectionBinding.new(parent, property_type, sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           list_selection_binding.call(model_binding.evaluate_property)
           #TODO check if nested data binding works for list widget and other widgets that need custom data binding
-          list_selection_binding.observe(model, model_binding.property_name_expression)
+          list_selection_binding.observe(model_binding)
   
           Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: model_binding.binding_options[:sync_exec], override_async_exec: model_binding.binding_options[:async_exec]) do
             parent.on_widget_selected do

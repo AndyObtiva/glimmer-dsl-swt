@@ -47,12 +47,11 @@ module Glimmer
           # TODO consider delegating some of this work
           widget_binding = DataBinding::WidgetBinding.new(parent, 'items', sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_options_property)
-          model = model_binding.base_model
-          widget_binding.observe(model, model_binding.options_property_name)
+          widget_binding.observe(model_binding.model, model_binding.options_property_name)
   
           widget_binding = DataBinding::WidgetBinding.new(parent, 'text', sync_exec: model_binding.binding_options[:sync_exec], async_exec: model_binding.binding_options[:async_exec])
           widget_binding.call(model_binding.evaluate_property)
-          widget_binding.observe(model, model_binding.property_name_expression)
+          widget_binding.observe(model_binding)
   
           Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: model_binding.binding_options[:sync_exec], override_async_exec: model_binding.binding_options[:async_exec]) do
             parent.on_widget_selected do
