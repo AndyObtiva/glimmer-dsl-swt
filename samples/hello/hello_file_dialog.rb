@@ -20,15 +20,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloFileDialog
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
   attr_accessor :selected_file
   
-  def initialize
+  before_body {
     @selected_file = 'Please select a file.'
-  end
+  }
   
-  def launch
+  body {
     shell {
       minimum_size 400, 0
       grid_layout
@@ -53,8 +53,8 @@ class HelloFileDialog
           self.selected_file = file_dialog.open
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloFileDialog.new.launch
+HelloFileDialog.launch

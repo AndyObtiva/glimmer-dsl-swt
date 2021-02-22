@@ -35,11 +35,13 @@ class HelloCheckbox
     end
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       text 'Hello, Checkbox!'
       row_layout :vertical
@@ -52,22 +54,22 @@ class HelloCheckbox
       composite {
         checkbox {
           text 'Skiing'
-          selection bind(person, :skiing)
+          selection bind(@person, :skiing)
         }
         
         checkbox {
           text 'Snowboarding'
-          selection bind(person, :snowboarding)
+          selection bind(@person, :snowboarding)
         }
         
         checkbox {
           text 'Snowmobiling'
-          selection bind(person, :snowmobiling)
+          selection bind(@person, :snowmobiling)
         }
         
         checkbox {
           text 'Snowshoeing'
-          selection bind(person, :snowshoeing)
+          selection bind(@person, :snowshoeing)
         }
       }
       
@@ -75,11 +77,11 @@ class HelloCheckbox
         text 'Reset Activities'
         
         on_widget_selected do
-          person.reset_activities!
+          @person.reset_activities!
         end
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloCheckbox.new.launch
+HelloCheckbox.launch

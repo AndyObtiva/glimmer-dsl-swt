@@ -25,6 +25,7 @@
 - Canvas Shape DSL argument data-binding support for `polyline(pointArray)` polyline is just like a polygon, but it does not close up to form a shape, remaining open (unless the points close themselves by having the last point or an intermediate point match the first)
 - Canvas Shape DSL argument data-binding support for `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 - Update Hello, Button!, Hello, Table! sample, Hello, Checkbox Group! sample, Hello, Radio Group! sample, Hello, Combo! sample, Hello, List Single Selection! sample, Hello, List Multi Selection! sample to utilize a CustomShell
+- Refactor all samples to rely on Glimmer::UI::CustomShell given its new class launch method for productive app declaration
 - Fix issue with logging remaining async in debug mode
 
 ### 4.18.4.11

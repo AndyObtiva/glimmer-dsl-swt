@@ -24,12 +24,14 @@ class HelloDateTime
     attr_accessor :date_of_birth
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    person.date_of_birth = DateTime.new(2013, 7, 12, 18, 37, 23)
-    
+  before_body {
+    @person = Person.new
+    @person.date_of_birth = DateTime.new(2013, 7, 12, 18, 37, 23)
+  }
+  
+  body {
     shell {
       row_layout :vertical
       
@@ -42,22 +44,22 @@ class HelloDateTime
       }
       
       date { # alias for date_time(:date)
-        date_time bind(person, :date_of_birth)
+        date_time bind(@person, :date_of_birth)
       }
       
       date_drop_down { # alias for date_time(:date, :drop_down)
-        date_time bind(person, :date_of_birth)
+        date_time bind(@person, :date_of_birth)
       }
       
       time { # alias for date_time(:time)
-        date_time bind(person, :date_of_birth)
+        date_time bind(@person, :date_of_birth)
       }
       
       calendar { # alias for date_time(:calendar)
-        date_time bind(person, :date_of_birth)
+        date_time bind(@person, :date_of_birth)
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloDateTime.new.launch
+HelloDateTime.launch

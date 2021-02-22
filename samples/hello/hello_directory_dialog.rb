@@ -20,15 +20,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloDirectoryDialog
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
   attr_accessor :selected_directory
   
-  def initialize
+  before_body {
     @selected_directory = 'Please select a directory.'
-  end
+  }
   
-  def launch
+  body {
     shell {
       minimum_size 400, 0
       grid_layout
@@ -53,8 +53,8 @@ class HelloDirectoryDialog
           self.selected_directory = directory_dialog.open
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloDirectoryDialog.new.launch
+HelloDirectoryDialog.launch

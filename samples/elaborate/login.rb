@@ -45,17 +45,19 @@ class LoginPresenter
   def logged_in
     self.status == "Logged In"
   end
+  alias logged_in? logged_in
 
   def logged_out
     !self.logged_in
   end
+  alias logged_out? logged_out
 
-  def login
+  def login!
     return unless valid?
     self.status = "Logged In"
   end
 
-  def logout
+  def logout!
     self.user_name = ""
     self.password = ""
     self.status = "Logged Out"
@@ -64,19 +66,22 @@ class LoginPresenter
 end
 
 class Login
-  include Glimmer
+  include Glimmer::UI::CustomShell
 
-  def launch
-    presenter = LoginPresenter.new
-    @shell = shell {
+  before_body {
+    @presenter = LoginPresenter.new
+  }
+
+  body {
+    shell {
       text "Login"
       composite {
         grid_layout 2, false #two columns with differing widths
 
         label { text "Username:" } # goes in column 1
         @user_name_text = text {   # goes in column 2
-          text bind(presenter, :user_name)
-          enabled bind(presenter, :logged_out)
+          text bind(@presenter, :user_name)
+          enabled bind(@presenter, :logged_out)
           on_key_pressed { |event|
             @password_text.set_focus if event.keyCode == swt(:cr)
           }
@@ -84,40 +89,39 @@ class Login
 
         label { text "Password:" }
         @password_text = text(:password, :border) {
-          text bind(presenter, :password)
-          enabled bind(presenter, :logged_out)
+          text bind(@presenter, :password)
+          enabled bind(@presenter, :logged_out)
           on_key_pressed { |event|
-            presenter.login if event.keyCode == swt(:cr)
+            @presenter.login! if event.keyCode == swt(:cr)
           }
         }
 
         label { text "Status:" }
-        label { text bind(presenter, :status) }
+        label { text bind(@presenter, :status) }
 
         button {
           text "Login"
-          enabled bind(presenter, :logged_out)
-          on_widget_selected { presenter.login }
+          enabled bind(@presenter, :logged_out)
+          on_widget_selected { @presenter.login! }
           on_key_pressed { |event|
-            presenter.login if event.keyCode == swt(:cr)
+            @presenter.login! if event.keyCode == swt(:cr)
           }
         }
 
         button {
           text "Logout"
-          enabled bind(presenter, :logged_in)
-          on_widget_selected { presenter.logout }
+          enabled bind(@presenter, :logged_in)
+          on_widget_selected { @presenter.logout! }
           on_key_pressed { |event|
             if event.keyCode == swt(:cr)
-              presenter.logout
+              @presenter.logout!
               @user_name_text.set_focus
             end
           }
         }
       }
     }
-    @shell.open
-  end
+  }
 end
 
-Login.new.launch
+Login.launch

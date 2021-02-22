@@ -34,9 +34,15 @@ module Glimmer
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)
+          options = args.last.is_a?(Hash) ? args.last : {}
           (keyword == 'image') and
-            !parent.is_a?(Glimmer::SWT::Custom::Shape) and
-            (parent.nil? or parent.respond_to?('image=') or args.first.is_a?(Numeric))
+            (
+              options.keys.include?(:top_level) or
+              (
+                !parent.is_a?(Glimmer::SWT::Custom::Shape) and
+                (parent.nil? or parent.respond_to?('image=') or args.first.is_a?(Numeric))
+              )
+            )
         end
   
         def interpret(parent, keyword, *args, &block)

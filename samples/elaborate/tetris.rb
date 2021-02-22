@@ -182,6 +182,7 @@ class Tetris
           time = Time.now
           sleep @game.delay
           break if @game.game_over? || body_root.disposed?
+          # ensure entire game tetromino down movement happens as one GUI update event with sync_exec (to avoid flicker/stutter)
           sync_exec {
             @game.down! unless @game.paused?
           }

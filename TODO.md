@@ -54,7 +54,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
-- Consider extending Hello, Transform! with text
 - Auto-Focusable canvas element (with keyboard)
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
@@ -79,6 +78,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document Heroku pre-requisite as optional for webready/webify modes.
 - Document use of jruby in rails and ability to switch manually to CRuby with RVM
 - Make display detect if an on_about dialog is already setup before adding one (like in Tetris)
+- Restructure scaffolding of model and view directories to be just like that in Tetris (nesting within Model and View namespaces)
 
 ## Soon
 

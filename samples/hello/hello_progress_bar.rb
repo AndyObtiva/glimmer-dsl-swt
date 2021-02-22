@@ -20,7 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloProgressBar
-  include Glimmer::UI::CustomWindow
+  include Glimmer::UI::CustomShell
   
   class ProgressModel
     attr_accessor :minimum, :maximum, :selection, :delay

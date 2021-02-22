@@ -22,14 +22,14 @@
 require_relative "contact_manager/contact_manager_presenter"
 
 class ContactManager
-  include Glimmer
+  include Glimmer::UI::CustomShell
 
-  def initialize
+  before_body {
     @contact_manager_presenter = ContactManagerPresenter.new
     @contact_manager_presenter.list
-  end
+  }
 
-  def launch
+  body {
     shell {
       text "Contact Manager"
       composite {
@@ -135,8 +135,8 @@ class ContactManager
           }
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-ContactManager.new.launch
+ContactManager.launch

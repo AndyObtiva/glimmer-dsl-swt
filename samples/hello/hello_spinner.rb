@@ -24,14 +24,14 @@ class HelloSpinner
     attr_accessor :donation
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def initialize
+  before_body {
     @person = Person.new
     @person.donation = 500
-  end
+  }
   
-  def launch
+  body {
     shell {
       grid_layout
       
@@ -62,8 +62,8 @@ class HelloSpinner
           selection bind(@person, :donation) # selection must be set last if other properties are configured to ensure value is within bounds
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloSpinner.new.launch
+HelloSpinner.launch

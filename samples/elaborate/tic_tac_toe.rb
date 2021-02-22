@@ -22,11 +22,21 @@
 require_relative "tic_tac_toe/board"
 
 class TicTacToe
-  include Glimmer
+  include Glimmer::UI::CustomShell
 
-  def initialize
+  before_body {
     @tic_tac_toe_board = Board.new
-    @shell = shell {
+  }
+  
+  after_body {
+    observe(@tic_tac_toe_board, :game_status) { |game_status|
+      display_win_message if game_status == Board::WIN
+      display_draw_message if game_status == Board::DRAW
+    }
+  }
+
+  body {
+    shell {
       text "Tic-Tac-Toe"
       minimum_size 176, 200
       composite {
@@ -46,11 +56,7 @@ class TicTacToe
         }
       }
     }
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
-      display_win_message if game_status == Board::WIN
-      display_draw_message if game_status == Board::DRAW
-    }
-  end
+  }
 
   def display_win_message
     display_game_over_message("Player #{@tic_tac_toe_board.winning_sign} has won!")
@@ -65,12 +71,8 @@ class TicTacToe
       text 'Game Over'
       message message_text
     }.open
-    @tic_tac_toe_board.reset
-  end
-
-  def open
-    @shell.open
+    @tic_tac_toe_board.reset!
   end
 end
 
-TicTacToe.new.open
+TicTacToe.launch

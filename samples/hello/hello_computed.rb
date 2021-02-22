@@ -22,17 +22,17 @@
 require_relative 'hello_computed/contact'
 
 class HelloComputed
-  include Glimmer
+  include Glimmer::UI::CustomShell
 
-  def initialize
+  before_body {
     @contact = Contact.new(
       first_name: 'Barry',
       last_name: 'McKibbin',
       year_of_birth: 1985
     )
-  end
+  }
 
-  def launch
+  body {
     shell {
       text 'Hello, Computed!'
       
@@ -89,8 +89,8 @@ class HelloComputed
           }
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloComputed.new.launch
+HelloComputed.launch

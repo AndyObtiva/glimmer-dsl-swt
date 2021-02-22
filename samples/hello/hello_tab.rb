@@ -20,9 +20,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloTab
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
+  body {
     shell {
       text 'Hello, Tab!'
       
@@ -43,8 +43,8 @@ class HelloTab
           }
         }
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloTab.new.launch
+HelloTab.launch

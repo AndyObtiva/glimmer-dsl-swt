@@ -24,10 +24,10 @@ class HelloRadio
     attr_accessor :male, :female, :child, :teen, :adult, :senior
     
     def initialize
-      reset
+      reset!
     end
     
-    def reset
+    def reset!
       self.male = nil
       self.female = nil
       self.child = nil
@@ -37,11 +37,13 @@ class HelloRadio
     end
   end
   
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
-  def launch
-    person = Person.new
-    
+  before_body {
+    @person = Person.new
+  }
+  
+  body {
     shell {
       text 'Hello, Radio!'
       row_layout :vertical
@@ -56,12 +58,12 @@ class HelloRadio
         
         radio {
           text 'Male'
-          selection bind(person, :male)
+          selection bind(@person, :male)
         }
         
         radio {
           text 'Female'
-          selection bind(person, :female)
+          selection bind(@person, :female)
         }
       }
       
@@ -75,22 +77,22 @@ class HelloRadio
         
         radio {
           text 'Child'
-          selection bind(person, :child)
+          selection bind(@person, :child)
         }
         
         radio {
           text 'Teen'
-          selection bind(person, :teen)
+          selection bind(@person, :teen)
         }
         
         radio {
           text 'Adult'
-          selection bind(person, :adult)
+          selection bind(@person, :adult)
         }
         
         radio {
           text 'Senior'
-          selection bind(person, :senior)
+          selection bind(@person, :senior)
         }
       }
       
@@ -98,11 +100,11 @@ class HelloRadio
         text 'Reset'
         
         on_widget_selected do
-          person.reset
+          @person.reset!
         end
       }
-    }.open
-  end
+    }
+  }
 end
 
-HelloRadio.new.launch
+HelloRadio.launch

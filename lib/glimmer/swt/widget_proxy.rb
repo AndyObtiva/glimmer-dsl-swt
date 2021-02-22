@@ -595,8 +595,8 @@ module Glimmer
       end
 
       # delegates to DisplayProxy
-      def auto_exec(*args, &block)
-        DisplayProxy.instance.auto_exec(*args, &block)
+      def auto_exec(override_sync_exec: nil, override_async_exec: nil, &block)
+        DisplayProxy.instance.auto_exec(override_sync_exec: override_sync_exec, override_async_exec: override_async_exec, &block)
       end
 
       def has_style?(style)

@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,10 +24,11 @@ require 'date'
 # This class declares an `email_shell` custom shell, aka custom window (by convention)
 # Used to view an email message
 class EmailShell
+  # including Glimmer::UI::CustomShell enables declaring as an `email_shell` custom widget Glimmer GUI DSL keyword
   include Glimmer::UI::CustomShell
   
-  # multiple options without default values  
-  options :date, :subject, :from, :message
+  # multiple options without default values
+  options :parent_shell, :date, :subject, :from, :message
   
   # single option with default value
   option :to, default: '"John Irwin" <john.irwin@example.com>'
@@ -38,10 +39,10 @@ class EmailShell
   
   body {
     # pass received swt_style through to shell to customize it (e.g. :dialog_trim for a blocking shell)
-    shell(swt_style) {
+    shell(parent_shell, swt_style) {
       grid_layout(2, false)
       
-      text subject      
+      text subject
 
       label {
         text 'Date:'
@@ -78,7 +79,7 @@ class EmailShell
         }
         
         background :white
-        text message        
+        text message
       }
     }
   }
@@ -86,13 +87,12 @@ class EmailShell
 end
 
 class HelloCustomShell
-  # including Glimmer enables the Glimmer DSL syntax, including auto-discovery of the `email_shell` custom widget
-  include Glimmer
+  include Glimmer::UI::CustomShell
   
   Email = Struct.new(:date, :subject, :from, :message, keyword_init: true)
   EmailSystem = Struct.new(:emails, keyword_init: true)
   
-  def initialize
+  before_body {
     @email_system = EmailSystem.new(
       emails: [
         Email.new(date: DateTime.new(2029, 10, 22, 11, 3, 0).strftime('%F %I:%M %p'), subject: '3rd Week Report', from: '"Dianne Tux" <dianne.tux@example.com>', message: "Hello,\n\nI was wondering if you'd like to go over the weekly report sometime this afternoon.\n\nDianne"),
@@ -103,9 +103,9 @@ class HelloCustomShell
         Email.new(date: DateTime.new(2029, 10, 2, 10, 34, 0).strftime('%F %I:%M %p'), subject: 'Glimmer Upgrade v98.0', from: '"Robert McGabbins" <robert.mcgabbins@example.com>', message: "Team,\n\nWe are upgrading to Glimmer version 98.0.\n\nEveryone pull the latest code!\n\nRegards,\n\nRobert McGabbins"),
       ]
     )
-  end
+  }
   
-  def launch
+  body {
     shell {
       grid_layout
       
@@ -141,15 +141,11 @@ class HelloCustomShell
         
         on_mouse_up { |event|
           email = event.table_item.get_data
-          Thread.new do
-            async_exec {
-              email_shell(date: email.date, subject: email.subject, from: email.from, message: email.message).open
-            }
-          end
+          email_shell(parent_shell: self, date: email.date, subject: email.subject, from: email.from, message: email.message).open
         }
       }
-    }.open
-  end  
+    }
+  }
 end
 
-HelloCustomShell.new.launch
+HelloCustomShell.launch
