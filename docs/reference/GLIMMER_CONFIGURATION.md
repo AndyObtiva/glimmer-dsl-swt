@@ -170,11 +170,15 @@ This just tells Glimmer whether to log excluded keywords or not (at the debug le
 
 ### auto_sync_exec
 
-(default = false)
+(default = true)
 
-This automatically uses sync_exec on GUI calls from threads other than the main GUI thread instead of requiring users to manually use sync_exec. Default value to false.
+This automatically uses sync_exec on GUI calls from threads other than the main GUI thread instead of requiring users to manually use sync_exec.
 
-Keep in mind the caveat that it would force redraws on every minor changein the models instead of applying large scope changes all together, thus causing too much drawing/stutter in the GUI. As such, this is a good fit for simpler GUIs, not ones used with highly sophisticated 2D graphics. It may be mitigated in the future by introducing the idea of large-scale observation events that wrap around smaller events. Until then, keep the caveat in mind or just use sync_exec manually as usually done with Java SWT apps.
+Keep in mind that this could cause redraws on every minor change in the models instead of applying large scope changes together.
+In rare cases where you need to avoid causing stutter in the GUI as a result, you can wrap large-scale GUI updates in `auto_exec` manually.
+
+As such, this saves developers a lot of headache by not requiring wrapping every bit of GUI update in other threads with `sync_exec`, yet only
+large scale updates in the rare cases where optimization is needed.
 
 ## License
 

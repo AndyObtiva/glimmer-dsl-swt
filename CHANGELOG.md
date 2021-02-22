@@ -27,6 +27,7 @@
 - Update Hello, Button!, Hello, Table! sample, Hello, Checkbox Group! sample, Hello, Radio Group! sample, Hello, Combo! sample, Hello, List Single Selection! sample, Hello, List Multi Selection! sample to utilize a CustomShell
 - Refactor all samples to rely on Glimmer::UI::CustomShell given its new class launch method for productive app declaration
 - Fix issue with logging remaining async in debug mode
+- Fix issue with combo, list, radio group, and checkbox group not supporting nested data-binding
 
 ### 4.18.4.11
 

@@ -345,6 +345,7 @@ This is not an exaustive list, but should give you a good start in learning Glim
 - `async_exec`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
 - `sync_exec`: executes a block on the event loop synchronously (usually from another thread)
 - `timer_exec`: executes a block after a delay of time has passed
+- `auto_exec`: executes a block on the event loop synchronously only when needed (when running from a thread other than GUI thread)
 
 #### SWT Proxies
 
@@ -503,6 +504,11 @@ Most of the time, you simply get away with Ruby [Threads](https://ruby-doc.org/c
 
 Otherwise, if you need more advanced concurrency, Glimmer includes the [concurrent-ruby gem](https://rubygems.org/gems/concurrent-ruby), which supports many helpful concurrency techniques such as [Thread Pools](http://ruby-concurrency.github.io/concurrent-ruby/master/file.thread_pools.html) (used in the [Mandelbrot Fractal](GLIMMER_SAMPLES.md#mandelbrot-fractal) sample).
 
+One thing Glimmer DSL for SWT innovates over plain old SWT is not requiring developers to explicitly use `Display.syncExec` from threads other than the GUI threads.
+Glimmer automatically detects if you're running in a different thread and uses `Display.syncExec` automatically using its own enhanced `auto_exec`
+
+In any case, Glimmer still allows developers to manually use `sync_exec`, `async_exec`, `timer_exec`, and `auto_exec` when needed. M
+
 ##### async_exec
 
 `async_exec {}` is a Glimmer DSL keyword in addition to being a method on `display`. It accepts a block and when invoked, adds the block to the end of a queue of GUI events scheduled to run on the SWT event loop, executing asynchronously.
@@ -533,7 +539,11 @@ Thread.new {
 
 ##### sync_exec
 
-`sync_exec {}` works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
+`sync_exec {}` is required by SWT when running GUI update from a thread other than the GUI thread. In Glimmer, it is automatically invoked for you so that you wouldn't have to worry about it. It works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
+
+##### auto_exec
+
+`auto_exec(override_sync_exec:, override_async_exec) {}` only executes code block with `sync_exec` when necessary (running from a thread other than the GUI thread). It is used automatically all over the Glimmer DSL for SWT codebase, so you wouldn't need it unless you grab a direct handle on `swt_widget` from a widget proxy.
 
 ##### timer_exec
 
