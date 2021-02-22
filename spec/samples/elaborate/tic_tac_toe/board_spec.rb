@@ -3,7 +3,7 @@ require "spec_helper"
 require File.join(ROOT_PATH, 'samples/elaborate/tic_tac_toe/board')
 
 class TicTacToe
-  describe Board do  
+  describe Board do
     before do
       @board = TicTacToe::Board.new
     end
@@ -252,7 +252,7 @@ class TicTacToe
       @board.mark(2, 1)
       @board.mark(2, 2)
       @board.mark(3, 2)
-      @board.reset
+      @board.reset!
       expect(@board.game_over?).to be_falsey
       expect(@board.winning_sign).to eq(Cell::EMPTY)
       expect(@board.game_status).to eq(Board::IN_PROGRESS)

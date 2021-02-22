@@ -117,7 +117,7 @@ module Glimmer
       def recursive_depth_first_search(tree_item, found, &condition)
         return if tree_item.nil?
         found << tree_item if condition.nil? || DisplayProxy.instance.auto_exec {condition.call(tree_item)}
-        return if found.any? && !has_style?(:multi)
+#         return if found.any? && !has_style?(:multi) # TODO inspect if this is a good optimization when needed
         tree_items = DisplayProxy.instance.auto_exec {tree_item.getItems}
         tree_items.each do |child_tree_item|
           recursive_depth_first_search(child_tree_item, found, &condition)

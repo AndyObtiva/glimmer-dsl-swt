@@ -7,7 +7,6 @@
 - Implement `sync_exec:` option in `bind` keyword with table, tree, combo, and list data-binding (other data-binding types than the standard)
 - Add `async_exec` option to `bind` keyword (covering `data_binding_expression.rb` with `async_exec` properly)
 - Support tree multi-selection data-binding
-- Optimize tree selection performance for single-selection
 - Hello, Tree! sample
 - Enhance Hello, Canvas! with Shape Movement
 - Add Jars.lock to scaffold .gitignore file
