@@ -117,6 +117,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Highlight table selection after changing table collection out and back in again to the model collection that had the selection
 - Support passing spinner table editor properties
 - Add checkbox column editor to Hello, Table! Sample
+- insert/delete contact in Contact Manager Sample
+- insert employee and delete employee in Hello, Tree! Sample
 - Document that consumers of spinner must bind selection after setting other properties (gotcha)
 - Make tables detect inital sort property matching custom sort property on a column header and highlight sort on it
 

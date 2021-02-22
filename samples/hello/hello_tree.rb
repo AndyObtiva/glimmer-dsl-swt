@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer-dsl-swt'
+
 class HelloTree
   EMPLOYEE_ATTRIBUTES = [
     :first_name, :last_name, :position, :salary,
@@ -206,10 +208,16 @@ class HelloTree
     
     def initialize(*args)
       super(*args)
+      determine_type_from_position
       if first_name.nil? || last_name.nil?
         name = Employee.select_name!
         self.first_name = name.first
         self.last_name = name.last
+      end
+      self.sales_bonus_percentage = (rand*100).to_i if @type == 'Sales'
+      self.merit_bonus = (rand*99_999).to_i
+      [:work_expense, :technology_expense, :travel_expense, :client_expense, :sponsorship_expense, :food_expense, :office_expense].each do |attribute|
+        self.send("#{attribute}=", rand*9_999)
       end
       observer = Glimmer::DataBinding::Observer.proc {
         notify_observers('to_s')
@@ -217,6 +225,15 @@ class HelloTree
       observer.observe(self, :first_name)
       observer.observe(self, :last_name)
       observer.observe(self, :position)
+    end
+    
+    def determine_type_from_position(specified_position = nil)
+      specified_position ||= position
+      @type = EMPLOYMENT_TYPE_POSITIONS.keys.detect {|key| position.include?(key)}
+      @type = 'Sales' if position == 'CEO'
+      @type = 'Finance' if position == 'CFO'
+      @type = 'HR' if position == 'CIO'
+      @type = 'Engineering' if position == 'CTO'
     end
 
     def position_options
@@ -305,9 +322,6 @@ class HelloTree
         composite {
           grid_layout 2, false
   
-  #     :sales_bonus_percentage, :merit_bonus,
-  #     :work_expense, :technology_expense, :travel_expense, :client_expense, :sponsorship_expense, :food_expense, :office_expense,
-  
           label {
             layout_data(:fill, :center, false, false)
             text 'First Name:'
@@ -348,7 +362,10 @@ class HelloTree
           }
           composite {
             layout_data(:fill, :center, true, false)
-            row_layout
+            row_layout {
+              margin_width 0
+              margin_height 0
+            }
             label {
               text '$'
               font height: 20
@@ -383,6 +400,79 @@ class HelloTree
             font height: 16
           }
               
+          label {
+            layout_data(:fill, :center, false, false)
+            text 'Sales Bonus Percentage:'
+            font height: 16, style: :bold
+          }
+          composite {
+            layout_data(:fill, :center, true, false)
+            row_layout {
+              margin_width 0
+              margin_height 0
+            }
+            spinner {
+              maximum 100
+              minimum 0
+              selection bind(Employee, "selected_employee.sales_bonus_percentage")
+              font height: 16
+            }
+            label {
+              text '%'
+              font height: 20
+            }
+          }
+
+          label {
+            layout_data(:fill, :center, false, false)
+            text 'Merit Bonus:'
+            font height: 16, style: :bold
+          }
+          composite {
+            layout_data(:fill, :center, true, false)
+            row_layout {
+              margin_width 0
+              margin_height 0
+            }
+            label {
+              text '$'
+              font height: 20
+            }
+            spinner {
+              maximum 999_999
+              minimum 0
+              selection bind(Employee, "selected_employee.merit_bonus")
+              font height: 16
+            }
+          }
+        
+          [:work_expense, :technology_expense, :travel_expense, :client_expense, :sponsorship_expense, :food_expense, :office_expense].each do |attribute|
+            label {
+              layout_data(:fill, :center, false, false)
+              text "#{attribute.to_s.split('_').map(&:capitalize).join(' ')}:"
+              font height: 16, style: :bold
+            }
+            composite {
+              layout_data(:fill, :center, true, false)
+              row_layout {
+                margin_width 0
+                margin_height 0
+              }
+              label {
+                text '$'
+                font height: 20
+              }
+              spinner {
+                digits 2
+                maximum 999_999_00
+                minimum 0
+                increment 100
+                selection bind(Employee, "selected_employee.#{attribute}", on_read: ->(v) {v.to_f * 100}, on_write: ->(v) {v.to_f / 100})
+                font height: 16
+              }
+            }
+          end
+        
         }
         
       }

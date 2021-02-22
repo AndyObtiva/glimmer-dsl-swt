@@ -1033,6 +1033,10 @@ module Glimmer
           items: lambda do |value|
             value.to_java :string
           end,
+          selection: lambda do |value|
+            value = value.to_f if swt_widget.is_a?(Spinner)
+            value
+          end,
           text: lambda do |value|
             value.to_s
           end,
