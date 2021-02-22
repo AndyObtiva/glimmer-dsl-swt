@@ -94,6 +94,9 @@ module Glimmer
           # Mac
           .DS_Store
           
+          # Warbler
+          Jars.lock
+          
           # Gladiator (Glimmer Editor)
           .gladiator
           

@@ -132,7 +132,7 @@ module Glimmer
       end
 
       def scale_to(width, height)
-        return if @image_data.width == width && @image_data.height == height
+        return self if @image_data.width == width && @image_data.height == height
         scaled_image_data = @original_image_data.scaledTo(width, height)
         device = swt_image.device
         swt_image.dispose

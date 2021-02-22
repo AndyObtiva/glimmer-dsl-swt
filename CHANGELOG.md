@@ -10,6 +10,7 @@
 - Optimize tree selection performance for single-selection
 - Hello, Tree! sample
 - Enhance Hello, Canvas! with Shape Movement
+- Add Jars.lock to scaffold .gitignore file
 - Add Glimmer::GUI alias for Glimmer::UI module, thus permitting inclusion of Glimmer::GUI::CustomWidget, Glimmer::GUI::CustomShell, and Glimmer::GUI::CustomWindow
 - Provide a quick method for grabbing all available cursor/color options off of SWTProxy (SWTProxy.cursor_options, SWTProxy.cursor_styles, SWTProxy.color_options, SWTProxy.color_styles)
 - Remove explicit git gem dependency given that it is installed via juwelier during scaffolding and is not needed otherwise
