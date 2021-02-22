@@ -38,6 +38,10 @@ module Glimmer
           @image_buffered_shapes ||= []
         end
         
+        def shape_at_location(x, y)
+          shapes.reverse.detect {|shape| shape.include?(x, y)}
+        end
+        
         def add_shape(shape)
           if !@image_double_buffered || shape.args.first == @image_proxy_buffer
             shapes << shape

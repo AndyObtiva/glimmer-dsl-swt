@@ -36,6 +36,15 @@ module Glimmer
           def parameter_names
             [:x, :y]
           end
+          
+          def include?(x, y)
+            x.to_i.between?(self.x.to_i - 2, self.x.to_i + 2) && y.to_i.between?(self.y.to_i - 2, self.y.to_i + 2)
+          end
+          
+          def move_by(x_delta, y_delta)
+            self.x += x_delta
+            self.y += y_delta
+          end
         end
       end
     end

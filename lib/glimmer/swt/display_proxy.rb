@@ -77,7 +77,7 @@ module Glimmer
         Display.app_name ||= 'Glimmer'
         @swt_display = Display.new(*args)
         @swt_display.set_data('proxy', self)
-        @execs_in_progress = []
+        @execs_in_progress = {}
         on_swt_Dispose {
           clear_shapes
         }
@@ -91,9 +91,12 @@ module Glimmer
       # does not return the value produced by the block since it is async, running after the return
       def async_exec(&block)
         @swt_display.asyncExec do
-          @execs_in_progress << :async_exec
-          block.call
-          @execs_in_progress.pop
+          execs_in_progress << :async_exec
+          begin
+            result = block.call
+          ensure
+            execs_in_progress.pop
+          end
         end
       end
 
@@ -102,9 +105,12 @@ module Glimmer
       def sync_exec(&block)
         result = nil
         @swt_display.syncExec do
-          @execs_in_progress << :sync_exec
-          result = block.call
-          @execs_in_progress.pop
+          execs_in_progress << :sync_exec
+          begin
+            result = block.call
+          ensure
+            execs_in_progress.pop
+          end
         end
         result
       end
@@ -120,11 +126,15 @@ module Glimmer
       end
       
       def async_exec_in_progress?
-        @execs_in_progress.last == :async_exec
+        execs_in_progress.last == :async_exec
       end
       
       def sync_exec_in_progress?
-        @execs_in_progress.include?(:sync_exec)
+        execs_in_progress.include?(:sync_exec)
+      end
+      
+      def execs_in_progress
+        @execs_in_progress[Thread.current] ||= []
       end
       
       # Invoke block with `sync_exec` only when necessary (running from a separate thread)

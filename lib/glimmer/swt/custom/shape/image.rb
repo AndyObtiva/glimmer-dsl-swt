@@ -62,6 +62,23 @@ module Glimmer
             end
           end
           
+          def include?(x, y)
+            self_x = dest_x || self.x
+            self_y = dest_y || self.y
+            width = dest_width || image.bounds.width
+            height = dest_height || image.bounds.height
+            x.between?(self_x, self_x + width) && y.between?(self_y, self_y + height)
+          end
+            
+          def move_by(x_delta, y_delta)
+            if dest_x
+              self.dest_x += x_delta
+              self.dest_y += y_delta
+            else
+              self.x += x_delta
+              self.y += y_delta
+            end
+          end
         end
       end
     end

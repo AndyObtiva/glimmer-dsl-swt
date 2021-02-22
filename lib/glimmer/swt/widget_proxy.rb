@@ -984,7 +984,7 @@ module Glimmer
                 while last_image_number != image_number
                   last_image_number = image_number
                   sync_exec {
-                    redraw
+                    redraw unless disposed?
                   }
                   delayTime = loader.data[image_number].delayTime.to_f / 100.0
                   sleep(delayTime)

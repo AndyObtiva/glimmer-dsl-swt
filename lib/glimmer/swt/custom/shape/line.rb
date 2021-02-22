@@ -36,6 +36,21 @@ module Glimmer
           def parameter_names
             [:x1, :y1, :x2, :y2]
           end
+          
+          def include?(x, y)
+            # TODO must account for line width
+            distance1 = Math.sqrt((x - x1)**2 + (y - y1)**2)
+            distance2 = Math.sqrt((x2 - x)**2 + (y2 - y)**2)
+            distance = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+            (distance1 + distance2).to_i == distance.to_i
+          end
+            
+          def move_by(x_delta, y_delta)
+            self.x1 += x_delta
+            self.y1 += y_delta
+            self.x2 += x_delta
+            self.y2 += y_delta
+          end
         end
       end
     end

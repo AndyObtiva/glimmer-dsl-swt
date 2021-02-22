@@ -36,6 +36,36 @@ module Glimmer
           def parameter_names
             [:point_array]
           end
+          
+          def size
+            point_array.size / 2
+          end
+          
+          def [](index)
+            index = 0 if index == size
+            org.eclipse.swt.graphics.Point.new(point_array[index * 2], point_array[index * 2 + 1])
+          end
+          
+          def include?(x, y)
+            c = false
+            i = -1
+            j = self.size
+            while (i += 1) < (self.size + 1)
+              if ((self[i].y <= y && y < self[j].y) ||
+                 (self[j].y <= y && y < self[i].y))
+                if (x < (self[j].x - self[i].x) * (y - self[i].y) /
+                              (self[j].y - self[i].y) + self[i].x)
+                  c = !c
+                end
+                j = i
+              end
+            end
+            c
+          end
+          
+          def move_by(x_delta, y_delta)
+            self.point_array = point_array.each_with_index.map {|coordinate, i| i.even? ? coordinate + x_delta : coordinate + y_delta}
+          end
         end
       end
     end

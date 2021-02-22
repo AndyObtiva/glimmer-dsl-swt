@@ -132,6 +132,29 @@ module Glimmer
           @options[:round]
         end
         
+        # subclasses (like polygon) may override to indicate if a point x,y coordinates fall inside the shape
+        # has a default implementation for rectangle and oval
+        def include?(x, y)
+          case @name
+          when 'rectangle', 'oval', 'arc'
+            self_x = self.x
+            self_y = self.y
+            width = self.width
+            height = self.height
+            x.between?(self_x, self_x + width) && y.between?(self_y, self_y + height)
+          else
+            false
+          end
+        end
+        
+        def move_by(x_delta, y_delta)
+          case @name
+          when 'rectangle', 'oval', 'arc'
+            self.x += x_delta
+            self.y += y_delta
+          end
+        end
+        
         def has_some_background?
           @properties.keys.map(&:to_s).include?('background') || @properties.keys.map(&:to_s).include?('background_pattern')
         end
@@ -183,8 +206,15 @@ module Glimmer
                 args[i] = arg.swt_color
               end
             end
-            new_args = [DisplayProxy.instance.swt_display] + args
-            args[0] = pattern(*new_args, type: method_name.to_s.match(/set(.+)Pattern/)[1])
+            @pattern_args ||= {}
+            pattern_type = method_name.to_s.match(/set(.+)Pattern/)[1]
+            if args.first.is_a?(Pattern)
+              new_args = @pattern_args[pattern_type]
+            else
+              new_args = [DisplayProxy.instance.swt_display] + args
+              @pattern_args[pattern_type] = new_args
+            end
+            args[0] = pattern(*new_args, type: pattern_type)
             args[1..-1] = []
           end
           args
@@ -281,7 +311,7 @@ module Glimmer
         end
         
         def set_parameter_attribute(attribute_name, *args)
-          @args[parameter_index(attribute_name)] = args.size == 1 ? args.first : args
+          @args[parameter_index(ruby_attribute_getter(attribute_name))] = args.size == 1 ? args.first : args
         end
         
         def has_attribute?(attribute_name, *args)
@@ -309,10 +339,28 @@ module Glimmer
           end
         end
         
+        def method_missing(method_name, *args, &block)
+          if method_name.to_s.end_with?('=')
+            set_attribute(method_name, *args)
+          elsif has_attribute?(method_name)
+            get_attribute(method_name)
+          else
+            super
+          end
+        end
+        
+        def respond_to?(method_name, *args, &block)
+          if has_attribute?(method_name)
+            true
+          else
+            super
+          end
+        end
+        
         def pattern(*args, type: nil)
           instance_variable_name = "@#{type}_pattern"
           the_pattern = instance_variable_get(instance_variable_name)
-          if the_pattern.nil?
+          if the_pattern.nil? || the_pattern.is_disposed
             the_pattern = self.class.pattern(*args)
           end
           the_pattern

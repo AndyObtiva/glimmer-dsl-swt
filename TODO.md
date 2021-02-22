@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Tree! (continents containing coutnries countaining provinces/states containing cities)
-- Enhance Hello, Canvas! with Movement
-
 - Enhance Hello, Canvas! with Color selector
 - Hello, Color Dialog!
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)

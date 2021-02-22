@@ -21,13 +21,17 @@
 
 include Glimmer
 
+image_object = image(File.expand_path('../../icons/scaffold_app.png', __dir__), width: 50)
+
 shell {
   text 'Hello, Canvas!'
   minimum_size 320, 400
 
-  canvas {
+  @canvas = canvas {
     background :yellow
     rectangle(0, 0, 220, 400) {
+      transform {
+      }
       background :red
     }
     rectangle(50, 20, 300, 150, 30, 50) {
@@ -69,6 +73,33 @@ shell {
       point(220 + n*5, 100 + n*5) {
         foreground :yellow
       }
+    }
+    image(image_object, 205, 55)
+  
+    on_mouse_down { |mouse_event|
+      @drag_detected = false
+      @canvas.cursor = :hand
+      @shape_to_move = @canvas.shape_at_location(mouse_event.x, mouse_event.y)
+    }
+    
+    on_drag_detected { |drag_detect_event|
+      @drag_detected = true
+      @drag_current_x = drag_detect_event.x
+      @drag_current_y = drag_detect_event.y
+    }
+    
+    on_mouse_move { |mouse_event|
+      if @drag_detected
+        @shape_to_move&.move_by(mouse_event.x - @drag_current_x, mouse_event.y - @drag_current_y)
+        @drag_current_x = mouse_event.x
+        @drag_current_y = mouse_event.y
+      end
+    }
+    
+    on_mouse_up { |mouse_event|
+      @canvas.cursor = :arrow
+      @drag_detected = false
+      @shape_to_move = nil
     }
   }
 }.open
