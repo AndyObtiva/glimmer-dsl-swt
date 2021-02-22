@@ -327,6 +327,8 @@ module Glimmer
         end
       end
 
+      # these work in tandem with the property_type_converters
+      # sometimes, they are specified in subclasses instead
       def widget_property_listener_installers
         @swt_widget_property_listener_installers ||= {
           Java::OrgEclipseSwtWidgets::Control => {

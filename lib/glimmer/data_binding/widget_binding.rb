@@ -52,7 +52,10 @@ module Glimmer
             unregister_all_observables
             return
           end
-          @widget.set_attribute(@property, value) unless evaluate_property == value
+          # need the rescue false for a scenario with tree items not being equal to model objects raising an exception
+          unless ((value == evaluate_property) rescue false) # need the rescue false for a scenario with tree items not being equal to model objects raising an exception
+            @widget.set_attribute(@property, value)
+          end
         end
       end
       

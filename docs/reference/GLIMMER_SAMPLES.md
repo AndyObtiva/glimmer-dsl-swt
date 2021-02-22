@@ -562,6 +562,10 @@ Hello, Canvas!
 
 ![Hello Canvas](/images/glimmer-hello-canvas.png)
 
+Hello, Canvas! with Moved Shapes (via Drag'n'Drop)
+
+![Hello Canvas Moved Shapes](/images/glimmer-hello-canvas-moved-shapes.png)
+
 #### Hello, Canvas Animation!
 
 This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.

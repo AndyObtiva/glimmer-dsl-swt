@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.5.1
+
+- Fixed issue with tree multi selection throwing an exception
+
 ### 4.18.5.0
 
 - Automatic `sync_exec` usage from threads other than the GUI thread, thus absolving software engineers from the need to use `sync_exec` explicitly anymore.
