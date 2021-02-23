@@ -36,6 +36,8 @@
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
     - [Hello, Tree!](#hello-tree)
+    - [Hello, Color Dialog!](#hello-color-dialog)
+    - [Hello, Font Dialog!](#hello-font-dialog)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -566,6 +568,18 @@ Hello, Canvas! with Moved Shapes (via Drag'n'Drop)
 
 ![Hello Canvas Moved Shapes](/images/glimmer-hello-canvas-moved-shapes.png)
 
+Hello, Canvas! Menu (for background/foreground color changes)
+
+![Hello Canvas Menu](/images/glimmer-hello-canvas-menu.png)
+
+Hello, Canvas! Color Dialog
+
+![Hello Canvas Color Dialog](/images/glimmer-hello-canvas-color-dialog.png)
+
+Hello, Canvas! Colors Changed
+
+![Hello Canvas Colors Changed](/images/glimmer-hello-canvas-colors-changed.png)
+
 #### Hello, Canvas Animation!
 
 This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.
@@ -633,6 +647,38 @@ Code:
 Hello, Tree!
 
 ![Hello Tree](/images/glimmer-hello-tree.png)
+
+#### Hello, Color Dialog!
+
+This sample demonstrates the use of the `color_dialog` keyword.
+
+Code:
+
+[samples/hello/hello_color_dialog.rb](/samples/hello/hello_color_dialog.rb)
+
+Hello, Color Dialog!
+
+![Hello Color Dialog](/images/glimmer-hello-color-dialog.png)
+
+![Hello Color Dialog Choose Color](/images/glimmer-hello-color-dialog-choose-color.png)
+
+![Hello Color Dialog Color Changed](/images/glimmer-hello-color-dialog-color-changed.png)
+
+#### Hello, Font Dialog!
+
+This sample demonstrates the use of the `font_dialog` keyword.
+
+Code:
+
+[samples/hello/hello_font_dialog.rb](/samples/hello/hello_font_dialog.rb)
+
+Hello, Font Dialog!
+
+![Hello Font Dialog](/images/glimmer-hello-font-dialog.png)
+
+![Hello Font Dialog Choose Font](/images/glimmer-hello-font-dialog-choose-font.png)
+
+![Hello Font Dialog Font Changed](/images/glimmer-hello-font-dialog-font-changed.png)
 
 ### Elaborate Samples
 

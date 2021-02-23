@@ -432,7 +432,7 @@ Dialog is a variation on Shell. It is basically a shell that is modal (blocks wh
 
 Glimmer facilitates building dialogs by using the `dialog` keyword, which automatically adds the SWT.DIALOG_TRIM and SWT.APPLICATION_MODAL [widget styles](#widget-styles) needed for a dialog.
 
-Check out [Hello, Dialog!](#hello-dialog) sample to learn more.
+Check out [Hello, Dialog!](GLIMMER_SAMPLES.md#hello-dialog) sample to learn more.
 
 ##### message_box
 
@@ -895,7 +895,7 @@ shell {
 }.open
 ```
 
-You may check out a more full-fledged example in [Hello, Sash Form!](#hello-sash-form)
+You may check out a more full-fledged example in [Hello, Sash Form!](GLIMMER_SAMPLES.md#hello-sash-form)
 
 ![Hello Sash Form](/images/glimmer-hello-sash-form.png)
 
@@ -1473,7 +1473,7 @@ Screenshot:
 
 ![Canvas Animation Example](/images/glimmer-example-canvas.png)
 
-Learn more at the [Hello, Canvas! Sample](#hello-canvas).
+Learn more at the [Hello, Canvas! Sample](GLIMMER_SAMPLES.md#hello-canvas).
 
 If you ever have special needs or optimizations, you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
 
@@ -1517,7 +1517,7 @@ shell {
 
 #### Shapes inside a Widget
 
-Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
+Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](GLIMMER_SAMPLES.md#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
 
 #### Shapes inside an Image
 
@@ -1889,7 +1889,7 @@ transform(1, 1, 4, 2, 2, 4).
   translate(3, 7)
 ```
 
-Learn more at the [Hello, Canvas Transform! Sample](#hello-canvas-transform).
+Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-canvas-transform).
 
 ### Canvas Animation DSL
 
@@ -1955,7 +1955,7 @@ API of Animation Object (returned from `animation` keyword):
 - `#cycle_limited?` returns true if `cycle_count` is specified
 - `#duration_limited?` returns true if `duration_limit` is specified
 
-Learn more at the [Hello, Canvas Animation! Sample](#hello-canvas-animation).
+Learn more at the [Hello, Canvas Animation! Sample](GLIMMER_SAMPLES.md#hello-canvas-animation).
 
 If there is anything missing you would like added to the Glimmer Animation DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
 
@@ -1963,7 +1963,7 @@ If there is anything missing you would like added to the Glimmer Animation DSL t
 
 Animation could be alternatively implemented without the `animation` keyword through a loop that invokes model methods inside `sync_exec {}` (or `async_exec {}`), which indirectly cause updates to the GUI via data-binding.
 
-The [Glimmer Tetris](#glimmer-tetris) sample provides a good example of that.
+The [Glimmer Tetris](#tetris) sample provides a good example of that.
 
 ### Data-Binding
 
@@ -3162,7 +3162,7 @@ Simply install the [glimmer-cw-video](https://rubygems.org/gems/glimmer-cw-video
 This [Eclipse guide](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm) for how to write custom SWT widgets is also applicable to Glimmer Custom Widgets written in Ruby. I recommend reading it:
 [https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm)
 
-Also, you may check out [Hello, Custom Widget!](#hello-custom-widget) for another example.
+Also, you may check out [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) for another example.
 
 ### Custom Shells
 
@@ -3233,7 +3233,7 @@ shell { |app_shell|
 
 If you use a Custom Shell as the top-level app shell, you may invoke the class method `::launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
 
-You may check out [Hello, Custom Shell!](#hello-custom-shell) for another example.
+You may check out [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) for another example.
 
 ### Drag and Drop
 
@@ -3247,7 +3247,7 @@ To get started, simply follow these steps:
 1. On the drop target widget, add `on_drop` [DropTargetListener](https://help.eclipse.org/2020-03/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/dnd/DropTargetListener.html) event handler block at minimum (you may also add `on_drag_enter` [must set [`event.detail`](https://help.eclipse.org/2020-06/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/dnd/DropTargetEvent.html#detail) if added], `on_drag_over`, `on_drag_leave`, `on_drag_operation_changed` and `on_drop_accept` if needed)
 1. Read `event.data` and consume it (e.g. change widget text) inside the `on_drop` event handler block.
 
-Example (taken from [samples/hello/hello_drag_and_drop.rb](#hello-drag-and-drop) / you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+Example (taken from [samples/hello/hello_drag_and_drop.rb](GLIMMER_SAMPLES.md#hello-drag-and-drop) / you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
 class Location
