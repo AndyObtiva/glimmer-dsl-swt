@@ -81,6 +81,7 @@ module Glimmer
           def include?(x, y)
             x.between?(effective_x, effective_x + effective_width) && y.between?(effective_y, effective_y + effective_height)
           end
+          alias contain? include?
             
           def move_by(x_delta, y_delta)
             if dest_x

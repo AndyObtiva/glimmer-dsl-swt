@@ -50,6 +50,7 @@ module Glimmer
             # TODO must account for line width
             Line.include?(x1, y1, x2, y2, x, y)
           end
+          alias contain? include?
             
           def move_by(x_delta, y_delta)
             self.x1 += x_delta

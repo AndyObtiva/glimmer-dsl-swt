@@ -134,7 +134,14 @@ module Glimmer
           @options[:round]
         end
         
-        # subclasses (like polygon) may override to indicate if a point x,y coordinates fall inside the shape
+        # subclasses (like polygon) may override to indicate if a point x,y coordinates falls inside the shape
+        # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
+        def contain?(x, y)
+          false
+        end
+        
+        # subclasses (like polygon) may override to indicate if a point x,y coordinates falls on the edge of a drawn shape or inside a filled shape
+        # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def include?(x, y)
           false
         end

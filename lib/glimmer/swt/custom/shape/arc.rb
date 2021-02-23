@@ -37,9 +37,21 @@ module Glimmer
             [:x, :y, :width, :height, :start_angle, :arc_angle]
           end
           
-          def include?(x, y)
+          # checks if shape contains the point denoted by x and y
+          def contain?(x, y)
             shape_geometry = java.awt.geom.Arc2D::Double.new(self.x, self.y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
             shape_geometry.contains(x, y)
+          end
+          
+          def include?(x, y)
+            if filled?
+              contain?(x, y)
+            else
+              # give it some fuzz to allow a larger region around the drawn oval to accept including a point (helps with mouse clickability on a shape)
+              outer_shape_geometry = java.awt.geom.Arc2D::Double.new(self.x, self.y, width + 3, height + 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+              inner_shape_geometry = java.awt.geom.Arc2D::Double.new(self.x, self.y, width - 3, height - 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+              outer_shape_geometry.contains(x, y) && !inner_shape_geometry.contains(x, y)
+            end
           end
         end
       end

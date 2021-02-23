@@ -38,8 +38,10 @@ module Glimmer
           end
           
           def include?(x, y)
+            # give it some fuzz (helps makes mouse clicking easier)
             x.to_i.between?(self.x.to_i - 2, self.x.to_i + 2) && y.to_i.between?(self.y.to_i - 2, self.y.to_i + 2)
           end
+          alias contain? include?
           
           def move_by(x_delta, y_delta)
             self.x += x_delta

@@ -6,6 +6,8 @@
 - Support checking if an `oval` shape includes a point x,y coordinates in oval region only (not its rectangular region)
 - Support checking if a `focus` shape includes a point x,y coordinates
 - Support checking point inclusion differently in drawed vs filled Rectangle (only check the drawn border when not filled)
+- Support checking point inclusion differently in drawed vs filled Oval (only check the drawn border when not filled)
+- Support checking point inclusion differently in drawed vs filled Arc (only check the drawn border when not filled)
 - Fix point inclusion check for polyline
 - Fix issue with `polygon` check if it includes a point x,y coordinates (replace with available `java.awt` robust geometry algorithms)
 
