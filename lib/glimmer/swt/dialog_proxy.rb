@@ -25,7 +25,11 @@ require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.widgets.DirectoryDialog
+    # Proxy for org.eclipse.swt.widgets.Dialog superclass
+    # of dialogs like FileDialog, DirectoryDialog, ColorDialog, and FontDialog
+    #
+    # (if you're seeking the `dialog` keyword, that's just a `shell` variation
+    # under ShellProxy instead.
     #
     # Automatically uses the current shell if one is open.
     # Otherwise, it instantiates a new shell parent
@@ -33,14 +37,28 @@ module Glimmer
     # Optionally takes a shell as an argument
     #
     # Follows the Proxy Design Pattern
-    class DirectoryDialogProxy < WidgetProxy
+    class DialogProxy
       # TODO write rspec tests
+      include Properties
+      
       include_package 'org.eclipse.swt.widgets'
+      
+      class << self
+        include_package 'org.eclipse.swt.widgets'
+        
+        def dialog_class(keyword)
+          the_class = eval(keyword.camelcase(:upper))
+          the_class if the_class.ancestors.include?(org.eclipse.swt.widgets.Dialog)
+        end
+      end
 
-      def initialize(*args, swt_widget: nil)
-        auto_exec do
-          if swt_widget
-            @swt_widget = swt_widget
+      attr_reader :swt_dialog
+      
+      def initialize(keyword, *args, swt_dialog: nil)
+        DisplayProxy.instance.auto_exec do
+          dialog_class = self.class.dialog_class(keyword)
+          if swt_dialog
+            @swt_dialog = swt_dialog
           else
             style_args = args.select {|arg| arg.is_a?(Symbol) || arg.is_a?(String)}
             if style_args.any?
@@ -57,9 +75,13 @@ module Glimmer
             end
             parent = args[0]
             @parent_proxy = parent.is_a?(Shell) ? ShellProxy.new(swt_widget: parent) : parent
-            @swt_widget = DirectoryDialog.new(*args)
+            @swt_dialog = dialog_class.new(*args)
           end
         end
+      end
+      
+      def proxy_source_object
+        @swt_dialog
       end
 
     end

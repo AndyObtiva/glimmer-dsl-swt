@@ -38,7 +38,7 @@ module Glimmer
   
         def interpret(parent, keyword, *args, &block)
           args = [parent] + args unless parent.nil?
-          Glimmer::SWT::ShellProxy.send(:new, *args)
+          Glimmer::SWT::ShellProxy.new(*args)
         end
       end
       class WindowExpression < ShellExpression

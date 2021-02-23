@@ -223,23 +223,11 @@ module Glimmer
           [args, extra_options]
         end
       end
+      
+      def proxy_source_object
+        @swt_widget
+      end
 
-      def has_attribute_getter?(attribute_getter_name, *args)
-        attribute_getter_name = attribute_getter_name.to_s.underscore
-        return false unless !attribute_getter_name.end_with?('=') && !attribute_getter_name.start_with?('set_')
-        auto_exec do
-          args.empty? && swt_widget.respond_to?(attribute_getter_name)
-        end
-      end
-      
-      def has_attribute_setter?(attribute_setter_name, *args)
-        attribute_setter_name = attribute_setter_name.to_s
-        underscored_attribute_setter_name = attribute_setter_name.underscore
-        return false unless attribute_setter_name.end_with?('=') || (attribute_setter_name.start_with?('set_') && !args.empty?)
-        attribute_name = underscored_attribute_setter_name.sub(/^set_/, '').sub(/=$/, '')
-        has_attribute?(attribute_name, *args)
-      end
-      
       def has_attribute?(attribute_name, *args)
         # TODO test that attribute getter responds too
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
@@ -247,7 +235,7 @@ module Glimmer
           if widget_custom_attribute
             @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
           else
-            @swt_widget.respond_to?(attribute_setter(attribute_name), args) || respond_to?(ruby_attribute_setter(attribute_name), args)
+            super
           end
         end
       end
@@ -264,17 +252,9 @@ module Glimmer
           result = if widget_custom_attribute
             swt_widget_operation = true
             widget_custom_attribute[:setter][:invoker].call(@swt_widget, args)
-          elsif @swt_widget.respond_to?(attribute_setter(attribute_name))
-            swt_widget_operation = true
-            @swt_widget.send(attribute_setter(attribute_name), *args) unless @swt_widget.send(attribute_getter(attribute_name)) == args.first
-          elsif @swt_widget.respond_to?(ruby_attribute_setter(attribute_name))
-            swt_widget_operation = true
-            @swt_widget.send(ruby_attribute_setter(attribute_name), args)
           end
         end
-        unless swt_widget_operation
-          result = send(ruby_attribute_setter(attribute_name), args)
-        end
+        result = super unless swt_widget_operation
         result
       end
 
@@ -290,24 +270,9 @@ module Glimmer
             else
               @swt_widget.send(widget_custom_attribute[:getter][:name])
             end
-          elsif @swt_widget.respond_to?(attribute_getter(attribute_name))
-            swt_widget_operation = true
-            @swt_widget.send(attribute_getter(attribute_name))
-          elsif @swt_widget.respond_to?(ruby_attribute_getter(attribute_name))
-            swt_widget_operation = true
-            @swt_widget.send(ruby_attribute_getter(attribute_name))
-          elsif @swt_widget.respond_to?(attribute_name)
-            swt_widget_operation = true
-            @swt_widget.send(attribute_name)
           end
         end
-        unless swt_widget_operation
-          result = if respond_to?(ruby_attribute_getter(attribute_name))
-            send(ruby_attribute_getter(attribute_name))
-          else
-            send(attribute_name)
-          end
-        end
+        result = super unless swt_widget_operation
         result
       end
 
@@ -736,6 +701,7 @@ module Glimmer
       end
 
       def method_missing(method, *args, &block)
+        # TODO push most of this logic down to Properties (and perhaps create Listeners module as well)
         if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
         elsif has_attribute_setter?(method, *args)

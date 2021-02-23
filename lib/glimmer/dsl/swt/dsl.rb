@@ -53,6 +53,7 @@ module Glimmer
           multiply
           property
           block_property
+          dialog
           widget
           custom_widget
           shape

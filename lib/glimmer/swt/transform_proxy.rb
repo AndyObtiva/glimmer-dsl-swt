@@ -37,32 +37,36 @@ module Glimmer
       attr_reader :swt_transform, :parent
       
       def initialize(parent, *args, swt_transform: nil, multiply: false)
-        @parent = parent
-        @multiply = multiply
-        if swt_transform.nil?
-          if !args.first.is_a?(Display) && !args.first.is_a?(DisplayProxy)
-            args.prepend DisplayProxy.instance.swt_display
-          end
-          if args.first.is_a?(DisplayProxy)
-            args[0] = args[0].swt_display
-          end
-          if args.last.is_a?(TransformProxy)
-            args[-1] = args[-1].swt_transform
-          end
-          if args.last.nil? || args.last.is_a?(Transform)
-            @swt_transform = args.last
-            @parent&.set_attribute('transform', self)
+        Glimmer::SWT::DisplayProxy.instance.auto_exec do
+          @parent = parent
+          @multiply = multiply
+          if swt_transform.nil?
+            if !args.first.is_a?(Display) && !args.first.is_a?(DisplayProxy)
+              args.prepend DisplayProxy.instance.swt_display
+            end
+            if args.first.is_a?(DisplayProxy)
+              args[0] = args[0].swt_display
+            end
+            if args.last.is_a?(TransformProxy)
+              args[-1] = args[-1].swt_transform
+            end
+            if args.last.nil? || args.last.is_a?(Transform)
+              @swt_transform = args.last
+              @parent&.set_attribute('transform', self)
+            else
+              @swt_transform = Transform.new(*args)
+            end
           else
-            @swt_transform = Transform.new(*args)
+            @swt_transform = swt_transform
           end
-        else
-          @swt_transform = swt_transform
         end
       end
       
       def post_add_content
         if @multiply
-          @parent.multiply(@swt_transform)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec {
+            @parent.multiply(@swt_transform)
+          }
         else
           @parent&.set_attribute('transform', self)
         end
@@ -72,28 +76,12 @@ module Glimmer
         Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::TransformExpression.new, &block)
       end
       
-      def has_attribute?(attribute_name, *args)
-        @swt_transform.respond_to?(attribute_name) || @swt_transform.respond_to?(attribute_setter(attribute_name))
-      end
-
-      def set_attribute(attribute_name, *args)
-        if @swt_transform.respond_to?(attribute_name)
-          @swt_transform.send(attribute_name, *args)
-        elsif @swt_transform.respond_to?(attribute_setter(attribute_name))
-          @swt_transform.send(attribute_setter(attribute_name), *args)
-        end
-      end
-
-      def get_attribute(attribute_name)
-        if @swt_transform.respond_to?(attribute_getter(attribute_name))
-          @swt_transform.send(attribute_getter(attribute_name))
-        else
-          @swt_transform.send(attribute_name)
-        end
+      def proxy_source_object
+        @swt_transform
       end
       
       def method_missing(method_name, *args, &block)
-        result = @swt_transform.send(method_name, *args, &block)
+        result = Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.send(method_name, *args, &block) }
         result.nil? ? self : result
       rescue => e
         Glimmer::Config.logger.debug {"Neither MessageBoxProxy nor #{@swt_transform.class.name} can handle the method ##{method}"}
