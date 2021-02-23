@@ -1387,7 +1387,7 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
 
-`canvas` has the `:double_buffered` SWT style by default to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
+`canvas` has the `:double_buffered` SWT style by default on platforms that need it (Windows & Linux) to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
 This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
@@ -1406,7 +1406,7 @@ Shape keywords and their args (including defaults) are listed below (they basica
 - `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
 - `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
-Shape keywords that can be filled with color can take an keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
+Shape keywords that can be filled with color can take a keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
 Smart defaults can be applied to automatically infer `gradient: true` (rectangle with both foreground and background) and `round: true` (rectangle with more than 4 args, the extra args are numeric) as well.
 
 Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.
@@ -1472,6 +1472,110 @@ shell {
 Screenshot:
 
 ![Canvas Animation Example](/images/glimmer-example-canvas.png)
+
+The round and gradient options could be dropped since Glimmer DSL for SWT supports auto-inference of them based on shape parameters.
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
+image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
+
+shell {
+  text 'Canvas Example'
+  minimum_size 320, 400
+
+  canvas {
+    background :dark_yellow
+    rectangle(0, 0, 220, 400) {
+      background :dark_red
+    }
+    rectangle(50, 20, 300, 150, 30, 50) {
+      background :yellow
+    }
+    rectangle(150, 200, 100, 70, true) {
+      background :dark_red
+      foreground :yellow
+    }
+    text('Glimmer', 208, 83) {
+      font height: 25, style: :bold
+    }
+    rectangle(200, 80, 108, 36) {
+      foreground :black
+      line_width 3
+    }
+    image(image_object, 70, 50)
+  }
+}.open
+```
+
+Notice how the shape declaration parameters perfectly match the method parameters in the [SWT org.eclipse.swt.graphics.GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html). This is useful for developers coming to Glimmer DSL for SWT from SWT.
+
+Of course, Glimmer DSL for SWT still supports an alternative syntax that is more declarative and consistent with the rest of the Glimmer GUI DSL syntax. This syntax in fact offers the extra-benefit of data-binding for shape parameter values (meaning you could use `bind(...)` syntax with them instead of setting values directly)
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+include Glimmer
+
+# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
+image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
+
+shell {
+  text 'Canvas Example'
+  minimum_size 320, 400
+
+  canvas {
+    background :dark_yellow
+    rectangle {
+      x 0
+      y 0
+      width 220
+      height 400
+      background :dark_red
+    }
+    rectangle {
+      x 50
+      x 20
+      width 300
+      height 150
+      arc_width 30
+      arc_height 50
+      background :yellow
+    }
+    rectangle {
+      x 150
+      y 200
+      width 100
+      height 70
+      vertical true
+      background :dark_red
+      foreground :yellow
+    }
+    text {
+      text 'Glimmer'
+      x 208
+      y 83
+      font height: 25, style: :bold
+    }
+    rectangle {
+      x 200
+      y 80
+      width 108
+      height 36
+      foreground :black
+      line_width 3
+    }
+    image {
+      image image_object
+      x 70
+      y 50
+    }
+  }
+}.open
+```
 
 Learn more at the [Hello, Canvas! Sample](GLIMMER_SAMPLES.md#hello-canvas).
 
@@ -1963,7 +2067,7 @@ If there is anything missing you would like added to the Glimmer Animation DSL t
 
 Animation could be alternatively implemented without the `animation` keyword through a loop that invokes model methods inside `sync_exec {}` (or `async_exec {}`), which indirectly cause updates to the GUI via data-binding.
 
-The [Glimmer Tetris](#tetris) sample provides a good example of that.
+The [Glimmer Tetris](GLIMMER_SAMPLES.md#tetris) sample provides a good example of that.
 
 ### Data-Binding
 
@@ -2324,7 +2428,7 @@ shell {
 }
 ```
 
-Check out [Hello, Table!](#hello-table) for an actual example including table editors.
+Check out [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) for an actual example including table editors.
 
 [Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database.
 
@@ -2332,7 +2436,7 @@ Check out [Hello, Table!](#hello-table) for an actual example including table ed
 
 Glimmer automatically adds sorting support to the SWT `Table` widget.
 
-Check out the [Contact Manager](#contact-manager) sample for an example.
+Check out the [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) sample for an example.
 You may click on any column and it will sort by ascending order first and descending if you click again.
 
 Glimmer automatic table sorting supports `String`, `Integer`, and `Float` columns out of the box as well as any column data that is comparable.
@@ -2454,7 +2558,7 @@ You can data-bind any of these properties:
 - `minutes bind(model, :property)`: produces an integer
 - `seconds bind(model, :property)`: produces an integer
 
-Learn more at the [Hello, Date Time!](#hello-date-time) sample.
+Learn more at the [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) sample.
 
 If you need a better widget with the ability to customize the date format pattern, check out the [Nebula CDateTime Glimmer Custom Widget](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula)
 
@@ -2840,7 +2944,7 @@ The `checkboxes` property returns the list of nested `checkbox` widgets.
 
 When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `activities_options` for `activities`) to provide an `Array` of `String` objects for `checkbox` buttons.
 
-You may see an example at the [Hello, Checkbox Group!](#hello-checkbox-group) sample.
+You may see an example at the [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) sample.
 
 ![Hello Checkbox Group](/images/glimmer-hello-checkbox-group.png)
 
@@ -2875,7 +2979,7 @@ radio_group { |radio_group_proxy|
 # ...
 ```
 
-You may see another example at the [Hello, Radio Group!](#hello-radio-group) sample.
+You may see another example at the [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) sample.
 
 ##### Code Text Custom Widget
 
@@ -3147,7 +3251,7 @@ This adds some default keyboard shortcuts:
 
 If you prefer it to be vanilla with no default key event listeners, then pass the `default_behavior: false` option.
 
-Learn more at [Hello, Code Text!](#hello-code-text)
+Learn more at [Hello, Code Text!](GLIMMER_SAMPLES.md#hello-code-text)
 
 ##### Video Custom Custom Widget
 

@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.5.2
+
+- Support checking if an `arc` shape accurately includes a point x,y coordinates within pie region only
+
 ### 4.18.5.1
 
 - Hello, Color Dialog! Sample

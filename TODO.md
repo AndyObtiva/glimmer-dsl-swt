@@ -4,10 +4,42 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL autoscalable shapes or canvases
-- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
-
-- Support spawning Canvas shapes automatically having the size of the stringExtent/textExtent inside a text/string shape (rendering before string/text is rendered) (alternatively, text may be nested within a rectangle to accomplish the same thing)
+- Support checking if an `oval` shape includes a point x,y coordinates
+- Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.
+```ruby
+        rectangle(60, 80) {
+          background :yellow
+          text 'Picasso'
+        }
+        rectangle(60, 80) {
+          foreground :red
+          text 'Picasso'
+        }
+        rectangle(60, 80) {
+          foreground :red
+          text('Picasso') {
+            foreground :dark_magenta
+            font name: 'Courier', height: 30
+          }
+        }
+        oval(60, 80) {
+          foreground :red
+          text('Picasso') {
+            foreground :dark_magenta
+            font name: 'Courier', height: 30
+          }
+        }
+        image('path') {
+          foreground :red
+          text('Picasso') {
+            foreground :dark_magenta
+            font name: 'Courier', height: 30
+          }
+        }
+```
+- Support nesting text within Image, which enables not specifying width and height for image as it is autocalculated from text extent, or otherwise if specified, then center text within Image. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the image.
+- Support nesting text within Oval, which enables not specifying width and height for oval as it is autocalculated from text extent, or otherwise if specified, then center text within Oval. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the oval.
+- Support nesting text within Arc, which enables not specifying width and height for arc as it is autocalculated from text extent, or otherwise if specified, then center text within Arc. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the arc.
 
 - Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
@@ -27,11 +59,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
 
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 - Canvas Transform DSL property data-binding
+- Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
+- Canvas Shape DSL autoscalable shapes or canvases
 
-- Pixel Graphics data-binding
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
 - Add progress dialog to meta-sample for launching bigger apps like Tetris

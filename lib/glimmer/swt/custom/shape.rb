@@ -136,7 +136,7 @@ module Glimmer
         # has a default implementation for rectangle and oval
         def include?(x, y)
           case @name
-          when 'rectangle', 'oval', 'arc'
+          when 'rectangle', 'oval'
             self_x = self.x
             self_y = self.y
             width = self.width

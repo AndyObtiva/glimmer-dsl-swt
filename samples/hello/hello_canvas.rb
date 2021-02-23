@@ -36,8 +36,6 @@ class HelloCanvas
       @canvas = canvas {
         background :yellow
         rectangle(0, 0, 220, 400) {
-          transform {
-          }
           background :red
         }
         rectangle(50, 20, 300, 150, 30, 50) {

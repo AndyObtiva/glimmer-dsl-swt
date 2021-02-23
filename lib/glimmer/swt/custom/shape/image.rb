@@ -62,12 +62,24 @@ module Glimmer
             end
           end
           
+          def effective_x
+            dest_x || self.x
+          end
+          
+          def effective_y
+            dest_y || self.y
+          end
+          
+          def effective_width
+            dest_width || image.bounds.width
+          end
+          
+          def effective_height
+            dest_height || image.bounds.height
+          end
+          
           def include?(x, y)
-            self_x = dest_x || self.x
-            self_y = dest_y || self.y
-            width = dest_width || image.bounds.width
-            height = dest_height || image.bounds.height
-            x.between?(self_x, self_x + width) && y.between?(self_y, self_y + height)
+            x.between?(effective_x, effective_x + effective_width) && y.between?(effective_y, effective_y + effective_height)
           end
             
           def move_by(x_delta, y_delta)

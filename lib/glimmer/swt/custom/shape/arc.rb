@@ -36,6 +36,11 @@ module Glimmer
           def parameter_names
             [:x, :y, :width, :height, :start_angle, :arc_angle]
           end
+          
+          def include?(x, y)
+            arc_shape_abstraction = java.awt.geom.Arc2D::Double.new(self.x, self.y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+            arc_shape_abstraction.contains(x, y)
+          end
         end
       end
     end
