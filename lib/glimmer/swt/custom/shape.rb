@@ -139,7 +139,7 @@ module Glimmer
         
         def move_by(x_delta, y_delta)
           case @name
-          when 'rectangle', 'oval', 'arc'
+          when 'rectangle', 'focus', 'oval', 'arc'
             self.x += x_delta
             self.y += y_delta
           end

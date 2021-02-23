@@ -4,6 +4,8 @@
 
 - Support checking if an `arc` shape accurately includes a point x,y coordinates within pie region only
 - Support checking if an `oval` shape includes a point x,y coordinates in oval region only (not its rectangular region)
+- Support checking if a `focus` shape includes a point x,y coordinates
+- Fix issue with `polygon` check if it includes a point x,y coordinates (replace with available `java.awt` robust geometry algorithms)
 
 ### 4.18.5.1
 

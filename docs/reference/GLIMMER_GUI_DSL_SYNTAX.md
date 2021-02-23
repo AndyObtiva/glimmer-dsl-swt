@@ -1723,6 +1723,8 @@ shell {
 
 These Canvas Shape API methods help with manipulating shapes upon user interaction, such as mouse clicking a specific shape.
 
+They are implemented with the help of the highly robust Java built-in shape geometry algorithms.
+
 - `WidgetProxy#shape_at_location(x, y)` : returns shape object at x, y location from a widget proxy like canvas
 - `Shape#include?(x, y)` : indicates if shape includes x, y point (`arc` and `oval` shapes currently include their entire rectangular region in their checks, `text` shapes always return false)
 - `Shape#move_by(x_delta, y_delta)` : moves shape object at x, y location

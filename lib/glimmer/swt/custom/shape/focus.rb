@@ -29,13 +29,18 @@ require 'glimmer/swt/transform_proxy'
 module Glimmer
   module SWT
     module Custom
-      # Represents a shape (graphics) to be drawn on a control/widget/canvas/display
-      # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
+        # Represents a focus shape to be drawn on a control/widget/canvas/display
+        # Helps highlight focus on another selected shape
         class Focus < Shape
           def parameter_names
             [:x, :y, :width, :height]
           end
+          
+          def include?(x, y)
+            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
+          end
+          
         end
       end
     end

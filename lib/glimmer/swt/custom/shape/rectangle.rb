@@ -81,11 +81,7 @@ module Glimmer
           end
           
           def include?(x, y)
-            self_x = self.x
-            self_y = self.y
-            width = self.width
-            height = self.height
-            x.between?(self_x, self_x + width) && y.between?(self_y, self_y + height)
+            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
           end
           
         end
