@@ -58,6 +58,8 @@ class HelloFontDialog
             'Italic'
           when swt(:bold)
             'Bold'
+          when swt(:bold, :italic)
+            'Bold Italic'
           end
           "#{font_data.name}\n#{font_data.height}\n#{style}"
         }

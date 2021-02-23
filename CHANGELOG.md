@@ -5,6 +5,7 @@
 - Hello, Color Dialog! Sample
 - Hello, Font Dialog! Sample
 - Handle SWT RGB color data objects when setting colors on widgets (e.g. background)
+- Enhance Hello, Canvas! with Color selector via right-click menu
 - Fixed issue with tree multi selection throwing an exception
 
 ### 4.18.5.0

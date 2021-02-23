@@ -174,6 +174,9 @@ module Glimmer
         def apply_property_arg_conversions(method_name, property, args)
           args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
+          if the_java_method.parameter_types.first == Color.java_class && args.first.is_a?(RGB)
+            args[0] = [args[0].red, args[0].green, args[0].blue]
+          end
           if ['setBackground', 'setForeground'].include?(method_name.to_s) && args.first.is_a?(Array)
             args[0] = ColorProxy.new(args[0])
           end
@@ -199,20 +202,20 @@ module Glimmer
           end
           if ['setBackgroundPattern', 'setForegroundPattern'].include?(method_name.to_s)
             @parent.requires_shape_disposal = true
+            args = args.first if args.first.is_a?(Array)
             args.each_with_index do |arg, i|
-              if arg.is_a?(Symbol) || arg.is_a?(String)
-                args[i] = ColorProxy.new(arg).swt_color
-              elsif arg.is_a?(ColorProxy)
-                args[i] = arg.swt_color
-              end
+              arg = ColorProxy.new(arg.red, arg.green, arg.blue) if arg.is_a?(RGB)
+              arg = ColorProxy.new(arg) if arg.is_a?(Symbol) || arg.is_a?(String)
+              arg = arg.swt_color if arg.is_a?(ColorProxy)
+              args[i] = arg
             end
             @pattern_args ||= {}
             pattern_type = method_name.to_s.match(/set(.+)Pattern/)[1]
             if args.first.is_a?(Pattern)
               new_args = @pattern_args[pattern_type]
             else
-              new_args = [DisplayProxy.instance.swt_display] + args
-              @pattern_args[pattern_type] = new_args
+              new_args = args.first.is_a?(Display) ? args : ([DisplayProxy.instance.swt_display] + args)
+              @pattern_args[pattern_type] = new_args.dup
             end
             args[0] = pattern(*new_args, type: pattern_type)
             args[1..-1] = []
@@ -323,7 +326,7 @@ module Glimmer
           if parameter_name?(attribute_name)
             set_parameter_attribute(attribute_name, *args)
           else
-            @properties[attribute_name] = args
+            @properties[ruby_attribute_getter(attribute_name)] = args
           end
           if @content_added && !@parent.is_disposed
             @calculated_paint_args = false
@@ -364,6 +367,18 @@ module Glimmer
             the_pattern = self.class.pattern(*args)
           end
           the_pattern
+        end
+        
+        def pattern_args(type: nil)
+          @pattern_args && @pattern_args[type.to_s.capitalize]
+        end
+        
+        def background_pattern_args
+          pattern_args(type: 'background')
+        end
+        
+        def foreground_pattern_args
+          pattern_args(type: 'foreground')
         end
         
         def dispose(dispose_images: true, dispose_patterns: true)
