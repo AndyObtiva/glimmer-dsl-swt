@@ -5,10 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Enhance Hello, Canvas! with Color selector
-- Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
-- Hello, Font Dialog!
-- Refactor text, rectangle, and image to share commonalities
-- Hello, Print Dialog!
 
 - Canvas Shape DSL autoscalable shapes or canvases
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
@@ -406,6 +402,7 @@ items <=> binding {
 - Consider building drag panning into ScrolledComposite ( scrolled_composite ) as an option
 - Build image with a transparent background by default
 - Look into the idea of applying `transform` objects on any widget's rendering
+- Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 
 ## Samples
 

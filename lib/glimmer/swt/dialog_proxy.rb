@@ -42,9 +42,11 @@ module Glimmer
       include Properties
       
       include_package 'org.eclipse.swt.widgets'
+      include_package 'org.eclipse.swt.printing'
       
       class << self
         include_package 'org.eclipse.swt.widgets'
+        include_package 'org.eclipse.swt.printing'
         
         def dialog_class(keyword)
           the_class = eval(keyword.camelcase(:upper))
