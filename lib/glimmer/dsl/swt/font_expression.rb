@@ -37,7 +37,7 @@ module Glimmer
             (parent.nil? || !parent.respond_to?('font')) and
             !parent.is_a?(Glimmer::SWT::Custom::Shape) and
             args.size == 1 and
-            args.first.is_a?(Hash)
+            (args.first.is_a?(Hash) || args.first.is_a?(org.eclipse.swt.graphics.FontData))
         end
   
         def interpret(parent, keyword, *args, &block)

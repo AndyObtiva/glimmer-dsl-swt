@@ -54,13 +54,19 @@ module Glimmer
       # that is :normal, :bold, or :italic
       def initialize(widget_proxy = nil, font_properties)
         @widget_proxy = widget_proxy
-        @font_properties = font_properties
-        detect_invalid_font_property(font_properties)
-        font_properties[:style] = SWTProxy[*font_properties[:style]]
-        font_data_args = [:name, :height, :style].map do |font_property_name|
-          font_properties[font_property_name] || send(font_property_name)
+        if font_properties.is_a?(FontData)
+          font_datum = font_properties
+          @font_properties = {name: font_properties.name, height: font_properties.height, style: font_properties.style}
+        elsif font_properties.is_a?(Hash)
+          @font_properties = font_properties
+          detect_invalid_font_property(font_properties)
+          font_properties[:style] = SWTProxy[*font_properties[:style]]
+          # TODO consider supporting other properties like locale in the future
+          font_data_args = [:name, :height, :style].map do |font_property_name|
+            font_properties[font_property_name] || send(font_property_name)
+          end
+          font_datum = FontData.new(*font_data_args)
         end
-        font_datum = FontData.new(*font_data_args)
         @swt_font = Font.new(DisplayProxy.instance.swt_display, font_datum)
       end
 

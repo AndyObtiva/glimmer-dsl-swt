@@ -985,7 +985,7 @@ module Glimmer
           foreground: color_converter,
           link_foreground: color_converter,
           font: lambda do |value|
-            if value.is_a?(Hash)
+            if value.is_a?(Hash) || value.is_a?(FontData)
               font_properties = value
               FontProxy.new(self, font_properties).swt_font
             else

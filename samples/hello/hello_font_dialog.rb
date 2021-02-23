@@ -19,43 +19,57 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class HelloColorDialog
+class HelloFontDialog
   include Glimmer::UI::CustomShell
   
-  attr_accessor :selected_color
+  attr_accessor :selected_font_data
   
   before_body {
-    self.selected_color = :black
+    @selected_font_data = FontData.new('Times New Roman', 40, swt(:bold))
   }
   
   body {
     shell {
-      minimum_size 220, 0
-      grid_layout
+      grid_layout {
+        margin_width 15
+        margin_width 15
+      }
+      minimum_size 400, 0
       
-      text 'Hello, Color Dialog!'
+      text 'Hello, Font Dialog!'
       
       label {
-        layout_data :center, :center, true, false
-        text 'Selected Color:'
+        text 'Selected Font:'
         font height: 14, style: :bold
       }
       
-      canvas(:border) {
-        layout_data :center, :center, true, false
-        background bind(self, :selected_color)
-        
-        on_mouse_up {
-          self.selected_color = color_dialog.open
+      label(:center) {
+        layout_data(:fill, :center, true, true) {
+          vertical_indent 15
+          height_hint 200
+        }
+        background :white
+        font bind(self, 'selected_font_data')
+        text bind(self, 'selected_font_data') {|font_data|
+          style = case font_data.style
+          when swt(:normal)
+            'Normal'
+          when swt(:italic)
+            'Italic'
+          when swt(:bold)
+            'Bold'
+          end
+          "#{font_data.name}\n#{font_data.height}\n#{style}"
         }
       }
       
       button {
-        layout_data :center, :center, true, false
-        text "Choose Color..."
+        text "Choose Font..."
         
         on_widget_selected {
-          self.selected_color = color_dialog.open
+          self.selected_font_data = font_dialog {
+            font_list [@selected_font_data]
+          }.open
         }
       }
       
@@ -63,4 +77,4 @@ class HelloColorDialog
   }
 end
 
-HelloColorDialog.launch
+HelloFontDialog.launch

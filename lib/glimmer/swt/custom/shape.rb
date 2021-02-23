@@ -188,7 +188,7 @@ module Glimmer
           if args.first.is_a?(ColorProxy)
             args[0] = args[0].swt_color
           end
-          if args.first.is_a?(Hash) && the_java_method.parameter_types.first == Font.java_class
+          if (args.first.is_a?(Hash) || args.first.is_a?(FontData)) && the_java_method.parameter_types.first == Font.java_class
             args[0] = FontProxy.new(args[0])
           end
           if args.first.is_a?(FontProxy)
