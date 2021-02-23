@@ -37,7 +37,7 @@ module Glimmer
             (keyword == 'dialog') or
             (keyword.to_s.end_with?('dialog') and Glimmer::SWT::DialogProxy.dialog_class(keyword))
           ) and
-            (parent.nil? or parent.is_a?(Shell) or parent.is_a?(Glimmer::SWT::ShellProxy))
+            (parent.nil? or parent.is_a?(org.eclipse.swt.widgets.Shell) or parent.is_a?(Glimmer::SWT::ShellProxy))
         end
   
         def interpret(parent, keyword, *args, &block)

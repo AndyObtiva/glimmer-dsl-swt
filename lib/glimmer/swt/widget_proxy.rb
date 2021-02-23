@@ -26,7 +26,7 @@ require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/dnd_proxy'
 require 'glimmer/swt/image_proxy'
-require 'glimmer/swt/properties'
+require 'glimmer/swt/proxy_properties'
 require 'glimmer/swt/custom/drawable'
 
 # TODO refactor to make file smaller and extract sub-widget-proxies out of this
@@ -44,7 +44,7 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class WidgetProxy
       include Packages
-      include Properties
+      include ProxyProperties
       include Custom::Drawable
 
       DEFAULT_STYLES = {
@@ -704,22 +704,8 @@ module Glimmer
         # TODO push most of this logic down to Properties (and perhaps create Listeners module as well)
         if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
-        elsif has_attribute_setter?(method, *args)
-          set_attribute(method, *args)
-        elsif has_attribute_getter?(method, *args)
-          get_attribute(method, *args)
         else
-          auto_exec do
-            swt_widget.send(method, *args, &block)
-          end
-        end
-      rescue => e
-        begin
           super
-        rescue Exception => inner_error
-          Glimmer::Config.logger.error { "Neither WidgetProxy nor #{swt_widget.class.name} can handle the method ##{method}" }
-          Glimmer::Config.logger.error { e.full_message }
-          raise inner_error
         end
       end
       
@@ -727,7 +713,7 @@ module Glimmer
         result = super
         return true if result
         auto_exec do
-          can_handle_observation_request?(method) || swt_widget.respond_to?(method, *args, &block)
+          can_handle_observation_request?(method)
         end
       end
       

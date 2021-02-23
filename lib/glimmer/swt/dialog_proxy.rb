@@ -22,6 +22,7 @@
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/widget_proxy'
 require 'glimmer/swt/display_proxy'
+require 'glimmer/swt/proxy_properties'
 
 module Glimmer
   module SWT
@@ -39,7 +40,7 @@ module Glimmer
     # Follows the Proxy Design Pattern
     class DialogProxy
       # TODO write rspec tests
-      include Properties
+      include ProxyProperties
       
       include_package 'org.eclipse.swt.widgets'
       include_package 'org.eclipse.swt.printing'
