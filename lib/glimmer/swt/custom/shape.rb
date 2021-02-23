@@ -133,18 +133,8 @@ module Glimmer
         end
         
         # subclasses (like polygon) may override to indicate if a point x,y coordinates fall inside the shape
-        # has a default implementation for rectangle and oval
         def include?(x, y)
-          case @name
-          when 'rectangle', 'oval'
-            self_x = self.x
-            self_y = self.y
-            width = self.width
-            height = self.height
-            x.between?(self_x, self_x + width) && y.between?(self_y, self_y + height)
-          else
-            false
-          end
+          false
         end
         
         def move_by(x_delta, y_delta)

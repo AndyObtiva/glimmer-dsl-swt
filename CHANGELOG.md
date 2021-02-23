@@ -3,6 +3,7 @@
 ### 4.18.5.2
 
 - Support checking if an `arc` shape accurately includes a point x,y coordinates within pie region only
+- Support checking if an `oval` shape includes a point x,y coordinates in oval region only (not its rectangular region)
 
 ### 4.18.5.1
 

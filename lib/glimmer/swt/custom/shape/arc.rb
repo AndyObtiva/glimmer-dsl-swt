@@ -38,8 +38,8 @@ module Glimmer
           end
           
           def include?(x, y)
-            arc_shape_abstraction = java.awt.geom.Arc2D::Double.new(self.x, self.y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
-            arc_shape_abstraction.contains(x, y)
+            shape_geometry = java.awt.geom.Arc2D::Double.new(self.x, self.y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+            shape_geometry.contains(x, y)
           end
         end
       end

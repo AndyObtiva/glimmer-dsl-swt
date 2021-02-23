@@ -36,6 +36,11 @@ module Glimmer
           def parameter_names
             [:x, :y, :width, :height]
           end
+          
+          def include?(x, y)
+            shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.x, self.y, width, height)
+            shape_geometry.contains(x, y)
+          end
         end
       end
     end

@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support checking if an `oval` shape includes a point x,y coordinates
 - Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.
 ```ruby
         rectangle(60, 80) {
