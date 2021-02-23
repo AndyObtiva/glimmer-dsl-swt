@@ -119,10 +119,12 @@ module Glimmer
         def draw?
           !fill?
         end
+        alias drawn? draw?
         
         def fill?
           @options[:fill]
         end
+        alias filled? fill?
         
         def gradient?
           @options[:gradient]

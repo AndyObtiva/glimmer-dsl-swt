@@ -37,30 +37,31 @@ module Glimmer
             [:point_array]
           end
           
-          def size
-            point_array.size / 2
+          def point_count
+            point_array.count / 2
+          end
+          
+          def x_array
+            point_array.each_with_index.select {|pair| pair.last.even?}.map(&:first)
+          end
+          
+          def y_array
+            point_array.each_with_index.select {|pair| pair.last.odd?}.map(&:first)
+          end
+          
+          def point_xy_array
+            x_array.zip(y_array)
           end
           
           def [](index)
-            index = 0 if index == size
+            index = 0 if index == point_count
             org.eclipse.swt.graphics.Point.new(point_array[index * 2], point_array[index * 2 + 1])
           end
           
           def include?(x, y)
-            c = false
-            i = -1
-            j = self.size
-            while (i += 1) < (self.size + 1)
-              if ((self[i].y <= y && y < self[j].y) ||
-                 (self[j].y <= y && y < self[i].y))
-                if (x < (self[j].x - self[i].x) * (y - self[i].y) /
-                              (self[j].y - self[i].y) + self[i].x)
-                  c = !c
-                end
-                j = i
-              end
-            end
-            c
+            comparison_lines = point_xy_array.zip(point_xy_array.rotate(1))
+            comparison_lines.pop # ignore last pair since you don't want to compare last point with first point
+            comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
           end
           
           def move_by(x_delta, y_delta)

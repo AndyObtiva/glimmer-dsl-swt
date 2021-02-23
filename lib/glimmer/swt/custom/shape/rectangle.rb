@@ -80,8 +80,23 @@ module Glimmer
             end
           end
           
-          def include?(x, y)
+          def point_xy_array
+            [[x, y], [x + width, y], [x + width, y + height], [x, y + height]]
+          end
+          
+          # checks if bounding box conatains the point denoted by x and y
+          def contain?(x, y)
             x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
+          end
+          
+          # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the border)
+          def include?(x, y)
+            if fill?
+              contain?(x, y)
+            else
+              comparison_lines = point_xy_array.zip(point_xy_array.rotate(1))
+              comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
+            end
           end
           
         end

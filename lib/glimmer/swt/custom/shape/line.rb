@@ -33,16 +33,22 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         class Line < Shape
+          class << self
+            def include?(x1, y1, x2, y2, x, y)
+              distance1 = Math.sqrt((x - x1)**2 + (y - y1)**2)
+              distance2 = Math.sqrt((x2 - x)**2 + (y2 - y)**2)
+              distance = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+              (distance1 + distance2).to_i == distance.to_i
+            end
+          end
+        
           def parameter_names
             [:x1, :y1, :x2, :y2]
           end
           
           def include?(x, y)
             # TODO must account for line width
-            distance1 = Math.sqrt((x - x1)**2 + (y - y1)**2)
-            distance2 = Math.sqrt((x2 - x)**2 + (y2 - y)**2)
-            distance = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-            (distance1 + distance2).to_i == distance.to_i
+            Line.include?(x1, y1, x2, y2, x, y)
           end
             
           def move_by(x_delta, y_delta)

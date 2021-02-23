@@ -54,6 +54,10 @@ module Glimmer
             point_array.each_with_index.select {|pair| pair.last.odd?}.map(&:first)
           end
           
+          def point_xy_array
+            x_array.zip(y_array)
+          end
+          
           def include?(x, y)
             shape_geometry = java.awt.Polygon.new(x_array.to_java(:int), y_array.to_java(:int), point_count)
             shape_geometry.contains(x, y)
