@@ -35,6 +35,7 @@ module Glimmer
       attr_reader :swt_widget
       
       def initialize(parent, style)
+        # TODO consider consolidating with DialogProxy if it makes sense
         if parent.nil?
           @temporary_parent = parent = Glimmer::SWT::ShellProxy.new.swt_widget
         end

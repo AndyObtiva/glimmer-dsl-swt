@@ -914,6 +914,8 @@ module Glimmer
         color_converter = lambda do |value|
           if value.is_a?(Symbol) || value.is_a?(String)
             ColorProxy.new(value).swt_color
+          elsif value.is_a?(RGB)
+            ColorProxy.new(value.red, value.green, value.blue).swt_color
           else
             value
           end

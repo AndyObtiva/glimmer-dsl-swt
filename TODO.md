@@ -5,10 +5,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Enhance Hello, Canvas! with Color selector
-- Hello, Color Dialog!
 - Handle all dialogs uniformly (like FileDialog, DirectoryDialog, FontDialog, and ColorDialog)
 - Hello, Font Dialog!
 - Refactor text, rectangle, and image to share commonalities
+- Hello, Print Dialog!
 
 - Canvas Shape DSL autoscalable shapes or canvases
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size

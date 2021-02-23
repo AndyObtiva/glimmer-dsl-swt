@@ -2,6 +2,8 @@
 
 ### 4.18.5.1
 
+- Hello, Color Dialog! Sample
+- Handle SWT RGB color data objects when setting colors on widgets (e.g. background)
 - Fixed issue with tree multi selection throwing an exception
 
 ### 4.18.5.0
