@@ -1,3 +1,5 @@
+require 'glimmer-dsl-swt'
+
 include Glimmer
 
 glimmer_logo = File.expand_path('../../icons/scaffold_app.png', __dir__)

@@ -1385,11 +1385,9 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 **(ALPHA FEATURE)**
 
-Glimmer supports drawing graphics directly on a `canvas` widget via SWT (or any widget for that matter though `canvas` is recommended for drawing).
+While other GUI toolkits only offer a way to draw graphics imperatively (e.g. fill_rectangle, draw_point, etc...), Glimmer DSL for SWT breaks away from the mold by enabling software engineers to draw graphics declaratively. Simply declare all the shapes you want to see with their attributes, like background/foreground colors, and Glimmer DSL for SWT takes care of the rest, painting graphics on a blank `canvas` widget or amending/decorating an existing widget. This is accomplished through the Canvas Shape DSL, a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax. Still, for the rare cases where imperative logic is needed, Glimmer DSL for SWT supports imperative painting of graphics through direct usage of SWT.
 
 `canvas` has the `:double_buffered` SWT style by default on platforms that need it (Windows & Linux) to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
-
-This is accomplished via the Shape DSL a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax.
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
 - `arc(x, y, width, height, startAngle, arcAngle, fill: false)` arc is part of a circle within an oval area, denoted by start angle (degrees) and end angle (degrees)

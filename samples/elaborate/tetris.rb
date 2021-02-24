@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Tetris App View Custom Shell (represents `tetris` keyword)
+require 'glimmer-dsl-swt'
 
 require_relative 'tetris/model/game'
 
@@ -28,6 +28,7 @@ require_relative 'tetris/view/score_lane'
 require_relative 'tetris/view/high_score_dialog'
 require_relative 'tetris/view/tetris_menu_bar'
 
+# Tetris App View Custom Shell (represents `tetris` keyword)
 class Tetris
   include Glimmer::UI::CustomShell
   

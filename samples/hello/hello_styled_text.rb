@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,18 +19,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer-dsl-swt'
+
 verbiage = <<-MULTI_LINE_STRING
 
-Glimmer DSL for SWT is a native-GUI cross-platform desktop development library written in JRuby, 
-an OS-threaded faster version of Ruby. 
-Glimmer's main innovation is a declarative Ruby DSL that enables productive and efficient authoring 
-of desktop application user-interfaces while relying on the robust Eclipse SWT library. 
-Glimmer additionally innovates by having built-in data-binding support, which greatly facilitates 
-synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components 
-and enabling developers to solve business problems (test-first) without worrying about GUI concerns. 
-To get started quickly, Glimmer offers scaffolding options for Apps, Gems, and Custom Widgets. 
-Glimmer also includes native-executable packaging support, sorely lacking in other libraries, 
-thus enabling the delivery of desktop apps written in Ruby as truly native DMG/PKG/APP files on 
+Glimmer DSL for SWT is a native-GUI cross-platform desktop development library written in JRuby,
+an OS-threaded faster version of Ruby.
+Glimmer's main innovation is a declarative Ruby DSL that enables productive and efficient authoring
+of desktop application user-interfaces while relying on the robust Eclipse SWT library.
+Glimmer additionally innovates by having built-in data-binding support, which greatly facilitates
+synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components
+and enabling developers to solve business problems (test-first) without worrying about GUI concerns.
+To get started quickly, Glimmer offers scaffolding options for Apps, Gems, and Custom Widgets.
+Glimmer also includes native-executable packaging support, sorely lacking in other libraries,
+thus enabling the delivery of desktop apps written in Ruby as truly native DMG/PKG/APP files on
 the Mac + App Store, MSI/EXE files on Windows, and Gem Packaged Shell Scripts on Linux.
 
 MULTI_LINE_STRING
@@ -74,7 +76,7 @@ shell {
       top_pixel bind(@presenter, :top_pixel)
       
       # This demonstrates how to set styles via a listener
-      on_line_get_style { |line_style_event|        
+      on_line_get_style { |line_style_event|
         line_offset = line_style_event.lineOffset
         if @presenter.line_index_for_offset(line_offset) % 52 < 13
           line_size = line_style_event.lineText.size
@@ -95,7 +97,7 @@ shell {
           line_size = line_style_event.lineText.size
           style_range = StyleRange.new(line_offset, line_size, color(:dark_magenta).swt_color, color(:cyan).swt_color, swt(:normal))
           style_range.strikeout = true
-          line_style_event.styles = [style_range].to_java(StyleRange)        
+          line_style_event.styles = [style_range].to_java(StyleRange)
         end
       }
     }
@@ -132,7 +134,7 @@ shell {
       }
       text {
         text bind(@presenter, :top_pixel, on_read: ->(o) {"%04d" % [o] })
-      }      
-    }    
+      }
+    }
   }
 }.open

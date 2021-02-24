@@ -4,8 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make specifying x,y coordinates optional in all shapes (defaulting to being centered within parent)
-
+- Support nesting shapes within shapes, with the nested shape locations positioned relatively to their parent (meaning they specify x, y coordinates that are relative to parent's x, y)
+- Support passing x, y coordinates in all shapes as :centered
+- Supporting passing x, y coordinates as :default (or nil or not passed in if they are the last args) in all shapes, meaning they are centered within parent taking their width and height into account
+- Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes or otherwise defaulting to full parent width and height
+- Support x_delta, y_delta, width_delta, height_delta attributes, which add/subtract from defaults used for shape (specifying any of them automatically sets :default also for coordinates or dimensions)
 - Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.
 ```ruby
         rectangle(60, 80) {
@@ -42,8 +45,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support nesting text within Oval, which enables not specifying width and height for oval as it is autocalculated from text extent, or otherwise if specified, then center text within Oval. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the oval.
 - Support nesting text within Arc, which enables not specifying width and height for arc as it is autocalculated from text extent, or otherwise if specified, then center text within Arc. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the arc.
 
-- Canvas support a Path DSL for methods that take Path arguments
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
+- Canvas support a Path DSL for methods that take Path arguments
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..)
@@ -67,6 +70,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Transform DSL property data-binding
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
 - Canvas Shape DSL autoscalable shapes or canvases
+
+- Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
