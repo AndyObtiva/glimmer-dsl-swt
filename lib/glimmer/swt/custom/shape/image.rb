@@ -78,11 +78,6 @@ module Glimmer
             dest_height || image.bounds.height
           end
           
-          def include?(x, y)
-            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
-          end
-          alias contain? include?
-            
           def move_by(x_delta, y_delta)
             if dest_x
               self.dest_x += x_delta

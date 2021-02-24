@@ -58,10 +58,47 @@ module Glimmer
             x_array.zip(y_array)
           end
           
+          # Logical x coordinate. Always assumes the first point in the polygon to be the x coordinate.
+          def x
+            x_array.first
+          end
+           
+          # Logical y coordinate. Always assumes the first point in the polygon to be the y coordinate.
+          def y
+            y_array.first
+          end
+          
+          def absolute_point_array
+            if parent.is_a?(Shape)
+              point_array.each_with_index.map do |coordinate, i|
+                if i.even?
+                  parent.absolute_x + coordinate
+                else
+                  parent.absolute_y + coordinate
+                end
+              end
+            else
+              point_array
+            end
+          end
+          
+          def absolute_x_array
+            absolute_point_array.each_with_index.select {|pair| pair.last.even?}.map(&:first)
+          end
+          
+          def absolute_y_array
+            absolute_point_array.each_with_index.select {|pair| pair.last.odd?}.map(&:first)
+          end
+          
+          def absolute_point_xy_array
+            absolute_x_array.zip(absolute_y_array)
+          end
+          
           def include?(x, y)
-            shape_geometry = java.awt.Polygon.new(x_array.to_java(:int), y_array.to_java(:int), point_count)
+            shape_geometry = java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
             shape_geometry.contains(x, y)
           end
+          alias contain? include? # TODO make include do an outer/inner check of edge detection only
           
           def move_by(x_delta, y_delta)
             self.point_array = point_array.each_with_index.map {|coordinate, i| i.even? ? coordinate + x_delta : coordinate + y_delta}

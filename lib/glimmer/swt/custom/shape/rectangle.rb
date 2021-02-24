@@ -84,12 +84,16 @@ module Glimmer
             [[x, y], [x + width, y], [x + width, y + height], [x, y + height]]
           end
           
+          def absolute_point_xy_array
+            [[absolute_x, absolute_y], [absolute_x + width, absolute_y], [absolute_x + width, absolute_y + height], [absolute_x, absolute_y + height]]
+          end
+          
           # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the edge)
           def include?(x, y)
             if filled?
               contain?(x, y)
             else
-              comparison_lines = point_xy_array.zip(point_xy_array.rotate(1))
+              comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
               comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
             end
           end

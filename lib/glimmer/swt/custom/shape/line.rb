@@ -46,9 +46,51 @@ module Glimmer
             [:x1, :y1, :x2, :y2]
           end
           
+          # Logical x coordinate. Always assumes the first point in the line to be the x coordinate.
+          def x
+            x1
+          end
+          
+          # Logical y coordinate. Always assumes the first point in the line to be the y coordinate.
+          def y
+            y1
+          end
+          
+          def absolute_x1
+            if parent.is_a?(Shape)
+              parent.absolute_x + x1
+            else
+              x1
+            end
+          end
+          
+          def absolute_y1
+            if parent.is_a?(Shape)
+              parent.absolute_y + y1
+            else
+              y1
+            end
+          end
+          
+          def absolute_x2
+            if parent.is_a?(Shape)
+              parent.absolute_x2 + x2
+            else
+              x2
+            end
+          end
+          
+          def absolute_y2
+            if parent.is_a?(Shape)
+              parent.absolute_y + y1
+            else
+              y2
+            end
+          end
+          
           def include?(x, y)
             # TODO must account for line width
-            Line.include?(x1, y1, x2, y2, x, y)
+            Line.include?(absolute_x1, absolute_y1, absolute_x2, absolute_y2, x, y)
           end
           alias contain? include?
             

@@ -143,7 +143,7 @@ module Glimmer
         def contain?(x, y)
           # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
           if respond_to?(:x) && respond_to?(:y) && respond_to?(:width) && respond_to?(:height) && self.x && self.y && width && height
-            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
+            x.between?(self.absolute_x, self.absolute_x + width) && y.between?(self.absolute_y, self.absolute_y + height)
           else
             false # subclasses must provide implementation
           end
@@ -421,10 +421,55 @@ module Glimmer
             end
           end
           self.extent = paint_event.gc.send("#{@name}Extent", *(([string, flags] if respond_to?(:flags)).compact)) if ['text', 'string'].include?(@name)
-          paint_event.gc.send(@method_name, *@args)
+          paint_event.gc.send(@method_name, *absolute_args)
+          paint_children(paint_event)
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
           Glimmer::Config.logger.error {e.full_message}
+        end
+        
+        def paint_children(paint_event)
+          shapes.to_a.each do |shape|
+            shape.paint(paint_event)
+          end
+        end
+        
+        def expanded_shapes
+          if shapes.to_a.any?
+            shapes.map do |shape|
+              [shape] + shape.expanded_shapes
+            end.flatten
+          else
+            []
+          end
+        end
+                
+        # args translated to absolute coordinates
+        def absolute_args
+          if parent.is_a?(Shape)
+            move_by(parent.absolute_x, parent.absolute_y)
+            calculated_absolute_args = @args.clone
+            move_by(-1*parent.absolute_x, -1*parent.absolute_y)
+            calculated_absolute_args
+          else
+            @args
+          end
+        end
+        
+        def absolute_x
+          if parent.is_a?(Shape)
+            parent.absolute_x + x
+          else
+            x
+          end
+        end
+        
+        def absolute_y
+          if parent.is_a?(Shape)
+            parent.absolute_y + y
+          else
+            y
+          end
         end
         
         def calculate_paint_args!

@@ -41,6 +41,11 @@ module Glimmer
             point_array.count / 2
           end
           
+          def [](index)
+            index = 0 if index == point_count
+            org.eclipse.swt.graphics.Point.new(point_array[index * 2], point_array[index * 2 + 1])
+          end
+          
           def x_array
             point_array.each_with_index.select {|pair| pair.last.even?}.map(&:first)
           end
@@ -53,16 +58,48 @@ module Glimmer
             x_array.zip(y_array)
           end
           
-          def [](index)
-            index = 0 if index == point_count
-            org.eclipse.swt.graphics.Point.new(point_array[index * 2], point_array[index * 2 + 1])
+          # Logical x coordinate. Always assumes the first point in the polyline to be the x coordinate.
+          def x
+            x_array.first
+          end
+           
+          # Logical y coordinate. Always assumes the first point in the polyline to be the y coordinate.
+          def y
+            y_array.first
           end
           
+          def absolute_point_array
+            if parent.is_a?(Shape)
+              point_array.each_with_index.map do |coordinate, i|
+                if i.even?
+                  parent.absolute_x + coordinate
+                else
+                  parent.absolute_y + coordinate
+                end
+              end
+            else
+              point_array
+            end
+          end
+          
+          def absolute_x_array
+            absolute_point_array.each_with_index.select {|pair| pair.last.even?}.map(&:first)
+          end
+          
+          def absolute_y_array
+            absolute_point_array.each_with_index.select {|pair| pair.last.odd?}.map(&:first)
+          end
+          
+          def absolute_point_xy_array
+            absolute_x_array.zip(absolute_y_array)
+          end
+                    
           def include?(x, y)
-            comparison_lines = point_xy_array.zip(point_xy_array.rotate(1))
+            comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
             comparison_lines.pop # ignore last pair since you don't want to compare last point with first point
             comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
           end
+          alias contain? include?
           
           def move_by(x_delta, y_delta)
             self.point_array = point_array.each_with_index.map {|coordinate, i| i.even? ? coordinate + x_delta : coordinate + y_delta}

@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.5.3
+
+- Support nesting shapes within shapes, with relative positioning (meaning x, y coordinates are assumed relative to parent's x, y in nested shapes)
+
 ### 4.18.5.2
 
 - Support checking if an `arc` shape accurately includes a point x,y coordinates within pie region only
