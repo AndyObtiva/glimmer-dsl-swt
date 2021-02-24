@@ -62,24 +62,24 @@ module Glimmer
             end
           end
           
-          def effective_x
-            dest_x || self.x
+          def x
+            dest_x || get_attribute('x')
           end
           
-          def effective_y
-            dest_y || self.y
+          def y
+            dest_y || get_attribute('y')
           end
           
-          def effective_width
+          def width
             dest_width || image.bounds.width
           end
           
-          def effective_height
+          def height
             dest_height || image.bounds.height
           end
           
           def include?(x, y)
-            x.between?(effective_x, effective_x + effective_width) && y.between?(effective_y, effective_y + effective_height)
+            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
           end
           alias contain? include?
             

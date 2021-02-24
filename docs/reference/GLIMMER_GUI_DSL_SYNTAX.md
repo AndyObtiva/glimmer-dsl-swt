@@ -1404,7 +1404,8 @@ Shape keywords and their args (including defaults) are listed below (they basica
 - `rectangle(x, y, width, height, fill: false)` standard rectangle, which can be optionally filled
 - `rectangle(x, y, width, height, arcWidth = 60, arcHeight = 60, fill: false, round: true)` round rectangle, which can be optionally filled, and takes optional extra round angle arguments
 - `rectangle(x, y, width, height, vertical = true, fill: true, gradient: true)` gradient rectangle, which is always filled, and takes an optional extra argument to specify true for vertical gradient (default) and false for horizontal gradient
-- `text(string, x, y, flags = nil)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
+- `text(string, x, y, is_transparent = true)` text with optional is_transparent to indicate if background is transparent (default is true)
+- `text(string, x, y, flags)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be :draw_delimiter (i.e. new lines), :draw_tab, :draw_mnemonic, and :draw_transparent as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
 Shape keywords that can be filled with color can take a keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
 Smart defaults can be applied to automatically infer `gradient: true` (rectangle with both foreground and background) and `round: true` (rectangle with more than 4 args, the extra args are numeric) as well.
@@ -1555,7 +1556,7 @@ shell {
       foreground :yellow
     }
     text {
-      text 'Glimmer'
+      string 'Glimmer'
       x 208
       y 83
       font height: 25, style: :bold
@@ -1726,7 +1727,8 @@ These Canvas Shape API methods help with manipulating shapes upon user interacti
 They are implemented with the help of the highly robust Java built-in shape geometry algorithms.
 
 - `WidgetProxy#shape_at_location(x, y)` : returns shape object at x, y location from a widget proxy like canvas
-- `Shape#include?(x, y)` : indicates if shape includes x, y point (`arc` and `oval` shapes currently include their entire rectangular region in their checks, `text` shapes always return false)
+- `Shape#contain?(x, y)` : indicates if shape contains x, y point
+- `Shape#include?(x, y)` : indicates if shape includes x, y point on the edge if drawn or inside if filled (include uses contain for filled shapes)
 - `Shape#move_by(x_delta, y_delta)` : moves shape object at x, y location
 
 Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.

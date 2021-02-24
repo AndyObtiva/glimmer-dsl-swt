@@ -36,12 +36,6 @@ module Glimmer
           def parameter_names
             [:x, :y, :width, :height]
           end
-          
-          def include?(x, y)
-            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
-          end
-          alias contain? include?
-          
         end
       end
     end

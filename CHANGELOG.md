@@ -8,6 +8,7 @@
 - Support checking point inclusion differently in drawed vs filled Rectangle (only check the drawn border when not filled)
 - Support checking point inclusion differently in drawed vs filled Oval (only check the drawn border when not filled)
 - Support checking point inclusion differently in drawed vs filled Arc (only check the drawn border when not filled)
+- Support `#include?(x, y)` and `#contain?(x, y)` methods in `text` shape
 - Fix point inclusion check for polyline
 - Fix issue with `polygon` check if it includes a point x,y coordinates (replace with available `java.awt` robust geometry algorithms)
 

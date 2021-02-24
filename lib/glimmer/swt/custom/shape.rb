@@ -34,8 +34,6 @@ module Glimmer
       class Shape
         include Packages
         include Properties
-        # TODO support textExtent sized shapes nested within text/string
-        # TODO support a Pattern DSL for methods that take Pattern arguments
         
         class << self
           def create(parent, keyword, *args, &property_block)
@@ -137,18 +135,29 @@ module Glimmer
         # subclasses (like polygon) may override to indicate if a point x,y coordinates falls inside the shape
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def contain?(x, y)
-          false
+          # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
+          if respond_to?(:x) && respond_to?(:y) && respond_to?(:width) && respond_to?(:height) && self.x && self.y && width && height
+            x.between?(self.x, self.x + width) && y.between?(self.y, self.y + height)
+          else
+            false # subclasses must provide implementation
+          end
         end
         
         # subclasses (like polygon) may override to indicate if a point x,y coordinates falls on the edge of a drawn shape or inside a filled shape
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def include?(x, y)
-          false
+          # assume a rectangular shape by default
+          if respond_to?(:x) && respond_to?(:y) && respond_to?(:width) && respond_to?(:height)
+            contain?(x, y)
+          else
+            false # subclasses must provide implementation
+          end
         end
         
+        # moves by x delta and y delta. Subclasses must implement
+        # provdies a default implementation that assumes moving x and y is sufficient by default (not for polygons though, which must override)
         def move_by(x_delta, y_delta)
-          case @name
-          when 'rectangle', 'focus', 'oval', 'arc'
+          if respond_to?(:x) && respond_to?(:y) && x && y
             self.x += x_delta
             self.y += y_delta
           end
@@ -255,9 +264,9 @@ module Glimmer
           if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
             (6 - @args.size).times {@args << 60}
           elsif @name.include?('rectangle') && gradient? && @args.size == 4
-            @args << true
+            @args << true # vertical is true by default
           elsif (@name.include?('text') || @name.include?('String')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
-            @args << true
+            @args << true # is_transparent is true by default
           end
           if @name.include?('image')
             @parent.requires_shape_disposal = true
@@ -281,7 +290,7 @@ module Glimmer
         
         def amend_method_name_options_based_on_properties!
           return if @name == 'point'
-          if @name != 'text' && has_some_background? && !has_some_foreground?
+          if @name != 'text' && @name != 'string' && has_some_background? && !has_some_foreground?
             @options[:fill] = true
           elsif !has_some_background? && has_some_foreground?
             @options[:fill] = false
@@ -335,7 +344,8 @@ module Glimmer
         
         def get_attribute(attribute_name)
           if parameter_name?(attribute_name)
-            @args[parameter_index(attribute_name)]
+            arg_index = parameter_index(attribute_name)
+            @args[arg_index] if arg_index
           else
             @properties.symbolize_keys[attribute_name.to_s.to_sym]
           end
@@ -404,6 +414,7 @@ module Glimmer
               args.first.swt_transform.dispose
             end
           end
+          self.extent = paint_event.gc.send("#{@name}Extent", *(([string, flags] if respond_to?(:flags)).compact)) if ['text', 'string'].include?(@name)
           paint_event.gc.send(@method_name, *@args)
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
