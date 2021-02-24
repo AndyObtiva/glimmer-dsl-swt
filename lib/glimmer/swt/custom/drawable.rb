@@ -38,6 +38,13 @@ module Glimmer
           @image_buffered_shapes ||= []
         end
         
+        # Returns shapes expanded with regards to nested shapes
+        def expand_shapes(shapes)
+          # TODO
+        end
+        
+        # TODO add a method like shapes that specifies drawable_properties to be able to adjust properties like transform in between shapes
+          
         def shape_at_location(x, y)
           shapes.reverse.detect {|shape| shape.include?(x, y)}
         end

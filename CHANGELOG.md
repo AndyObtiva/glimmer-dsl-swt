@@ -11,6 +11,7 @@
 - Support `#include?(x, y)` and `#contain?(x, y)` methods in `text` shape
 - Fix point inclusion check for polyline
 - Fix issue with `polygon` check if it includes a point x,y coordinates (replace with available `java.awt` robust geometry algorithms)
+- Fix issue with transforms not working after the latest changes
 
 ### 4.18.5.1
 

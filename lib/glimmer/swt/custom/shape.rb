@@ -98,20 +98,26 @@ module Glimmer
           end
         end
         
-        attr_reader :parent, :name, :args, :options
+        attr_reader :drawable, :parent, :name, :args, :options, :shapes
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
+          @drawable = @parent.is_a?(Drawable) ? @parent : @parent.drawable
           @name = keyword
           @options = self.class.arg_options(args, extract: true)
           @method_name = self.class.method_name(keyword, @options)
           @args = args
           @properties = {}
+          @shapes = [] # nested shapes
           @options.reject {|key, value| %w[fill gradient round].include?(key.to_s)}.each do |property, property_args|
             @properties[property] = property_args
           end
           @parent.add_shape(self)
           post_add_content if property_block.nil?
+        end
+        
+        def add_shape(shape)
+          @shapes << shape
         end
         
         def draw?
@@ -174,7 +180,7 @@ module Glimmer
         def post_add_content
           unless @content_added
             amend_method_name_options_based_on_properties!
-            @parent.setup_shape_painting unless @parent.is_a?(ImageProxy)
+            @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
           end
         end
@@ -188,7 +194,7 @@ module Glimmer
           if ['setBackground', 'setForeground'].include?(method_name.to_s) && args.first.is_a?(Array)
             args[0] = ColorProxy.new(args[0])
           end
-          if args.first.is_a?(Symbol) || args.first.is_a?(String)
+          if args.first.is_a?(Symbol) || args.first.is_a?(::String)
             if the_java_method.parameter_types.first == Color.java_class
               args[0] = ColorProxy.new(args[0])
             end
@@ -209,11 +215,11 @@ module Glimmer
             args[0] = args[0].swt_transform
           end
           if ['setBackgroundPattern', 'setForegroundPattern'].include?(method_name.to_s)
-            @parent.requires_shape_disposal = true
+            @drawable.requires_shape_disposal = true
             args = args.first if args.first.is_a?(Array)
             args.each_with_index do |arg, i|
               arg = ColorProxy.new(arg.red, arg.green, arg.blue) if arg.is_a?(RGB)
-              arg = ColorProxy.new(arg) if arg.is_a?(Symbol) || arg.is_a?(String)
+              arg = ColorProxy.new(arg) if arg.is_a?(Symbol) || arg.is_a?(::String)
               arg = arg.swt_color if arg.is_a?(ColorProxy)
               args[i] = arg
             end
@@ -237,7 +243,7 @@ module Glimmer
             @args[1..-1] = []
           end
           if @name == 'image'
-            if @args.first.is_a?(String)
+            if @args.first.is_a?(::String)
               @args[0] = ImageProxy.new(@args[0])
             end
             if @args.first.is_a?(ImageProxy)
@@ -248,7 +254,7 @@ module Glimmer
             end
           end
           if @name == 'text'
-            if @args[3].is_a?(Symbol) || @args[3].is_a?(String)
+            if @args[3].is_a?(Symbol) || @args[3].is_a?(::String)
               @args[3] = [@args[3]]
             end
             if @args[3].is_a?(Array)
@@ -265,11 +271,11 @@ module Glimmer
             (6 - @args.size).times {@args << 60}
           elsif @name.include?('rectangle') && gradient? && @args.size == 4
             @args << true # vertical is true by default
-          elsif (@name.include?('text') || @name.include?('String')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
+          elsif (@name.include?('text') || @name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
             @args << true # is_transparent is true by default
           end
           if @name.include?('image')
-            @parent.requires_shape_disposal = true
+            @drawable.requires_shape_disposal = true
             if @args.size == 1
               @args[1] = 0
               @args[2] = 0
@@ -336,9 +342,9 @@ module Glimmer
           else
             @properties[ruby_attribute_getter(attribute_name)] = args
           end
-          if @content_added && !@parent.is_disposed
+          if @content_added && !@drawable.is_disposed
             @calculated_paint_args = false
-            @parent.redraw
+            @drawable.redraw
           end
         end
         
@@ -430,7 +436,7 @@ module Glimmer
                 if @properties[:foreground].is_a?(Array)
                   @properties[:foreground] = ColorProxy.new(@properties[:foreground], ensure_bounds: false)
                 end
-                if @properties[:foreground].is_a?(Symbol) || @properties[:foreground].is_a?(String)
+                if @properties[:foreground].is_a?(Symbol) || @properties[:foreground].is_a?(::String)
                  @properties[:foreground] = ColorProxy.new(@properties[:foreground], ensure_bounds: false)
                 end
                 if @properties[:foreground].is_a?(ColorProxy)
@@ -438,14 +444,14 @@ module Glimmer
                 end
               end
             else
-              @properties['background'] = [@parent.background] if fill? && !has_some_background?
-              @properties['foreground'] = [@parent.foreground] if @parent.respond_to?(:foreground) && draw? && !has_some_foreground?
+              @properties['background'] = [@drawable.background] if fill? && !has_some_background?
+              @properties['foreground'] = [@drawable.foreground] if @drawable.respond_to?(:foreground) && draw? && !has_some_foreground?
               # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
               @properties['alpha'] ||= [255]
-              @properties['font'] = [@parent.font] if @parent.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+              @properties['font'] = [@drawable.font] if @drawable.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
               # TODO regarding transform, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
-              @properties['transform'] = [nil] if @parent.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
+              @properties['transform'] = [nil] if @drawable.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
               @properties.each do |property, args|
                 method_name = attribute_setter(property)
                 converted_args = apply_property_arg_conversions(method_name, property, args)

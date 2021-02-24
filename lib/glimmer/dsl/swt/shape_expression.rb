@@ -32,7 +32,7 @@ module Glimmer
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)
-          parent.is_a?(Glimmer::SWT::Custom::Drawable) and
+          (parent.is_a?(Glimmer::SWT::Custom::Drawable) or parent.is_a?(Glimmer::SWT::Custom::Shape)) and
             Glimmer::SWT::Custom::Shape.valid?(parent, keyword, *args, &block)
         end
         

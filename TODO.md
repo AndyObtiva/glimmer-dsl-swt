@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make specifying x,y coordinates optional in all shapes (defaulting to being centered within parent)
+
 - Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.
 ```ruby
         rectangle(60, 80) {

@@ -20,7 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/display_proxy'
-require 'glimmer/swt/properties'
+require 'glimmer/swt/proxy_properties'
 require 'glimmer/swt/custom/shape'
 
 module Glimmer
@@ -29,7 +29,7 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class TransformProxy
-      include Properties
+      include ProxyProperties
       
       include_package 'org.eclipse.swt.graphics'
       include_package 'org.eclipse.swt.widgets'
@@ -80,12 +80,28 @@ module Glimmer
         @swt_transform
       end
       
+      def has_attribute?(attribute_name, *args)
+        Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.respond_to?(attribute_name) } || super
+      end
+
+      def set_attribute(attribute_name, *args)
+        if @swt_transform.respond_to?(attribute_name)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.send(attribute_name, *args) }
+        else
+          super
+        end
+      end
+      
       def method_missing(method_name, *args, &block)
         result = Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.send(method_name, *args, &block) }
         result.nil? ? self : result
       rescue => e
-        Glimmer::Config.logger.debug {"Neither MessageBoxProxy nor #{@swt_transform.class.name} can handle the method ##{method}"}
-        super
+        begin
+          super
+        rescue Exception => inner_e
+          Glimmer::Config.logger.error {"Neither TransformProxy nor #{@swt_transform.class.name} can handle the method ##{method}"}
+          Glimmer::Config.logger.error {e.full_message}
+        end
       end
       
       def respond_to?(method, *args, &block)
