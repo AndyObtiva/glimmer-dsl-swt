@@ -1472,6 +1472,10 @@ Screenshot:
 
 ![Canvas Animation Example](/images/glimmer-example-canvas.png)
 
+If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent `canvas`.
+
+Note that you could shift a shape off its centered position within its parent `canvas` by using `x_delta` and `y_delta` instead of `x` and `y`
+
 The round and gradient options could be dropped since Glimmer DSL for SWT supports auto-inference of them based on shape parameters.
 
 Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
@@ -1616,6 +1620,36 @@ shell {
     }
   }
 }.open
+```
+
+#### Shapes inside a Shape
+
+Shapes can be nested within each other. If you nest a shape within another, its coordinates are assumed to be relative to its parent.
+
+As such, if you move the parent, it moves all its children with it.
+
+If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent shape relatively.
+
+Note that you could shift a shape off its centered position within its parent shape by using `x_delta` and `y_delta` instead of `x` and `y`
+
+Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example that nests lines, points, a polyline, and an image within a drawn rectangle parent:
+
+```ruby
+        rectangle(205, 50, 88, 96) {
+          foreground :yellow
+          3.times { |n|
+            line(45, 70 + n*10, 65 + n*10, 30 + n*10) {
+              foreground :yellow
+            }
+          }
+          10.times {|n|
+            point(15 + n*5, 50 + n*5) {
+              foreground :yellow
+            }
+          }
+          polyline(45, 60, 55, 20, 65, 60, 85, 80, 45, 60)
+          image(@image_object, 0, 5)
+        }
 ```
 
 #### Shapes inside a Widget
