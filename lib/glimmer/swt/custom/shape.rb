@@ -166,7 +166,7 @@ module Glimmer
         # moves by x delta and y delta. Subclasses must implement
         # provdies a default implementation that assumes moving x and y is sufficient by default (not for polygons though, which must override)
         def move_by(x_delta, y_delta)
-          if respond_to?(:x) && respond_to?(:y) && x && y
+          if respond_to?(:x) && respond_to?(:y) && respond_to?(:x=) && respond_to?(:y=)
             if default_x?
               self.x_delta += x_delta
             else
@@ -369,6 +369,10 @@ module Glimmer
         end
   
         def set_attribute(attribute_name, *args)
+          options = args.last if args.last.is_a?(Hash)
+          perform_redraw = @perform_redraw
+          perform_redraw = options[:redraw] if perform_redraw.nil? && !options.nil?
+          perform_redraw = true if perform_redraw.nil?
           if parameter_name?(attribute_name)
             set_parameter_attribute(attribute_name, *args)
           elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
@@ -376,9 +380,10 @@ module Glimmer
           else
             @properties[ruby_attribute_getter(attribute_name)] = args
           end
-          if @content_added && !@drawable.is_disposed
+          if @content_added && perform_redraw && !drawable.is_disposed
             @calculated_paint_args = false
-            @drawable.redraw
+            # TODO consider redrawing an image proxy's gc in the future
+            drawable.redraw unless drawable.is_a?(ImageProxy)
           end
         end
         
@@ -484,6 +489,7 @@ module Glimmer
                 
         # args translated to absolute coordinates
         def absolute_args
+          @perform_redraw = false
           original_x = nil
           original_y = nil
           if default_x?
@@ -509,6 +515,7 @@ module Glimmer
           if original_y
             self.y = original_y
           end
+          @perform_redraw = true
           calculated_absolute_args
         end
         

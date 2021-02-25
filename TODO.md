@@ -38,9 +38,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
           }
         }
 ```
-- Support nesting text within Image, which enables not specifying width and height for image as it is autocalculated from text extent, or otherwise if specified, then center text within Image. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the image.
-- Support nesting text within Oval, which enables not specifying width and height for oval as it is autocalculated from text extent, or otherwise if specified, then center text within Oval. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the oval.
-- Support nesting text within Arc, which enables not specifying width and height for arc as it is autocalculated from text extent, or otherwise if specified, then center text within Arc. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the arc.
+- Support default centering within Arc filled pie area only
+- Support default sizing of Arc containing text (or any shapes)
 
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 - Canvas support a Path DSL for methods that take Path arguments

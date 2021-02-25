@@ -140,7 +140,7 @@ module Glimmer
               @paint_listener_proxy = on_swt_paint(&shape_painter)
             end
           else
-            redraw if @finished_add_content && !is_disposed
+            redraw if respond_to?(:redraw) && @finished_add_content && !is_disposed
           end
         end
         alias resetup_shape_painting setup_shape_painting
