@@ -38,7 +38,7 @@ class HelloCanvas
       @canvas = canvas {
         background :yellow
         rectangle(0, 0, 220, 400) {
-          background :red
+          background rgb(255, 0, 0)
         }
         rectangle(50, 20, 300, 150, 30, 50) {
           background :magenta
@@ -46,6 +46,21 @@ class HelloCanvas
             background :yellow
             foreground :dark_magenta
             font name: 'Courier', height: 30
+          }
+          rectangle(155, 30, 88, 96) {
+            foreground :yellow
+            3.times { |n|
+              line(45, 70 + n*10, 65 + n*10, 30 + n*10) {
+                foreground :yellow
+              }
+            }
+            10.times {|n|
+              point(15 + n*5, 50 + n*5) {
+                foreground :yellow
+              }
+            }
+            polyline(45, 60, 55, 20, 65, 60, 85, 80, 45, 60)
+            image(@image_object, 0, 5)
           }
         }
         rectangle(150, 200, 100, 70, true) {
@@ -55,21 +70,6 @@ class HelloCanvas
         rectangle(50, 200, 30, 70, false) {
           background :magenta
           foreground :dark_blue
-        }
-        rectangle(205, 50, 88, 96) {
-          foreground :yellow
-          3.times { |n|
-            line(45, 70 + n*10, 65 + n*10, 30 + n*10) {
-              foreground :yellow
-            }
-          }
-          10.times {|n|
-            point(15 + n*5, 50 + n*5) {
-              foreground :yellow
-            }
-          }
-          polyline(45, 60, 55, 20, 65, 60, 85, 80, 45, 60)
-          image(@image_object, 0, 5)
         }
         oval(110, 310, 100, 100) {
           # patterns provide a differnet way to make gradients

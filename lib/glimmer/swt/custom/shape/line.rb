@@ -50,14 +50,28 @@ module Glimmer
             parameter_names
           end
           
+          def bounds
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+          end
+          
+          def size
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+          end
+          
+          def geometry
+            java.awt.geom.Line2D::Double.new(absolute_x1, absolute_y1, absolute_x2, absolute_y2)
+          end
+          
           # Logical x coordinate. Always assumes the first point in the line to be the x coordinate.
           def x
-            x1
+            bounds.x
           end
           
           # Logical y coordinate. Always assumes the first point in the line to be the y coordinate.
           def y
-            y1
+            bounds.y
           end
           
           def absolute_x1

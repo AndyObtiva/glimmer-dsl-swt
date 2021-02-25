@@ -37,10 +37,23 @@ module Glimmer
             [:x, :y, :width, :height, :start_angle, :arc_angle]
           end
           
+          def bounds
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+          end
+          
+          def size
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+          end
+          
+          def geometry
+            java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+          end
+            
           # checks if shape contains the point denoted by x and y
           def contain?(x, y)
-            shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
-            shape_geometry.contains(x, y)
+            geometry.contains(x, y)
           end
           
           def include?(x, y)

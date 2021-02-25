@@ -2,7 +2,8 @@
 
 ### 4.18.5.4
 
-- Switch from use of :default with x_delta/y_delta to passing [:default, x_delta] or [:default, y_delta] (e.g. image(file, [:default, -30], :default) for x = default - 30 and y = default + 0)
+- Switch from use of `:default` with x_delta/y_delta to passing `[:default, x_delta]` or `[:default, y_delta]` (e.g. `image(file, [:default, -30], :default)` for x = default - 30 and y = default + 0)
+- Support a bounding box for all shapes, implementing `#bounds` (x, y, width, and height) and `#size` (width, height) for the ones that don't receive as parameters (like polygon)
 
 ### 4.18.5.3
 

@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support a bounding box for all shapes and add a `bounds` methods similar to that of widgets
 - Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes, text/string extent, or otherwise defaulting to 0, 0
 - Support [:default, width_delta], [:default, height_delta] attributes for width and height, which add/subtract from defaults used for shape
 - Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.

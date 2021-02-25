@@ -138,26 +138,30 @@ module Glimmer
           @options[:round]
         end
         
-        # subclasses (like polygon) may override to indicate if a point x,y coordinates falls inside the shape
+        # The bounding box top-left x, y, width, height in absolute positioning
+        def bounds
+          org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, width, height)
+        end
+        
+        # The bounding box width and height (as a Point object with x being width and y being height)
+        def size
+          org.eclipse.swt.graphics.Point.new(width, height)
+        end
+        
+        # Returns if shape contains a point
+        # Subclasses (like polygon) may override to indicate if a point x,y coordinates falls inside the shape
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def contain?(x, y)
           # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
-          if respond_to?(:x) && respond_to?(:y) && respond_to?(:width) && respond_to?(:height) && self.x && self.y && width && height
-            x.between?(self.absolute_x, self.absolute_x + width) && y.between?(self.absolute_y, self.absolute_y + height)
-          else
-            false # subclasses must provide implementation
-          end
+          x.between?(self.absolute_x, self.absolute_x + width) && y.between?(self.absolute_y, self.absolute_y + height)
         end
         
-        # subclasses (like polygon) may override to indicate if a point x,y coordinates falls on the edge of a drawn shape or inside a filled shape
+        # Returns if shape includes a point. When the shape is filled, this is the same as contain. When the shape is drawn, it only returns true if the point lies on the edge (boundary/border)
+        # Subclasses (like polygon) may override to indicate if a point x,y coordinates falls on the edge of a drawn shape or inside a filled shape
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def include?(x, y)
           # assume a rectangular shape by default
-          if respond_to?(:x) && respond_to?(:y) && respond_to?(:width) && respond_to?(:height)
-            contain?(x, y)
-          else
-            false # subclasses must provide implementation
-          end
+          contain?(x, y)
         end
         
         # moves by x delta and y delta. Subclasses must implement
@@ -275,20 +279,20 @@ module Glimmer
         end
         
         def apply_shape_arg_defaults!
+          self.x = :default if current_parameter_name?(:x) && x.nil?
+          self.y = :default if current_parameter_name?(:y) && y.nil?
+          self.dest_x = :default if current_parameter_name?(:dest_x) && dest_x.nil?
+          self.dest_y = :default if current_parameter_name?(:dest_y) && dest_y.nil?
           if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
             (6 - @args.size).times {@args << 60}
           elsif @name.include?('rectangle') && gradient? && @args.size == 4
             @args << true # vertical is true by default
-          elsif (@name.include?('text') || @name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && @args.size == 3
+          elsif (@name.include?('text') || @name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && @args.size < 4
             @args << true # is_transparent is true by default
           end
           if @name.include?('image')
             @drawable.requires_shape_disposal = true
           end
-          self.x = :default if current_parameter_name?(:x) && x.nil?
-          self.y = :default if current_parameter_name?(:y) && y.nil?
-          self.dest_x = :default if current_parameter_name?(:dest_x) && dest_x.nil?
-          self.dest_y = :default if current_parameter_name?(:dest_y) && dest_y.nil?
         end
                 
         # Tolerates shape extra args added by user by mistake
@@ -531,19 +535,11 @@ module Glimmer
         end
         
         def default_x
-          if respond_to?(:width) && width && parent.respond_to?(:width) && parent.width
-            (parent.width - width) / 2
-          else
-            0
-          end
+          ((parent.size.x - size.x) / 2) + parent.bounds.x - parent.absolute_x
         end
         
         def default_y
-          if respond_to?(:height) && height && parent.respond_to?(:height) && parent.height
-            (parent.height - height) / 2
-          else
-            0
-          end
+          ((parent.size.y - size.y) / 2) + parent.bounds.y - parent.absolute_y
         end
         
         def default_x_delta

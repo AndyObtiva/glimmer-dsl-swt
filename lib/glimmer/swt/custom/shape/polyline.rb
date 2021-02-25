@@ -98,6 +98,30 @@ module Glimmer
             absolute_x_array.zip(absolute_y_array)
           end
                     
+          def bounds
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+          end
+          
+          def size
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+          end
+          
+          def geometry
+            java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
+          end
+          
+          # Logical x coordinate. Always assumes the first point in the polygon to be the x coordinate.
+          def x
+            bounds.x
+          end
+           
+          # Logical y coordinate. Always assumes the first point in the polygon to be the y coordinate.
+          def y
+            bounds.y
+          end
+          
           def include?(x, y)
             comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
             comparison_lines.pop # ignore last pair since you don't want to compare last point with first point

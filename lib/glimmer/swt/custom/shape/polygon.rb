@@ -62,16 +62,6 @@ module Glimmer
             x_array.zip(y_array)
           end
           
-          # Logical x coordinate. Always assumes the first point in the polygon to be the x coordinate.
-          def x
-            x_array.first
-          end
-           
-          # Logical y coordinate. Always assumes the first point in the polygon to be the y coordinate.
-          def y
-            y_array.first
-          end
-          
           def absolute_point_array
             if parent.is_a?(Shape)
               point_array.each_with_index.map do |coordinate, i|
@@ -98,9 +88,32 @@ module Glimmer
             absolute_x_array.zip(absolute_y_array)
           end
           
+          def bounds
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+          end
+          
+          def size
+            shape_bounds = geometry.getBounds2D
+            org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+          end
+          
+          def geometry
+            java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
+          end
+          
+          # Logical x coordinate. Always assumes the first point in the polygon to be the x coordinate.
+          def x
+            bounds.x
+          end
+           
+          # Logical y coordinate. Always assumes the first point in the polygon to be the y coordinate.
+          def y
+            bounds.y
+          end
+          
           def include?(x, y)
-            shape_geometry = java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
-            shape_geometry.contains(x, y)
+            geometry.contains(x, y)
           end
           alias contain? include? # TODO make include do an outer/inner check of edge detection only
           
