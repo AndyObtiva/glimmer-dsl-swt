@@ -42,6 +42,11 @@ class HelloCanvas
         }
         rectangle(50, 20, 300, 150, 30, 50) {
           background :magenta
+          text('Picasso', [:default, -70], :default) {
+            background :yellow
+            foreground :dark_magenta
+            font name: 'Courier', height: 30
+          }
         }
         rectangle(150, 200, 100, 70, true) {
           background :dark_magenta
@@ -65,11 +70,6 @@ class HelloCanvas
           }
           polyline(45, 60, 55, 20, 65, 60, 85, 80, 45, 60)
           image(@image_object, 0, 5)
-        }
-        text('Picasso', 60, 80) {
-          background :yellow
-          foreground :dark_magenta
-          font name: 'Courier', height: 30
         }
         oval(110, 310, 100, 100) {
           # patterns provide a differnet way to make gradients

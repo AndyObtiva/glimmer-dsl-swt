@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.5.4
+
+- Switch from use of :default with x_delta/y_delta to passing [:default, x_delta] or [:default, y_delta] (e.g. image(file, [:default, -30], :default) for x = default - 30 and y = default + 0)
+
 ### 4.18.5.3
 
 - Support nesting shapes within shapes, with relative positioning (meaning x, y coordinates are assumed relative to parent's x, y in nested shapes)

@@ -90,7 +90,7 @@ module Glimmer
           
           def move_by(x_delta, y_delta)
             if default_x?
-              self.x_delta += x_delta
+              self.default_x_delta += x_delta
             elsif dest_x
               self.dest_x += x_delta
             else
@@ -98,7 +98,7 @@ module Glimmer
             end
             
             if default_y?
-              self.y_delta += y_delta
+              self.default_y_delta += y_delta
             elsif dest_y
               self.dest_y += y_delta
             else

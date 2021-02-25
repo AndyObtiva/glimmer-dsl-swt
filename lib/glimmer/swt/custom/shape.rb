@@ -99,7 +99,6 @@ module Glimmer
         end
         
         attr_reader :drawable, :parent, :name, :args, :options, :shapes
-        attr_accessor :x_delta, :y_delta
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -110,8 +109,6 @@ module Glimmer
           @args = args
           @properties = {}
           @shapes = [] # nested shapes
-          @x_delta = 0
-          @y_delta = 0
           @options.reject {|key, value| %w[fill gradient round].include?(key.to_s)}.each do |property, property_args|
             @properties[property] = property_args
           end
@@ -168,12 +165,12 @@ module Glimmer
         def move_by(x_delta, y_delta)
           if respond_to?(:x) && respond_to?(:y) && respond_to?(:x=) && respond_to?(:y=)
             if default_x?
-              self.x_delta += x_delta
+              self.default_x_delta += x_delta
             else
               self.x += x_delta
             end
             if default_y?
-              self.y_delta += y_delta
+              self.default_y_delta += y_delta
             else
               self.y += y_delta
             end
@@ -490,19 +487,22 @@ module Glimmer
                 
         # args translated to absolute coordinates
         def absolute_args
-          return @args if !default_x? && !default_y? && @x_delta == 0 && @y_delta == 0 && parent.is_a?(Drawable)
+          return @args if !default_x? && !default_y? && parent.is_a?(Drawable)
+          # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
+          # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
+          # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
+          # here to get the job done of calculating absolute args
           @perform_redraw = false
           original_x = nil
           original_y = nil
           if default_x?
             original_x = x
-            self.x = default_x
+            self.x = default_x + default_x_delta
           end
           if default_y?
             original_y = y
-            self.y = default_y
+            self.y = default_y + default_y_delta
           end
-          move_by(@x_delta, @y_delta)
           if parent.is_a?(Shape)
             @parent_absolute_x = parent.absolute_x
             @parent_absolute_y = parent.absolute_y
@@ -512,7 +512,6 @@ module Glimmer
           else
             calculated_absolute_args = @args.clone
           end
-          move_by(-1*@x_delta, -1*@y_delta)
           if original_x
             self.x = original_x
           end
@@ -524,11 +523,11 @@ module Glimmer
         end
         
         def default_x?
-          current_parameter_name?('x') && (x.nil? || x.to_s == 'default')
+          current_parameter_name?('x') && (x.nil? || x.to_s == 'default' || x.respond_to?(:first) && x.first.to_s == 'default')
         end
         
         def default_y?
-          current_parameter_name?('y') && (y.nil? || y.to_s == 'default')
+          current_parameter_name?('y') && (y.nil? || y.to_s == 'default' || y.respond_to?(:first) && y.first.to_s == 'default')
         end
         
         def default_x
@@ -547,9 +546,29 @@ module Glimmer
           end
         end
         
+        def default_x_delta
+          return 0 unless default_x? && x.is_a?(Array)
+          x[1].to_f
+        end
+        
+        def default_y_delta
+          return 0 unless default_y? && y.is_a?(Array)
+          y[1].to_f
+        end
+        
+        def default_x_delta=(delta)
+          return unless default_x?
+          self.x = [:default, delta]
+        end
+        
+        def default_y_delta=(delta)
+          return unless default_y?
+          self.y = [:default, delta]
+        end
+        
         def absolute_x
           x = default_x? ? default_x : self.x
-          x += @x_delta
+          x += default_x_delta
           if parent.is_a?(Shape)
             parent.absolute_x + x
           else
@@ -559,7 +578,7 @@ module Glimmer
         
         def absolute_y
           y = default_y? ? default_y : self.y
-          y += @y_delta
+          y += default_y_delta
           if parent.is_a?(Shape)
             parent.absolute_y + y
           else
