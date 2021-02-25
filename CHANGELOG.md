@@ -4,6 +4,7 @@
 
 - Support nesting shapes within shapes, with relative positioning (meaning x, y coordinates are assumed relative to parent's x, y in nested shapes)
 - Support passing x, y coordinates as :default (or nil or not passed in if they are the last args) in all shapes, meaning they are centered within parent taking their width and height into account
+- Support default_x_delta, y_delta attributes, which add/subtract from defaults used for shape
 
 ### 4.18.5.2
 

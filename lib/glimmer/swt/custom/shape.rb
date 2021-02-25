@@ -364,12 +364,15 @@ module Glimmer
         
         def has_attribute?(attribute_name, *args)
           self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) or
-            parameter_name?(attribute_name)
+            parameter_name?(attribute_name) or
+            (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
         end
   
         def set_attribute(attribute_name, *args)
           if parameter_name?(attribute_name)
             set_parameter_attribute(attribute_name, *args)
+          elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
+            self.send(ruby_attribute_setter(attribute_name), *args)
           else
             @properties[ruby_attribute_getter(attribute_name)] = args
           end
@@ -383,6 +386,8 @@ module Glimmer
           if parameter_name?(attribute_name)
             arg_index = parameter_index(attribute_name)
             @args[arg_index] if arg_index
+          elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
+            self.send(attribute_name)
           else
             @properties.symbolize_keys[attribute_name.to_s.to_sym]
           end
@@ -399,7 +404,9 @@ module Glimmer
         end
         
         def respond_to?(method_name, *args, &block)
-          if has_attribute?(method_name)
+          options = args.last if args.last.is_a?(Hash)
+          super_invocation = options && options[:super]
+          if !super_invocation && has_attribute?(method_name)
             true
           else
             super
