@@ -37,6 +37,10 @@ module Glimmer
             [:point_array]
           end
           
+          def location_parameter_names
+            parameter_names
+          end
+          
           def point_count
             point_array.count / 2
           end

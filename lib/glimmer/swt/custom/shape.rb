@@ -180,22 +180,6 @@ module Glimmer
           end
         end
         
-        def change_x(x_delta)
-          if default_x?
-            self.x_delta += x_delta
-          else
-            self.x += x_delta
-          end
-        end
-        
-        def change_y(x_delta)
-          if default_y?
-            self.y_delta += y_delta
-          else
-            self.y += y_delta
-          end
-        end
-        
         def has_some_background?
           @properties.keys.map(&:to_s).include?('background') || @properties.keys.map(&:to_s).include?('background_pattern')
         end
@@ -342,6 +326,12 @@ module Glimmer
           []
         end
         
+        # subclasses may override to specify location parameter names if different from x and y (e.g. all polygon points are location parameters)
+        # used in calculating movement changes
+        def location_parameter_names
+          [:x, :y]
+        end
+        
         def possible_parameter_names
           parameter_names
         end
@@ -382,6 +372,9 @@ module Glimmer
           end
           if @content_added && perform_redraw && !drawable.is_disposed
             @calculated_paint_args = false
+            attribute_name = ruby_attribute_getter(attribute_name)
+            @calculated_absolute_args = false if (location_parameter_names.map(&:to_s) + ['x_delta', 'y_delta']).include?(attribute_name)
+
             # TODO consider redrawing an image proxy's gc in the future
             drawable.redraw unless drawable.is_a?(ImageProxy)
           end
@@ -464,7 +457,11 @@ module Glimmer
             end
           end
           self.extent = paint_event.gc.send("#{@name}Extent", *(([string, flags] if respond_to?(:flags)).compact)) if ['text', 'string'].include?(@name)
-          paint_event.gc.send(@method_name, *absolute_args)
+          if !@calculated_absolute_args || parent_shape_absolute_location_changed?
+            @absolute_args = absolute_args
+            @calculated_absolute_args = true
+          end
+          paint_event.gc.send(@method_name, *@absolute_args)
           paint_children(paint_event)
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
@@ -486,9 +483,14 @@ module Glimmer
             []
           end
         end
+        
+        def parent_shape_absolute_location_changed?
+          (parent.is_a?(Shape) && (parent.absolute_x != @parent_absolute_x || parent.absolute_y != @parent_absolute_y))
+        end
                 
         # args translated to absolute coordinates
         def absolute_args
+          return @args if !default_x? && !default_y? && @x_delta == 0 && @y_delta == 0 && parent.is_a?(Drawable)
           @perform_redraw = false
           original_x = nil
           original_y = nil
@@ -500,15 +502,17 @@ module Glimmer
             original_y = y
             self.y = default_y
           end
-          move_by(x_delta, y_delta)
+          move_by(@x_delta, @y_delta)
           if parent.is_a?(Shape)
+            @parent_absolute_x = parent.absolute_x
+            @parent_absolute_y = parent.absolute_y
             move_by(parent.absolute_x, parent.absolute_y)
             calculated_absolute_args = @args.clone
             move_by(-1*parent.absolute_x, -1*parent.absolute_y)
           else
             calculated_absolute_args = @args.clone
           end
-          move_by(-1*x_delta, -1*y_delta)
+          move_by(-1*@x_delta, -1*@y_delta)
           if original_x
             self.x = original_x
           end
@@ -545,7 +549,7 @@ module Glimmer
         
         def absolute_x
           x = default_x? ? default_x : self.x
-          x += x_delta
+          x += @x_delta
           if parent.is_a?(Shape)
             parent.absolute_x + x
           else
@@ -555,7 +559,7 @@ module Glimmer
         
         def absolute_y
           y = default_y? ? default_y : self.y
-          y += y_delta
+          y += @y_delta
           if parent.is_a?(Shape)
             parent.absolute_y + y
           else

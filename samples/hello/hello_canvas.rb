@@ -53,6 +53,18 @@ class HelloCanvas
         }
         rectangle(205, 50, 88, 96) {
           foreground :yellow
+          3.times { |n|
+            line(45, 70 + n*10, 65 + n*10, 30 + n*10) {
+              foreground :yellow
+            }
+          }
+          10.times {|n|
+            point(15 + n*5, 50 + n*5) {
+              foreground :yellow
+            }
+          }
+          polyline(45, 60, 55, 20, 65, 60, 85, 80, 45, 60)
+          image(@image_object, 0, 5)
         }
         text('Picasso', 60, 80) {
           background :yellow
@@ -69,18 +81,6 @@ class HelloCanvas
         polygon(250, 210, 260, 170, 270, 210, 290, 230) {
           background :dark_yellow
         }
-        polyline(250, 110, 260, 70, 270, 110, 290, 130, 250, 110)
-        3.times { |n|
-          line(250, 120 + n*10, 270 + n*10, 80 + n*10) {
-            foreground :yellow
-          }
-        }
-        10.times {|n|
-          point(220 + n*5, 100 + n*5) {
-            foreground :yellow
-          }
-        }
-        image(@image_object, 205, 55)
       
         menu {
           menu_item {

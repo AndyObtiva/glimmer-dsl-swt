@@ -46,6 +46,10 @@ module Glimmer
             [:x1, :y1, :x2, :y2]
           end
           
+          def location_parameter_names
+            parameter_names
+          end
+          
           # Logical x coordinate. Always assumes the first point in the line to be the x coordinate.
           def x
             x1
@@ -74,7 +78,7 @@ module Glimmer
           
           def absolute_x2
             if parent.is_a?(Shape)
-              parent.absolute_x2 + x2
+              parent.absolute_x + x2
             else
               x2
             end
