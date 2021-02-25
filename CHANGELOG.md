@@ -3,6 +3,7 @@
 ### 4.18.5.3
 
 - Support nesting shapes within shapes, with relative positioning (meaning x, y coordinates are assumed relative to parent's x, y in nested shapes)
+- Support passing x, y coordinates as :default (or nil or not passed in if they are the last args) in all shapes, meaning they are centered within parent taking their width and height into account
 
 ### 4.18.5.2
 

@@ -78,12 +78,30 @@ module Glimmer
             dest_height || image.bounds.height
           end
           
+          def default_x?
+            super ||
+              current_parameter_name?('dest_x') && (dest_x.nil? || dest_x.to_s == 'default')
+          end
+          
+          def default_y?
+            super ||
+              current_parameter_name?('dest_y') && (dest_y.nil? || dest_y.to_s == 'default')
+          end
+          
           def move_by(x_delta, y_delta)
-            if dest_x
+            if default_x?
+              self.x_delta += x_delta
+            elsif dest_x
               self.dest_x += x_delta
-              self.dest_y += y_delta
             else
               self.x += x_delta
+            end
+            
+            if default_y?
+              self.y_delta += y_delta
+            elsif dest_y
+              self.dest_y += y_delta
+            else
               self.y += y_delta
             end
           end

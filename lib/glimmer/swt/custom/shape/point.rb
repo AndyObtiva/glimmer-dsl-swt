@@ -42,11 +42,6 @@ module Glimmer
             x.to_i.between?(self.absolute_x.to_i - 2, self.absolute_x.to_i + 2) && y.to_i.between?(self.absolute_y.to_i - 2, self.absolute_y.to_i + 2)
           end
           alias contain? include?
-          
-          def move_by(x_delta, y_delta)
-            self.x += x_delta
-            self.y += y_delta
-          end
         end
       end
     end

@@ -99,6 +99,7 @@ module Glimmer
         end
         
         attr_reader :drawable, :parent, :name, :args, :options, :shapes
+        attr_accessor :x_delta, :y_delta
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -109,6 +110,8 @@ module Glimmer
           @args = args
           @properties = {}
           @shapes = [] # nested shapes
+          @x_delta = 0
+          @y_delta = 0
           @options.reject {|key, value| %w[fill gradient round].include?(key.to_s)}.each do |property, property_args|
             @properties[property] = property_args
           end
@@ -164,7 +167,31 @@ module Glimmer
         # provdies a default implementation that assumes moving x and y is sufficient by default (not for polygons though, which must override)
         def move_by(x_delta, y_delta)
           if respond_to?(:x) && respond_to?(:y) && x && y
+            if default_x?
+              self.x_delta += x_delta
+            else
+              self.x += x_delta
+            end
+            if default_y?
+              self.y_delta += y_delta
+            else
+              self.y += y_delta
+            end
+          end
+        end
+        
+        def change_x(x_delta)
+          if default_x?
+            self.x_delta += x_delta
+          else
             self.x += x_delta
+          end
+        end
+        
+        def change_y(x_delta)
+          if default_y?
+            self.y_delta += y_delta
+          else
             self.y += y_delta
           end
         end
@@ -276,11 +303,11 @@ module Glimmer
           end
           if @name.include?('image')
             @drawable.requires_shape_disposal = true
-            if @args.size == 1
-              @args[1] = 0
-              @args[2] = 0
-            end
           end
+          self.x = :default if current_parameter_name?(:x) && x.nil?
+          self.y = :default if current_parameter_name?(:y) && y.nil?
+          self.dest_x = :default if current_parameter_name?(:dest_x) && dest_x.nil?
+          self.dest_y = :default if current_parameter_name?(:dest_y) && dest_y.nil?
         end
                 
         # Tolerates shape extra args added by user by mistake
@@ -321,6 +348,10 @@ module Glimmer
         
         def parameter_name?(attribute_name)
           possible_parameter_names.map(&:to_s).include?(ruby_attribute_getter(attribute_name))
+        end
+        
+        def current_parameter_name?(attribute_name)
+          parameter_names.map(&:to_s).include?(ruby_attribute_getter(attribute_name))
         end
         
         def parameter_index(attribute_name)
@@ -446,17 +477,61 @@ module Glimmer
                 
         # args translated to absolute coordinates
         def absolute_args
+          original_x = nil
+          original_y = nil
+          if default_x?
+            original_x = x
+            self.x = default_x
+          end
+          if default_y?
+            original_y = y
+            self.y = default_y
+          end
+          move_by(x_delta, y_delta)
           if parent.is_a?(Shape)
             move_by(parent.absolute_x, parent.absolute_y)
             calculated_absolute_args = @args.clone
             move_by(-1*parent.absolute_x, -1*parent.absolute_y)
-            calculated_absolute_args
           else
-            @args
+            calculated_absolute_args = @args.clone
+          end
+          move_by(-1*x_delta, -1*y_delta)
+          if original_x
+            self.x = original_x
+          end
+          if original_y
+            self.y = original_y
+          end
+          calculated_absolute_args
+        end
+        
+        def default_x?
+          current_parameter_name?('x') && (x.nil? || x.to_s == 'default')
+        end
+        
+        def default_y?
+          current_parameter_name?('y') && (y.nil? || y.to_s == 'default')
+        end
+        
+        def default_x
+          if respond_to?(:width) && width && parent.respond_to?(:width) && parent.width
+            (parent.width - width) / 2
+          else
+            0
+          end
+        end
+        
+        def default_y
+          if respond_to?(:height) && height && parent.respond_to?(:height) && parent.height
+            (parent.height - height) / 2
+          else
+            0
           end
         end
         
         def absolute_x
+          x = default_x? ? default_x : self.x
+          x += x_delta
           if parent.is_a?(Shape)
             parent.absolute_x + x
           else
@@ -465,6 +540,8 @@ module Glimmer
         end
         
         def absolute_y
+          y = default_y? ? default_y : self.y
+          y += y_delta
           if parent.is_a?(Shape)
             parent.absolute_y + y
           else

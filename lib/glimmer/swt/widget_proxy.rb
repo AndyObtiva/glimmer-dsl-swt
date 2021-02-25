@@ -291,6 +291,22 @@ module Glimmer
           @swt_widget.removeControlListener(listener.swt_listener)
         end
       end
+      
+      def x
+        bounds.x
+      end
+
+      def y
+        bounds.y
+      end
+      
+      def width
+        bounds.width
+      end
+
+      def height
+        bounds.height
+      end
 
       # these work in tandem with the property_type_converters
       # sometimes, they are specified in subclasses instead

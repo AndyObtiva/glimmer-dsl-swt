@@ -4,9 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support passing x, y coordinates in all shapes as :centered
-- Supporting passing x, y coordinates as :default (or nil or not passed in if they are the last args) in all shapes, meaning they are centered within parent taking their width and height into account
-- Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes or otherwise defaulting to full parent width and height
+- Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes, text/string extent, or otherwise defaulting to 0, 0
 - Support x_delta, y_delta, width_delta, height_delta attributes, which add/subtract from defaults used for shape (specifying any of them automatically sets :default also for coordinates or dimensions)
 - Support nesting text within Rectangle, which enables not specifying width and height for rectangle as it is autocalculated from text extent, or otherwise if specified, then center text within Rectangle. Also, text would not need coordinates, but if specified, assume they are relative to its original/centered location in relation to the rectangle.
 ```ruby
