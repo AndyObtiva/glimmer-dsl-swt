@@ -118,6 +118,19 @@ module Glimmer
         
         def add_shape(shape)
           @shapes << shape
+          # TODO the following is not good enough in notifying parent since it depends on the child extent being calculated for text shapes
+          calculated_args_changed_for_default_size!
+          if default_width? || default_height?
+            @calculated_args = nil
+            if shape.name == 'text' && self.name == 'rectangle'
+              pd 'yell'
+              @yell = true
+            end
+            if @content_added && perform_redraw && !drawable.is_disposed
+              # TODO consider redrawing an image proxy's gc in the future
+              drawable.redraw unless drawable.is_a?(ImageProxy)
+            end
+          end
         end
         
         def draw?
@@ -140,12 +153,12 @@ module Glimmer
         
         # The bounding box top-left x, y, width, height in absolute positioning
         def bounds
-          org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, width, height)
+          org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, calculated_width, calculated_height)
         end
         
         # The bounding box width and height (as a Point object with x being width and y being height)
         def size
-          org.eclipse.swt.graphics.Point.new(width, height)
+          org.eclipse.swt.graphics.Point.new(calculated_width, calculated_height)
         end
         
         # Returns if shape contains a point
@@ -153,7 +166,7 @@ module Glimmer
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def contain?(x, y)
           # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
-          x.between?(self.absolute_x, self.absolute_x + width) && y.between?(self.absolute_y, self.absolute_y + height)
+          x.between?(self.absolute_x, self.absolute_x + calculated_width) && y.between?(self.absolute_y, self.absolute_y + calculated_height)
         end
         
         # Returns if shape includes a point. When the shape is filled, this is the same as contain. When the shape is drawn, it only returns true if the point lies on the edge (boundary/border)
@@ -283,6 +296,8 @@ module Glimmer
           self.y = :default if current_parameter_name?(:y) && y.nil?
           self.dest_x = :default if current_parameter_name?(:dest_x) && dest_x.nil?
           self.dest_y = :default if current_parameter_name?(:dest_y) && dest_y.nil?
+          self.width = :default if current_parameter_name?(:width) && width.nil?
+          self.height = :default if current_parameter_name?(:height) && height.nil?
           if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
             (6 - @args.size).times {@args << 60}
           elsif @name.include?('rectangle') && gradient? && @args.size == 4
@@ -358,7 +373,7 @@ module Glimmer
             parameter_name?(attribute_name) or
             (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
         end
-  
+        
         def set_attribute(attribute_name, *args)
           options = args.last if args.last.is_a?(Hash)
           perform_redraw = @perform_redraw
@@ -374,8 +389,11 @@ module Glimmer
           if @content_added && perform_redraw && !drawable.is_disposed
             @calculated_paint_args = false
             attribute_name = ruby_attribute_getter(attribute_name)
-            @calculated_absolute_args = false if (location_parameter_names.map(&:to_s) + ['x_delta', 'y_delta']).include?(attribute_name)
-
+            @calculated_args = nil if location_parameter_names.map(&:to_s).include?(attribute_name)
+            if ['width', 'height'].include?(attribute_name)
+              calculated_args_changed_for_default_size!
+              parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
+            end
             # TODO consider redrawing an image proxy's gc in the future
             drawable.redraw unless drawable.is_a?(ImageProxy)
           end
@@ -458,11 +476,10 @@ module Glimmer
             end
           end
           self.extent = paint_event.gc.send("#{@name}Extent", *(([string, flags] if respond_to?(:flags)).compact)) if ['text', 'string'].include?(@name)
-          if !@calculated_absolute_args || parent_shape_absolute_location_changed?
-            @absolute_args = absolute_args
-            @calculated_absolute_args = true
+          if !@calculated_args || parent_shape_absolute_location_changed?
+            @calculated_args = calculated_args
           end
-          paint_event.gc.send(@method_name, *@absolute_args)
+          paint_event.gc.send(@method_name, *@calculated_args)
           paint_children(paint_event)
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
@@ -488,10 +505,14 @@ module Glimmer
         def parent_shape_absolute_location_changed?
           (parent.is_a?(Shape) && (parent.absolute_x != @parent_absolute_x || parent.absolute_y != @parent_absolute_y))
         end
+        
+        def calculated_args_changed_for_default_size!
+          @calculated_args = nil if default_width? || default_height?
+        end
                 
         # args translated to absolute coordinates
-        def absolute_args
-          return @args if !default_x? && !default_y? && parent.is_a?(Drawable)
+        def calculated_args
+          return @args if !default_x? && !default_y? && !default_width? && !default_height? && parent.is_a?(Drawable)
           # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
           # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
           # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
@@ -499,6 +520,8 @@ module Glimmer
           @perform_redraw = false
           original_x = nil
           original_y = nil
+          original_width = nil
+          original_height = nil
           if default_x?
             original_x = x
             self.x = default_x + default_x_delta
@@ -507,14 +530,22 @@ module Glimmer
             original_y = y
             self.y = default_y + default_y_delta
           end
+          if default_width?
+            original_width = width
+            self.width = default_width + default_width_delta
+          end
+          if default_height?
+            original_height = height
+            self.height = default_height + default_height_delta
+          end
           if parent.is_a?(Shape)
             @parent_absolute_x = parent.absolute_x
             @parent_absolute_y = parent.absolute_y
             move_by(parent.absolute_x, parent.absolute_y)
-            calculated_absolute_args = @args.clone
+            result_args = @args.clone
             move_by(-1*parent.absolute_x, -1*parent.absolute_y)
           else
-            calculated_absolute_args = @args.clone
+            result_args = @args.clone
           end
           if original_x
             self.x = original_x
@@ -522,8 +553,14 @@ module Glimmer
           if original_y
             self.y = original_y
           end
+          if original_width
+            self.width = original_width
+          end
+          if original_height
+            self.height = original_height
+          end
           @perform_redraw = true
-          calculated_absolute_args
+          result_args
         end
         
         def default_x?
@@ -534,12 +571,36 @@ module Glimmer
           current_parameter_name?('y') && (y.nil? || y.to_s == 'default' || y.respond_to?(:first) && y.first.to_s == 'default')
         end
         
+        def default_width?
+          current_parameter_name?('width') && (width.nil? || width.to_s == 'default' || width.respond_to?(:first) && width.first.to_s == 'default')
+        end
+        
+        def default_height?
+          current_parameter_name?('height') && (height.nil? || height.to_s == 'default' || height.respond_to?(:first) && height.first.to_s == 'default')
+        end
+        
         def default_x
           ((parent.size.x - size.x) / 2) + parent.bounds.x - parent.absolute_x
         end
         
         def default_y
           ((parent.size.y - size.y) / 2) + parent.bounds.y - parent.absolute_y
+        end
+        
+        def default_width
+          pd shapes.first&.width.to_f
+        end
+        
+        def default_height
+          shapes.first&.height.to_f
+        end
+        
+        def calculated_width
+          default_width? ? default_width : width
+        end
+        
+        def calculated_height
+          default_height? ? default_height : height
         end
         
         def default_x_delta
@@ -552,6 +613,16 @@ module Glimmer
           y[1].to_f
         end
         
+        def default_width_delta
+          return 0 unless default_width? && width.is_a?(Array)
+          width[1].to_f
+        end
+        
+        def default_height_delta
+          return 0 unless default_height? && height.is_a?(Array)
+          height[1].to_f
+        end
+        
         def default_x_delta=(delta)
           return unless default_x?
           self.x = [:default, delta]
@@ -560,6 +631,16 @@ module Glimmer
         def default_y_delta=(delta)
           return unless default_y?
           self.y = [:default, delta]
+        end
+        
+        def default_width_delta=(delta)
+          return unless default_width?
+          self.width = [:default, delta]
+        end
+        
+        def default_height_delta=(delta)
+          return unless default_height?
+          self.height = [:default, delta]
         end
         
         def absolute_x

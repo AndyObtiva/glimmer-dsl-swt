@@ -39,7 +39,7 @@ module Glimmer
           
           # checks if shape contains the point denoted by x and y
           def contain?(x, y)
-            shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x, self.absolute_y, width, height)
+            shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x, self.absolute_y, calculated_width, calculated_height)
             shape_geometry.contains(x, y)
           end
           
@@ -49,8 +49,8 @@ module Glimmer
               contain?(x, y)
             else
               # give it some fuzz to allow a larger region around the drawn oval to accept including a point (helps with mouse clickability on a shape)
-              outer_shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x - 3, self.absolute_y - 3, width + 6, height + 6)
-              inner_shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x + 3, self.absolute_y + 3, width - 6, height - 6)
+              outer_shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x - 3, self.absolute_y - 3, calculated_width + 6, calculated_height + 6)
+              inner_shape_geometry = java.awt.geom.Ellipse2D::Double.new(self.absolute_x + 3, self.absolute_y + 3, calculated_width - 6, calculated_height - 6)
               outer_shape_geometry.contains(x, y) && !inner_shape_geometry.contains(x, y)
             end
           end

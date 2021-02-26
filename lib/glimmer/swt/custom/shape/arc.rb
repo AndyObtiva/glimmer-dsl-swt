@@ -48,7 +48,7 @@ module Glimmer
           end
           
           def geometry
-            java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, width, height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+            java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, calculated_width, calculated_height, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
           end
             
           # checks if shape contains the point denoted by x and y
@@ -61,8 +61,8 @@ module Glimmer
               contain?(x, y)
             else
               # give it some fuzz to allow a larger region around the drawn oval to accept including a point (helps with mouse clickability on a shape)
-              outer_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, width + 3, height + 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
-              inner_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, width - 3, height - 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+              outer_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, calculated_width + 3, calculated_height + 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
+              inner_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, calculated_width - 3, calculated_height - 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
               outer_shape_geometry.contains(x, y) && !inner_shape_geometry.contains(x, y)
             end
           end

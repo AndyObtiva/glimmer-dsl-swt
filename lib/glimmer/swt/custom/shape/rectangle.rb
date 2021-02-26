@@ -81,11 +81,11 @@ module Glimmer
           end
           
           def point_xy_array
-            [[x, y], [x + width, y], [x + width, y + height], [x, y + height]]
+            [[x, y], [x + calculated_width, y], [x + calculated_width, y + calculated_height], [x, y + calculated_height]]
           end
           
           def absolute_point_xy_array
-            [[absolute_x, absolute_y], [absolute_x + width, absolute_y], [absolute_x + width, absolute_y + height], [absolute_x, absolute_y + height]]
+            [[absolute_x, absolute_y], [absolute_x + calculated_width, absolute_y], [absolute_x + calculated_width, absolute_y + calculated_height], [absolute_x, absolute_y + calculated_height]]
           end
           
           # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the edge)

@@ -63,9 +63,14 @@ class HelloCanvas
             image(@image_object, 0, 5)
           }
         }
-        rectangle(150, 200, 100, 70, true) {
+#         rectangle(150, 200, 100, 70, true) {
+#           background :dark_magenta
+#           foreground :yellow
+#         }
+        rectangle(150, 200, :default, :default, true) {
           background :dark_magenta
           foreground :yellow
+          text 'Fantastico'
         }
         rectangle(50, 200, 30, 70, false) {
           background :magenta

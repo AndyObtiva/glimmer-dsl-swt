@@ -102,12 +102,12 @@ module Glimmer
             java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
           end
           
-          # Logical x coordinate. Always assumes the first point in the polygon to be the x coordinate.
+          # Logical x coordinate
           def x
             bounds.x
           end
            
-          # Logical y coordinate. Always assumes the first point in the polygon to be the y coordinate.
+          # Logical y coordinate
           def y
             bounds.y
           end
