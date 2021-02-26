@@ -34,6 +34,7 @@ module Glimmer
       class Shape
         class Rectangle < Shape
           def parameter_names
+            # TODO consider optimizing just like text where it is set upon updating attribute and here you just return a variable
             if @args.to_a.size >= 6
               rectangle_round_parameter_names
             elsif @args.to_a.size == 5

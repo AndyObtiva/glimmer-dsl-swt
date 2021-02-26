@@ -350,11 +350,11 @@ module Glimmer
         end
         
         def current_parameter_name?(attribute_name)
-          parameter_names.map(&:to_s).include?(ruby_attribute_getter(attribute_name))
+          parameter_names.include?(attribute_name.to_s.to_sym)
         end
         
         def parameter_index(attribute_name)
-          parameter_names.map(&:to_s).index(attribute_name.to_s)
+          parameter_names.index(attribute_name.to_s.to_sym)
         end
         
         def set_parameter_attribute(attribute_name, *args)
@@ -601,19 +601,25 @@ module Glimmer
         end
         
         def default_x?
-          current_parameter_name?('x') && (x.nil? || x.to_s == 'default' || x.respond_to?(:first) && x.first.to_s == 'default')
+          current_parameter_name?(:x) and
+            (x.nil? || x.to_s == 'default' || (x.is_a?(Array) && x.first.to_s == 'default'))
         end
         
         def default_y?
-          current_parameter_name?('y') && (y.nil? || y.to_s == 'default' || y.respond_to?(:first) && y.first.to_s == 'default')
+          current_parameter_name?(:y) and
+            (y.nil? || y.to_s == 'default' || (y.is_a?(Array) && y.first.to_s == 'default'))
         end
         
         def default_width?
-          current_parameter_name?('width') && (width.nil? || width.to_s == 'default' || width.respond_to?(:first) && width.first.to_s == 'default')
+          return false unless current_parameter_name?(:width)
+          width = self.width
+          (width.nil? || width == :default || width == 'default' || (width.is_a?(Array) && (width.first.to_s == :default || width.first.to_s == 'default')))
         end
         
         def default_height?
-          current_parameter_name?('height') && (height.nil? || height.to_s == 'default' || height.respond_to?(:first) && height.first.to_s == 'default')
+          return false unless current_parameter_name?(:height)
+          height = self.height
+          (height.nil? || height == :default || height == 'default' || (height.is_a?(Array) && (height.first.to_s == :default || height.first.to_s == 'default')))
         end
         
         def default_x
@@ -732,8 +738,7 @@ module Glimmer
         def inspect
           "#<#{self.class.name}:0x#{self.hash.to_s(16)} args=#{@args.inspect}, properties=#{@properties.inspect}}>"
         rescue => e
-          puts 'err'
-          ''
+          "#<#{self.class.name}:0x#{self.hash.to_s(16)}"
         end
         
         def calculate_paint_args!

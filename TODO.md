@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support special case of centering a nested shape with default x/y within a parent with default width/height calculated from nested shape
 - Support special case with default sizing (width/height) not accomodating nested shapes with a shifted x/y coordinate, thus sticking out
+- Polygon `include?` does an outer/inner check of edge detection only
 
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 - Canvas support a Path DSL for methods that take Path arguments

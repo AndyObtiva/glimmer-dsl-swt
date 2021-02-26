@@ -89,17 +89,32 @@ module Glimmer
           end
           
           def bounds
-            shape_bounds = geometry.getBounds2D
-            org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+            the_point_array = point_array
+            if the_point_array != @bounds_point_array
+              @bounds_point_array = point_array
+              shape_bounds = geometry.getBounds2D
+              @bounds = org.eclipse.swt.graphics.Rectangle.new(shape_bounds.x, shape_bounds.y, shape_bounds.width, shape_bounds.height)
+            end
+            @bounds
           end
           
           def size
-            shape_bounds = geometry.getBounds2D
-            org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+            the_point_array = point_array
+            if the_point_array != @size_point_array
+              @size_point_array = point_array
+              shape_bounds = geometry.getBounds2D
+              @size = org.eclipse.swt.graphics.Point.new(shape_bounds.width, shape_bounds.height)
+            end
+            @size
           end
           
           def geometry
-            java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
+            the_point_array = point_array
+            if the_point_array != @geometry_point_array
+              @geometry_point_array = point_array
+              @geometry = java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
+            end
+            @geometry
           end
           
           # Logical x coordinate relative to parent

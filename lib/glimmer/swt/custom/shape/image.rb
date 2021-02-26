@@ -80,12 +80,12 @@ module Glimmer
           
           def default_x?
             super ||
-              current_parameter_name?('dest_x') && (dest_x.nil? || dest_x.to_s == 'default')
+              current_parameter_name?(:dest_x) && (dest_x.nil? || dest_x.to_s == 'default')
           end
           
           def default_y?
             super ||
-              current_parameter_name?('dest_y') && (dest_y.nil? || dest_y.to_s == 'default')
+              current_parameter_name?(:dest_y) && (dest_y.nil? || dest_y.to_s == 'default')
           end
           
           def move_by(x_delta, y_delta)
