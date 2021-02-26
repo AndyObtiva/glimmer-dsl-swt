@@ -33,8 +33,6 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         class Text < Shape
-          attr_accessor :extent
-        
           def parameter_names
             @parameter_names || text_parameter_names
           end
@@ -69,11 +67,11 @@ module Glimmer
           end
           
           def width
-            extent&.x
+            @extent&.x
           end
           
           def height
-            extent&.y
+            @extent&.y
           end
           
         end

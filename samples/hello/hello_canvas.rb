@@ -25,9 +25,20 @@ class HelloCanvas
   include Glimmer::UI::CustomShell
   
   attr_accessor :selected_shape
+  attr_accessor :artist
   
   before_body {
     @image_object = image(File.expand_path('../../icons/scaffold_app.png', __dir__), width: 50)
+    @artist = ''
+  }
+  
+  after_body {
+    Thread.new {
+      'Picasso'.chars.each do |character|
+        sleep(1)
+        self.artist += character
+      end
+    }
   }
   
   body {
@@ -42,10 +53,16 @@ class HelloCanvas
         }
         rectangle(50, 20, 300, 150, 30, 50) {
           background :magenta
-          text('Picasso', [:default, -70], :default) {
-            background :yellow
-            foreground :dark_magenta
-            font name: 'Courier', height: 30
+          rectangle([:default, -70], :default, :default, [:default, 1]) {
+            foreground :cyan
+            text {
+              x :default, 1
+              # y is assumed to be the default (centered within parent)
+              string bind(self, :artist)
+              background :yellow
+              foreground :dark_magenta
+              font name: 'Courier', height: 30
+            }
           }
           rectangle(155, 30, 88, 96) {
             foreground :yellow
@@ -63,14 +80,9 @@ class HelloCanvas
             image(@image_object, 0, 5)
           }
         }
-#         rectangle(150, 200, 100, 70, true) {
-#           background :dark_magenta
-#           foreground :yellow
-#         }
-        rectangle(150, 200, :default, :default, true) {
+        rectangle(150, 200, 100, 70, true) {
           background :dark_magenta
           foreground :yellow
-          text 'Fantastico'
         }
         rectangle(50, 200, 30, 70, false) {
           background :magenta

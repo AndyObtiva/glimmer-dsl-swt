@@ -580,6 +580,10 @@ Hello, Canvas! Colors Changed
 
 ![Hello Canvas Colors Changed](/images/glimmer-hello-canvas-colors-changed.png)
 
+Hello, Canvas! Data-Binding (changing a `text` shape `string` via multi-threaded data-binding)
+
+![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.gif)
+
 #### Hello, Canvas Animation!
 
 This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.

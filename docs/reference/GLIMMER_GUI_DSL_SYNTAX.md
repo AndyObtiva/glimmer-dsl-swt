@@ -36,6 +36,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
   - [Layouts](#layouts)
   - [Layout Data](#layout-data)
   - [Canvas Shape DSL](#canvas-shape-dsl)
+    - [Shapes inside a Shape](#shapes-inside-a-shape)
     - [Shapes inside a Widget](#shapes-inside-a-widget)
     - [Shapes inside an Image](#shapes-inside-an-image)
     - [Canvas Shape API](#canvas-shape-api)

@@ -99,6 +99,7 @@ module Glimmer
         end
         
         attr_reader :drawable, :parent, :name, :args, :options, :shapes
+        attr_accessor :extent
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -118,19 +119,7 @@ module Glimmer
         
         def add_shape(shape)
           @shapes << shape
-          # TODO the following is not good enough in notifying parent since it depends on the child extent being calculated for text shapes
           calculated_args_changed_for_default_size!
-          if default_width? || default_height?
-            @calculated_args = nil
-            if shape.name == 'text' && self.name == 'rectangle'
-              pd 'yell'
-              @yell = true
-            end
-            if @content_added && perform_redraw && !drawable.is_disposed
-              # TODO consider redrawing an image proxy's gc in the future
-              drawable.redraw unless drawable.is_a?(ImageProxy)
-            end
-          end
         end
         
         def draw?
@@ -159,6 +148,10 @@ module Glimmer
         # The bounding box width and height (as a Point object with x being width and y being height)
         def size
           org.eclipse.swt.graphics.Point.new(calculated_width, calculated_height)
+        end
+        
+        def extent
+          @extent || size
         end
         
         # Returns if shape contains a point
@@ -301,9 +294,9 @@ module Glimmer
           if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
             (6 - @args.size).times {@args << 60}
           elsif @name.include?('rectangle') && gradient? && @args.size == 4
-            @args << true # vertical is true by default
+            set_attribute('vertical', true, redraw: false)
           elsif (@name.include?('text') || @name.include?('string')) && !@properties.keys.map(&:to_s).include?('background') && @args.size < 4
-            @args << true # is_transparent is true by default
+            set_attribute('is_transparent', true, redraw: false)
           end
           if @name.include?('image')
             @drawable.requires_shape_disposal = true
@@ -376,6 +369,7 @@ module Glimmer
         
         def set_attribute(attribute_name, *args)
           options = args.last if args.last.is_a?(Hash)
+          args.pop if !options.nil? && !options[:redraw].nil?
           perform_redraw = @perform_redraw
           perform_redraw = options[:redraw] if perform_redraw.nil? && !options.nil?
           perform_redraw = true if perform_redraw.nil?
@@ -392,7 +386,6 @@ module Glimmer
             @calculated_args = nil if location_parameter_names.map(&:to_s).include?(attribute_name)
             if ['width', 'height'].include?(attribute_name)
               calculated_args_changed_for_default_size!
-              parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
             end
             # TODO consider redrawing an image proxy's gc in the future
             drawable.redraw unless drawable.is_a?(ImageProxy)
@@ -466,6 +459,7 @@ module Glimmer
         end
                 
         def paint(paint_event)
+          @painting = true
           calculate_paint_args!
           @properties.each do |property, args|
             method_name = attribute_setter(property)
@@ -475,20 +469,37 @@ module Glimmer
               args.first.swt_transform.dispose
             end
           end
-          self.extent = paint_event.gc.send("#{@name}Extent", *(([string, flags] if respond_to?(:flags)).compact)) if ['text', 'string'].include?(@name)
+          ensure_extent(paint_event)
           if !@calculated_args || parent_shape_absolute_location_changed?
             @calculated_args = calculated_args
           end
-          paint_event.gc.send(@method_name, *@calculated_args)
+          paint_event.gc.send(@method_name, *@calculated_args) unless parent.is_a?(Shape) && !parent.calculated_args?
+          @painting = false
           paint_children(paint_event)
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
           Glimmer::Config.logger.error {e.full_message}
+        ensure
+          @painting = false
         end
         
         def paint_children(paint_event)
           shapes.to_a.each do |shape|
             shape.paint(paint_event)
+          end
+        end
+        
+        def ensure_extent(paint_event)
+          old_extent = @extent
+          if ['text', 'string'].include?(@name)
+            extent_args = [string]
+            extent_flags = SWTProxy[:draw_transparent] if current_parameter_name?(:is_transparent) && is_transparent
+            extent_flags = flags if current_parameter_name?(:flags)
+            extent_args << extent_flags unless extent_flags.nil?
+            self.extent = paint_event.gc.send("#{@name}Extent", *extent_args)
+          end
+          if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y)
+            parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
           end
         end
         
@@ -508,6 +519,16 @@ module Glimmer
         
         def calculated_args_changed_for_default_size!
           @calculated_args = nil if default_width? || default_height?
+          if parent.is_a?(Shape)
+            parent.calculated_args_changed_for_default_size!
+          elsif @content_added && !drawable.is_disposed
+            # TODO consider optimizing in the future if needed by ensuring one redraw for all parents in the hierarchy at the end instead of doing one per parent that needs it
+            drawable.redraw if !@painting && !drawable.is_a?(ImageProxy)
+          end
+        end
+        
+        def calculated_args?
+          !!@calculated_args
         end
                 
         # args translated to absolute coordinates
@@ -522,14 +543,6 @@ module Glimmer
           original_y = nil
           original_width = nil
           original_height = nil
-          if default_x?
-            original_x = x
-            self.x = default_x + default_x_delta
-          end
-          if default_y?
-            original_y = y
-            self.y = default_y + default_y_delta
-          end
           if default_width?
             original_width = width
             self.width = default_width + default_width_delta
@@ -537,6 +550,14 @@ module Glimmer
           if default_height?
             original_height = height
             self.height = default_height + default_height_delta
+          end
+          if default_x?
+            original_x = x
+            self.x = default_x + default_x_delta
+          end
+          if default_y?
+            original_y = y
+            self.y = default_y + default_y_delta
           end
           if parent.is_a?(Shape)
             @parent_absolute_x = parent.absolute_x
@@ -588,11 +609,11 @@ module Glimmer
         end
         
         def default_width
-          pd shapes.first&.width.to_f
+          shapes.first&.calculated_width.to_f
         end
         
         def default_height
-          shapes.first&.height.to_f
+          shapes.first&.calculated_height.to_f
         end
         
         def calculated_width
@@ -661,6 +682,14 @@ module Glimmer
           else
             y
           end
+        end
+        
+        # Overriding inspect to avoid printing very long shape hierarchies
+        def inspect
+          "#<#{self.class.name}:0x#{self.hash.to_s(16)} args=#{@args.inspect}, properties=#{@properties.inspect}}>"
+        rescue => e
+          puts 'err'
+          ''
         end
         
         def calculate_paint_args!
