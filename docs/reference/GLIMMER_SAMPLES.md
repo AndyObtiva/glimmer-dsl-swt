@@ -580,7 +580,7 @@ Hello, Canvas! Colors Changed
 
 ![Hello Canvas Colors Changed](/images/glimmer-hello-canvas-colors-changed.png)
 
-Hello, Canvas! Data-Binding (changing a `text` shape `string` via multi-threaded data-binding)
+Hello, Canvas! Data-Binding (changing a `text` shape `string` via data-binding changes from another thread)
 
 ![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.gif)
 

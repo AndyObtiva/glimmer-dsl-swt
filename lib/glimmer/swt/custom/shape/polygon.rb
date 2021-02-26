@@ -102,14 +102,26 @@ module Glimmer
             java.awt.Polygon.new(absolute_x_array.to_java(:int), absolute_y_array.to_java(:int), point_count)
           end
           
-          # Logical x coordinate
+          # Logical x coordinate relative to parent
           def x
-            bounds.x
+            x_value = bounds.x
+            x_value -= parent.absolute_x if parent.is_a?(Shape)
+            x_value
           end
-           
-          # Logical y coordinate
+          
+          # Logical y coordinate relative to parent
           def y
-            bounds.y
+            y_value = bounds.y
+            y_value -= parent.absolute_y if parent.is_a?(Shape)
+            y_value
+          end
+          
+          def width
+            bounds.width
+          end
+          
+          def height
+            bounds.height
           end
           
           def include?(x, y)

@@ -4,10 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes, text/string extent, or otherwise defaulting to 0, 0
-- Support [:default, width_delta], [:default, height_delta] attributes for width and height, which add/subtract from defaults used for shape
-- Support default centering within Arc filled pie area only
-- Support default sizing of Arc containing text (or any shapes)
+- Support special case of centering a nested shape with default x/y within a parent with default width/height calculated from nested shape
+- Support special case with default sizing (width/height) not accomodating nested shapes with a shifted x/y coordinate, thus sticking out
 
 - Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
 - Canvas support a Path DSL for methods that take Path arguments
@@ -28,6 +26,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation supporting multiple parallel animations per canvas
 
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+- Flicker Free repaints of canvas shapes on data-binding changes (consider forms of regional clipping/caching/buffering)
 
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
@@ -406,6 +405,7 @@ items <=> binding {
 - Build image with a transparent background by default
 - Look into the idea of applying `transform` objects on any widget's rendering
 - Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
+- Support default sizing (default width/height) of Arc containing text (or any shapes)
 
 ## Samples
 

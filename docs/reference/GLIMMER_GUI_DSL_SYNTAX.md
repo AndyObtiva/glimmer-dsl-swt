@@ -1461,7 +1461,7 @@ shell {
       font height: 25, style: :bold
     }
     rectangle(200, 80, 108, 36) {
-      foreground :black
+      foreground rgb(0, 0, 0)
       line_width 3
     }
     image(image_object, 70, 50)
@@ -1507,7 +1507,7 @@ shell {
       font height: 25, style: :bold
     }
     rectangle(200, 80, 108, 36) {
-      foreground :black
+      foreground rgb(0, 0, 0)
       line_width 3
     }
     image(image_object, 70, 50)
@@ -1542,7 +1542,7 @@ shell {
     }
     rectangle {
       x 50
-      x 20
+      y 20
       width 300
       height 150
       arc_width 30
@@ -1597,23 +1597,26 @@ shell {
   minimum_size 320, 400
 
   canvas {
-    background :yellow
+    background :dark_yellow
     
     on_paint_control { |paint_event|
       gc = paint_event.gc
-      gc.background = color(:red).swt_color
+      
+      gc.background = color(:dark_red).swt_color
       gc.fill_rectangle(0, 0, 220, 400)
       
-      gc.background = color(:magenta).swt_color
-      gc.fill_roundRectangle(50, 20, 300, 150, 30, 50)
+      gc.background = color(:yellow).swt_color
+      gc.fill_round_rectangle(50, 20, 300, 150, 30, 50)
       
-      gc.background = color(:dark_magenta).swt_color
-      gc.fill_gradientRectangle(150, 200, 100, 70, true)
+      gc.background = color(:dark_red).swt_color
+      gc.foreground = color(:yellow).swt_color
+      gc.fill_gradient_rectangle(150, 200, 100, 70, true)
       
-      gc.foreground = color(:dark_blue).swt_color
-      gc.draw_rectangle(200, 80, 108, 36)
-      
+      gc.font = font(height: 25, style: :bold).swt_font
       gc.foreground = color(:black).swt_color
+      gc.draw_text('Glimmer', 208, 83, true)
+      
+      gc.foreground = rgb(0, 0, 0).swt_color
       gc.line_width = 3
       gc.draw_rectangle(200, 80, 108, 36)
       

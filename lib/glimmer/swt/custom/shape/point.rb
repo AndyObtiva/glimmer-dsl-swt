@@ -37,6 +37,14 @@ module Glimmer
             [:x, :y]
           end
           
+          def width
+            1
+          end
+          
+          def height
+            1
+          end
+          
           def include?(x, y)
             # give it some fuzz (helps makes mouse clicking easier)
             x.to_i.between?(self.absolute_x.to_i - 2, self.absolute_x.to_i + 2) && y.to_i.between?(self.absolute_y.to_i - 2, self.absolute_y.to_i + 2)

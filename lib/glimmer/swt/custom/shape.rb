@@ -459,6 +459,16 @@ module Glimmer
         end
                 
         def paint(paint_event)
+          paint_children(paint_event) if default_width? || default_height?
+          paint_self(paint_event)
+          shapes.each(&:calculated_args_changed!) if default_width? || default_height?
+          paint_children(paint_event)
+        rescue => e
+          Glimmer::Config.logger.error {"Error encountered in painting shape (#{self.inspect}) with calculated args (#{@calculated_args}) and args (#{@args})"}
+          Glimmer::Config.logger.error {e.full_message}
+        end
+        
+        def paint_self(paint_event)
           @painting = true
           calculate_paint_args!
           @properties.each do |property, args|
@@ -473,11 +483,11 @@ module Glimmer
           if !@calculated_args || parent_shape_absolute_location_changed?
             @calculated_args = calculated_args
           end
+          # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
           paint_event.gc.send(@method_name, *@calculated_args) unless parent.is_a?(Shape) && !parent.calculated_args?
           @painting = false
-          paint_children(paint_event)
         rescue => e
-          Glimmer::Config.logger.error {"Error encountered in painting shape: #{self.inspect}"}
+          Glimmer::Config.logger.error {"Error encountered in painting shape (#{self.inspect}) with calculated args (#{@calculated_args}) and args (#{@args})"}
           Glimmer::Config.logger.error {e.full_message}
         ensure
           @painting = false
@@ -515,6 +525,12 @@ module Glimmer
         
         def parent_shape_absolute_location_changed?
           (parent.is_a?(Shape) && (parent.absolute_x != @parent_absolute_x || parent.absolute_y != @parent_absolute_y))
+        end
+        
+        def calculated_args_changed!
+          # TODO add a children: true option to enable setting to false to avoid recalculating children args
+          @calculated_args = nil
+          shapes.each(&:calculated_args_changed!)
         end
         
         def calculated_args_changed_for_default_size!
@@ -601,19 +617,37 @@ module Glimmer
         end
         
         def default_x
-          ((parent.size.x - size.x) / 2) + parent.bounds.x - parent.absolute_x
+          result = ((parent.size.x - size.x) / 2)
+          result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape)
+          result
         end
         
         def default_y
-          ((parent.size.y - size.y) / 2) + parent.bounds.y - parent.absolute_y
+          result = ((parent.size.y - size.y) / 2)
+          result += parent.bounds.y - parent.absolute_y if parent.is_a?(Shape)
+          result
         end
         
         def default_width
-          shapes.first&.calculated_width.to_f
+          x_start_end_pairs = shapes.map do |shape|
+            shape_x = shape.default_x? ? 0 : shape.x.to_f
+            shape_width = shape.calculated_width.to_f
+            [shape_x, shape_x + shape_width]
+          end
+          min_x = x_start_end_pairs.map(&:first).min.to_f
+          max_x = x_start_end_pairs.map(&:last).max.to_f
+          max_x - min_x
         end
         
         def default_height
-          shapes.first&.calculated_height.to_f
+          y_start_end_pairs = shapes.map do |shape|
+            shape_y = shape.default_y? ? 0 : shape.y.to_f
+            shape_height = shape.calculated_height.to_f
+            [shape_y, shape_y + shape_height]
+          end
+          min_y = y_start_end_pairs.map(&:first).min.to_f
+          max_y = y_start_end_pairs.map(&:last).max.to_f
+          max_y - min_y
         end
         
         def calculated_width
@@ -664,9 +698,20 @@ module Glimmer
           self.height = [:default, delta]
         end
         
+        def calculated_x
+          result = default_x? ? default_x : self.x
+          result += default_x_delta
+          result
+        end
+        
+        def calculated_y
+          result = default_y? ? default_y : self.y
+          result += default_y_delta
+          result
+        end
+        
         def absolute_x
-          x = default_x? ? default_x : self.x
-          x += default_x_delta
+          x = calculated_x
           if parent.is_a?(Shape)
             parent.absolute_x + x
           else
@@ -675,8 +720,7 @@ module Glimmer
         end
         
         def absolute_y
-          y = default_y? ? default_y : self.y
-          y += default_y_delta
+          y = calculated_y
           if parent.is_a?(Shape)
             parent.absolute_y + y
           else

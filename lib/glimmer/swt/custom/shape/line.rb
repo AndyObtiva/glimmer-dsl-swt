@@ -64,14 +64,26 @@ module Glimmer
             java.awt.geom.Line2D::Double.new(absolute_x1, absolute_y1, absolute_x2, absolute_y2)
           end
           
-          # Logical x coordinate. Always assumes the first point in the line to be the x coordinate.
+          # Logical x coordinate relative to parent
           def x
-            bounds.x
+            x_value = bounds.x
+            x_value -= parent.absolute_x if parent.is_a?(Shape)
+            x_value
           end
           
-          # Logical y coordinate. Always assumes the first point in the line to be the y coordinate.
+          # Logical y coordinate relative to parent
           def y
-            bounds.y
+            y_value = bounds.y
+            y_value -= parent.absolute_y if parent.is_a?(Shape)
+            y_value
+          end
+          
+          def width
+            bounds.width
+          end
+          
+          def height
+            bounds.height
           end
           
           def absolute_x1

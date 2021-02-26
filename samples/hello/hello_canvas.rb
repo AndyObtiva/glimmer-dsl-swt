@@ -64,7 +64,7 @@ class HelloCanvas
               font name: 'Courier', height: 30
             }
           }
-          rectangle(155, 30, 88, 96) {
+          rectangle(155, 30) { # width and height are assumed to be the default (calculated from children)
             foreground :yellow
             3.times { |n|
               line(45, 70 + n*10, 65 + n*10, 30 + n*10) {
