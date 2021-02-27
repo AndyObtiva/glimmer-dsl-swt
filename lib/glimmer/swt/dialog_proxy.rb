@@ -52,6 +52,10 @@ module Glimmer
         def dialog_class(keyword)
           the_class = eval(keyword.camelcase(:upper))
           the_class if the_class.ancestors.include?(org.eclipse.swt.widgets.Dialog)
+        rescue => e
+          Glimmer::Config.logger.debug {"Dialog for keyword #{keyword} not found!"}
+          Glimmer::Config.logger.debug { e.full_message }
+          nil
         end
       end
 

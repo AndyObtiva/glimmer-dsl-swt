@@ -56,9 +56,9 @@ class HelloCanvas
           rectangle([:default, -70], :default, :default, [:default, 1]) {
             foreground :cyan
             text {
-              x :default, 1
-              # y is assumed to be the default (centered within parent)
               string bind(self, :artist)
+              x :default, 1 # add 1 pixel to default x (shape centered within parent horizontally)
+              y :default, 1 # add 1 pixel to default y (shape centered within parent vertically)
               background :yellow
               foreground :dark_magenta
               font name: 'Courier', height: 30

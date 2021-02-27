@@ -147,7 +147,7 @@ module Glimmer
         
         def add_shape(shape)
           @shapes << shape
-          calculated_args_changed_for_default_size!
+          calculated_args_changed_for_defaults!
         end
         
         def draw?
@@ -428,10 +428,10 @@ module Glimmer
             attribute_name = ruby_attribute_getter(attribute_name)
             if location_parameter_names.map(&:to_s).include?(attribute_name)
               @calculated_args = nil
-              parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
+              parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
             end
             if ['width', 'height'].include?(attribute_name)
-              calculated_args_changed_for_default_size!
+              calculated_args_changed_for_defaults!
             end
             # TODO consider redrawing an image proxy's gc in the future
             drawable.redraw unless drawable.is_a?(ImageProxy)
@@ -503,7 +503,7 @@ module Glimmer
           end
           @parent.shapes.delete(self)
         end
-                
+        
         def paint(paint_event)
           # pre-paint children an extra-time first when default width/height need to be calculated for defaults
           paint_children(paint_event) if default_width? || default_height?
@@ -522,7 +522,7 @@ module Glimmer
           @original_properties_backup = {}
           @properties.each do |property, args|
             method_name = attribute_setter(property)
-            @original_properties_backup[method_name] = paint_event.gc.send(method_name.sub('set', 'get'))
+            @original_properties_backup[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
             paint_event.gc.send(method_name, *args)
             if property == 'transform' && args.first.is_a?(TransformProxy)
               args.first.swt_transform.dispose
@@ -561,7 +561,8 @@ module Glimmer
             self.extent = paint_event.gc.send("#{@name}Extent", *extent_args)
           end
           if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y)
-            parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
+            calculated_args_changed!
+            parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
           end
         end
         
@@ -579,16 +580,18 @@ module Glimmer
           (parent.is_a?(Shape) && (parent.absolute_x != @parent_absolute_x || parent.absolute_y != @parent_absolute_y))
         end
         
-        def calculated_args_changed!
+        def calculated_args_changed!(children: true)
           # TODO add a children: true option to enable setting to false to avoid recalculating children args
           @calculated_args = nil
-          shapes.each(&:calculated_args_changed!)
+          shapes.each(&:calculated_args_changed!) if children
         end
         
-        def calculated_args_changed_for_default_size!
-          @calculated_args = nil if default_width? || default_height?
-          if parent.is_a?(Shape)
-            parent.calculated_args_changed_for_default_size!
+        def calculated_args_changed_for_defaults!
+          has_default_dimensions = default_width? || default_height?
+          parent_calculated_args_changed_for_defaults = has_default_dimensions
+          @calculated_args = nil if default_x? || default_y? || has_default_dimensions
+          if has_default_dimensions && parent.is_a?(Shape)
+            parent.calculated_args_changed_for_defaults!
           elsif @content_added && !drawable.is_disposed
             # TODO consider optimizing in the future if needed by ensuring one redraw for all parents in the hierarchy at the end instead of doing one per parent that needs it
             drawable.redraw if !@painting && !drawable.is_a?(ImageProxy)
@@ -611,6 +614,10 @@ module Glimmer
           original_y = nil
           original_width = nil
           original_height = nil
+          if parent.is_a?(Shape)
+            @parent_absolute_x = parent.absolute_x
+            @parent_absolute_y = parent.absolute_y
+          end
           if default_width?
             original_width = width
             self.width = default_width + default_width_delta
@@ -628,11 +635,9 @@ module Glimmer
             self.y = default_y + default_y_delta
           end
           if parent.is_a?(Shape)
-            @parent_absolute_x = parent.absolute_x
-            @parent_absolute_y = parent.absolute_y
-            move_by(parent.absolute_x, parent.absolute_y)
+            move_by(@parent_absolute_x, @parent_absolute_y)
             result_args = @args.clone
-            move_by(-1*parent.absolute_x, -1*parent.absolute_y)
+            move_by(-1*@parent_absolute_x, -1*@parent_absolute_y)
           else
             result_args = @args.clone
           end
@@ -676,13 +681,13 @@ module Glimmer
         
         def default_x
           result = ((parent.size.x - size.x) / 2)
-          result += parent.bounds.x - parent.absolute_x if parent.irregular?
+          result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape) && parent.irregular?
           result
         end
         
         def default_y
           result = ((parent.size.y - size.y) / 2)
-          result += parent.bounds.y - parent.absolute_y if parent.irregular?
+          result += parent.bounds.y - parent.absolute_y if parent.is_a?(Shape) && parent.irregular?
           result
         end
         

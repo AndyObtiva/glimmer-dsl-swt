@@ -7,6 +7,7 @@
 - Consider Canvas Shape DSL support for LineAttributes `line_dash_offset` and `line_miter_limit`
 - Canvas Shape DSL Polygon `include?` does an outer/inner check of edge detection only
 - Ensure all Canvas Shape DSL properties are restored upon painting a shape to what they were prior to painting that shape
+- Fix issue with bringing high score dialog up in Tetris caused by latest dialog changes for supporting the new `color_dialog` and `font_dialog`
 
 ### 4.18.5.4
 
