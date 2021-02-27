@@ -383,7 +383,10 @@ module Glimmer
           if @content_added && perform_redraw && !drawable.is_disposed
             @calculated_paint_args = false
             attribute_name = ruby_attribute_getter(attribute_name)
-            @calculated_args = nil if location_parameter_names.map(&:to_s).include?(attribute_name)
+            if location_parameter_names.map(&:to_s).include?(attribute_name)
+              @calculated_args = nil
+              parent.calculated_args_changed_for_default_size! if parent.is_a?(Shape)
+            end
             if ['width', 'height'].include?(attribute_name)
               calculated_args_changed_for_default_size!
             end
@@ -635,25 +638,21 @@ module Glimmer
         end
         
         def default_width
-          x_start_end_pairs = shapes.map do |shape|
+          x_ends = shapes.map do |shape|
             shape_x = shape.default_x? ? 0 : shape.x.to_f
             shape_width = shape.calculated_width.to_f
-            [shape_x, shape_x + shape_width]
+            shape_x + shape_width
           end
-          min_x = x_start_end_pairs.map(&:first).min.to_f
-          max_x = x_start_end_pairs.map(&:last).max.to_f
-          max_x - min_x
+          x_ends.max.to_f
         end
         
         def default_height
-          y_start_end_pairs = shapes.map do |shape|
+          y_ends = shapes.map do |shape|
             shape_y = shape.default_y? ? 0 : shape.y.to_f
             shape_height = shape.calculated_height.to_f
-            [shape_y, shape_y + shape_height]
+            shape_y + shape_height
           end
-          min_y = y_start_end_pairs.map(&:first).min.to_f
-          max_y = y_start_end_pairs.map(&:last).max.to_f
-          max_y - min_y
+          y_ends.max.to_f
         end
         
         def calculated_width

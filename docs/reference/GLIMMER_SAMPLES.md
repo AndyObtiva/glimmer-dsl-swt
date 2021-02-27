@@ -564,6 +564,10 @@ Hello, Canvas!
 
 ![Hello Canvas](/images/glimmer-hello-canvas.png)
 
+Hello, Canvas! Moving Shapes and Nested Shapes via Drag'n'Drop
+
+![Hello Canvas Moving Shapes](/images/glimmer-hello-canvas-moving-shapes.gif)
+
 Hello, Canvas! with Moved Shapes (via Drag'n'Drop)
 
 ![Hello Canvas Moved Shapes](/images/glimmer-hello-canvas-moved-shapes.png)

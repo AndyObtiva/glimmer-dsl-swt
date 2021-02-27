@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.5.5
+
+- Automatically recalculate default size (width/height) to accomodate nested shapes when changing x/y/width/height sticking out of parent from right or bottom.
+
 ### 4.18.5.4
 
 - Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes, text/string extent, or otherwise defaulting to 0, 0
