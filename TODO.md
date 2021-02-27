@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Ensure all Canvas Shape DSL properties are restored upon closing a shape to what they were prior to opening/declaring a shape
 - Canvas support a Path DSL for methods that take Path arguments
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
@@ -23,15 +22,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation supporting multiple parallel animations per canvas
 
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
-- Flicker Free repaints of canvas shapes on data-binding changes (consider forms of regional clipping/caching/buffering)
 
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
-- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 - Canvas Transform DSL property data-binding
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
 - Canvas Shape DSL autoscalable shapes or canvases
 
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
+- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
@@ -160,7 +158,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support ImageProxy fit_to_width and fit_to_height options
 
 - Make scaffolded app gemspec complete in accordance to config/warble when available
-- Have property expression automatically call to_java(Type) on arrays for property methods that take arguments
 - Add automatic ActiveRecord Observable support (ObservableActiveRecord)
 - Add DB migration scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
 - Add Form scaffolding support for ActiveRecord (bringing in rails migration/schema generation)
@@ -403,7 +400,7 @@ items <=> binding {
 - Look into the idea of applying `transform` objects on any widget's rendering
 - Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 - Canvas Shape DSL Support default sizing (default width/height) of Arc containing text (or any shapes)
-
+- Optimize Flicker Free repaints of canvas shapes on data-binding changes (consider forms of regional clipping/caching/buffering)
 
 ## Samples
 

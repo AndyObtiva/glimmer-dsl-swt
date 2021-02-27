@@ -519,9 +519,10 @@ module Glimmer
         def paint_self(paint_event)
           @painting = true
           calculate_paint_args!
+          @original_properties_backup = {}
           @properties.each do |property, args|
             method_name = attribute_setter(property)
-            # TODO consider optimization of not setting a background/foreground/font if it didn't change from last shape
+            @original_properties_backup[method_name] = paint_event.gc.send(method_name.sub('set', 'get'))
             paint_event.gc.send(method_name, *args)
             if property == 'transform' && args.first.is_a?(TransformProxy)
               args.first.swt_transform.dispose
@@ -533,6 +534,9 @@ module Glimmer
           end
           # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
           paint_event.gc.send(@method_name, *@calculated_args) unless parent.is_a?(Shape) && !parent.calculated_args?
+          @original_properties_backup.each do |method_name, value|
+            paint_event.gc.send(method_name, value)
+          end
           @painting = false
         rescue => e
           Glimmer::Config.logger.error {"Error encountered in painting shape (#{self.inspect}) with calculated args (#{@calculated_args}) and args (#{@args})"}
