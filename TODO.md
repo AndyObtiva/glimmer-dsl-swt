@@ -4,9 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Polygon `include?` does an outer/inner check of edge detection only
-
-- Consider Canvas Shape DSL support for LineAttributes (given that line_dash_offset is missing) or alternatively just support line_dash_offset externally
+- Canvas Shape DSL Polygon `include?` does an outer/inner check of edge detection only
+- Ensure all Canvas Shape DSL properties are restored upon closing a shape to what they were prior to opening/declaring a shape
 - Canvas support a Path DSL for methods that take Path arguments
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
@@ -404,7 +403,8 @@ items <=> binding {
 - Build image with a transparent background by default
 - Look into the idea of applying `transform` objects on any widget's rendering
 - Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
-- Support default sizing (default width/height) of Arc containing text (or any shapes)
+- Canvas Shape DSL Support default sizing (default width/height) of Arc containing text (or any shapes)
+
 
 ## Samples
 

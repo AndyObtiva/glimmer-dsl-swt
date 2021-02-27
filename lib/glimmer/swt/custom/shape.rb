@@ -26,6 +26,34 @@ require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/transform_proxy'
 
+class Java::OrgEclipseSwtGraphics::GC
+  def setLineDashOffset(value)
+    lineMiterLimit = getLineAttributes&.miterLimit || 999_999
+    setLineAttributes(Java::OrgEclipseSwtGraphics::LineAttributes.new(getLineWidth, getLineCap, getLineJoin, getLineStyle, getLineDash.map(&:to_f).to_java(:float), value, lineMiterLimit))
+  end
+  alias set_line_dash_offset setLineDashOffset
+  alias line_dash_offset= setLineDashOffset
+  
+  def getLineDashOffset
+    getLineAttributes&.dashOffset
+  end
+  alias get_line_dash_offset getLineDashOffset
+  alias line_dash_offset getLineDashOffset
+  
+  def setLineMiterLimit(value)
+    lineDashOffset = getLineAttributes&.dashOffset || 0
+    setLineAttributes(Java::OrgEclipseSwtGraphics::LineAttributes.new(getLineWidth, getLineCap, getLineJoin, getLineStyle, getLineDash.map(&:to_f).to_java(:float), lineDashOffset, value))
+  end
+  alias set_line_miter_limit setLineMiterLimit
+  alias line_miter_limit= setLineMiterLimit
+  
+  def getLineMiterLimit
+    getLineAttributes&.miterLimit
+  end
+  alias get_line_miter_limit getLineMiterLimit
+  alias line_miter_limit getLineMiterLimit
+end
+
 module Glimmer
   module SWT
     module Custom
@@ -216,11 +244,16 @@ module Glimmer
         def apply_property_arg_conversions(method_name, property, args)
           args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
+          return args if the_java_method.nil?
           if the_java_method.parameter_types.first == Color.java_class && args.first.is_a?(RGB)
             args[0] = [args[0].red, args[0].green, args[0].blue]
           end
           if ['setBackground', 'setForeground'].include?(method_name.to_s) && args.first.is_a?(Array)
             args[0] = ColorProxy.new(args[0])
+          end
+          if method_name.to_s == 'setLineDash' && args.size > 1
+            args[0] = args.dup
+            args[1..-1] = []
           end
           if args.first.is_a?(Symbol) || args.first.is_a?(::String)
             if the_java_method.parameter_types.first == Color.java_class
@@ -644,7 +677,7 @@ module Glimmer
         end
         
         def default_y
-          result = ((parent.size.x - size.x) / 2)
+          result = ((parent.size.y - size.y) / 2)
           result += parent.bounds.y - parent.absolute_y if parent.irregular?
           result
         end
@@ -652,7 +685,6 @@ module Glimmer
         def default_width
           # TODO consider caching
           x_ends = shapes.map do |shape|
-            # TODO handle default x
             shape_width = shape.calculated_width.to_f
             shape_x = shape.default_x? ? 0 : shape.x.to_f
             shape_x + shape_width
@@ -663,7 +695,6 @@ module Glimmer
         def default_height
           # TODO consider caching
           y_ends = shapes.map do |shape|
-            # TODO handle default y
             shape_height = shape.calculated_height.to_f
             shape_y = shape.default_y? ? 0 : shape.y.to_f
             shape_y + shape_height
