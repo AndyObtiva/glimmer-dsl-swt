@@ -3,6 +3,7 @@
 ### 4.18.5.5
 
 - Automatically recalculate default size (width/height) to accomodate nested shapes when changing x/y/width/height sticking out of parent from right or bottom.
+- Support special case of centering a nested shape with default x/y within a parent with default width/height calculated from nested shape
 
 ### 4.18.5.4
 

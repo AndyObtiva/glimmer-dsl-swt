@@ -145,6 +145,11 @@ module Glimmer
           org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, calculated_width, calculated_height)
         end
         
+        # The bounding box top-left x and y
+        def location
+          org.eclipse.swt.graphics.Point.new(bounds.x, bounds.y)
+        end
+        
         # The bounding box width and height (as a Point object with x being width and y being height)
         def size
           org.eclipse.swt.graphics.Point.new(calculated_width, calculated_height)
@@ -168,6 +173,11 @@ module Glimmer
         def include?(x, y)
           # assume a rectangular shape by default
           contain?(x, y)
+        end
+
+        # Indicates if a shape's x, y, width, height differ from its bounds calculation (e.g. arc / polygon)
+        def irregular?
+          false
         end
         
         # moves by x delta and y delta. Subclasses must implement
@@ -462,8 +472,10 @@ module Glimmer
         end
                 
         def paint(paint_event)
+          # pre-paint children an extra-time first when default width/height need to be calculated for defaults
           paint_children(paint_event) if default_width? || default_height?
           paint_self(paint_event)
+          # re-paint children from scratch in the special case of pre-calculating parent width/height to re-center within new parent dimensions
           shapes.each(&:calculated_args_changed!) if default_width? || default_height?
           paint_children(paint_event)
         rescue => e
@@ -627,40 +639,44 @@ module Glimmer
         
         def default_x
           result = ((parent.size.x - size.x) / 2)
-          result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape)
+          result += parent.bounds.x - parent.absolute_x if parent.irregular?
           result
         end
         
         def default_y
-          result = ((parent.size.y - size.y) / 2)
-          result += parent.bounds.y - parent.absolute_y if parent.is_a?(Shape)
+          result = ((parent.size.x - size.x) / 2)
+          result += parent.bounds.y - parent.absolute_y if parent.irregular?
           result
         end
         
         def default_width
+          # TODO consider caching
           x_ends = shapes.map do |shape|
-            shape_x = shape.default_x? ? 0 : shape.x.to_f
+            # TODO handle default x
             shape_width = shape.calculated_width.to_f
+            shape_x = shape.default_x? ? 0 : shape.x.to_f
             shape_x + shape_width
           end
           x_ends.max.to_f
         end
         
         def default_height
+          # TODO consider caching
           y_ends = shapes.map do |shape|
-            shape_y = shape.default_y? ? 0 : shape.y.to_f
+            # TODO handle default y
             shape_height = shape.calculated_height.to_f
+            shape_y = shape.default_y? ? 0 : shape.y.to_f
             shape_y + shape_height
           end
           y_ends.max.to_f
         end
         
         def calculated_width
-          default_width? ? default_width : width
+          default_width? ? (default_width + default_width_delta) : width
         end
         
         def calculated_height
-          default_height? ? default_height : height
+          default_height? ? (default_height + default_height_delta) : height
         end
         
         def default_x_delta

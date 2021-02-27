@@ -66,6 +66,11 @@ module Glimmer
               outer_shape_geometry.contains(x, y) && !inner_shape_geometry.contains(x, y)
             end
           end
+          
+          def irregular?
+            true
+          end
+          
         end
       end
     end

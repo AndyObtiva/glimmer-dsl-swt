@@ -130,6 +130,11 @@ module Glimmer
             self.x2 += x_delta
             self.y2 += y_delta
           end
+          
+          def irregular?
+            true
+          end
+          
         end
       end
     end

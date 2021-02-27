@@ -147,6 +147,11 @@ module Glimmer
           def move_by(x_delta, y_delta)
             self.point_array = point_array.each_with_index.map {|coordinate, i| i.even? ? coordinate + x_delta : coordinate + y_delta}
           end
+          
+          def irregular?
+            true
+          end
+          
         end
       end
     end
