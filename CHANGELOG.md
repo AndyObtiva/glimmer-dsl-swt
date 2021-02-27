@@ -5,6 +5,7 @@
 - Automatically recalculate default size (width/height) to accomodate nested shapes when changing x/y/width/height sticking out of parent from right or bottom.
 - Support special case of centering a nested shape with default x/y within a parent with default width/height calculated from nested shape
 - Consider Canvas Shape DSL support for LineAttributes `line_dash_offset` and `line_miter_limit`
+- Canvas Shape DSL Polygon `include?` does an outer/inner check of edge detection only
 
 ### 4.18.5.4
 

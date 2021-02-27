@@ -139,11 +139,15 @@ module Glimmer
             bounds.height
           end
           
-          def include?(x, y)
+          def contain?(x, y)
             geometry.contains(x, y)
           end
-          alias contain? include? # TODO make include do an outer/inner check of edge detection only
-          
+
+          def include?(x, y)
+            comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
+            comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
+          end
+                    
           def move_by(x_delta, y_delta)
             self.point_array = point_array.each_with_index.map {|coordinate, i| i.even? ? coordinate + x_delta : coordinate + y_delta}
           end

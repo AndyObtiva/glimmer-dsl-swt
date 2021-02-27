@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL Polygon `include?` does an outer/inner check of edge detection only
 - Ensure all Canvas Shape DSL properties are restored upon closing a shape to what they were prior to opening/declaring a shape
 - Canvas support a Path DSL for methods that take Path arguments
 
