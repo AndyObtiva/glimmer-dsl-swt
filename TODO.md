@@ -4,10 +4,38 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas support a Path DSL for methods that take Path arguments
+- Canvas Shape DSL support for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified), and `close true` property
+- Support a path containing a `quad` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
+- Support a path containing a `cubic` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
+- Support a line `point_array` property to be consistent with `polygon` and `polyline` (behaving differently inside a path)
+- Support a line `x`/`y` properties to indicate you are joining to last point just like a `point_array` with one point
+- Support a path containing a `rectangle` (point is auto-derived from last point if not specified)
+- Support a path containing a `arc` (point is auto-derived from last point if not specified)
+- Support a path containing a `string` (point is auto-derived from last point if not specified)
+- Support a path containing a nested `path`
+- Support a path `flatness float_value` property
+- Support `Shape#content {}` method just like `WidgetProxy#content` to enable adding nested shapes at runtime after initial construction
+- Hello, Canvas Path! sample showing a Stock Ticker with line curves for multiple company stocks, animated with randomly generated data, moving to the left out of screen second by second. Has multiple tabs demonstrating different types of paths for graphing/charting of different real world business applications: point, line, quad, cubic.
+
+- Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
+- Support `scrolled_canvas` custom widget
+- Hello, Scrolled Canvas!
+
+- Support direct use of the `shape` keyword as a shape composite that could contain other shapes
+- Hello, Shape!
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..).
+
+- Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
+- Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
+
+- Implement charts and graphs custom widgets Hello Samples
+  - bar_chart (new custom widget)
+  - pie_chart (new custom widget, could be doughnut)
+  - scatter_plot (new custom widget. Could display back sheet squares or rulers or not)
+  - graph (new custom widget, redoes Hello, Canvas Path! and Hello, Curve! but with a papersheet behind and rulers/names for x/y axes, could take a function with start/end points and division length, or point array. Could be rendered as a line, quad or cubic curve. Could display back sheet squares or rulers or not)
+
 
 - Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
 - Hello, Custom Image (build an image from shapes giving it a name)
@@ -30,6 +58,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
+- Support nouns for `Canvas Transform DSL` operations
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
@@ -201,6 +230,7 @@ composite {
 - code_text support method for redrawing the syntax highlighting
 - Support CustomWidget/CustomShell option data-binding with the ability to pass options via content block if needed (update hello code text example to use data binding of its options)
 - Consider marking custom widget options as required when you have to have them at construction time before rendering content block
+- Consider adding the jface tooltip as an external custom widget
 
 ## Issues
 

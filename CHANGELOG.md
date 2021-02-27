@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.6.0
+
+- Hello, Canvas Path! sample (stock ticker)
+- Fix issue to allow invocation of `set_min_size` off of `scrolled_composite` proxy directly (not just swt_widget), thus taking advantage of implicit `auto_exec`
+
 ### 4.18.5.5
 
 - Automatically recalculate default size (width/height) to accomodate nested shapes when changing x/y/width/height sticking out of parent from right or bottom.

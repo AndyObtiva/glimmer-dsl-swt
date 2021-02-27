@@ -73,7 +73,7 @@ module Glimmer
         Glimmer::SWT::DisplayProxy.instance.auto_exec do
           result = if proxy_source_object&.respond_to?(attribute_setter(attribute_name))
             swt_widget_operation = true
-            proxy_source_object&.send(attribute_setter(attribute_name), *args) unless proxy_source_object&.send(attribute_getter(attribute_name)) == args.first
+            proxy_source_object&.send(attribute_setter(attribute_name), *args) unless (proxy_source_object&.respond_to?(attribute_getter(attribute_name)) && proxy_source_object&.send(attribute_getter(attribute_name))) == args.first
           elsif proxy_source_object&.respond_to?(ruby_attribute_setter(attribute_name))
             swt_widget_operation = true
             proxy_source_object&.send(ruby_attribute_setter(attribute_name), args)

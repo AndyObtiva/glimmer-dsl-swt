@@ -379,7 +379,7 @@ class MandelbrotFractal
       image @mandelbrot_image
     }
     @canvas.set_size @mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height
-    @scrolled_composite.swt_widget.set_min_size(Point.new(@mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height))
+    @scrolled_composite.set_min_size(Point.new(@mandelbrot_image.bounds.width, @mandelbrot_image.bounds.height))
     if @location_x && @location_y
       # center on mouse click location
       factor = (zoom / last_zoom)
