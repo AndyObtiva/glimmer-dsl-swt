@@ -225,6 +225,14 @@ module Glimmer
           end
         end
         
+        def content(&block)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec do
+            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, &block)
+            calculated_args_changed!(children: false)
+            drawable.redraw unless drawable.is_a?(ImageProxy)
+          end
+        end
+        
         def has_some_background?
           @properties.keys.map(&:to_s).include?('background') || @properties.keys.map(&:to_s).include?('background_pattern')
         end
@@ -234,11 +242,11 @@ module Glimmer
         end
         
         def post_add_content
-          unless @content_added
+#           unless @content_added # TODO delete if no longer needed
             amend_method_name_options_based_on_properties!
             @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
-          end
+#           end
         end
         
         def apply_property_arg_conversions(method_name, property, args)
@@ -491,6 +499,7 @@ module Glimmer
         end
         
         def dispose(dispose_images: true, dispose_patterns: true)
+          shapes.each { |shape| shape.is_a?(Shape::Path) && shape.dispose }
           if dispose_patterns
             @background_pattern&.dispose
             @background_pattern = nil
@@ -818,7 +827,7 @@ module Glimmer
               # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
               @properties['alpha'] ||= [255]
               @properties['font'] = [@drawable.font] if @drawable.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
-              # TODO regarding transform, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
+              # TODO regarding transform, make sure to reset it to parent stored transform once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
               @properties['transform'] = [nil] if @drawable.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
               @properties.each do |property, args|

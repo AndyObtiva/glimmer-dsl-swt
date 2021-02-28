@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/custom/shape'
+require 'glimmer/swt/custom/shape/path_segment'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
@@ -33,6 +34,8 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         class Point < Shape
+          include PathSegment
+          
           def parameter_names
             [:x, :y]
           end
@@ -50,6 +53,28 @@ module Glimmer
             x.to_i.between?(self.absolute_x.to_i - 2, self.absolute_x.to_i + 2) && y.to_i.between?(self.absolute_y.to_i - 2, self.absolute_y.to_i + 2)
           end
           alias contain? include?
+          
+          def path_segment_method_name
+            'moveTo'
+          end
+                    
+          def path_segment_args
+            @args
+          end
+          
+          def previous_point_connected?
+            false
+          end
+          
+          def eql?(other)
+            x == (other && other.respond_to?(:x) && other.x) && y == (other && other.respond_to?(:y) && other.y)
+          end
+          alias == eql?
+          
+          def hash
+            [x, y].hash
+          end
+          
         end
       end
     end

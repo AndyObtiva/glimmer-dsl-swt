@@ -132,11 +132,11 @@ module Glimmer
           end
           
           def width
-            bounds.width
+            size.x
           end
           
           def height
-            bounds.height
+            size.y
           end
           
           def contain?(x, y)

@@ -67,42 +67,48 @@ class HelloCanvasPath
       Stock.new('AAPL', 121),
       Stock.new('MSFT', 232),
     ]
+    @paths = []
     @stock_colors = [:red, :dark_green, :blue, :magenta]
     max_stock_name_width = 0
     left_margin = 5
     @stocks.each_with_index do |stock, i|
-      x = last_x = last_y = 0
+      x = 0
       observe(stock, :stock_price) do |new_price|
-        new_x = x
-        new_y = @canvas.bounds.height - new_price - 1
-        max_stock_name_width = @text&.bounds&.width if @text&.bounds&.width.to_f > max_stock_name_width
-        if new_x > 0
-          @canvas.content {
-            line(last_x, last_y, new_x, new_y) {
-              foreground @stock_colors[i]
+        begin
+          new_x = x
+          new_y = @canvas.bounds.height - new_price - 1
+          max_stock_name_width = @text&.bounds&.width if @text&.bounds&.width.to_f > max_stock_name_width
+          if new_x > 0
+            @paths[i].content {
+              line(new_x, new_y) {
+                foreground @stock_colors[i]
+              }
               transform {
                 translate max_stock_name_width + 5 + left_margin, @text.bounds.height / 2.0
               }
             }
-          }
-          new_x_location = new_x + max_stock_name_width + 5 + left_margin + 5
-          canvas_width = @canvas.bounds.width
-          if new_x_location > canvas_width
-            @canvas.set_size(new_x_location, @canvas.bounds.height)
-            @canvas.cursor = :hand
-            @scrolled_composite.set_min_size(new_x_location, @canvas.bounds.height)
-            @scrolled_composite.set_origin(@scrolled_composite.origin.x + 1, @scrolled_composite.origin.y) if (@scrolled_composite.origin.x + @scrolled_composite.client_area.width) == canvas_width
-          end
-        else
-          @canvas.content {
-            @text = text(stock.name, new_x + left_margin, new_y) {
-              foreground @stock_colors[i]
+            new_x_location = new_x + max_stock_name_width + 5 + left_margin + 5
+            canvas_width = @canvas.bounds.width
+            if new_x_location > canvas_width
+              @canvas.set_size(new_x_location, @canvas.bounds.height)
+              @canvas.cursor = :hand
+              @scrolled_composite.set_min_size(new_x_location, @canvas.bounds.height)
+              @scrolled_composite.set_origin(@scrolled_composite.origin.x + 1, @scrolled_composite.origin.y) if (@scrolled_composite.origin.x + @scrolled_composite.client_area.width) == canvas_width
+            end
+          else
+            @canvas.content {
+              @text = text(stock.name, new_x + left_margin, new_y) {
+                foreground @stock_colors[i]
+              }
             }
-          }
+            @paths[i].content {
+              point(new_x, new_y)
+            }
+          end
+          x += 1
+        rescue => e
+          Glimmer::Config.logger.error {e.full_message}
         end
-        last_x = new_x
-        last_y = new_y
-        x += 1
       end
     end
   }
@@ -129,6 +135,13 @@ class HelloCanvasPath
       @scrolled_composite = scrolled_composite {
         @canvas = canvas {
           background :white
+          
+          @stocks.count.times do |n|
+            @paths[n] = path {
+              foreground @stock_colors[n]
+              point(3+n, 7+n)
+            }
+          end
           
           on_mouse_down {
             @drag_detected = false

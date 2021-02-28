@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/custom/shape'
+require 'glimmer/swt/custom/shape/path_segment'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
@@ -33,6 +34,8 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         class Line < Shape
+          include PathSegment
+          
           class << self
             def include?(x1, y1, x2, y2, x, y)
               distance1 = Math.sqrt((x - x1)**2 + (y - y1)**2)
@@ -79,11 +82,11 @@ module Glimmer
           end
           
           def width
-            bounds.width
+            size.width
           end
           
           def height
-            bounds.height
+            size.height
           end
           
           def absolute_x1
@@ -134,7 +137,32 @@ module Glimmer
           def irregular?
             true
           end
+                    
+          def path_segment_method_name
+            'lineTo'
+          end
           
+          def path_segment_args
+            # TODO make args auto-infer first point if previous_point_connected is true or if there is only x1,y1 or x2,y2 (but not both), or if there is an x, y, or if there is a point_array with 1 point
+            @args
+          end
+          
+          def previous_point_connected?
+            @args.compact.count == 2
+          end
+          
+          def eql?(other)
+            x1 == (other && other.respond_to?(:x1) && other.x1) &&
+              y1 == (other && other.respond_to?(:y1) && other.y1) &&
+              x2 == (other && other.respond_to?(:x2) && other.x2) &&
+              y2 == (other && other.respond_to?(:y2) && other.y2)
+          end
+          alias == eql?
+          
+          def hash
+            [x1, y1, x2, y2].hash
+          end
+                    
         end
       end
     end

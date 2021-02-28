@@ -4,17 +4,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL support for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified), and `close true` property
+- Canvas Path DSL support for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified), and `closed true` property
 - Support a path containing a `quad` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
 - Support a path containing a `cubic` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
+- Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
+- Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
 - Support a line `point_array` property to be consistent with `polygon` and `polyline` (behaving differently inside a path)
 - Support a line `x`/`y` properties to indicate you are joining to last point just like a `point_array` with one point
-- Support a path containing a `rectangle` (point is auto-derived from last point if not specified)
-- Support a path containing a `arc` (point is auto-derived from last point if not specified)
-- Support a path containing a `string` (point is auto-derived from last point if not specified)
 - Support a path containing a nested `path`
 - Support a path `flatness float_value` property
 - Support `Shape#content {}` method just like `WidgetProxy#content` to enable adding nested shapes at runtime after initial construction
+- Support `Path#content {}` method just like `WidgetProxy#content` to enable adding nested shapes at runtime after initial construction
 - Hello, Canvas Path! sample showing a Stock Ticker with line curves for multiple company stocks, animated with randomly generated data, moving to the left out of screen second by second. Has multiple tabs demonstrating different types of paths for graphing/charting of different real world business applications: point, line, quad, cubic.
 
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
@@ -35,7 +35,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
   - pie_chart (new custom widget, could be doughnut)
   - scatter_plot (new custom widget. Could display back sheet squares or rulers or not)
   - graph (new custom widget, redoes Hello, Canvas Path! and Hello, Curve! but with a papersheet behind and rulers/names for x/y axes, could take a function with start/end points and division length, or point array. Could be rendered as a line, quad or cubic curve. Could display back sheet squares or rulers or not)
-
 
 - Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
 - Hello, Custom Image (build an image from shapes giving it a name)
@@ -431,6 +430,10 @@ items <=> binding {
 - Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 - Canvas Shape DSL Support default sizing (default width/height) of Arc containing text (or any shapes)
 - Optimize Flicker Free repaints of canvas shapes on data-binding changes (consider forms of regional clipping/caching/buffering)
+- Support nesting `polyline` and `polygon` under path in Canvas Shape DSL (breaking them down into lines)
+- Support a Canvas Shape DSL `path` containing a `rectangle` (point is auto-derived from last point if not specified)
+- Support a Canvas Shape DSL `path` containing a `arc` (point is auto-derived from last point if not specified)
+- Support a Canvas Shape DSL `path` containing a `string` (point is auto-derived from last point if not specified)
 
 ## Samples
 
