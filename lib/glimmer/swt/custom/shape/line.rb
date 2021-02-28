@@ -148,7 +148,7 @@ module Glimmer
           end
           
           def previous_point_connected?
-            @args.compact.count == 2
+            @args.compact.count == 2 && !first_path_segment?
           end
           
           def eql?(other)

@@ -37,7 +37,7 @@ module Glimmer
           include PathSegment # a path may behave as a path segment in another path
           
           attr_accessor :flatness, :closed
-          attr_reader :swt_path
+          attr_reader :swt_path, :path_segments
         
           def initialize(parent, keyword, *args, &property_block)
             super

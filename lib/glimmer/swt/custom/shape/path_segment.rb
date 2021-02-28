@@ -55,12 +55,20 @@ module Glimmer
             parent.post_dispose_content(self) if parent.is_a?(Path)
           end
           
+          def first_path_segment?
+            parent.path_segments.first == self
+          end
+          
           def add_to_swt_path(swt_path)
             if @swt_path != swt_path
               @swt_path = swt_path
               the_path_segment_args = path_segment_args.dup
-              if !previous_point_connected? && the_path_segment_args.count > 2
-                point = the_path_segment_args.shift, the_path_segment_args.shift
+              if !previous_point_connected? && !is_a?(Point)
+                if the_path_segment_args.count > 2
+                  point = the_path_segment_args.shift, the_path_segment_args.shift
+                elsif first_path_segment?
+                  point = the_path_segment_args[0..1]
+                end
                 @swt_path.moveTo(*point)
               end
               @swt_path.send(path_segment_method_name, *the_path_segment_args)

@@ -55,11 +55,11 @@ module Glimmer
           alias contain? include?
           
           def path_segment_method_name
-            'moveTo'
+            'addRectangle'
           end
                     
           def path_segment_args
-            @args
+            @args + [1, 1]
           end
           
           def previous_point_connected?

@@ -4,6 +4,8 @@
 
 - Hello, Canvas Path! sample (stock ticker)
 - Fix issue to allow invocation of `set_min_size` off of `scrolled_composite` proxy directly (not just swt_widget), thus taking advantage of implicit `auto_exec`
+- Canvas Path DSL support for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified)
+- Support `Shape#content {}` method just like `WidgetProxy#content` to enable reopening and adding nested shapes at runtime after initial construction
 
 ### 4.18.5.5
 
