@@ -89,6 +89,7 @@ class HelloCanvasPath
           canvas_width = @canvas.bounds.width
           if new_x_location > canvas_width
             @canvas.set_size(new_x_location, @canvas.bounds.height)
+            @canvas.cursor = :hand
             @scrolled_composite.set_min_size(new_x_location, @canvas.bounds.height)
             @scrolled_composite.set_origin(@scrolled_composite.origin.x + 1, @scrolled_composite.origin.y) if (@scrolled_composite.origin.x + @scrolled_composite.client_area.width) == canvas_width
           end
@@ -128,7 +129,6 @@ class HelloCanvasPath
       @scrolled_composite = scrolled_composite {
         @canvas = canvas {
           background :white
-          cursor :hand
           
           on_mouse_down {
             @drag_detected = false
