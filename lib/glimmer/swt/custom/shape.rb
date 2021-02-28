@@ -74,7 +74,8 @@ module Glimmer
           end
         
           def valid?(parent, keyword, *args, &block)
-            gc_instance_methods.include?(method_name(keyword, arg_options(args)))
+            gc_instance_methods.include?(method_name(keyword, arg_options(args))) ||
+              constants.include?(keyword.to_s.camelcase(:upper).to_sym)
           end
           
           def gc_instance_methods

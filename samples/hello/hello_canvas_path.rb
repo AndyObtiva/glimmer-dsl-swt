@@ -21,6 +21,8 @@
 
 require 'glimmer-dsl-swt'
 
+# This Sample is an Early Alpha (New Canvas Path DSL Feature)
+
 class HelloCanvasPath
   class Stock
     class << self
@@ -35,12 +37,13 @@ class HelloCanvasPath
       end
     end
     
-    attr_reader :name
+    attr_reader :name, :stock_prices
     attr_accessor :stock_price
     
     def initialize(name, stock_price)
       @name = name
       @stock_price = stock_price
+      @stock_prices = [@stock_price]
       @delta_sign = 1
       start_new_trend!
     end
@@ -52,7 +55,7 @@ class HelloCanvasPath
         @delta_sign *= -1
         start_new_trend!
       end
-      self.stock_price = [[@stock_price + @delta_sign*delta, Stock.stock_price_min].max, Stock.stock_price_max].min
+      stock_prices << self.stock_price = [[@stock_price + @delta_sign*delta, Stock.stock_price_min].max, Stock.stock_price_max].min
     end
     
     def start_new_trend!
@@ -70,7 +73,7 @@ class HelloCanvasPath
     @stock_colors = [:red, :dark_green, :blue, :magenta]
     max_stock_name_width = 0
     left_margin = 5
-    @tabs = ['Lines', 'Points'].map {|title| {title: title, paths: [], transforms: []}}
+    @tabs = ['Cubic Bezier Curves', 'Quadratic Bezier Curves', 'Lines', 'Points'].map {|title| {title: title, paths: [], transforms: []}}
     @stocks.each_with_index do |stock, i|
       x = 0
       observe(stock, :stock_price) do |new_price|
@@ -81,17 +84,35 @@ class HelloCanvasPath
             max_stock_name_width = tab[:text]&.bounds&.width if tab[:text]&.bounds&.width.to_f > max_stock_name_width
             if new_x > 0
               case tab[:title]
+              when 'Cubic Bezier Curves'
+                if stock.stock_prices[i] && stock.stock_prices[i - 1] && stock.stock_prices[i - 2]
+                  tab[:paths][i].content {
+                    cubic(new_x - 2, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 2] - 1, new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
+                    tab[:transforms][i] = transform {
+                      translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
+                    }
+                  }
+                end
+              when 'Quadratic Bezier Curves'
+                if stock.stock_prices[i] && stock.stock_prices[i - 1]
+                  tab[:paths][i].content {
+                    quad(new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
+                    tab[:transforms][i] = transform {
+                      translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
+                    }
+                  }
+                end
               when 'Lines'
                 tab[:paths][i].content {
                   line(new_x, new_y)
-                  tab[:transforms][i] ||= transform {
+                  tab[:transforms][i] = transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }
               when 'Points'
                 tab[:paths][i].content {
                   point(new_x, new_y)
-                  tab[:transforms][i] ||= transform {
+                  tab[:transforms][i] = transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }

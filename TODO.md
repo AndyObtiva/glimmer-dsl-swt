@@ -4,9 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support a path containing a `quad` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
-- Support a path containing a `cubic` bezier curve with `point_array` property and optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
-- Hello, Canvas Path! sample showing a Stock Ticker with line curves for multiple company stocks, animated with randomly generated data, moving to the left out of screen second by second. Has multiple tabs demonstrating different types of paths for graphing/charting of different real world business applications: point, line, quad, cubic.
+- Support a path containing a `quad` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
+- Support a path containing a `cubic` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
 
 - Canvas Path DSL support for `path` `closed true` property
 - Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)

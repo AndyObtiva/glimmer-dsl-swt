@@ -2,10 +2,12 @@
 
 ### 4.18.6.0
 
-- Hello, Canvas Path! sample (stock ticker)
+- Canvas Path DSL support (Alpha) for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified)
+- Hello, Canvas Path! sample showing a Stock Ticker with line curves for multiple company stocks, animated with randomly generated data, moving to the left out of screen second by second. Has multiple tabs demonstrating different types of paths for graphing/charting of different real world business applications: point, line, quad, cubic.
 - Fix issue to allow invocation of `set_min_size` off of `scrolled_composite` proxy directly (not just swt_widget), thus taking advantage of implicit `auto_exec`
-- Canvas Path DSL support for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified)
 - Support `Shape#content {}` method just like `WidgetProxy#content` to enable reopening and adding nested shapes at runtime after initial construction
+- Support a path containing a `quad` bezier curve with `point_array` property
+- Support a path containing a `cubic` bezier curve with `point_array` property
 
 ### 4.18.5.5
 

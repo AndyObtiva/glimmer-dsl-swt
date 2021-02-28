@@ -62,11 +62,20 @@ module Glimmer
             makeshift_gc = org.eclipse.swt.graphics.GC.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
             @swt_path.contains(x.to_f, y.to_f, makeshift_gc, false)
           end
+          
+          def contain?(x, y)
+            include?(x, y, filled: true)
+          end
         
           # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the edge)
-          def include?(x, y)
+          def include?(x, y, filled: nil)
+            filled = filled? if filled.nil?
             makeshift_gc = org.eclipse.swt.graphics.GC.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
-            @swt_path.contains(x.to_f, y.to_f, makeshift_gc, !filled?)
+            @swt_path.contains(x.to_f, y.to_f, makeshift_gc, !filled)
+          end
+          
+          def irregular?
+            true
           end
           
           def post_dispose_content(path_segment)
@@ -101,7 +110,7 @@ module Glimmer
           end
           
           def move_by(x_delta, y_delta)
-            @path_segments.each {|path_segment| path_segment.move_by(x_delta)}
+            @path_segments.each {|path_segment| path_segment.move_by(x_delta, y_delta)}
           end
           
           def bounds
@@ -147,7 +156,7 @@ module Glimmer
           def geometry
             if @path_segments != @geometry_path_segments
               @geometry_path_segments = @path_segments
-              @geometry = java.awt.geom.Path2D.Double.new
+              @geometry = Java::JavaAwtGeom::Path2D::Double.new
               @path_segments.each do |path_segment|
                 @geometry.send(path_segment.path_segment_geometry_method_name, *path_segment.path_segment_geometry_args)
               end
