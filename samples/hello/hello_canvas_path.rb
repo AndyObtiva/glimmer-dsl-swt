@@ -88,7 +88,7 @@ class HelloCanvasPath
                 if stock.stock_prices[i] && stock.stock_prices[i - 1] && stock.stock_prices[i - 2]
                   tab[:paths][i].content {
                     cubic(new_x - 2, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 2] - 1, new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
-                    tab[:transforms][i] = transform {
+                    tab[:transforms][i] ||= transform {
                       translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                     }
                   }
@@ -97,7 +97,7 @@ class HelloCanvasPath
                 if stock.stock_prices[i] && stock.stock_prices[i - 1]
                   tab[:paths][i].content {
                     quad(new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
-                    tab[:transforms][i] = transform {
+                    tab[:transforms][i] ||= transform {
                       translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                     }
                   }
@@ -105,14 +105,14 @@ class HelloCanvasPath
               when 'Lines'
                 tab[:paths][i].content {
                   line(new_x, new_y)
-                  tab[:transforms][i] = transform {
+                  tab[:transforms][i] ||= transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }
               when 'Points'
                 tab[:paths][i].content {
                   point(new_x, new_y)
-                  tab[:transforms][i] = transform {
+                  tab[:transforms][i] ||= transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }
@@ -145,7 +145,7 @@ class HelloCanvasPath
     @thread = Thread.new {
       loop {
         @stocks.each(&:tick!)
-        sleep(0.1)
+        sleep(0.01)
       }
     }
   }

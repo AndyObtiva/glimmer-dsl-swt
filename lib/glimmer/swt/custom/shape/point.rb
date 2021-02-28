@@ -62,6 +62,14 @@ module Glimmer
             @args + [1, 1]
           end
           
+          def path_segment_geometry_method_name
+            'moveTo'
+          end
+                    
+          def path_segment_geometry_args
+            @args
+          end
+          
           def previous_point_connected?
             false
           end

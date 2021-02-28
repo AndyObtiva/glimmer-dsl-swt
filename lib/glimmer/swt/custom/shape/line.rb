@@ -82,11 +82,11 @@ module Glimmer
           end
           
           def width
-            size.width
+            size.x
           end
           
           def height
-            size.height
+            size.y
           end
           
           def absolute_x1
@@ -107,7 +107,7 @@ module Glimmer
           
           def absolute_x2
             if parent.is_a?(Shape)
-              parent.absolute_x + x2
+              parent.absolute_x + x2.to_f
             else
               x2
             end
@@ -115,7 +115,7 @@ module Glimmer
           
           def absolute_y2
             if parent.is_a?(Shape)
-              parent.absolute_y + y1
+              parent.absolute_y + y2.to_f
             else
               y2
             end
@@ -145,6 +145,11 @@ module Glimmer
           def path_segment_args
             # TODO make args auto-infer first point if previous_point_connected is true or if there is only x1,y1 or x2,y2 (but not both), or if there is an x, y, or if there is a point_array with 1 point
             @args
+          end
+          
+          def path_segment_geometry_args
+            # TODO make args auto-infer first point if previous_point_connected is true or if there is only x1,y1 or x2,y2 (but not both), or if there is an x, y, or if there is a point_array with 1 point
+            @args[0..1]
           end
           
           def previous_point_connected?

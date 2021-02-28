@@ -41,6 +41,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Shapes inside an Image](#shapes-inside-an-image)
     - [Canvas Shape API](#canvas-shape-api)
     - [Pixel Graphics](#pixel-graphics)
+  - [Canvas Path DSL](#canvas-path-dsl)
   - [Canvas Transform DSL](#canvas-transform-dsl)
     - [Top-Level Transform Fluent Interface](#top-level-transform-fluent-interface)
   - [Canvas Animation DSL](#canvas-animation-dsl)
@@ -1952,6 +1953,40 @@ shell {
 ```
 
 As they say, there are many ways to skin a cat! This is in line with the Ruby way of providing more ways than one. Pick and choose the right tool for the job just like true software engineers.
+
+### Canvas Path DSL
+
+**(EARLY ALPHA FEATURE)**
+
+Unlike common imperative GUI charting toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path` keyword and by nesting one of the following keywords underneath:
+- `point(x1, y1)`: renders a Point (Dot) as part of a path.
+- `line(x1, y1, x2=nil, y2=nil)`: renders a Line as part of a path. If you drop x2, y2, it joins to the previous point automatically. You may repeat for a series of lines forming a curve.
+- `quad(x1, y1, x2, y2, x3=nil, y3=nil)`: renders a Quadratic Bezier Curve. If you drop x3 and y3, it joins to the previous point automatically.
+- `cubic(x1, y1, x2, y2, x3, y3, x4=nil, y4=nil)`: renders a Cubic Bezier Curve. If you drop x4 and y4, it joins to the previous point automatically.
+
+Example:
+
+```ruby
+shell {
+  text 'Canvas Path DSL Example'
+  minimum_size 300, 300
+  
+  canvas {
+    path {
+      foreground :black
+      point(0, 0)
+      250.times {|n|
+        cubic(n + n%30, n+ n%50, 40, 40, 70, 70, n + 20 + n%30, n%30*-1 * n%50)
+      }
+    }
+  }
+  
+}.open
+```
+
+Learn more at the [Hello, Canvas Path! Sample](/samples/hello/hello_canvas_path.rb).
+
+![Hello Canvas Path Sample](/images/glimmer-hello-canvas-path.gif)
 
 ### Canvas Transform DSL
 

@@ -67,12 +67,14 @@ module Glimmer
             if @swt_path != swt_path
               @swt_path = swt_path
               the_path_segment_args = path_segment_args.dup
-              if first_path_segment? && self.class != Path
-                point = the_path_segment_args[0..1]
-                @swt_path.moveTo(*point)
-              elsif !previous_point_connected? && !is_a?(Point) && the_path_segment_args.count > 2
-                point = the_path_segment_args.shift, the_path_segment_args.shift
-                @swt_path.moveTo(*point)
+              if !previous_point_connected? && !is_a?(Point)
+                if the_path_segment_args.count > 2
+                  point = the_path_segment_args.shift, the_path_segment_args.shift
+                  @swt_path.moveTo(*point)
+                elsif first_path_segment? && self.class != Path
+                  point = the_path_segment_args[0..1]
+                  @swt_path.moveTo(*point)
+                end
               end
               @swt_path.send(path_segment_method_name, *the_path_segment_args)
             end

@@ -146,11 +146,11 @@ module Glimmer
           end
           
           def width
-            size.width
+            size.x
           end
           
           def height
-            size.height
+            size.y
           end
           
           def geometry
