@@ -59,7 +59,7 @@ class HelloCanvasPath
     end
     
     def start_new_trend!
-      @trend_length = (rand*25).to_i + 1
+      @trend_length = (rand*12).to_i + 1
     end
   end
   
@@ -67,52 +67,53 @@ class HelloCanvasPath
   
   before_body {
     @stocks = [
+      Stock.new('DELL', 81),
       Stock.new('AAPL', 121),
       Stock.new('MSFT', 232),
+      Stock.new('ADBE', 459),
     ]
-    @stock_colors = [:red, :dark_green, :blue, :magenta]
+    @stock_colors = [:red, :dark_green, :blue, :dark_magenta]
     max_stock_name_width = 0
     left_margin = 5
-    @tabs = ['Cubic Bezier Curves', 'Quadratic Bezier Curves', 'Lines', 'Points'].map {|title| {title: title, paths: [], transforms: []}}
-    @stocks.each_with_index do |stock, i|
-      x = 0
+    @tabs = ['Lines', 'Quadratic Bezier Curves', 'Cubic Bezier Curves', 'Points'].map {|title| {title: title, stock_paths: [], stock_transforms: []}}
+    @stocks.each_with_index do |stock, stock_index|
       observe(stock, :stock_price) do |new_price|
         begin
           @tabs.each do |tab|
-            new_x = x
+            new_x = stock.stock_prices.count - 1
             new_y = @tabs.first[:canvas].bounds.height - new_price - 1
             max_stock_name_width = tab[:text]&.bounds&.width if tab[:text]&.bounds&.width.to_f > max_stock_name_width
             if new_x > 0
               case tab[:title]
               when 'Cubic Bezier Curves'
-                if stock.stock_prices[i] && stock.stock_prices[i - 1] && stock.stock_prices[i - 2]
-                  tab[:paths][i].content {
-                    cubic(new_x - 2, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 2] - 1, new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
-                    tab[:transforms][i] ||= transform {
+                if new_x%3 == 0 && stock.stock_prices[new_x] && stock.stock_prices[new_x - 1] && stock.stock_prices[new_x - 2]
+                  tab[:stock_paths][stock_index].content {
+                    cubic(new_x - 2, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 2] - 1, new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 1] - 1, new_x, new_y)
+                    tab[:stock_transforms][stock_index] ||= transform {
                       translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                     }
                   }
                 end
               when 'Quadratic Bezier Curves'
-                if stock.stock_prices[i] && stock.stock_prices[i - 1]
-                  tab[:paths][i].content {
-                    quad(new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[i - 1] - 1, new_x, new_y)
-                    tab[:transforms][i] ||= transform {
+                if new_x%2 == 0 && stock.stock_prices[new_x] && stock.stock_prices[new_x - 1]
+                  tab[:stock_paths][stock_index].content {
+                    quad(new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 1] - 1, new_x, new_y)
+                    tab[:stock_transforms][stock_index] ||= transform {
                       translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                     }
                   }
                 end
               when 'Lines'
-                tab[:paths][i].content {
+                tab[:stock_paths][stock_index].content {
                   line(new_x, new_y)
-                  tab[:transforms][i] ||= transform {
+                  tab[:stock_transforms][stock_index] ||= transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }
               when 'Points'
-                tab[:paths][i].content {
+                tab[:stock_paths][stock_index].content {
                   point(new_x, new_y)
-                  tab[:transforms][i] ||= transform {
+                  tab[:stock_transforms][stock_index] ||= transform {
                     translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
                   }
                 }
@@ -128,12 +129,11 @@ class HelloCanvasPath
             else
               tab[:canvas].content {
                 tab[:text] = text(stock.name, new_x + left_margin, new_y) {
-                  foreground @stock_colors[i]
+                  foreground @stock_colors[stock_index]
                 }
               }
             end
           end
-          x += 1
         rescue => e
           Glimmer::Config.logger.error {e.full_message}
         end
@@ -160,7 +160,7 @@ class HelloCanvasPath
       minimum_size 650, 650
       background :white
       
-      tab_folder {
+      @tab_folder = tab_folder {
         @tabs.each do |tab|
           tab_item {
             fill_layout {
@@ -173,9 +173,10 @@ class HelloCanvasPath
               tab[:canvas] = canvas {
                 background :white
                 
-                @stocks.count.times do |n|
-                  tab[:paths][n] = path {
-                    foreground @stock_colors[n]
+                @stocks.count.times do |stock_index|
+                  tab[:stock_paths][stock_index] = path {
+                    antialias :on
+                    foreground @stock_colors[stock_index]
                   }
                 end
                 
@@ -210,10 +211,15 @@ class HelloCanvasPath
       on_swt_show {
         Stock.stock_price_min = 25
         Stock.stock_price_max = @tabs.first[:canvas].bounds.height - 6
+        # pre-initialize all tabs by selecting them so that they render content when they are later in the background
+        @tab_folder.items.each do |item|
+          @tab_folder.selection = item
+        end
+        @tab_folder.selection = @tab_folder.items.first
       }
       
       on_widget_disposed {
-        @thread.kill # safe to kill as memory is in data only
+        @thread.kill # safe to kill as data is in memory only
       }
     }
   }
