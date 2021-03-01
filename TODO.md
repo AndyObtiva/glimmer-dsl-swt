@@ -15,6 +15,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support a path containing a nested `path`
 - Support a path `flatness float_value` property
 
+- Support a tabfolder prerendering/preinit of its tabs
+- Support a scrolled_composite auto-growing based on its content (e.g. canvas)
+
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support `scrolled_canvas` custom widget
 - Hello, Scrolled Canvas!

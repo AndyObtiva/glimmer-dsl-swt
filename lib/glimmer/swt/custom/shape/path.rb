@@ -97,16 +97,22 @@ module Glimmer
           end
           
           def calculated_args
+            new_swt_path = @swt_path.nil?
             @swt_path ||= org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
             # TODO recreate @swt_path only if one of the children get disposed (must notify parent on dispose)
             @args = [@swt_path]
-            @uncalculated_path_segments.dup.each do |path_segment|
+            @uncalculated_path_segments.each do |path_segment|
               path_segment.add_to_swt_path(@swt_path)
               @uncalculated_path_segments.delete(path_segment)
             end
-            super
+            if new_swt_path
+              @path_calculated_args = super
+            else
+              @path_calculated_args
+            end
           rescue => e
             Glimmer::Config.logger.error {e.full_message}
+            @args
           end
           
           def move_by(x_delta, y_delta)
