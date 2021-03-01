@@ -225,5 +225,5 @@ class StockTicker
   }
 end
 
-HelloCanvasPath.launch
+StockTicker.launch
         
