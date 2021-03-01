@@ -81,15 +81,25 @@ module Glimmer
           def post_dispose_content(path_segment)
             @path_segments.delete(path_segment)
             @uncalculated_path_segments = @path_segments.dup
-            dispose
-          end
-          
-          def dispose
             @swt_path&.dispose
             @swt_path = nil
             @args = []
             calculated_args_changed!(children: false)
-            super
+          end
+          
+          def clear
+            @path_segments.each { |path_segments| path_segments.class == Path && path_segments.dispose }
+            @path_segments.clear
+            @uncalculated_path_segments = @path_segments.dup
+            @swt_path&.dispose
+            @swt_path = nil
+            @args = []
+            calculated_args_changed!(children: false)
+          end
+          
+          def dispose
+            clear if self.class == Path
+            super if parent.is_a?(Drawable)
           end
           
           def calculated_args_changed!(children: true)
