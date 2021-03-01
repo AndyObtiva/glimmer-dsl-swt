@@ -23,7 +23,7 @@ require 'glimmer-dsl-swt'
 
 # This Sample is an Early Alpha (New Canvas Path DSL Feature)
 
-class HelloCanvasPath
+class StockTicker
   class Stock
     class << self
       attr_writer :stock_price_min, :stock_price_max
@@ -156,7 +156,7 @@ class HelloCanvasPath
         margin_width 15
         margin_height 15
       }
-      text 'Hello, Canvas Path!'
+      text 'Stock Ticker'
       minimum_size 650, 650
       background :white
       
