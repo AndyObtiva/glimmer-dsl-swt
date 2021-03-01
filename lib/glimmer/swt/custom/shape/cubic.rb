@@ -102,7 +102,7 @@ module Glimmer
           end
           
           def eql?(other)
-            point_array == (other && other.is_a?(Cubic) && other.respond_to?(:point_array) && other.point_array)
+            other.is_a?(Cubic) && point_array == (other && other.respond_to?(:point_array) && other.point_array)
           end
           alias == eql?
           

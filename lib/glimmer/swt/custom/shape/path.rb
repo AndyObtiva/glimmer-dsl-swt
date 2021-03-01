@@ -196,7 +196,7 @@ module Glimmer
           end
           
           def eql?(other)
-            geometry.equals(other && (other.class == Path) && other.respond_to?(:geometry) && other.geometry)
+            (other.class == Path) && geometry.equals(other && other.respond_to?(:geometry) && other.geometry)
           end
           alias == eql?
           

@@ -75,7 +75,7 @@ module Glimmer
           end
           
           def eql?(other)
-            x == (other && other.is_a?(Point) && other.respond_to?(:x) && other.x) && y == (other && other.is_a?(Point) && other.respond_to?(:y) && other.y)
+            other.is_a?(Point) && x == (other && other.respond_to?(:x) && other.x) && y == (other && other.respond_to?(:y) && other.y)
           end
           alias == eql?
           

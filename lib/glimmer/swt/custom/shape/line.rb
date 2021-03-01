@@ -165,7 +165,7 @@ module Glimmer
           end
           
           def eql?(other)
-            other.is_a?(Quad) &&
+            other.is_a?(Line) &&
               x1 == (other && other.respond_to?(:x1) && other.x1) &&
               y1 == (other && other.respond_to?(:y1) && other.y1) &&
               x2 == (other && other.respond_to?(:x2) && other.x2) &&
