@@ -4,23 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support a path containing a `quad` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
-- Support a path containing a `cubic` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
-- Canvas Path DSL support for `path` `closed true` property
-- Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
-- Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
-- Support a line `point_array` property to be consistent with `polygon` and `polyline` (behaving differently inside a path)
-- Support a line `x`/`y` properties to indicate you are joining to last point just like a `point_array` with one point
-- Support a path containing a nested `path`
+- Canvas Path DSL support for `path` close/closed property to indicate a closed path
 - Support a path `flatness float_value` property
-
-- Support a tabfolder prerendering/preinit of its tabs
-- Support a scrolled_composite auto-growing based on its content (e.g. canvas)
+- Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`)
 - Update Stock Ticker sample to keep stock names intact when scrolling graphs off the screen
 
+- Ensure that disposing path content works
+- Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
-- Support `scrolled_canvas` custom widget
-- Hello, Scrolled Canvas!
 
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
 - Hello, Shape!
@@ -390,7 +381,7 @@ items <=> binding {
 - Ensure support for packaging on Linux
 - Have scaffolded app Rakefile include in gemspec all directories in Warble config.dirs automatically
 - Text-based (TUI) progress indicator when launching a glimmer app
-- Make a `composite` behave like a `scrolled_composite` if passed :v_scroll and/or :h_scroll styles (it transparently and automatically behind the scenes instantiates a scrolled_composite wrapping itself)
+- Make a `composite`/`canvas` behave like a `scrolled_composite` if passed :v_scroll and/or :h_scroll styles (it transparently and automatically behind the scenes instantiates a scrolled_composite wrapping itself)
 - Support background warm launching of Glimmer apps (in glimmer-cs-timer GitHub project branch: glimmer-app-type-client-server) (i.e. keeping them running in the background after initial start and then launching instantly when needed)
 - Support shorter syntax for fonts when passing in one property only (e.g. `font 18` for height, `font :bold` for style, `font 'Lucida Console'` for name)
 - TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
@@ -435,6 +426,14 @@ items <=> binding {
 - Support a Canvas Shape DSL `path` containing a `rectangle` (point is auto-derived from last point if not specified)
 - Support a Canvas Shape DSL `path` containing a `arc` (point is auto-derived from last point if not specified)
 - Support a Canvas Shape DSL `path` containing a `string` (point is auto-derived from last point if not specified)
+- Support a scrolled_composite auto-growing based on its content (e.g. canvas)
+- Support a path containing a `quad` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
+- Support a path containing a `cubic` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
+- Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
+- Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
+- Support a line `point_array` property to be consistent with `quad` `polygon` and `polyline` (behaving differently inside a path)
+- Support a line `x`/`y` properties to indicate you are joining to last point just like a `point_array` with one point
+- Support a path containing a nested `path`
 
 ## Samples
 

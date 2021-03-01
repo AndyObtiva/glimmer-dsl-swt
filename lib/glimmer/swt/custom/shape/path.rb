@@ -32,11 +32,11 @@ module Glimmer
     module Custom
       # Represents a path to be drawn on a control/widget/canvas/display
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
+      # swt_path is not guaranteed to have any object in it till after rendering
       class Shape
         class Path < Shape
           include PathSegment # a path may behave as a path segment in another path
           
-          attr_accessor :flatness, :closed
           attr_reader :swt_path, :path_segments
         
           def initialize(parent, keyword, *args, &property_block)
@@ -196,7 +196,7 @@ module Glimmer
           end
           
           def eql?(other)
-            geometry.equals(other && other.respond_to?(:geometry) && other.geometry)
+            geometry.equals(other && (other.class == Path) && other.respond_to?(:geometry) && other.geometry)
           end
           alias == eql?
           
