@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.6.2
+
+- Update Stock Ticker sample to keep stock names visible when scrolling graphs off the screen
+
 ### 4.18.6.1
 
 - Fixed issues with Canvas Path DSL handling of connected vs non-connected path segments (including in geometry calculations)

@@ -2,19 +2,19 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## Next
+## 4.18.6.2
 
-- Canvas Path DSL support for `path` close/closed property to indicate a closed path
-- Support a path `flatness float_value` property
+- Ensure that disposing path content works and amend Hello, Canvas Path! to dispose a path and redo with the press of a button
 - Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`)
-- Update Stock Ticker sample to keep stock names intact when scrolling graphs off the screen
-
-- Ensure that disposing path content works
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
-- Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 
+## 4.18.7.0
+
+- Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
 - Hello, Shape!
+
+## Next
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..).
@@ -22,11 +22,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
 
-- Implement charts and graphs custom widgets Hello Samples
+- Implement charts and graphs custom widgets Hello Samples (supporting both raw data and function-calculated data)
   - bar_chart (new custom widget)
   - pie_chart (new custom widget, could be doughnut)
   - scatter_plot (new custom widget. Could display back sheet squares or rulers or not)
   - graph (new custom widget, redoes Hello, Canvas Path! and Hello, Curve! but with a papersheet behind and rulers/names for x/y axes, could take a function with start/end points and division length, or point array. Could be rendered as a line, quad or cubic curve. Could display back sheet squares or rulers or not)
+- Spreadsheet Chart Elaborate Sample showing 4 tabs of all chart types based on a spreadsheet that can be edited with data.
 
 - Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
 - Hello, Custom Image (build an image from shapes giving it a name)

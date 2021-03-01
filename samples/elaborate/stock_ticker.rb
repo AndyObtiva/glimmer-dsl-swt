@@ -26,24 +26,24 @@ require 'glimmer-dsl-swt'
 class StockTicker
   class Stock
     class << self
-      attr_writer :stock_price_min, :stock_price_max
+      attr_writer :price_min, :price_max
       
-      def stock_price_min
-        @stock_price_min ||= 1
+      def price_min
+        @price_min ||= 1
       end
       
-      def stock_price_max
-        @stock_price_max ||= 600
+      def price_max
+        @price_max ||= 600
       end
     end
     
-    attr_reader :name, :stock_prices
-    attr_accessor :stock_price
+    attr_reader :name, :prices
+    attr_accessor :price
     
-    def initialize(name, stock_price)
+    def initialize(name, price)
       @name = name
-      @stock_price = stock_price
-      @stock_prices = [@stock_price]
+      @price = price
+      @prices = [@price]
       @delta_sign = 1
       start_new_trend!
     end
@@ -55,7 +55,7 @@ class StockTicker
         @delta_sign *= -1
         start_new_trend!
       end
-      stock_prices << self.stock_price = [[@stock_price + @delta_sign*delta, Stock.stock_price_min].max, Stock.stock_price_max].min
+      prices << self.price = [[@price + @delta_sign*delta, Stock.price_min].max, Stock.price_max].min
     end
     
     def start_new_trend!
@@ -73,52 +73,38 @@ class StockTicker
       Stock.new('ADBE', 459),
     ]
     @stock_colors = [:red, :dark_green, :blue, :dark_magenta]
-    max_stock_name_width = 0
-    left_margin = 5
-    @tabs = ['Lines', 'Quadratic Bezier Curves', 'Cubic Bezier Curves', 'Points'].map {|title| {title: title, stock_paths: [], stock_transforms: []}}
+    margin = 5
+    @tabs = ['Lines', 'Quadratic Bezier Curves', 'Cubic Bezier Curves', 'Points'].map {|title| {title: title, stock_paths: []}}
     @stocks.each_with_index do |stock, stock_index|
-      observe(stock, :stock_price) do |new_price|
+      observe(stock, :price) do |new_price|
         begin
           @tabs.each do |tab|
-            new_x = stock.stock_prices.count - 1
+            new_x = stock.prices.count - 1
             new_y = @tabs.first[:canvas].bounds.height - new_price - 1
-            max_stock_name_width = tab[:text]&.bounds&.width if tab[:text]&.bounds&.width.to_f > max_stock_name_width
             if new_x > 0
               case tab[:title]
               when 'Cubic Bezier Curves'
-                if new_x%3 == 0 && stock.stock_prices[new_x] && stock.stock_prices[new_x - 1] && stock.stock_prices[new_x - 2]
+                if new_x%3 == 0 && stock.prices[new_x] && stock.prices[new_x - 1] && stock.prices[new_x - 2]
                   tab[:stock_paths][stock_index].content {
-                    cubic(new_x - 2, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 2] - 1, new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 1] - 1, new_x, new_y)
-                    tab[:stock_transforms][stock_index] ||= transform {
-                      translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
-                    }
+                    cubic(new_x - 2 + margin, @tabs.first[:canvas].bounds.height - stock.prices[new_x - 2] - 1, new_x - 1 + margin, @tabs.first[:canvas].bounds.height - stock.prices[new_x - 1] - 1, new_x + margin, new_y)
                   }
                 end
               when 'Quadratic Bezier Curves'
-                if new_x%2 == 0 && stock.stock_prices[new_x] && stock.stock_prices[new_x - 1]
+                if new_x%2 == 0 && stock.prices[new_x] && stock.prices[new_x - 1]
                   tab[:stock_paths][stock_index].content {
-                    quad(new_x - 1, @tabs.first[:canvas].bounds.height - stock.stock_prices[new_x - 1] - 1, new_x, new_y)
-                    tab[:stock_transforms][stock_index] ||= transform {
-                      translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
-                    }
+                    quad(new_x - 1 + margin, @tabs.first[:canvas].bounds.height - stock.prices[new_x - 1] - 1, new_x + margin, new_y)
                   }
                 end
               when 'Lines'
                 tab[:stock_paths][stock_index].content {
-                  line(new_x, new_y)
-                  tab[:stock_transforms][stock_index] ||= transform {
-                    translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
-                  }
+                  line(new_x + margin, new_y)
                 }
               when 'Points'
                 tab[:stock_paths][stock_index].content {
-                  point(new_x, new_y)
-                  tab[:stock_transforms][stock_index] ||= transform {
-                    translate max_stock_name_width + 5 + left_margin, tab[:text].bounds.height / 2.0
-                  }
+                  point(new_x + margin, new_y)
                 }
               end
-              new_x_location = new_x + max_stock_name_width + 5 + left_margin + 5
+              new_x_location = new_x + 2*margin
               canvas_width = tab[:canvas].bounds.width
               if new_x_location > canvas_width
                 tab[:canvas].set_size(new_x_location, @tabs.first[:canvas].bounds.height)
@@ -127,9 +113,10 @@ class StockTicker
                 tab[:scrolled_composite].set_origin(tab[:scrolled_composite].origin.x + 1, tab[:scrolled_composite].origin.y) if (tab[:scrolled_composite].origin.x + tab[:scrolled_composite].client_area.width) == canvas_width
               end
             else
-              tab[:canvas].content {
-                tab[:text] = text(stock.name, new_x + left_margin, new_y) {
+              tab[:canvas_header].content {
+                text(stock.name, 15, new_y - 10) {
                   foreground @stock_colors[stock_index]
+                  font height: 14
                 }
               }
             end
@@ -163,13 +150,17 @@ class StockTicker
       @tab_folder = tab_folder {
         @tabs.each do |tab|
           tab_item {
-            fill_layout {
+            grid_layout(2, false) {
               margin_width 0
               margin_height 0
             }
             text tab[:title]
             
+            tab[:canvas_header] = canvas {
+              layout_data(:center, :fill, false, true)
+            }
             tab[:scrolled_composite] = scrolled_composite {
+              layout_data :fill, :fill, true, true
               tab[:canvas] = canvas {
                 background :white
                 
@@ -209,8 +200,8 @@ class StockTicker
       }
     
       on_swt_show {
-        Stock.stock_price_min = 25
-        Stock.stock_price_max = @tabs.first[:canvas].bounds.height - 6
+        Stock.price_min = 25
+        Stock.price_max = @tabs.first[:canvas].bounds.height - 6
         # pre-initialize all tabs by selecting them so that they render content when they are later in the background
         @tab_folder.items.each do |item|
           @tab_folder.selection = item
