@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.18.6.1
+
+- Fixed issues with Canvas Path DSL handling of connected vs non-connected path segments (including in geometry calculations)
+- Optimized Canvas Path DSL redraw performance by removing extra redraws
+- Fixed issues in the Hello, Canvas Path! sample and renamed to Stock Ticker
+- Added a new simpler Hello, Canvas Path! sample
+
 ### 4.18.6.0
 
 - Canvas Path DSL support (Alpha) for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified)

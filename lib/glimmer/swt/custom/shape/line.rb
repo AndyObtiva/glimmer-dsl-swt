@@ -147,6 +147,14 @@ module Glimmer
             @args
           end
           
+          def default_path_segment_arg_count
+            4
+          end
+          
+          def default_connected_path_segment_arg_count
+            2
+          end
+          
           def path_segment_geometry_args
             # TODO make args auto-infer first point if previous_point_connected is true or if there is only x1,y1 or x2,y2 (but not both), or if there is an x, y, or if there is a point_array with 1 point
             @args[0..1]

@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support a path containing a `quad` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the middle control point through an equilateral triangle.)
 - Support a path containing a `cubic` bezier curve optional `previous_point_connected` property (first point is auto-derived from previous point if not specified. If points are 1, it auto-connects to previous point and auto-fills the 2 middle control points through a square. If points are 2, it only fills the missing middle control point symmetrically to the first control point)
-
 - Canvas Path DSL support for `path` `closed true` property
 - Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
 - Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
@@ -17,6 +16,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support a tabfolder prerendering/preinit of its tabs
 - Support a scrolled_composite auto-growing based on its content (e.g. canvas)
+- Update Stock Ticker sample to keep stock names intact when scrolling graphs off the screen
 
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support `scrolled_canvas` custom widget

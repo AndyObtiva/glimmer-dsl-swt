@@ -33,6 +33,7 @@
     - [Hello, Canvas!](#hello-canvas)
     - [Hello, Canvas Animation!](#hello-canvas-animation)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
+    - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
     - [Hello, Tree!](#hello-tree)
@@ -45,6 +46,7 @@
     - [Contact Manager](#contact-manager)
     - [Glimmer Tetris](#glimmer-tetris)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
+    - [Stock Ticker](#stock-ticker)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -616,6 +618,18 @@ Hello, Canvas Transform!
 
 ![Hello Canvas Transform](/images/glimmer-hello-canvas-transform.png)
 
+#### Hello, Canvas Path!
+
+This sample demonstrates the use of the `path`, `quad`, `cubic`, `line`, and `point` keywords as part of the [Canvas Path DSL](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-path-dsl) within the [Canvas Shape DSL](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl).
+
+Code:
+
+[samples/hello/hello_canvas_path.rb](/samples/hello/hello_canvas_path.rb)
+
+Hello, Canvas Path!
+
+![Hello Canvas Path](/images/glimmer-hello-canvas-path.png)
+
 #### Hello, Cursor!
 
 This sample demonstrates the use of the `cursor` property keyword to change the mouse cursor.
@@ -811,6 +825,16 @@ Code:
 ![Mandelbrot Fractal Cores Menu](/images/glimmer-mandelbrot-menu-cores.png)
 
 ![Mandelbrot Fractal Help Menu](/images/glimmer-mandelbrot-menu-help.png)
+
+#### Stock Ticker
+
+This sample demonstrates a Stock Ticker that generates random stock price data for 4 different stocks and provides 4 different tab views of the graphed data using the [Canvas Path DSL](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-path-dsl). It leverages a thread that runs in the background and ticks the stocks to generate random new stock prices before amending the graphed paths with them.
+
+Code:
+
+[samples/elaborate/stock_ticker.rb](/samples/elaborate/stock_ticker.rb)
+
+![Stock Ticker](/images/glimmer-stock-ticker.gif)
 
 ### External Samples
 

@@ -164,7 +164,7 @@ module Glimmer
               @geometry_path_segments = @path_segments
               @geometry = Java::JavaAwtGeom::Path2D::Double.new
               @path_segments.each do |path_segment|
-                @geometry.send(path_segment.path_segment_geometry_method_name, *path_segment.path_segment_geometry_args)
+                path_segment.add_to_geometry(@geometry)
               end
             end
             @geometry
@@ -179,12 +179,20 @@ module Glimmer
           end
                             
           def path_segment_geometry_method_name
-            'append'
+            if self.class == Path
+              'append'
+            else
+              super
+            end
           end
                     
           def path_segment_geometry_args
-            # TODO consider supporting connected true instead of false (2nd arg)
-            [geometry, false]
+            if self.class == Path
+              # TODO consider supporting connected true instead of false (2nd arg)
+              [geometry, false]
+            else
+              super
+            end
           end
           
           def eql?(other)

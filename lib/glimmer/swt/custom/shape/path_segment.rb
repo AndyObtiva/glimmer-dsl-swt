@@ -38,6 +38,12 @@ module Glimmer
           def path_segment_args
             []
           end
+          # Subclasses must override to indicate expected complete count of args when previous point is NOT connected (e.g. 4 for line, 6 for quad, 8 for cubic)
+          def default_path_segment_arg_count
+          end
+          # Subclasses must override to indicate expected count of args when previous point IS connected (e.g. 2 for line, 4 for quad, 6 for cubic)
+          def default_connected_path_segment_arg_count
+          end
           # Subclasses may override to provide name of method to invoke for geometry object obtained from the Java AWT library java.awt.geom.Path2D.Double (e.g. curveTo vs cubicTo)
           def path_segment_geometry_method_name
             path_segment_method_name
@@ -67,18 +73,37 @@ module Glimmer
             if @swt_path != swt_path
               @swt_path = swt_path
               the_path_segment_args = path_segment_args.dup
-              if !previous_point_connected? && !is_a?(Point)
-                if is_a?(Line) && the_path_segment_args.count > 2
-                  point = the_path_segment_args.shift, the_path_segment_args.shift
-                  @swt_path.moveTo(*point)
-                elsif first_path_segment? && self.class != Path
-                  point = the_path_segment_args[0..1]
-                  @swt_path.moveTo(*point)
+              if !is_a?(Point) && self.class != Path
+                if !previous_point_connected?
+                  if the_path_segment_args.count == default_path_segment_arg_count
+                    point = the_path_segment_args.shift, the_path_segment_args.shift
+                    @swt_path.moveTo(*point)
+                  elsif first_path_segment?
+                    point = the_path_segment_args[0..1]
+                    @swt_path.moveTo(*point)
+                  end
                 end
               end
               @swt_path.send(path_segment_method_name, *the_path_segment_args)
             end
           end
+          
+          def add_to_geometry(geometry)
+            the_path_segment_geometry_args = path_segment_geometry_args.dup
+            if !is_a?(Point) && self.class != Path
+              if !previous_point_connected?
+                if the_path_segment_geometry_args.count == default_path_segment_arg_count
+                  point = the_path_segment_geometry_args.shift, the_path_segment_geometry_args.shift
+                  @swt_path.moveTo(*point)
+                elsif first_path_segment?
+                  point = the_path_segment_geometry_args[0..1]
+                  @swt_path.moveTo(*point)
+                end
+              end
+            end
+            geometry.send(path_segment_geometry_method_name, *the_path_segment_geometry_args)
+          end
+                  
         end
       end
     end

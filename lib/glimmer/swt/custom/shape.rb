@@ -230,7 +230,6 @@ module Glimmer
           Glimmer::SWT::DisplayProxy.instance.auto_exec do
             Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, &block)
             calculated_args_changed!(children: false)
-            drawable.redraw unless drawable.is_a?(ImageProxy)
           end
         end
         
@@ -243,11 +242,11 @@ module Glimmer
         end
         
         def post_add_content
-#           unless @content_added # TODO delete if no longer needed
-            amend_method_name_options_based_on_properties!
+          amend_method_name_options_based_on_properties!
+          if !@content_added || @method_name != @original_method_name
             @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
-#           end
+          end
         end
         
         def apply_property_arg_conversions(method_name, property, args)
@@ -367,6 +366,7 @@ module Glimmer
         end
         
         def amend_method_name_options_based_on_properties!
+          @original_method_name = @method_name
           return if @name == 'point'
           if @name != 'text' && @name != 'string' && has_some_background? && !has_some_foreground?
             @options[:fill] = true

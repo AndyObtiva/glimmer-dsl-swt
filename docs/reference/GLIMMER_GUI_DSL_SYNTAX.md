@@ -1956,9 +1956,9 @@ As they say, there are many ways to skin a cat! This is in line with the Ruby wa
 
 ### Canvas Path DSL
 
-**(EARLY ALPHA FEATURE)**
+**(ALPHA FEATURE)**
 
-Unlike common imperative GUI charting toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path` keyword and by nesting one of the following keywords underneath:
+Unlike common imperative GUI graphing toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path { }` keyword and by nesting one of the following path segment keywords underneath:
 - `point(x1, y1)`: renders a Point (Dot) as part of a path.
 - `line(x1, y1, x2=nil, y2=nil)`: renders a Line as part of a path. If you drop x2, y2, it joins to the previous point automatically. You may repeat for a series of lines forming a curve.
 - `quad(x1, y1, x2, y2, x3=nil, y3=nil)`: renders a Quadratic Bezier Curve. If you drop x3 and y3, it joins to the previous point automatically.
@@ -1967,8 +1967,10 @@ Unlike common imperative GUI charting toolkits, Glimmer enables declarative rend
 Example:
 
 ```ruby
+include Glimmer
+
 shell {
-  text 'Canvas Path DSL Example'
+  text 'Canvas Path Example'
   minimum_size 300, 300
   
   canvas {
@@ -1984,9 +1986,11 @@ shell {
 }.open
 ```
 
-Learn more at the [Hello, Canvas Path! Sample](/samples/hello/hello_canvas_path.rb).
+![Canvas Path Example](/images/glimmer-example-canvas-path.png)
 
-![Hello Canvas Path Sample](/images/glimmer-hello-canvas-path.gif)
+Learn more at the [Hello, Canvas Path!](GLIMMER_SAMPLES.md#hello-canvas-path) and [Stock Ticker](GLIMMER_SAMPLES.md#stock-ticker) samples.
+
+![Stock Ticker](/images/glimmer-stock-ticker.gif)
 
 ### Canvas Transform DSL
 

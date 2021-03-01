@@ -39,10 +39,11 @@ module Glimmer
           end
           
           def geometry
-            if @point_array != @geometry_point_array
-              @geometry_point_array = @point_array
+            the_point_array = point_array
+            if the_point_array != @geometry_point_array
+              @geometry_point_array = the_point_array
               @geometry = Java::JavaAwtGeom::Path2D::Double.new
-              @geometry.send(path_segment_geometry_method_name, *path_segment_geometry_args)
+              add_to_geometry(@geometry)
             end
             @geometry
           end
@@ -82,6 +83,14 @@ module Glimmer
           def path_segment_args
             # TODO make args auto-infer control points if previous_point_connected is true or if there is only a point_array with 1 point
             @args.to_a
+          end
+          
+          def default_path_segment_arg_count
+            6
+          end
+          
+          def default_connected_path_segment_arg_count
+            4
           end
           
           def previous_point_connected?
