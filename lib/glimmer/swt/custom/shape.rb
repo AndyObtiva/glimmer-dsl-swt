@@ -60,7 +60,6 @@ module Glimmer
       # Represents a shape (graphics) to be drawn on a control/widget/canvas/display
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
-        include Packages
         include Properties
         
         class << self
@@ -253,7 +252,7 @@ module Glimmer
           args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
           return args if the_java_method.nil?
-          if the_java_method.parameter_types.first == Color.java_class && args.first.is_a?(RGB)
+          if the_java_method.parameter_types.first == org.eclipse.swt.graphics.Color.java_class && args.first.is_a?(org.eclipse.swt.graphics.RGB)
             args[0] = [args[0].red, args[0].green, args[0].blue]
           end
           if ['setBackground', 'setForeground'].include?(method_name.to_s) && args.first.is_a?(Array)
@@ -264,7 +263,7 @@ module Glimmer
             args[1..-1] = []
           end
           if args.first.is_a?(Symbol) || args.first.is_a?(::String)
-            if the_java_method.parameter_types.first == Color.java_class
+            if the_java_method.parameter_types.first == org.eclipse.swt.graphics.Color.java_class
               args[0] = ColorProxy.new(args[0])
             end
             if the_java_method.parameter_types.first == Java::int.java_class
@@ -274,7 +273,7 @@ module Glimmer
           if args.first.is_a?(ColorProxy)
             args[0] = args[0].swt_color
           end
-          if (args.first.is_a?(Hash) || args.first.is_a?(FontData)) && the_java_method.parameter_types.first == Font.java_class
+          if (args.first.is_a?(Hash) || args.first.is_a?(org.eclipse.swt.graphics.FontData)) && the_java_method.parameter_types.first == org.eclipse.swt.graphics.Font.java_class
             args[0] = FontProxy.new(args[0])
           end
           if args.first.is_a?(FontProxy)
@@ -287,7 +286,7 @@ module Glimmer
             @drawable.requires_shape_disposal = true
             args = args.first if args.first.is_a?(Array)
             args.each_with_index do |arg, i|
-              arg = ColorProxy.new(arg.red, arg.green, arg.blue) if arg.is_a?(RGB)
+              arg = ColorProxy.new(arg.red, arg.green, arg.blue) if arg.is_a?(org.eclipse.swt.graphics.RGB)
               arg = ColorProxy.new(arg) if arg.is_a?(Symbol) || arg.is_a?(::String)
               arg = arg.swt_color if arg.is_a?(ColorProxy)
               args[i] = arg
@@ -816,7 +815,7 @@ module Glimmer
             if @name == 'pixel'
               @name = 'point'
               # optimized performance calculation for pixel points
-              if !@properties[:foreground].is_a?(Color)
+              if !@properties[:foreground].is_a?(org.eclipse.swt.graphics.Color)
                 if @properties[:foreground].is_a?(Array)
                   @properties[:foreground] = ColorProxy.new(@properties[:foreground], ensure_bounds: false)
                 end

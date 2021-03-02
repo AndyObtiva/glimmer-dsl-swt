@@ -12,6 +12,8 @@ glimmer package
 
 It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating all available packaging types on the current platform (e.g. `DMG`, `PKG`, `APP` on the Mac) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows). If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.
 
+(note: if you see this error on the Mac 'Error: Bundler "DMG Installer" (dmg) failed to produce a bundle.', ignore it as it should have produced a bundle anyways. It is a harmless issue in 3rd party dependency: javapackager.)
+
 You may choose to generate a specific type of packaging instead by addionally passing in the `[type]` option. For example, this generates an MSI setup file on Windows:
 
 ```

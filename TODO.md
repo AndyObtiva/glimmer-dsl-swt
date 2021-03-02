@@ -2,7 +2,7 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## 4.18.6.2
+## Upcoming 4.18.6.3
 
 - Ensure that disposing path content works and amend Hello, Canvas Path! to dispose a path and redo with the press of a button
 - Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`) (also look into auto-packing issues)
@@ -10,7 +10,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document Canvas Path API
 - Support trimming line style symbols (no need to say line_ before each style) in Canvas Shape DSL line_style property
 
-## 4.18.7.0
+## Upcoming 4.18.7.0
 
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
@@ -436,6 +436,7 @@ items <=> binding {
 - Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
 - Support a line `point_array` property to be consistent with `quad` `polygon` and `polyline` (behaving differently inside a path)
 - Support a path containing a nested `path`
+- Consider implementing undo/redo support for adding points/lines/quads/cubics to paths
 
 ## Samples
 

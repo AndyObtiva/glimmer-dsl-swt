@@ -1976,7 +1976,6 @@ shell {
   canvas {
     path {
       foreground :black
-      point(0, 0)
       250.times {|n|
         cubic(n + n%30, n+ n%50, 40, 40, 70, 70, n + 20 + n%30, n%30*-1 * n%50)
       }

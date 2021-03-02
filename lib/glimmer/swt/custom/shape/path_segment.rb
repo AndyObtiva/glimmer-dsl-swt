@@ -46,6 +46,10 @@ module Glimmer
             end
             current_parent
           end
+          # this is needed to indicate if a shape is part of a path or not (e.g. line and point could be either)
+          def part_of_path?
+            !!root_path
+          end
           # Subclasses must override and implement to indicate method name to invoke on SWT Path object to add segment
           def path_segment_method_name
             nil
@@ -75,6 +79,8 @@ module Glimmer
           
           def dispose
             parent.post_dispose_content(self) if parent.is_a?(Path)
+            super if !part_of_path?
+            drawable.redraw unless drawable.is_a?(ImageProxy)
           end
           
           def first_path_segment?

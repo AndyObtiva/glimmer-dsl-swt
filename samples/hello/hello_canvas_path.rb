@@ -76,6 +76,7 @@ shell {
     @thread = Thread.new {
       loop {
         if @regenerate
+          @regenerate = false
           @path1.clear
           @path2.clear
           @path3.clear
@@ -103,7 +104,6 @@ shell {
             end
             sleep(0.01)
           end
-          @regenerate = false
           @button.enabled = true
         end
         sleep(0.1)

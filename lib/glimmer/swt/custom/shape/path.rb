@@ -30,10 +30,10 @@ require 'glimmer/swt/display_proxy'
 module Glimmer
   module SWT
     module Custom
-      # Represents a path to be drawn on a control/widget/canvas/display
-      # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
-      # swt_path is not guaranteed to have any object in it till after rendering
       class Shape
+        # Represents a path to be drawn on a control/widget/canvas/display
+        # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
+        # swt_path is not guaranteed to have any object in it till after rendering
         class Path < Shape
           include PathSegment # a path may behave as a path segment in another path
           

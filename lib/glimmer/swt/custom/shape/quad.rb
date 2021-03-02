@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/custom/shape'
+require 'glimmer/swt/custom/shape/path'
 require 'glimmer/swt/custom/shape/path_segment'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
