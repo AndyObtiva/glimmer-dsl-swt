@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.6.3
 
-- Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`) (also look into auto-packing issues)
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 - Document Canvas Path API
 - Support trimming line style symbols (no need to say line_ before each style) in Canvas Shape DSL line_style property
@@ -436,6 +435,7 @@ items <=> binding {
 - Support a line `point_array` property to be consistent with `quad` `polygon` and `polyline` (behaving differently inside a path)
 - Support a path containing a nested `path`
 - Consider implementing undo/redo support for adding points/lines/quads/cubics to paths
+- `tab_folder` look into auto-packing issues
 
 ## Samples
 

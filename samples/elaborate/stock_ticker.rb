@@ -202,11 +202,6 @@ class StockTicker
       on_swt_show {
         Stock.price_min = 25
         Stock.price_max = @tabs.first[:canvas].bounds.height - 6
-        # pre-initialize all tabs by selecting them so that they render content when they are later in the background
-        @tab_folder.items.each do |item|
-          @tab_folder.selection = item
-        end
-        @tab_folder.selection = @tab_folder.items.first
       }
       
       on_widget_disposed {

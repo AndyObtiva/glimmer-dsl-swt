@@ -4,6 +4,7 @@
 
 - Support `Glimmer::SWT::Custom::Shape::PathSegment#dispose` method
 - Amend Hello, Canvas Path! sample with ability to regenerate paths
+- Make `tab_folder` preinit all its tabs by default while supporting the SWT style of `:initialize_tabs_on_select` to init tabs on first select instead.
 
 ### 4.18.6.2
 
