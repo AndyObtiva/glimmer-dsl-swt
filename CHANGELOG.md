@@ -2,7 +2,12 @@
 
 ### 4.18.6.2
 
+- Hello, Canvas Data Binding! Sample
 - Update Stock Ticker sample to keep stock names visible when scrolling graphs off the screen
+- `rgb` keyword tolerance of nil values (converts to 0)
+- Canvas Path DSL Data-Binding
+- Added `Glimmer::SWT::Custom::Shape::PathSegment` `#path` and `#root_path` API methods to enable determining what path/root-path the path segment is part of.
+- Fixed issues with geometry calculation of path segments (especially line)
 
 ### 4.18.6.1
 

@@ -8,6 +8,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`) (also look into auto-packing issues)
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 - Document Canvas Path API
+- Support trimming line style symbols (no need to say line_ before each style) in Canvas Shape DSL line_style property
 
 ## 4.18.7.0
 
@@ -434,7 +435,6 @@ items <=> binding {
 - Support nesting a `quad` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
 - Support nesting a `cubic` directly under a canvas or shape, instead of path (behaving as a full path object instead of just a path segment)
 - Support a line `point_array` property to be consistent with `quad` `polygon` and `polyline` (behaving differently inside a path)
-- Support a line `x`/`y` properties to indicate you are joining to last point just like a `point_array` with one point
 - Support a path containing a nested `path`
 
 ## Samples

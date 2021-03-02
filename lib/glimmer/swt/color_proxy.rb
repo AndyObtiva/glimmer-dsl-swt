@@ -99,7 +99,7 @@ module Glimmer
       def ensure_arg_values_within_valid_bounds
         if @args.to_a.size >= 3
           @args = @args.map do |value|
-            [[value, 255].min, 0].max
+            [[value.to_f, 255].min, 0].max
           end
         end
       end

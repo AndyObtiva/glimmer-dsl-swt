@@ -30,6 +30,22 @@ module Glimmer
         # Represents path segments like point, line, quad, and cubic curves
         # Shapes could mix in
         module PathSegment
+          def root_path
+            current_parent = parent
+            until current_parent.class == Path && !current_parent.parent.is_a?(Path)
+              current_parent = current_parent.parent
+              return current_parent if current_parent.nil?
+            end
+            current_parent
+          end
+          def path
+            current_parent = parent
+            until current_parent.class == Path
+              current_parent = current_parent.parent
+              return current_parent if current_parent.nil?
+            end
+            current_parent
+          end
           # Subclasses must override and implement to indicate method name to invoke on SWT Path object to add segment
           def path_segment_method_name
             nil
@@ -94,10 +110,10 @@ module Glimmer
               if !previous_point_connected?
                 if the_path_segment_geometry_args.count == default_path_segment_arg_count
                   point = the_path_segment_geometry_args.shift, the_path_segment_geometry_args.shift
-                  @swt_path.moveTo(*point)
+                  geometry.moveTo(point[0], point[1])
                 elsif first_path_segment?
                   point = the_path_segment_geometry_args[0..1]
-                  @swt_path.moveTo(*point)
+                  geometry.moveTo(point[0], point[1])
                 end
               end
             end

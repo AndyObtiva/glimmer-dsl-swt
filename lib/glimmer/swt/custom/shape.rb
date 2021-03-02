@@ -434,6 +434,11 @@ module Glimmer
           end
           if @content_added && perform_redraw && !drawable.is_disposed
             @calculated_paint_args = false
+            if is_a?(PathSegment)
+              root_path&.calculated_path_args = @calculated_path_args = false
+              calculated_args_changed!
+              root_path&.calculated_args_changed!
+            end
             attribute_name = ruby_attribute_getter(attribute_name)
             if location_parameter_names.map(&:to_s).include?(attribute_name)
               @calculated_args = nil

@@ -38,6 +38,7 @@ module Glimmer
           include PathSegment # a path may behave as a path segment in another path
           
           attr_reader :swt_path, :path_segments
+          attr_accessor :calculated_path_args
         
           def initialize(parent, keyword, *args, &property_block)
             super
@@ -107,14 +108,19 @@ module Glimmer
           end
           
           def calculated_args
-            new_swt_path = @swt_path.nil?
-            @swt_path ||= org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
+            new_swt_path = @swt_path.nil? || !@calculated_paint_args || !@calculated_path_args
+            if new_swt_path
+              @swt_path&.dispose
+              @swt_path = org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
+              @uncalculated_path_segments = @path_segments.dup
+            end
             # TODO recreate @swt_path only if one of the children get disposed (must notify parent on dispose)
             @args = [@swt_path]
             @uncalculated_path_segments.each do |path_segment|
               path_segment.add_to_swt_path(@swt_path)
               @uncalculated_path_segments.delete(path_segment)
             end
+            @calculated_path_args = true
             if new_swt_path
               @path_calculated_args = super
             else

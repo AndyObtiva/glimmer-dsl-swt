@@ -82,7 +82,7 @@ module Glimmer
           
           def path_segment_args
             # TODO make args auto-infer control points if previous_point_connected is true or if there is only a point_array with 1 point
-            @args.to_a
+            @args
           end
           
           def default_path_segment_arg_count

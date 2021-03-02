@@ -1,4 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
+# Copyright (c) 2007-2021 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -157,7 +158,7 @@ module Glimmer
           
           def path_segment_geometry_args
             # TODO make args auto-infer first point if previous_point_connected is true or if there is only x1,y1 or x2,y2 (but not both), or if there is an x, y, or if there is a point_array with 1 point
-            @args[0..1]
+            @args
           end
           
           def previous_point_connected?
