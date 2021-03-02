@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.6.3
 
-- Ensure that disposing path content works and amend Hello, Canvas Path! to dispose a path and redo with the press of a button
 - Support a tabfolder prerendering/preinit of its tabs (or opposite of `:no_pre_render`) (also look into auto-packing issues)
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 - Document Canvas Path API

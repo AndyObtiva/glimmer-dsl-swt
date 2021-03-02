@@ -81,7 +81,7 @@ shell {
           @path2.clear
           @path3.clear
           y1 = y2 = y3 = 300
-          730.times.each do |x|
+          700.times.each do |x|
             x += 55
             x1 = x - 2
             x2 = x - 1

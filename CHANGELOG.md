@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.6.3
+
+- Support `Glimmer::SWT::Custom::Shape::PathSegment#dispose` method
+- Amend Hello, Canvas Path! sample with ability to regenerate paths
+
 ### 4.18.6.2
 
 - Hello, Canvas Data Binding! Sample

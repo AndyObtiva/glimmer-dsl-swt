@@ -503,7 +503,7 @@ module Glimmer
           pattern_args(type: 'foreground')
         end
         
-        def dispose(dispose_images: true, dispose_patterns: true)
+        def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
           shapes.each { |shape| shape.is_a?(Shape::Path) && shape.dispose }
           if dispose_patterns
             @background_pattern&.dispose
@@ -516,6 +516,7 @@ module Glimmer
             @image = nil
           end
           @parent.shapes.delete(self)
+          drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
         
         def paint(paint_event)
@@ -553,7 +554,7 @@ module Glimmer
           end
           @painting = false
         rescue => e
-          Glimmer::Config.logger.error {"Error encountered in painting shape (#{self.inspect}) with calculated args (#{@calculated_args}) and args (#{@args})"}
+          Glimmer::Config.logger.error {"Error encountered in painting shape (#{self.inspect}) with method (#{@method_name}) calculated args (#{@calculated_args}) and args (#{@args})"}
           Glimmer::Config.logger.error {e.full_message}
         ensure
           @painting = false

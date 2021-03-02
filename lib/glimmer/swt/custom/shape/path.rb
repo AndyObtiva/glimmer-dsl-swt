@@ -52,8 +52,10 @@ module Glimmer
           
           def add_shape(shape)
             if shape.is_a?(PathSegment)
-              @path_segments << shape
-              @uncalculated_path_segments << shape
+              Glimmer::SWT::DisplayProxy.instance.auto_exec do
+                @path_segments << shape
+                @uncalculated_path_segments << shape
+              end
             else
               super
             end
@@ -80,27 +82,34 @@ module Glimmer
           end
           
           def post_dispose_content(path_segment)
-            @path_segments.delete(path_segment)
-            @uncalculated_path_segments = @path_segments.dup
-            @swt_path&.dispose
-            @swt_path = nil
-            @args = []
-            calculated_args_changed!(children: false)
+            Glimmer::SWT::DisplayProxy.instance.auto_exec do
+              @path_segments.delete(path_segment)
+              @uncalculated_path_segments = @path_segments.dup
+              @swt_path&.dispose
+              @swt_path = nil
+              @args = []
+              calculated_args_changed!(children: false)
+            end
           end
           
           def clear
-            @path_segments.each { |path_segments| path_segments.class == Path && path_segments.dispose }
-            @path_segments.clear
-            @uncalculated_path_segments = @path_segments.dup
-            @swt_path&.dispose
-            @swt_path = nil
-            @args = []
-            calculated_args_changed!(children: false)
+            Glimmer::SWT::DisplayProxy.instance.auto_exec do
+              @path_segments.each { |path_segments| path_segments.class == Path && path_segments.dispose }
+              @path_segments.clear
+              @uncalculated_path_segments = @path_segments.dup
+              @swt_path&.dispose
+              @swt_path = nil
+              @args = []
+              calculated_args_changed!(children: false)
+              drawable.redraw unless drawable.is_a?(ImageProxy)
+            end
           end
           
-          def dispose
-            clear if self.class == Path
-            super if parent.is_a?(Drawable)
+          def dispose(redraw: true)
+            Glimmer::SWT::DisplayProxy.instance.auto_exec do
+              clear if self.class == Path
+              super(redraw: redraw) if (parent.is_a?(Shape) && (!parent.is_a?(PathSegment) || !parent.part_of_path?)) || parent.is_a?(Drawable)
+            end
           end
           
           def calculated_args_changed!(children: true)
@@ -110,15 +119,19 @@ module Glimmer
           def calculated_args
             new_swt_path = @swt_path.nil? || !@calculated_paint_args || !@calculated_path_args
             if new_swt_path
-              @swt_path&.dispose
-              @swt_path = org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
-              @uncalculated_path_segments = @path_segments.dup
+              Glimmer::SWT::DisplayProxy.instance.auto_exec do
+                @swt_path&.dispose
+                @swt_path = org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
+                @uncalculated_path_segments = @path_segments.dup
+              end
             end
             # TODO recreate @swt_path only if one of the children get disposed (must notify parent on dispose)
             @args = [@swt_path]
-            @uncalculated_path_segments.each do |path_segment|
-              path_segment.add_to_swt_path(@swt_path)
-              @uncalculated_path_segments.delete(path_segment)
+            @uncalculated_path_segments.dup.each do |path_segment|
+              Glimmer::SWT::DisplayProxy.instance.auto_exec do
+                path_segment.add_to_swt_path(@swt_path)
+                @uncalculated_path_segments.delete(path_segment)
+              end
             end
             @calculated_path_args = true
             if new_swt_path

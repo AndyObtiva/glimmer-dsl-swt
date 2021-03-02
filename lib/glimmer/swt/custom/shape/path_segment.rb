@@ -24,8 +24,6 @@ require 'glimmer/swt/custom/shape'
 module Glimmer
   module SWT
     module Custom
-      # Represents a path to be drawn on a control/widget/canvas/display
-      # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         # Represents path segments like point, line, quad, and cubic curves
         # Shapes could mix in
@@ -77,10 +75,17 @@ module Glimmer
             true
           end
           
-          def dispose
-            parent.post_dispose_content(self) if parent.is_a?(Path)
-            super if !part_of_path?
-            drawable.redraw unless drawable.is_a?(ImageProxy)
+          def dispose(redraw: true)
+            Glimmer::SWT::DisplayProxy.instance.auto_exec do
+              # including classes could override to dispose of resources first
+              # afterwards, parent removes from its path segments with post_dispose_content
+              parent.post_dispose_content(self) if parent.is_a?(Path)
+              if part_of_path?
+                drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
+              else
+                super(redraw: redraw)
+              end
+            end
           end
           
           def first_path_segment?
@@ -92,22 +97,19 @@ module Glimmer
           end
           
           def add_to_swt_path(swt_path)
-            if @swt_path != swt_path
-              @swt_path = swt_path
-              the_path_segment_args = path_segment_args.dup
-              if !is_a?(Point) && self.class != Path
-                if !previous_point_connected?
-                  if the_path_segment_args.count == default_path_segment_arg_count
-                    point = the_path_segment_args.shift, the_path_segment_args.shift
-                    @swt_path.moveTo(*point)
-                  elsif first_path_segment?
-                    point = the_path_segment_args[0..1]
-                    @swt_path.moveTo(*point)
-                  end
+            the_path_segment_args = path_segment_args.dup
+            if !is_a?(Point) && self.class != Path
+              if !previous_point_connected?
+                if the_path_segment_args.count == default_path_segment_arg_count
+                  point = the_path_segment_args.shift, the_path_segment_args.shift
+                  swt_path.moveTo(*point)
+                elsif first_path_segment?
+                  point = the_path_segment_args[0..1]
+                  swt_path.moveTo(*point)
                 end
               end
-              @swt_path.send(path_segment_method_name, *the_path_segment_args)
             end
+            swt_path.send(path_segment_method_name, *the_path_segment_args)
           end
           
           def add_to_geometry(geometry)
