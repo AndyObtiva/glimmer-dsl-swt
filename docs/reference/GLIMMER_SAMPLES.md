@@ -34,6 +34,7 @@
     - [Hello, Canvas Animation!](#hello-canvas-animation)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Canvas Path!](#hello-canvas-path)
+    - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
     - [Hello, Tree!](#hello-tree)
@@ -629,6 +630,20 @@ Code:
 Hello, Canvas Path!
 
 ![Hello Canvas Path](/images/glimmer-hello-canvas-path.png)
+
+#### Hello, Canvas Data Binding!
+
+This sample demonstrates Canvas Shape DSL data-binding.
+
+Code:
+
+[samples/hello/hello_canvas_data_binding.rb](/samples/hello/hello_canvas_data_binding.rb)
+
+Hello, Canvas Data Binding!
+
+![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.png)
+
+![Hello Canvas Data Binding Line Changed](/images/glimmer-hello-canvas-data-binding-line-changed.png)
 
 #### Hello, Cursor!
 
