@@ -348,10 +348,16 @@ module Glimmer
         end
         
         def apply_shape_arg_defaults!
-          self.x = :default if current_parameter_name?(:x) && x.nil?
-          self.y = :default if current_parameter_name?(:y) && y.nil?
-          self.dest_x = :default if current_parameter_name?(:dest_x) && dest_x.nil?
-          self.dest_y = :default if current_parameter_name?(:dest_y) && dest_y.nil?
+          if current_parameter_name?(:dest_x) && dest_x.nil?
+            self.dest_x = :default
+          elsif parameter_name?(:x) && x.nil?
+            self.x = :default
+          end
+          if current_parameter_name?(:dest_y) && dest_y.nil?
+            self.dest_y = :default
+          elsif parameter_name?(:y) && y.nil?
+            self.y = :default
+          end
           self.width = :default if current_parameter_name?(:width) && width.nil?
           self.height = :default if current_parameter_name?(:height) && height.nil?
           if @name.include?('rectangle') && round? && @args.size.between?(4, 5)
@@ -748,7 +754,11 @@ module Glimmer
               shape_x + shape_width
             end
           end
-          x_ends.max.to_f
+          if shapes.size == 1 && shapes.first.max_width?
+            self.parent.size.x
+          else
+            x_ends.max.to_f
+          end
         end
         
         def default_height
@@ -762,17 +772,21 @@ module Glimmer
               shape_y + shape_height
             end
           end
-          y_ends.max.to_f
+          if shapes.size == 1 && shapes.first.max_height?
+            self.parent.size.y
+          else
+            y_ends.max.to_f
+          end
         end
         
         def max_width
           # consider caching
-          parent.is_a?(Drawable) ? parent.bounds.width : parent.calculated_width
+          parent.is_a?(Drawable) ? parent.size.x : parent.calculated_width
         end
         
         def max_height
           # consider caching
-          parent.is_a?(Drawable) ? parent.bounds.height : parent.calculated_height
+          parent.is_a?(Drawable) ? parent.size.y : parent.calculated_height
         end
         
         def calculated_width
