@@ -5,8 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Upcoming 4.18.6.3
 
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
-- Document Canvas Path API
-- Support trimming line style symbols (no need to say line_ before each style) in Canvas Shape DSL line_style property
+- Document the latest Canvas Shape DSL and Canvas Path DSL changes, including API
 
 ## Upcoming 4.18.7.0
 
@@ -18,6 +17,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
 - Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..).
+- Klondike Solitaire
 
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
@@ -61,6 +61,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing

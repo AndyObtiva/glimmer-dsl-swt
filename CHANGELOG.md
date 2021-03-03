@@ -5,6 +5,7 @@
 - Support `Glimmer::SWT::Custom::Shape::PathSegment#dispose` method
 - Amend Hello, Canvas Path! sample with ability to regenerate paths
 - Make `tab_folder` preinit all its tabs by default while supporting the SWT style of `:initialize_tabs_on_select` to init tabs on first select instead.
+- Support trimming line style symbols (no need to say line_ before each style. e.g. `:line_solid` becomes `:solid`) in Canvas Shape DSL line_style property
 
 ### 4.18.6.2
 

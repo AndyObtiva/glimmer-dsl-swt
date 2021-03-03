@@ -266,6 +266,9 @@ module Glimmer
             if the_java_method.parameter_types.first == org.eclipse.swt.graphics.Color.java_class
               args[0] = ColorProxy.new(args[0])
             end
+            if method_name.to_s == 'setLineStyle'
+              args[0] = "line_#{args[0]}" if !args[0].to_s.downcase.start_with?('line_')
+            end
             if the_java_method.parameter_types.first == Java::int.java_class
               args[0] = SWTProxy.constant(args[0])
             end

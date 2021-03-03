@@ -34,7 +34,7 @@ class HelloCanvasDataBinding
   end
   
   def line_style_value_options
-    [:line_solid, :line_dash, :line_dot, :line_dashdot, :line_dashdotdot]
+    [:solid, :dash, :dot, :dashdot, :dashdotdot]
   end
   
   before_body {
@@ -46,7 +46,7 @@ class HelloCanvasDataBinding
     self.foreground_green = 128
     self.foreground_blue = 228
     self.line_width_value = 3
-    self.line_style_value = :line_dot
+    self.line_style_value = :dot
   }
   
   body {
