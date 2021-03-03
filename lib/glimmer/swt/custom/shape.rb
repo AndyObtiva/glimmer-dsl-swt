@@ -73,6 +73,7 @@ module Glimmer
           end
         
           def valid?(parent, keyword, *args, &block)
+            return true if keyword.to_s == 'shape'
             gc_instance_methods.include?(method_name(keyword, arg_options(args))) ||
               constants.include?(keyword.to_s.camelcase(:upper).to_sym)
           end
@@ -134,7 +135,7 @@ module Glimmer
           @drawable = @parent.is_a?(Drawable) ? @parent : @parent.drawable
           @name = keyword
           @options = self.class.arg_options(args, extract: true)
-          @method_name = self.class.method_name(keyword, @options)
+          @method_name = self.class.method_name(keyword, @options) unless keyword.to_s == 'shape'
           @args = args
           @properties = {}
           @shapes = [] # nested shapes
@@ -402,7 +403,7 @@ module Glimmer
         
         # parameter names for arguments to pass to SWT GC.xyz method for rendering shape (e.g. draw_image(image, x, y) yields :image, :x, :y parameter names)
         def parameter_names
-          []
+          [:x, :y, :width, :height]
         end
         
         # subclasses may override to specify location parameter names if different from x and y (e.g. all polygon points are location parameters)

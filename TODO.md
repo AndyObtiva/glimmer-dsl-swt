@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
 - Hello, Shape!
+- Share common attributes placed in `shape` keyword's body with all nested shapes
 - Upgrade to latest glimmer v1.2.0
 
 ## Next
