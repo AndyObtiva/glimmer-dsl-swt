@@ -410,6 +410,14 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 @shell.open
 ```
 
+##### Tab Folder API
+
+Unlike basic SWT usage, `tab_folder` has the smart default of pre-initializing all tabs so that they are properly sized/filled so no delays occur when a user browses through them for the first time by selecting unselected tabs.
+
+The [Stock Ticker](/docs/reference/GLIMMER_SAMPLES.md#stock-ticker) sample takes advantage of this to ensure all tabs are pre-initialized and filled with rendered data even before the user selects any of them.
+
+That said, `tab_folder` can optionally receive a custom Glimmer SWT style named `:initialize_tabs_on_select`, which disables that behavior by going back to SWT's default of initializing tabs upon first selection (e.g. upon clicking with the mouse).
+
 ##### Shell Icon
 
 To set the shell icon, simply set the `image` property under the `shell` widget. This shows up in the operating system toolbar and app-switcher (e.g. CMD+TAB) (and application window top-left corner in Windows)
@@ -1415,7 +1423,7 @@ Optionally, a shape keyword takes a block that can set any attributes from [org.
 Here is a list of supported attributes nestable within a block under shapes:
 - `advanced` enables advanced graphics subsystem (boolean value). Typically gets enabled automatically when setting alpha, antialias, patterns, interpolation, clipping. Rendering sometimes differs between advanced and non-advanced mode for basic graphics too, so you could enable manually if you prefer its look even for basic graphics.
 - `alpha` sets transparency (integer between `0` and `255`)
-- `antialias` enables antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
+- `antialias` enables antialiasing (SWT style value of `:default` (or nil), `:off` (or false), `:on` (or true) whereby `:default` applies OS default, which varies per OS)
 - `background` sets fill color for fillable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
 - `background_pattern` sets fill gradient/image pattern for fillable shape background (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `background_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
 - `clipping` clips area of painting (numeric values for `(x, y, width, height)`)
@@ -1427,7 +1435,7 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `line_cap` sets line cap (SWT style value of `:cap_flat`, `:cap_round`, or `:cap_square`)
 - `line_dash` line dash float values (automatically sets `line_style` to SWT style value of `:line_custom`)
 - `line_join` line join style (SWT style value of `:join_miter`, `:join_round`, or `:join_bevel`)
-- `line_style` line join style (SWT style value of `:line_solid`, `:line_dash`, `:line_dot`, `:line_dashdot`, or `:line_dashdotdot`)
+- `line_style` line join style (SWT style value of `:solid`, `:dash`, `:dot`, `:dashdot`, `:dashdotdot`, or `:custom` while requiring `line_dash` attribute (or alternatively with `line_` prefix as per official SWT docs like `:line_solid` for `:solid`)
 - `line_width` line width in integer (used in draw operations)
 - `text_anti_alias` enables text antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `transform` sets transform object using [Canvas Transform DSL](#canvas-transform-dsl) syntax
@@ -1476,7 +1484,7 @@ Screenshot:
 
 If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent `canvas`.
 
-Note that you could shift a shape off its centered position within its parent `canvas` by using `x_delta` and `y_delta` instead of `x` and `y`
+Note that you could shift a shape off its centered position within its parent `canvas` by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 
 The round and gradient options could be dropped since Glimmer DSL for SWT supports auto-inference of them based on shape parameters.
 
@@ -1633,9 +1641,11 @@ Shapes can be nested within each other. If you nest a shape within another, its 
 
 As such, if you move the parent, it moves all its children with it.
 
-If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent shape relatively.
+If you specify the `x` and `y` coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent shape relatively.
 
-Note that you could shift a shape off its centered position within its parent shape by using `x_delta` and `y_delta` instead of `x` and `y`
+If you specify the `width` and `height` parameters as `:default`, `nil`, or leave them out, they get calculated automatically from the shape's nested children shapes (e.g calculating the dimensions of a text from its extent according to its font size).
+
+Note that you could shift a shape off its centered position within its parent shape by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 
 Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example that nests lines, points, a polyline, and an image within a drawn rectangle parent:
 
@@ -1767,8 +1777,24 @@ They are implemented with the help of the highly robust Java built-in shape geom
 - `Shape#contain?(x, y)` : indicates if shape contains x, y point
 - `Shape#include?(x, y)` : indicates if shape includes x, y point on the edge if drawn or inside if filled (include uses contain for filled shapes)
 - `Shape#move_by(x_delta, y_delta)` : moves shape object at x, y location
+- `Shape#dispose` : disposes of shape, removing it form its parent canvas, widget, or shape
+- `Shape#content {}` : reopens a shape to add more content inside it using the Glimmer GUI DSL (e.g. Canvas Shape DSL) just like `WidgetProxy#content {}`.
 - `Shape#size` : calculated size for shape bounding box (e.g. a polygon with an irregular shape will have its bounding box width and height calculated)
 - `Shape#bounds` : calculated bounds (x, y, width, height) for shape bounding box (e.g. a polygon with an irregular shape will have its bounding box top-left x, y, width and height calculated)
+- `Shape#width` : static (including `:default`) or derived width for shape (including irregular geometric shapes like Polygon)
+- `Shape#height` : static (including `:default`) or derived height for shape (including irregular geometric shapes like Polygon)
+- `Shape#default_width?` : whether `:default` or `[:default, delta]` is set for static width
+- `Shape#default_height?` : whether `:default` or `[:default, delta]` is set for static height
+- `Shape#calculated_width` : calculated width for shape when set to :default to indicate it is sized by its children (e.g. in the case of containing text with a specific font size not knowing its width/height dimensions in advance)
+- `Shape#calculated_height` : calculated height for shape when set to :default to indicate it is sized by its children (e.g. in the case of containing text with a specific font size not knowing its width/height dimensions in advance)
+- `Shape#x` : top-left corner x position, static or `:default` (could be relative if shape is nested within another shape)
+- `Shape#y` : top-left corner y position, static or `:default` (could be relative if shape is nested within another shape)
+- `Shape#absolute_x` : absolute top-left corner x position
+- `Shape#absolute_y` : absolute top-left corner y position
+- `Shape#default_x?` : whether x is specified via `:default` style to indicate centering within parent (or `[:default, offset]`)
+- `Shape#default_y?` : calculated top-left corner y position
+- `Shape#calculated_x` : calculated top-left corner x position when default/delta is set (i.e. centered within parent)
+- `Shape#calculated_y` : calculated top-left corner y position when default/delta is set (i.e. centered within parent)
 
 Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.
 
@@ -1990,6 +2016,15 @@ shell {
 Learn more at the [Hello, Canvas Path!](GLIMMER_SAMPLES.md#hello-canvas-path) and [Stock Ticker](GLIMMER_SAMPLES.md#stock-ticker) samples.
 
 ![Stock Ticker](/images/glimmer-stock-ticker.gif)
+
+#### Canvas Path API
+
+Every path segment object (mixing in [`Glimmer::SWT::Custom::PathSegment`](/lib/glimmer/swt/custom/shape/path_segment.rb) like `path`, `point`, `line`, `quad`, and `cubic`) has the following API methods:
+- `#path`: indicates which path the segment is part of.
+- `#path_root`: indicates the root path the segment is part of.
+- `#dispose`: disposes a path segment from its path
+- `#content {}` : reopens a path to add more segments inside it using the Glimmer GUI DSL (e.g. Canvas Path DSL) just like `WidgetProxy#content {}`.
+- `#first_path_segment?`: indicates if the path segment is the first in the path
 
 ### Canvas Transform DSL
 

@@ -2,10 +2,6 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## Upcoming 4.18.6.3
-
-- Document the latest Canvas Shape DSL and Canvas Path DSL changes, including API and tab_folder changes
-
 ## Upcoming 4.18.7.0
 
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
@@ -60,6 +56,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
+- Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
+- Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)

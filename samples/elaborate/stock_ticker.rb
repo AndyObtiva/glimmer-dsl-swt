@@ -146,7 +146,6 @@ class StockTicker
       text 'Stock Ticker'
       minimum_size 650, 650
       background :white
-      
       @tab_folder = tab_folder {
         @tabs.each do |tab|
           tab_item {
