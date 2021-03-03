@@ -4,9 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.7.0
 
-- Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
 - Hello, Shape!
+- Upgrade to latest glimmer v1.2.0
 
 ## Next
 

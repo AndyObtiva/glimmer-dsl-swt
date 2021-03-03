@@ -53,6 +53,9 @@ class HelloCanvas
         }
         rectangle(50, 20, 300, 150, 30, 50) {
           background :magenta
+          rectangle(:default, :default, :max, :max, 30, 50) {
+            foreground :yellow
+          }
           rectangle([:default, -70], :default, :default, [:default, 1]) {
             foreground :cyan
             text {

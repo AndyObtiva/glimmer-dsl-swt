@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.7.0
+
+- Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
+
 ### 4.18.6.3
 
 - Support `Glimmer::SWT::Custom::Shape::PathSegment#dispose` method

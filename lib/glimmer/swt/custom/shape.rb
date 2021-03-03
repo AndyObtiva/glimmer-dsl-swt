@@ -648,11 +648,19 @@ module Glimmer
           end
           if default_width?
             original_width = width
-            self.width = default_width + default_width_delta
+            self.width = default_width + width_delta
           end
           if default_height?
             original_height = height
-            self.height = default_height + default_height_delta
+            self.height = default_height + height_delta
+          end
+          if max_width?
+            original_width = width
+            self.width = max_width + width_delta
+          end
+          if max_height?
+            original_height = height
+            self.height = max_height + height_delta
           end
           if default_x?
             original_x = x
@@ -707,6 +715,16 @@ module Glimmer
           (height.nil? || height == :default || height == 'default' || (height.is_a?(Array) && (height.first.to_s == :default || height.first.to_s == 'default')))
         end
         
+        def max_width?
+          current_parameter_name?(:width) and
+            (width.nil? || width.to_s == 'max' || (width.is_a?(Array) && width.first.to_s == 'max'))
+        end
+        
+        def max_height?
+          current_parameter_name?(:height) and
+            (height.nil? || height.to_s == 'max' || (height.is_a?(Array) && height.first.to_s == 'max'))
+        end
+        
         def default_x
           result = ((parent.size.x - size.x) / 2)
           result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape) && parent.irregular?
@@ -722,9 +740,13 @@ module Glimmer
         def default_width
           # TODO consider caching
           x_ends = shapes.map do |shape|
-            shape_width = shape.calculated_width.to_f
-            shape_x = shape.default_x? ? 0 : shape.x.to_f
-            shape_x + shape_width
+            if shape.max_width?
+              0
+            else
+              shape_width = shape.calculated_width.to_f
+              shape_x = shape.default_x? ? 0 : shape.x.to_f
+              shape_x + shape_width
+            end
           end
           x_ends.max.to_f
         end
@@ -732,19 +754,39 @@ module Glimmer
         def default_height
           # TODO consider caching
           y_ends = shapes.map do |shape|
-            shape_height = shape.calculated_height.to_f
-            shape_y = shape.default_y? ? 0 : shape.y.to_f
-            shape_y + shape_height
+            if shape.max_height?
+              0
+            else
+              shape_height = shape.calculated_height.to_f
+              shape_y = shape.default_y? ? 0 : shape.y.to_f
+              shape_y + shape_height
+            end
           end
           y_ends.max.to_f
         end
         
+        def max_width
+          # consider caching
+          parent.is_a?(Drawable) ? parent.bounds.width : parent.calculated_width
+        end
+        
+        def max_height
+          # consider caching
+          parent.is_a?(Drawable) ? parent.bounds.height : parent.calculated_height
+        end
+        
         def calculated_width
-          default_width? ? (default_width + default_width_delta) : width
+          result_width = width
+          result_width = (default_width + width_delta) if default_width?
+          result_width = (max_width + width_delta) if max_width?
+          result_width
         end
         
         def calculated_height
-          default_height? ? (default_height + default_height_delta) : height
+          result_height = height
+          result_height = (default_height + height_delta) if default_height?
+          result_height = (max_height + height_delta) if max_height?
+          result_height
         end
         
         def default_x_delta
@@ -757,12 +799,12 @@ module Glimmer
           y[1].to_f
         end
         
-        def default_width_delta
+        def width_delta
           return 0 unless default_width? && width.is_a?(Array)
           width[1].to_f
         end
         
-        def default_height_delta
+        def height_delta
           return 0 unless default_height? && height.is_a?(Array)
           height[1].to_f
         end
@@ -777,12 +819,12 @@ module Glimmer
           self.y = [:default, delta]
         end
         
-        def default_width_delta=(delta)
+        def width_delta=(delta)
           return unless default_width?
           self.width = [:default, delta]
         end
         
-        def default_height_delta=(delta)
+        def height_delta=(delta)
           return unless default_height?
           self.height = [:default, delta]
         end
