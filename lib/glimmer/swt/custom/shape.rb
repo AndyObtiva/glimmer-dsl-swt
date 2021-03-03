@@ -568,7 +568,7 @@ module Glimmer
             @calculated_args = calculated_args
           end
           # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
-          paint_event.gc.send(@method_name, *@calculated_args) unless parent.is_a?(Shape) && !parent.calculated_args?
+          paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?) || @name == 'shape'
           @original_properties_backup.each do |method_name, value|
             paint_event.gc.send(method_name, value)
           end

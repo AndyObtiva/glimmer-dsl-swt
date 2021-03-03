@@ -31,37 +31,49 @@ class HelloShape
     
       @canvas = canvas {
         background :white
-        crazy_ovals(-100, -100, 100, 100) {
-          foreground :magenta
-        }
-        crazy_ovals(100, 100, 100, 100) {
-          foreground :red
-        }
-        crazy_ovals(-100, 0, 100, 100) {
-          foreground :dark_green
-        }
-        crazy_ovals(-100, 100, 100, 100) {
-          foreground :dark_yellow
-        }
-        crazy_ovals(0, -100, 100, 100) {
-          foreground :blue
-        }
-        crazy_ovals(100, -100, 100, 100) {
-          foreground :dark_blue
+        x_locations = []
+        y_locations = []
+        15.times { |n|
+          begin
+            x_locations[n] = (rand*125).to_i%200 + (rand*25).to_i
+          end while x_locations[0...n].include?(x_locations[n])
+          begin
+            y_locations[n] = (rand*125).to_i%200 + (rand*25).to_i
+          end while y_locations[0...n].include?(y_locations[n])
+          foreground_color = rgb(rand*255, rand*255, rand*255)
+          stick_figure(x_locations[n], y_locations[n], 50, 50) {
+            foreground foreground_color
+          }
         }
       }
     }
   }
   
   # method-based custom shape using `shape` keyword as a composite shape containing other shapes
-  def crazy_ovals(x, y, width, height, &block)
-    shape {
+  def stick_figure(x, y, width, height, &block)
+    head_width = width*0.2
+    head_height = height*0.2
+    trunk_height = height*0.4
+    extremity_length = height*0.4
+    shape(x + head_width/2.0 + extremity_length, y) {
       # common attributes go here
-      10.times { |n|
-        oval(x + n, y + n, n*10%width, n*10%height) {
-          line_width n%3
-          block.call
-        }
+      oval(0, 0, head_width, head_height) {
+        block.call
+      }
+      line(head_width/2.0, head_height, head_width/2.0, head_height + trunk_height) {
+        block.call
+      }
+      line(head_width/2.0, head_height + trunk_height, head_width/2.0 + extremity_length, head_height + trunk_height + extremity_length) {
+        block.call
+      }
+      line(head_width/2.0, head_height + trunk_height, head_width/2.0 - extremity_length, head_height + trunk_height + extremity_length) {
+        block.call
+      }
+      line(head_width/2.0, head_height*2, head_width/2.0 + extremity_length, head_height + trunk_height - extremity_length) {
+        block.call
+      }
+      line(head_width/2.0, head_height*2, head_width/2.0 - extremity_length, head_height + trunk_height - extremity_length) {
+        block.call
       }
     }
   end

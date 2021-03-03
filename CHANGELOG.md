@@ -3,6 +3,8 @@
 ### 4.18.7.0
 
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
+- Support direct use of the `shape` keyword as a shape composite that could contain other shapes
+- Hello, Shape!
 
 ### 4.18.6.3
 
