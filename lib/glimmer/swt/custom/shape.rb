@@ -262,6 +262,16 @@ module Glimmer
             args[0] = args.dup
             args[1..-1] = []
           end
+          if method_name.to_s == 'setAntialias' && [nil, true, false].include?(args.first)
+            args[0] = case args.first
+            when true
+              args[0] = :on
+            when false
+              args[0] = :off
+            when nil
+              args[0] = :default
+            end
+          end
           if args.first.is_a?(Symbol) || args.first.is_a?(::String)
             if the_java_method.parameter_types.first == org.eclipse.swt.graphics.Color.java_class
               args[0] = ColorProxy.new(args[0])

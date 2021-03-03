@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.6.3
 
-- Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 - Document the latest Canvas Shape DSL and Canvas Path DSL changes, including API
 
 ## Upcoming 4.18.7.0
