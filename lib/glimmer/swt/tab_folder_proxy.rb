@@ -33,11 +33,18 @@ module Glimmer
       end
       
       def post_add_content
+        shown = false
         unless @initialize_tabs_on_select
-          @tab_folder.items.each do |item|
-            @tab_folder.selection = item
+          @show_listener = parent_proxy.on_swt_show do
+            unless shown
+              shown = true
+              self.items.to_a.each do |item|
+                self.selection = item
+              end
+              self.selection = self.items.first unless self.items.first.nil?
+              @show_listener.deregister
+            end
           end
-          @tab_folder.selection = @tab_folder.items.first
         end
       end
     end

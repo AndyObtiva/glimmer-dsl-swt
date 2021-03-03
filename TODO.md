@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.6.3
 
-- Document the latest Canvas Shape DSL and Canvas Path DSL changes, including API
+- Document the latest Canvas Shape DSL and Canvas Path DSL changes, including API and tab_folder changes
 
 ## Upcoming 4.18.7.0
 
