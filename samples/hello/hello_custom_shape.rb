@@ -21,6 +21,7 @@
 
 require 'glimmer-dsl-swt'
 
+# Creates a class-based custom shape representing the `stick_figure` keyword by convention
 class StickFigure
   include Glimmer::UI::CustomShape
   
@@ -48,17 +49,20 @@ end
 class HelloCustomShape
   include Glimmer::UI::CustomShell
   
+  WIDTH = 220
+  HEIGHT = 235
+  
   body {
     shell {
-      text 'Hello, Shape!'
-      minimum_size 200, 225
+      text 'Hello, Custom Shape!'
+      minimum_size WIDTH, HEIGHT
     
       @canvas = canvas {
         background :white
         
         15.times { |n|
-          x_location = (rand*125).to_i%200 + (rand*25).to_i
-          y_location = (rand*125).to_i%200 + (rand*25).to_i
+          x_location = (rand*WIDTH/2).to_i%WIDTH + (rand*25).to_i
+          y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*25).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
           
           stick_figure(x: x_location, y: y_location, width: 50, height: 50) {

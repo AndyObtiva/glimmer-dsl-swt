@@ -2,12 +2,10 @@
 
 Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
-## Upcoming 4.18.7.0
-
-- Upgrade to latest glimmer v1.2.0
-
 ## Next
 
+- Update Hello, Spinner! to data bind a Thank you message to selected value
+- Enable defining custom shapes with direct args just like basic shapes (alternative to using keyword arg options)
 - Klondike Solitaire
 - Elaborate custom shape sample to demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc...
 

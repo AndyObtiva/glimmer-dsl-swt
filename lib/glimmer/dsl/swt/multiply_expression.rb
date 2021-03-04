@@ -39,7 +39,7 @@ module Glimmer
           Glimmer::SWT::TransformProxy.new(parent, *args, multiply: true)
         end
         
-        def add_content(parent, &block)
+        def add_content(parent, keyword, *args, &block)
           super
           parent.post_add_content
         end

@@ -46,7 +46,7 @@ module Glimmer
           end
         end
 
-        def add_content(parent, &block)
+        def add_content(parent, keyword, *args, &block)
           return if block&.parameters&.count == 2
           super
           parent.post_add_content

@@ -46,7 +46,7 @@ module Glimmer
           end
         end
   
-        def add_content(parent, &block)
+        def add_content(parent, keyword, *args, &block)
           # TODO consider avoiding source_location
           return if block&.parameters&.count == 2
           if block.source_location == parent.content&.__getobj__.source_location

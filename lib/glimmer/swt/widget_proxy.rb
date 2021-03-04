@@ -712,7 +712,7 @@ module Glimmer
 
       def content(&block)
         auto_exec do
-          Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::WidgetExpression.new, &block)
+          Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::WidgetExpression.new, @keyword, &block)
         end
       end
 

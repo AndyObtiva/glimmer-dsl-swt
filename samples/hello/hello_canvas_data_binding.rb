@@ -22,7 +22,7 @@
 require 'glimmer-dsl-swt'
 
 class HelloCanvasDataBinding
-  include Glimmer::GUI::CustomWindow
+  include Glimmer::GUI::CustomWindow # alias for Glimmer::UI::CustomShell
   
   CANVAS_WIDTH  = 300
   CANVAS_HEIGHT = 300

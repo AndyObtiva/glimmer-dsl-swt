@@ -73,7 +73,7 @@ module Glimmer
       end
       
       def content(&block)
-        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::TransformExpression.new, &block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::TransformExpression.new, 'transform', &block)
       end
       
       def proxy_source_object

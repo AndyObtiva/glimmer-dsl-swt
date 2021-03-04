@@ -84,7 +84,7 @@ module Glimmer
       end
       
       def content(&block)
-        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::DisplayExpression.new, &block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::DisplayExpression.new, 'display', &block)
       end
       
       # asynchronously executes the block (required from threads other than first GUI thread)

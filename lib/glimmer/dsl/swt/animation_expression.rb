@@ -33,7 +33,7 @@ module Glimmer
           Glimmer::SWT::Custom::Animation.new(parent)
         end
         
-        def add_content(parent, &block)
+        def add_content(parent, keyword, *args, &block)
           super
           parent.post_add_content
         end

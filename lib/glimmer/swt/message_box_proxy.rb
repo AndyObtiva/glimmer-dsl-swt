@@ -51,7 +51,7 @@ module Glimmer
       end
       
       def content(&block)
-        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::MessageBoxExpression.new, &block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::MessageBoxExpression.new, 'message_box', &block)
       end
       
       # TODO refactor the following methods to put in a JavaBean mixin or somethin (perhaps contribute to OSS project too)

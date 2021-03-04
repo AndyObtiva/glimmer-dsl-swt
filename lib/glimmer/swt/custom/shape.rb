@@ -228,7 +228,7 @@ module Glimmer
         
         def content(&block)
           Glimmer::SWT::DisplayProxy.instance.auto_exec do
-            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, &block)
+            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, @name, &block)
             calculated_args_changed!(children: false)
           end
         end
@@ -563,7 +563,7 @@ module Glimmer
         
         def all_parent_properties
           # TODO consider providing a converted property version of this ready for consumption
-          parent_shape_composites.reverse.reduce({}) do |all_properties, parent_shape|
+          @all_parent_properties ||= parent_shape_composites.reverse.reduce({}) do |all_properties, parent_shape|
             parent_properties = parent_shape.properties
             parent_properties.each do |property, args|
               parent_properties[property] = apply_property_arg_conversions(property, args)

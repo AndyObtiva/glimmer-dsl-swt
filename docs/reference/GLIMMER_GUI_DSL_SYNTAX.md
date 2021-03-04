@@ -39,6 +39,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Shapes inside a Shape](#shapes-inside-a-shape)
     - [Shapes inside a Widget](#shapes-inside-a-widget)
     - [Shapes inside an Image](#shapes-inside-an-image)
+    - [Custom Shapes](#custom-shapes)
     - [Canvas Shape API](#canvas-shape-api)
     - [Pixel Graphics](#pixel-graphics)
   - [Canvas Path DSL](#canvas-path-dsl)
@@ -1767,6 +1768,21 @@ shell {
 
 ![Image Shape DSL](/images/glimmer-example-image-shape-dsl-app-switcher-icon.png)
 
+#### Custom Shapes
+
+Glimmer enables defining custom shape keywords, which represent shapes made up of other nested shapes.
+
+Custom shapes expand a software engineer's Glimmer GUI DSL vocabulary in their app development to be able to represent
+higher visual concepts like vehicles, scenes, and characters with a single keyword (e.g. `car`, `beach`, `player`),
+which embody and abstract all the details relating to the visual concept. This enables orders of magnitudes in increased
+productivity and readability/maintainability as a result.
+
+Just like [custom widgets](#custom-widgets), custom shapes can be defined in one of two ways:
+- method-based custom shapes: Use the `shape` keyword as a parent to represent a shape composite (similar to widget composite) and include other shapes like rectangles, polygons, and lines within.
+- class-based custom shapes: Include the `Glimmer::UI::CustomShape` supermodule and define the `options`, `body {}` block, and `before_body/after_body` hooks (similar to how it is down with [custom widgets](#custom-widgets))
+
+Check out [Hello, Shape!](/docs/reference/GLIMMER_SAMPLES.md#hello-shape) and [Hello, Custom Shape!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shape) for examples of both approaches.
+
 #### Canvas Shape API
 
 These Canvas Shape API methods help with manipulating shapes upon user interaction, such as mouse clicking a specific shape.
@@ -1797,6 +1813,7 @@ They are implemented with the help of the highly robust Java built-in shape geom
 - `Shape#calculated_y` : calculated top-left corner y position when default/delta is set (i.e. centered within parent)
 
 Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.
+
 
 #### Pixel Graphics
 

@@ -40,6 +40,8 @@
     - [Hello, Tree!](#hello-tree)
     - [Hello, Color Dialog!](#hello-color-dialog)
     - [Hello, Font Dialog!](#hello-font-dialog)
+    - [Hello, Shape!](#hello-shape)
+    - [Hello, Custom Shape!](#hello-custom-shape)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -716,6 +718,32 @@ Hello, Font Dialog!
 ![Hello Font Dialog Choose Font](/images/glimmer-hello-font-dialog-choose-font.png)
 
 ![Hello Font Dialog Font Changed](/images/glimmer-hello-font-dialog-font-changed.png)
+
+#### Hello, Shape!
+
+This sample demonstrates the use of the `shape` keyword, which represents shape composites that contain other nested shapes.
+
+Code:
+
+[samples/hello/hello_shape.rb](/samples/hello/hello_shape.rb)
+
+Hello, Shape!
+
+![Hello Shape](/images/glimmer-hello-shape.png)
+
+#### Hello, Custom Shape!
+
+This sample demonstrates the use of the `Glimmer::UI::CustomShape` module, which is used to author new custom shape keywords.
+It reimplements Hello, Shape! with a class-based custom shape instead of a method-based custom shape.
+Just provides another option that is useful when defining more elaborate shapes to separate them from the main app code.
+
+Code:
+
+[samples/hello/hello_custom_shape.rb](/samples/hello/hello_custom_shape.rb)
+
+Hello, Custom Shape!
+
+![Hello Custom Shape](/images/glimmer-hello-custom-shape.png)
 
 ### Elaborate Samples
 

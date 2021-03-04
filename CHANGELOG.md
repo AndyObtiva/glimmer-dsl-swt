@@ -7,6 +7,7 @@
 - Support custom shapes via including the Glimmer::UI::CustomShape module to add new shape keywords to the Glimmer GUI DSL / Canvas Shape DSL, representing shapes composed of a group of nested shapes (e.g. `car` shape representing a group of nested `polygon` shapes)
 - Hello, Custom Shape! Sample (redoes Hello, Shape! with the use of a class-based custom shape)
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
+- Upgrade to glimmer v1.2.0
 
 ### 4.18.6.3
 

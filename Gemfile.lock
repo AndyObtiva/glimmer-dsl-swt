@@ -31,14 +31,14 @@ GEM
       faraday (>= 0.8, < 2)
       hashie (~> 3.5, >= 3.5.2)
       oauth2 (~> 1.0)
-    glimmer (1.1.2)
+    glimmer (1.2.0)
       array_include_methods (>= 1.0.4, < 2.0.0)
       concurrent-ruby (>= 1.1.7, < 2.0.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (3.6.0)
     highline (2.0.3)
     jar-dependencies (0.4.1)
-    jruby-jars (9.2.14.0)
+    jruby-jars (9.2.16.0)
     jruby-rack (1.1.21)
     json (2.5.1-java)
     juwelier (2.4.9)
@@ -76,7 +76,7 @@ GEM
     os (1.1.1)
     pastel (0.8.0)
       tty-color (~> 0.5)
-    psych (3.3.0-java)
+    psych (3.3.1-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (4.0.6)
     puts_debuggerer (0.11.0)
@@ -143,7 +143,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls (= 0.8.23)
-  glimmer (~> 1.1.2)
+  glimmer (~> 1.2.0)
   juwelier (>= 2.4.9, < 3.0.0)
   logging (>= 2.3.0, < 3.0.0)
   nested_inherited_jruby_include_package (>= 0.3.0, < 2.0.0)
@@ -164,4 +164,4 @@ RUBY VERSION
    ruby 2.5.7p0 (jruby 9.2.14.0)
 
 BUNDLED WITH
-   2.2.9
+   2.2.11
