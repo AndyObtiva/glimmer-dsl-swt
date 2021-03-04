@@ -242,7 +242,7 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
+      s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 1.2.0"])
       s.add_runtime_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_runtime_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_runtime_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -260,7 +260,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.16.1"])
       s.add_development_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     else
-      s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
+      s.add_dependency(%q<glimmer>.freeze, ["~> 1.2.0"])
       s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
       s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
       s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
@@ -279,7 +279,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov-lcov>.freeze, ["~> 0.7.0"])
     end
   else
-    s.add_dependency(%q<glimmer>.freeze, ["~> 1.1.2"])
+    s.add_dependency(%q<glimmer>.freeze, ["~> 1.2.0"])
     s.add_dependency(%q<super_module>.freeze, [">= 1.4.1", "< 2.0.0"])
     s.add_dependency(%q<nested_inherited_jruby_include_package>.freeze, [">= 0.3.0", "< 2.0.0"])
     s.add_dependency(%q<puts_debuggerer>.freeze, [">= 0.11.0", "< 2.0.0"])
