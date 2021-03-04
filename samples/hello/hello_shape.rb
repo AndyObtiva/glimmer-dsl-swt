@@ -31,17 +31,13 @@ class HelloShape
     
       @canvas = canvas {
         background :white
-        x_locations = []
-        y_locations = []
+        
         15.times { |n|
-          begin
-            x_locations[n] = (rand*125).to_i%200 + (rand*25).to_i
-          end while x_locations[0...n].include?(x_locations[n])
-          begin
-            y_locations[n] = (rand*125).to_i%200 + (rand*25).to_i
-          end while y_locations[0...n].include?(y_locations[n])
+          x_location = (rand*125).to_i%200 + (rand*25).to_i
+          y_location = (rand*125).to_i%200 + (rand*25).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
-          stick_figure(x_locations[n], y_locations[n], 50, 50) {
+          
+          stick_figure(x_location, y_location, 50, 50) {
             foreground foreground_color
           }
         }
@@ -49,32 +45,24 @@ class HelloShape
     }
   }
   
-  # method-based custom shape using `shape` keyword as a composite shape containing other shapes
+  # method-based custom shape using `shape` keyword as a composite shape containing nested shapes
   def stick_figure(x, y, width, height, &block)
     head_width = width*0.2
     head_height = height*0.2
     trunk_height = height*0.4
     extremity_length = height*0.4
+    
     shape(x + head_width/2.0 + extremity_length, y) {
-      # common attributes go here
-      oval(0, 0, head_width, head_height) {
-        block.call
-      }
-      line(head_width/2.0, head_height, head_width/2.0, head_height + trunk_height) {
-        block.call
-      }
-      line(head_width/2.0, head_height + trunk_height, head_width/2.0 + extremity_length, head_height + trunk_height + extremity_length) {
-        block.call
-      }
-      line(head_width/2.0, head_height + trunk_height, head_width/2.0 - extremity_length, head_height + trunk_height + extremity_length) {
-        block.call
-      }
-      line(head_width/2.0, head_height*2, head_width/2.0 + extremity_length, head_height + trunk_height - extremity_length) {
-        block.call
-      }
-      line(head_width/2.0, head_height*2, head_width/2.0 - extremity_length, head_height + trunk_height - extremity_length) {
-        block.call
-      }
+      # common attributes go here before nested shapes
+      block.call # invoking content block (e.g. used from the outside to set foreground)
+      
+      # nested shapes go here
+      oval(0, 0, head_width, head_height)
+      line(head_width/2.0, head_height, head_width/2.0, head_height + trunk_height)
+      line(head_width/2.0, head_height + trunk_height, head_width/2.0 + extremity_length, head_height + trunk_height + extremity_length)
+      line(head_width/2.0, head_height + trunk_height, head_width/2.0 - extremity_length, head_height + trunk_height + extremity_length)
+      line(head_width/2.0, head_height*2, head_width/2.0 + extremity_length, head_height + trunk_height - extremity_length)
+      line(head_width/2.0, head_height*2, head_width/2.0 - extremity_length, head_height + trunk_height - extremity_length)
     }
   end
 end

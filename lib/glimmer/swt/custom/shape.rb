@@ -127,7 +127,7 @@ module Glimmer
           end
         end
         
-        attr_reader :drawable, :parent, :name, :args, :options, :shapes
+        attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties
         attr_accessor :extent
         
         def initialize(parent, keyword, *args, &property_block)
@@ -249,7 +249,8 @@ module Glimmer
           end
         end
         
-        def apply_property_arg_conversions(method_name, property, args)
+        def apply_property_arg_conversions(property, args)
+          method_name = attribute_setter(property)
           args = args.dup
           the_java_method = org.eclipse.swt.graphics.GC.java_class.declared_instance_methods.detect {|m| m.name == method_name}
           return args if the_java_method.nil?
@@ -539,8 +540,39 @@ module Glimmer
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
         
+        # Indicate if this is a shape composite (meaning a shape bag that just contains nested shapes, but doesn't render anything of its own)
+        def shape_composite?
+          @name == 'shape'
+        end
+        
+        # ordered from closest to farthest parent
+        def parent_shapes
+          current_parent = parent
+          the_parent_shapes = []
+          until current_parent.is_a?(Drawable)
+            the_parent_shapes << current_parent
+            current_parent = current_parent.parent
+          end
+          the_parent_shapes
+        end
+        
+        # ordered from closest to farthest parent
+        def parent_shape_composites
+          parent_shapes.select(&:shape_composite?)
+        end
+        
+        def all_parent_properties
+          # TODO consider providing a converted property version of this ready for consumption
+          parent_shape_composites.reverse.reduce({}) do |all_properties, parent_shape|
+            parent_properties = parent_shape.properties
+            parent_properties.each do |property, args|
+              parent_properties[property] = apply_property_arg_conversions(property, args)
+            end
+            all_properties.merge(parent_properties)
+          end
+        end
+        
         def paint(paint_event)
-          # pre-paint children an extra-time first when default width/height need to be calculated for defaults
           paint_children(paint_event) if default_width? || default_height?
           paint_self(paint_event)
           # re-paint children from scratch in the special case of pre-calculating parent width/height to re-center within new parent dimensions
@@ -553,24 +585,29 @@ module Glimmer
         
         def paint_self(paint_event)
           @painting = true
-          calculate_paint_args!
-          @original_properties_backup = {}
-          @properties.each do |property, args|
-            method_name = attribute_setter(property)
-            @original_properties_backup[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
-            paint_event.gc.send(method_name, *args)
-            if property == 'transform' && args.first.is_a?(TransformProxy)
-              args.first.swt_transform.dispose
+          unless shape_composite?
+            calculate_paint_args!
+            @original_gc_properties = {} # this stores GC properties before making calls to updates TODO avoid using in pixel graphics
+            @original_properties = @properties # this stores original shape attributes like background/foreground/font
+            @properties.merge(all_parent_properties).each do |property, args|
+              method_name = attribute_setter(property)
+              @original_gc_properties[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
+              paint_event.gc.send(method_name, *args)
+              if property == 'transform' && args.first.is_a?(TransformProxy)
+                args.first.swt_transform.dispose
+              end
             end
+            ensure_extent(paint_event)
           end
-          ensure_extent(paint_event)
           if !@calculated_args || parent_shape_absolute_location_changed?
             @calculated_args = calculated_args
           end
-          # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
-          paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?) || @name == 'shape'
-          @original_properties_backup.each do |method_name, value|
-            paint_event.gc.send(method_name, value)
+          unless shape_composite?
+            # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
+            paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?)
+            @original_gc_properties.each do |method_name, value|
+              paint_event.gc.send(method_name, value)
+            end
           end
           @painting = false
         rescue => e
@@ -907,9 +944,7 @@ module Glimmer
               # Also do that with all future-added properties
               @properties['transform'] = [nil] if @drawable.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
               @properties.each do |property, args|
-                method_name = attribute_setter(property)
-                converted_args = apply_property_arg_conversions(method_name, property, args)
-                @properties[property] = converted_args
+                @properties[property] = apply_property_arg_conversions(property, args)
               end
               apply_shape_arg_conversions!
               apply_shape_arg_defaults!

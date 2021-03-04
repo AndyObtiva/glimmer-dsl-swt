@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Upcoming 4.18.7.0
 
-- Share common attributes placed in `shape` keyword's body with all nested shapes
 - Upgrade to latest glimmer v1.2.0
 
 ## Next

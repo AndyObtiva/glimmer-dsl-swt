@@ -5,6 +5,7 @@
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes
 - Hello, Shape!
+- Share common attributes placed in `shape` keyword's body with all nested shapes
 
 ### 4.18.6.3
 
