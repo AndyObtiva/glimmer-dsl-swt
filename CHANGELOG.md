@@ -2,10 +2,11 @@
 
 ### 4.18.7.0
 
+- Support direct use of the `shape` keyword as a shape composite that could contain other shapes and shares common attributes (e.g. background color) with all of them
+- Hello, Shape! Sample (implements a method-based custom shape containing other nested shapes)
+- Support custom shapes via including the Glimmer::UI::CustomShape module to add new shape keywords to the Glimmer GUI DSL / Canvas Shape DSL, representing shapes composed of a group of nested shapes (e.g. `car` shape representing a group of nested `polygon` shapes)
+- Hello, Custom Shape! Sample (redoes Hello, Shape! with the use of a class-based custom shape)
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
-- Support direct use of the `shape` keyword as a shape composite that could contain other shapes
-- Hello, Shape!
-- Share common attributes placed in `shape` keyword's body with all nested shapes
 
 ### 4.18.6.3
 

@@ -57,6 +57,7 @@ module Glimmer
           widget
           custom_widget
           shape
+          custom_shape
         ]
       )
     end

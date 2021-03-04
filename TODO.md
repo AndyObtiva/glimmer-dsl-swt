@@ -8,9 +8,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support Glimmer::UI::CustomShape composed of a group of shapes. Might need the concept of CustomShapeDecoration too or simply CustomDecoration (which can decorate widgets)
-- Hello, Custom Shape (demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc..).
 - Klondike Solitaire
+- Elaborate custom shape sample to demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc...
 
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
