@@ -445,29 +445,6 @@ items <=> binding {
 - Medical Patient Management app
 - Business Accounting app
 
-### 2D Games
-
-These games are built with 2D graphics and include sound (probably via the Java Sound library, available through JRuby)
-
-1. Galaga Simplistic Clone
-2. Side-scroller: obstacle dodging to complete levels
-3. Side-scroller: treasure hunting (outdoor scenery)
-4. Side-scroller: treasure hunting (toy collection game for young boys, collecting action figures)
-5. Side-scroller: treasure hunting (gems, rubies, and jewelry collecting game for young girls)
-6. RPG game similar to Final Fantasy
-7. Fighting game similar to Street Fighter
-8. Vertical-scroller: flying game (fighter jet)
-9. Vertical-scroller: racing game (birds)
-10. Vertical-scroller: racing game (animals like lions, tigers, and cheetahs)
-11. Vertical-scroller: racing game (cars)
-12. Vertical-scroller: ant nest navigation game (score higher the sooner you find your way out of each level)
-
-### 3D Games
-
-This depends on adding SWT OpenGL support (JOGL)
-
-- Strategy Game similar to Total Annihilation / Supreme Commander
-
 ## Side Projects
 
 - Publish a Glimmer app on the Mac App Store
