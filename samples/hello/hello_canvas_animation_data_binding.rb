@@ -12,7 +12,7 @@ class HelloAnimationDataBinding
   
   body {
     shell {
-      text 'Hello, Canvas Animation Data Binding'
+      text 'Hello, Canvas Animation Data Binding!'
       minimum_size 320, 320
       
       canvas {

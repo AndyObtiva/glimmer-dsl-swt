@@ -2191,7 +2191,7 @@ API of Animation Object (returned from `animation` keyword):
 - `#cycle_limited?` returns true if `cycle_count` is specified
 - `#duration_limited?` returns true if `duration_limit` is specified
 
-Learn more at the [Hello, Canvas Animation! Sample](GLIMMER_SAMPLES.md#hello-canvas-animation).
+Learn more at the [Hello, Canvas Animation!](GLIMMER_SAMPLES.md#hello-canvas-animation) and [Hello, Canvas Animation Data Binding!](GLIMMER_SAMPLES.md#hello-canvas-animation-data-binding) samples.
 
 If there is anything missing you would like added to the Glimmer Animation DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
 

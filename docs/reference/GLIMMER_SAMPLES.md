@@ -32,6 +32,7 @@
     - [Hello, Code Text!](#hello-code-text)
     - [Hello, Canvas!](#hello-canvas)
     - [Hello, Canvas Animation!](#hello-canvas-animation)
+    - [Hello, Canvas Animation Data Binding!](#hello-canvas-animation-data-binding)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
@@ -50,6 +51,7 @@
     - [Glimmer Tetris](#glimmer-tetris)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
     - [Stock Ticker](#stock-ticker)
+    - [Metronome](#metronome)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -609,6 +611,18 @@ Hello, Canvas Animation Another Frame!
 
 ![Hello Canvas Animation Frame 2](/images/glimmer-hello-canvas-animation-frame2.png)
 
+#### Hello, Canvas Animation Data Binding!
+
+This sample demonstrates the use of the [Canvas Animation DSL](#canvas-animation-dsl) with data-binding.
+
+Code:
+
+[samples/hello/hello_canvas_animation_data_binding.rb](/samples/hello/hello_canvas_animation_data_binding.rb)
+
+Hello, Canvas Animation Data Binding!
+
+![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation-data-binding.gif)
+
 #### Hello, Canvas Transform!
 
 This sample demonstrates the use of the `transform` keyword as part of the [Transform DSL](#canvas-transform-dsl) within the [Shape DSL](#canvas-shape-dsl).
@@ -878,6 +892,20 @@ Code:
 [samples/elaborate/stock_ticker.rb](/samples/elaborate/stock_ticker.rb)
 
 ![Stock Ticker](/images/glimmer-stock-ticker.gif)
+
+#### Metronome
+
+This sample demonstrates a Metronome that accepts a beat count and bpm rate, ticking at every beat, with an uptick at the beginning of the rhythm interval.
+
+It takes advantage of the Canvas Shape DSL, data-binding, and the Java Sound library. It employs a hybrid approach of relying on standard widget layouts (grid layout) and canvas shape x,y placement.
+
+Code:
+
+[samples/elaborate/metronome.rb](/samples/elaborate/metronome.rb)
+
+![Metronome](/images/glimmer-metronome.gif)
+
+[Download video with sound](/videos/glimmer-metronome.mp4).
 
 ### External Samples
 
