@@ -905,7 +905,7 @@ Code:
 
 ![Metronome](/images/glimmer-metronome.gif)
 
-[Download video with sound](/videos/glimmer-metronome.mp4).
+[Download video with sound](/videos/glimmer-metronome.mp4?raw=true).
 
 ### External Samples
 
