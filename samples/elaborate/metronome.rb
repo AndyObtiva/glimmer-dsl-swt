@@ -34,6 +34,12 @@ class Metronome
   end
 
   include Glimmer::UI::CustomShell
+  
+  import 'javax.sound.sampled'
+  
+  GEM_ROOT = File.expand_path(File.join('..', '..'), __dir__)
+  FILE_SOUND_METRONOME_UP = File.join(GEM_ROOT, 'sounds', 'metronome-up.wav')
+  FILE_SOUND_METRONOME_DOWN = File.join(GEM_ROOT, 'sounds', 'metronome-down.wav')
       
   attr_accessor :rhythm
   
@@ -106,6 +112,8 @@ class Metronome
         sleep(60.0/@rhythm.bpm.to_f)
         @rhythm.beats.each(&:off!)
         @rhythm.beats[n].on!
+        sound_file = n == 0 ? FILE_SOUND_METRONOME_UP : FILE_SOUND_METRONOME_DOWN
+        play_sound(sound_file)
       }
     }
     if @beat_container.nil?
@@ -127,6 +135,19 @@ class Metronome
   def restart_metronome
     stop_metronome
     start_metronome
+  end
+  
+  # Play sound with the Java Sound library
+  def play_sound(sound_file)
+    begin
+      file_or_stream = java.io.File.new(sound_file)
+      audio_stream = AudioSystem.get_audio_input_stream(file_or_stream)
+      clip = AudioSystem.clip
+      clip.open(audio_stream)
+      clip.start
+    rescue => e
+      puts e.full_message
+    end
   end
 end
 
