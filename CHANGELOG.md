@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.18.7.1
+
+- Hello, Canvas Animation Data Binding! Sample
+- Metronome Elaborate Sample
+- Update Hello, Spinner! Sample to data bind a Thank you message to selected value
+
 ### 4.18.7.0
 
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes and shares common attributes (e.g. background color) with all of them

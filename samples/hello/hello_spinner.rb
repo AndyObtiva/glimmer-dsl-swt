@@ -30,7 +30,7 @@ class HelloSpinner
   
   before_body {
     @person = Person.new
-    @person.donation = 500
+    @person.donation = 500 # in cents
   }
   
   body {
@@ -57,12 +57,17 @@ class HelloSpinner
         
         spinner {
           digits 2 # digits after the decimal point
-          minimum 500 # minimum value (including digits after the decimal point)
+          minimum 100 # minimum value (including digits after the decimal point)
           maximum 15000 # maximum value (including digits after the decimal point)
           increment 500 # increment on up and down (including digits after the decimal point)
           page_increment 5000 # page increment on page up and page down (including digits after the decimal point)
           selection bind(@person, :donation) # selection must be set last if other properties are configured to ensure value is within bounds
         }
+        
+        label {
+          text bind(@person, :donation) {|value| "Thank you for your donation of $#{"%.2f" % (value.to_f / 100.0)}"}
+        }
+
       }
     }
   }
