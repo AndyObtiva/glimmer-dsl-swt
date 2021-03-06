@@ -7,8 +7,9 @@
 
 ### 4.18.7.1
 
-- Glimmer Metronome
-- Hello, Canvas Animation Data Binding!
+- Hello, Canvas Animation Data Binding! Sample
+- Metronome Elaborate Sample
+- Update Hello, Spinner! Sample to data bind a Thank you message to selected value
 
 ### 4.18.7.0
 
