@@ -215,7 +215,7 @@ class MetaSampleApplication
             
           expand_bar {
             layout_data(:fill, :fill, true, true)
-            font height: 30
+            font height: 25
                         
             SampleDirectory.sample_directories.each { |sample_directory|
               expand_item {
@@ -227,7 +227,7 @@ class MetaSampleApplication
                     fill true
                   }
                   selection bind(sample_directory, :selected_sample_name)
-                  font height: 24
+                  font height: 20
                 }
               }
             }
@@ -236,12 +236,12 @@ class MetaSampleApplication
           composite {
             fill_layout
             layout_data(:fill, :center, true, false) {
-              height_hint 120
+              height_hint 96
             }
             
             button {
               text 'Launch'
-              font height: 30
+              font height: 25
               enabled bind(SampleDirectory, 'selected_sample.launchable')
               
               on_widget_selected {
@@ -254,7 +254,7 @@ class MetaSampleApplication
             }
             button {
               text 'Reset'
-              font height: 30
+              font height: 25
               enabled bind(SampleDirectory, 'selected_sample.editable')
               
               on_widget_selected {

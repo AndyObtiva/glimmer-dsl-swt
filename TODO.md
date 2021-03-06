@@ -10,8 +10,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Elaborate custom shape sample to demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc...
 - Klondike Solitaire
 
+- Add External Samples to MetaSample
+- Add glimmer list:gems:customshape command (or list:gems:cp)
+- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
+
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
+- Update Stock Ticker with live stocks from the web
 
 - Implement charts and graphs custom widgets Hello Samples (supporting both raw data and function-calculated data)
   - bar_chart (new custom widget)
@@ -71,7 +76,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add line numbers to meta-sample code viewer
 - Make `error_dialog` an official built-in Glimmer Custom Widget (extract from meta-sample/gladiator)
 - Extract glimmer-scaffolding as a gem
-- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 - Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking

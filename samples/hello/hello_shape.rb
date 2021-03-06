@@ -33,11 +33,11 @@ class HelloShape
         background :white
         
         15.times { |n|
-          x_location = (rand*125).to_i%200 + (rand*25).to_i
-          y_location = (rand*125).to_i%200 + (rand*25).to_i
+          x_location = (rand*125).to_i%200 + (rand*15).to_i
+          y_location = (rand*125).to_i%200 + (rand*15).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
           
-          stick_figure(x_location, y_location, 50, 50) {
+          stick_figure(x_location, y_location, 35+n*2, 35+n*2) {
             foreground foreground_color
           }
         }

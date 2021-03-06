@@ -61,11 +61,11 @@ class HelloCustomShape
         background :white
         
         15.times { |n|
-          x_location = (rand*WIDTH/2).to_i%WIDTH + (rand*25).to_i
-          y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*25).to_i
+          x_location = (rand*WIDTH/2).to_i%WIDTH + (rand*15).to_i
+          y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*15).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
           
-          stick_figure(x: x_location, y: y_location, width: 50, height: 50) {
+          stick_figure(x: x_location, y: y_location, width: 35+n*2, height: 35+n*2) {
             foreground foreground_color
           }
         }
