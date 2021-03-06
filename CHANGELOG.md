@@ -2,8 +2,8 @@
 
 ### 4.18.7.2
 
+- Enable defining custom shapes with direct args just like basic shapes (alternative to using keyword arg options)
 - Fix interpretation of `:max`/`:default` `width`/`height` values in Canvas Shape DSL
-
 
 ### 4.18.7.1
 

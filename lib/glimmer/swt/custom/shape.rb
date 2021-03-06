@@ -483,6 +483,21 @@ module Glimmer
           end
         end
         
+        # Sets data just like SWT widgets
+        def set_data(key=nil, value)
+          @data ||= {}
+          @data[key] = value
+        end
+        alias setData set_data # for compatibility with SWT APIs
+  
+        # Gets data just like SWT widgets
+        def get_data(key=nil)
+          @data ||= {}
+          @data[key]
+        end
+        alias getData get_data # for compatibility with SWT APIs
+        alias data get_data # for compatibility with SWT APIs
+  
         def method_missing(method_name, *args, &block)
           if method_name.to_s.end_with?('=')
             set_attribute(method_name, *args)
@@ -846,12 +861,12 @@ module Glimmer
         end
         
         def x_delta
-          return 0 unless (default_x? || max_x?) && x.is_a?(Array)
+          return 0 unless default_x? && x.is_a?(Array)
           x[1].to_f
         end
         
         def y_delta
-          return 0 unless (default_y? || max_x?) && y.is_a?(Array)
+          return 0 unless default_y? && y.is_a?(Array)
           y[1].to_f
         end
         
@@ -866,13 +881,13 @@ module Glimmer
         end
         
         def x_delta=(delta)
-          return unless default_x? || max_x?
+          return unless default_x?
           symbol = x.is_a?(Array) ? x.first : x
           self.x = [symbol, delta]
         end
         
         def y_delta=(delta)
-          return unless default_y? || max_y?
+          return unless default_y?
           symbol = y.is_a?(Array) ? y.first : y
           self.y = [symbol, delta]
         end
