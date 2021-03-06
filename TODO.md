@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix :max/:default width/height
 - Enable defining custom shapes with direct args just like basic shapes (alternative to using keyword arg options)
 - Refactor Tetris to use a custom shape for its blocks given they are used in both the game and the icon, thus achieving code reuse
 - Elaborate custom shape sample to demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc...

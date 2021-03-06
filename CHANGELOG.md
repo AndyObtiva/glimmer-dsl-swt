@@ -1,10 +1,14 @@
 # Change Log
 
+### 4.18.7.2
+
+- Fix interpretation of `:max`/`:default` `width`/`height` values in Canvas Shape DSL
+
+
 ### 4.18.7.1
 
-- Hello, Canvas Animation Data Binding! Sample
-- Metronome Elaborate Sample
-- Update Hello, Spinner! Sample to data bind a Thank you message to selected value
+- Glimmer Metronome
+- Hello, Canvas Animation Data Binding!
 
 ### 4.18.7.0
 

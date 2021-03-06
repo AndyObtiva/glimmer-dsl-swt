@@ -113,13 +113,15 @@ class Metronome
   
   def beat_container
     composite {
-      grid_layout(@rhythm.beat_count, true) {
-        margin_left 10
-      }
+      grid_layout(@rhythm.beat_count, true)
       
       @rhythm.beat_count.times { |n|
         canvas {
-          rectangle(0, 0, 50, 50, 36, 36) {
+          layout_data {
+            width_hint 50
+            height_hint 50
+          }
+          rectangle(0, 0, :default, :default, 36, 36) {
             background bind(self, "rhythm.beats[#{n}].on") {|on| on ? :red : :yellow}
           }
         }

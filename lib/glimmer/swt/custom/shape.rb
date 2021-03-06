@@ -214,12 +214,12 @@ module Glimmer
         def move_by(x_delta, y_delta)
           if respond_to?(:x) && respond_to?(:y) && respond_to?(:x=) && respond_to?(:y=)
             if default_x?
-              self.default_x_delta += x_delta
+              self.x_delta += x_delta
             else
               self.x += x_delta
             end
             if default_y?
-              self.default_y_delta += y_delta
+              self.y_delta += y_delta
             else
               self.y += y_delta
             end
@@ -676,7 +676,7 @@ module Glimmer
                 
         # args translated to absolute coordinates
         def calculated_args
-          return @args if !default_x? && !default_y? && !default_width? && !default_height? && parent.is_a?(Drawable)
+          return @args if !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height? && parent.is_a?(Drawable)
           # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
           # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
           # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
@@ -708,11 +708,11 @@ module Glimmer
           end
           if default_x?
             original_x = x
-            self.x = default_x + default_x_delta
+            self.x = default_x + self.x_delta
           end
           if default_y?
             original_y = y
-            self.y = default_y + default_y_delta
+            self.y = default_y + self.y_delta
           end
           if parent.is_a?(Shape)
             move_by(@parent_absolute_x, @parent_absolute_y)
@@ -792,7 +792,9 @@ module Glimmer
               shape_x + shape_width
             end
           end
-          if shapes.size == 1 && shapes.first.max_width?
+          if shapes.empty?
+            max_width
+          elsif shapes.size == 1 && shapes.first.max_width?
             self.parent.size.x
           else
             x_ends.max.to_f
@@ -810,7 +812,9 @@ module Glimmer
               shape_y + shape_height
             end
           end
-          if shapes.size == 1 && shapes.first.max_height?
+          if shapes.empty?
+            max_height
+          elsif shapes.size == 1 && shapes.first.max_height?
             self.parent.size.y
           else
             y_ends.max.to_f
@@ -841,55 +845,59 @@ module Glimmer
           result_height
         end
         
-        def default_x_delta
-          return 0 unless default_x? && x.is_a?(Array)
+        def x_delta
+          return 0 unless (default_x? || max_x?) && x.is_a?(Array)
           x[1].to_f
         end
         
-        def default_y_delta
-          return 0 unless default_y? && y.is_a?(Array)
+        def y_delta
+          return 0 unless (default_y? || max_x?) && y.is_a?(Array)
           y[1].to_f
         end
         
         def width_delta
-          return 0 unless default_width? && width.is_a?(Array)
+          return 0 unless (default_width? || max_width?) && width.is_a?(Array)
           width[1].to_f
         end
         
         def height_delta
-          return 0 unless default_height? && height.is_a?(Array)
+          return 0 unless (default_height? || max_height?) && height.is_a?(Array)
           height[1].to_f
         end
         
-        def default_x_delta=(delta)
-          return unless default_x?
-          self.x = [:default, delta]
+        def x_delta=(delta)
+          return unless default_x? || max_x?
+          symbol = x.is_a?(Array) ? x.first : x
+          self.x = [symbol, delta]
         end
         
-        def default_y_delta=(delta)
-          return unless default_y?
-          self.y = [:default, delta]
+        def y_delta=(delta)
+          return unless default_y? || max_y?
+          symbol = y.is_a?(Array) ? y.first : y
+          self.y = [symbol, delta]
         end
         
         def width_delta=(delta)
           return unless default_width?
-          self.width = [:default, delta]
+          symbol = width.is_a?(Array) ? width.first : width
+          self.width = [symbol, delta]
         end
         
         def height_delta=(delta)
           return unless default_height?
-          self.height = [:default, delta]
+          symbol = height.is_a?(Array) ? height.first : height
+          self.height = [symbol, delta]
         end
         
         def calculated_x
           result = default_x? ? default_x : self.x
-          result += default_x_delta
+          result += self.x_delta
           result
         end
         
         def calculated_y
           result = default_y? ? default_y : self.y
-          result += default_y_delta
+          result += self.y_delta
           result
         end
         
