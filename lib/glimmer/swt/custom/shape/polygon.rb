@@ -119,16 +119,28 @@ module Glimmer
           
           # Logical x coordinate relative to parent
           def x
-            x_value = bounds.x
-            x_value -= parent.absolute_x if parent.is_a?(Shape)
-            x_value
+            x_dependencies = [bounds.x, parent.is_a?(Shape) && parent.absolute_x]
+            if x_dependencies != @x_dependencies
+              # avoid recalculating values
+              bounds_x, parent_absolute_x = @x_dependencies = x_dependencies
+              x_value = bounds_x
+              x_value -= parent_absolute_x if parent.is_a?(Shape)
+              @x = x_value
+            end
+            @x
           end
           
           # Logical y coordinate relative to parent
           def y
-            y_value = bounds.y
-            y_value -= parent.absolute_y if parent.is_a?(Shape)
-            y_value
+            y_dependencies = [bounds.y, parent.is_a?(Shape) && parent.absolute_y]
+            if y_dependencies != @y_dependencies
+              # avoid recalculating values
+              bounds_y, parent_absolute_y = @y_dependencies = y_dependencies
+              y_value = bounds_y
+              y_value -= parent_absolute_y if parent.is_a?(Shape)
+              @y = y_value
+            end
+            @y
           end
           
           def width

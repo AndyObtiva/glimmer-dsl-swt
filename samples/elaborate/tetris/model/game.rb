@@ -33,6 +33,8 @@ class Tetris
     class Game
       PLAYFIELD_WIDTH = 10
       PLAYFIELD_HEIGHT = 20
+#       PLAYFIELD_WIDTH = 5
+#       PLAYFIELD_HEIGHT = 5
       PREVIEW_PLAYFIELD_WIDTH = 4
       PREVIEW_PLAYFIELD_HEIGHT = 2
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
@@ -199,6 +201,7 @@ class Tetris
       
       def delay
         [1.1 - (level.to_i * 0.1), 0.001].max
+#         99999
       end
       
       def beep

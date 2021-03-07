@@ -171,7 +171,13 @@ module Glimmer
         
         # The bounding box top-left x, y, width, height in absolute positioning
         def bounds
-          org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, calculated_width, calculated_height)
+          bounds_dependencies = [absolute_x, absolute_y, calculated_width, calculated_height]
+          if bounds_dependencies != @bounds_dependencies
+            # avoid repeating calculations
+            absolute_x, absolute_y, calculated_width, calculated_height = @bounds_dependencies = bounds_dependencies
+            @bounds = org.eclipse.swt.graphics.Rectangle.new(absolute_x, absolute_y, calculated_width, calculated_height)
+          end
+          @bounds
         end
         
         # The bounding box top-left x and y
@@ -181,7 +187,13 @@ module Glimmer
         
         # The bounding box width and height (as a Point object with x being width and y being height)
         def size
-          org.eclipse.swt.graphics.Point.new(calculated_width, calculated_height)
+          size_dependencies = [calculated_width, calculated_height]
+          if size_dependencies != @size_dependencies
+            # avoid repeating calculations
+            calculated_width, calculated_height = @size_dependencies = size_dependencies
+            @size = org.eclipse.swt.graphics.Point.new(calculated_width, calculated_height)
+          end
+          @size
         end
         
         def extent
@@ -308,10 +320,10 @@ module Glimmer
             end
             @pattern_args ||= {}
             pattern_type = method_name.to_s.match(/set(.+)Pattern/)[1]
-            if args.first.is_a?(Pattern)
+            if args.first.is_a?(org.eclipse.swt.graphics.Pattern)
               new_args = @pattern_args[pattern_type]
             else
-              new_args = args.first.is_a?(Display) ? args : ([DisplayProxy.instance.swt_display] + args)
+              new_args = args.first.is_a?(org.eclipse.swt.widgets.Display) ? args : ([DisplayProxy.instance.swt_display] + args)
               @pattern_args[pattern_type] = new_args.dup
             end
             args[0] = pattern(*new_args, type: pattern_type)
@@ -429,6 +441,10 @@ module Glimmer
           parameter_names.index(attribute_name.to_s.to_sym)
         end
         
+        def get_parameter_attribute(attribute_name)
+          @args[parameter_index(ruby_attribute_getter(attribute_name))]
+        end
+        
         def set_parameter_attribute(attribute_name, *args)
           @args[parameter_index(ruby_attribute_getter(attribute_name))] = args.size == 1 ? args.first : args
         end
@@ -445,29 +461,40 @@ module Glimmer
           perform_redraw = @perform_redraw
           perform_redraw = options[:redraw] if perform_redraw.nil? && !options.nil?
           perform_redraw = true if perform_redraw.nil?
+          property_change = nil
+          ruby_attribute_getter_name = ruby_attribute_getter(attribute_name)
+          ruby_attribute_setter_name = ruby_attribute_setter(attribute_name)
           if parameter_name?(attribute_name)
+            return if get_parameter_attribute(attribute_name) == (args.size == 1 ? args.first : args)
             set_parameter_attribute(attribute_name, *args)
-          elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
-            self.send(ruby_attribute_setter(attribute_name), *args)
+          elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter_name, super: true))
+            return if self.send(ruby_attribute_getter_name) == (args.size == 1 ? args.first : args)
+            self.send(ruby_attribute_setter_name, *args)
           else
-            @properties[ruby_attribute_getter(attribute_name)] = args
+            # TODO consider this optimization of preconverting args (removing conversion from other methods) to reject equal args
+            args = apply_property_arg_conversions(ruby_attribute_getter_name, args)
+            return if @properties[ruby_attribute_getter_name] == args
+            @properties[ruby_attribute_getter_name] = args
+            property_change = true
           end
           if @content_added && perform_redraw && !drawable.is_disposed
-            @calculated_paint_args = false
-            if is_a?(PathSegment)
-              root_path&.calculated_path_args = @calculated_path_args = false
-              calculated_args_changed!
-              root_path&.calculated_args_changed!
-            end
-            attribute_name = ruby_attribute_getter(attribute_name)
-            if location_parameter_names.map(&:to_s).include?(attribute_name)
-              @calculated_args = nil
-              parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
-            end
-            if ['width', 'height'].include?(attribute_name)
-              calculated_args_changed_for_defaults!
+            unless property_change
+              @calculated_paint_args = false
+              if is_a?(PathSegment)
+                root_path&.calculated_path_args = @calculated_path_args = false
+                calculated_args_changed!
+                root_path&.calculated_args_changed!
+              end
+              if location_parameter_names.map(&:to_s).include?(attribute_name)
+                calculated_args_changed!(children: true)
+                parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
+              end
+              if ['width', 'height'].include?(attribute_name)
+                calculated_args_changed_for_defaults!
+              end
             end
             # TODO consider redrawing an image proxy's gc in the future
+            # TODO consider ensuring only a single redraw happens for a hierarchy of nested shapes
             drawable.redraw unless drawable.is_a?(ImageProxy)
           end
         end
@@ -479,7 +506,7 @@ module Glimmer
           elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
             self.send(attribute_name)
           else
-            @properties.symbolize_keys[attribute_name.to_s.to_sym]
+            @properties[attribute_name.to_s]
           end
         end
         
@@ -555,31 +582,39 @@ module Glimmer
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
         
-        # Indicate if this is a shape composite (meaning a shape bag that just contains nested shapes, but doesn't render anything of its own)
-        def shape_composite?
+        # Indicate if this is a container shape (meaning a shape bag that is just there to contain nested shapes, but doesn't render anything of its own)
+        def container?
           @name == 'shape'
+        end
+        
+        # Indicate if this is a composite shape (meaning a shape that contains nested shapes like a rectangle with ovals inside it)
+        def composite?
+          !shapes.empty?
         end
         
         # ordered from closest to farthest parent
         def parent_shapes
-          current_parent = parent
-          the_parent_shapes = []
-          until current_parent.is_a?(Drawable)
-            the_parent_shapes << current_parent
-            current_parent = current_parent.parent
+          if @parent_shapes.nil?
+            current_parent = parent
+            @parent_shapes = []
+            until current_parent.is_a?(Drawable)
+              @parent_shapes << current_parent
+              current_parent = current_parent.parent
+            end
           end
-          the_parent_shapes
+          @parent_shapes
         end
         
         # ordered from closest to farthest parent
         def parent_shape_composites
-          parent_shapes.select(&:shape_composite?)
+          parent_shapes.select(&:composite?)
         end
         
         def all_parent_properties
           # TODO consider providing a converted property version of this ready for consumption
           @all_parent_properties ||= parent_shape_composites.reverse.reduce({}) do |all_properties, parent_shape|
             parent_properties = parent_shape.properties
+            # TODO consider not doing this conversion if already done
             parent_properties.each do |property, args|
               parent_properties[property] = apply_property_arg_conversions(property, args)
             end
@@ -600,11 +635,13 @@ module Glimmer
         
         def paint_self(paint_event)
           @painting = true
-          unless shape_composite?
+          unless container?
             calculate_paint_args!
             @original_gc_properties = {} # this stores GC properties before making calls to updates TODO avoid using in pixel graphics
             @original_properties = @properties # this stores original shape attributes like background/foreground/font
-            @properties.merge(all_parent_properties).each do |property, args|
+            # TODO perhaps have all parent properties get mixed into current properties on instantiation instead
+            # TODO see if this merging is even needed given that we store original gc properties and reapply
+            all_parent_properties.merge(@properties).each do |property, args|
               method_name = attribute_setter(property)
               @original_gc_properties[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
               paint_event.gc.send(method_name, *args)
@@ -614,10 +651,8 @@ module Glimmer
             end
             ensure_extent(paint_event)
           end
-          if !@calculated_args || parent_shape_absolute_location_changed?
-            @calculated_args = calculated_args
-          end
-          unless shape_composite?
+          @calculated_args = calculate_args! if !@calculated_args
+          unless container?
             # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
             paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?)
             @original_gc_properties.each do |method_name, value|
@@ -634,6 +669,7 @@ module Glimmer
         
         def paint_children(paint_event)
           shapes.to_a.each do |shape|
+#             pd shape.inspect(calculated_args: true)
             shape.paint(paint_event)
           end
         end
@@ -663,10 +699,6 @@ module Glimmer
           end
         end
         
-        def parent_shape_absolute_location_changed?
-          (parent.is_a?(Shape) && (parent.absolute_x != @parent_absolute_x || parent.absolute_y != @parent_absolute_y))
-        end
-        
         def calculated_args_changed!(children: true)
           # TODO add a children: true option to enable setting to false to avoid recalculating children args
           @calculated_args = nil
@@ -676,7 +708,7 @@ module Glimmer
         def calculated_args_changed_for_defaults!
           has_default_dimensions = default_width? || default_height?
           parent_calculated_args_changed_for_defaults = has_default_dimensions
-          @calculated_args = nil if default_x? || default_y? || has_default_dimensions
+          calculated_args_changed!(children: false) if default_x? || default_y? || has_default_dimensions
           if has_default_dimensions && parent.is_a?(Shape)
             parent.calculated_args_changed_for_defaults!
           elsif @content_added && !drawable.is_disposed
@@ -690,76 +722,99 @@ module Glimmer
         end
                 
         # args translated to absolute coordinates
-        def calculated_args
-          return @args if !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height? && parent.is_a?(Drawable)
-          # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
-          # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
-          # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
-          # here to get the job done of calculating absolute args
-          @perform_redraw = false
-          original_x = nil
-          original_y = nil
-          original_width = nil
-          original_height = nil
-          if parent.is_a?(Shape)
-            @parent_absolute_x = parent.absolute_x
-            @parent_absolute_y = parent.absolute_y
+        def calculate_args!
+        # TODO add conditions for parent having default width/height too
+          return @args if !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height?
+          calculated_args_dependencies = [
+            parent.is_a?(Shape) && parent.absolute_x,
+            parent.is_a?(Shape) && parent.absolute_y,
+            default_width? && default_width,
+            default_width? && width_delta,
+            default_height? && default_height,
+            default_height? && height_delta,
+            max_width? && max_width,
+            max_width? && width_delta,
+            max_height? && max_height,
+            max_height? && height_delta,
+            default_x? && default_x,
+            default_x? && x_delta,
+            default_y? && default_y,
+            default_y? && y_delta,
+          ]
+          if calculated_args_dependencies != @calculated_args_dependencies
+            # avoid recalculating values again
+            parent_absolute_x, parent_absolute_y, default_width, default_width_delta, default_height, default_height_delta, max_width, max_width_delta, max_height, max_height_delta, default_x, default_x_delta, default_y, default_y_delta = @calculated_args_dependencies = calculated_args_dependencies
+            # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
+            # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
+            # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
+            # here to get the job done of calculating absolute args
+            @perform_redraw = false
+            original_x = nil
+            original_y = nil
+            original_width = nil
+            original_height = nil
+            if parent.is_a?(Shape)
+              @parent_absolute_x = parent_absolute_x
+              @parent_absolute_y = parent_absolute_y
+            end
+            if default_width?
+              original_width = width
+              self.width = default_width + default_width_delta
+            end
+            if default_height?
+              original_height = height
+              self.height = default_height + default_height_delta
+            end
+            if max_width?
+              original_width = width
+              self.width = max_width + max_width_delta
+            end
+            if max_height?
+              original_height = height
+              self.height = max_height + max_height_delta
+            end
+            if default_x?
+              original_x = x
+              self.x = default_x + default_x_delta
+            end
+            if default_y?
+              original_y = y
+              self.y = default_y + default_y_delta
+            end
+            if parent.is_a?(Shape)
+              move_by(@parent_absolute_x, @parent_absolute_y)
+              @result_calculated_args = @args.clone
+              move_by(-1*@parent_absolute_x, -1*@parent_absolute_y)
+            else
+              @result_calculated_args = @args.clone
+            end
+            if original_x
+              self.x = original_x
+            end
+            if original_y
+              self.y = original_y
+            end
+            if original_width
+              self.width = original_width
+            end
+            if original_height
+              self.height = original_height
+            end
+            @perform_redraw = true
           end
-          if default_width?
-            original_width = width
-            self.width = default_width + width_delta
-          end
-          if default_height?
-            original_height = height
-            self.height = default_height + height_delta
-          end
-          if max_width?
-            original_width = width
-            self.width = max_width + width_delta
-          end
-          if max_height?
-            original_height = height
-            self.height = max_height + height_delta
-          end
-          if default_x?
-            original_x = x
-            self.x = default_x + self.x_delta
-          end
-          if default_y?
-            original_y = y
-            self.y = default_y + self.y_delta
-          end
-          if parent.is_a?(Shape)
-            move_by(@parent_absolute_x, @parent_absolute_y)
-            result_args = @args.clone
-            move_by(-1*@parent_absolute_x, -1*@parent_absolute_y)
-          else
-            result_args = @args.clone
-          end
-          if original_x
-            self.x = original_x
-          end
-          if original_y
-            self.y = original_y
-          end
-          if original_width
-            self.width = original_width
-          end
-          if original_height
-            self.height = original_height
-          end
-          @perform_redraw = true
-          result_args
+          @result_calculated_args
         end
         
         def default_x?
-          current_parameter_name?(:x) and
-            (x.nil? || x.to_s == 'default' || (x.is_a?(Array) && x.first.to_s == 'default'))
+          return false unless current_parameter_name?(:x)
+          x = self.x
+          x.nil? || x.to_s == 'default' || (x.is_a?(Array) && x.first.to_s == 'default')
         end
         
         def default_y?
-          current_parameter_name?(:y) and
-            (y.nil? || y.to_s == 'default' || (y.is_a?(Array) && y.first.to_s == 'default'))
+          return false unless current_parameter_name?(:y)
+          y = self.y
+          y.nil? || y.to_s == 'default' || (y.is_a?(Array) && y.first.to_s == 'default')
         end
         
         def default_width?
@@ -775,108 +830,157 @@ module Glimmer
         end
         
         def max_width?
-          current_parameter_name?(:width) and
-            (width.nil? || width.to_s == 'max' || (width.is_a?(Array) && width.first.to_s == 'max'))
+          return false unless current_parameter_name?(:width)
+          width = self.width
+          (width.nil? || width.to_s == 'max' || (width.is_a?(Array) && width.first.to_s == 'max'))
         end
         
         def max_height?
-          current_parameter_name?(:height) and
-            (height.nil? || height.to_s == 'max' || (height.is_a?(Array) && height.first.to_s == 'max'))
+          return false unless current_parameter_name?(:height)
+          height = self.height
+          (height.nil? || height.to_s == 'max' || (height.is_a?(Array) && height.first.to_s == 'max'))
         end
         
         def default_x
-          result = ((parent.size.x - size.x) / 2)
-          result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape) && parent.irregular?
-          result
+          default_x_dependencies = [parent.size.x, size.x, parent.is_a?(Shape) && parent.irregular? && parent.bounds.x, parent.is_a?(Shape) && parent.irregular? && parent.absolute_x]
+          if default_x_dependencies != @default_x_dependencies
+            @default_x_dependencies = default_x_dependencies
+            result = ((parent.size.x - size.x) / 2)
+            result += parent.bounds.x - parent.absolute_x if parent.is_a?(Shape) && parent.irregular?
+            @default_x = result
+          end
+          @default_x
         end
         
         def default_y
-          result = ((parent.size.y - size.y) / 2)
-          result += parent.bounds.y - parent.absolute_y if parent.is_a?(Shape) && parent.irregular?
-          result
+          default_y_dependencies = [parent.size.y, size.y, parent.is_a?(Shape) && parent.irregular? && parent.bounds.y, parent.is_a?(Shape) && parent.irregular? && parent.absolute_y]
+          if default_y_dependencies != @default_y_dependencies
+            result = ((parent.size.y - size.y) / 2)
+            result += parent.bounds.y - parent.absolute_y if parent.is_a?(Shape) && parent.irregular?
+            @default_y = result
+          end
+          @default_y
+        end
+        
+        # right-most x coordinate in this shape (adding up its width and location)
+        def x_end
+          x_end_dependencies = [calculated_width, default_x?, !default_x? && x]
+          if x_end_dependencies != @x_end_dependencies
+            # avoid recalculation of dependencies
+            calculated_width, is_default_x, x = @x_end_dependencies = x_end_dependencies
+            shape_width = calculated_width.to_f
+            shape_x = is_default_x ? 0 : x.to_f
+            @x_end = shape_x + shape_width
+          end
+          @x_end
+        end
+        
+        # right-most y coordinate in this shape (adding up its height and location)
+        def y_end
+          y_end_dependencies = [calculated_height, default_y?, !default_y? && y]
+          if y_end_dependencies != @y_end_dependencies
+            # avoid recalculation of dependencies
+            calculated_height, is_default_y, y = @y_end_dependencies = y_end_dependencies
+            shape_height = calculated_height.to_f
+            shape_y = is_default_y ? 0 : y.to_f
+            @y_end = shape_y + shape_height
+          end
+          @y_end
         end
         
         def default_width
-          # TODO consider caching
-          x_ends = shapes.map do |shape|
-            if shape.max_width?
-              0
+          default_width_dependencies = [shapes.empty? && max_width, shapes.size == 1 && shapes.first.max_width? && parent.size.x, shapes.size >= 1 && !shapes.first.max_width? && shapes.map {|s| s.max_width? ? 0 : s.x_end}]
+          if default_width_dependencies != @default_width_dependencies
+            # Do not repeat calculations
+            max_width, parent_size_x, x_ends = @default_width_dependencies = default_width_dependencies
+            @default_width = if shapes.empty?
+              max_width
+            elsif shapes.size == 1 && shapes.first.max_width?
+              parent_size_x
             else
-              shape_width = shape.calculated_width.to_f
-              shape_x = shape.default_x? ? 0 : shape.x.to_f
-              shape_x + shape_width
+              x_ends.max.to_f
             end
           end
-          if shapes.empty?
-            max_width
-          elsif shapes.size == 1 && shapes.first.max_width?
-            self.parent.size.x
-          else
-            x_ends.max.to_f
-          end
+          @default_width
         end
         
         def default_height
-          # TODO consider caching
-          y_ends = shapes.map do |shape|
-            if shape.max_height?
-              0
+          default_height_dependencies = [shapes.empty? && max_height, shapes.size == 1 && shapes.first.max_height? && parent.size.y, shapes.size >= 1 && !shapes.first.max_height? && shapes.map {|s| s.max_height? ? 0 : s.y_end}]
+          if default_height_dependencies != @default_height_dependencies
+            # Do not repeat calculations
+            max_height, parent_size_y, y_ends = @default_height_dependencies = default_height_dependencies
+            @default_height = if shapes.empty?
+              max_height
+            elsif shapes.size == 1 && shapes.first.max_height?
+              parent_size_y
             else
-              shape_height = shape.calculated_height.to_f
-              shape_y = shape.default_y? ? 0 : shape.y.to_f
-              shape_y + shape_height
+              y_ends.max.to_f
             end
           end
-          if shapes.empty?
-            max_height
-          elsif shapes.size == 1 && shapes.first.max_height?
-            self.parent.size.y
-          else
-            y_ends.max.to_f
-          end
+          @default_height
         end
         
         def max_width
-          # consider caching
-          parent.is_a?(Drawable) ? parent.size.x : parent.calculated_width
+          max_width_dependencies = [parent.is_a?(Drawable) && parent.size.x, !parent.is_a?(Drawable) && parent.calculated_width]
+          if max_width_dependencies != @max_width_dependencies
+            # do not repeat calculations
+            parent_size_x, parent_calculated_width = @max_width_dependencies = max_width_dependencies
+            @max_width = parent.is_a?(Drawable) ? parent_size_x : parent_calculated_width
+          end
+          @max_width
         end
         
         def max_height
-          # consider caching
-          parent.is_a?(Drawable) ? parent.size.y : parent.calculated_height
+          max_height_dependencies = [parent.is_a?(Drawable) && parent.size.y, !parent.is_a?(Drawable) && parent.calculated_height]
+          if max_height_dependencies != @max_height_dependencies
+            # do not repeat calculations
+            parent_size_y, parent_calculated_height = @max_height_dependencies = max_height_dependencies
+            @max_height = parent.is_a?(Drawable) ? parent_size_y : parent_calculated_height
+          end
+          @max_height
         end
         
         def calculated_width
-          result_width = width
-          result_width = (default_width + width_delta) if default_width?
-          result_width = (max_width + width_delta) if max_width?
-          result_width
+          calculated_width_dependencies = [width, default_width? && (default_width + width_delta), max_width? && (max_width + width_delta)]
+          if calculated_width_dependencies != @calculated_width_dependencies
+            @calculated_width_dependencies = calculated_width_dependencies
+            result_width = width
+            result_width = (default_width + width_delta) if default_width?
+            result_width = (max_width + width_delta) if max_width?
+            @calculated_width = result_width
+          end
+          @calculated_width
         end
         
         def calculated_height
-          result_height = height
-          result_height = (default_height + height_delta) if default_height?
-          result_height = (max_height + height_delta) if max_height?
-          result_height
+          calculated_height_dependencies = [height, default_height? && (default_height + height_delta), max_height? && (max_height + height_delta)]
+          if calculated_height_dependencies != @calculated_height_dependencies
+            @calculated_height_dependencies = calculated_height_dependencies
+            result_height = height
+            result_height = (default_height + height_delta) if default_height?
+            result_height = (max_height + height_delta) if max_height?
+            @calculated_height = result_height
+          end
+          @calculated_height
         end
         
         def x_delta
-          return 0 unless default_x? && x.is_a?(Array)
+          return 0 unless x.is_a?(Array) && default_x?
           x[1].to_f
         end
         
         def y_delta
-          return 0 unless default_y? && y.is_a?(Array)
+          return 0 unless y.is_a?(Array) && default_y?
           y[1].to_f
         end
         
         def width_delta
-          return 0 unless (default_width? || max_width?) && width.is_a?(Array)
+          return 0 unless width.is_a?(Array) && (default_width? || max_width?)
           width[1].to_f
         end
         
         def height_delta
-          return 0 unless (default_height? || max_height?) && height.is_a?(Array)
+          return 0 unless height.is_a?(Array) && (default_height? || max_height?)
           height[1].to_f
         end
         
@@ -905,39 +1009,70 @@ module Glimmer
         end
         
         def calculated_x
-          result = default_x? ? default_x : self.x
-          result += self.x_delta
-          result
+          calculated_x_dependencies = [default_x? && default_x, !default_x? && self.x, self.x_delta]
+          if calculated_x_dependencies != @calculated_x_dependencies
+            default_x, x, x_delta = @calculated_x_dependencies = calculated_x_dependencies
+            result = default_x? ? default_x : x
+            result += x_delta
+            @calculated_x = result
+          end
+          @calculated_x
         end
         
         def calculated_y
-          result = default_y? ? default_y : self.y
-          result += self.y_delta
-          result
+          calculated_y_dependencies = [default_y? && default_y, !default_y? && self.y, self.y_delta]
+          if calculated_y_dependencies != @calculated_y_dependencies
+            default_y, y, y_delta = @calculated_y_dependencies = calculated_y_dependencies
+            result = default_y? ? default_y : y
+            result += y_delta
+            @calculated_y = result
+          end
+          @calculated_y
         end
         
         def absolute_x
-          x = calculated_x
-          if parent.is_a?(Shape)
-            parent.absolute_x + x
-          else
-            x
+          absolute_x_dependencies = [calculated_x, parent.is_a?(Shape) && parent.absolute_x]
+          if absolute_x_dependencies != @absolute_x_dependencies
+            # do not repeat calculations
+            calculated_x, parent_absolute_x = @absolute_x_dependencies = absolute_x_dependencies
+            x = calculated_x
+            @absolute_x = if parent.is_a?(Shape)
+              parent_absolute_x + x
+            else
+              x
+            end
+            calculated_args_changed!(children: true)
           end
+          @absolute_x
         end
         
         def absolute_y
-          y = calculated_y
-          if parent.is_a?(Shape)
-            parent.absolute_y + y
-          else
-            y
+          absolute_y_dependencies = [calculated_y, parent.is_a?(Shape) && parent.absolute_y]
+          if absolute_y_dependencies != @absolute_y_dependencies
+            calculated_y, parent_absolute_y = @absolute_y_dependencies = absolute_y_dependencies
+            y = calculated_y
+            @absolute_y = if parent.is_a?(Shape)
+              parent_absolute_y + y
+            else
+              y
+            end
+            calculated_args_changed!(children: true)
           end
+          @absolute_y
         end
         
-        # Overriding inspect to avoid printing very long shape hierarchies
-        def inspect
-          "#<#{self.class.name}:0x#{self.hash.to_s(16)} args=#{@args.inspect}, properties=#{@properties.inspect}}>"
+        # Overriding inspect to avoid printing very long nested shape hierarchies (recurses onces only)
+        def inspect(recursive: 1, calculated: false, args: true, properties: true, calculated_args: false)
+          recurse = recursive == true || recursive.is_a?(Integer) && recursive.to_i > 0
+          recursive = [recursive -= 1, 0].max if recursive.is_a?(Integer)
+          args_string = " args=#{@args.inspect}" if args
+          properties_string = " properties=#{@properties.inspect}}" if properties
+          calculated_args_string = " calculated_args=#{@calculated_args.inspect}" if calculated_args
+          calculated_string = " absolute_x=#{absolute_x} absolute_y=#{absolute_y} calculated_width=#{calculated_width} calculated_height=#{calculated_height}" if calculated
+          recursive_string = " shapes=#{@shapes.map {|s| s.inspect(recursive: recursive, calculated: calculated, args: false, properties: false)}}" if recurse
+          "#<#{self.class.name}:0x#{self.hash.to_s(16)}#{args_string}#{properties_string}#{calculated_args_string}#{calculated_string}#{recursive_string}>"
         rescue => e
+          Glimmer::Config.logger.error { e.full_message }
           "#<#{self.class.name}:0x#{self.hash.to_s(16)}"
         end
         
@@ -961,11 +1096,9 @@ module Glimmer
               @properties['background'] = [@drawable.background] if fill? && !has_some_background?
               @properties['foreground'] = [@drawable.foreground] if @drawable.respond_to?(:foreground) && draw? && !has_some_foreground?
               # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
-              @properties['alpha'] ||= [255]
-              @properties['font'] = [@drawable.font] if @drawable.respond_to?(:font) && draw? && !@properties.keys.map(&:to_s).include?('font')
+              @properties['font'] = [@drawable.font] if @drawable.respond_to?(:font) && @name == 'text' && draw? && !@properties.keys.map(&:to_s).include?('font')
               # TODO regarding transform, make sure to reset it to parent stored transform once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
-              @properties['transform'] = [nil] if @drawable.respond_to?(:transform) && !@properties.keys.map(&:to_s).include?('transform')
               @properties.each do |property, args|
                 @properties[property] = apply_property_arg_conversions(property, args)
               end

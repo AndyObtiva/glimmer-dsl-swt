@@ -42,19 +42,23 @@ module Glimmer
           end
           
           def point_count
+            point_array = args.size > 1 ? args : self.point_array
             point_array.count / 2
           end
           
           def [](index)
+            point_array = args.size > 1 ? args : self.point_array
             index = 0 if index == point_count
             org.eclipse.swt.graphics.Point.new(point_array[index * 2], point_array[index * 2 + 1])
           end
           
           def x_array
+            point_array = args.size > 1 ? args : self.point_array
             point_array.each_with_index.select {|pair| pair.last.even?}.map(&:first)
           end
           
           def y_array
+            point_array = args.size > 1 ? args : self.point_array
             point_array.each_with_index.select {|pair| pair.last.odd?}.map(&:first)
           end
           
@@ -63,6 +67,7 @@ module Glimmer
           end
           
           def absolute_point_array
+            point_array = args.size > 1 ? args : self.point_array
             if parent.is_a?(Shape)
               point_array.each_with_index.map do |coordinate, i|
                 if i.even?

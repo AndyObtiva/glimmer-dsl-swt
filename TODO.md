@@ -4,12 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Refactor Tetris to use a custom shape for its blocks given they are used in both the game and the icon, thus achieving code reuse
-- Elaborate custom shape sample to demonstrate things like bevel_decoration of a rectangle, adding a paper effect which can be done even more simply with glimmer, etc...
+- Fix issue with moving polygon
+- Fix issue with moving rectangle with foreground only
 - Klondike Solitaire
 
 - Support Custom Shape data-binding
-- Add External Samples to MetaSample
 - Add glimmer list:gems:customshape command (or list:gems:cp)
 - glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 
@@ -43,12 +42,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
 - Canvas Shape DSL autoscalable shapes or canvases
 
+- Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 - Support nouns for `Canvas Transform DSL` operations
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
+- Add External Samples to meta_sample
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 

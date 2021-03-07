@@ -34,7 +34,7 @@ module Glimmer
       class Shape
         class Text < Shape
           def parameter_names
-            @parameter_names || text_parameter_names
+            @parameter_names ||= text_parameter_names
           end
           
           def possible_parameter_names

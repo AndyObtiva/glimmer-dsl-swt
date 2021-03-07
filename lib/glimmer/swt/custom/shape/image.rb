@@ -34,13 +34,9 @@ module Glimmer
       class Shape
         class Image < Shape
           def parameter_names
-            if @args.to_a.size > 3
-              image_part_parameter_names
-            else
-              image_whole_parameter_names
-            end
+            @parameter_names ||= image_whole_parameter_names
           end
-          
+        
           def possible_parameter_names
             (image_part_parameter_names + image_whole_parameter_names).uniq
           end
@@ -53,13 +49,15 @@ module Glimmer
             [:image, :x, :y]
           end
           
-          def parameter_index(attribute_name)
+          def set_parameter_attribute(attribute_name, *args)
+            return super if @parameter_names.to_a.map(&:to_s).include?(attribute_name.to_s)
             ####TODO refactor and improve this method through meta-programming (and share across other shapes)
             if image_part_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_part_parameter_names.map(&:to_s).index(attribute_name.to_s)
+              @parameter_names = image_part_parameter_names
             elsif image_whole_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              image_whole_parameter_names.map(&:to_s).index(attribute_name.to_s)
+              @parameter_names = image_whole_parameter_names
             end
+            super
           end
           
           def x

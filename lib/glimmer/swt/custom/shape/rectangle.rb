@@ -23,7 +23,6 @@ require 'glimmer/swt/custom/shape'
 require 'glimmer/swt/swt_proxy'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
-require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/transform_proxy'
 
 module Glimmer
@@ -34,16 +33,7 @@ module Glimmer
       class Shape
         class Rectangle < Shape
           def parameter_names
-            # TODO consider optimizing just like text where it is set upon updating attribute and here you just return a variable
-            if @args.to_a.size >= 6
-              rectangle_round_parameter_names
-            elsif @args.to_a.size == 5
-              rectangle_gradient_parameter_names
-            elsif @args.to_a.size == 1
-              rectangle_rectangle_parameter_names
-            else
-              rectangle_parameter_names
-            end
+            @parameter_names ||= rectangle_parameter_names
           end
           
           def possible_parameter_names
@@ -68,17 +58,18 @@ module Glimmer
             [:rectangle]
           end
           
-          def parameter_index(attribute_name)
-            ####TODO refactor and improve this method through meta-programming (and share across other shapes)
-            if rectangle_round_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              rectangle_round_parameter_names.map(&:to_s).index(attribute_name.to_s)
+          def set_parameter_attribute(attribute_name, *args)
+            return super if @parameter_names.to_a.map(&:to_s).include?(attribute_name.to_s)
+            if rectangle_parameter_names.map(&:to_s).include?(attribute_name.to_s)
+              @parameter_names = rectangle_parameter_names
+            elsif rectangle_round_parameter_names.map(&:to_s).include?(attribute_name.to_s)
+              @parameter_names = rectangle_round_parameter_names
             elsif rectangle_gradient_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              rectangle_gradient_parameter_names.map(&:to_s).index(attribute_name.to_s)
-            elsif rectangle_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              rectangle_parameter_names.map(&:to_s).index(attribute_name.to_s)
+              @parameter_names = rectangle_gradient_parameter_names
             elsif rectangle_rectangle_parameter_names.map(&:to_s).include?(attribute_name.to_s)
-              rectangle_rectangle_parameter_names.map(&:to_s).index(attribute_name.to_s)
+              @parameter_names = rectangle_rectangle_parameter_names
             end
+            super
           end
           
           def point_xy_array
