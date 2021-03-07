@@ -158,7 +158,7 @@ class Tetris
           y = row * icon_block_size
           rectangle(x, y, icon_block_size, icon_block_size) {
             background color
-            bevel(base_color: color, size: icon_block_size) {}
+            bevel(base_color: color, size: icon_block_size)
           }
         }
       }

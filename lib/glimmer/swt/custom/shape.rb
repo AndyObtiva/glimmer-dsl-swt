@@ -669,7 +669,6 @@ module Glimmer
         
         def paint_children(paint_event)
           shapes.to_a.each do |shape|
-#             pd shape.inspect(calculated_args: true)
             shape.paint(paint_event)
           end
         end
