@@ -256,7 +256,7 @@ module Glimmer
         def post_add_content
           amend_method_name_options_based_on_properties!
           if !@content_added || @method_name != @original_method_name
-            @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
+            @drawable.setup_shape_painting # unless @drawable.is_a?(ImageProxy)
             @content_added = true
           end
         end
@@ -495,7 +495,7 @@ module Glimmer
             end
             # TODO consider redrawing an image proxy's gc in the future
             # TODO consider ensuring only a single redraw happens for a hierarchy of nested shapes
-            drawable.redraw unless drawable.is_a?(ImageProxy)
+            drawable.redraw # unless drawable.is_a?(ImageProxy)
           end
         end
         
@@ -713,7 +713,7 @@ module Glimmer
             parent.calculated_args_changed_for_defaults!
           elsif @content_added && !drawable.is_disposed
             # TODO consider optimizing in the future if needed by ensuring one redraw for all parents in the hierarchy at the end instead of doing one per parent that needs it
-            drawable.redraw if !@painting && !drawable.is_a?(ImageProxy)
+            drawable.redraw if !@painting # && !drawable.is_a?(ImageProxy)
           end
         end
         
@@ -724,7 +724,7 @@ module Glimmer
         # args translated to absolute coordinates
         def calculate_args!
         # TODO add conditions for parent having default width/height too
-          return @args if !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height?
+          return @args if parent.is_a?(Drawable) && !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height?
           calculated_args_dependencies = [
             parent.is_a?(Shape) && parent.absolute_x,
             parent.is_a?(Shape) && parent.absolute_y,
