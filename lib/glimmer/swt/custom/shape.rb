@@ -256,7 +256,7 @@ module Glimmer
         def post_add_content
           amend_method_name_options_based_on_properties!
           if !@content_added || @method_name != @original_method_name
-            @drawable.setup_shape_painting # unless @drawable.is_a?(ImageProxy)
+            @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
           end
         end
@@ -460,13 +460,13 @@ module Glimmer
           args.pop if !options.nil? && !options[:redraw].nil?
           perform_redraw = @perform_redraw
           perform_redraw = options[:redraw] if perform_redraw.nil? && !options.nil?
-          perform_redraw = true if perform_redraw.nil?
+          perform_redraw ||= true
           property_change = nil
           ruby_attribute_getter_name = ruby_attribute_getter(attribute_name)
           ruby_attribute_setter_name = ruby_attribute_setter(attribute_name)
           if parameter_name?(attribute_name)
-            return if get_parameter_attribute(attribute_name) == (args.size == 1 ? args.first : args)
-            set_parameter_attribute(attribute_name, *args)
+            return if ruby_attribute_getter_name == (args.size == 1 ? args.first : args)
+            set_parameter_attribute(ruby_attribute_getter_name, *args)
           elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter_name, super: true))
             return if self.send(ruby_attribute_getter_name) == (args.size == 1 ? args.first : args)
             self.send(ruby_attribute_setter_name, *args)
@@ -478,6 +478,7 @@ module Glimmer
             property_change = true
           end
           if @content_added && perform_redraw && !drawable.is_disposed
+            redrawn = false
             unless property_change
               @calculated_paint_args = false
               if is_a?(PathSegment)
@@ -485,17 +486,17 @@ module Glimmer
                 calculated_args_changed!
                 root_path&.calculated_args_changed!
               end
-              if location_parameter_names.map(&:to_s).include?(attribute_name)
+              if location_parameter_names.map(&:to_s).include?(ruby_attribute_getter_name)
                 calculated_args_changed!(children: true)
-                parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
+                redrawn = parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
               end
-              if ['width', 'height'].include?(attribute_name)
-                calculated_args_changed_for_defaults!
+              if ['width', 'height'].include?(ruby_attribute_getter_name)
+                redrawn = calculated_args_changed_for_defaults!
               end
             end
             # TODO consider redrawing an image proxy's gc in the future
             # TODO consider ensuring only a single redraw happens for a hierarchy of nested shapes
-            drawable.redraw # unless drawable.is_a?(ImageProxy)
+            drawable.redraw unless redrawn || drawable.is_a?(ImageProxy)
           end
         end
         
@@ -651,7 +652,7 @@ module Glimmer
             end
             ensure_extent(paint_event)
           end
-          @calculated_args = calculate_args! if !@calculated_args
+          @calculated_args ||= calculate_args!
           unless container?
             # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
             paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?)
@@ -704,6 +705,7 @@ module Glimmer
           shapes.each(&:calculated_args_changed!) if children
         end
         
+        # Notifies object that calculated args changed for defaults. Returns true if redrawing and false otherwise.
         def calculated_args_changed_for_defaults!
           has_default_dimensions = default_width? || default_height?
           parent_calculated_args_changed_for_defaults = has_default_dimensions
@@ -712,8 +714,12 @@ module Glimmer
             parent.calculated_args_changed_for_defaults!
           elsif @content_added && !drawable.is_disposed
             # TODO consider optimizing in the future if needed by ensuring one redraw for all parents in the hierarchy at the end instead of doing one per parent that needs it
-            drawable.redraw if !@painting # && !drawable.is_a?(ImageProxy)
+            if !@painting && !drawable.is_a?(ImageProxy)
+              drawable.redraw
+              return true
+            end
           end
+          false
         end
         
         def calculated_args?
@@ -725,6 +731,8 @@ module Glimmer
         # TODO add conditions for parent having default width/height too
           return @args if parent.is_a?(Drawable) && !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height?
           calculated_args_dependencies = [
+            x,
+            y,
             parent.is_a?(Shape) && parent.absolute_x,
             parent.is_a?(Shape) && parent.absolute_y,
             default_width? && default_width,
@@ -742,7 +750,7 @@ module Glimmer
           ]
           if calculated_args_dependencies != @calculated_args_dependencies
             # avoid recalculating values again
-            parent_absolute_x, parent_absolute_y, default_width, default_width_delta, default_height, default_height_delta, max_width, max_width_delta, max_height, max_height_delta, default_x, default_x_delta, default_y, default_y_delta = @calculated_args_dependencies = calculated_args_dependencies
+            x, y, parent_absolute_x, parent_absolute_y, default_width, default_width_delta, default_height, default_height_delta, max_width, max_width_delta, max_height, max_height_delta, default_x, default_x_delta, default_y, default_y_delta = @calculated_args_dependencies = calculated_args_dependencies
             # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
             # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
             # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y
@@ -1040,7 +1048,6 @@ module Glimmer
             else
               x
             end
-            calculated_args_changed!(children: true)
           end
           @absolute_x
         end
@@ -1055,7 +1062,6 @@ module Glimmer
             else
               y
             end
-            calculated_args_changed!(children: true)
           end
           @absolute_y
         end
@@ -1068,7 +1074,7 @@ module Glimmer
           properties_string = " properties=#{@properties.inspect}}" if properties
           calculated_args_string = " calculated_args=#{@calculated_args.inspect}" if calculated_args
           calculated_string = " absolute_x=#{absolute_x} absolute_y=#{absolute_y} calculated_width=#{calculated_width} calculated_height=#{calculated_height}" if calculated
-          recursive_string = " shapes=#{@shapes.map {|s| s.inspect(recursive: recursive, calculated: calculated, args: false, properties: false)}}" if recurse
+          recursive_string = " shapes=#{@shapes.map {|s| s.inspect(recursive: recursive, calculated: calculated, args: args, properties: properties)}}" if recurse
           "#<#{self.class.name}:0x#{self.hash.to_s(16)}#{args_string}#{properties_string}#{calculated_args_string}#{calculated_string}#{recursive_string}>"
         rescue => e
           Glimmer::Config.logger.error { e.full_message }

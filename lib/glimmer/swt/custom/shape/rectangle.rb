@@ -33,7 +33,7 @@ module Glimmer
       class Shape
         class Rectangle < Shape
           def parameter_names
-            @parameter_names ||= rectangle_parameter_names
+            @parameter_names || rectangle_parameter_names
           end
           
           def possible_parameter_names
