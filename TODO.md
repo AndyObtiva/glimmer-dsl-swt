@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix issue with moving polygon
 - Klondike Solitaire
 
 - Support Custom Shape data-binding

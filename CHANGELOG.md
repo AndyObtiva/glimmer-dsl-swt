@@ -3,7 +3,7 @@
 ### 4.18.7.3
 
 - Refactor Tetris to use a custom shape (`bevel`) for its blocks given they are used in both the game and the icon, thus achieving code reuse
-
+- Fix issue with moving filled polygon (moving drawn polygon works)
 
 ### 4.18.7.2
 
