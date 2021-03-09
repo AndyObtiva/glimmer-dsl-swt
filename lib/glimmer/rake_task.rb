@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -54,7 +54,7 @@ namespace :glimmer do
     if args[:app_path].nil?
       require 'fileutils'
       current_directory_name = File.basename(FileUtils.pwd)
-      assumed_shell_script = File.join('.', 'bin', current_directory_name)      
+      assumed_shell_script = File.join('.', 'bin', current_directory_name)
       assumed_shell_script = Dir.glob('./bin/*').detect {|f| File.file?(f)} if !File.exist?(assumed_shell_script)
       Glimmer::Launcher.new([assumed_shell_script]).launch
     else
@@ -170,7 +170,7 @@ namespace :glimmer do
     
       task :cw, [:name, :namespace] => :customwidget
       task :custom_widget, [:name, :namespace] => :customwidget
-      task :"custom-widget", [:name, :namespace] => :customwidget      
+      task :"custom-widget", [:name, :namespace] => :customwidget
     end
     
     # legacy support
@@ -204,6 +204,15 @@ namespace :glimmer do
       task :custom_shell, [:query] => :customshell
       task :"custom-shell", [:query] => :customshell
       
+      desc 'List Glimmer custom shape gems available at rubygems.org (query is optional) [alt: list:gems:cs]'
+      task :customshape, [:query] => :list_require do |t, args|
+        Glimmer::RakeTask::List.custom_shape_gems(args[:query])
+      end
+      
+      task :cp, [:query] => :customshape
+      task :custom_shape, [:query] => :customshape
+      task :"custom-shape", [:query] => :customshape
+      
       desc 'List Glimmer DSL gems available at rubygems.org (query is optional)'
       task :dsl, [:query] => :list_require do |t, args|
         Glimmer::RakeTask::List.dsl_gems(args[:query])
@@ -214,7 +223,7 @@ namespace :glimmer do
     # legacy support
     
     task :custom_shell_gems, [:name, :namespace] => 'gems:customshell'
-    task :custom_widget_gems, [:name, :namespace] => 'gems:customwidget'    
+    task :custom_widget_gems, [:name, :namespace] => 'gems:customwidget'
     
   end
 end

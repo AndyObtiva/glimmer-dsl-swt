@@ -45,6 +45,14 @@ module Glimmer
           end
         end
 
+        def custom_shape_gems(query=nil)
+          list_gems('glimmer-cp-', query) do |result|
+            puts
+            puts "  Glimmer Custom Shape Gems#{" matching [#{query}]" if query} at rubygems.org:"
+            puts result
+          end
+        end
+
         def dsl_gems(query=nil)
           list_gems('glimmer-dsl-', query) do |result|
             puts

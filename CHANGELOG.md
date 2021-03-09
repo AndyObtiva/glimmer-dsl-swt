@@ -3,6 +3,7 @@
 ### 4.18.7.4
 
 - Fix issue with having to pass base_color to `bevel` custom shape in Tetris before data-binding instead of data-binding being sufficient
+- Add glimmer list:gems:customshape command (or list:gems:cp, adding aliases for cw and cs as well)
 
 ### 4.18.7.3
 

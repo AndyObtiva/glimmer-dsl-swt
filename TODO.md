@@ -4,11 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Add glimmer list:gems:customshape command (or list:gems:cp, adding aliases for cw and cs as well)
+- Add glimmer scaffold:customshape[name,namespace] command
+- Add glimmer scaffold:gem:customshape[name,namespace] command
+
+- glimmer-cp-bevel which provides the `bevel` custom shape keyword
 - glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 
 - Explore the idea of a stack of cards (do it with custom shape or custom widget or both?)
-- Klondike Solitaire
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
@@ -36,7 +40,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
 - Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
@@ -97,6 +100,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors
 
+- Update Hello, Drag and Drop! sample to change mouse cursor while dragging and dropping (like drag a flag of the country)
+- `:draggable` or `:drag_movable` style for any widget to make it movable through dragging (drag and drop)
 - Provide a way to customize display in its own file in scaffolded app (just like configuration) instead of embedding in custom shell which custom shells invoke automatically behind the scenes instead of having to add to before_block
 - add a config file during scaffolding that lists glimmer options (consider using a config dsl)
 - Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
@@ -512,6 +517,7 @@ A terminal written in Glimmer DSL for SWT.
 
 ### UML For Life
 
+- glimmer-cp-stickfigure which provides the `stick_figure` custom shape keyword
 - A UML diagraming app (consider eventually webifying via Opal)
 
 ## Custom Widgets/Shells/Shapes/Images
