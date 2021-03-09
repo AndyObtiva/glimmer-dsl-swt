@@ -607,13 +607,18 @@ module Glimmer
         end
         
         # ordered from closest to farthest parent
+        def parent_shape_containers
+          parent_shapes.select(&:container?)
+        end
+        
+        # ordered from closest to farthest parent
         def parent_shape_composites
           parent_shapes.select(&:composite?)
         end
         
         def all_parent_properties
           # TODO consider providing a converted property version of this ready for consumption
-          @all_parent_properties ||= parent_shape_composites.reverse.reduce({}) do |all_properties, parent_shape|
+          @all_parent_properties ||= parent_shape_containers.reverse.reduce({}) do |all_properties, parent_shape|
             parent_properties = parent_shape.properties
             # TODO consider not doing this conversion if already done
             parent_properties.each do |property, args|
@@ -640,9 +645,7 @@ module Glimmer
             calculate_paint_args!
             @original_gc_properties = {} # this stores GC properties before making calls to updates TODO avoid using in pixel graphics
             @original_properties = @properties # this stores original shape attributes like background/foreground/font
-            # TODO perhaps have all parent properties get mixed into current properties on instantiation instead
-            # TODO see if this merging is even needed given that we store original gc properties and reapply
-            all_parent_properties.merge(@properties).each do |property, args|
+            @properties.each do |property, args|
               method_name = attribute_setter(property)
               @original_gc_properties[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
               paint_event.gc.send(method_name, *args)
@@ -1048,7 +1051,6 @@ module Glimmer
             else
               x
             end
-            calculated_args_changed!(children: true) unless @painting
           end
           @absolute_x
         end
@@ -1063,7 +1065,6 @@ module Glimmer
             else
               y
             end
-            calculated_args_changed!(children: true) unless @painting
           end
           @absolute_y
         end
@@ -1100,6 +1101,7 @@ module Glimmer
                 end
               end
             else
+              @properties = all_parent_properties.merge(@properties)
               @properties['background'] = [@drawable.background] if fill? && !has_some_background?
               @properties['foreground'] = [@drawable.foreground] if @drawable.respond_to?(:foreground) && draw? && !has_some_foreground?
               # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes
