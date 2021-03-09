@@ -215,6 +215,15 @@ module Glimmer
           write "#{parent_dir}/#{file_name(custom_widget_name)}.rb", custom_widget_file(custom_widget_name, namespace)
         end
     
+        def custom_shape(custom_shape_name, namespace)
+          namespace ||= current_dir_name
+          root_dir = File.exists?('app') ? 'app' : 'lib'
+          parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          return puts("The file '#{parent_dir}/#{file_name(custom_shape_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_shape_name)}.rb")
+          mkdir_p parent_dir unless File.exists?(parent_dir)
+          write "#{parent_dir}/#{file_name(custom_shape_name)}.rb", custom_shape_file(custom_shape_name, namespace)
+        end
+    
         def custom_shell_gem(custom_shell_name, namespace)
           gem_name = "glimmer-cs-#{compact_name(custom_shell_name)}"
           gem_summary = "#{human_name(custom_shell_name)} - Glimmer Custom Shell"
@@ -320,6 +329,45 @@ module Glimmer
           append "lib/#{gem_name}.rb", gem_main_file(custom_widget_name, namespace)
           mkdir 'lib/views'
           custom_widget(custom_widget_name, namespace)
+          if OS.windows?
+            system "bundle"
+            system "rspec --init"
+          else
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
+          end
+          write 'spec/spec_helper.rb', spec_helper_file
+          puts "Finished creating #{gem_name} Ruby gem."
+          puts 'Edit Rakefile to configure gem details.'
+          puts 'Run `rake` to execute specs.'
+          puts 'Run `rake build` to build gem.'
+          puts 'Run `rake release` to release into rubygems.org once ready.'
+        end
+    
+        def custom_shape_gem(custom_shape_name, namespace)
+          return puts('Namespace is required! Usage: glimmer scaffold:custom_shape_gem[custom_shape_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
+          gem_name = "glimmer-cp-#{compact_name(custom_shape_name)}"
+          gem_summary = "#{human_name(custom_shape_name)} - Glimmer Custom Shape"
+          if namespace
+            gem_name += "-#{compact_name(namespace)}"
+            gem_summary += " (#{human_name(namespace)})"
+          else
+            namespace = 'glimmer'
+          end
+          
+          return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
+          system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
+          system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
+          return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
+          cd gem_name
+          write '.gitignore', GITIGNORE
+          write '.ruby-version', RUBY_VERSION
+          write '.ruby-gemset', gem_name
+          write 'VERSION', '1.0.0'
+          write 'Gemfile', GEMFILE
+          write 'Rakefile', gem_rakefile
+          append "lib/#{gem_name}.rb", gem_main_file(custom_shape_name, namespace)
+          mkdir 'lib/views'
+          custom_shape(custom_shape_name, namespace)
           if OS.windows?
             system "bundle"
             system "rspec --init"
@@ -762,7 +810,62 @@ module Glimmer
             end
           MULTI_LINE_STRING
         end
+        
+        def custom_shape_file(custom_shape_name, namespace)
+          namespace_type = class_name(namespace) == class_name(current_dir_name) ? 'class' : 'module'
+    
+          <<~MULTI_LINE_STRING
+            #{namespace_type} #{class_name(namespace)}
+              class #{class_name(custom_shape_name)}
+                include Glimmer::UI::CustomShape
+            
+                ## Add options like the following to configure CustomShape by outside consumers
+                #
+                # options :option1, option2, option3
+                option :background_color, default: :red
+                option :size_width, default: 100
+                option :size_height, default: 100
+                option :location_x, default: 0
+                option :location_y, default: 0
+            
+                ## Use before_body block to pre-initialize variables to use in body
+                #
+                #
+                # before_body {
+                #
+                # }
+            
+                ## Use after_body block to setup observers for shapes in body
+                #
+                # after_body {
+                #
+                # }
+            
+                ## Add shape content under custom shape body
+                #
+                body {
+                  # Replace example content below with custom shape content
+                  shape(location_x, location_y) {
+                    path {
+                      background background_color
+                      cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*0.65 - size_width*0.66, 0 - size_height*0.33, size_width/2 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
+                    }
+                    path {
+                      background background_color
+                      cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*1.35 - size_width*0.66, 0 - size_height*0.33, size_width*1.5 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
+                    }
+                  }
+                }
+            
+              end
+            end
+          MULTI_LINE_STRING
+        end
+        
       end
+      
     end
+    
   end
+  
 end

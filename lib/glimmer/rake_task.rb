@@ -145,6 +145,16 @@ namespace :glimmer do
     task :custom_widget, [:name, :namespace] => :customwidget
     task :"custom-widget", [:name, :namespace] => :customwidget
     
+    desc 'Scaffold Glimmer::UI::CustomShape subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cp]'
+    task :customshape, [:name, :namespace] do |t, args|
+      require_relative 'rake_task/scaffold'
+      Glimmer::RakeTask::Scaffold.custom_shape(args[:name], args[:namespace])
+    end
+    
+    task :cp, [:name, :namespace] => :customshape
+    task :custom_shape, [:name, :namespace] => :customshape
+    task :"custom-shape", [:name, :namespace] => :customshape
+    
     desc 'Desktopify a web app'
     task :desktopify, [:app_name, :website] do |t, args|
       require_relative 'rake_task/scaffold'
@@ -171,12 +181,23 @@ namespace :glimmer do
       task :cw, [:name, :namespace] => :customwidget
       task :custom_widget, [:name, :namespace] => :customwidget
       task :"custom-widget", [:name, :namespace] => :customwidget
+      
+      desc 'Scaffold Glimmer::UI::CustomShape subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cp]'
+      task :customshape, [:name, :namespace] do |t, args|
+        require_relative 'rake_task/scaffold'
+        Glimmer::RakeTask::Scaffold.custom_shape_gem(args[:name], args[:namespace])
+      end
+    
+      task :cp, [:name, :namespace] => :customshape
+      task :custom_shape, [:name, :namespace] => :customshape
+      task :"custom-shape", [:name, :namespace] => :customshape
     end
     
     # legacy support
     
     task :custom_shell_gem, [:name, :namespace] => 'gem:customshell'
     task :custom_widget_gem, [:name, :namespace] => 'gem:customwidget'
+    task :custom_shape_gem, [:name, :namespace] => 'gem:customshape'
     
   end
   
@@ -204,7 +225,7 @@ namespace :glimmer do
       task :custom_shell, [:query] => :customshell
       task :"custom-shell", [:query] => :customshell
       
-      desc 'List Glimmer custom shape gems available at rubygems.org (query is optional) [alt: list:gems:cs]'
+      desc 'List Glimmer custom shape gems available at rubygems.org (query is optional) [alt: list:gems:cp]'
       task :customshape, [:query] => :list_require do |t, args|
         Glimmer::RakeTask::List.custom_shape_gems(args[:query])
       end

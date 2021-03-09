@@ -1416,7 +1416,7 @@ Shape keywords and their args (including defaults) are listed below (they basica
 - `text(string, x, y, is_transparent = true)` text with optional is_transparent to indicate if background is transparent (default is true)
 - `text(string, x, y, flags)` text with optional flags (flag format is `swt(comma_separated_flags)` where flags can be `:draw_delimiter` (i.e. new lines), `:draw_tab`, `:draw_mnemonic`, and `:draw_transparent` as explained in [GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html))
 
-Shape keywords that can be filled with color can take a keyword argument `fill: true`. Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
+Shape keywords that can be filled with color can take a keyword argument `fill: true` (or `filled: true`). Defaults to false when not specified unless background is set with no foreground (or foreground is set with no background), in which case a smart default is applied.
 Smart defaults can be applied to automatically infer `gradient: true` (rectangle with both foreground and background) and `round: true` (rectangle with more than 4 args, the extra args are numeric) as well.
 
 Optionally, a shape keyword takes a block that can set any attributes from [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) (methods starting with `set`), which enable setting the `background` for filling and `foreground` for drawing.

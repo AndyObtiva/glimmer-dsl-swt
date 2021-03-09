@@ -94,8 +94,10 @@ module Glimmer
           
           def arg_options(args, extract: false)
             arg_options_method = extract ? :pop : :last
-            options = args.send(arg_options_method) if args.last.is_a?(Hash)
-            options.nil? ? {} : options.symbolize_keys
+            options = args.send(arg_options_method).symbolize_keys if args.last.is_a?(Hash)
+            # normalize :filled option as an alias to :fill
+#             options[:fill] = options.delete(:filled) if options&.keys&.include?(:filled)
+            options.nil? ? {} : options
           end
           
           def method_name(keyword, method_arg_options)
@@ -254,6 +256,7 @@ module Glimmer
         end
         
         def post_add_content
+          amend_method_name_options_based_on_properties!
           if !@content_added || @method_name != @original_method_name
             @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
@@ -399,7 +402,7 @@ module Glimmer
         def amend_method_name_options_based_on_properties!
           @original_method_name = @method_name
           return if @name == 'point'
-          if @name != 'text' && @name != 'string' && has_some_background? && !has_some_foreground?
+          if (@name != 'text' && @name != 'string' && has_some_background? && !has_some_foreground?) || (@name == 'path' && has_some_background?)
             @options[:fill] = true
           elsif !has_some_background? && has_some_foreground?
             @options[:fill] = false
@@ -1134,7 +1137,6 @@ module Glimmer
               # TODO regarding transform, make sure to reset it to parent stored transform once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
               convert_properties!
-              amend_method_name_options_based_on_properties! if @original_method_name.nil?
               apply_shape_arg_conversions!
               apply_shape_arg_defaults!
               tolerate_shape_extra_args!

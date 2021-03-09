@@ -2,8 +2,12 @@
 
 ### 4.18.7.4
 
+- Add `glimmer scaffold:customshape[name,namespace]` command
+- Add `glimmer scaffold:gem:customshape[name,namespace]` command
+- Add `glimmer list:gems:customshape[keyword]` command
+- Support automatic inference of `fill: true` for `path` just like other shapes
+- Support `filled: true` alternative for `fill: true` Canvas Shape DSL option
 - Fix issue with having to pass base_color to `bevel` custom shape in Tetris before data-binding instead of data-binding being sufficient
-- Add glimmer list:gems:customshape command (or list:gems:cp, adding aliases for cw and cs as well)
 
 ### 4.18.7.3
 

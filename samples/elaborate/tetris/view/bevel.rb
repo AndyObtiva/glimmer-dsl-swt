@@ -25,11 +25,11 @@ class Tetris
     class Bevel
       include Glimmer::UI::CustomShape
       
-      options :x, :y, :base_color, :size, :bevel_pixel_size
+      options :base_color, :size, :bevel_pixel_size
+      option :x, default: 0
+      option :y, default: 0
       
       before_body {
-        self.x ||= 0
-        self.y ||= 0
         self.bevel_pixel_size = 0.16*size.to_f if bevel_pixel_size.nil?
       }
       

@@ -67,6 +67,7 @@ Tasks are run via rake. Some tasks take arguments in square brackets.
 Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
 
 Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and letters to filter)
+  glimmer list:gems:customshape[query]                       # List Glimmer custom shape gems available at rubygems.org (query is optional) [alt: list:gems:cp]
 ‣ glimmer list:gems:customshell[query]                       # List Glimmer custom shell gems available at rubygems.org (query is optional) [alt: list:gems:cs]
   glimmer list:gems:customwidget[query]                      # List Glimmer custom widget gems available at rubygems.org (query is optional) [alt: list:gems:cw]
   glimmer list:gems:dsl[query]                               # List Glimmer DSL gems available at rubygems.org (query is optional)
@@ -81,8 +82,11 @@ Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and 
   glimmer run[app_path]                                      # Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)
   glimmer samples                                            # Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples
   glimmer scaffold[app_name]                                 # Scaffold Glimmer application directory structure to build a new app
+  glimmer scaffold:customshape[name,namespace]               # Scaffold Glimmer::UI::CustomShape subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cp]
   glimmer scaffold:customshell[name,namespace]               # Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]
   glimmer scaffold:customwidget[name,namespace]              # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cw]
+  glimmer scaffold:desktopify[app_name,website]              # Desktopify a web app
+  glimmer scaffold:gem:customshape[name,namespace]           # Scaffold Glimmer::UI::CustomShape subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cp]
   glimmer scaffold:gem:customshell[name,namespace]           # Scaffold Glimmer::UI::CustomShell subclass (full window view) under its own Ruby gem + app project (namespace is required) [alt: scaffold:ge...
   glimmer scaffold:gem:customwidget[name,namespace]          # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cw]
 ```
@@ -333,7 +337,7 @@ glimmer scaffold:cs[name]
 
 #### Custom Widget
 
-To scaffold a Glimmer [custom widget](#custom-widgets) (part of a view) for an existing Glimmer app, run the following command:
+To scaffold a Glimmer [custom widget](GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets) (part of a view) for an existing Glimmer app, run the following command:
 
 ```
 glimmer scaffold:customwidget[name]
@@ -343,6 +347,20 @@ Or the following alternative abbreviation:
 
 ```
 glimmer scaffold:cw[name]
+```
+
+#### Custom Shape
+
+To scaffold a Glimmer [custom shape](GLIMMER_GUI_DSL_SYNTAX.md#custom-shapes) (a composite or customized shape) for an existing Glimmer app, run the following command:
+
+```
+glimmer scaffold:customshape[name]
+```
+
+Or the following alternative abbreviation:
+
+```
+glimmer scaffold:cp[name]
 ```
 
 #### Custom Shell Gem
@@ -382,7 +400,7 @@ Examples:
 
 #### Custom Widget Gem
 
-To scaffold a Glimmer [custom widget](#custom-widgets) gem (part of a view distributed as a Ruby gem), run the following command:
+To scaffold a Glimmer [custom widget](GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets) gem (part of a view distributed as a Ruby gem), run the following command:
 
 ```
 glimmer scaffold:gem:customwidget[name,namespace]
@@ -397,7 +415,7 @@ glimmer scaffold:gem:cw[name,namespace]
 
 It is important to specify a namespace to avoid having your gem clash with existing gems.
 
-The Ruby gem name will follow the convention "glimmer-cw-customwidgetname-namespace" (the 'cw' is for Custom Widget)
+The Ruby gem name will follow the convention "glimmer-cw-customwidgetname-namespace" (the 'cw' is for Custom Widget; name words are not separated)
 
 Only official Glimmer gems created by the Glimmer project committers will have no namespace (e.g. [glimmer-cw-video](https://rubygems.org/gems/glimmer-cw-video) Ruby gem)
 
@@ -405,6 +423,31 @@ Examples:
 
 - [glimmer-cw-video](https://github.com/AndyObtiva/glimmer-cw-video): Video Widget
 - [glimmer-cw-cdatetime-nebula](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula): Nebula CDateTime Widget
+
+#### Custom Shape Gem
+
+To scaffold a Glimmer [custom shape](GLIMMER_GUI_DSL_SYNTAX.md#custom-shapes) gem (part of a view distributed as a Ruby gem), run the following command:
+
+```
+glimmer scaffold:gem:customshape[name,namespace]
+```
+
+Or the following alternative abbreviation:
+
+```
+glimmer scaffold:gem:cp[name,namespace]
+```
+
+
+It is important to specify a namespace to avoid having your gem clash with existing gems.
+
+The Ruby gem name will follow the convention "glimmer-cp-customshapename-namespace" (the 'cp' is for Custom Shape; name words are not separated)
+
+Only official Glimmer gems created by the Glimmer project committers will have no namespace (e.g. [glimmer-cp-bevel](https://rubygems.org/gems/glimmer-cp-bevel) Ruby gem)
+
+Examples:
+
+- [glimmer-cp-bevel](https://github.com/AndyObtiva/glimmer-cp-bevel): Bevel
 
 ### Gem Listing
 
