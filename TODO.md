@@ -4,16 +4,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- check why I have to pass base color to begin with in block.rb:35 instead of just data-binding (is the shape backing up and restoring color against Data-Binding's changes?)
-- Support Custom Shape data-binding
+- Add glimmer list:gems:customshape command (or list:gems:cp, adding aliases for cw and cs as well)
+- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
+
+- Explore the idea of a stack of cards (do it with custom shape or custom widget or both?)
 - Klondike Solitaire
 
-- Add glimmer list:gems:customshape command (or list:gems:cp)
-- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
+- Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
-- Update Stock Ticker with live stocks from the web
+- Update Stock Ticker with live stocks from the web / Web data API connected sample app (something that perhaps pulls governmental data and summarizes it/graphs it). Demonstrate how you can write this in a fraction of web code.
 
 - Implement charts and graphs custom widgets Hello Samples (supporting both raw data and function-calculated data)
   - bar_chart (new custom widget)
@@ -22,8 +23,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
   - graph (new custom widget, redoes Hello, Canvas Path! and Hello, Curve! but with a papersheet behind and rulers/names for x/y axes, could take a function with start/end points and division length, or point array. Could be rendered as a line, quad or cubic curve. Could display back sheet squares or rulers or not)
 - Spreadsheet Chart Elaborate Sample showing 4 tabs of all chart types based on a spreadsheet that can be edited with data.
 
-- Support Glimmer::UI::CustomImage to build a named custom image (that could be parameterized with options) using the Canvas Shape DSL
-- Hello, Custom Image (build an image from shapes giving it a name)
+- Support Glimmer::UI::CustomShape#to_image/to_swt_image/to_image_proxy method to build a custom image (aka sprite) from a custom shape (that could be parameterized with options) using the Canvas Shape DSL. Also, support being able to pass a custom shape to an image property directly (autoconverting it)
 
 - Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
 
@@ -37,16 +37,25 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
 
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+- Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
+
 - Canvas Shape DSL autoscalable shapes or canvases
 
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
-- Support nouns for `Canvas Transform DSL` operations
+
+- Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
+- Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
+- Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
+
+- Auto-Focusable canvas element (with keyboard)
+- Support passing transform matrices as double-arrays to be more readable if needed
+- Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
 - Add External Samples to meta_sample
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
@@ -56,16 +65,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
-- Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
-- Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
-- Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
-- Auto-Focusable canvas element (with keyboard)
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
-- Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 - Tetris music via JSound (Java Sound)
 - Consider tweaking the Tetris color scheme
 - Make disposed? alternative to is_disposed on all widgets
@@ -107,9 +111,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Update Hello, Menu Bar! sample to show images on menu items
 
 - Add support for specifying maximum size on shells and composites
-
-- Support passing transform matrices as double-arrays to be more readable if needed
-- Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
 - Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
@@ -443,7 +444,6 @@ items <=> binding {
 - An elaborate sample that demos every widget that comes with SWT out of the box
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - Music playing app
-- Web data API connected sample app (something that perhaps pulls governmental data and summarizes it/graphs it). Demonstrate how you can write this in a fraction of web code.
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app

@@ -254,7 +254,6 @@ module Glimmer
         end
         
         def post_add_content
-          amend_method_name_options_based_on_properties!
           if !@content_added || @method_name != @original_method_name
             @drawable.setup_shape_painting unless @drawable.is_a?(ImageProxy)
             @content_added = true
@@ -474,7 +473,9 @@ module Glimmer
             # TODO consider this optimization of preconverting args (removing conversion from other methods) to reject equal args
             args = apply_property_arg_conversions(ruby_attribute_getter_name, args)
             return if @properties[ruby_attribute_getter_name] == args
+            new_property = !@properties.keys.include?(ruby_attribute_getter_name)
             @properties[ruby_attribute_getter_name] = args
+            amend_method_name_options_based_on_properties! if @content_added && new_property
             property_change = true
           end
           if @content_added && perform_redraw && !drawable.is_disposed
@@ -1133,6 +1134,7 @@ module Glimmer
               # TODO regarding transform, make sure to reset it to parent stored transform once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
               convert_properties!
+              amend_method_name_options_based_on_properties! if @original_method_name.nil?
               apply_shape_arg_conversions!
               apply_shape_arg_defaults!
               tolerate_shape_extra_args!

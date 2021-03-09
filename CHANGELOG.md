@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.7.4
+
+- Fix issue with having to pass base_color to `bevel` custom shape in Tetris before data-binding instead of data-binding being sufficient
+
 ### 4.18.7.3
 
 - Support the ability for nested shapes to override their parent `shape` common shared properties
