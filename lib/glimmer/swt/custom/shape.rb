@@ -596,11 +596,10 @@ module Glimmer
         # ordered from closest to farthest parent
         def parent_shapes
           if @parent_shapes.nil?
-            current_parent = parent
-            @parent_shapes = []
-            until current_parent.is_a?(Drawable)
-              @parent_shapes << current_parent
-              current_parent = current_parent.parent
+            if parent.is_a?(Drawable)
+              @parent_shapes = []
+            else
+              @parent_shapes = parent.parent_shapes + [parent]
             end
           end
           @parent_shapes
@@ -608,23 +607,49 @@ module Glimmer
         
         # ordered from closest to farthest parent
         def parent_shape_containers
-          parent_shapes.select(&:container?)
+          if @parent_shape_containers.nil?
+            if parent.is_a?(Drawable)
+              @parent_shape_containers = []
+            elsif !parent.container?
+              @parent_shape_containers = parent.parent_shape_containers
+            else
+              @parent_shape_containers = parent.parent_shape_containers + [parent]
+            end
+          end
+          @parent_shape_containers
         end
         
         # ordered from closest to farthest parent
         def parent_shape_composites
-          parent_shapes.select(&:composite?)
+          if @parent_shape_composites.nil?
+            if parent.is_a?(Drawable)
+              @parent_shape_composites = []
+            elsif !parent.container?
+              @parent_shape_composites = parent.parent_shape_composites
+            else
+              @parent_shape_composites = parent.parent_shape_composites + [parent]
+            end
+          end
+          @parent_shape_composites
+        end
+        
+        def convert_properties!
+          if @properties != @converted_properties
+            @properties.each do |property, args|
+              @properties[property] = apply_property_arg_conversions(property, args)
+            end
+            @converted_properties = @properties.dup
+          end
+        end
+        
+        def converted_properties
+          convert_properties!
+          @properties
         end
         
         def all_parent_properties
-          # TODO consider providing a converted property version of this ready for consumption
           @all_parent_properties ||= parent_shape_containers.reverse.reduce({}) do |all_properties, parent_shape|
-            parent_properties = parent_shape.properties
-            # TODO consider not doing this conversion if already done
-            parent_properties.each do |property, args|
-              parent_properties[property] = apply_property_arg_conversions(property, args)
-            end
-            all_properties.merge(parent_properties)
+            all_properties.merge(parent_shape.converted_properties)
           end
         end
         
@@ -644,7 +669,6 @@ module Glimmer
           unless container?
             calculate_paint_args!
             @original_gc_properties = {} # this stores GC properties before making calls to updates TODO avoid using in pixel graphics
-            @original_properties = @properties # this stores original shape attributes like background/foreground/font
             @properties.each do |property, args|
               method_name = attribute_setter(property)
               @original_gc_properties[method_name] = paint_event.gc.send(method_name.sub('set', 'get')) rescue nil
@@ -1108,9 +1132,7 @@ module Glimmer
               @properties['font'] = [@drawable.font] if @drawable.respond_to?(:font) && @name == 'text' && draw? && !@properties.keys.map(&:to_s).include?('font')
               # TODO regarding transform, make sure to reset it to parent stored transform once we allow setting shape properties on parents directly without shapes
               # Also do that with all future-added properties
-              @properties.each do |property, args|
-                @properties[property] = apply_property_arg_conversions(property, args)
-              end
+              convert_properties!
               apply_shape_arg_conversions!
               apply_shape_arg_defaults!
               tolerate_shape_extra_args!
