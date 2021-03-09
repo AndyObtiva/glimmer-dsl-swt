@@ -156,10 +156,7 @@ class Tetris
           color = colored ? color(([:white] + Model::Tetromino::LETTER_COLORS.values).sample) : color(:white)
           x = column * icon_block_size
           y = row * icon_block_size
-          rectangle(x, y, icon_block_size, icon_block_size) {
-            background color
-            bevel(base_color: color, size: icon_block_size)
-          }
+          bevel(x: x, y: y, base_color: color, size: icon_block_size)
         }
       }
     }
