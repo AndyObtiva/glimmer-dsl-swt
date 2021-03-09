@@ -32,7 +32,6 @@ class Tetris
         canvas { |canvas_proxy|
           background bind(game_playfield[row][column], :color)
           
-          # TODO check why I have to pass base color to begin with instead of just data-binding (is the shape backing up and restoring color against Data-Binding's changes?
           bevel(base_color: game_playfield[row][column].color, size: block_size) {
             base_color bind(game_playfield[row][column], :color)
           }

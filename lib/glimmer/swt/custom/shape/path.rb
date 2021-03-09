@@ -112,11 +112,7 @@ module Glimmer
             end
           end
           
-          def calculated_args_changed!(children: true)
-            super
-          end
-          
-          def calculated_args
+          def calculate_args!
             new_swt_path = @swt_path.nil? || !@calculated_paint_args || !@calculated_path_args
             if new_swt_path
               Glimmer::SWT::DisplayProxy.instance.auto_exec do

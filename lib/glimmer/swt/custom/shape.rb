@@ -1048,6 +1048,7 @@ module Glimmer
             else
               x
             end
+            calculated_args_changed!(children: true) unless @painting
           end
           @absolute_x
         end
@@ -1062,6 +1063,7 @@ module Glimmer
             else
               y
             end
+            calculated_args_changed!(children: true) unless @painting
           end
           @absolute_y
         end

@@ -4,9 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- check why I have to pass base color to begin with in block.rb:35 instead of just data-binding (is the shape backing up and restoring color against Data-Binding's changes?)
+- Support Custom Shape data-binding
 - Klondike Solitaire
 
-- Support Custom Shape data-binding
 - Add glimmer list:gems:customshape command (or list:gems:cp)
 - glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
 
