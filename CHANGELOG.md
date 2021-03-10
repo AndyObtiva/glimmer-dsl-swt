@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.18.7.5
+
+- Update `ImageProxy` with missing methods `#size`, `#parent_proxy`, and `#parent`, needed for a better "Shapes in an Image" support.
+
 ### 4.18.7.4
 
 - Add `glimmer scaffold:customshape[name,namespace]` command

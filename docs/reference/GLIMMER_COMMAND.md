@@ -44,7 +44,7 @@ bin/glimmer samples
 Below are the full usage instructions that come up when running `glimmer` without args.
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.4.4
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.7.4
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -422,7 +422,8 @@ Only official Glimmer gems created by the Glimmer project committers will have n
 Examples:
 
 - [glimmer-cw-video](https://github.com/AndyObtiva/glimmer-cw-video): Video Widget
-- [glimmer-cw-cdatetime-nebula](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula): Nebula CDateTime Widget
+- [glimmer-cw-nebula](https://github.com/AndyObtiva/glimmer-cw-nebula): The Nebula Project 50+ enterprise-grade high quality custom widgets for SWT
+- [glimmer-cw-cdatetime-nebula](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula): Nebula CDateTime Widget (piecemeal)
 
 #### Custom Shape Gem
 
@@ -540,6 +541,38 @@ Output:
   Browser (Chromium)   glimmer-cw-browser-chromium   1.0.0       Andy Maleh   Chromium Browser - Glimmer Custom Widget
   Cdatetime (Nebula)   glimmer-cw-cdatetime-nebula   1.5.0.0.1   Andy Maleh   Nebula CDateTime Widget - Glimmer Custom Widget
   Video                glimmer-cw-video              1.0.0       Andy Maleh   Glimmer Custom Widget - Video
+  
+```
+
+#### Listing Custom Shape Gems
+
+The following command lists available Glimmer [Custom Shape Gems](#custom-shape-gem) (prefixed with "glimmer-cp-" by scaffolding convention) created by the the Glimmer community and published on [rubygems.org](http://www.rubygems.org):
+
+```
+glimmer list:gems:customshape[query]
+```
+
+Or the following alternative abbreviation:
+
+```
+glimmer list:gems:cp[query]
+```
+
+Example:
+
+```
+glimmer list:gems:customshape
+```
+
+Output:
+
+```
+
+  Glimmer Custom Shape Gems at rubygems.org:
+                                                                                  
+  Name          Gem          Version     Author             Description           
+                                                                                  
+  Bevel   glimmer-cp-bevel   0.1.0     Andy Maleh   Bevel - Glimmer Custom Shape  
   
 ```
 

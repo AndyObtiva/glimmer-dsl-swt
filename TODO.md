@@ -4,15 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-
-- glimmer-cp-bevel which provides the `bevel` custom shape keyword
-- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
-
-- Explore the idea of a stack of cards (do it with custom shape or custom widget or both?)
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
-- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
-
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
+- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
@@ -48,13 +41,17 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+
 - Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
+
 - Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
 - Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
 - Auto-Focusable canvas element (with keyboard)
+- `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 - Support passing transform matrices as double-arrays to be more readable if needed
 - Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
@@ -113,7 +110,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Update Hello, Menu Bar! sample to show images on menu items
 
-- Add support for specifying maximum size on shells and composites
+- Add support for specifying maximum size on shells and composites (`:maximized` style?)
 
 - Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
@@ -454,6 +451,24 @@ items <=> binding {
 ## Side Projects
 
 - Publish a Glimmer app on the Mac App Store
+
+### Playcoloring
+
+A young girl coloring game that teaches them how to color with a computer while trying to beat a timed coloring deadline.
+
+Target audience is 1st-3rd grade school girls
+
+Use Cases:
+- Start with a random painting (an internal selection of canvas graphics, eventually supporting free svgs from the Internet)
+- Hover mouse over a colorable area to highlight and it lights up
+- Click a highlighted area and a color dialog pops up to select a color (or pick last color)
+- Close color dialog for color to be selected
+
+Difficulties:
+- Easy (internal canvases at easy level)
+- Medium (internal canvases at medium level)
+- Hard (internal canvases at hard level)
+- Random (svgs picked from the internet)
 
 ### Glimmer Time Tracker (Demo Video App)
 

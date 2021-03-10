@@ -163,7 +163,7 @@ Dynamic keywords are dynamically figured out from currently imported (aka requir
 
 The only reason to distinguish between the two is to realize that importing new Glimmer [custom widgets](#custom-widgets) and Java SWT custom widget libraries automatically expands Glimmer's DSL vocabulary with new dynamic keywords.
 
-For example, if a project adds this custom Java SWT library from the [Nebula Project](https://www.eclipse.org/nebula/):
+For example, if a project adds this custom Java SWT library from the [Nebula Project](https://github.com/AndyObtiva/glimmer-cw-nebula):
 
 https://www.eclipse.org/nebula/widgets/gallery/gallery.php
 
@@ -284,9 +284,7 @@ shell {
 
 If you are new to Glimmer, you have learned enough to start running some [samples](#samples) directly or by reading through [Glimmer GUI DSL Keywords](#glimmer-gui-dsl-keywords) (which list each keyword's samples). Go ahead and run all Glimmer [samples](#samples), and come back to read the rest in any order you like since this material is more organized like a reference.
 
-If you are advanced and need more widgets, check out the [Nebula Project](https://www.eclipse.org/nebula/) for an extensive list of high quality custom widgets:
-
-https://www.eclipse.org/nebula/
+If you are an advanced user of Glimmer DSL for SWT and need more widgets, check out the [Nebula Project](https://github.com/AndyObtiva/glimmer-cw-nebula) for an extensive list (50+) of high quality custom widgets.
 
 #### Glimmer GUI DSL Keywords
 

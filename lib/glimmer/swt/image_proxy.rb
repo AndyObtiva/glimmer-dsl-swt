@@ -57,7 +57,7 @@ module Glimmer
       include_package 'org.eclipse.swt.widgets'
       include_package 'org.eclipse.swt.graphics'
       
-      attr_reader :file_path, :jar_file_path, :image_data, :swt_image
+      attr_reader :file_path, :jar_file_path, :image_data, :swt_image, :parent_proxy, :parent
       
       # Initializes a proxy for an SWT Image object
       #
@@ -139,6 +139,10 @@ module Glimmer
         @swt_image = Image.new(device, scaled_image_data)
         @image_data = @swt_image.image_data
         self
+      end
+      
+      def size
+        org.eclipse.swt.graphics.Point.new(bounds.width, bounds.height)
       end
       
       def gc

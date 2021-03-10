@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.7.3
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.18.7.5
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -8,12 +8,14 @@
 
 **[Contributors Wanted! (Submit a Glimmer App Sample to Get Started)](#contributing)**
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for SWT is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](docs/reference/GLIMMER_COMMAND.md#packaging) on [Linux](https://www.linux.org/).
+**(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
+
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for SWT is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer) was the [first Ruby gem](https://rubygems.org/gems/glimmer) to bring [SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) to [Ruby](https://www.ruby-lang.org/en/), thanks to its creator [Andy Maleh](https://andymaleh.blogspot.com/), an EclipseCon/EclipseWorld/RubyConf speaker and expert. [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](docs/reference/GLIMMER_COMMAND.md#packaging) on [Linux](https://www.linux.org/).
 
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.18.7.3 includes [SWT 4.18](https://download.eclipse.org/eclipse/downloads/drops4/R-4.18-202012021800/), which was released on December 2, 2020. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.18.7.5 includes [SWT 4.18](https://download.eclipse.org/eclipse/downloads/drops4/R-4.18-202012021800/), which was released on December 2, 2020. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 [Glimmer DSL for SWT receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) with your Ruby desktop GUI development needs! [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) brings great ideas to the table, such as declarative programming via domain specific languages, currently under-utilized in the GUI domain. That said, it may not be feature complete enough for everybody's needs, so please help make [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) even better by providing feedback and [contributing](#contributing) when possible. The project is very active, so any feature suggestions that are accepted could be implemented within weeks if not days. Also, you are welcome to [hire me](#hire-me) full-time if you want long-term development of [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) for your project needs.
 
@@ -340,7 +342,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.18.7.3
+jgem install glimmer-dsl-swt -v 4.18.7.5
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -358,7 +360,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.18.7.3'
+gem 'glimmer-dsl-swt', '~> 4.18.7.5'
 ```
 
 And, then run:
@@ -374,37 +376,121 @@ You may learn more about other Glimmer related gems ([`glimmer-dsl-opal`](https:
 
 You can use the glimmer command to scaffold new apps, run apps & samples, package native executables, and list Glimmer community gems.
 
-[docs/reference/GLIMMER_COMMAND.md](docs/reference/GLIMMER_COMMAND.md)
+```
+glimmer
+```
+
+```
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.18.7.5
+      
+Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
+
+Runs Glimmer applications and tasks.
+
+When applications are specified, they are run using JRuby,
+automatically preloading the glimmer Ruby gem and SWT jar dependency.
+
+Optionally, extra Glimmer options, JRuby options, and/or environment variables may be passed in.
+
+Glimmer options:
+- "--bundler=GROUP"   : Activates gems in Bundler default group in Gemfile
+- "--pd=BOOLEAN"      : Requires puts_debuggerer to enable pd method
+- "--quiet=BOOLEAN"   : Does not announce file path of Glimmer application being launched
+- "--debug"           : Displays extra debugging information, passes "--debug" to JRuby, and enables debug logging
+- "--log-level=VALUE" : Sets Glimmer's Ruby logger level ("ERROR" / "WARN" / "INFO" / "DEBUG"; default is none)
+
+Tasks are run via rake. Some tasks take arguments in square brackets.
+
+Available tasks are below (if you do not see any, please add `require 'glimmer/rake_task'` to Rakefile and rerun or run rake -T):
+
+Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and letters to filter)
+  glimmer list:gems:customshape[query]                       # List Glimmer custom shape gems available at rubygems.org (query is optional) [alt: list:gems:cp]
+‣ glimmer list:gems:customshell[query]                       # List Glimmer custom shell gems available at rubygems.org (query is optional) [alt: list:gems:cs]
+  glimmer list:gems:customwidget[query]                      # List Glimmer custom widget gems available at rubygems.org (query is optional) [alt: list:gems:cw]
+  glimmer list:gems:dsl[query]                               # List Glimmer DSL gems available at rubygems.org (query is optional)
+  glimmer package[type]                                      # Package app for distribution (generating config, jar, and native files) (type is optional)
+  glimmer package:clean                                      # Clean by removing "dist" and "packages" directories
+  glimmer package:config                                     # Generate JAR config file
+  glimmer package:gem                                        # Generate gem under pkg directory
+  glimmer package:gemspec                                    # Generate gemspec
+  glimmer package:jar                                        # Generate JAR file
+  glimmer package:lock_jars                                  # Lock JARs
+  glimmer package:native[type]                               # Generate Native files
+  glimmer run[app_path]                                      # Runs Glimmer app or custom shell gem in the current directory, unless app_path is specified, then runs it instead (app_path is optional)
+  glimmer samples                                            # Brings up the Glimmer Meta-Sample app to allow browsing, running, and viewing code of Glimmer samples
+  glimmer scaffold[app_name]                                 # Scaffold Glimmer application directory structure to build a new app
+  glimmer scaffold:customshape[name,namespace]               # Scaffold Glimmer::UI::CustomShape subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cp]
+  glimmer scaffold:customshell[name,namespace]               # Scaffold Glimmer::UI::CustomShell subclass (full window view) under app/views (namespace is optional) [alt: scaffold:cs]
+  glimmer scaffold:customwidget[name,namespace]              # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under app/views (namespace is optional) [alt: scaffold:cw]
+  glimmer scaffold:desktopify[app_name,website]              # Desktopify a web app
+  glimmer scaffold:gem:customshape[name,namespace]           # Scaffold Glimmer::UI::CustomShape subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cp]
+  glimmer scaffold:gem:customshell[name,namespace]           # Scaffold Glimmer::UI::CustomShell subclass (full window view) under its own Ruby gem + app project (namespace is required) [alt: scaffold:ge...
+  glimmer scaffold:gem:customwidget[name,namespace]          # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cw]
+```
+
+Learn more at: [docs/reference/GLIMMER_COMMAND.md](docs/reference/GLIMMER_COMMAND.md)
 
 ## Girb (Glimmer irb) Command
 
 You can use `girb` as an alternative to `irb` when prototyping Glimmer DSL for SWT GUI DSL code.
 
-[docs/reference/GLIMMER_GIRB.md](docs/reference/GLIMMER_GIRB.md)
+```
+girb
+```
+
+![GIRB](/images/glimmer-girb.png)
+
+Learn more at: [docs/reference/GLIMMER_GIRB.md](docs/reference/GLIMMER_GIRB.md)
 
 ## Glimmer GUI DSL Syntax
 
-This guide should help you get started with Glimmer DSL for SWT.
+Here is a listing of supported widgets taken from the [SWT website](https://www.eclipse.org/swt/widgets/):
 
-[docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
+[![SWT Widgets](/images/glimmer-swt-widgets.png)](https://www.eclipse.org/swt/widgets/)
 
-For more advanced SWT details, please refer to the [SWT Reference](#swt-reference).
+In a nutshell, the Glimmer GUI DSL syntax consists mainly of:
+
+1. Keywords
+
+Example of a keyword representing a table widget:
+
+```ruby
+table
+```
+
+2. Style/Args
+
+Example of a multi-line selection table widget:
+
+```ruby
+table(:multi)
+```
+
+3. Content/Properties
+
+Example of a multi-line selection table widget with a table column as content that has a header `text` property as 'Name'.
+
+```ruby
+table(:multi) {
+  table_column {
+    text 'Name'
+  }
+}
+```
+
+Learn more at: [docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
 
 ## Glimmer Configuration
 
 Glimmer configuration may be done via the `Glimmer::Config` module.
 
-[docs/reference/GLIMMER_CONFIGURATION.md](docs/reference/GLIMMER_CONFIGURATION.md)
+Learn more at: [docs/reference/GLIMMER_CONFIGURATION.md](docs/reference/GLIMMER_CONFIGURATION.md)
 
 ## Glimmer Style Guide
 
 [docs/reference/GLIMMER_STYLE_GUIDE.md](docs/reference/GLIMMER_STYLE_GUIDE.md)
 
 ## Samples
-
-See a listing of samples over here, including screenshots and explanations of what each sample demonstrates:
-
-[docs/reference/GLIMMER_SAMPLES.md](docs/reference/GLIMMER_SAMPLES.md)
 
 Check the [samples](samples) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer-dsl-swt` gem first and then run:
 ```
@@ -414,6 +500,8 @@ glimmer samples
 (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`)
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
+
+See a listing of samples including screenshots and explanations at: [docs/reference/GLIMMER_SAMPLES.md](docs/reference/GLIMMER_SAMPLES.md)
 
 ## In Production
 
@@ -443,9 +531,13 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ## Packaging & Distribution
 
-Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
+Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single command:
 
-[docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md)
+```
+glimmer package
+```
+
+Learn more at: [docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md)
 
 ## App Updates
 
