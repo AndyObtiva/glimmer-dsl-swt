@@ -78,6 +78,10 @@ module Glimmer
         @swt_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'swt', platform_os, 'swt.jar'))
       end
  
+      def draw2d_jar_file
+        @draw2d_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'draw2d', 'org.eclipse.draw2d_3.10.100.201606061308.jar'))
+      end
+ 
       def jruby_os_specific_options
         OS.mac? ? "-J-XstartOnFirstThread" : ""
       end

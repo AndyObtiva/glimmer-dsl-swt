@@ -4,15 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-
-- glimmer-cp-bevel which provides the `bevel` custom shape keyword
-- glimmer-cw-nebula: packages all of Nebula's widgets should one chooses to add them all in one go. Have it offer the option of dumping libraries locally to include only what is needed in a project and no more. Advertise that people could package piecemeal gems like cdatetime too. Consider bundler-download.
-
-- Explore the idea of a stack of cards (do it with custom shape or custom widget or both?)
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
-- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
-
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
+- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
@@ -48,7 +41,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 - Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
 
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+
 - Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
+
 - Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
 - Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 
@@ -454,6 +450,25 @@ items <=> binding {
 ## Side Projects
 
 - Publish a Glimmer app on the Mac App Store
+
+### DCR (Draw Color Repetition) Programming Language
+
+A very young children's programming language (a Ruby embeded Domain Specific Language) for drawing and coloring with repetition.
+
+Target Audience: 1st - 3rd grade school boys
+
+Use Cases:
+- Start as a Stick Figure at the center of the screen facing up by default
+- Turn in any angle (right or left) using keywords `right 3` or `left 90`
+- Move by any distance (forward or backward) using keywords `forward 10` or `backward 5`
+- Color drawn shape by a list of colors (:red, :green, :blue, etc... from the built in SWT named colors) `color 'red'`
+- Repeat the last operation a number of times using keywords `repeat 5` or just `repeat` for once.
+
+GUI could be either typed manually as a programming language or appending entries with a drop down for operation and a text both for value (which could be moved up and down with drag&drop or arrows and could be deleted)
+
+An application written is drawn immediately, and could be saved.
+
+Image could be saved into a file, shared by email, or posted online in the cloud along with the program for everyone to see via a link.
 
 ### Glimmer Time Tracker (Demo Video App)
 

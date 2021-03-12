@@ -19,38 +19,37 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# TODO enable once draw2d spike is over
-# require 'glimmer/dsl/static_expression'
-# require 'glimmer/dsl/top_level_expression'
-# require 'glimmer/dsl/parent_expression'
-# require 'glimmer/swt/custom/shape'
-# require 'glimmer/swt/transform_proxy'
-#
-# module Glimmer
-#   module DSL
-#     module SWT
-#       class TransformExpression < StaticExpression
-#         include TopLevelExpression
-#         include ParentExpression
-#
-#         def can_interpret?(parent, keyword, *args, &block)
-#           super and
-#             (parent.nil? or parent.is_a?(Glimmer::SWT::Custom::Shape))
-#         end
-#
-#         def interpret(parent, keyword, *args, &block)
-#           Glimmer::SWT::TransformProxy.new(parent, *args)
-#         end
-#
-#         def add_content(parent, keyword, *args, &block)
-#           super
-#           parent.post_add_content
-#         end
-#
-#       end
-#
-#     end
-#
-#   end
-#
-# end
+require 'glimmer/dsl/expression'
+require 'glimmer/dsl/parent_expression'
+require 'glimmer/draw2d/figure_proxy'
+
+module Glimmer
+  module DSL
+    module SWT
+      class FigureExpression < Expression
+        include ParentExpression
+        
+        def can_interpret?(parent, keyword, *args, &block)
+          (
+            (parent.respond_to?(:swt_widget) and parent.swt_widget.is_a?(org.eclipse.swt.widgets.Canvas)) or
+            parent.is_a?(Glimmer::Draw2d::FigureProxy)
+          ) and
+            Glimmer::Draw2d::FigureProxy.valid?(keyword)
+        end
+        
+        def interpret(parent, keyword, *args, &block)
+          Glimmer::Draw2d::FigureProxy.create(parent, keyword, *args, &block)
+        end
+        
+        def add_content(parent, keyword, *args, &block)
+          super
+          parent.post_add_content
+        end
+      
+      end
+      
+    end
+    
+  end
+  
+end

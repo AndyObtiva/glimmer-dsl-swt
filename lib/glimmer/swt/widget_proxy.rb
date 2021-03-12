@@ -197,6 +197,14 @@ module Glimmer
         @finished_add_content = true
       end
       
+      attr_reader :top_level_figure
+      def lightweight_system
+        @lightweight_system ||= LightweightSystem.new(@swt_widget).tap do |system|
+          system.contents = @top_level_figure = Figure.new
+          @top_level_figure.layout_manager = org.eclipse.draw2d.GridLayout.new(1, false)
+        end
+      end
+      
       def extract_args(underscored_widget_name, args)
         @arg_extractor_mapping ||= {
           'menu_item' => lambda do |args|

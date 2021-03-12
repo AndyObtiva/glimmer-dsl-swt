@@ -27,6 +27,7 @@ module Glimmer
       'org.eclipse.swt',
       'org.eclipse.swt.widgets',
       'org.eclipse.swt.layout',
+      'org.eclipse.draw2d',
       'org.eclipse.swt.graphics',
       'org.eclipse.swt.browser',
       'org.eclipse.swt.custom',

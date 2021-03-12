@@ -43,6 +43,8 @@ module Glimmer
           swt_dialog
         elsif respond_to?(:swt_transform)
           swt_transform
+        elsif respond_to?(:draw2d_figure)
+          draw2d_figure
         end
       end
       
@@ -61,16 +63,16 @@ module Glimmer
       end
 
       def has_attribute?(attribute_name, *args)
-        Glimmer::SWT::DisplayProxy.instance.auto_exec do
+#         Glimmer::SWT::DisplayProxy.instance.auto_exec do
           proxy_source_object&.respond_to?(attribute_setter(attribute_name), args) ||
             respond_to?(ruby_attribute_setter(attribute_name), args)
-        end
+#         end
       end
       
       def set_attribute(attribute_name, *args)
         swt_widget_operation = false
         result = nil
-        Glimmer::SWT::DisplayProxy.instance.auto_exec do
+#         Glimmer::SWT::DisplayProxy.instance.auto_exec do
           result = if proxy_source_object&.respond_to?(attribute_setter(attribute_name))
             swt_widget_operation = true
             proxy_source_object&.send(attribute_setter(attribute_name), *args) unless (proxy_source_object&.respond_to?(attribute_getter(attribute_name)) && proxy_source_object&.send(attribute_getter(attribute_name))) == args.first
@@ -78,7 +80,7 @@ module Glimmer
             swt_widget_operation = true
             proxy_source_object&.send(ruby_attribute_setter(attribute_name), args)
           end
-        end
+#         end
         unless swt_widget_operation
           result = send(ruby_attribute_setter(attribute_name), args)
         end
@@ -88,7 +90,7 @@ module Glimmer
       def get_attribute(attribute_name)
         swt_widget_operation = false
         result = nil
-        Glimmer::SWT::DisplayProxy.instance.auto_exec do
+#         Glimmer::SWT::DisplayProxy.instance.auto_exec do
           result = if proxy_source_object&.respond_to?(attribute_getter(attribute_name))
             swt_widget_operation = true
             proxy_source_object&.send(attribute_getter(attribute_name))
@@ -99,7 +101,7 @@ module Glimmer
             swt_widget_operation = true
             proxy_source_object&.send(attribute_name)
           end
-        end
+#         end
         unless swt_widget_operation
           result = if respond_to?(ruby_attribute_getter(attribute_name))
             send(ruby_attribute_getter(attribute_name))
@@ -116,9 +118,9 @@ module Glimmer
         elsif has_attribute_getter?(method, *args)
           get_attribute(method, *args)
         else
-          Glimmer::SWT::DisplayProxy.instance.auto_exec do
+#           Glimmer::SWT::DisplayProxy.instance.auto_exec do
             proxy_source_object&.send(method, *args, &block)
-          end
+#           end
         end
       rescue => e
         begin
@@ -131,11 +133,15 @@ module Glimmer
       end
       
       def respond_to?(method, *args, &block)
-        result = super
+        pd method, args, caller: true
+        pd result = super
         return true if result
-        Glimmer::SWT::DisplayProxy.instance.auto_exec do
-          proxy_source_object&.respond_to?(method, *args, &block)
-        end
+#         Glimmer::SWT::DisplayProxy.instance.auto_exec do
+          pd proxy_source_object
+          pd proxy_source_object&.respond_to?(method, *args, &block)
+#         end
+      rescue => e
+        pd e
       end
       
     end

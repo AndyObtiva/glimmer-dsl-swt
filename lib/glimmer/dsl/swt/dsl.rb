@@ -21,6 +21,7 @@
 
 require 'glimmer/launcher'
 require Glimmer::Launcher.swt_jar_file
+require Glimmer::Launcher.draw2d_jar_file
 require 'glimmer/dsl/engine'
 Dir[File.expand_path('../*_expression.rb', __FILE__)].each {|f| require f}
 
@@ -50,14 +51,12 @@ module Glimmer
           cursor
           font
           image
-          multiply
           property
           block_property
           dialog
           widget
           custom_widget
-          shape
-          custom_shape
+          figure
         ]
       )
     end

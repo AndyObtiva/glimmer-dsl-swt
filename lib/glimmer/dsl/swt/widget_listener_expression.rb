@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,21 +30,27 @@ module Glimmer
   
         def can_interpret?(parent, keyword, *args, &block)
           Glimmer::Config.logger.debug {"keyword starts with on_: #{keyword.start_with?('on_')}"}
+          pd false unless keyword.start_with?('on_')
           return false unless keyword.start_with?('on_')
-          widget_or_display_parentage = parent.respond_to?(:swt_widget) || parent.is_a?(Glimmer::SWT::DisplayProxy)
+          pd widget_or_display_parentage = parent.respond_to?(:swt_widget) || parent.is_a?(Glimmer::SWT::DisplayProxy) || parent.respond_to?(:draw2d_figure)
           Glimmer::Config.logger.debug {"parent #{parent} is a widget or display: #{widget_or_display_parentage}"}
+          pd false unless widget_or_display_parentage
           return false unless widget_or_display_parentage
+          pd true
           Glimmer::Config.logger.debug {"block exists?: #{!block.nil?}"}
           raise Glimmer::Error, "Listener is missing block for keyword: #{keyword}" unless block_given?
+          pd true
           Glimmer::Config.logger.debug {"args are empty?: #{args.empty?}"}
           raise Glimmer::Error, "Invalid listener arguments for keyword: #{keyword}(#{args})" unless args.empty?
-          result = parent.can_handle_observation_request?(keyword)
+          pd true
+          pd result = parent.can_handle_observation_request?(keyword)
           Glimmer::Config.logger.debug {"can add listener? #{result}"}
           raise Glimmer::Error, "Invalid listener keyword: #{keyword}" unless result
-          true
+          pd true
         end
   
         def interpret(parent, keyword, *args, &block)
+          pd 'interpret listener', keyword, args
           parent.handle_observation_request(keyword, &block)
         end
       end
