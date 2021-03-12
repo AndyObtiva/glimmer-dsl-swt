@@ -201,7 +201,7 @@ module Glimmer
       def lightweight_system
         @lightweight_system ||= LightweightSystem.new(@swt_widget).tap do |system|
           system.contents = @top_level_figure = Figure.new
-          @top_level_figure.layout_manager = org.eclipse.draw2d.GridLayout.new(1, false)
+          @top_level_figure.layout_manager = org.eclipse.draw2d.XYLayout.new
         end
       end
       
