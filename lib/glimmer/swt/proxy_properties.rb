@@ -133,15 +133,11 @@ module Glimmer
       end
       
       def respond_to?(method, *args, &block)
-        pd method, args, caller: true
-        pd result = super
+        result = super
         return true if result
 #         Glimmer::SWT::DisplayProxy.instance.auto_exec do
-          pd proxy_source_object
-          pd proxy_source_object&.respond_to?(method, *args, &block)
+          proxy_source_object&.respond_to?(method, *args, &block)
 #         end
-      rescue => e
-        pd e
       end
       
     end

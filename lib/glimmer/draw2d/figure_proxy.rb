@@ -93,7 +93,7 @@ module Glimmer
         @lightweight_system = @parent_proxy.lightweight_system
         @top_level_figure = @parent_proxy.top_level_figure
         @parent_figure = @parent_proxy.is_a?(FigureProxy) ? @parent_proxy : @parent_proxy.top_level_figure
-        pd @draw2d_figure = draw2d_figure_class.new(*@args)
+        @draw2d_figure = draw2d_figure_class.new(*@args)
         @parent_figure.add(@draw2d_figure)
       end
       
@@ -161,13 +161,11 @@ module Glimmer
         if can_handle_observation_request?(method)
           handle_observation_request(method, &block)
         else
-          pd method, *args, caller: true
           super
         end
       end
       
       def respond_to?(method, *args, &block)
-#         pd method, *args, caller: true
         result = super
         return true if result
         can_handle_observation_request?(method)
@@ -209,10 +207,9 @@ module Glimmer
             Glimmer::Config.logger.error {e}
           end
         end
-        pd listener = listener_class.new(listener_method => safe_block)
+        listener = listener_class.new(listener_method => safe_block)
         @draw2d_figure.send(widget_add_listener_method, listener)
-        pd 'added listener'
-        pd Glimmer::SWT::WidgetListenerProxy.new(swt_widget: @draw2d_figure, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
+        Glimmer::SWT::WidgetListenerProxy.new(swt_widget: @draw2d_figure, swt_listener: listener, widget_add_listener_method: widget_add_listener_method, swt_listener_class: listener_class, swt_listener_method: listener_method)
       end
 
       def self.find_listener(swt_widget_class, underscored_listener_name)
