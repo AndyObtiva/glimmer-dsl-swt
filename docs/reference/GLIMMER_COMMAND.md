@@ -569,10 +569,11 @@ Output:
 ```
 
   Glimmer Custom Shape Gems at rubygems.org:
-                                                                                  
-  Name          Gem          Version     Author             Description           
-                                                                                  
-  Bevel   glimmer-cp-bevel   0.1.0     Andy Maleh   Bevel - Glimmer Custom Shape  
+                                                                                                     
+     Name                Gem             Version     Author                 Description              
+                                                                                                     
+  Bevel         glimmer-cp-bevel         0.1.1     Andy Maleh   Bevel - Glimmer Custom Shape         
+  Stickfigure   glimmer-cp-stickfigure   0.1.1     Andy Maleh   Stick Figure - Glimmer Custom Shape  
   
 ```
 

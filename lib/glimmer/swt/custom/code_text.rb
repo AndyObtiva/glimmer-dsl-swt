@@ -64,16 +64,28 @@ module Glimmer
           respond_to?(method_name)
         end
         
-        def can_handle_observation_request?(observation_request)
-          @styled_text_proxy.can_handle_observation_request?(observation_request)
-        rescue
-          super
+        def can_add_observer?(attribute_name)
+          @styled_text_proxy&.can_add_observer?(attribute_name) || super
         end
-        
+  
+        def add_observer(observer, attribute_name)
+          if @styled_text_proxy&.can_add_observer?(attribute_name)
+            @styled_text_proxy.add_observer(observer, attribute_name)
+          else
+            super
+          end
+        end
+                
+        def can_handle_observation_request?(observation_request)
+          @styled_text_proxy&.can_handle_observation_request?(observation_request) || super
+        end
+
         def handle_observation_request(observation_request, &block)
-          @styled_text_proxy.handle_observation_request(observation_request, &block)
-        rescue
-          super
+          if @styled_text_proxy&.can_handle_observation_request?(observation_request)
+            @styled_text_proxy.handle_observation_request(observation_request, &block)
+          else
+            super
+          end
         end
         
         def root_block=(block)

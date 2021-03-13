@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.18.7.6
+
+- Update the Hello, Code Text! sample to use data-binding
+- Fix issue with `code_text` data-binding
+
 ### 4.18.7.5
 
 - Update `ImageProxy` with missing methods `#size`, `#parent_proxy`, and `#parent`, needed for a better "Shapes in an Image" support.
