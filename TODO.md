@@ -37,6 +37,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
 - Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
+- shape `center` method to identify a shape center point
+- shape `rotate` method for any shape to rotate around its center
 
 - Canvas Shape DSL autoscalable shapes or canvases
 

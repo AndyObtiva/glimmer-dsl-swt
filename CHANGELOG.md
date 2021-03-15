@@ -1,8 +1,15 @@
 # Change Log
 
+### 4.18.7.7
+
+- Upgrade to glimmer v1.3.0
+- Handle `code_text` encountering errors in adding observation request
+- Always notify widget binding observer on `async_exec: true` data-bindings
+
 ### 4.18.7.6
 
 - Update the Hello, Code Text! sample to use data-binding
+- Upgrade `puts_debuggerer` gem dependency to version 0.12.0
 - Fix issue with `code_text` data-binding
 
 ### 4.18.7.5

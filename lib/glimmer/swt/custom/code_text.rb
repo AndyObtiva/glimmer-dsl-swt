@@ -78,6 +78,8 @@ module Glimmer
                 
         def can_handle_observation_request?(observation_request)
           @styled_text_proxy&.can_handle_observation_request?(observation_request) || super
+        rescue
+          super
         end
 
         def handle_observation_request(observation_request, &block)
@@ -86,6 +88,8 @@ module Glimmer
           else
             super
           end
+        rescue
+          super
         end
         
         def root_block=(block)
