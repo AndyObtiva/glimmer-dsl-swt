@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.date = "2021-03-23"
   s.description = "Glimmer DSL for SWT (JRuby Desktop Development GUI Framework) is a native-GUI cross-platform desktop development library written in JRuby, an OS-threaded faster JVM version of Ruby. Glimmer's main innovation is a declarative Ruby DSL that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust Eclipse SWT library. Glimmer additionally innovates by having built-in data-binding support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI widgets, but it also supports drawing Canvas Graphics like Shapes and Animations. To get started quickly, Glimmer offers scaffolding options for Apps, Gems, and Custom Widgets. Glimmer also includes native-executable packaging support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in Ruby as truly native DMG/PKG/APP files on the Mac + App Store, MSI/EXE files on Windows, and Gem Packaged Shell Scripts on Linux.".freeze
   s.email = "andy.am@gmail.com".freeze
-  s.executables = ["glimmer".freeze, "girb".freeze]
+  s.executables = ["glimmer-setup".freeze]
   s.extra_rdoc_files = [
     "README.md",
     "docs/reference/GLIMMER_COMMAND.md",
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     "bin/girb",
     "bin/girb_runner.rb",
     "bin/glimmer",
+    "bin/glimmer-setup",
     "bin/glimmer_runner.rb",
     "docs/reference/GLIMMER_COMMAND.md",
     "docs/reference/GLIMMER_CONFIGURATION.md",
@@ -241,6 +242,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/AndyObtiva/glimmer-dsl-swt".freeze
   s.licenses = ["MIT".freeze]
+  s.post_install_message = ["Run the following command to complete the setup of Glimmer DSL for SWT, making the `glimmer` and `girb` commands available:\n\nglimmer-setup\n\n".freeze]
   s.required_ruby_version = Gem::Requirement.new(">= 2.5.3".freeze)
   s.rubygems_version = "3.0.6".freeze
   s.summary = "Glimmer DSL for SWT (JRuby Desktop Development GUI Framework)".freeze

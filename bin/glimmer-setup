@@ -1,0 +1,76 @@
+#!/usr/bin/env jruby
+
+# Copyright (c) 2020-2021 Andy Maleh
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+version = File.read(File.expand_path('../VERSION', __dir__))
+puts "== Glimmer DSL for SWT Version #{version.strip} =="
+
+glimmer_command = File.expand_path('../glimmer', __FILE__)
+girb_command = File.expand_path('../girb', __FILE__)
+
+glimmer_script = <<~SHELL_SCRIPT
+  function glimmer()
+  {
+    #{glimmer_command}
+  }
+  function girb()
+  {
+    #{girb_command}
+  }
+SHELL_SCRIPT
+
+
+require 'fileutils'
+home_dir = `echo ~`.strip
+FileUtils.mkdir_p("#{home_dir}/bin")
+glimmer_script_file = "#{home_dir}/.glimmer_source"
+glimmer_script_file_bash = "$HOME/.glimmer_source"
+File.write(glimmer_script_file, glimmer_script)
+
+[
+  ['.bash_profile', '.bashrc'],
+  ['.zprofile', '.zshrc']
+].each do |profile_and_fallback|
+  shell_profile_file_name = profile_and_fallback.first
+  shell_profile_file_name = profile_and_fallback.last if !File.exist?("#{home_dir}/#{shell_profile_file_name}")
+  shell_profile_file = "#{home_dir}/#{shell_profile_file_name}"
+  FileUtils.touch(shell_profile_file)
+  shell_profile = File.read(shell_profile_file)
+  glimmer_source_statement = "source \"#{glimmer_script_file_bash}\""
+  unless shell_profile.split("\n").detect {|line| line.include?(glimmer_source_statement) }
+    File.write(shell_profile_file, "#{shell_profile}\n#{glimmer_source_statement}")
+  end
+  puts "~/#{shell_profile_file_name} has been modified to source the `glimmer` and `girb` functions from ~/.glimmer_source"
+end
+
+puts <<~OUTPUT
+  
+  Before using `glimmer` or `girb`, start a new shell session (open a new terminal tab) while keeping the same directory or run:
+  
+  source ~/.glimmer_source
+  
+  Afterwards, you may run the following commands:
+  
+  glimmer
+  girb
+  
+OUTPUT

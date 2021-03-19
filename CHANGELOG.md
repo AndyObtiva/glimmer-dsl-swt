@@ -8,6 +8,7 @@
 - Hello, CCombo!
 - Shape#clear_shapes just like that of Drawable in WidgetProxy
 - Speed up glimmer command startup time by switching to a shell script
+- glimmer-setup command installs `glimmer` and `girb` as shell commands
 
 ### 4.18.7.7
 

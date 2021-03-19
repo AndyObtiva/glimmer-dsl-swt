@@ -135,7 +135,7 @@ module Glimmer
         else
           puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
           require the_glimmer_lib
-          require File.expand_path(application)
+          load File.expand_path(application)
         end
       end
     end

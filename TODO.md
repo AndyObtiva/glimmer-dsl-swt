@@ -6,7 +6,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Make sure that scaffolding shell/app uses new .launch method instead of .open
 - Switch scaffolding to Model:: and View:: scheme just like Tetris
+- Update scaffolding runnables to be bash scripts with setup programs as well
 - See if you can resolve rake gem conflict in dcr app
+- Make glimmer/girb commands available from anywhere with rvm installed (cross rubies)
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
