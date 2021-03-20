@@ -9,7 +9,8 @@
 - Shape#clear_shapes just like that of Drawable in WidgetProxy
 - Speed up glimmer command startup time by switching to a shell script
 - glimmer-setup command installs `glimmer` and `girb` as shell commands
-- Fix issue with processing arguments for `glimmer package` command.
+- Fix issue with processing arguments for the `glimmer package` command.
+- Make scaffold:desktopify generated app window shell fill the screen by default
 
 ### 4.18.7.7
 

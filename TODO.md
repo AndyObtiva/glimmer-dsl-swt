@@ -8,8 +8,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Switch scaffolding to Model:: and View:: scheme just like Tetris
 - Make desktopify maximize window
 - Update scaffolding runnables to be bash scripts with setup programs as well
-- Add support for specifying maximum size on shells and composites (`:maximized` style?)
-- Document glimmer-setup including use of `glimmer "package:native[dmg]"` in special cases
 - Fix use of glimmer package from TUI not picking up Rakefile of local project
 - Support Windows with bash shell scripts
 - Support `c_tab_folder` and `c_tab_item`

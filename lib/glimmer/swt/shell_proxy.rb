@@ -74,7 +74,9 @@ module Glimmer
             # TODO make this an option not the default
             shell_swt_display = Glimmer::SWT::DisplayProxy.instance.swt_display
             on_swt_show do
-              @swt_widget.set_size(@display.bounds.width, @display.bounds.height) if fill_screen
+              if @filled_screen.nil? && fill_screen # only the first time
+                @swt_widget.set_size(@display.bounds.width, @display.bounds.height)
+              end
               Thread.new do
                 sleep(0.25)
                 shell_swt_display.async_exec do

@@ -20,6 +20,12 @@ You may choose to generate a specific type of packaging instead by addionally pa
 glimmer package[msi]
 ```
 
+Make sure to surround with double-quotes when running from ZShell (zsh):
+
+```
+glimmer "package[msi]"
+```
+
 - Available Mac packaging types are `dmg`, `pkg`, and `image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
 - Available Windows packaging types are `msi`, `exe`, and `image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
 
@@ -190,7 +196,7 @@ Currently, `Glimmer::RakeTask::Package.javapackager_extra_args` is only honored 
 You can get around that in zsh by running glimmer package commands with `bash -c` prefix:
 
 ```
-bash -c 'glimmer package'
+bash -c 'source ~/.glimmer_source; glimmer package'
 ```
 
 4. Java on Windows System PATH

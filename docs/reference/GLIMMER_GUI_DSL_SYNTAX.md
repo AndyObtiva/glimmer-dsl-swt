@@ -368,7 +368,7 @@ These proxy objects have an API and provide some convenience methods, some of wh
 
 Glimmer SWT proxies come with the instance method `#swt_widget`, which returns the actual SWT `Widget` object wrapped by the Glimmer widget proxy. It is useful in cases you'd like to do some custom SWT programming outside of Glimmer.
 
-##### Shell widget proxy methods
+##### Shell Widget Proxy Methods
 
 Shell widget proxy has extra methods specific to SWT Shell:
 - `#open`: Opens the shell, making it visible and active, and starting the SWT Event Loop (you may learn more about it here: https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/Display.html). If shell was already open, but hidden, it makes the shell visible.
@@ -1039,6 +1039,10 @@ shell(:no_resize) {
   # ...
 }
 ```
+
+##### Fill Screen Window
+
+SWT Shell can open and fill the screen with this style `swt(:fill_screen)`. This makes it have the size of the display, thus filling the screen. Keep in mind that this is different from being maximized (which is a special window state, not just filling the screen).
 
 ### Widget Properties
 
