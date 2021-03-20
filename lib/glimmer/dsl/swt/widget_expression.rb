@@ -30,7 +30,7 @@ module Glimmer
       class WidgetExpression < Expression
         include ParentExpression
 
-        EXCLUDED_KEYWORDS = %w[shell display tab_item] + Glimmer::SWT::Custom::Shape.keywords - ['text']
+        EXCLUDED_KEYWORDS = %w[shell display tab_item c_tab_item] + Glimmer::SWT::Custom::Shape.keywords - ['text']
 
         def can_interpret?(parent, keyword, *args, &block)
           !EXCLUDED_KEYWORDS.include?(keyword) and

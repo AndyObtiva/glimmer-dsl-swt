@@ -31,6 +31,11 @@ class HelloTab
       tab_folder {
         tab_item {
           text 'English'
+          tool_tip_text 'English Greeting'
+          image image(17, 14) {
+            # building image on the fly with Canvas Shape DSL text shape flag emoji
+            text('🇺🇸', 0, 0)
+          }
           
           label {
             text 'Hello, World!'
@@ -39,6 +44,11 @@ class HelloTab
         
         tab_item {
           text 'French'
+          tool_tip_text 'French Greeting'
+          image image(17, 14) {
+            # building image on the fly with Canvas Shape DSL text shape flag emoji
+            text('🇫🇷', 0, 0)
+          }
           
           label {
             text 'Bonjour, Univers!'

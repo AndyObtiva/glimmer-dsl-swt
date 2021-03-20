@@ -993,6 +993,7 @@ module Glimmer
             !!value
           end,
           foreground: color_converter,
+          selection_foreground: color_converter,
           link_foreground: color_converter,
           font: lambda do |value|
             if value.is_a?(Hash) || value.is_a?(FontData)

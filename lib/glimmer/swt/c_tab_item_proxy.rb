@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Copyright (c) 2007-2021 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -20,14 +18,36 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
-IFS=' '     # space is set as delimiter
-read -ra ADDR <<< "$@"   # str is read into an array as tokens separated by IFS
-args=''
-for arg in "${ADDR[@]}"; do   # access each element of array
-    if [[ "$arg" == "-*" ]]; then
-      args="$args $arg"
-    fi
-done
 
-jruby -J-XstartOnFirstThread $args -e "require File.exist?('./bin/glimmer_runner.rb') ? './bin/glimmer_runner' : 'glimmer_runner'" "$@"
+require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/tab_item_proxy'
+
+module Glimmer
+  module SWT
+    # Proxy for org.eclipse.swt.custom.CTabItem
+    #
+    # Functions differently from other widget proxies.
+    #
+    # Glimmer instantiates an SWT Composite alongside the SWT TabItem
+    # and returns it for `#swt_widget` to allow adding widgets into it.
+    #
+    # In order to get the SWT TabItem object, one must call `#swt_tab_item`.
+    #
+    # Behind the scenes, this creates a tab item widget proxy separately from a composite that
+    # is set as the control of the tab item and `#swt_widget`.
+    #
+    # In order to retrieve the tab item widget proxy, one must call `#widget_proxy`
+    #
+    # Follows the Proxy Design Pattern
+    class CTabItemProxy < TabItemProxy
+      ATTRIBUTES = TabItemProxy::ATTRIBUTES + %w[foreground selection_foreground show_close font]
+      
+      def attributes
+        ATTRIBUTES
+      end
+      
+    end
+    
+  end
+  
+end

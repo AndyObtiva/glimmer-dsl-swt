@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Copyright (c) 2007-2021 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -20,14 +18,41 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
-IFS=' '     # space is set as delimiter
-read -ra ADDR <<< "$@"   # str is read into an array as tokens separated by IFS
-args=''
-for arg in "${ADDR[@]}"; do   # access each element of array
-    if [[ "$arg" == "-*" ]]; then
-      args="$args $arg"
-    fi
-done
 
-jruby -J-XstartOnFirstThread $args -e "require File.exist?('./bin/glimmer_runner.rb') ? './bin/glimmer_runner' : 'glimmer_runner'" "$@"
+require 'glimmer'
+require 'glimmer/dsl/static_expression'
+require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/c_tab_item_proxy'
+
+module Glimmer
+  module DSL
+    module SWT
+      class CTabItemExpression < StaticExpression
+        include ParentExpression
+  
+        include_package 'org.eclipse.swt.custom'
+  
+        def can_interpret?(parent, keyword, *args, &block)
+          initial_condition = (keyword == 'c_tab_item') and parent.respond_to?(:swt_widget)
+          if initial_condition
+            if parent.swt_widget.is_a?(CTabFolder)
+              return true
+            else
+              Glimmer::Config.logger.error {"c_tab_item widget may only be used directly under a c_tab_folder widget!"}
+            end
+          end
+          false
+        end
+  
+        def interpret(parent, keyword, *args, &block)
+          Glimmer::SWT::CTabItemProxy.new(parent, args)
+        end
+        
+      end
+      
+    end
+    
+  end
+  
+end

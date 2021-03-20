@@ -11,6 +11,8 @@
 - glimmer-setup command installs `glimmer` and `girb` as shell commands
 - Fix issue with processing arguments for the `glimmer package` command.
 - Make scaffold:desktopify generated app window shell fill the screen by default
+- Support `c_tab_folder` and `c_tab_item`
+- Hello, C Tab!
 
 ### 4.18.7.7
 

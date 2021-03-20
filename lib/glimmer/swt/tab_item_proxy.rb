@@ -39,44 +39,40 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class TabItemProxy < WidgetProxy
-      ATTRIBUTES = %w[text image]
+      ATTRIBUTES = %w[text image tool_tip_text]
       include_package 'org.eclipse.swt.widgets'
 
       attr_reader :widget_proxy, :swt_tab_item
 
       def initialize(parent, style, &contents)
         super("composite", parent, style, &contents)
-        @widget_proxy = SWT::WidgetProxy.new('tab_item', parent, style)
+        keyword = self.class.name.split('::').last.underscore.sub('_proxy', '')
+        @widget_proxy = SWT::WidgetProxy.new(keyword, parent, style)
         @swt_tab_item = @widget_proxy.swt_widget
         @swt_tab_item.control = swt_widget
-#         parent.pack # TODO auto fix the tab folder to avoid having to do this manually (including maintaining bounds and minimum size of shell)
+      end
+      
+      def attributes
+        ATTRIBUTES
       end
 
       def has_attribute?(attribute_name, *args)
-        if ATTRIBUTES.include?(attribute_name.to_s)
-          true
-        else
-          super(attribute_name, *args)
-        end
+        attributes.include?(attribute_name.to_s) || super(attribute_name, *args)
       end
 
       def set_attribute(attribute_name, *args)
-        attribute_name
-        if attribute_name.to_s == "text"
-          text_value = args[0]
-          @swt_tab_item.setText text_value
-        elsif attribute_name.to_s == "image"
-          widget_proxy.set_attribute('image', *args)
+        attribute_name = attribute_name.to_s
+        if attributes.include?(attribute_name)
+          widget_proxy.set_attribute(attribute_name, *args)
         else
           super(attribute_name, *args)
         end
       end
 
       def get_attribute(attribute_name)
-        if attribute_name.to_s == "text"
-          @swt_tab_item.getText
-        elsif attribute_name.to_s == "image"
-          widget_proxy.get_attribute('image')
+        attribute_name = attribute_name.to_s
+        if attributes.include?(attribute_name)
+          widget_proxy.get_attribute(attribute_name)
         else
           super(attribute_name)
         end
@@ -89,6 +85,9 @@ module Glimmer
           swt_tab_item.dispose
         end
       end
+      
     end
+        
   end
+  
 end

@@ -10,8 +10,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Update scaffolding runnables to be bash scripts with setup programs as well
 - Fix use of glimmer package from TUI not picking up Rakefile of local project
 - Support Windows with bash shell scripts
-- Support `c_tab_folder` and `c_tab_item`
-- Hello, C Tab!
+- Make new `glimmer`/`girb` commands work locally in development mode
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 

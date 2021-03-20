@@ -48,5 +48,6 @@ module Glimmer
         end
       end
     end
+    CTabFolderProxy = TabFolderProxy
   end
 end
