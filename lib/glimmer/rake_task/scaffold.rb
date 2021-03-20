@@ -185,14 +185,14 @@ module Glimmer
           end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
-            system "glimmer package[image]"
+            system "glimmer \"package[image]\"" # TODO handle Windows with batch file
             system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n source ~/.glimmer_source \n glimmer package\n'"
             if OS.mac?
               system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
             else
-              system "glimmer run"
+              system "source ~/.glimmer_source \n glimmer run"
             end
           end
         end
@@ -287,14 +287,14 @@ module Glimmer
           puts "Created #{current_dir_name}/#{icon_file}"
           
           if OS.windows?
-            system "glimmer package[image]"
+            system "glimmer package[image]" # TODO handle windows properly with batch file
             system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n source ~/.glimmer_source \n glimmer package\n'"
             if OS.mac?
               system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
             else
-              system "glimmer run"
+              system "source ~/.glimmer_source \n glimmer run"
             end
           end
           puts "Finished creating #{gem_name} Ruby gem."

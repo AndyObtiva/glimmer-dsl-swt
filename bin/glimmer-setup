@@ -30,11 +30,11 @@ girb_command = File.expand_path('../girb', __FILE__)
 glimmer_script = <<~SHELL_SCRIPT
   function glimmer()
   {
-    #{glimmer_command}
+    #{glimmer_command} $@
   }
   function girb()
   {
-    #{girb_command}
+    #{girb_command} $@
   }
 SHELL_SCRIPT
 
@@ -64,7 +64,7 @@ end
 
 puts <<~OUTPUT
   
-  Before using `glimmer` or `girb`, start a new shell session (open a new terminal tab) while keeping the same directory or run:
+  Before using `glimmer` or `girb`, start a new shell session in the same directory (open a new terminal tab and go to the same directory) or run:
   
   source ~/.glimmer_source
   

@@ -6,9 +6,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Make sure that scaffolding shell/app uses new .launch method instead of .open
 - Switch scaffolding to Model:: and View:: scheme just like Tetris
+- Make desktopify maximize window
 - Update scaffolding runnables to be bash scripts with setup programs as well
-- See if you can resolve rake gem conflict in dcr app
-- Make glimmer/girb commands available from anywhere with rvm installed (cross rubies)
+- Add support for specifying maximum size on shells and composites (`:maximized` style?)
+- Document glimmer-setup including use of `glimmer "package:native[dmg]"` in special cases
+- Fix use of glimmer package from TUI not picking up Rakefile of local project
+- Support Windows with bash shell scripts
+- Support `c_tab_folder` and `c_tab_item`
+- Hello, C Tab!
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
@@ -123,7 +128,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Update Hello, Menu Bar! sample to show images on menu items
 
-- Add support for specifying maximum size on shells and composites (`:maximized` style?)
 
 - Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners

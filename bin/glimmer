@@ -30,4 +30,4 @@ for arg in "${ADDR[@]}"; do   # access each element of array
     fi
 done
 
-jruby -J-XstartOnFirstThread $args -S "$(dirname $(realpath $0))/glimmer_runner.rb" "$@"
+jruby -J-XstartOnFirstThread $args -e "require 'glimmer_runner'" "$@"

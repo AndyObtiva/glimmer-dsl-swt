@@ -21,4 +21,4 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-jruby -J-XstartOnFirstThread "$@" -S irb -r "$(dirname $(realpath $0))/girb_runner.rb"
+jruby -J-XstartOnFirstThread "$@" -S irb -r "girb_runner"

@@ -100,7 +100,7 @@ namespace :glimmer do
 
     desc 'Generate Native files. type can be dmg/pkg on the Mac, msi/exe on Windows, and rpm/deb on Linux (type is optional)'
     task :native, [:type] do |t, args|
-      extra_args = ARGV.partition {|arg| arg.include?('package:native')}.last.to_a.join(' ')
+      extra_args = ARGV.partition {|arg| arg.start_with?('package')}.last.to_a.join(' ')
       Glimmer::RakeTask::Package.native(args[:type], extra_args)
     end
   end
