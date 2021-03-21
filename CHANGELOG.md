@@ -13,6 +13,8 @@
 - Make scaffold:desktopify generated app window shell fill the screen by default
 - Support `c_tab_folder` and `c_tab_item`
 - Hello, C Tab!
+- Update scaffolding runnables to be bash scripts instead of Ruby scripts to run faster
+- Set default background of `rgb(230, 230, 230)` on sash_form to make it more spottable to resize the sash
 
 ### 4.18.7.7
 

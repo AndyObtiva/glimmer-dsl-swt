@@ -165,7 +165,7 @@ module Glimmer
     private
 
     def launch_application
-      load File.expand_path('./Rakefile') if File.exist?(File.expand_path('./Rakefile')) && caller.join("\n").include?('/bin/glimmer:')
+      load File.expand_path('./Rakefile') if File.exist?(File.expand_path('./Rakefile')) && caller.join("\n").include?('/bin/glimmer_runner.rb:')
       self.class.launch(
         @application_path,
         jruby_options: @jruby_options,

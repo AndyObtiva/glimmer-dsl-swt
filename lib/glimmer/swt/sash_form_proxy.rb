@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/widget_proxy'
+require 'glimmer/swt/color_proxy'
 
 module Glimmer
   module SWT
@@ -27,6 +28,11 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class SashFormProxy < WidgetProxy
+      def initialize(*args, &block)
+        super
+        self.background = ColorProxy.new(230, 230, 230).swt_color
+      end
+    
       def post_add_content
         self.weights = @weights unless @weights.nil?
       end

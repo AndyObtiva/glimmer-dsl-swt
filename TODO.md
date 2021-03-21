@@ -6,11 +6,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Make sure that scaffolding shell/app uses new .launch method instead of .open
 - Switch scaffolding to Model:: and View:: scheme just like Tetris
-- Make desktopify maximize window
-- Update scaffolding runnables to be bash scripts with setup programs as well
-- Fix use of glimmer package from TUI not picking up Rakefile of local project
 - Support Windows with bash shell scripts
-- Make new `glimmer`/`girb` commands work locally in development mode
+
+- Use custom widgets for the menu bar and dialogs in scaffolded apps
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
@@ -461,6 +459,7 @@ items <=> binding {
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
+- Backgammon game
 
 ## Side Projects
 

@@ -175,7 +175,9 @@ module Glimmer
           mkdir_p "app/#{file_name(app_name)}"
           write "app/#{file_name(app_name)}/launch.rb", app_launch_file(app_name)
           mkdir_p 'bin'
-          write "bin/#{file_name(app_name)}", app_bin_command_file(app_name)
+          write "bin/#{file_name(app_name)}.rb", app_bin_command_file(app_name)
+          FileUtils.chmod 0755, "bin/#{file_name(app_name)}.rb"
+          write "bin/#{file_name(app_name)}", gem_bin_command_file(file_name(app_name), file_name(app_name))
           FileUtils.chmod 0755, "bin/#{file_name(app_name)}"
           if OS.windows?
             system "bundle"
@@ -259,8 +261,8 @@ module Glimmer
           mkdir_p "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}"
           write "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb", gem_launch_file(gem_name, custom_shell_name, namespace)
           mkdir_p 'bin'
-          write "bin/#{gem_name}", gem_bin_command_file(gem_name, custom_shell_name, namespace)
-          FileUtils.chmod 0755, "bin/#{gem_name}"
+          write "bin/#{gem_name}.rb", app_bin_command_file(gem_name, custom_shell_name, namespace)
+          FileUtils.chmod 0755, "bin/#{gem_name}.rb"
           write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name, custom_shell_name, namespace)
           FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
           if OS.windows?
@@ -480,11 +482,16 @@ module Glimmer
           MULTI_LINE_STRING
         end
     
-        def app_bin_command_file(app_name)
+        def app_bin_command_file(app_name, custom_shell_name=nil, namespace=nil)
+          if custom_shell_name.nil?
+            runner = "File.expand_path('../../app/#{file_name(app_name)}/launch.rb', __FILE__)"
+          else
+            runner = "File.expand_path('../../lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb', __FILE__)"
+          end
           <<~MULTI_LINE_STRING
             #!/usr/bin/env jruby
             
-            runner = File.expand_path("../../app/#{file_name(app_name)}/launch.rb", __FILE__)
+            runner = #{runner}
             
             # Detect if inside a JAR file or not
             if runner.include?('uri:classloader')
@@ -519,21 +526,12 @@ module Glimmer
           MULTI_LINE_STRING
         end
     
-        def gem_bin_command_file(gem_name, custom_shell_name, namespace)
+        def gem_bin_command_file(gem_name, custom_shell_name, namespace = nil)
           <<~MULTI_LINE_STRING
-            #!/usr/bin/env jruby
+            #!/usr/bin/env bash
             
-            runner = File.expand_path("../../lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb", __FILE__)
-            
-            # Detect if inside a JAR file or not
-            if runner.include?('uri:classloader')
-              require runner
-            else
-              require 'glimmer/launcher'
-              
-              launcher = Glimmer::Launcher.new([runner] + ARGV)
-              launcher.launch
-            end
+            source ~/.glimmer_source
+            glimmer $(dirname $0)/#{gem_name}.rb $@
           MULTI_LINE_STRING
         end
     
@@ -546,8 +544,8 @@ module Glimmer
           if custom_shell_name
             lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'package/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
             # the second executable is needed for warbler as it matches the gem name, which is the default expected file (alternatively in the future, we could do away with it and configure warbler to use the other file)
-            lines.insert(gem_files_line_index+1, "  gem.executables = ['#{gem_name}', '#{file_name(custom_shell_name)}']")
-            lines.insert(gem_files_line_index+2, "  gem.require_paths = ['vendor', 'lib', 'app']")
+            lines.insert(gem_files_line_index+1, "  gem.require_paths = ['vendor', 'lib', 'app']")
+            lines.insert(gem_files_line_index+2, "  gem.executables = ['#{gem_name}.rb', '#{file_name(custom_shell_name)}']") if gem_name && custom_shell_name
           else
             lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*']")
           end
@@ -658,9 +656,9 @@ module Glimmer
         ## Top-most widget must be a shell or another custom shell
         #
         body {
-          shell(:fill_screen) {
+          shell(#{':fill_screen' if shell_type == :desktopify}) {
             # Replace example content below with custom shell content
-            minimum_size #{shell_type == :desktopify ? '1024, 768' : '320, 240'}
+            minimum_size #{shell_type == :desktopify ? '768, 432' : '320, 240'}
             image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
             text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
           
