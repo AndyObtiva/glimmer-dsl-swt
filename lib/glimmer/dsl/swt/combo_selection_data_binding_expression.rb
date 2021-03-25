@@ -29,12 +29,13 @@ module Glimmer
     module SWT
       class ComboSelectionDataBindingExpression < Expression
         include_package 'org.eclipse.swt.widgets'
+        include_package 'org.eclipse.swt.custom'
   
         def can_interpret?(parent, keyword, *args, &block)
           keyword == 'selection' and
             block.nil? and
             parent.respond_to?(:swt_widget) and
-            parent.swt_widget.is_a?(Combo) and
+            (parent.swt_widget.is_a?(Combo) || parent.swt_widget.is_a?(CCombo)) and
             args.size == 1 and
             args[0].is_a?(DataBinding::ModelBinding) and
             args[0].evaluate_options_property.is_a?(Array)

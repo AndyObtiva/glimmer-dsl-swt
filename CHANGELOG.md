@@ -1,5 +1,14 @@
 # Change Log
 
+### 4.19.0.0
+
+- Upgrade to SWT 4.19
+- Upgrade to JRuby 9.2.16.0
+- Support `c_combo` (`org.eclipse.swt.custom.CCombo` SWT widget) data-binding
+- Hello, CCombo!
+- Shape#clear_shapes just like that of Drawable in WidgetProxy
+- Speed up glimmer command startup time by switching to a shell script
+
 ### 4.18.7.7
 
 - Upgrade to glimmer v1.3.0

@@ -4,7 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make sure that scaffolding shell/app uses new .launch method instead of .open
+- Switch scaffolding to Model:: and View:: scheme just like Tetris
+- See if you can resolve rake gem conflict in dcr app
+
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
+
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 - Fix issue with `glimmer samples` not honoring code changes in external samples coming from gems (like `glimmer-cp-stickfigure`) though it runs them just fine (at least make uneditable until fixed)
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
@@ -68,6 +73,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Introduce a fuzz factor to processing glimmer keywords (e.g. `shel` is interpretted as `shell`, `cmbo` is interpretted as `combo`)
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)

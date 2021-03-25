@@ -572,7 +572,7 @@ module Glimmer
         end
         
         def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
-          shapes.each { |shape| shape.is_a?(Shape::Path) && shape.dispose }
+          shapes.each { |shape| shape.is_a?(Shape::Path) && shape.dispose } # TODO look into why I'm only disposing paths
           if dispose_patterns
             @background_pattern&.dispose
             @background_pattern = nil
@@ -585,6 +585,20 @@ module Glimmer
           end
           @parent.shapes.delete(self)
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
+        end
+        
+        # clear all shapes
+        # indicate whether to dispose images, dispose patterns, and redraw after clearing shapes.
+        # redraw can be `:all` or `true` to mean redraw after all shapes are disposed, `:each` to mean redraw after each shape is disposed, or `false` to avoid redraw altogether
+        def clear_shapes(dispose_images: true, dispose_patterns: true, redraw: :all)
+          if redraw == true || redraw == :all
+            shapes.dup.each {|shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: false) }
+            drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
+          elsif redraw == :each
+            shapes.dup.each {|shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: true) }
+          else
+            shapes.dup.each {|shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: false) }
+          end
         end
         
         # Indicate if this is a container shape (meaning a shape bag that is just there to contain nested shapes, but doesn't render anything of its own)

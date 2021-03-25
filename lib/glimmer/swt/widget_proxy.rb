@@ -51,6 +51,7 @@ module Glimmer
         'arrow'               => [:arrow],
         'button'              => [:push],
         'canvas'              => ([:double_buffered] unless OS.mac?),
+        'ccombo'              => [:border],
         'checkbox'            => [:check],
         'check'               => [:check],
         'drag_source'         => [:drop_copy],
@@ -333,6 +334,13 @@ module Glimmer
             end,
           },
           Java::OrgEclipseSwtWidgets::Combo => {
+            :text => lambda do |observer|
+              on_modify_text { |modify_event|
+                observer.call(@swt_widget.getText)
+              }
+            end,
+          },
+          Java::OrgEclipseSwtCustom::CCombo => {
             :text => lambda do |observer|
               on_modify_text { |modify_event|
                 observer.call(@swt_widget.getText)

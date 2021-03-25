@@ -35,7 +35,7 @@ module Glimmer
     
     TEXT_USAGE = <<~MULTI_LINE_STRING
       Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v#{File.read(File.expand_path('../../../VERSION', __FILE__))}
-      Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
+      Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args])
     
       Runs Glimmer applications and tasks.
     
@@ -67,8 +67,6 @@ module Glimmer
     }
     REGEX_RAKE_TASK_WITH_ARGS = /^([^\[]+)\[?([^\]]*)\]?$/
 
-    @@mutex = Mutex.new
-
     class << self
       def platform_os
         OPERATING_SYSTEMS_SUPPORTED.detect {|os| OS.send("#{os}?")}
@@ -83,14 +81,12 @@ module Glimmer
       end
 
       def glimmer_lib
-        @@mutex.synchronize do
-          unless @glimmer_lib
-            @glimmer_lib = GLIMMER_LIB_GEM
-            glimmer_gem_listing = `jgem list #{GLIMMER_LIB_GEM}`.split("\n").map {|l| l.split.first}
-            if !glimmer_gem_listing.include?(GLIMMER_LIB_GEM) && File.exists?(GLIMMER_LIB_LOCAL)
-              @glimmer_lib = GLIMMER_LIB_LOCAL
-              puts "[DEVELOPMENT MODE] (detected #{@glimmer_lib})"
-            end
+        unless @glimmer_lib
+          @glimmer_lib = GLIMMER_LIB_GEM
+          glimmer_gem_listing = `jgem list #{GLIMMER_LIB_GEM}`.split("\n").map {|l| l.split.first}
+          if !glimmer_gem_listing.include?(GLIMMER_LIB_GEM) && File.exists?(GLIMMER_LIB_LOCAL)
+            @glimmer_lib = GLIMMER_LIB_LOCAL
+            puts "[DEVELOPMENT MODE] (detected #{@glimmer_lib})"
           end
         end
         @glimmer_lib
@@ -115,17 +111,12 @@ module Glimmer
       def launch(application, jruby_options: [], env_vars: {}, glimmer_options: {})
         jruby_options_string = jruby_options.join(' ') + ' ' if jruby_options.any?
         env_vars = env_vars.merge(glimmer_option_env_vars(glimmer_options))
-        env_vars_string = env_vars.map do |k,v|
-          if OS.windows? && ENV['PROMPT'] # detect command prompt (or powershell)
-            "set #{k}=#{v} && "
-          else
-            "export #{k}=#{v} && "
-          end
-        end.join
+        env_vars.each do |k,v|
+          ENV[k] = v
+        end
         the_glimmer_lib = glimmer_lib
-        devmode_require = nil
         if the_glimmer_lib == GLIMMER_LIB_LOCAL
-          devmode_require = '-r puts_debuggerer '
+          require 'puts_debuggerer'
         end
         require_relative 'rake_task'
         rake_tasks = Rake.application.tasks.map(&:to_s).map {|t| t.sub('glimmer:', '')}
@@ -142,20 +133,9 @@ module Glimmer
           puts "Running Glimmer rake task: #{rake_task}" if jruby_options_string.to_s.include?('--debug')
           Rake::Task[rake_task].invoke(*rake_task_args)
         else
-          @@mutex.synchronize do
-            puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
-          end
-          command = "#{env_vars_string} jruby #{jruby_options_string}#{jruby_os_specific_options} #{devmode_require}-r #{the_glimmer_lib} -S #{application}"
-          if !env_vars_string.empty? && OS.windows?
-            command = "bash -c \"#{command}\"" if ENV['SHELL'] # do in Windows Git Bash only
-            command = "cmd /C \"#{command}\"" if ENV['PROMPT'] # do in Windows Command Prompt only (or Powershell)
-          end
-          puts command if jruby_options_string.to_s.include?('--debug')
-          if command.include?(' irb ')
-            exec command
-          else
-            system command
-          end
+          puts "Launching Glimmer Application: #{application}" if jruby_options_string.to_s.include?('--debug') || glimmer_options['--quiet'].to_s.downcase != 'true'
+          require the_glimmer_lib
+          require File.expand_path(application)
         end
       end
     end
@@ -168,14 +148,14 @@ module Glimmer
     def initialize(raw_options)
       raw_options << '--quiet' if !caller.join("\n").include?('/bin/glimmer:') && !raw_options.join.include?('--quiet=')
       raw_options << '--log-level=DEBUG' if raw_options.join.include?('--debug') && !raw_options.join.include?('--log-level=')
-      @application_paths = extract_application_paths(raw_options)
+      @application_path = extract_application_path(raw_options)
       @env_vars = extract_env_vars(raw_options)
       @glimmer_options = extract_glimmer_options(raw_options)
       @jruby_options = raw_options
     end
 
     def launch
-      if @application_paths.empty?
+      if @application_path.nil?
         display_usage
       else
         launch_application
@@ -186,17 +166,12 @@ module Glimmer
 
     def launch_application
       load File.expand_path('./Rakefile') if File.exist?(File.expand_path('./Rakefile')) && caller.join("\n").include?('/bin/glimmer:')
-      threads = @application_paths.map do |application_path|
-        Thread.new do
-          self.class.launch(
-            application_path,
-            jruby_options: @jruby_options,
-            env_vars: @env_vars,
-            glimmer_options: @glimmer_options
-          )
-        end
-      end
-      threads.each(&:join)
+      self.class.launch(
+        @application_path,
+        jruby_options: @jruby_options,
+        env_vars: @env_vars,
+        glimmer_options: @glimmer_options
+      )
     end
 
     def display_usage
@@ -232,10 +207,11 @@ module Glimmer
       end
     end
 
-    def extract_application_paths(options)
-      options.select do |option|
+    # Extract application path (which can also be a rake task, basically a non-arg)
+    def extract_application_path(options)
+      application_path = options.detect do |option|
         !option.start_with?('-') && !option.include?('=')
-      end.each do |application_path|
+      end.tap do
         options.delete(application_path)
       end
     end
