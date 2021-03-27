@@ -56,7 +56,7 @@ class Mandelbrot
     end
     
     def processor_count
-      @processor_count ||= Concurrent.physical_processor_count
+      @processor_count ||= Concurrent.processor_count
     end
   end
   

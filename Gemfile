@@ -15,6 +15,7 @@ gem 'os', '>= 1.0.0', '< 2.0.0'
 gem 'rake', '>= 13.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'
 gem 'rouge', '>= 3.26.0', '< 4.0.0'
+gem 'jruby-win32ole', '>= 0.8.5', '< 2.0.0'
 
 group :development do
   gem 'juwelier', '>= 2.4.9', '< 3.0.0'

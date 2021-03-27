@@ -4,8 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support Windows with bash shell scripts
-
+- Implement girb.bat
+- Update glimmer-setup to behave differently in Windows
+- Fix mandelbrot fractal sample on Windows
+- Fix Hello CTab, Hello Tab, and Stock Ticker on Windows
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
