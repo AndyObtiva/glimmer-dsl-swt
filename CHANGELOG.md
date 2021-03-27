@@ -16,7 +16,7 @@
 - Set default background of `rgb(230, 230, 230)` on sash_form to make it more spottable to resize the sash
 - Switch scaffolding to `Model::` and `View::` namespacing instead of the namespace-less 'models' and 'views' directories (new scheme was originally introduced in the Tetris sample)
 - Make sure that scaffolded shell/app uses new custom shell built-in `.launch` method instead of custom written `.open` method
-- Support Windows with batch file scripts for a faster startup time instead of relying on jruby scripts
+- Support Windows with batch file scripts (glimmer.bat and girb.bat) for a faster startup time instead of relying on jruby scripts
 - Fix issue with processing arguments for the `glimmer package` command.
 - Fix issue relating to conflict between `Shape#x`/`Shape#y` methods and the use of the Psych gem `y` method.
 

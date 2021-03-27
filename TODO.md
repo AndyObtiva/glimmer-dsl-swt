@@ -4,9 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Implement girb.bat
 - Update glimmer-setup to behave differently in Windows
 - Fix mandelbrot fractal sample on Windows
+- Support linux with glimmer and girb commands (by conditionally taking off the -J-X option for Mac)
 - Fix Hello CTab, Hello Tab, and Stock Ticker on Windows
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 
