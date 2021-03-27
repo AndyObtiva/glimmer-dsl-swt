@@ -149,8 +149,8 @@ module Glimmer
           write 'Rakefile', gem_rakefile(app_name, nil, gem_name)
           mkdir 'app'
           write "app/#{file_name(app_name)}.rb", app_main_file(app_name)
-          mkdir 'app/models'
-          mkdir 'app/views'
+          mkdir_p "app/#{file_name(app_name)}/model"
+          mkdir_p "app/#{file_name(app_name)}/view"
           if shell_type == :desktopify
             custom_shell('AppView', current_dir_name, shell_type, shell_options)
           else
@@ -202,7 +202,7 @@ module Glimmer
         def custom_shell(custom_shell_name, namespace, shell_type = nil, shell_options = {})
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
-          parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          parent_dir = "#{root_dir}/#{file_name(namespace)}/view"
           return puts("The file '#{parent_dir}/#{file_name(custom_shell_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_shell_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
           write "#{parent_dir}/#{file_name(custom_shell_name)}.rb", custom_shell_file(custom_shell_name, namespace, shell_type, shell_options)
@@ -211,7 +211,7 @@ module Glimmer
         def custom_widget(custom_widget_name, namespace)
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
-          parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          parent_dir = "#{root_dir}/#{file_name(namespace)}/view"
           return puts("The file '#{parent_dir}/#{file_name(custom_widget_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_widget_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
           write "#{parent_dir}/#{file_name(custom_widget_name)}.rb", custom_widget_file(custom_widget_name, namespace)
@@ -220,7 +220,7 @@ module Glimmer
         def custom_shape(custom_shape_name, namespace)
           namespace ||= current_dir_name
           root_dir = File.exists?('app') ? 'app' : 'lib'
-          parent_dir = "#{root_dir}/views/#{file_name(namespace)}"
+          parent_dir = "#{root_dir}/#{file_name(namespace)}/view"
           return puts("The file '#{parent_dir}/#{file_name(custom_shape_name)}.rb' already exists. Please either remove or pick a different name.") if File.exist?("#{parent_dir}/#{file_name(custom_shape_name)}.rb")
           mkdir_p parent_dir unless File.exists?(parent_dir)
           write "#{parent_dir}/#{file_name(custom_shape_name)}.rb", custom_shape_file(custom_shape_name, namespace)
@@ -255,11 +255,10 @@ module Glimmer
           write 'Gemfile', GEMFILE
           write 'Rakefile', gem_rakefile(custom_shell_name, namespace, gem_name)
           append "lib/#{gem_name}.rb", gem_main_file(custom_shell_name, namespace)
-          mkdir 'lib/views'
           custom_shell(custom_shell_name, namespace, :gem)
           
-          mkdir_p "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}"
-          write "lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb", gem_launch_file(gem_name, custom_shell_name, namespace)
+          mkdir_p "lib/#{gem_name}"
+          write "lib/#{gem_name}/launch.rb", gem_launch_file(gem_name, custom_shell_name, namespace)
           mkdir_p 'bin'
           write "bin/#{gem_name}.rb", app_bin_command_file(gem_name, custom_shell_name, namespace)
           FileUtils.chmod 0755, "bin/#{gem_name}.rb"
@@ -329,7 +328,6 @@ module Glimmer
           write 'Gemfile', GEMFILE
           write 'Rakefile', gem_rakefile
           append "lib/#{gem_name}.rb", gem_main_file(custom_widget_name, namespace)
-          mkdir 'lib/views'
           custom_widget(custom_widget_name, namespace)
           if OS.windows?
             system "bundle"
@@ -368,7 +366,6 @@ module Glimmer
           write 'Gemfile', GEMFILE
           write 'Rakefile', gem_rakefile
           append "lib/#{gem_name}.rb", gem_main_file(custom_shape_name, namespace)
-          mkdir 'lib/views'
           custom_shape(custom_shape_name, namespace)
           if OS.windows?
             system "bundle"
@@ -445,7 +442,7 @@ module Glimmer
     
             require 'bundler/setup'
             Bundler.require(:default)
-            require 'views/#{file_name(app_name)}/app_view'
+            require '#{file_name(app_name)}/view/app_view'
     
             class #{class_name(app_name)}
               include Glimmer
@@ -453,17 +450,14 @@ module Glimmer
               APP_ROOT = File.expand_path('../..', __FILE__)
               VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
               LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
-                        
-              def open
-                app_view.open
-              end
             end
           MULTI_LINE_STRING
         end
     
         def gem_main_file(custom_widget_name, namespace = nil)
-          custom_widget_file_path = "views"
-          custom_widget_file_path += "/#{file_name(namespace)}" if namespace
+          custom_widget_file_path = ''
+          custom_widget_file_path += "#{file_name(namespace)}/" if namespace
+          custom_widget_file_path += "view"
           custom_widget_file_path += "/#{file_name(custom_widget_name)}"
     
           <<~MULTI_LINE_STRING
@@ -478,15 +472,15 @@ module Glimmer
           <<~MULTI_LINE_STRING
             require_relative '../#{file_name(app_name)}'
             
-            #{class_name(app_name)}.new.open
+            #{class_name(app_name)}::View::AppView.launch
           MULTI_LINE_STRING
         end
     
-        def app_bin_command_file(app_name, custom_shell_name=nil, namespace=nil)
+        def app_bin_command_file(app_name_or_gem_name, custom_shell_name=nil, namespace=nil)
           if custom_shell_name.nil?
-            runner = "File.expand_path('../../app/#{file_name(app_name)}/launch.rb', __FILE__)"
+            runner = "File.expand_path('../../app/#{file_name(app_name_or_gem_name)}/launch.rb', __FILE__)"
           else
-            runner = "File.expand_path('../../lib/#{file_name(namespace)}/#{file_name(custom_shell_name)}/launch.rb', __FILE__)"
+            runner = "File.expand_path('../../lib/#{app_name_or_gem_name}/launch.rb', __FILE__)"
           end
           <<~MULTI_LINE_STRING
             #!/usr/bin/env jruby
@@ -508,21 +502,9 @@ module Glimmer
         def gem_launch_file(gem_name, custom_shell_name, namespace)
           # TODO change this so that it does not mix Glimmer unto the main object
           <<~MULTI_LINE_STRING
-            require_relative '../../#{gem_name}'
+            require_relative '../#{gem_name}'
             
-            module #{class_name(namespace)}
-              class #{class_name(custom_shell_name)}
-                class App
-                  include Glimmer
-                
-                  def open
-                    #{dsl_widget_name(custom_shell_name)}.open
-                  end
-                end
-              end
-            end
-            
-            #{class_name(namespace)}::#{class_name(custom_shell_name)}::App.new.open
+            #{class_name(namespace)}::View::#{class_name(custom_shell_name)}.launch
           MULTI_LINE_STRING
         end
     
@@ -593,270 +575,276 @@ module Glimmer
           namespace_type = class_name(namespace) == class_name(current_dir_name) ? 'class' : 'module'
     
           custom_shell_file_content = <<-MULTI_LINE_STRING
-    #{namespace_type} #{class_name(namespace)}
-      class #{class_name(custom_shell_name)}
-        include Glimmer::UI::CustomShell
-        
+#{namespace_type} #{class_name(namespace)}
+  module View
+    class #{class_name(custom_shell_name)}
+      include Glimmer::UI::CustomShell
+    
           MULTI_LINE_STRING
           
           if shell_type == :gem
             custom_shell_file_content += <<-MULTI_LINE_STRING
-        APP_ROOT = File.expand_path('../../../..', __FILE__)
-        VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
-        LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
-            
+      APP_ROOT = File.expand_path('../../../..', __FILE__)
+      VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
+      LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
+          
             MULTI_LINE_STRING
           end
           
           custom_shell_file_content += <<-MULTI_LINE_STRING
-        ## Add options like the following to configure CustomShell by outside consumers
-        #
-        # options :title, :background_color
-        # option :width, default: 320
-        # option :height, default: 240
-        #{'# ' if shell_type == :desktopify}option :greeting, default: 'Hello, World!'
-    
-        ## Use before_body block to pre-initialize variables to use in body
-        #
-        #
+      ## Add options like the following to configure CustomShell by outside consumers
+      #
+      # options :title, :background_color
+      # option :width, default: 320
+      # option :height, default: 240
+      #{'# ' if shell_type == :desktopify}option :greeting, default: 'Hello, World!'
+  
+      ## Use before_body block to pre-initialize variables to use in body
+      #
+      #
           MULTI_LINE_STRING
           
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
-        before_body {
-          Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
-          Display.app_version = VERSION
-          @display = display {
-            on_about {
-              display_about_dialog
-            }
-            on_preferences {
-              #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
-            }
+      before_body {
+        Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
+        Display.app_version = VERSION
+        @display = display {
+          on_about {
+            display_about_dialog
+          }
+          on_preferences {
+            #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
           }
         }
+      }
             MULTI_LINE_STRING
           else
             custom_shell_file_content += <<-MULTI_LINE_STRING
-        # before_body {
-        #
-        # }
+      # before_body {
+      #
+      # }
             MULTI_LINE_STRING
           end
     
           custom_shell_file_content += <<-MULTI_LINE_STRING
-    
-        ## Use after_body block to setup observers for widgets in body
-        #
-        # after_body {
-        #
-        # }
-    
-        ## Add widget content inside custom shell body
-        ## Top-most widget must be a shell or another custom shell
-        #
-        body {
-          shell(#{':fill_screen' if shell_type == :desktopify}) {
-            # Replace example content below with custom shell content
-            minimum_size #{shell_type == :desktopify ? '768, 432' : '320, 240'}
-            image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
-            text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
-          
+  
+      ## Use after_body block to setup observers for widgets in body
+      #
+      # after_body {
+      #
+      # }
+  
+      ## Add widget content inside custom shell body
+      ## Top-most widget must be a shell or another custom shell
+      #
+      body {
+        shell(#{':fill_screen' if shell_type == :desktopify}) {
+          # Replace example content below with custom shell content
+          minimum_size #{shell_type == :desktopify ? '768, 432' : '320, 240'}
+          image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
+          text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
+        
           MULTI_LINE_STRING
             
           if shell_type == :desktopify
             custom_shell_file_content += <<-MULTI_LINE_STRING
-            browser {
-              url "#{shell_options[:website]}"
-            }
+          browser {
+            url "#{shell_options[:website]}"
+          }
             MULTI_LINE_STRING
           else
             custom_shell_file_content += <<-MULTI_LINE_STRING
-            grid_layout
-            label(:center) {
-              text bind(self, :greeting)
-              font height: 40
-              layout_data :fill, :center, true, true
-            }
+          grid_layout
+          label(:center) {
+            text bind(self, :greeting)
+            font height: 40
+            layout_data :fill, :center, true, true
+          }
             MULTI_LINE_STRING
           end
           
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
-            
-            menu_bar {
-              menu {
-                text '&File'
-                menu_item {
-                  text '&About...'
-                  on_widget_selected {
-                    display_about_dialog
-                  }
+          
+          menu_bar {
+            menu {
+              text '&File'
+              menu_item {
+                text '&About...'
+                on_widget_selected {
+                  display_about_dialog
                 }
-                menu_item {
-                  text '&Preferences...'
-                  on_widget_selected {
-                    #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
-                  }
+              }
+              menu_item {
+                text '&Preferences...'
+                on_widget_selected {
+                  #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
                 }
               }
             }
+          }
             MULTI_LINE_STRING
           end
 
             custom_shell_file_content += <<-MULTI_LINE_STRING
-          }
         }
+      }
             MULTI_LINE_STRING
           
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
-    
-        def display_about_dialog
-          message_box(body_root) {
-            text 'About'
-            message "#{human_name(namespace)}#{" - #{human_name(custom_shell_name)}" if shell_type == :gem} \#{VERSION}\\n\\n\#{LICENSE}"
-          }.open
-        end
-        
+  
+      def display_about_dialog
+        message_box(body_root) {
+          text 'About'
+          message "#{human_name(namespace)}#{" - #{human_name(custom_shell_name)}" if shell_type == :gem} \#{VERSION}\\n\\n\#{LICENSE}"
+        }.open
+      end
+      
             MULTI_LINE_STRING
           end
           
           if %i[gem app].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
-        def display_preferences_dialog
-          dialog(swt_widget) {
-            text 'Preferences'
-            grid_layout {
-              margin_height 5
-              margin_width 5
+      def display_preferences_dialog
+        dialog(swt_widget) {
+          text 'Preferences'
+          grid_layout {
+            margin_height 5
+            margin_width 5
+          }
+          group {
+            row_layout {
+              type :vertical
+              spacing 10
             }
-            group {
-              row_layout {
-                type :vertical
-                spacing 10
-              }
-              text 'Greeting'
-              font style: :bold
-              [
-                'Hello, World!',
-                'Howdy, Partner!'
-              ].each do |greeting_text|
-                button(:radio) {
-                  text greeting_text
-                  selection bind(self, :greeting) { |g| g == greeting_text }
-                  layout_data {
-                    width 160
-                  }
-                  on_widget_selected { |event|
-                    self.greeting = event.widget.getText
-                  }
+            text 'Greeting'
+            font style: :bold
+            [
+              'Hello, World!',
+              'Howdy, Partner!'
+            ].each do |greeting_text|
+              button(:radio) {
+                text greeting_text
+                selection bind(self, :greeting) { |g| g == greeting_text }
+                layout_data {
+                  width 160
                 }
-              end
-            }
-          }.open
-        end
+                on_widget_selected { |event|
+                  self.greeting = event.widget.getText
+                }
+              }
+            end
+          }
+        }.open
+      end
             MULTI_LINE_STRING
           end
           
           custom_shell_file_content += <<-MULTI_LINE_STRING
-      end
     end
+  end
+end
           MULTI_LINE_STRING
         end
     
         def custom_widget_file(custom_widget_name, namespace)
           namespace_type = class_name(namespace) == class_name(current_dir_name) ? 'class' : 'module'
     
-          <<~MULTI_LINE_STRING
-            #{namespace_type} #{class_name(namespace)}
-              class #{class_name(custom_widget_name)}
-                include Glimmer::UI::CustomWidget
-            
-                ## Add options like the following to configure CustomWidget by outside consumers
-                #
-                # options :custom_text, :background_color
-                # option :foreground_color, default: :red
-            
-                ## Use before_body block to pre-initialize variables to use in body
-                #
-                #
-                # before_body {
-                #
-                # }
-            
-                ## Use after_body block to setup observers for widgets in body
-                #
-                # after_body {
-                #
-                # }
-            
-                ## Add widget content under custom widget body
-                ##
-                ## If you want to add a shell as the top-most widget,
-                ## consider creating a custom shell instead
-                ## (Glimmer::UI::CustomShell offers shell convenience methods, like show and hide)
-                #
-                body {
-                  # Replace example content below with custom widget content
-                  label {
-                    background :red
-                  }
-                }
-            
-              end
-            end
+          <<-MULTI_LINE_STRING
+#{namespace_type} #{class_name(namespace)}
+  module View
+    class #{class_name(custom_widget_name)}
+      include Glimmer::UI::CustomWidget
+  
+      ## Add options like the following to configure CustomWidget by outside consumers
+      #
+      # options :custom_text, :background_color
+      # option :foreground_color, default: :red
+  
+      ## Use before_body block to pre-initialize variables to use in body
+      #
+      #
+      # before_body {
+      #
+      # }
+  
+      ## Use after_body block to setup observers for widgets in body
+      #
+      # after_body {
+      #
+      # }
+  
+      ## Add widget content under custom widget body
+      ##
+      ## If you want to add a shell as the top-most widget,
+      ## consider creating a custom shell instead
+      ## (Glimmer::UI::CustomShell offers shell convenience methods, like show and hide)
+      #
+      body {
+        # Replace example content below with custom widget content
+        label {
+          background :red
+        }
+      }
+  
+    end
+  end
+end
           MULTI_LINE_STRING
         end
         
         def custom_shape_file(custom_shape_name, namespace)
           namespace_type = class_name(namespace) == class_name(current_dir_name) ? 'class' : 'module'
     
-          <<~MULTI_LINE_STRING
-            #{namespace_type} #{class_name(namespace)}
-              class #{class_name(custom_shape_name)}
-                include Glimmer::UI::CustomShape
-            
-                ## Add options like the following to configure CustomShape by outside consumers
-                #
-                # options :option1, option2, option3
-                option :background_color, default: :red
-                option :size_width, default: 100
-                option :size_height, default: 100
-                option :location_x, default: 0
-                option :location_y, default: 0
-            
-                ## Use before_body block to pre-initialize variables to use in body
-                #
-                #
-                # before_body {
-                #
-                # }
-            
-                ## Use after_body block to setup observers for shapes in body
-                #
-                # after_body {
-                #
-                # }
-            
-                ## Add shape content under custom shape body
-                #
-                body {
-                  # Replace example content below with custom shape content
-                  shape(location_x, location_y) {
-                    path {
-                      background background_color
-                      cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*0.65 - size_width*0.66, 0 - size_height*0.33, size_width/2 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
-                    }
-                    path {
-                      background background_color
-                      cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*1.35 - size_width*0.66, 0 - size_height*0.33, size_width*1.5 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
-                    }
-                  }
-                }
-            
-              end
-            end
+          <<-MULTI_LINE_STRING
+#{namespace_type} #{class_name(namespace)}
+  module View
+    class #{class_name(custom_shape_name)}
+      include Glimmer::UI::CustomShape
+  
+      ## Add options like the following to configure CustomShape by outside consumers
+      #
+      # options :option1, option2, option3
+      option :background_color, default: :red
+      option :size_width, default: 100
+      option :size_height, default: 100
+      option :location_x, default: 0
+      option :location_y, default: 0
+  
+      ## Use before_body block to pre-initialize variables to use in body
+      #
+      #
+      # before_body {
+      #
+      # }
+  
+      ## Use after_body block to setup observers for shapes in body
+      #
+      # after_body {
+      #
+      # }
+  
+      ## Add shape content under custom shape body
+      #
+      body {
+        # Replace example content below with custom shape content
+        shape(location_x, location_y) {
+          path {
+            background background_color
+            cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*0.65 - size_width*0.66, 0 - size_height*0.33, size_width/2 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
+          }
+          path {
+            background background_color
+            cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*1.35 - size_width*0.66, 0 - size_height*0.33, size_width*1.5 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
+          }
+        }
+      }
+  
+    end
+  end
+end
           MULTI_LINE_STRING
         end
         

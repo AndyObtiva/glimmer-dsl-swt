@@ -42,3 +42,11 @@ require 'facets/hash/symbolize_keys'
 require 'ext/glimmer/config'
 require 'ext/glimmer'
 require 'glimmer/dsl/swt/dsl'
+
+if defined?(::IRB)
+  begin
+    Kernel.send(:remove_method, :y)
+  rescue
+    # No Op
+  end
+end

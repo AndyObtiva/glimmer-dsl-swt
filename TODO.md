@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make sure that scaffolding shell/app uses new .launch method instead of .open
-- Switch scaffolding to Model:: and View:: scheme just like Tetris
 - Support Windows with bash shell scripts
 
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
