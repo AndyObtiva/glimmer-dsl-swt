@@ -4,8 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update glimmer-setup to behave differently in Windows
-- Fix mandelbrot fractal sample on Windows
+- Update scaffold.rb to produce batch file for scaffolded apps/custom-shell-gems in Windows
 - Support linux with glimmer and girb commands (by conditionally taking off the -J-X option for Mac)
 - Fix Hello CTab, Hello Tab, and Stock Ticker on Windows
 - Use custom widgets for the menu bar and dialogs in scaffolded apps

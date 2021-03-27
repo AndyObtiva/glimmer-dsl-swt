@@ -19,6 +19,7 @@
 - Support Windows with batch file scripts (glimmer.bat and girb.bat) for a faster startup time instead of relying on jruby scripts
 - Fix issue with processing arguments for the `glimmer package` command.
 - Fix issue relating to conflict between `Shape#x`/`Shape#y` methods and the use of the Psych gem `y` method.
+- Fix mandelbrot fractal sample on Windows (added missing `jruby-win32ole` gem for use with `concurrent-ruby` gem)
 
 ### 4.18.7.7
 
