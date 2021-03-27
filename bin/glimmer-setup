@@ -23,46 +23,9 @@
 
 require 'os'
 
-if OS.windows?
-  user_dir = `echo %USERPROFILE%`.strip
-  program_dir = "#{user_dir}\\AppData\\Local\\Microsoft\\WindowsApps"
-  glimmer_command = File.expand_path('../glimmer.bat', __FILE__)
-  girb_command = File.expand_path('../girb.bat', __FILE__)
-  require 'fileutils'
-  FileUtils.cp(glimmer_command, program_dir)
-  FileUtils.cp(girb_command, program_dir)
-  puts <<~OUTPUT
-    You may now run the following commands:
-    
-    glimmer
-    girb
-    
-  OUTPUT
-else
-  version = File.read(File.expand_path('../VERSION', __dir__))
-  puts "== Glimmer DSL for SWT Version #{version.strip} =="
-  
-  glimmer_command = File.expand_path('../glimmer', __FILE__)
-  girb_command = File.expand_path('../girb', __FILE__)
-  
-  glimmer_script = <<~SHELL_SCRIPT
-    function glimmer()
-    {
-      #{glimmer_command} $@
-    }
-    function girb()
-    {
-      #{girb_command} $@
-    }
-  SHELL_SCRIPT
-  
-  
+if OS.mac?
   require 'fileutils'
   home_dir = `echo ~`.strip
-  FileUtils.mkdir_p("#{home_dir}/bin")
-  glimmer_script_file = "#{home_dir}/.glimmer_source"
-  glimmer_script_file_bash = "$HOME/.glimmer_source"
-  File.write(glimmer_script_file, glimmer_script)
   
   [
     ['.bash_profile', '.bashrc'],
@@ -73,18 +36,18 @@ else
     shell_profile_file = "#{home_dir}/#{shell_profile_file_name}"
     FileUtils.touch(shell_profile_file)
     shell_profile = File.read(shell_profile_file)
-    glimmer_source_statement = "source \"#{glimmer_script_file_bash}\""
+    glimmer_source_statement = 'export JRUBY_OPTS="$JRUBY_OPTS -J-XstartOnFirstThread"'
     unless shell_profile.split("\n").detect {|line| line.include?(glimmer_source_statement) }
       File.write(shell_profile_file, "#{shell_profile}\n#{glimmer_source_statement}")
     end
-    puts "~/#{shell_profile_file_name} has been modified to source the `glimmer` and `girb` functions from ~/.glimmer_source"
+    puts "~/#{shell_profile_file_name} has been modified for Glimmer DSL for SWT use on the Mac)"
   end
   
   puts <<~OUTPUT
     
-    Before using `glimmer` or `girb`, start a new shell session in the same directory (open a new terminal tab and go to the same directory) or run:
+    Before using `glimmer` or `girb`, start a new shell session in the same directory (open a new terminal tab and go to the same directory) or run the following command:
     
-    source ~/.glimmer_source
+    export JRUBY_OPTS="$JRUBY_OPTS -J-XstartOnFirstThread"
     
     Afterwards, you may run the following commands:
     

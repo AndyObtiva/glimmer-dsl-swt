@@ -4,7 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update scaffold.rb to produce batch file for scaffolded apps/custom-shell-gems in Windows
+- Remove glimmer.bat and girb.bat in Windows and revert back to original glimmer and girb on Windows and Linux (where extra -J-X switch is not needed except on the Mac). Make the post_install_message indicate that glimmer-setup is only needed on the Mac.
+- Update scaffold.rb to include a setup program on the Mac for clients of apps to install bash/batch scripts to run app and indicate that in gem post_install_message
 - Support linux with glimmer and girb commands (by conditionally taking off the -J-X option for Mac)
 - Fix Hello CTab, Hello Tab, and Stock Ticker on Windows
 - Use custom widgets for the menu bar and dialogs in scaffolded apps

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env jruby
 
 # Copyright (c) 2007-2021 Andy Maleh
 #
@@ -21,8 +21,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if [[ -f "bin/girb_runner.rb" ]]; then
-  jruby -J-XstartOnFirstThread "$@" -S irb -r "./bin/girb_runner"
-else
-  jruby -J-XstartOnFirstThread "$@" -S irb -r "girb_runner"
-fi
+# This script was written for Windows and Linux only
+
+ENV['JRUBY_OPTS'] = ARGV.select {|arg| arg.start_with?('-')}.join(' ')
+
+require_relative 'girb_runner'
+
+require 'irb'
+
+IRB.start('.')

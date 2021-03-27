@@ -177,8 +177,6 @@ module Glimmer
           mkdir_p 'bin'
           write "bin/#{file_name(app_name)}.rb", app_bin_command_file(app_name)
           FileUtils.chmod 0755, "bin/#{file_name(app_name)}.rb"
-          write "bin/#{file_name(app_name)}", gem_bin_command_file(file_name(app_name), file_name(app_name))
-          FileUtils.chmod 0755, "bin/#{file_name(app_name)}"
           if OS.windows?
             system "bundle"
             system "rspec --init"
@@ -190,11 +188,11 @@ module Glimmer
             system "glimmer \"package[image]\"" # TODO handle Windows with batch file
             system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n source ~/.glimmer_source \n glimmer package\n'"
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
             if OS.mac?
               system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
             else
-              system "source ~/.glimmer_source \n glimmer run"
+              system "glimmer run"
             end
           end
         end
@@ -260,9 +258,7 @@ module Glimmer
           mkdir_p "lib/#{gem_name}"
           write "lib/#{gem_name}/launch.rb", gem_launch_file(gem_name, custom_shell_name, namespace)
           mkdir_p 'bin'
-          write "bin/#{gem_name}.rb", app_bin_command_file(gem_name, custom_shell_name, namespace)
-          FileUtils.chmod 0755, "bin/#{gem_name}.rb"
-          write "bin/#{file_name(custom_shell_name)}", gem_bin_command_file(gem_name, custom_shell_name, namespace)
+          write "bin/#{file_name(custom_shell_name)}", app_bin_command_file(gem_name, custom_shell_name, namespace)
           FileUtils.chmod 0755, "bin/#{file_name(custom_shell_name)}"
           if OS.windows?
             system "bundle"
@@ -291,11 +287,11 @@ module Glimmer
             system "glimmer package[image]" # TODO handle windows properly with batch file
             system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n source ~/.glimmer_source \n glimmer package\n'"
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
             if OS.mac?
-              system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app" if OS.mac?
+              system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app"
             else
-              system "source ~/.glimmer_source \n glimmer run"
+              system "glimmer run"
             end
           end
           puts "Finished creating #{gem_name} Ruby gem."
@@ -508,15 +504,6 @@ module Glimmer
           MULTI_LINE_STRING
         end
     
-        def gem_bin_command_file(gem_name, custom_shell_name, namespace = nil)
-          <<~MULTI_LINE_STRING
-            #!/usr/bin/env bash
-            
-            source ~/.glimmer_source
-            glimmer $(dirname $0)/#{gem_name}.rb $@
-          MULTI_LINE_STRING
-        end
-    
         def gem_rakefile(custom_shell_name = nil, namespace = nil, gem_name = nil)
           rakefile_content = File.read('Rakefile')
           lines = rakefile_content.split("\n")
@@ -527,7 +514,7 @@ module Glimmer
             lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'package/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
             # the second executable is needed for warbler as it matches the gem name, which is the default expected file (alternatively in the future, we could do away with it and configure warbler to use the other file)
             lines.insert(gem_files_line_index+1, "  gem.require_paths = ['vendor', 'lib', 'app']")
-            lines.insert(gem_files_line_index+2, "  gem.executables = ['#{gem_name}.rb', '#{file_name(custom_shell_name)}']") if gem_name && custom_shell_name
+            lines.insert(gem_files_line_index+2, "  gem.executables = ['#{file_name(custom_shell_name)}']") if custom_shell_name
           else
             lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'lib/**/*']")
           end
