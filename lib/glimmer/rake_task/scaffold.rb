@@ -175,8 +175,8 @@ module Glimmer
           mkdir_p "app/#{file_name(app_name)}"
           write "app/#{file_name(app_name)}/launch.rb", app_launch_file(app_name)
           mkdir_p 'bin'
-          write "bin/#{file_name(app_name)}.rb", app_bin_command_file(app_name)
-          FileUtils.chmod 0755, "bin/#{file_name(app_name)}.rb"
+          write "bin/#{file_name(app_name)}", app_bin_command_file(app_name)
+          FileUtils.chmod 0755, "bin/#{file_name(app_name)}"
           if OS.windows?
             system "bundle"
             system "rspec --init"

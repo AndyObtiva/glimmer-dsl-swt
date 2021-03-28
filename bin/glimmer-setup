@@ -40,7 +40,7 @@ if OS.mac?
     unless shell_profile.split("\n").detect {|line| line.include?(glimmer_source_statement) }
       File.write(shell_profile_file, "#{shell_profile}\n#{glimmer_source_statement}")
     end
-    puts "~/#{shell_profile_file_name} has been modified for Glimmer DSL for SWT use on the Mac)"
+    puts "~/#{shell_profile_file_name} has been modified"
   end
   
   puts <<~OUTPUT
