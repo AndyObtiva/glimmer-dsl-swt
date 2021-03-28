@@ -20,6 +20,7 @@
 - Fix issue with processing arguments for the `glimmer package` command.
 - Fix issue relating to conflict between `Shape#x`/`Shape#y` methods and the use of the Psych gem `y` method.
 - Fix mandelbrot fractal sample on Windows (added missing `jruby-win32ole` gem for use with `concurrent-ruby` gem)
+- Fix this `glimmer package` message, which comes out even with the right Java version: `WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!`
 
 ### 4.18.7.7
 

@@ -90,8 +90,12 @@ module Glimmer
         
         def native(native_type=nil, native_extra_args)
           puts "Generating native executable with javapackager/jpackage..."
-          java_version = `java -version`
-          puts "WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!" unless java_version.include?('1.8.0_241')
+          java_version = `jruby -v`
+          if java_version.include?('1.8.0_241')
+            puts "Java Version 1.8.0_241 Detected!"
+          else
+            puts "WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!"
+          end
           require 'facets/string/titlecase'
           require 'facets/string/underscore'
           require 'facets/string/camelcase'
@@ -121,6 +125,7 @@ module Glimmer
             puts "Neither javapackager nor jpackage exist in your Java installation. Please ensure javapackager or jpackage is available in PATH environment variable."
             return
           end
+          Rake.application.load_rakefile # make sure to load potential javapackager_extra_args config in app Rakefile
           command += " #{javapackager_extra_args} " if javapackager_extra_args
           command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
           command += " #{native_extra_args} " if native_extra_args
