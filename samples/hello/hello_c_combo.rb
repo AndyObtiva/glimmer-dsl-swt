@@ -47,7 +47,7 @@ class HelloCCombo
         fill true
       }
       
-      text 'Hello, CCombo!'
+      text 'Hello, C Combo!'
       
       c_combo(:read_only) {
         selection bind(@person, :country) # also binds to country_options by convention

@@ -105,7 +105,7 @@ Code:
 
 #### Hello, C Tab!
 
-This sample demonstrates custom tab widget usage (`c_tab_folder` and `c_tab_item`), which supports more customizations to tab fonts/background/foreground colors and display of extra additional tabs via a drop down.
+This sample demonstrates custom tab widget usage via the `c_tab_folder` and `c_tab_item` variations of `tab_folder` and `tab_item`, which can customize fonts/background/foreground colors for tabs and display additional tabs that do not fit in the window via a drop down.
 
 Code:
 
@@ -114,6 +114,8 @@ Code:
 ![Hello C Tab](/images/glimmer-hello-c-tab.png)
 ![Hello C Tab Extra Tabs](/images/glimmer-hello-c-tab-extra-tabs.png)
 ![Hello C Tab Other Tab](/images/glimmer-hello-c-tab-other-tab.png)
+
+Country flag images were made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](http://www.flaticon.com)
 
 #### Hello, Combo!
 

@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# Country flag images were made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](http://www.flaticon.com)
+
 require 'glimmer-dsl-swt'
 
 class HelloCTab
@@ -41,12 +43,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            ### building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇺🇸', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/usa.png', __dir__)
           
           label {
             text 'Hello, World!'
@@ -60,12 +57,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            ### building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇫🇷', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/france.png', __dir__)
           
           label {
             text 'Bonjour, Univers!'
@@ -79,12 +71,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            ### building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇪🇸', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/mexico.png', __dir__)
           
           label {
             text 'Hola, Mundo!'
@@ -98,12 +85,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇩🇪', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/germany.png', __dir__)
 
           label {
             text 'Hallo, Welt!'
@@ -117,12 +99,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇮🇹', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/italy.png', __dir__)
 
           label {
             text 'Ciao, Mondo!'
@@ -136,34 +113,10 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇳🇱', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/netherlands.png', __dir__)
 
           label {
             text 'Hallo, Wereld!'
-            font name: 'Times New Roman', height: 90, style: [:bold, :italic]
-          }
-        }
-
-        c_tab_item(:close) {
-          text 'Portuguese'
-          tool_tip_text 'Portuguese Greeting'
-          foreground :blue
-          selection_foreground :dark_blue
-          font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇧🇷', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
-
-          label {
-            text 'Olá, Mundo!'
             font name: 'Times New Roman', height: 90, style: [:bold, :italic]
           }
         }
@@ -174,12 +127,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇩🇰', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/denmark.png', __dir__)
 
           label {
             text 'Hej, Verden!'
@@ -193,34 +141,10 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇫🇮', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/finland.png', __dir__)
 
           label {
             text 'Hei, Maailma!'
-            font name: 'Times New Roman', height: 90, style: [:bold, :italic]
-          }
-        }
-
-        c_tab_item(:close) {
-          text 'Swedish'
-          tool_tip_text 'Swedish Greeting'
-          foreground :blue
-          selection_foreground :dark_blue
-          font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇸🇪', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
-
-          label {
-            text 'Hej, Världen!'
             font name: 'Times New Roman', height: 90, style: [:bold, :italic]
           }
         }
@@ -231,12 +155,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇳🇴', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
+          image File.expand_path('hello_c_tab/norway.png', __dir__)
 
           label {
             text 'Hei, Verden!'
@@ -244,27 +163,10 @@ class HelloCTab
           }
         }
 
-        c_tab_item(:close) {
-          text 'Russian'
-          tool_tip_text 'Russian Greeting'
-          foreground :blue
-          selection_foreground :dark_blue
-          font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image image(30, 30) {
-            # building image on the fly with Canvas Shape DSL text shape flag emoji
-            text('🇷🇺', 0, 0) {
-              font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-            }
-          }
-
-          label {
-            text 'Привет, мир!'
-            font name: 'Times New Roman', height: 90, style: [:bold, :italic]
-          }
-        }
-
       }
+
     }
+
   }
 end
 

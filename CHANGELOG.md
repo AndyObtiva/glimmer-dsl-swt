@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.19.0.1
+
+- Upgrade to JRuby 9.2.17.0
+- Fix Hello CTab on Windows
+
 ### 4.19.0.0
 
 - Upgrade to SWT 4.19
