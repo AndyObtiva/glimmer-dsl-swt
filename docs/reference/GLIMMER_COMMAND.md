@@ -166,15 +166,12 @@ $ glimmer scaffold[greeter]
   create  Rakefile
   create  Gemfile
   create  LICENSE.txt
-  create  README.rdoc
+  create  README.markdown
   create  .document
   create  lib
-  create  lib/greeter.rb
-  create  spec
-  create  spec/spec_helper.rb
-  create  spec/greeter_spec.rb
+  create  lib/snowboard_utah.rb
   create  .rspec
-Juwelier has prepared your gem in ./greeter
+Juwelier has prepared your gem in ./snowboard_utah
 Created greeter/.gitignore
 Created greeter/.ruby-version
 Created greeter/.ruby-gemset
@@ -183,16 +180,18 @@ Created greeter/LICENSE.txt
 Created greeter/Gemfile
 Created greeter/Rakefile
 Created greeter/app/greeter.rb
-Created greeter/app/views/greeter/app_view.rb
-Created greeter/package/windows/Greeter.ico
-Created greeter/package/macosx/Greeter.icns
-Created greeter/package/linux/Greeter.png
+Created greeter/app/greeter/view/app_view.rb
+Created greeter/package/windows/Snowboard Utah.ico
+Created greeter/package/macosx/Snowboard Utah.icns
+Created greeter/package/linux/Snowboard Utah.png
+Created greeter/app/greeter/launch.rb
 Created greeter/bin/greeter
-Created greeter/spec/spec_helper.rb
 ...
 ```
 
 Eventually, it will launch an advanced "Hello, World!" app window having the title of your application ("Greeter").
+
+(note: javapackager might claim at the end "Error: Bundler "DMG Installer" (dmg) failed to produce a bundle.", but it's a false negative since it works fully anyways)
 
 ![Glimmer Scaffold App](/images/glimmer-scaffolding-app.png)
 
@@ -256,21 +255,6 @@ You should see output like the following:
 
 ```
 $ glimmer scaffold:desktopify[snowboard_utah,https://www.brightonresort.com]
-Fetching kamelcase-0.0.2.gem
-Fetching github_api-0.19.0.gem
-Fetching highline-2.0.3.gem
-Fetching juwelier-2.4.9.gem
-Fetching hashie-3.6.0.gem
-Fetching nokogiri-1.10.10-java.gem
-Fetching semver2-3.4.2.gem
-Successfully installed semver2-3.4.2
-Successfully installed kamelcase-0.0.2
-Successfully installed highline-2.0.3
-Successfully installed hashie-3.6.0
-Successfully installed github_api-0.19.0
-Successfully installed nokogiri-1.10.10-java
-Successfully installed juwelier-2.4.9
-7 gems installed
   create  .gitignore
   create  Rakefile
   create  Gemfile
@@ -289,15 +273,18 @@ Created snowboard_utah/LICENSE.txt
 Created snowboard_utah/Gemfile
 Created snowboard_utah/Rakefile
 Created snowboard_utah/app/snowboard_utah.rb
-Created snowboard_utah/app/views/snowboard_utah/app_view.rb
+Created snowboard_utah/app/snowboard_utah/view/app_view.rb
 Created snowboard_utah/package/windows/Snowboard Utah.ico
 Created snowboard_utah/package/macosx/Snowboard Utah.icns
 Created snowboard_utah/package/linux/Snowboard Utah.png
+Created snowboard_utah/app/snowboard_utah/launch.rb
 Created snowboard_utah/bin/snowboard_utah
 ...
 ```
 
 Eventually, it will launch a desktopified version of "https://www.brightonresort.com" having the title of ("Snowboard Utah").
+
+(note: javapackager might claim at the end "Error: Bundler "DMG Installer" (dmg) failed to produce a bundle.", but it's a false negative since it works fully anyways)
 
 Desktopified App on Mac
 
@@ -570,10 +557,10 @@ Output:
 
   Glimmer Custom Shape Gems at rubygems.org:
                                                                                                      
-     Name                Gem             Version     Author                 Description              
+     Name                Gem             Version     Author                 Description
                                                                                                      
-  Bevel         glimmer-cp-bevel         0.1.1     Andy Maleh   Bevel - Glimmer Custom Shape         
-  Stickfigure   glimmer-cp-stickfigure   0.1.1     Andy Maleh   Stick Figure - Glimmer Custom Shape  
+  Bevel         glimmer-cp-bevel         0.1.1     Andy Maleh   Bevel - Glimmer Custom Shape
+  Stickfigure   glimmer-cp-stickfigure   0.1.1     Andy Maleh   Stick Figure - Glimmer Custom Shape
   
 ```
 
@@ -630,6 +617,8 @@ Or, the following on Mac:
 ```
 jruby -J-XstartOnFirstThread -r glimmer-dsl-swt -S application.rb
 ```
+
+Unless you ran `glimmer-setup`, which adds `JRUBY_OPTS` environment variable that includes the `-J-XstartOnFirstThread` option automatically so you would not have to specify manually.
 
 If you want to use a specific custom version of SWT, run the following on Windows/Linux:
 

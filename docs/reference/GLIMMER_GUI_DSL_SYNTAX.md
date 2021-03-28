@@ -3475,7 +3475,7 @@ shell { |app_shell|
 }.open
 ```
 
-If you use a Custom Shell as the top-level app shell, you may invoke the class method `::launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
+If you use a Custom Shell as the top-level app shell, you may invoke the class method `.launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
 
 You may check out [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) for another example.
 

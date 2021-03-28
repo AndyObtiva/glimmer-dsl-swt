@@ -2,7 +2,9 @@
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
     - [Hello, Tab!](#hello-tab)
+    - [Hello, C Tab!](#hello-c-tab)
     - [Hello, Combo!](#hello-combo)
+    - [Hello, C Combo!](#hello-c-combo)
     - [Hello, List Single Selection!](#hello-list-single-selection)
     - [Hello, List Multi Selection!](#hello-list-multi-selection)
     - [Hello, Computed!](#hello-computed)
@@ -101,6 +103,18 @@ Code:
 ![Hello Tab English](/images/glimmer-hello-tab-english.png)
 ![Hello Tab French](/images/glimmer-hello-tab-french.png)
 
+#### Hello, C Tab!
+
+This sample demonstrates custom tab widget usage (`c_tab_folder` and `c_tab_item`), which supports more customizations to tab fonts/background/foreground colors and display of extra additional tabs via a drop down.
+
+Code:
+
+[samples/hello/hello_c_tab.rb](/samples/hello/hello_c_tab.rb)
+
+![Hello C Tab](/images/glimmer-hello-c-tab.png)
+![Hello C Tab Extra Tabs](/images/glimmer-hello-c-tab-extra-tabs.png)
+![Hello C Tab Other Tab](/images/glimmer-hello-c-tab-other-tab.png)
+
 #### Hello, Combo!
 
 This sample demonstrates combo data-binding.
@@ -111,6 +125,17 @@ Code:
 
 ![Hello Combo](/images/glimmer-hello-combo.png)
 ![Hello Combo Expanded](/images/glimmer-hello-combo-expanded.png)
+
+#### Hello, C Combo!
+
+This sample demonstrates the custom combo variation on combo, which allows the adjustment of the combo height based on font height or layout data.
+
+Code:
+
+[samples/hello/hello_c_combo.rb](/samples/hello/hello_c_combo.rb)
+
+![Hello Combo](/images/glimmer-hello-c-combo.png)
+![Hello Combo Expanded](/images/glimmer-hello-c-combo-expanded.png)
 
 #### Hello, List Single Selection!
 

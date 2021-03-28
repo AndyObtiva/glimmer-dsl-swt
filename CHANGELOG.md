@@ -4,21 +4,18 @@
 
 - Upgrade to SWT 4.19
 - Upgrade to JRuby 9.2.16.0
+- Speed up glimmer command startup time by not spawning a jruby a second time for handling Mac-specific options (cutting down glimmer app startup time to half)
+- glimmer-setup command configures `glimmer` and `girb` for the Mac with `-X-JstartOnFirstThread` in a `JRUBY_OPTS` environment variable
+- Switch all scaffolded models/views to `Model::` and `View::` namespacing instead of the namespaceless 'models' and 'views' directories (new scheme was originally introduced in the Tetris sample)
+- Make sure that scaffolded shell/app uses new custom shell built-in `.launch` method instead of custom written `.open` method
+- Make `scaffold:desktopify` generated app window shell fill the screen by default
+- Support `c_tab_folder` and `c_tab_item`
 - Support `c_combo` (`org.eclipse.swt.custom.CCombo` SWT widget) data-binding
 - Hello, CCombo!
-- Shape#clear_shapes just like that of Drawable in WidgetProxy
-- Speed up glimmer command startup time by switching to a shell script
-- glimmer-setup command installs `glimmer` and `girb` as shell commands
-- Make scaffold:desktopify generated app window shell fill the screen by default
-- Support `c_tab_folder` and `c_tab_item`
 - Hello, C Tab!
-- Update scaffolding runnables to be bash scripts instead of Ruby scripts to run faster
+- Shape#clear_shapes just like that of Drawable in WidgetProxy
 - Set default background of `rgb(230, 230, 230)` on sash_form to make it more spottable to resize the sash
-- Switch scaffolding to `Model::` and `View::` namespacing instead of the namespace-less 'models' and 'views' directories (new scheme was originally introduced in the Tetris sample)
-- Make sure that scaffolded shell/app uses new custom shell built-in `.launch` method instead of custom written `.open` method
-- Support Windows with batch file scripts (glimmer.bat and girb.bat) for a faster startup time instead of relying on jruby scripts
 - Fix issue with processing arguments for the `glimmer package` command.
-- Fix issue relating to conflict between `Shape#x`/`Shape#y` methods and the use of the Psych gem `y` method.
 - Fix mandelbrot fractal sample on Windows (added missing `jruby-win32ole` gem for use with `concurrent-ruby` gem)
 - Fix this `glimmer package` message, which comes out even with the right Java version: `WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!`
 

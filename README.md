@@ -15,7 +15,7 @@
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.19.0.0 includes [SWT 4.19](https://download.eclipse.org/eclipse/downloads/drops4/R-4.19-202103031800/), which was released on December 2, 2020. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.19.0.0 includes [SWT 4.19](https://download.eclipse.org/eclipse/downloads/drops4/R-4.19-202103031800/), which was released on March 3, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 [Glimmer DSL for SWT receives two updates per month](https://rubygems.org/gems/glimmer-dsl-swt/versions). You can trust [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) with your Ruby desktop GUI development needs! [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) brings great ideas to the table, such as declarative programming via domain specific languages, currently under-utilized in the GUI domain. That said, it may not be feature complete enough for everybody's needs, so please help make [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) even better by providing feedback and [contributing](#contributing) when possible. The project is very active, so any feature suggestions that are accepted could be implemented within weeks if not days. Also, you are welcome to [hire me](#hire-me) full-time if you want long-term development of [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) for your project needs.
 
@@ -348,6 +348,16 @@ jgem install glimmer-dsl-swt -v 4.19.0.0
 `jgem` is JRuby's version of `gem` command.
 RVM allows running `gem install` directly as an alias.
 Otherwise, you may also run `jruby -S gem install ...`
+
+Afterwards, you can use `glimmer` and `girb` commands.
+
+On the Mac, you also have to run:
+
+```
+glimmer-setup
+```
+
+This ensures configuring extra required Mac options before using `glimmer` and `girb` commands.
 
 If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](https://github.com/AndyObtiva/glimmer#glimmer-command) section.
 

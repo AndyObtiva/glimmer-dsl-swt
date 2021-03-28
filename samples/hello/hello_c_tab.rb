@@ -33,6 +33,7 @@ class HelloCTab
       c_tab_folder { # accepts styles: :close, :top, :bottom, :flat, :border, :single, :multi
         layout_data {
           width 1024
+          height 200
         }
         c_tab_item(:close) {
           text 'English'
@@ -162,7 +163,7 @@ class HelloCTab
           }
 
           label {
-            text 'Hello, Gifu!'
+            text 'Olá, Mundo!'
             font name: 'Times New Roman', height: 90, style: [:bold, :italic]
           }
         }
