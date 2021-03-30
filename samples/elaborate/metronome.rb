@@ -69,7 +69,7 @@ class Metronome
   }
   
   body {
-    shell {
+    shell(:no_resize) {
       row_layout(:vertical) {
         center true
       }
