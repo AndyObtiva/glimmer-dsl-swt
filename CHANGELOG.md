@@ -3,7 +3,8 @@
 ### 4.19.0.1
 
 - Upgrade to JRuby 9.2.17.0
-- Fix Hello CTab on Windows
+- Fix Hello, C Tab! sample not showing flags on Windows
+- Fix Stock Ticker elaborate sample non-scrolling and clipped stock names on Windows
 
 ### 4.19.0.0
 
