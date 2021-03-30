@@ -110,7 +110,7 @@ class StockTicker
                 tab[:canvas].set_size(new_x_location, @tabs.first[:canvas].bounds.height)
                 tab[:canvas].cursor = :hand
                 tab[:scrolled_composite].set_min_size(new_x_location, @tabs.first[:canvas].bounds.height)
-                tab[:scrolled_composite].set_origin(tab[:scrolled_composite].origin.x + 1, tab[:scrolled_composite].origin.y) if (tab[:scrolled_composite].origin.x + tab[:scrolled_composite].client_area.width + 20) == canvas_width
+                tab[:scrolled_composite].set_origin(tab[:scrolled_composite].origin.x + 1, tab[:scrolled_composite].origin.y) if (tab[:scrolled_composite].origin.x + tab[:scrolled_composite].client_area.width + (OS.mac? ? 0 : 20)) == canvas_width
               end
             else
               tab[:canvas_header].content {

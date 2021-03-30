@@ -38,7 +38,7 @@ GEM
     hashie (3.6.0)
     highline (2.0.3)
     jar-dependencies (0.4.1)
-    jruby-jars (9.2.16.0)
+    jruby-jars (9.2.17.0)
     jruby-rack (1.1.21)
     jruby-win32ole (0.8.5)
     json (2.5.1-java)
