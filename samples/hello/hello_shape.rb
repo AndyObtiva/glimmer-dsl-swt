@@ -46,6 +46,7 @@ class HelloShape
   }
   
   # method-based custom shape using `shape` keyword as a composite shape containing nested shapes
+  # See HelloCustomShape sample for a class-based custom shape alternative that enables extracting custom shape to a separate class/file
   def stick_figure(x, y, width, height, &block)
     head_width = width*0.2
     head_height = height*0.2
