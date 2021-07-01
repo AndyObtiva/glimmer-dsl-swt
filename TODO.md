@@ -9,6 +9,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
+- Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
 - Fix issue with `glimmer samples` not honoring code changes in external samples coming from gems (like `glimmer-cp-stickfigure`) though it runs them just fine (at least make uneditable until fixed)
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 - Fix issue of fixing version number when scaffolding custom shape/widget/shell gems (instead of relaxing it to >=)
