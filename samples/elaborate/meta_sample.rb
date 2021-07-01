@@ -268,8 +268,10 @@ class MetaSampleApplication
           root {
             grid_layout(2, false) {
               horizontal_spacing 0
-              margin_width 0
-              margin_height 0
+              margin_left 0
+              margin_right 0
+              margin_top 0
+              margin_bottom 0
             }
           }
           line_numbers {

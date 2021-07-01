@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.19.0.2
+
+- Fixed issue with Meta-Sample code editing not showing changes properly (although recording them)
+
 ### 4.19.0.1
 
 - Upgrade to JRuby 9.2.17.0
