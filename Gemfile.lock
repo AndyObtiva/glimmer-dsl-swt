@@ -6,7 +6,7 @@ GEM
     array_include_methods (1.0.4)
     awesome_print (1.9.2)
     builder (3.2.4)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
@@ -166,4 +166,4 @@ RUBY VERSION
    ruby 2.5.7p0 (jruby 9.2.14.0)
 
 BUNDLED WITH
-   2.2.15
+   2.2.21
