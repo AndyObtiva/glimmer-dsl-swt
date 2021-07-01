@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.0.0
+
+- Changed Hello, Code Text! sample back to the way it originally was (3 tabs)
+
 ### 4.19.0.2
 
 - Fixed issue with Meta-Sample code editing not showing changes properly (although recording them)
