@@ -103,7 +103,7 @@ class Mandelbrot
       puts "Points calculated already. Returning previously calculated points..."
       return @points
     end
-    thread_pool = Concurrent::FixedThreadPool.new(Mandelbrot.processor_count, fallback_policy: :discard)
+    @thread_pool = Concurrent::FixedThreadPool.new(Mandelbrot.processor_count, fallback_policy: :discard)
     @points = Concurrent::Array.new(height)
     Mandelbrot.work_in_progress = "Calculating Mandelbrot Points for Zoom #{zoom}x"
     Mandelbrot.progress = 0
@@ -112,15 +112,15 @@ class Mandelbrot
     height.times do |y|
       @points[y] ||= Concurrent::Array.new(width)
       width.times do |x|
-        thread_pool.post do
+        @thread_pool.post do
           @points[y][x] = calculate(x_array[x], y_array[y]).last
           point_index += 1
           Mandelbrot.progress += 1 if (point_index.to_f / point_count.to_f)*PROGRESS_MAX >= Mandelbrot.progress
         end
       end
     end
-    thread_pool.shutdown
-    thread_pool.wait_for_termination
+    @thread_pool.shutdown
+    @thread_pool.wait_for_termination
     Mandelbrot.progress = PROGRESS_MAX
     @points_calculated = true
     @points
@@ -164,7 +164,7 @@ class MandelbrotFractal
     }
     # pre-calculate zoomed mandelbrot images even before the user zooms in
     puts 'Starting background calculation thread...'
-    Thread.new {
+    @thread = Thread.new {
       future_zoom = 1.5
       loop {
         puts "Creating mandelbrot for background calculation at zoom: #{future_zoom}"
@@ -183,6 +183,11 @@ class MandelbrotFractal
       text bind(self, :mandelbrot_shell_title)
       minimum_size mandelbrot.width + 29, mandelbrot.height + 77
       image @mandelbrot_image
+            
+      on_shell_closed {
+        @thread.kill # should not be dangerous in this case
+        puts "Mandelbrot background calculation stopped!"
+      }
       
       progress_bar {
         layout_data :fill, :center, true, false

@@ -3,6 +3,7 @@
 ### 4.19.0.2
 
 - Fixed issue with Meta-Sample code editing not showing changes properly (although recording them)
+- Stop Mandelbrot Fractal sample background calculation when its custom shell is closed
 
 ### 4.19.0.1
 
