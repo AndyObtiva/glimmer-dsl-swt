@@ -21,6 +21,7 @@
 
 require 'glimmer-dsl-swt'
 
+# This is a sample for the c_combo widget, a more customizable version of combo
 class HelloCCombo
   class Person
     attr_accessor :country, :country_options

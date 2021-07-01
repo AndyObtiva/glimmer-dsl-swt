@@ -23,6 +23,7 @@
 
 require 'glimmer-dsl-swt'
 
+# This is a sample for the Custom Tab widgets (c_tab_folder & c_tab_item), which are more customizable versions of tab_folder and tab_item.
 class HelloCTab
   include Glimmer::UI::CustomShell
   

@@ -47,6 +47,9 @@ class HelloSpinner
         grid_layout 3, false
         
         label {
+          layout_data {
+            width_hint 240
+          }
           text 'Amount:'
           font style: :bold
         }
@@ -65,6 +68,7 @@ class HelloSpinner
         }
         
         label {
+          layout_data(:fill, :center, true, false)
           text bind(@person, :donation) {|value| "Thank you for your donation of $#{"%.2f" % (value.to_f / 100.0)}"}
         }
 

@@ -49,7 +49,7 @@ end
 include Glimmer
 
 @presenter = StyledTextPresenter.new
-@presenter.text = verbiage*8
+@presenter.text = verbiage*4
 @presenter.caret_offset = 0
 @presenter.selection_count = 0
 @presenter.selection = Point.new(0, 0)

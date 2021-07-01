@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.19.0.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.20.0.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -15,7 +15,7 @@
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.19.0.2 includes [SWT 4.19](https://download.eclipse.org/eclipse/downloads/drops4/R-4.19-202103031800/), which was released on March 3, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.0.0 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter to help troubleshooting faster).
 
 Please help make [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) better by providing feedback and [contributing](#contributing) whenever possible. Any feature suggestions that are accepted could be implemented within weeks if not days.
 
@@ -308,17 +308,14 @@ https://www.eclipse.org/swt/faq.php
 ## Pre-requisites
 
 - JDK 8u241 (1.8.0_241) (find at https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html / On Windows, ensure PATH includes Java bin directory  like C:\Program Files\Java\jdk1.8.0_241\bin for javapackager to work during packaging Glimmer applications)
-- JRuby 9.2.17.0 (supporting Ruby 2.5.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux or find at [https://www.jruby.org/download](https://www.jruby.org/download) for Windows)
-- SWT 4.19 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem)
+- [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
+- JRuby 9.2.19.0 (supporting Ruby 2.5.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.2.19.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
+- SWT 4.20 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
-To obtain JRuby through [RVM](http://rvm.io), you may run:
-
-```bash
-rvm install jruby-9.2.17.0
-```
-
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.
+
+To change the SWT version to a custom `swt.jar` version that you have, simply set the 'SWT_JAR_FILE_PATH' env var.
 
 ## Setup
 
@@ -342,7 +339,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.19.0.2
+jgem install glimmer-dsl-swt -v 4.20.0.0
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -370,7 +367,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.19.0.2'
+gem 'glimmer-dsl-swt', '~> 4.20.0.0'
 ```
 
 And, then run:
@@ -391,7 +388,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.19.0.2
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.20.0.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
