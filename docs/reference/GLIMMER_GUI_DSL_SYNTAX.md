@@ -2295,7 +2295,7 @@ text <=> [@contact, :last_name]
 text <= [@contact, :name, computed_by: [:first_name, :last_name]]
 ```
 
-Note that `table` and `tree` are not supported by Shine yet, so continue to use `bind` with them for the time being.
+Note that `table`, `tree`, custom widgets, custom shapes, and animations are not supported by Shine syntax for data-binding yet, so continue to use `bind` with them for the time being.
 
 Check out [sample code](/samples) for more examples of Shine syntax in action, such as [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed).
 
