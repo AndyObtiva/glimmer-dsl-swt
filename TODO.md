@@ -4,16 +4,32 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
+```ruby
+items <=> [model, property] # bidirectional
+items <= [model, property] # ready-only
+items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
+items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
+items <=> {model: model, attribute: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
+items <= {model: model, attribute: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
+table { items <=> [model, prop, column_properties: [...]] } (table takes column properties in array)
+table { items <=> } becomes :editable
+table { items <= } is not editable
+```
+- Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
+- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup select property (virtual perhaps) and custom widgets and hello cursor and
+- Hello, Shell!
+- Hello, Layout!
+
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 
 - Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
-- Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
 - Fix issue with `glimmer samples` not honoring code changes in external samples coming from gems (like `glimmer-cp-stickfigure`) though it runs them just fine (at least make uneditable until fixed)
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 - Fix issue of fixing version number when scaffolding custom shape/widget/shell gems (instead of relaxing it to >=)
-
+- Fix the weird code text github theme gray artifacts in the html example (to the left of indented text, which goes away on hitting enter)
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
 - Update Stock Ticker with live stocks from the web / Web data API connected sample app (something that perhaps pulls governmental data and summarizes it/graphs it). Demonstrate how you can write this in a fraction of web code.
@@ -268,29 +284,6 @@ composite {
 
 ## Technical Tasks
 
-- Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
-```ruby
-items <=> 'model.property' # bidirectional
-items <= 'model.property' # ready-only
-items <=> [model, property] # bidirectional
-items <= [model, property] # ready-only
-items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
-items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
-items <=> binding('model.property') # bidirectional explicit binding
-items <= binding('model.property') # ready-only explicit binding
-items <= binding('model.property') {|x| x + 2} # read-only explicit binding with converter
-items <=> binding { # bidirectional explicit binding on_read/on_write converters
-  model model
-  property :property
-  on_read {|v| !v}
-  on_write {|v| !v}
-}
-items <=> binding {
-  path 'model.property'
-  on_read {|v| !v}
-  on_write {|v| !v}
-}
-```
 - Change table editing support to rely on data-binding
 - Improve tree databinding so that replacing content array value updates the tree (instead of clearing and rereading elements)
 - Consider need for a startup progress dialog (with Glimmer branding)

@@ -2,7 +2,10 @@
 
 ### 4.20.0.0
 
-- Changed Hello, Code Text! sample back to the way it originally was (3 tabs)
+- Upgrade to SWT 4.20, supporting AARCH64 experimentally
+- Upgrade to JRuby 9.2.19.0
+- Shine syntax for data-binding
+- Tweak/Fix Samples
 
 ### 4.19.0.2
 

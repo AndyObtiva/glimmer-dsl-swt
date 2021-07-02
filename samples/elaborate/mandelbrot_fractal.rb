@@ -180,7 +180,7 @@ class MandelbrotFractal
   body {
     shell(:no_resize) {
       grid_layout
-      text bind(self, :mandelbrot_shell_title)
+      text <= [self, :mandelbrot_shell_title]
       minimum_size mandelbrot.width + 29, mandelbrot.height + 77
       image @mandelbrot_image
             
@@ -194,7 +194,7 @@ class MandelbrotFractal
 
         minimum 0
         maximum Mandelbrot::PROGRESS_MAX
-        selection bind(Mandelbrot, :progress)
+        selection <= [Mandelbrot, :progress]
       }
           
       @scrolled_composite = scrolled_composite {

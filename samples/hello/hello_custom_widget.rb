@@ -55,7 +55,7 @@ class GreetingLabel
     label(swt_style) {
       text "#{greeting}, #{name}!"
       font @font
-      foreground bind(self, :color)
+      foreground <=> [self, :color]
     }
   }
   

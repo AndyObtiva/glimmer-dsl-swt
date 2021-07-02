@@ -46,7 +46,7 @@ class HelloAnimationDataBinding
           digits 3
           minimum 1
           maximum 100
-          selection bind(self, :delay_time, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f})
+          selection <=> [self, :delay_time, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f}]
         }
         animation {
           every bind(self, :delay_time)

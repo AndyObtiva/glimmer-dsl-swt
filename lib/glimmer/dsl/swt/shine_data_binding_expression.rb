@@ -19,45 +19,29 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer-dsl-swt'
+require 'glimmer/dsl/expression'
+require 'glimmer/data_binding/model_binding'
+require 'glimmer/data_binding/widget_binding'
+require 'glimmer/swt/display_proxy'
+require 'glimmer/data_binding/shine'
 
-class HelloListSingleSelection
-  class Person
-    attr_accessor :country, :country_options
+module Glimmer
+  module DSL
+    module SWT
+      class ShineDataBindingExpression < Expression
+        def can_interpret?(parent, keyword, *args, &block)
+          args.size == 0 and
+            block.nil? and
+            parent.respond_to?(:set_attribute) and
+            parent.respond_to?(:has_attribute?) and
+            parent.has_attribute?(keyword, *args) and
+            !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')
+        end
   
-    def initialize
-      self.country_options = ['', 'Canada', 'US', 'Mexico']
-      reset_country!
-    end
-  
-    def reset_country!
-      self.country = 'Canada'
+        def interpret(parent, keyword, *args, &block)
+          Glimmer::DataBinding::Shine.new(parent, keyword)
+        end
+      end
     end
   end
-  
-  include Glimmer::UI::CustomShell
-  
-  before_body {
-    @person = Person.new
-  }
-  
-  body {
-    shell {
-      grid_layout
-      
-      text 'Hello, List Single Selection!'
-      
-      list {
-        selection <=> [@person, :country] # also binds to country_options by convention
-      }
-      
-      button {
-        text 'Reset Selection To Default Value'
-        
-        on_widget_selected { @person.reset_country! }
-      }
-    }
-  }
 end
-
-HelloListSingleSelection.launch

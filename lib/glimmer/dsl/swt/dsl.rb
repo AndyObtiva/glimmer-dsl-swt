@@ -52,6 +52,7 @@ module Glimmer
           image
           multiply
           property
+          shine_data_binding
           block_property
           dialog
           widget

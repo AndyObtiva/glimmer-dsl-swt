@@ -56,22 +56,22 @@ class HelloCheckbox
       composite {
         checkbox {
           text 'Skiing'
-          selection bind(@person, :skiing)
+          selection <=> [@person, :skiing]
         }
         
         checkbox {
           text 'Snowboarding'
-          selection bind(@person, :snowboarding)
+          selection <=> [@person, :snowboarding]
         }
         
         checkbox {
           text 'Snowmobiling'
-          selection bind(@person, :snowmobiling)
+          selection <=> [@person, :snowmobiling]
         }
         
         checkbox {
           text 'Snowshoeing'
-          selection bind(@person, :snowshoeing)
+          selection <=> [@person, :snowshoeing]
         }
       }
       

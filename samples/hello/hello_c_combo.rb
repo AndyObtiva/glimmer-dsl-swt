@@ -51,7 +51,7 @@ class HelloCCombo
       text 'Hello, C Combo!'
       
       c_combo(:read_only) {
-        selection bind(@person, :country) # also binds to country_options by convention
+        selection <=> [@person, :country] # also binds to country_options by convention
         font height: 45 # unlike `combo`, `c_combo` changes height when setting the font height
       }
       

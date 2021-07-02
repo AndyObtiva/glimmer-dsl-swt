@@ -51,7 +51,7 @@ class ContactManager
           }
           text {
             layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :first_name)
+            text <=> [@contact_manager_presenter, :first_name]
             on_key_pressed {|key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
             }
@@ -64,7 +64,7 @@ class ContactManager
           }
           text {
             layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :last_name)
+            text <=> [@contact_manager_presenter, :last_name]
             on_key_pressed {|key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
             }
@@ -77,7 +77,7 @@ class ContactManager
           }
           text {
             layout_data :fill, :center, true, false
-            text bind(@contact_manager_presenter, :email)
+            text <=> [@contact_manager_presenter, :email]
             on_key_pressed {|key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
             }
@@ -118,6 +118,7 @@ class ContactManager
             grab_excess_vertical_space true
             height_hint 200
           }
+          
           table_column {
             text "First Name"
             width 80
@@ -130,8 +131,9 @@ class ContactManager
             text "Email"
             width 200
           }
-          items bind(@contact_manager_presenter, :results),
-          column_properties(:first_name, :last_name, :email)
+          
+          items bind(@contact_manager_presenter, :results), column_properties(:first_name, :last_name, :email)
+          
           on_mouse_up { |event|
             table_proxy.edit_table_item(event.table_item, event.column_index)
           }

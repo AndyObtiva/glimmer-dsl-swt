@@ -2232,13 +2232,13 @@ This example adds on the one above it by specifying converters on read and write
 
 `text bind(contact, 'address.street', sync_exec: true)`
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 This example forces GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
 
 `text bind(contact, 'address.street', async_exec: true)`
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 This example forces GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
 
@@ -2250,7 +2250,7 @@ This example also specifies a converter on read of the model property, but via a
 
 This is a block shortcut version of the syntax above it. It facilitates formatting model data for read-only widgets since it's a very common view concern. It also saves the developer from having to create a separate formatter/presenter for the model when the view can be an active view that handles common simple formatting operations directly.
 
-`text bind(contact, 'address.street', read_only: true)
+`text bind(contact, 'address.street', read_only: true)`
 
 This is read-ohly data-binding. It doesn't update contact.address.street when widget text property is changed.
 
@@ -2271,6 +2271,33 @@ This example demonstrates computed value data binding whereby the value of `name
 This example demonstrates nested indexed computed value data binding whereby the value of `profiles[0].name` depends on changes to both nested `profiles[0].first_name` and `profiles[0].last_name`.
 
 Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+#### Shine
+
+**(EARLY ALPHA FEATURE)**
+
+The new Shine syntax for View/Model Attribute Mapping allows data-binding visually with simple arrow operators in Ruby.
+
+Use `<=> [model, attribute, options]` for bidirectional (two-way) data-binding instead of `bind(model, attribute, options)`.
+Use `<= [model, attribute, options]` for unidirectional (one-way) data-binding instead of `bind(model, attribute, read_only: true, more_options)`
+
+Examples:
+
+```ruby
+text <=> [@contact, :first_name]
+```
+
+```ruby
+text <=> [@contact, :last_name]
+```
+
+```ruby
+text <= [@contact, :name, computed_by: [:first_name, :last_name]]
+```
+
+Note that `table` and `tree` are not supported by Shine yet, so continue to use `bind` with them for the time being.
+
+Check out [sample code](/samples) for more examples of Shine syntax in action, such as [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed).
 
 #### Combo
 
@@ -3125,8 +3152,6 @@ You may see another example at the [Hello, Radio Group!](GLIMMER_SAMPLES.md#hell
 
 ##### Code Text Custom Widget
 
-**(BETA FEATURE)**
-
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
 It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
@@ -3150,8 +3175,6 @@ To use, simply use `code_text` in place of the `text` or `styled_text` widget. I
 
 **lines**
 (default: `false`)
-
-**(BETA FEATURE)**
 
 Shows line numbers when set to true.
 
@@ -3190,7 +3213,7 @@ Sets the code language, which can be one of the following [rouge gem](#https://r
 - bibtex
 - biml
 - bpf
-- brainfuck
+- brainf*ck
 - brightscript
 - bsl
 - c

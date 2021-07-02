@@ -61,19 +61,19 @@ shell {
   composite {
     @styled_text = styled_text {
       layout_data :fill, :fill, true, true
-      text bind(@presenter, :text)
+      text <=> [@presenter, :text]
       left_margin 5
       top_margin 5
       right_margin 5
       bottom_margin 5
       # caret offset scrolls text to view when out of page
-      caret_offset bind(@presenter, :caret_offset)
+      caret_offset <=> [@presenter, :caret_offset]
       # selection_count is not needed if selection is used
-      selection_count bind(@presenter, :selection_count)
+      selection_count <=> [@presenter, :selection_count]
       # selection contains both caret_offset and selection_count, but setting it does not scroll text into view if out of page
-      selection bind(@presenter, :selection)
+      selection <=> [@presenter, :selection]
       # top_pixel indicates vertically what pixel scrolling is at in a long multi-page text document
-      top_pixel bind(@presenter, :top_pixel)
+      top_pixel <=> [@presenter, :top_pixel]
       
       # This demonstrates how to set styles via a listener
       on_line_get_style { |line_style_event|
@@ -109,31 +109,31 @@ shell {
         text 'Caret Offset:'
       }
       text {
-        text bind(@presenter, :caret_offset, on_read: ->(o) {"%04d" % [o] })
+        text <=> [@presenter, :caret_offset, on_read: ->(o) {"%04d" % [o] }]
       }
       label {
         text 'Selection Count:'
       }
       text {
-        text bind(@presenter, :selection_count, on_read: ->(o) {"%04d" % [o] })
+        text <=> [@presenter, :selection_count, on_read: ->(o) {"%04d" % [o] }]
       }
       label {
         text 'Selection Start:'
       }
       text {
-        text bind(@presenter, 'selection.x', on_read: ->(o) {"%04d" % [o] })
+        text <=> [@presenter, 'selection.x', on_read: ->(o) {"%04d" % [o] }]
       }
       label {
         text 'Selection End:'
       }
       text {
-        text bind(@presenter, 'selection.y', on_read: ->(o) {"%04d" % [o] })
+        text <=> [@presenter, 'selection.y', on_read: ->(o) {"%04d" % [o] }]
       }
       label {
         text 'Top Pixel:'
       }
       text {
-        text bind(@presenter, :top_pixel, on_read: ->(o) {"%04d" % [o] })
+        text <=> [@presenter, :top_pixel, on_read: ->(o) {"%04d" % [o] }]
       }
     }
   }

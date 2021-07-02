@@ -59,7 +59,7 @@ class HelloCanvas
           rectangle([:default, -70], :default, :default, [:default, 1]) {
             foreground :cyan
             text {
-              string bind(self, :artist)
+              string <=> [self, :artist]
               x :default, 1 # add 1 pixel to default x (shape centered within parent horizontally)
               y :default, 1 # add 1 pixel to default y (shape centered within parent vertically)
               background :yellow
@@ -105,7 +105,7 @@ class HelloCanvas
         menu {
           menu_item {
             text 'Change Background Color...'
-            enabled bind(self, :selected_shape) {|shape| shape.respond_to?(:background) && shape.background }
+            enabled <=> [self, :selected_shape, on_read: ->(shape) { shape.respond_to?(:background) && shape.background }]
             on_widget_selected {
               @selected_shape&.background = color_dialog.open
               self.selected_shape = nil
@@ -113,7 +113,7 @@ class HelloCanvas
           }
           menu_item {
             text 'Change Background Pattern Color 1...'
-            enabled bind(self, :selected_shape) {|shape| shape.respond_to?(:background_pattern) && shape.background_pattern }
+            enabled <=> [self, :selected_shape, on_read: ->(shape) { shape.respond_to?(:background_pattern) && shape.background_pattern }]
             on_widget_selected {
               if @selected_shape
                 background_pattern_args = @selected_shape.background_pattern_args
@@ -125,7 +125,7 @@ class HelloCanvas
           }
           menu_item {
             text 'Change Background Pattern Color 2...'
-            enabled bind(self, :selected_shape) {|shape| shape.respond_to?(:background_pattern) && shape.background_pattern }
+            enabled <=> [self, :selected_shape, on_read: ->(shape) { shape.respond_to?(:background_pattern) && shape.background_pattern }]
             on_widget_selected {
               if @selected_shape
                 background_pattern_args = @selected_shape.background_pattern_args
@@ -138,7 +138,7 @@ class HelloCanvas
           menu_item(:separator)
           menu_item {
             text 'Change Foreground Color...'
-            enabled bind(self, :selected_shape) {|shape| shape.respond_to?(:foreground) && shape.foreground }
+            enabled <=> [self, :selected_shape, on_read: ->(shape) { shape.respond_to?(:foreground) && shape.foreground }]
             on_widget_selected {
               @selected_shape&.foreground = color_dialog.open
               self.selected_shape = nil

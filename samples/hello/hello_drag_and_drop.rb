@@ -36,7 +36,7 @@ include Glimmer
 shell {
   text 'Hello, Drag and Drop!'
   list {
-    selection bind(@location, :country)
+    selection <=> [@location, :country]
     on_drag_set_data { |event|
       list = event.widget.getControl
       event.data = list.getSelection.first

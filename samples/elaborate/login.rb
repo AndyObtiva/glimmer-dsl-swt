@@ -82,8 +82,8 @@ class Login
 
         label { text "Username:" } # goes in column 1
         @user_name_text = text {   # goes in column 2
-          text bind(@presenter, :user_name)
-          enabled bind(@presenter, :logged_out)
+          text <=> [@presenter, :user_name]
+          enabled <= [@presenter, :logged_out]
           on_key_pressed { |event|
             @password_text.set_focus if event.keyCode == swt(:cr)
           }
@@ -91,19 +91,19 @@ class Login
 
         label { text "Password:" }
         @password_text = text(:password, :border) {
-          text bind(@presenter, :password)
-          enabled bind(@presenter, :logged_out)
+          text <=> [@presenter, :password]
+          enabled <= [@presenter, :logged_out]
           on_key_pressed { |event|
             @presenter.login! if event.keyCode == swt(:cr)
           }
         }
 
         label { text "Status:" }
-        label { text bind(@presenter, :status) }
+        label { text <= [@presenter, :status] }
 
         button {
           text "Login"
-          enabled bind(@presenter, :logged_out)
+          enabled <= [@presenter, :logged_out]
           on_widget_selected { @presenter.login! }
           on_key_pressed { |event|
             @presenter.login! if event.keyCode == swt(:cr)
@@ -112,7 +112,7 @@ class Login
 
         button {
           text "Logout"
-          enabled bind(@presenter, :logged_in)
+          enabled <= [@presenter, :logged_in]
           on_widget_selected { @presenter.logout! }
           on_key_pressed { |event|
             if event.keyCode == swt(:cr)

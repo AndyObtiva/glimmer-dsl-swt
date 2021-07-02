@@ -23,7 +23,7 @@ require 'glimmer-dsl-swt'
 
 include Glimmer
 
-shell {
+shell { |shell_proxy|
   row_layout :vertical
   
   text 'Hello, Dialog!'
@@ -39,7 +39,8 @@ shell {
       text "Dialog #{dialog_number}"
       
       on_widget_selected {
-        dialog { |dialog_proxy|
+        # pass the shell proxy as a parent to make the dialog support hitting the escape button for closing alone without closing app
+        dialog(shell_proxy) { |dialog_proxy|
           row_layout(:vertical) {
             center true
           }

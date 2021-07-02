@@ -45,7 +45,7 @@ class HelloColorDialog
       
       canvas(:border) {
         layout_data :center, :center, true, false
-        background bind(self, :selected_color)
+        background <=> [self, :selected_color]
         
         on_mouse_up {
           self.selected_color = color_dialog.open

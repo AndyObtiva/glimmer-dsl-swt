@@ -81,7 +81,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_WIDTH
             increment 3
-            selection bind(self, :x1_value)
+            selection <=> [self, :x1_value]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -89,7 +89,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_HEIGHT
             increment 3
-            selection bind(self, :y1_value)
+            selection <=> [self, :y1_value]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -109,7 +109,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_WIDTH
             increment 3
-            selection bind(self, :x2_value)
+            selection <=> [self, :x2_value]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -117,7 +117,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_HEIGHT
             increment 3
-            selection bind(self, :y2_value)
+            selection <=> [self, :y2_value]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -143,7 +143,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection bind(self, :foreground_red)
+            selection <=> [self, :foreground_red]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -151,7 +151,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection bind(self, :foreground_green)
+            selection <=> [self, :foreground_green]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -159,7 +159,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection bind(self, :foreground_blue)
+            selection <=> [self, :foreground_blue]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -178,13 +178,13 @@ class HelloCanvasDataBinding
               horizontal_span 3
             }
             maximum 255
-            selection bind(self, :line_width_value)
+            selection <=> [self, :line_width_value]
           }
           combo(:read_only) {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
             }
-            selection bind(self, :line_style_value)
+            selection <=> [self, :line_style_value]
           }
           canvas {
             layout_data(:center, :center, false, false) {
@@ -195,13 +195,13 @@ class HelloCanvasDataBinding
             background :white
             
             line {
-              x1 bind(self, :x1_value)
-              y1 bind(self, :y1_value)
-              x2 bind(self, :x2_value)
-              y2 bind(self, :y2_value)
-              foreground bind(self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue])
-              line_width bind(self, :line_width_value)
-              line_style bind(self, :line_style_value)
+              x1 <=> [self, :x1_value]
+              y1 <=> [self, :y1_value]
+              x2 <=> [self, :x2_value]
+              y2 <=> [self, :y2_value]
+              foreground <=> [self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
+              line_width <=> [self, :line_width_value]
+              line_style <=> [self, :line_style_value]
             }
           }
         }

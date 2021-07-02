@@ -46,19 +46,19 @@ class HelloDateTime
       }
       
       date { # alias for date_time(:date)
-        date_time bind(@person, :date_of_birth)
+        date_time <=> [@person, :date_of_birth]
       }
       
       date_drop_down { # alias for date_time(:date, :drop_down)
-        date_time bind(@person, :date_of_birth)
+        date_time <=> [@person, :date_of_birth]
       }
       
       time { # alias for date_time(:time)
-        date_time bind(@person, :date_of_birth)
+        date_time <=> [@person, :date_of_birth]
       }
       
       calendar { # alias for date_time(:calendar)
-        date_time bind(@person, :date_of_birth)
+        date_time <=> [@person, :date_of_birth]
       }
     }
   }
