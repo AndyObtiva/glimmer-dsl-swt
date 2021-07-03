@@ -592,9 +592,9 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 https://www.eclipse.org/swt/docs.php
 
-Here is the SWT API:
+Here is the SWT Javadoc API:
 
-https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/index.html
+https://www.eclipse.org/swt/javadoc.php
 
 Here is a visual list of SWT widgets:
 
