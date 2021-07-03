@@ -23,24 +23,25 @@ require 'glimmer/swt/widget_proxy'
 
 module Glimmer
   module SWT
-    # Proxy for org.eclipse.swt.widgets.Combo
+    # Proxy for org.eclipse.swt.widgets.ToolBarProxy
     #
     # Follows the Proxy Design Pattern
-    class ComboProxy < WidgetProxy
-      attr_accessor :tool_item_proxy, :swt_tool_item
+    class ToolBarProxy < WidgetProxy
+      attr_accessor :cool_item_proxy, :swt_cool_item
     
       def initialize(*init_args, &block)
         super
-        self.tool_item_proxy = WidgetProxy.new("tool_item", parent_proxy, [:separator]) if parent_proxy.swt_widget.is_a?(ToolBar)
-        self.swt_tool_item = tool_item_proxy&.swt_widget
+        self.cool_item_proxy = WidgetProxy.new("cool_item", parent_proxy, []) if parent_proxy.swt_widget.is_a?(CoolBar)
+        self.swt_cool_item = cool_item_proxy&.swt_widget
       end
       
       def post_add_content
-        if self.tool_item_proxy
-          self.swt_widget.pack
-          self.tool_item_proxy.text = 'filler' # text seems needed (any text works)
-          self.tool_item_proxy.width = swt_widget.size.x
-          self.tool_item_proxy.control = swt_widget
+        if cool_item_proxy
+          swt_widget.pack
+          size = swt_widget.size
+          cool_item_proxy.control = swt_widget
+          preferred = swt_cool_item.computeSize(size.x, size.y)
+          swt_cool_item.setPreferredSize(preferred)
         end
       end
     end
