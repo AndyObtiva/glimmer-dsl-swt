@@ -42,7 +42,6 @@ class HelloToolBar
       }
       
       text 'Hello, Tool Bar!'
-      minimum_size 200, 50
       
       tool_bar { # optionally takes a :flat style, :wrap style if you need wrapping upon shrinking window, and :vertical style if you need vertical layout
         tool_item {

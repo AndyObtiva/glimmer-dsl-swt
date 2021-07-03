@@ -36,13 +36,15 @@ module Glimmer
       end
       
       def post_add_content
-        if cool_item_proxy
-          swt_widget.pack
-          size = swt_widget.size
-          cool_item_proxy.control = swt_widget
-          preferred = swt_cool_item.computeSize(size.x, size.y)
-          swt_cool_item.setPreferredSize(preferred)
-        end
+        apply_preferred_size if cool_item_proxy
+      end
+      
+      def apply_preferred_size
+        swt_widget.pack
+        size = swt_widget.size
+        cool_item_proxy.control = swt_widget
+        preferred = swt_cool_item.computeSize(size.x, size.y)
+        swt_cool_item.setPreferredSize(preferred)
       end
     end
   end

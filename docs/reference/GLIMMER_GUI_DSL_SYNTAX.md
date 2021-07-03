@@ -300,6 +300,7 @@ This is not an exaustive list, but should give you a good start in learning Glim
 - `checkbox_group`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group)
 - `combo`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo)
 - `composite`: featured in [Hello, Composite!](GLIMMER_SAMPLES.md#hello-composite) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `cool_bar`: featured in [Hello, Cool Bar!](GLIMMER_SAMPLES.md#hello-cool-bar)
 - `date`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
 - `date_drop_down`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
 - `group`: featured in [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)

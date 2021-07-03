@@ -41,8 +41,7 @@ class HelloCoolBar
         margin_height 0
       }
       
-      text 'Hello, Tool Bar!'
-      minimum_size 200, 50
+      text 'Hello, Cool Bar!'
       
       cool_bar { # optionally takes a :flat style and/or :vertical style if you need vertical layout
         tool_bar {
@@ -68,8 +67,6 @@ class HelloCoolBar
             end
           }
         }
-      }
-      cool_bar { # optionally takes a :flat style and/or :vertical style if you need vertical layout
         tool_bar {
           tool_item {
             text 'Font Size'

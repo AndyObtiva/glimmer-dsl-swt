@@ -48,6 +48,7 @@
     - [Hello, Shape!](#hello-shape)
     - [Hello, Custom Shape!](#hello-custom-shape)
     - [Hello, Tool Bar!](#hello-tool-bar)
+    - [Hello, Cool Bar!](#hello-cool-bar)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -840,6 +841,24 @@ Hello, Tool Bar!
 ![Hello Tool Bar Paste](/images/glimmer-hello-tool-bar-paste.png)
 
 ![Hello Tool Bar Font Size](/images/glimmer-hello-tool-bar-font-size.png)
+
+#### Hello, Cool Bar!
+
+This sample demonstrates the use of `cool_bar` that can contain multiple reorganizable `tool_bar` widgets
+
+Code:
+
+[samples/hello/hello_cool_bar.rb](/samples/hello/hello_cool_bar.rb)
+
+Hello, Cool Bar!
+
+![Hello Cool Bar](/images/glimmer-hello-cool-bar.png)
+
+![Hello Cool Bar Reorg1](/images/glimmer-hello-cool-bar-reorg1.png)
+
+![Hello Cool Bar Reorg2](/images/glimmer-hello-cool-bar-reorg2.png)
+
+![Hello Cool Bar Reorg3](/images/glimmer-hello-cool-bar-reorg3.png)
 
 ### Elaborate Samples
 
