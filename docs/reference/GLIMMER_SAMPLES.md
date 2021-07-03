@@ -47,6 +47,7 @@
     - [Hello, Font Dialog!](#hello-font-dialog)
     - [Hello, Shape!](#hello-shape)
     - [Hello, Custom Shape!](#hello-custom-shape)
+    - [Hello, Tool Bar!](#hello-tool-bar)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -819,6 +820,24 @@ Code:
 Hello, Custom Shape!
 
 ![Hello Custom Shape](/images/glimmer-hello-custom-shape.png)
+
+#### Hello, Tool Bar!
+
+This sample demonstrates the use of `tool_bar` & `tool_item`.
+
+Code:
+
+[samples/hello/hello_tool_bar.rb](/samples/hello/hello_tool_bar.rb)
+
+Hello, Tool Bar!
+
+![Hello Tool Bar](/images/glimmer-hello-tool-bar.png)
+
+![Hello Tool Bar Cut](/images/glimmer-hello-tool-bar-cut.png)
+
+![Hello Tool Bar Copy](/images/glimmer-hello-tool-bar-copy.png)
+
+![Hello Tool Bar Paste](/images/glimmer-hello-tool-bar-paste.png)
 
 ### Elaborate Samples
 

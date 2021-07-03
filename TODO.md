@@ -4,10 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Hello, Shell!
+
 - Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
 ```ruby
-items <=> [model, property] # bidirectional
-items <= [model, property] # ready-only
 items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
 items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
 items <=> {model: model, attribute: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
@@ -18,8 +18,7 @@ table { items <= } is not editable
 ```
 - Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
 - Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup select property (virtual perhaps) and custom widgets and hello cursor and
-- Hello, Shell!
-- Hello, Layout!
+
 
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 
@@ -250,6 +249,36 @@ composite {
 
 ## Issues
 
+- Report funnotator issue to SWT folks
+```ruby
+shell do
+  fill_layout
+  text "Funnotator"
+  minimum_size 1000, 700
+
+  composite do
+    grid_layout 10, true
+
+    char = Struct.new :char, :annotation
+
+    code = 5.times.map do |i|
+      10.times.map do |j|
+        char.new("Z").tap do |char|
+          button do
+            enabled false
+            font height: 30, style: :bold
+            text bind(char, :char)
+            layout_data do
+              width_hint 90
+              height_hint 80
+            end
+          end
+        end
+      end
+    end
+  end
+end.open
+```
 - Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
 - Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)

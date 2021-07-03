@@ -1006,6 +1006,12 @@ module Glimmer
           image: lambda do |*value|
             ImageProxy.create(*value).swt_image
           end,
+          disabled_image: lambda do |*value|
+            ImageProxy.create(*value).swt_image
+          end,
+          hot_image: lambda do |*value|
+            ImageProxy.create(*value).swt_image
+          end,
           images: lambda do |array|
             array.to_a.map do |value|
               ImageProxy.create(value).swt_image
