@@ -358,7 +358,7 @@ glimmer-setup
 
 This ensures configuring extra required Mac options before using `glimmer` and `girb` commands.
 
-If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](https://github.com/AndyObtiva/glimmer#glimmer-command) section.
+If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](#glimmer-command) section.
 
 Otherwise, if you are ready to build a Glimmer app, you can jump to the [Glimmer Scaffolding](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_COMMAND.md#scaffolding) section next.
 
