@@ -4,6 +4,7 @@
 
 - Hello, Composite! sample
 - Hello, Layout! sample
+- Removed inclusion of Glimmer module in scaffolded App class since it is no longer needed with relying on SomeCustomShell.launch method
 
 ### 4.20.0.0
 
