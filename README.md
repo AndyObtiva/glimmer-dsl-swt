@@ -612,21 +612,25 @@ Here is a SWT style bit constant reference:
 
 https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/SWT.html
 
-Here is an SWT Drag and Drop guide:
+Here is an SWT Layout guide:
 
-https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
+https://www.eclipse.org/articles/Article-Understanding-Layouts/Understanding-Layouts.htm
 
 Here is an SWT Custom Widget guide:
 
 https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
 
-Here is an SWT Image guide:
+Here is an SWT Drag and Drop guide:
 
-https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
+https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
 
 Here is an SWT Graphics / Canvas-Drawing guide:
 
 https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html
+
+Here is an SWT Image guide:
+
+https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
 
 Here is the Nebula Project (custom widget library) homepage:
 
