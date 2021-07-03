@@ -823,7 +823,7 @@ Hello, Custom Shape!
 
 #### Hello, Tool Bar!
 
-This sample demonstrates the use of `tool_bar` & `tool_item`.
+This sample demonstrates the use of `tool_bar` & `tool_item` as well as being able to nest `combo` in a `tool_bar`.
 
 Code:
 
@@ -838,6 +838,8 @@ Hello, Tool Bar!
 ![Hello Tool Bar Copy](/images/glimmer-hello-tool-bar-copy.png)
 
 ![Hello Tool Bar Paste](/images/glimmer-hello-tool-bar-paste.png)
+
+![Hello Tool Bar Font Size](/images/glimmer-hello-tool-bar-font-size.png)
 
 ### Elaborate Samples
 

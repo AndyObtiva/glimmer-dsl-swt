@@ -24,7 +24,15 @@ require 'glimmer-dsl-swt'
 class HelloToolBar
   include Glimmer::UI::CustomShell
   
-  attr_accessor :operation
+  attr_accessor :operation, :font_size
+  
+  def font_size_options
+    (10..30).to_a.map(&:to_s)
+  end
+  
+  before_body {
+    self.font_size = '10'
+  }
 
   body {
     shell {
@@ -36,7 +44,7 @@ class HelloToolBar
       text 'Hello, Tool Bar!'
       minimum_size 200, 50
       
-      tool_bar { # optionally takes a :wrap style if you need wrapping upon shrinking window, and :vertical style if you need vertical layout
+      @tb = tool_bar { # optionally takes a :wrap style if you need wrapping upon shrinking window, and :vertical style if you need vertical layout
         tool_item {
           image cut_image # alternatively you can pass an image file path
           
@@ -58,11 +66,21 @@ class HelloToolBar
             self.operation = 'Paste'
           end
         }
+        tool_item(:separator)
+        tool_item {
+          text 'Font Size'
+        }
+        # a combo can be nested in a tool_bar (it auto-generates a tool_item for itself behind the scenes)
+        combo {
+          selection bind(self, :font_size)
+        }
       }
+      @tb.pack
   
       label {
         font height: 30
         text bind(self, :operation)
+        text bind(self, :font_size)
       }
     }
   }
