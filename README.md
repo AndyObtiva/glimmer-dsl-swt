@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.20.0.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.20.0.1
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -10,12 +10,12 @@
 
 **(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for SWT is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](docs/reference/GLIMMER_COMMAND.md#packaging) on [Linux](https://www.linux.org/). [Glimmer](https://github.com/AndyObtiva/glimmer) was the [first Ruby gem](https://rubygems.org/gems/glimmer) to bring [SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) to [Ruby](https://www.ruby-lang.org/en/), thanks to creator [Andy Maleh](https://andymaleh.blogspot.com/), an EclipseCon/EclipseWorld/RubyConf speaker and expert.
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for SWT is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models (test-first) afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos) + [App Store](https://developer.apple.com/macos/distribution/), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and [Gem Packaged Shell Scripts](docs/reference/GLIMMER_COMMAND.md#packaging) on [Linux](https://www.linux.org/). [Glimmer](https://github.com/AndyObtiva/glimmer) was the [first Ruby gem](https://rubygems.org/gems/glimmer) to bring [SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) to [Ruby](https://www.ruby-lang.org/en/), thanks to creator [Andy Maleh](https://andymaleh.blogspot.com/), EclipseCon/EclipseWorld/RubyConf speaker and expert.
 
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.0.0 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter).
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.0.1 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter).
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword (keep in mind that it is still an early alpha, so default back to `bind` whenever needed).
 
@@ -341,7 +341,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.20.0.0
+jgem install glimmer-dsl-swt -v 4.20.0.1
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -369,7 +369,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.20.0.0'
+gem 'glimmer-dsl-swt', '~> 4.20.0.1'
 ```
 
 And, then run:
@@ -390,7 +390,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.20.0.0
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.20.0.1
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -568,7 +568,7 @@ Here is a list of notable 3rd party gems used by Glimmer:
 - [puts_debuggerer](https://github.com/AndyObtiva/puts_debuggerer): helps in troubleshooting when adding `require 'pd'` and using the `pd` command instead of `puts` or `p` (also `#pd_inspect` or `#pdi` instead of `#inspect`)
 - [rake](https://github.com/ruby/rake): used to implement and execute `glimmer` commands
 - [rake-tui](https://github.com/AndyObtiva/rake-tui): Rake Text-based User Interface. Allows navigating rake tasks with arrow keys and filtering task list by typing to quickly find an run a rake task.
-- [rouge](https://github.com/rouge-ruby/rouge): Ruby syntax highlighter used in the `code_text` [Glimmer DSL for SWT custom widget](#custom-widgets) leveraged by the [Glimmer Meta-Sample](#samples)
+- [rouge](https://github.com/rouge-ruby/rouge): Ruby syntax highlighter used in the `code_text` [Glimmer DSL for SWT custom widget](#custom-widgets) leveraged by the [Glimmer Meta-Sample](/docs/reference/GLIMMER_SAMPLES.md#samples)
 - [super_module](https://github.com/AndyObtiva/super_module): used to cleanly write the Glimmer::UI:CustomWidget and Glimmer::UI::CustomShell modules
 - [text-table](https://github.com/aptinio/text-table): renders textual data in a textual table for the command-line interface of Glimmer
 - [warbler](https://github.com/jruby/warbler): converts a Glimmer app into a Java JAR file during packaging

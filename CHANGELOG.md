@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.0.1
+
+- Hello, Composite! sample
+- Hello, Layout! sample
+
 ### 4.20.0.0
 
 - Upgrade to SWT 4.20, supporting AARCH64 experimentally

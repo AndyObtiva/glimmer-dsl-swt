@@ -5,6 +5,8 @@
     - [Hello, C Tab!](#hello-c-tab)
     - [Hello, Combo!](#hello-combo)
     - [Hello, C Combo!](#hello-c-combo)
+    - [Hello, Composite!](#hello-composite)
+    - [Hello, Layout!](#hello-layout)
     - [Hello, List Single Selection!](#hello-list-single-selection)
     - [Hello, List Multi Selection!](#hello-list-multi-selection)
     - [Hello, Computed!](#hello-computed)
@@ -138,6 +140,38 @@ Code:
 
 ![Hello Combo](/images/glimmer-hello-c-combo.png)
 ![Hello Combo Expanded](/images/glimmer-hello-c-combo-expanded.png)
+
+#### Hello, Composite!
+
+This sample demonstrates the `composite` widget, which is simply used as a container for visual layout and organization.
+
+Code:
+
+[samples/hello/hello_composite.rb](/samples/hello/hello_composite.rb)
+
+![Hello Composite](/images/glimmer-hello-composite.png)
+
+#### Hello, Layout!
+
+This sample demonstrates the standard 3 layouts in SWT (though one can write their own for very advanced applications): `fill_layout`, `row_layout`, and `grid_layout`
+
+Code:
+
+[samples/hello/hello_layout.rb](/samples/hello/hello_layout.rb)
+
+![Hello Layout Tab1](/images/glimmer-hello-layout-tab1.png)
+
+![Hello Layout Tab2](/images/glimmer-hello-layout-tab2.png)
+
+![Hello Layout Tab3](/images/glimmer-hello-layout-tab3.png)
+
+![Hello Layout Tab4](/images/glimmer-hello-layout-tab4.png)
+
+![Hello Layout Tab5](/images/glimmer-hello-layout-tab5.png)
+
+![Hello Layout Tab6](/images/glimmer-hello-layout-tab6.png)
+
+![Hello Layout Tab7](/images/glimmer-hello-layout-tab7.png)
 
 #### Hello, List Single Selection!
 

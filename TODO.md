@@ -370,6 +370,7 @@ composite {
 - Support JRuby/Ruby -e and -r options in `glimmer` command
 - Indicate which Ruby gems are installed or not when running `glimmer list:gems:` commands
 - Rewrite Glimmer command with tty-option gem
+- Consider idea of having custom shells auto-set human text on their shell from their class name by convention
 - List all gems (not just cw or cs, etc..)
 - Make Glimmer detect a Glimmer project (cw, cs, dsl) when in it locally and provide its samples for running if any
 - Support on_listener_event_name alternative name for events (makes some events more readable)
@@ -444,12 +445,17 @@ composite {
 - Add hello samples for every built-in SWT widget including the custom package
 - Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
 - An elaborate sample that demos every widget that comes with SWT out of the box
+- Connect4
+- Battleship
+- Weather app
+- Building Parking system
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - Music playing app
 - HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
 - Backgammon game
+- Add improvements to Timer to do Countup and Pomodoro, and use Nebula's digital clock custom widget
 
 ## Side Projects
 

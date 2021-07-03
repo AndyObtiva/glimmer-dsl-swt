@@ -49,6 +49,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Animation via Data-Binding](#animation-via-data-binding)
   - [Data-Binding](#data-binding)
     - [General Examples](#general-examples)
+    - [Shine](#shine)
     - [Combo](#combo)
     - [List](#list)
     - [Table](#table)
