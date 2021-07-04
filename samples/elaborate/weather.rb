@@ -54,7 +54,7 @@ class Weather
             
       text 'Glimmer Weather'
       minimum_size 400, 300
-      background rgb(140, 170, 200)
+      background rgb(135, 176, 235)
       
       text {
         layout_data(:center, :center, true, true)
