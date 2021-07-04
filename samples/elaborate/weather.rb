@@ -54,34 +54,55 @@ class Weather
       minimum_size 400, 300
       background rgb(140, 170, 200)
       
-      composite {
-        grid_layout 2, false
-
+      tab_folder {
         layout_data(:center, :center, true, true)
         
-        background :transparent
-        
-        rectangle(0, 0, [:default, -1], [:default, -2], 15, 15) {
-          foreground DEFAULT_FOREGROUND
-        }
-  
-        %w[temp temp_min temp_max feels_like humidity].each do |field_name|
-          field(field_name)
+        ['℃', '℉'].each do |temp_unit|
+          tab_item {
+            grid_layout 2, false
+            
+            text temp_unit
+            background :transparent
+            
+            rectangle(0, 0, [:default, -2], [:default, -2], 15, 15) {
+              foreground DEFAULT_FOREGROUND
+            }
+      
+            %w[temp temp_min temp_max feels_like].each do |field_name|
+              temp_field(field_name, temp_unit)
+            end
+            
+            humidity_field
+          }
         end
       }
     }
   }
   
-  def field(field_name)
+  def temp_field(field_name, temp_unit)
+    name_label(field_name)
     label {
-      layout_data :fill, :center, false, false
-      text field_name.titlecase
+      layout_data(:fill, :center, true, false)
+      text <= [self, field_name, on_read: ->(t) { "#{kelvin_to_temp_unit(t, temp_unit).to_f.round}" }]
       font height: DEFAULT_FONT_HEIGHT
       foreground DEFAULT_FOREGROUND
     }
+  end
+  
+  def humidity_field
+    name_label('humidity')
     label {
       layout_data(:fill, :center, true, false)
-      text <= [self, field_name, on_read: ->(t) { t.to_f.round }]
+      text <= [self, 'humidity', on_read: ->(h) { "#{h.to_f.round}%" }]
+      font height: DEFAULT_FONT_HEIGHT
+      foreground DEFAULT_FOREGROUND
+    }
+  end
+  
+  def name_label(field_name)
+    label {
+      layout_data :fill, :center, false, false
+      text field_name.titlecase
       font height: DEFAULT_FONT_HEIGHT
       foreground DEFAULT_FOREGROUND
     }
@@ -96,16 +117,30 @@ class Weather
   def weather_data=(data)
     @weather_data = data
     main_data = data['main']
-    self.temp = kelvin_to_celcius(main_data['temp'])
-    self.temp_min = kelvin_to_celcius(main_data['temp_min'])
-    self.temp_max = kelvin_to_celcius(main_data['temp_max'])
-    self.feels_like = kelvin_to_celcius(main_data['feels_like'])
+    # temps come back in Kelvin
+    self.temp = main_data['temp']
+    self.temp_min = main_data['temp_min']
+    self.temp_max = main_data['temp_max']
+    self.feels_like = main_data['feels_like']
     self.humidity = main_data['humidity']
+  end
+  
+  def kelvin_to_temp_unit(kelvin, temp_unit)
+    temp_unit == '℃' ? kelvin_to_celcius(kelvin) : kelvin_to_fahrenheit(kelvin)
   end
   
   def kelvin_to_celcius(kelvin)
     kelvin - 273.15
   end
+  
+  def celcius_to_fahrenheit(celcius)
+    (celcius * 9 / 5 ) + 32
+  end
+  
+  def kelvin_to_fahrenheit(kelvin)
+    celcius_to_fahrenheit(kelvin_to_celcius(kelvin))
+  end
+  
 end
 
 Weather.launch
