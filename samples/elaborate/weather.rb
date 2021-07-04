@@ -27,7 +27,7 @@ require 'glimmer-dsl-swt'
 class Weather
   include Glimmer::UI::CustomShell
   
-  DEFAULT_FONT_HEIGHT = 40
+  DEFAULT_FONT_HEIGHT = 30
   DEFAULT_FOREGROUND = :white
   
   attr_accessor :city, :temp, :temp_min, :temp_max, :feels_like, :humidity
@@ -61,15 +61,15 @@ class Weather
         
         text <=> [self, :city]
         
-        on_verify_text {|verify_event|
-          if verify_event.keyCode == swt(:cr) # carriage return
+        on_key_pressed {|event|
+          if event.keyCode == swt(:cr) # carriage return
             Thread.new do
               fetch_weather!
             end
           end
         }
       }
-      
+            
       tab_folder {
         layout_data(:center, :center, true, true)
         
