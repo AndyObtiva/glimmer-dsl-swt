@@ -59,6 +59,7 @@
     - [Mandelbrot Fractal](#mandelbrot-fractal)
     - [Stock Ticker](#stock-ticker)
     - [Metronome](#metronome)
+    - [Weather](#weather)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -1052,6 +1053,26 @@ Code:
 ![Metronome](/images/glimmer-metronome.gif)
 
 [Download video with sound](/videos/glimmer-metronome.mp4?raw=true).
+
+#### Weather
+
+This sample demonstrates a Weather app that leverages the Ruby built-in `'net/http'` library, courtesy of openweathermap.org. It provides a good example of tackling JSON hierarchical hash/array data and converting into data-bindable model object attributes for Glimmer GUI synchronization.
+
+Code:
+
+[samples/elaborate/weather.rb](/samples/elaborate/weather.rb)
+
+Montreal - Celcius
+
+![Montreal C](/images/glimmer-weather-montreal-celcius.png)
+
+Montreal - Fahrenheit
+
+![Montreal F](/images/glimmer-weather-montreal-fahrenheit.png)
+
+Atlanta - Fahrenheit
+
+![Atlanta F](/images/glimmer-weather-atlanta-fahrenheit.png)
 
 ### External Samples
 
