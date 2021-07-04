@@ -30,9 +30,11 @@ class Weather
   DEFAULT_FONT_HEIGHT = 40
   DEFAULT_FOREGROUND = :white
   
-  attr_accessor :temp, :temp_min, :temp_max, :feels_like, :humidity
+  attr_accessor :city, :temp, :temp_min, :temp_max, :feels_like, :humidity
   
   before_body {
+    @weather_mutex = Mutex.new
+    self.city = 'Montreal, Qc, CA'
     fetch_weather!
   }
   
@@ -53,6 +55,20 @@ class Weather
       text 'Glimmer Weather'
       minimum_size 400, 300
       background rgb(140, 170, 200)
+      
+      text {
+        layout_data(:center, :center, true, true)
+        
+        text <=> [self, :city]
+        
+        on_verify_text {|verify_event|
+          if verify_event.keyCode == swt(:cr) # carriage return
+            Thread.new do
+              fetch_weather!
+            end
+          end
+        }
+      }
       
       tab_folder {
         layout_data(:center, :center, true, true)
@@ -109,7 +125,9 @@ class Weather
   end
   
   def fetch_weather!
-    self.weather_data = JSON.parse(Net::HTTP.get('api.openweathermap.org', '/data/2.5/weather?q=montreal,qc,ca&appid=1d16d70a9aec3570b5cbd27e6b421330'))
+    @weather_mutex.synchronize do
+      self.weather_data = JSON.parse(Net::HTTP.get('api.openweathermap.org', "/data/2.5/weather?q=#{city}&appid=1d16d70a9aec3570b5cbd27e6b421330"))
+    end
   rescue
     # No Op
   end
