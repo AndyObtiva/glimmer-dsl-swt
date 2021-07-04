@@ -4,7 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Shell!
+- Hello, Text! sample
+- Weather app elaborate sample
+
+- Calculator elaborate sample
+- Timer elaborate sample
 
 - Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
 ```ruby
@@ -21,8 +25,6 @@ table { items <= } is not editable
 
 
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
-
-- Extract Glimmer Tetris as a Glimmer External Sample just like Calculator to package it and eventually run via Glimmer DSL for Opal
 
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 - Fix issue with `glimmer samples` not honoring code changes in external samples coming from gems (like `glimmer-cp-stickfigure`) though it runs them just fine (at least make uneditable until fixed)
@@ -477,7 +479,6 @@ end.open
 - An elaborate sample that demos every widget that comes with SWT out of the box
 - Connect4
 - Battleship
-- Weather app
 - Building Parking system
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - Music playing app
