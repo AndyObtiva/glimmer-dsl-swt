@@ -1062,9 +1062,9 @@ Code:
 
 [samples/elaborate/weather.rb](/samples/elaborate/weather.rb)
 
-Montreal - Celcius
+Montreal - Celsius
 
-![Montreal C](/images/glimmer-weather-montreal-celcius.png)
+![Montreal C](/images/glimmer-weather-montreal-celsius.png)
 
 Montreal - Fahrenheit
 

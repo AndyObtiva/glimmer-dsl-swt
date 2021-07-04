@@ -144,19 +144,19 @@ class Weather
   end
   
   def kelvin_to_temp_unit(kelvin, temp_unit)
-    temp_unit == '℃' ? kelvin_to_celcius(kelvin) : kelvin_to_fahrenheit(kelvin)
+    temp_unit == '℃' ? kelvin_to_celsius(kelvin) : kelvin_to_fahrenheit(kelvin)
   end
   
-  def kelvin_to_celcius(kelvin)
+  def kelvin_to_celsius(kelvin)
     kelvin - 273.15
   end
   
-  def celcius_to_fahrenheit(celcius)
-    (celcius * 9 / 5 ) + 32
+  def celsius_to_fahrenheit(celsius)
+    (celsius * 9 / 5 ) + 32
   end
   
   def kelvin_to_fahrenheit(kelvin)
-    celcius_to_fahrenheit(kelvin_to_celcius(kelvin))
+    celsius_to_fahrenheit(kelvin_to_celsius(kelvin))
   end
   
 end
