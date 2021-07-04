@@ -34,7 +34,7 @@ class Weather
   
   before_body {
     @weather_mutex = Mutex.new
-    self.city = 'Montreal, Qc, CA'
+    self.city = 'Montreal, QC, CA'
     fetch_weather!
   }
   
@@ -99,7 +99,7 @@ class Weather
     name_label(field_name)
     label {
       layout_data(:fill, :center, true, false)
-      text <= [self, field_name, on_read: ->(t) { "#{kelvin_to_temp_unit(t, temp_unit).to_f.round}" }]
+      text <= [self, field_name, on_read: ->(t) { "#{kelvin_to_temp_unit(t, temp_unit).to_f.round}°" }]
       font height: DEFAULT_FONT_HEIGHT
       foreground DEFAULT_FOREGROUND
     }
