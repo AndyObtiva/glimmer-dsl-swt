@@ -1,12 +1,14 @@
 - [Samples](#samples)
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
+    - [Hello, Button!](#hello-button)
+    - [Hello, Composite!](#hello-composite)
+    - [Hello, Layout!](#hello-layout)
+    - [Hello, Shell!](#hello-shell)
     - [Hello, Tab!](#hello-tab)
     - [Hello, C Tab!](#hello-c-tab)
     - [Hello, Combo!](#hello-combo)
     - [Hello, C Combo!](#hello-c-combo)
-    - [Hello, Composite!](#hello-composite)
-    - [Hello, Layout!](#hello-layout)
     - [Hello, List Single Selection!](#hello-list-single-selection)
     - [Hello, List Multi Selection!](#hello-list-multi-selection)
     - [Hello, Computed!](#hello-computed)
@@ -30,7 +32,6 @@
     - [Hello, Date Time!](#hello-date-time)
     - [Hello, Spinner!](#hello-spinner)
     - [Hello, Table!](#hello-table)
-    - [Hello, Button!](#hello-button)
     - [Hello, Link!](#hello-link)
     - [Hello, Dialog!](#hello-dialog)
     - [Hello, Code Text!](#hello-code-text)
@@ -98,6 +99,98 @@ Code:
 
 ![Hello World](/images/glimmer-hello-world.png)
 
+#### Hello, Button!
+
+This sample demonstrates the use of the `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
+
+Code:
+
+[samples/hello/hello_button.rb](/samples/hello/hello_button.rb)
+
+Hello, Button!
+
+![Hello Button](/images/glimmer-hello-button.png)
+
+Hello, Button! Incremented 7 times!
+
+![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
+
+#### Hello, Composite!
+
+This sample demonstrates the `composite` widget, which is simply used as a container for visual layout and organization.
+
+Code:
+
+[samples/hello/hello_composite.rb](/samples/hello/hello_composite.rb)
+
+![Hello Composite](/images/glimmer-hello-composite.png)
+
+#### Hello, Layout!
+
+This sample demonstrates the standard 3 layouts in SWT (though one can write their own for very advanced applications): `fill_layout`, `row_layout`, and `grid_layout`
+
+Code:
+
+[samples/hello/hello_layout.rb](/samples/hello/hello_layout.rb)
+
+![Hello Layout Tab1](/images/glimmer-hello-layout-tab1.png)
+
+![Hello Layout Tab2](/images/glimmer-hello-layout-tab2.png)
+
+![Hello Layout Tab3](/images/glimmer-hello-layout-tab3.png)
+
+![Hello Layout Tab4](/images/glimmer-hello-layout-tab4.png)
+
+![Hello Layout Tab5](/images/glimmer-hello-layout-tab5.png)
+
+![Hello Layout Tab6](/images/glimmer-hello-layout-tab6.png)
+
+![Hello Layout Tab7](/images/glimmer-hello-layout-tab7.png)
+
+#### Hello, Shell!
+
+This sample demonstrates the various shells (windows) available in SWT.
+
+Code:
+
+[samples/hello/hello_shell.rb](/samples/hello/hello_shell.rb)
+
+Hello, Shell!
+
+![Hello, Shell!](/images/glimmer-hello-shell.png)
+
+Nested Shell
+
+![Nested Shell](/images/glimmer-hello-shell-nested-shell.png)
+
+Independent Shell
+
+![Independent Shell](/images/glimmer-hello-shell-independent-shell.png)
+
+Close-Button Shell
+
+![Close-Button Shell](/images/glimmer-hello-shell-close-button-shell.png)
+
+Minimize-Button Shell
+
+![Minimize-Button Shell](/images/glimmer-hello-shell-minimize-button-shell.png)
+
+Maximize-Button Shell
+
+![Maximize-Button Shell](/images/glimmer-hello-shell-maximize-button-shell.png)
+
+Buttonless Shell
+
+![Buttonless Shell](/images/glimmer-hello-shell-buttonless-shell.png)
+
+No Trim Shell
+
+![No Trim Shell](/images/glimmer-hello-shell-no-trim-shell.png)
+
+Always On Top Shell
+
+![Always On Top Shell](/images/glimmer-hello-shell-always-on-top-shell.png)
+
 #### Hello, Tab!
 
 Code:
@@ -142,38 +235,6 @@ Code:
 
 ![Hello Combo](/images/glimmer-hello-c-combo.png)
 ![Hello Combo Expanded](/images/glimmer-hello-c-combo-expanded.png)
-
-#### Hello, Composite!
-
-This sample demonstrates the `composite` widget, which is simply used as a container for visual layout and organization.
-
-Code:
-
-[samples/hello/hello_composite.rb](/samples/hello/hello_composite.rb)
-
-![Hello Composite](/images/glimmer-hello-composite.png)
-
-#### Hello, Layout!
-
-This sample demonstrates the standard 3 layouts in SWT (though one can write their own for very advanced applications): `fill_layout`, `row_layout`, and `grid_layout`
-
-Code:
-
-[samples/hello/hello_layout.rb](/samples/hello/hello_layout.rb)
-
-![Hello Layout Tab1](/images/glimmer-hello-layout-tab1.png)
-
-![Hello Layout Tab2](/images/glimmer-hello-layout-tab2.png)
-
-![Hello Layout Tab3](/images/glimmer-hello-layout-tab3.png)
-
-![Hello Layout Tab4](/images/glimmer-hello-layout-tab4.png)
-
-![Hello Layout Tab5](/images/glimmer-hello-layout-tab5.png)
-
-![Hello Layout Tab6](/images/glimmer-hello-layout-tab6.png)
-
-![Hello Layout Tab7](/images/glimmer-hello-layout-tab7.png)
 
 #### Hello, List Single Selection!
 
@@ -553,22 +614,6 @@ Hello, Table! Game Booked
 Hello, Table! Context Menu
 
 ![Hello Table](/images/glimmer-hello-table-context-menu.png)
-
-#### Hello, Button!
-
-This sample demonstrates the use of the `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
-
-Code:
-
-[samples/hello/hello_button.rb](/samples/hello/hello_button.rb)
-
-Hello, Button!
-
-![Hello Button](/images/glimmer-hello-button.png)
-
-Hello, Button! Incremented 7 times!
-
-![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
 
 #### Hello, Link!
 

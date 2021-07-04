@@ -200,8 +200,12 @@ class HelloLayout
               grab_excess_horizontal_space true
               grab_excess_vertical_space true
             }
-#             layout_data :fill, :fill, true, true # short alternative of specifying what is above
-
+            
+            # this is a short alternative for specifying what is above
+#             layout_data(:fill, :fill, true, true) {
+#               horizontal_span 5
+#             }
+            
             text "<this label fills all the space it can get\nhorizontally and vertically>"
             background :magenta
           }

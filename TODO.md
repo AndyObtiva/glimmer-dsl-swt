@@ -83,6 +83,7 @@ table { items <= } is not editable
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
+- In addition to `widget_proxy.content {}`, support prepend, append, before, and after.
 - Auto-Dispose `display` MacOS event listener registrations (e.g. `on_about`) declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
