@@ -35,24 +35,19 @@ class LoginPresenter
 
   def status=(status)
     @status = status
-
-    notify_observers("logged_in")
-    notify_observers("logged_out")
   end
   
   def valid?
     !@user_name.to_s.strip.empty? && !@password.to_s.strip.empty?
   end
 
-  def logged_in
+  def logged_in?
     self.status == "Logged In"
   end
-  alias logged_in? logged_in
 
-  def logged_out
-    !self.logged_in
+  def logged_out?
+    !self.logged_in?
   end
-  alias logged_out? logged_out
 
   def login!
     return unless valid?
@@ -77,13 +72,15 @@ class Login
   body {
     shell {
       text "Login"
+      
       composite {
         grid_layout 2, false #two columns with differing widths
 
         label { text "Username:" } # goes in column 1
         @user_name_text = text {   # goes in column 2
           text <=> [@presenter, :user_name]
-          enabled <= [@presenter, :logged_out]
+          enabled <= [@presenter, :logged_out?, computed_by: :status]
+          
           on_key_pressed { |event|
             @password_text.set_focus if event.keyCode == swt(:cr)
           }
@@ -92,7 +89,8 @@ class Login
         label { text "Password:" }
         @password_text = text(:password, :border) {
           text <=> [@presenter, :password]
-          enabled <= [@presenter, :logged_out]
+          enabled <= [@presenter, :logged_out?, computed_by: :status]
+          
           on_key_pressed { |event|
             @presenter.login! if event.keyCode == swt(:cr)
           }
@@ -103,16 +101,20 @@ class Login
 
         button {
           text "Login"
-          enabled <= [@presenter, :logged_out]
+          enabled <= [@presenter, :logged_out?, computed_by: :status]
+          
           on_widget_selected { @presenter.login! }
           on_key_pressed { |event|
-            @presenter.login! if event.keyCode == swt(:cr)
+            if event.keyCode == swt(:cr)
+              @presenter.login!
+            end
           }
         }
 
         button {
           text "Logout"
-          enabled <= [@presenter, :logged_in]
+          enabled <= [@presenter, :logged_in?, computed_by: :status]
+          
           on_widget_selected { @presenter.logout! }
           on_key_pressed { |event|
             if event.keyCode == swt(:cr)
