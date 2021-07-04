@@ -5,7 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Hello, Text! sample
-- Weather app elaborate sample
 
 - Calculator elaborate sample
 - Timer elaborate sample
@@ -249,6 +248,7 @@ composite {
 - Support CustomWidget/CustomShell option data-binding with the ability to pass options via content block if needed (update hello code text example to use data binding of its options)
 - Consider marking custom widget options as required when you have to have them at construction time before rendering content block
 - Consider adding the jface tooltip as an external custom widget
+- Augment the Weather app elaborate sample with graphics like showing the sun, wind gusts, clouds, etc...
 
 ## Issues
 

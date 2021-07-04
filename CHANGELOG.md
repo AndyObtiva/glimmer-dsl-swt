@@ -1,5 +1,18 @@
 # Change Log
 
+### 4.20.0.4
+
+- Weather elaborate sample
+
+### 4.20.0.3
+
+- Hello, Shell! sample
+
+### 4.20.0.2
+
+- Hello, Tool Bar! sample
+- Hello, Cool Bar! sample
+
 ### 4.20.0.1
 
 - Hello, Composite! sample
