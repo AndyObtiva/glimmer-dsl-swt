@@ -31,7 +31,7 @@ class HelloCoolBar
   end
   
   before_body {
-    self.font_size = '10'
+    self.font_size = '30'
   }
 
   body {
@@ -80,9 +80,9 @@ class HelloCoolBar
       
   
       label {
-        font height: 30
-        text bind(self, :operation)
-        text bind(self, :font_size)
+        font <= [self, :font_size, on_read: ->(size) { {height: size.to_i} }]
+        text <= [self, :operation]
+        text <= [self, :font_size]
       }
     }
   }
