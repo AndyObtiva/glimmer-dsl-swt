@@ -69,117 +69,135 @@ class Timer
       image File.join(APP_ROOT, 'package', 'windows', "Timer.ico") if OS.windows?
       text "Glimmer Timer"
 
-      group {
-        text 'Countdown'
-        font height: 20
-
-        composite {
-          row_layout {
-            margin_width 0
-            margin_height 0
-          }
-          @min_spinner = spinner {
-            text_limit 2
-            digits 0
-            maximum 59
-            selection bind(self, :min)
-            enabled bind(self, :countdown, on_read: :!)
-            on_widget_default_selected {
-              start_countdown
-            }
-          }
-          label {
-            text ':'
-            font(height: 18) if OS.mac?
-          }
-          @sec_spinner = spinner {
-            text_limit 2
-            digits 0
-            maximum 59
-            selection bind(self, :sec)
-            enabled bind(self, :countdown, on_read: :!)
-            on_widget_default_selected {
-              start_countdown
-            }
-          }
-        }
-
-        composite {
-          row_layout {
-            margin_width 0
-            margin_height 0
-          }
-          @start_button = button {
-            text '&Start'
-            enabled bind(self, :countdown, on_read: :!)
-            on_widget_selected {
-              start_countdown
-            }
-            on_key_pressed { |event|
-              start_countdown if event.keyCode == swt(:cr)
-            }
-          }
-          @stop_button = button {
-            text 'St&op'
-            enabled bind(self, :countdown)
-            on_widget_selected {
-              stop_countdown
-            }
-            on_key_pressed { |event|
-              stop_countdown if event.keyCode == swt(:cr)
-            }
-          }
-        }
-      }
-      menu_bar {
-        menu {
-          text '&Action'
+      timer_menu_bar
+      
+      countdown_group
+    }
+  }
+  
+  def timer_menu_bar
+    menu_bar {
+      menu {
+        text '&Action'
+        
+        menu_item {
+          text '&Start'
+          accelerator COMMAND_KEY, 's'
+          enabled bind(self, :countdown, on_read: :!)
           
-          menu_item {
-            text '&Start'
-            accelerator COMMAND_KEY, 's'
-            enabled bind(self, :countdown, on_read: :!)
-            
-            on_widget_selected {
-              start_countdown
-            }
+          on_widget_selected {
+            start_countdown
           }
-          menu_item {
-            text 'St&op'
-            enabled bind(self, :countdown)
-            accelerator COMMAND_KEY, 'o'
-            
-            on_widget_selected {
-              stop_countdown
-            }
-          }
-          unless OS.mac?
-            menu_item(:separator)
-            menu_item {
-              text 'E&xit'
-              accelerator :alt, :f4
-              
-              on_widget_selected {
-                exit(0)
-              }
-            }
-          end
         }
-        menu {
-          text '&Help'
-                      
+        menu_item {
+          text 'St&op'
+          enabled bind(self, :countdown)
+          accelerator COMMAND_KEY, 'o'
+          
+          on_widget_selected {
+            stop_countdown
+          }
+        }
+        unless OS.mac?
+          menu_item(:separator)
           menu_item {
-            text '&About'
-            accelerator COMMAND_KEY, :shift, 'a'
+            text 'E&xit'
+            accelerator :alt, :f4
             
             on_widget_selected {
-              display_about_dialog
+              exit(0)
             }
+          }
+        end
+      }
+      menu {
+        text '&Help'
+                    
+        menu_item {
+          text '&About'
+          accelerator COMMAND_KEY, :shift, 'a'
+          
+          on_widget_selected {
+            display_about_dialog
           }
         }
       }
     }
-  }
+  end
+  
+  def countdown_group
+    group {
+      # has grid layout with 1 column by default
+      text 'Countdown'
+      font height: 20
+
+      countdown_group_field_composite
+      
+      countdown_group_button_composite
+    }
+  end
+  
+  def countdown_group_field_composite
+    composite {
+      row_layout {
+        margin_width 0
+        margin_height 0
+      }
+      @min_spinner = spinner {
+        text_limit 2
+        digits 0
+        maximum 59
+        selection bind(self, :min)
+        enabled bind(self, :countdown, on_read: :!)
+        on_widget_default_selected {
+          start_countdown
+        }
+      }
+      label {
+        text ':'
+        font(height: 18) if OS.mac?
+      }
+      @sec_spinner = spinner {
+        text_limit 2
+        digits 0
+        maximum 59
+        selection bind(self, :sec)
+        enabled bind(self, :countdown, on_read: :!)
+        on_widget_default_selected {
+          start_countdown
+        }
+      }
+    }
+  end
+  
+  def countdown_group_button_composite
+    composite {
+      row_layout {
+        margin_width 0
+        margin_height 0
+      }
+      @start_button = button {
+        text '&Start'
+        enabled bind(self, :countdown, on_read: :!)
+        on_widget_selected {
+          start_countdown
+        }
+        on_key_pressed { |event|
+          start_countdown if event.keyCode == swt(:cr)
+        }
+      }
+      @stop_button = button {
+        text 'St&op'
+        enabled bind(self, :countdown)
+        on_widget_selected {
+          stop_countdown
+        }
+        on_key_pressed { |event|
+          stop_countdown if event.keyCode == swt(:cr)
+        }
+      }
+    }
+  end
 
   def display_about_dialog
     message_box(body_root) {
