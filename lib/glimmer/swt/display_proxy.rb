@@ -42,7 +42,7 @@ module Glimmer
       
       OBSERVED_MENU_ITEMS = ['about', 'preferences', 'quit']
       
-      class FilterListener
+      class ConcreteListener
         include org.eclipse.swt.widgets.Listener
         
         def initialize(&listener_block)
@@ -194,15 +194,17 @@ module Glimmer
         observation_request = observation_request.to_s
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
-          add_swt_event_filter(constant_name, &block)
+          swt_event_reg = add_swt_event_filter(constant_name, &block)
+          Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(swt_event_reg)
+          swt_event_reg
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')
           if OBSERVED_MENU_ITEMS.include?(event_name) && OS.mac?
             system_menu = swt_display.getSystemMenu
             menu_item = system_menu.getItems.find {|menu_item| menu_item.getID == SWTProxy["ID_#{event_name.upcase}"]}
-            display_mac_event_registration = menu_item.addListener(SWTProxy[:Selection], &block)
-            # TODO enable this code and test on the Mac to ensure automatic cleanup of mac event registrations in custom widgets
-#             Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(display_mac_event_registration)
+            listener = ConcreteListener.new(&block)
+            display_mac_event_registration = menu_item.addListener(SWTProxy[:Selection], listener)
+            Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(display_mac_event_registration)
             display_mac_event_registration
           end
         end
@@ -210,15 +212,16 @@ module Glimmer
 
       def add_swt_event_filter(swt_constant, &block)
         event_type = SWTProxy[swt_constant]
-        @swt_display.addFilter(event_type, FilterListener.new(&block))
+        swt_listener = ConcreteListener.new(&block)
+        @swt_display.addFilter(event_type, swt_listener)
         #WidgetListenerProxy.new(@swt_display.getListeners(event_type).last)
         WidgetListenerProxy.new(
           swt_display: @swt_display,
           event_type: event_type,
           filter: true,
-          swt_listener: block,
+          swt_listener: swt_listener,
           widget_add_listener_method: 'addFilter',
-          swt_listener_class:  FilterListener,
+          swt_listener_class:  ConcreteListener,
           swt_listener_method: 'handleEvent'
         )
       end

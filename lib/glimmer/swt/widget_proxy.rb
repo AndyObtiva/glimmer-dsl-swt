@@ -838,7 +838,7 @@ module Glimmer
           widget_listener_proxy = nil
           safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
           @swt_widget.addListener(event_type, &safe_block)
-          widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
+          WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
         end
       end
 

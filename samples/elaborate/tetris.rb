@@ -54,7 +54,7 @@ class Tetris
     Display.app_name = 'Glimmer Tetris'
 
     display {
-      @keyboard_down_listener = on_swt_keydown { |key_event|
+      on_swt_keydown { |key_event|
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
           game.down! if OS.mac?
@@ -82,7 +82,7 @@ class Tetris
 
       # invoke game.down! on keyup with Windows/Linux since they seem to group-render similar events, preventing intermediate renders (causing invisiblity while holding keys)
       if !OS.mac?
-        @keyboard_up_listener = on_swt_keyup { |key_event|
+        on_swt_keyup { |key_event|
           case key_event.keyCode
           when swt(:arrow_down), 's'.bytes.first
             game.down!
@@ -91,11 +91,11 @@ class Tetris
       end
       
       # if running in app mode, set the Mac app about dialog (ignored in platforms)
-      @about_observer = on_about {
+      on_about {
         show_about_dialog
       }
       
-      @quit_observer = on_quit {
+      on_quit {
         exit(0)
       }
     }

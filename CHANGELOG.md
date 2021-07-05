@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.20.0.5
+
+- Hello, Text! sample
+- Timer elaborate sample (copied and simplified from external sample)
+- Calculator elaborate sample (copied and simplified from external sample)
+- Fixed issue relating to cleaning up display listeners
+
 ### 4.20.0.4
 
 - Weather elaborate sample

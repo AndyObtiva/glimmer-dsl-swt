@@ -8,6 +8,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Calculator elaborate sample
 - Timer elaborate sample
+- Ensure automatic cleanup of mac event registrations in custom widgets
 
 - Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
 ```ruby
@@ -315,6 +316,7 @@ end.open
 
 ## Technical Tasks
 
+- Allow running `glimmer samples/` as `glimmer samples`
 - Change table editing support to rely on data-binding
 - Improve tree databinding so that replacing content array value updates the tree (instead of clearing and rereading elements)
 - Consider need for a startup progress dialog (with Glimmer branding)

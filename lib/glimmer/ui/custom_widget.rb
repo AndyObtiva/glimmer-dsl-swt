@@ -186,8 +186,11 @@ module Glimmer
           @swt_widget.set_data('custom_widget', self)
         end
         execute_hook('after_body')
-        @dispose_listener_registration = @body_root.on_widget_disposed do
-          observer_registrations.each(&:deregister)
+        auto_exec do
+          @dispose_listener_registration = @body_root.on_widget_disposed do
+            observer_registrations.compact.each(&:deregister)
+            observer_registrations.clear
+          end
         end
       end
       

@@ -21,7 +21,8 @@ class Timer
   #
   #
   before_body {
-    Display.setAppName('Timer')
+    Display.setAppName('Glimmer Timer')
+    
     @display = display {
       on_about {
         display_about_dialog
@@ -202,7 +203,7 @@ class Timer
   def display_about_dialog
     message_box(body_root) {
       text 'About'
-      message "Glimmer Timer\nCopyright (c) 2007-2021 Andy Maleh"
+      message "Glimmer Timer\n\nCopyright (c) 2007-2021 Andy Maleh"
     }.open
   end
   
