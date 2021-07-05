@@ -19,10 +19,10 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer-dsl-swt'
 require 'net/http'
 require 'json'
 require 'facets/string/titlecase'
-require 'glimmer-dsl-swt'
 
 class Weather
   include Glimmer::UI::CustomShell
