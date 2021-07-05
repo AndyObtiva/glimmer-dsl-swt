@@ -79,14 +79,14 @@ class HelloText
         layout_data :fill, :center, true, false
         text <=> [self, :telephone]
         
-        # this event kicks just after the user typed and before modifying the text attribute value
+        # this event kicks in just after the user typed and before modifying the text attribute value
         on_verify_text do |verify_event|
           new_text = verify_event.widget.text.clone
           new_text[verify_event.start...verify_event.end] = verify_event.text
           verify_event.doit = telephone?(new_text)
         end
         
-        # this event kicks just after the text widget has been verified and modified
+        # this event kicks in just after the text widget is verified and modified
         on_modify_text do |modify_event|
           self.read_only = "Telephone area code is #{modify_event.widget.text.gsub(/[^0-9]/, '')[0...3]}"
         end

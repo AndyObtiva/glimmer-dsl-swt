@@ -2,6 +2,7 @@
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
     - [Hello, Button!](#hello-button)
+    - [Hello, Text!](#hello-text)
     - [Hello, Composite!](#hello-composite)
     - [Hello, Layout!](#hello-layout)
     - [Hello, Shell!](#hello-shell)
@@ -115,6 +116,18 @@ Hello, Button!
 Hello, Button! Incremented 7 times!
 
 ![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
+
+#### Hello, Text!
+
+This sample demonstrates the use of the `text` widget in Glimmer, including data-binding (e.g. via the `<=>` operator) and event handling.
+
+Code:
+
+[samples/hello/hello_text.rb](/samples/hello/hello_text.rb)
+
+Hello, Text!
+
+![Hello Text](/images/glimmer-hello-text.png)
 
 #### Hello, Composite!
 
