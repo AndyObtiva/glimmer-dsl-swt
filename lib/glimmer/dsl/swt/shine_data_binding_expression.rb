@@ -29,12 +29,15 @@ module Glimmer
   module DSL
     module SWT
       class ShineDataBindingExpression < Expression
+        include_package 'org.eclipse.swt.widgets'
+        
         def can_interpret?(parent, keyword, *args, &block)
           args.size == 0 and
             block.nil? and
-            parent.respond_to?(:set_attribute) and
-            parent.respond_to?(:has_attribute?) and
-            parent.has_attribute?(keyword, *args) and
+            (
+              (parent.respond_to?(:set_attribute) and parent.respond_to?(:has_attribute?) and parent.has_attribute?(keyword)) or
+              (parent.respond_to?(:swt_widget) and parent.swt_widget.is_a?(Table))
+            ) and
             !parent.is_a?(Glimmer::UI::CustomWidget) and
             !parent.is_a?(Glimmer::UI::CustomShape) and
             !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')

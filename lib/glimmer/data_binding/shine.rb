@@ -33,8 +33,10 @@ module Glimmer
     
       def <=>(other)
         if other.is_a?(Array)
+          args_clone = other.clone
+          @parent.editable = true if @parent.is_a?(Glimmer::SWT::TableProxy) # TODO consider a polymorphic way to perform this
           @parent.content {
-            send(@parent_attribute, bind(*other))
+            send(@parent_attribute, bind(*args_clone))
           }
         else  # || other.is_a?(Hash) # TODO support hash e.g. {model: model_obj, attribute: :some_attribute, more-options...}
           original_compare(other)

@@ -4,30 +4,31 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Text! sample
+- Shine support for `table`, with ability to pass column_properties in bind() call
+- Shine support for `tree`, with ability to pass tree child method in bind() call
+- Shine support for custom widgets and custom shells (check custom shapes too)
 
-- Calculator elaborate sample
-- Timer elaborate sample
-- Ensure automatic cleanup of mac event registrations in custom widgets
+- Amend contact_manager to add a contact
+- Hello, Tray Item! (automate creating menu and allow nesting menu items directly under tray item; set tooltip and maybe text too in sample)
+- An elaborate sample that demos every widget that comes with SWT out of the box
+
+- Update Hello, Menu Bar! sample to show images on menu items
+
+- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup selection property and custom widgets and hello cursor and
 
 - Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
 ```ruby
-items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
-items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
-items <=> {model: model, attribute: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
-items <= {model: model, attribute: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
 table { items <=> [model, prop, column_properties: [...]] } (table takes column properties in array)
 table { items <=> } becomes :editable
 table { items <= } is not editable
 ```
 - Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
-- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup select property (virtual perhaps) and custom widgets and hello cursor and
-
+- Check `glimmer samples` issue with line numbers diverging from code content once scrolling to the bottom of a long file. When scrolling up afterwards, they line numbers freeze and delay in following the code.
+- Look into supporting `menu` pop up in Hello, Tool Bar! (automating linking it to a specific tool item)
 
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
-- Fix issue with `glimmer samples` not honoring code changes in external samples coming from gems (like `glimmer-cp-stickfigure`) though it runs them just fine (at least make uneditable until fixed)
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 - Fix issue of fixing version number when scaffolding custom shape/widget/shell gems (instead of relaxing it to >=)
 - Fix the weird code text github theme gray artifacts in the html example (to the left of indented text, which goes away on hitting enter)
@@ -89,7 +90,7 @@ table { items <= } is not editable
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
-- Introduce a fuzz factor to processing glimmer keywords (e.g. `shel` is interpretted as `shell`, `cmbo` is interpretted as `combo`)
+- Support --no-shine option to disable if needed or there are concerns about conflicts between it and other keywords/methods that take no args
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
@@ -121,7 +122,7 @@ table { items <= } is not editable
 
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors
-
+- Allow data-binding table column_properties via table_column {} elements instead, just like how they specify editors for themselves
 - Update Hello, Drag and Drop! sample to change mouse cursor while dragging and dropping (like drag a flag of the country)
 - `:draggable` or `:drag_movable` style for any widget to make it movable through dragging (drag and drop)
 - Provide a way to customize display in its own file in scaffolded app (just like configuration) instead of embedding in custom shell which custom shells invoke automatically behind the scenes instead of having to add to before_block
@@ -135,9 +136,6 @@ table { items <= } is not editable
 - Upgrade Contact Manager elaborate sample merging with Login and User Profile
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
-- Update Hello, Menu Bar! sample to show images on menu items
-
-
 - Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
 - Tetris remember options by saving to disk (switching from tdf tab delimited format to json)
@@ -145,8 +143,6 @@ table { items <= } is not editable
 - Disable Reset button in Meta-Sample until sample is changed
 - Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
 - Make code_text custom widget auto-detect current programming language
-- Hello, Code Text! Sample
-
 - Accept :read_only alternative to :readonly SWT style
 - Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)
 - Improve `link` widget support to make it work just like `button` by not requiring HTML (auto-generated) and auto-aligning with labels around the link (improving upon the original SWT widget API design)
@@ -317,6 +313,12 @@ end.open
 ## Technical Tasks
 
 - Allow running `glimmer samples/` as `glimmer samples`
+- Explore supporting Shine variations:
+```ruby
+items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
+items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
+items <=> {model: model, attribute: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
+items <= {model: model, attribute: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
 - Change table editing support to rely on data-binding
 - Improve tree databinding so that replacing content array value updates the tree (instead of clearing and rereading elements)
 - Consider need for a startup progress dialog (with Glimmer branding)
@@ -475,9 +477,9 @@ end.open
 ## Samples
 
 - Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
-- Add hello samples for every built-in SWT widget including the custom package
+- Add hello samples for every built-in SWT widget, including the custom package
 - Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
-- An elaborate sample that demos every widget that comes with SWT out of the box
+- Hello, Tree Column!
 - Connect4
 - Battleship
 - Building Parking system

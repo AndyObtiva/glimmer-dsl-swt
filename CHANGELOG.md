@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.1.0
+
+- Shine data-binding syntax support for `table` widget
+- Use Shine syntax in Hello, Table! and Contact Manager samples
+
 ### 4.20.0.5
 
 - Hello, Text! sample

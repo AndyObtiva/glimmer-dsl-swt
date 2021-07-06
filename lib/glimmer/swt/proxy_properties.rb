@@ -33,6 +33,7 @@ module Glimmer
       # default implementation of attribute setters/getters
       # It tries swt_widget, swt_display, swt_image, and swt_dialog by default.
       def proxy_source_object
+        # TODO the logic here should not be needed if derived with polymorphism. Consider removing.
         if respond_to?(:swt_widget)
           swt_widget
         elsif respond_to?(:swt_display)
@@ -62,7 +63,7 @@ module Glimmer
 
       def has_attribute?(attribute_name, *args)
         Glimmer::SWT::DisplayProxy.instance.auto_exec do
-          proxy_source_object&.respond_to?(attribute_setter(attribute_name), args) ||
+          proxy_source_object&.respond_to?(attribute_setter(attribute_name), args) or
             respond_to?(ruby_attribute_setter(attribute_name), args)
         end
       end

@@ -34,11 +34,11 @@ module Glimmer
       include_package 'org.eclipse.swt'
       include_package 'org.eclipse.swt.widgets'
 
-      def initialize(parent, model_binding, column_properties)
+      def initialize(parent, model_binding, column_properties = nil)
         @table = parent
         @model_binding = model_binding
         @read_only_sort = @model_binding.binding_options[:read_only_sort]
-        @column_properties = column_properties
+        @column_properties = @model_binding.binding_options[:column_properties] || @model_binding.binding_options[:column_attributes] || column_properties
         if @table.respond_to?(:column_properties=)
           @table.column_properties = @column_properties
         else # assume custom widget

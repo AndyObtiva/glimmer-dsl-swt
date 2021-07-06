@@ -303,7 +303,8 @@ module GlimmerSpec
     it "tests shell_and_table_and_table_column_defaults" do
       @target = shell {
         @table = table {
-          @table_column = table_column
+          @table_column = table_column {
+          }
         }
       }
 
@@ -432,7 +433,7 @@ module GlimmerSpec
       
       expect(@checkbox.swt_widget).to be_a(Button)
       expect(@checkbox).to have_style(:check)
-      expect(@checkbox.text).to eq('checkbox button')    
+      expect(@checkbox.text).to eq('checkbox button')
     end
 
     it 'renders checkbox button' do
@@ -444,7 +445,7 @@ module GlimmerSpec
       
       expect(@checkbox.swt_widget).to be_a(Button)
       expect(@checkbox).to have_style(:check)
-      expect(@checkbox.text).to eq('checkbox button')    
+      expect(@checkbox.text).to eq('checkbox button')
     end
 
     it 'renders toggle button' do
@@ -456,7 +457,7 @@ module GlimmerSpec
       
       expect(@toggle.swt_widget).to be_a(Button)
       expect(@toggle).to have_style(:toggle)
-      expect(@toggle.text).to eq('toggle button')    
+      expect(@toggle.text).to eq('toggle button')
     end
 
     it 'renders arrow button' do

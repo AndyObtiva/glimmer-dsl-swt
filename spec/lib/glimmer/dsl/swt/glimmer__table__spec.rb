@@ -239,6 +239,232 @@ module GlimmerSpec
     
           expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Flee")
         end
+      end
+    
+      context 'read with alternate syntax passing column_properties/column_attributes as an option to bind' do
+        it "data binds table items" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items bind(group, :people, column_properties: [:name, :age, :adult])
+            }
+            @table_nested_indexed = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items bind(community, "groups[0].people", column_attributes: [:name, :age, :adult])
+            }
+          }
+    
+          expect(@table.swt_widget.getColumnCount).to eq(3)
+          expect(@table.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          expect(@table_nested_indexed.swt_widget.getColumnCount).to eq(3)
+          expect(@table_nested_indexed.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          person3 = Person.new
+          person3.name = "Andrea Sherlock"
+          person3.age = 23
+          person3.adult = true
+    
+          group.people << person3
+    
+          expect(@table.swt_widget.getItems.size).to eq(3)
+          expect(@table.swt_widget.getItems[2].getText(0)).to eq("Andrea Sherlock")
+          expect(@table.swt_widget.getItems[2].getText(1)).to eq("23")
+          expect(@table.swt_widget.getItems[2].getText(2)).to eq("true")
+    
+          person3.name = "Andrea Sherloque"
+          person3.age = 13
+          person3.adult = false
+    
+          expect(@table.swt_widget.getItems[2].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[2].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[2].getText(2)).to eq("false")
+    
+          group.people.delete person2
+    
+          expect(@table.swt_widget.getItems.size).to eq(2)
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          group.people.delete_at(0)
+    
+          expect(@table.swt_widget.getItems.size).to eq(1)
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("false")
+    
+          group.people.clear
+    
+          expect(0).to eq(@table.swt_widget.getItems.size)
+    
+          group.people = [person2, person1]
+    
+          expect(2).to eq(@table.swt_widget.getItems.size)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("false")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("true")
+    
+          person1.name = "Bruce Flee"
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Flee")
+        end
+      end
+    
+      context 'read with Shine syntax' do
+        it "data binds table items" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items <= [group, :people, column_properties: [:name, :age, :adult]]
+            }
+            @table_nested_indexed = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items <= [community, "groups[0].people", column_attributes: [:name, :age, :adult]]
+            }
+          }
+    
+          expect(@table.swt_widget.getColumnCount).to eq(3)
+          expect(@table.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          expect(@table_nested_indexed.swt_widget.getColumnCount).to eq(3)
+          expect(@table_nested_indexed.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table_nested_indexed.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table_nested_indexed.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          person3 = Person.new
+          person3.name = "Andrea Sherlock"
+          person3.age = 23
+          person3.adult = true
+    
+          group.people << person3
+    
+          expect(@table.swt_widget.getItems.size).to eq(3)
+          expect(@table.swt_widget.getItems[2].getText(0)).to eq("Andrea Sherlock")
+          expect(@table.swt_widget.getItems[2].getText(1)).to eq("23")
+          expect(@table.swt_widget.getItems[2].getText(2)).to eq("true")
+    
+          person3.name = "Andrea Sherloque"
+          person3.age = 13
+          person3.adult = false
+    
+          expect(@table.swt_widget.getItems[2].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[2].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[2].getText(2)).to eq("false")
+    
+          group.people.delete person2
+    
+          expect(@table.swt_widget.getItems.size).to eq(2)
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+    
+          group.people.delete_at(0)
+    
+          expect(@table.swt_widget.getItems.size).to eq(1)
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Andrea Sherloque")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("13")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("false")
+    
+          group.people.clear
+    
+          expect(0).to eq(@table.swt_widget.getItems.size)
+    
+          group.people = [person2, person1]
+    
+          expect(2).to eq(@table.swt_widget.getItems.size)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("false")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("true")
+    
+          person1.name = "Bruce Flee"
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Flee")
+        end
     
         it "data binds table single selection" do
           @target = shell {
@@ -469,6 +695,61 @@ module GlimmerSpec
                 }
                 items bind(group, :people), column_properties(:name, :age, :adult)
                 selection bind(group, :selected_person)
+              }
+            }
+          
+            item_height = @table.swt_widget.items.first.bounds.height
+          
+            expect(@table.table_editor_widget_proxy).to be_nil
+            event = Event.new
+            event.display = @table.swt_widget.getDisplay
+            event.item = @table.swt_widget.items.first
+            event.widget = @table.swt_widget
+            event.type = Glimmer::SWT::SWTProxy[:mouseup]
+            event.x = 5
+            event.y = item_height + (OS.mac? ? 5 : 10) # skip first item, go to the second item
+            @table.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:mouseup], event)
+  
+            expect(@table.table_editor_widget_proxy).to_not be_nil
+            @table.table_editor_widget_proxy.swt_widget.setText('Julie Fan')
+            # simulate hitting enter to trigger write action
+            event = Event.new
+            event.keyCode = Glimmer::SWT::SWTProxy[:cr]
+            event.doit = true
+            event.character = "\n"
+            event.display = @table.table_editor_widget_proxy.swt_widget.getDisplay
+            event.item = @table.table_editor_widget_proxy.swt_widget
+            event.widget = @table.table_editor_widget_proxy.swt_widget
+            event.type = Glimmer::SWT::SWTProxy[:keydown]
+            @table.table_editor_widget_proxy.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+            expect(@table.edit_in_progress?).to eq(false)
+            
+            expect(person2.name).to eq('Julie Fan')
+            
+            # test that it maintains selection
+            selection = @table.swt_widget.getSelection
+            expect(selection.size).to eq(1)
+            expect(selection.first.getData).to eq(person2)
+          end
+          
+          it "triggers table widget editing on selected table item via Shine syntax bidirectional (two-way) data-binding <=>" do
+            @target = shell {
+              @table = table {
+                table_column {
+                  text "Name"
+                  width 120
+                }
+                table_column {
+                  text "Age"
+                  width 120
+                }
+                table_column {
+                  text "Adult"
+                  width 120
+                }
+                # using <=> on items automatically makes table have :editable style retroactively
+                items <=> [group, :people, column_attributes: [:name, :age, :adult]]
+                selection <=> [group, :selected_person]
               }
             }
           

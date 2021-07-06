@@ -765,7 +765,7 @@ module Glimmer
 
       def can_add_listener?(underscored_listener_name)
         auto_exec do
-          !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
+          @swt_widget && !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
         end
       end
 

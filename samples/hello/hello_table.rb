@@ -206,11 +206,11 @@ class HelloTable
       
       combo(:read_only) {
         layout_data :center, :center, true, false
-        selection bind(BaseballGame, :playoff_type)
+        selection <=> [BaseballGame, :playoff_type]
         font height: 14
       }
       
-      table(:editable) { |table_proxy|
+      table { |table_proxy|
         layout_data :fill, :fill, true, true
       
         table_column {
@@ -247,10 +247,10 @@ class HelloTable
         }
         
         # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
+        items <=> [BaseballGame, :schedule, column_properties: [:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion]]
         
         # Data-bind table selection
-        selection bind(BaseballGame, :selected_game)
+        selection <=> [BaseballGame, :selected_game]
         
         # Default initial sort property
         sort_property :date
@@ -273,7 +273,7 @@ class HelloTable
         text 'Book Selected Game'
         layout_data :center, :center, true, false
         font height: 14
-        enabled bind(BaseballGame, :selected_game)
+        enabled <= [BaseballGame, :selected_game]
         
         on_widget_selected {
           book_selected_game

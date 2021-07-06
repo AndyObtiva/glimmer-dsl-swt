@@ -250,19 +250,13 @@ module Glimmer
       alias editable? editable
       
       def initialize(underscored_widget_name, parent, args)
-        @editable = args.delete(:editable)
+        editable_style = args.delete(:editable)
         super
         @table_editor = TableEditor.new(swt_widget)
         @table_editor.horizontalAlignment = SWTProxy[:left]
         @table_editor.grabHorizontal = true
         @table_editor.minimumHeight = 20
-        if editable?
-          content {
-            on_mouse_up { |event|
-              edit_table_item(event.table_item, event.column_index)
-            }
-          }
-        end
+        self.editable = editable_style
       end
 
       def items
@@ -280,6 +274,19 @@ module Glimmer
       def table_items_binding
         auto_exec do
           swt_widget.get_data('table_items_binding')
+        end
+      end
+      
+      def editable=(value)
+        @editable = value
+        if @editable
+          content {
+            @editable_on_mouse_up = on_mouse_up { |event|
+              edit_table_item(event.table_item, event.column_index)
+            }
+          }
+        else
+          @editable_on_mouse_up.deregister if @editable_on_mouse_up
         end
       end
       
