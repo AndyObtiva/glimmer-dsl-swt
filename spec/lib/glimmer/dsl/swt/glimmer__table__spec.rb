@@ -734,7 +734,7 @@ module GlimmerSpec
           
           it "triggers table widget editing on selected table item via Shine syntax bidirectional (two-way) data-binding <=>" do
             @target = shell {
-              @table = table {
+              @table = table(:editable) {
                 table_column {
                   text "Name"
                   width 120

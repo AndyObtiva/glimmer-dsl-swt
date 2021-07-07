@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.2.2
+
+- Fix `table` Shine syntax support for unidirectional (one-way) data-binding
+
 ### 4.20.2.1
 
 - Shine data-binding support for `animation` (also supporting `#content {}` method in `Animation`)

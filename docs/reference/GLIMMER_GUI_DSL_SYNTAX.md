@@ -2278,12 +2278,15 @@ Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you 
 
 #### Shine
 
-**(EARLY ALPHA FEATURE)**
+**(ALPHA FEATURE)**
 
 The new Shine syntax for View/Model Attribute Mapping allows data-binding visually with simple arrow operators in Ruby.
 
 Use `<=> [model, attribute, options]` for bidirectional (two-way) data-binding instead of `bind(model, attribute, options)`.
 Use `<= [model, attribute, options]` for unidirectional (one-way) data-binding instead of `bind(model, attribute, read_only: true, more_options)`
+
+One thing special with the `table` widget is that `<=`, which makes data-binding unidirectional, stops the `table` from supporting automatic sorting by default since that involves modifying the model collection ordering (albeit not the content).
+To enable automatic sorting in a `table`, but still not permit edit actions to the data itself, you simply use `<=>` for bidirectional data-binding, but without passing the `:editable` style to the `table`.
 
 Examples:
 
@@ -2299,7 +2302,7 @@ text <=> [@contact, :last_name]
 text <= [@contact, :name, computed_by: [:first_name, :last_name]]
 ```
 
-Note that `table`, `tree`, custom widgets, custom shapes, and animations are not supported by Shine syntax for data-binding yet, so continue to use `bind` with them for the time being.
+Note that custom widgets and custom shapes are not supported by Shine syntax for data-binding yet, so continue to use `bind` with them for the time being.
 
 Check out [sample code](/samples) for more examples of Shine syntax in action, such as [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed).
 

@@ -210,7 +210,7 @@ class HelloTable
         font height: 14
       }
       
-      table { |table_proxy|
+      table(:editable) { |table_proxy|
         layout_data :fill, :fill, true, true
       
         table_column {
