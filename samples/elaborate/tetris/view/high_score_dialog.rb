@@ -45,7 +45,7 @@ class Tetris
           tetris_menu_bar(game: game)
           
           label(:center) {
-            text bind(game, :game_over) {|game_over| game_over ? 'Game Over!' : 'High Scores'}
+            text <= [game, :game_over, on_read: ->(game_over) { game_over ? 'Game Over!' : 'High Scores' }]
             font name: FONT_NAME, height: FONT_TITLE_HEIGHT, style: FONT_TITLE_STYLE
           }
           @high_score_table = table {
@@ -66,13 +66,13 @@ class Tetris
               text 'Level'
             }
             
-            items bind(game, :high_scores, read_only_sort: true), column_properties(:name, :score, :lines, :level)
+            items <=> [game, :high_scores, read_only_sort: true, column_properties: [:name, :score, :lines, :level]]
           }
           composite {
             row_layout :horizontal
                         
             @play_close_button = button {
-              text bind(game, :game_over) {|game_over| game_over ? 'Play Again?' : 'Close'}
+              text <= [game, :game_over, on_read: ->(game_over) { game_over ? 'Play Again?' : 'Close'}]
               focus true # initial focus
               
               on_widget_selected {

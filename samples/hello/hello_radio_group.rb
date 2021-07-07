@@ -64,7 +64,7 @@ class HelloRadioGroup
       
       radio_group {
         row_layout :horizontal
-        selection bind(@person, :gender)
+        selection <=> [@person, :gender]
       }
             
       label {
@@ -74,7 +74,7 @@ class HelloRadioGroup
       
       radio_group {
         row_layout :horizontal
-        selection bind(@person, :age_group)
+        selection <=> [@person, :age_group]
       }
       
       button {

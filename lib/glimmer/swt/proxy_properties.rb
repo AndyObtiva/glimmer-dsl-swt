@@ -81,7 +81,7 @@ module Glimmer
           end
         end
         unless swt_widget_operation
-          result = send(ruby_attribute_setter(attribute_name), args)
+          result = send(ruby_attribute_setter(attribute_name), args) if respond_to?(ruby_attribute_setter(attribute_name), args)
         end
         result
       end
@@ -102,10 +102,10 @@ module Glimmer
           end
         end
         unless swt_widget_operation
-          result = if respond_to?(ruby_attribute_getter(attribute_name))
-            send(ruby_attribute_getter(attribute_name))
-          else
-            send(attribute_name)
+          if respond_to?(ruby_attribute_getter(attribute_name))
+            result = send(ruby_attribute_getter(attribute_name))
+          elsif respond_to?(attribute_name)
+            result = send(attribute_name)
           end
         end
         result

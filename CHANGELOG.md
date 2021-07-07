@@ -2,6 +2,8 @@
 
 ### 4.20.2.2
 
+- Shine data-binding support for `custom widgets`, `custom shells`, and `custom shapes`
+- Update remaining samples with `bind` keyword to switch to Shine data-binding syntax
 - Fix `table` Shine syntax support for unidirectional (one-way) data-binding
 
 ### 4.20.2.1

@@ -232,9 +232,12 @@ module Glimmer
       def has_attribute?(attribute_name, *args)
         # TODO test that attribute getter responds too
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
+        property_type_converter = property_type_converters[attribute_name.to_s.to_sym]
         auto_exec do
           if widget_custom_attribute
             @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
+          elsif property_type_converter
+            true
           else
             super
           end

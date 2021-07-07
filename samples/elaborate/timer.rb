@@ -84,7 +84,7 @@ class Timer
         menu_item {
           text '&Start'
           accelerator COMMAND_KEY, 's'
-          enabled bind(self, :countdown, on_read: :!)
+          enabled <= [self, :countdown, on_read: :!]
           
           on_widget_selected {
             start_countdown
@@ -92,7 +92,7 @@ class Timer
         }
         menu_item {
           text 'St&op'
-          enabled bind(self, :countdown)
+          enabled <= [self, :countdown]
           accelerator COMMAND_KEY, 'o'
           
           on_widget_selected {
@@ -148,8 +148,8 @@ class Timer
         text_limit 2
         digits 0
         maximum 59
-        selection bind(self, :min)
-        enabled bind(self, :countdown, on_read: :!)
+        selection <=> [self, :min]
+        enabled <= [self, :countdown, on_read: :!]
         on_widget_default_selected {
           start_countdown
         }
@@ -162,8 +162,8 @@ class Timer
         text_limit 2
         digits 0
         maximum 59
-        selection bind(self, :sec)
-        enabled bind(self, :countdown, on_read: :!)
+        selection <=> [self, :sec]
+        enabled <= [self, :countdown, on_read: :!]
         on_widget_default_selected {
           start_countdown
         }
@@ -179,7 +179,7 @@ class Timer
       }
       @start_button = button {
         text '&Start'
-        enabled bind(self, :countdown, on_read: :!)
+        enabled <= [self, :countdown, on_read: :!]
         on_widget_selected {
           start_countdown
         }
@@ -189,7 +189,7 @@ class Timer
       }
       @stop_button = button {
         text 'St&op'
-        enabled bind(self, :countdown)
+        enabled <= [self, :countdown]
         on_widget_selected {
           stop_countdown
         }

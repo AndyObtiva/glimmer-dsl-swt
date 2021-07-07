@@ -45,7 +45,7 @@ class Calculator
       
       # Setting styled_text to multi in order for alignment options to activate
       styled_text(:multi, :wrap, :border) {
-        text bind(@presenter, :result)
+        text <= [@presenter, :result]
         alignment swt(:right)
         right_margin 5
         font height: 40

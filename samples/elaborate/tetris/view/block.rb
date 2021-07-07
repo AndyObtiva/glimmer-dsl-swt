@@ -31,7 +31,7 @@ class Tetris
       body {
         canvas { |canvas_proxy|
           bevel(size: block_size) {
-            base_color bind(game_playfield[row][column], :color)
+            base_color <= [game_playfield[row][column], :color]
           }
         }
       }

@@ -58,7 +58,7 @@ class HelloCheckboxGroup
       }
       
       checkbox_group {
-        selection bind(@person, :activities)
+        selection <=> [@person, :activities]
       }
     
       button {

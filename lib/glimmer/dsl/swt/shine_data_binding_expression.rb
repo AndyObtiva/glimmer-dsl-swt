@@ -38,8 +38,6 @@ module Glimmer
               (parent.respond_to?(:has_attribute?) and parent.has_attribute?(keyword)) or
               (parent.respond_to?(:swt_widget) and (parent.swt_widget.is_a?(Table) or parent.swt_widget.is_a?(Tree)))
             ) and
-            !parent.is_a?(Glimmer::UI::CustomWidget) and
-            !parent.is_a?(Glimmer::UI::CustomShape) and
             !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')
         end
   

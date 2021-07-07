@@ -85,7 +85,7 @@ class HelloCodeText
           fill_layout
           text 'Ruby (glimmer theme)'
           code_text(language: 'ruby', theme: 'glimmer', lines: true) {
-            text bind(self, :ruby_code)
+            text <=> [self, :ruby_code]
           }
         }
         tab_item {
@@ -101,14 +101,14 @@ class HelloCodeText
             line_numbers {
               background :white
             }
-            text bind(self, :js_code)
+            text <=> [self, :js_code]
           }
         }
         tab_item {
           fill_layout
           text 'HTML (github theme)'
           code_text(language: 'html', theme: 'github') { # default is lines: false
-            text bind(self, :html_code)
+            text <=> [self, :html_code]
           }
         }
       }

@@ -226,7 +226,7 @@ class MetaSampleApplication
                   row_layout(:vertical) {
                     fill true
                   }
-                  selection bind(sample_directory, :selected_sample_name)
+                  selection <=> [sample_directory, :selected_sample_name]
                   font height: 20
                 }
               }
@@ -242,7 +242,7 @@ class MetaSampleApplication
             button {
               text 'Launch'
               font height: 25
-              enabled bind(SampleDirectory, 'selected_sample.launchable')
+              enabled <= [SampleDirectory, 'selected_sample.launchable']
               
               on_widget_selected {
                 begin
@@ -255,7 +255,7 @@ class MetaSampleApplication
             button {
               text 'Reset'
               font height: 25
-              enabled bind(SampleDirectory, 'selected_sample.editable')
+              enabled <= [SampleDirectory, 'selected_sample.editable']
               
               on_widget_selected {
                 SampleDirectory.selected_sample.reset_code!
@@ -277,8 +277,8 @@ class MetaSampleApplication
           line_numbers {
             background :white
           }
-          text bind(SampleDirectory, 'selected_sample.code', read_only: true)
-          editable bind(SampleDirectory, 'selected_sample.editable')
+          text <=> [SampleDirectory, 'selected_sample.code']
+          editable <= [SampleDirectory, 'selected_sample.editable']
           left_margin 7
           right_margin 7
         }

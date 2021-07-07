@@ -73,7 +73,7 @@ class HelloCoolBar
           }
           # a combo can be nested in a tool_bar (it auto-generates a tool_item for itself behind the scenes)
           combo {
-            selection bind(self, :font_size)
+            selection <=> [self, :font_size]
           }
         }
       }

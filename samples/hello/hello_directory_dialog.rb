@@ -44,7 +44,7 @@ class HelloDirectoryDialog
       
       label {
         layout_data :fill, :center, true, false
-        text bind(self, :selected_directory)
+        text <= [self, :selected_directory]
         font height: 14
       }
       

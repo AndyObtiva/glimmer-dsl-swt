@@ -51,7 +51,7 @@ class HelloCursor
       }
       radio_group {
         grid_layout 5, true
-        selection bind(self, :selected_cursor)
+        selection <=> [self, :selected_cursor]
       }
     }
   }
