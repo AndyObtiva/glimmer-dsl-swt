@@ -40,7 +40,7 @@ class Tetris
             type :vertical
             center true
           }
-          text 'Tetris'
+          text 'Glimmer Tetris'
           
           tetris_menu_bar(game: game)
           

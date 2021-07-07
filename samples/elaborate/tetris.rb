@@ -102,14 +102,14 @@ class Tetris
   }
   
   after_body {
-    @game_over_observer = observe(@game, :game_over) do |game_over|
+    observe(@game, :game_over) do |game_over|
       if game_over
         show_high_score_dialog
       else
         start_moving_tetrominos_down
       end
     end
-    @show_high_scores_observer = observe(@game, :show_high_scores) do |show_high_scores|
+    observe(@game, :show_high_scores) do |show_high_scores|
       if show_high_scores
         show_high_score_dialog
       else

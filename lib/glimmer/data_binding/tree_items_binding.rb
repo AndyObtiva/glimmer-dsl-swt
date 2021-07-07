@@ -34,10 +34,10 @@ module Glimmer
       include_package 'org.eclipse.swt'
       include_package 'org.eclipse.swt.widgets'
       
-      def initialize(parent, model_binding, tree_properties)
+      def initialize(parent, model_binding, tree_properties = nil)
         @tree = parent
         @model_binding = model_binding
-        @tree_properties = [tree_properties].flatten.first.to_h
+        @tree_properties = @model_binding.binding_options[:tree_properties] || @model_binding.binding_options[:tree_attributes] || [tree_properties].compact.flatten.first.to_h
         if @tree.respond_to?(:tree_properties=)
           @tree.tree_properties = @tree_properties
         else # assume custom widget

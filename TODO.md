@@ -4,9 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Shine support for `table`, with ability to pass column_properties in bind() call
-- Shine support for `tree`, with ability to pass tree child method in bind() call
 - Shine support for custom widgets and custom shells (check custom shapes too)
+
+- Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
 
 - Amend contact_manager to add a contact
 - Hello, Tray Item! (automate creating menu and allow nesting menu items directly under tray item; set tooltip and maybe text too in sample)
@@ -73,6 +73,8 @@ table { items <= } is not editable
 
 - Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
 - Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
+
+- Add a `#save` method to ImageProxy similar to the one on `ImageLoader` that takes location and format.
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
@@ -343,6 +345,14 @@ items <= {model: model, attribute: property, on_read: ->(v) {}, on_write: ->(v) 
 - Support XML DSL comments <!-- COMMENT -->
 - Support XML Document Declaration Tag: <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 - Support HTML Doctype Declaration <!DOCTYPE html>
+- TODO consider documenting `generate_icon` in Glimmer DSL for SWT or even providing scaffolding for it
+```ruby
+@i = image(200, 200) {oval(0,0,200,200) {background :red}} # replace with any image like Tetris logo
+i = org.eclipse.swt.graphics.Image.new(display.swt_display, 200, 200)
+gc = org.eclipse.swt.graphics.GC.new(i)
+gc.drawImage(@i.swt_image, 0, 0)
+il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image_jpeg))
+```
 - Log to SysLog using this gem: https://www.rubydoc.info/gems/syslog-logger/1.6.8
 - Implement Glimmer#respond_to? to accommodate method_missing
 - Support the idea of application pre-warm up where an app is preloaded and shows up right away from launched

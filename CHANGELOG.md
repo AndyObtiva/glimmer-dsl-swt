@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.2.0
+
+- Shine data-binding syntax support for `tree` widget
+- Use Shine syntax in Hello, Tree! sample
+
 ### 4.20.1.0
 
 - Shine data-binding syntax support for `table` widget
