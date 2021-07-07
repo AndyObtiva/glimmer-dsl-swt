@@ -132,7 +132,7 @@ class ContactManager
             width 200
           }
           
-          items bind(@contact_manager_presenter, :results), column_properties(:first_name, :last_name, :email)
+          items <=> [@contact_manager_presenter, :results, column_properties: [:first_name, :last_name, :email]]
           
           on_mouse_up { |event|
             table_proxy.edit_table_item(event.table_item, event.column_index)

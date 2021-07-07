@@ -51,6 +51,8 @@ module Glimmer
           else # || other.is_a?(Hash) # TODO support hash e.g. {model: model_obj, attribute: :some_attribute, more-options...}
             args_clone << {read_only: true}
           end
+          # remove read_only from table to allow automatic sorting (but it remains non-editable)
+          args_clone.last[:read_only] = false if @parent.is_a?(Glimmer::SWT::TableProxy) # TODO consider a polymorphic way to perform this
           @parent.content {
             send(@parent_attribute, bind(*args_clone))
           }

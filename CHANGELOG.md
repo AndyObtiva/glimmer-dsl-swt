@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.20.2.1
+
+- Shine data-binding support for `animation` (also supporting `#content {}` method in `Animation`)
+- Update Hello, Custom Shell! to use Shine data-binding syntax
+- Fix `table` automatic sorting support when using one-way Shine data-binding syntax (which was disabling reads)
+
 ### 4.20.2.0
 
 - Shine data-binding syntax support for `tree` widget

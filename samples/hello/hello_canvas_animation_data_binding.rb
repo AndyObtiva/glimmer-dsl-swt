@@ -49,7 +49,7 @@ class HelloAnimationDataBinding
           selection <=> [self, :delay_time, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f}]
         }
         animation {
-          every bind(self, :delay_time)
+          every <= [self, :delay_time]
           
           frame { |index|
             background rgb(index%100, index%100 + 100, index%55 + 200)

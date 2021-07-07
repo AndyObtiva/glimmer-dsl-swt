@@ -99,6 +99,12 @@ module Glimmer
           end
         end
         
+        def content(&block)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec do
+            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::AnimationExpression.new, 'animation', &block)
+          end
+        end
+                
         # Starts an animation that is indefinite or has never been started before (i.e. having `started: false` option).
         # Otherwise, resumes a stopped animation that has not been completed.
         def start
