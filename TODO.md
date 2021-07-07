@@ -5,28 +5,19 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Shine support for custom widgets and custom shells (check custom shapes too)
+- Shine support for `animation` (by supporting `.content {}` on `Animation`)
+- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup selection property and custom widgets and hello cursor and
 
 - Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
-
 - Amend contact_manager to add a contact
 - Hello, Tray Item! (automate creating menu and allow nesting menu items directly under tray item; set tooltip and maybe text too in sample)
 - An elaborate sample that demos every widget that comes with SWT out of the box
-
 - Update Hello, Menu Bar! sample to show images on menu items
 
-- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup selection property and custom widgets and hello cursor and
-
-- Explore supporting new Shine View-Model Mapping syntax (data-binding with spaceship operator <=>):
-```ruby
-table { items <=> [model, prop, column_properties: [...]] } (table takes column properties in array)
-table { items <=> } becomes :editable
-table { items <= } is not editable
-```
 - Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
 - Check `glimmer samples` issue with line numbers diverging from code content once scrolling to the bottom of a long file. When scrolling up afterwards, they line numbers freeze and delay in following the code.
 - Look into supporting `menu` pop up in Hello, Tool Bar! (automating linking it to a specific tool item)
 
-- Use custom widgets for the menu bar and dialogs in scaffolded apps
 
 - Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
@@ -233,6 +224,7 @@ composite {
   }
 }
 ```
+  - Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command

@@ -290,6 +290,12 @@ SWT supports Canvas graphics drawing, and Glimmer takes that further by provding
 
 Audio is supported via the Java Sound library in a cross-platform approach and video is supported via a Glimmer custom widget, so any Glimmer app can be enhanced with audio and video where needed.
 
+### Remaining Challenges
+
+Startup time is long. Thankfully, [there are work-arounds](https://andymaleh.blogspot.com/2021/03/glimmer-dsl-for-swt-41900-halved.html) that could make apps start as fast as instantly.
+
+Contributors who appreciate Glimmer's ultra-high productivity, maintainability, and extensibility might want to help report and resolve remaining challenges in its software architecture.
+
 ## Platform Support
 
 Glimmer runs on the following platforms:
