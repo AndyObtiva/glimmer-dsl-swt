@@ -195,7 +195,7 @@ module GlimmerSpec
     it "tests shell_and_composite_and_text_with_default_style" do
       @target = shell {
         composite {
-          text
+          text {}
         }
       }
 
@@ -210,7 +210,7 @@ module GlimmerSpec
       composite_layout = RowLayout.new
       @target = shell {
         composite {
-          text
+          text {}
           layout composite_layout
         }
       }

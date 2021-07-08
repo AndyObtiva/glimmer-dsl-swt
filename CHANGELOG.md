@@ -1,9 +1,10 @@
 # Change Log
 
-### 4.20.2.2
+### 4.20.3.0
 
 - Shine data-binding support for `custom widgets`, `custom shells`, and `custom shapes`
 - Update remaining samples with `bind` keyword to switch to Shine data-binding syntax
+- Switch scaffolded classes' data-binding to Shine
 - Fix `table` Shine syntax support for unidirectional (one-way) data-binding
 
 ### 4.20.2.1

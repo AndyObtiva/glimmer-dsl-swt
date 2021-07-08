@@ -642,7 +642,7 @@ module Glimmer
             custom_shell_file_content += <<-MULTI_LINE_STRING
           grid_layout
           label(:center) {
-            text bind(self, :greeting)
+            text <= [self, :greeting]
             font height: 40
             layout_data :fill, :center, true, true
           }
@@ -712,7 +712,7 @@ module Glimmer
             ].each do |greeting_text|
               button(:radio) {
                 text greeting_text
-                selection bind(self, :greeting) { |g| g == greeting_text }
+                selection <= [self, :greeting, on_read: ->(g) { g == greeting_text }]
                 layout_data {
                   width 160
                 }

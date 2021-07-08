@@ -29,7 +29,7 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         body {
-          composite # just an empty composite to hold checkboxs upon data-binding `selection`
+          composite {} # just an empty composite to hold checkboxs upon data-binding `selection`
         }
         
         def items=(text_array)

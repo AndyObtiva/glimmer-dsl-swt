@@ -29,7 +29,7 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         body {
-          composite # just an empty composite to hold radios upon data-binding `selection`
+          composite {} # just an empty composite to hold radios upon data-binding `selection`
         }
         
         def items=(text_array)
@@ -41,6 +41,7 @@ module Glimmer
         def items
           @items || []
         end
+        alias get_items items
         
         def selection=(text)
           radios.count.times do |index|
