@@ -4,13 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Extract Shine to Glimmer to share with Opal
+
 - Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
 - Amend contact_manager to add a contact
-
-- Shine support for custom widgets and custom shells (check custom shapes too)
-
-- Fix issue with using Shine data-binding syntax in Hello animation data-binding and HelloCodeText and RadioGroup selection property and custom widgets and hello cursor and
-
 - Hello, Slider!
 - Hello, Scale!
 

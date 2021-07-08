@@ -2278,7 +2278,7 @@ Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you 
 
 #### Shine
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 The new Shine syntax for View/Model Attribute Mapping allows data-binding visually with simple arrow operators in Ruby.
 
@@ -2302,7 +2302,7 @@ text <=> [@contact, :last_name]
 text <= [@contact, :name, computed_by: [:first_name, :last_name]]
 ```
 
-Note that custom widgets and custom shapes are not supported by Shine syntax for data-binding yet, so continue to use `bind` with them for the time being.
+Given that Shine is new, if you encounter any issues, you can use `bind` instead.
 
 Check out [sample code](/samples) for more examples of Shine syntax in action, such as [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed).
 
