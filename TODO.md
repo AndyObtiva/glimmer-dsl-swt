@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Extract Shine to Glimmer to share with Opal
-
 - Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
 - Amend contact_manager to add a contact
 - Hello, Slider!
@@ -113,6 +111,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Restructure scaffolding of model and view directories to be just like that in Tetris (nesting within Model and View namespaces)
 
 ## Soon
+
+- Have `table` support "attribute(s)" terminology in addition to "property(ies)"
+- Have `table` optionally receive sort_attribute and additional_sort_attributes as options to bind items keyword since they are related
+- Ensure a `table`'s columns cannot be clicked for sorting when it is bound as one-way datainbinding with `items <= ...` for example.
 
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors

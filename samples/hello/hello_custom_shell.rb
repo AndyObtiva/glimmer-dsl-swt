@@ -88,12 +88,10 @@ class EmailShell
 end
 
 class HelloCustomShell
-  include Glimmer::UI::CustomShell
-  
   Email = Struct.new(:date, :subject, :from, :message, keyword_init: true)
   EmailSystem = Struct.new(:emails, keyword_init: true)
   
-  before_body {
+  def initialize
     @email_system = EmailSystem.new(
       emails: [
         Email.new(date: DateTime.new(2029, 10, 22, 11, 3, 0).strftime('%F %I:%M %p'), subject: '3rd Week Report', from: '"Dianne Tux" <dianne.tux@example.com>', message: "Hello,\n\nI was wondering if you'd like to go over the weekly report sometime this afternoon.\n\nDianne"),
@@ -104,10 +102,10 @@ class HelloCustomShell
         Email.new(date: DateTime.new(2029, 10, 2, 10, 34, 0).strftime('%F %I:%M %p'), subject: 'Glimmer Upgrade v98.0', from: '"Robert McGabbins" <robert.mcgabbins@example.com>', message: "Team,\n\nWe are upgrading to Glimmer version 98.0.\n\nEveryone pull the latest code!\n\nRegards,\n\nRobert McGabbins"),
       ]
     )
-  }
+  end
   
-  body {
-    shell {
+  def launch
+    shell { |shell_proxy|
       grid_layout
       
       text 'Hello, Custom Shell!'
@@ -142,11 +140,19 @@ class HelloCustomShell
         
         on_mouse_up { |event|
           email = event.table_item.get_data
-          email_shell(parent_shell: self, date: email.date, subject: email.subject, from: email.from, message: email.message).open
+          
+          # open a custom email shell
+          email_shell(
+            parent_shell: shell_proxy,
+            date: email.date,
+            subject: email.subject,
+            from: email.from,
+            message: email.message
+          ).open
         }
       }
-    }
-  }
+    }.open
+  end
 end
 
-HelloCustomShell.launch
+HelloCustomShell.new.launch

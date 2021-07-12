@@ -1,5 +1,14 @@
 # Change Log
 
+### 4.20.4.1
+
+- Ensure a `table` with `:editable` style loses it if `items <= ...` one-way data-binding (having read_only: true option) was setup.
+- Tweak/refactor/improve samples
+
+### 4.20.4.0
+
+- Extracted Shine data-binding syntax and `BindExpression` to Glimmer 2
+
 ### 4.20.3.0
 
 - Shine data-binding support for `custom widgets`, `custom shells`, and `custom shapes`

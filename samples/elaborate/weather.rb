@@ -29,6 +29,7 @@ class Weather
   
   DEFAULT_FONT_HEIGHT = 30
   DEFAULT_FOREGROUND = :white
+  DEFAULT_BACKGROUND = rgb(135, 176, 235)
   
   attr_accessor :city, :temp, :temp_min, :temp_max, :feels_like, :humidity
   
@@ -54,7 +55,7 @@ class Weather
             
       text 'Glimmer Weather'
       minimum_size 400, 300
-      background rgb(135, 176, 235)
+      background DEFAULT_BACKGROUND
       
       text {
         layout_data(:center, :center, true, true)
@@ -78,7 +79,7 @@ class Weather
             grid_layout 2, false
             
             text temp_unit
-            background :transparent
+            background DEFAULT_BACKGROUND
             
             rectangle(0, 0, [:default, -2], [:default, -2], 15, 15) {
               foreground DEFAULT_FOREGROUND
@@ -128,8 +129,8 @@ class Weather
     @weather_mutex.synchronize do
       self.weather_data = JSON.parse(Net::HTTP.get('api.openweathermap.org', "/data/2.5/weather?q=#{city}&appid=1d16d70a9aec3570b5cbd27e6b421330"))
     end
-  rescue
-    # No Op
+  rescue => e
+    Glimmer::Config.logger.error "Unable to fetch weather due to error: #{e.full_message}"
   end
   
   def weather_data=(data)
@@ -148,14 +149,17 @@ class Weather
   end
   
   def kelvin_to_celsius(kelvin)
+    return nil if kelvin.nil?
     kelvin - 273.15
   end
   
   def celsius_to_fahrenheit(celsius)
+    return nil if celsius.nil?
     (celsius * 9 / 5 ) + 32
   end
   
   def kelvin_to_fahrenheit(kelvin)
+    return nil if kelvin.nil?
     celsius_to_fahrenheit(kelvin_to_celsius(kelvin))
   end
   
