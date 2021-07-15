@@ -2,6 +2,7 @@
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
     - [Hello, Button!](#hello-button)
+    - [Hello, Label!](#hello-label)
     - [Hello, Text!](#hello-text)
     - [Hello, Composite!](#hello-composite)
     - [Hello, Layout!](#hello-layout)
@@ -116,6 +117,28 @@ Hello, Button!
 Hello, Button! Incremented 7 times!
 
 ![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
+
+#### Hello, Label!
+
+This sample demonstrates the use of the `label` widget in Glimmer.
+
+Code:
+
+[samples/hello/hello_label.rb](/samples/hello/hello_label.rb)
+
+![Hello Label Left Aligned](/images/glimmer-hello-label-left-aligned.png)
+
+![Hello Label Center Aligned](/images/glimmer-hello-label-center-aligned.png)
+
+![Hello Label Right Aligned](/images/glimmer-hello-label-right-aligned.png)
+
+![Hello Label Images](/images/glimmer-hello-label-images.png)
+
+![Hello Label Background Images](/images/glimmer-hello-label-background_images.png)
+
+![Hello Label Horizontal Separator](/images/glimmer-hello-label-horizontal-separator.png)
+
+![Hello Label Vertical Separator](/images/glimmer-hello-label-vertical-separator.png)
 
 #### Hello, Text!
 
