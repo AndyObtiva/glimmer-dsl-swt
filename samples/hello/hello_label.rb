@@ -21,7 +21,7 @@
 
 require 'glimmer-dsl-swt'
 
-class HelloGroup
+class HelloLabel
   include Glimmer::UI::CustomShell
   
   body {
@@ -191,4 +191,4 @@ class HelloGroup
   }
 end
 
-HelloGroup.launch
+HelloLabel.launch
