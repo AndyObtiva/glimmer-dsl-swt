@@ -6,7 +6,7 @@ class Timer
   
   import 'javax.sound.sampled'
 
-  FILE_SOUND_ALARM = File.expand_path(File.join('timer', 'alarm1.wav'), __dir__)
+  FILE_SOUND_ALARM = File.expand_path(File.join('timer', 'sounds', 'alarm1.wav'), __dir__)
   COMMAND_KEY = OS.mac? ? :command : :ctrl
       
   ## Add options like the following to configure CustomShell by outside consumers

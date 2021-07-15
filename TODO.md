@@ -4,8 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
-- Amend contact_manager to add a contact
+- Hello, Image!
 - Hello, Slider!
 - Hello, Scale!
 
@@ -111,6 +110,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Restructure scaffolding of model and view directories to be just like that in Tetris (nesting within Model and View namespaces)
 
 ## Soon
+
+- Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
+- Amend contact_manager to add a contact
 
 - Have `table` support "attribute(s)" terminology in addition to "property(ies)"
 - Have `table` optionally receive sort_attribute and additional_sort_attributes as options to bind items keyword since they are related

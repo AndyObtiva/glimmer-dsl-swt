@@ -44,7 +44,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/usa.png', __dir__)
+          image File.expand_path('images/usa.png', __dir__)
           
           label {
             text 'Hello, World!'
@@ -58,7 +58,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/france.png', __dir__)
+          image File.expand_path('images/france.png', __dir__)
           
           label {
             text 'Bonjour, Univers!'
@@ -72,7 +72,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/mexico.png', __dir__)
+          image File.expand_path('images/mexico.png', __dir__)
           
           label {
             text 'Hola, Mundo!'
@@ -86,7 +86,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/germany.png', __dir__)
+          image File.expand_path('images/germany.png', __dir__)
 
           label {
             text 'Hallo, Welt!'
@@ -100,7 +100,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/italy.png', __dir__)
+          image File.expand_path('images/italy.png', __dir__)
 
           label {
             text 'Ciao, Mondo!'
@@ -114,7 +114,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/netherlands.png', __dir__)
+          image File.expand_path('images/netherlands.png', __dir__)
 
           label {
             text 'Hallo, Wereld!'
@@ -128,7 +128,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/denmark.png', __dir__)
+          image File.expand_path('images/denmark.png', __dir__)
 
           label {
             text 'Hej, Verden!'
@@ -142,7 +142,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/finland.png', __dir__)
+          image File.expand_path('images/finland.png', __dir__)
 
           label {
             text 'Hei, Maailma!'
@@ -156,7 +156,7 @@ class HelloCTab
           foreground :blue
           selection_foreground :dark_blue
           font name: 'Times New Roman', height: 30, style: [:bold, :italic]
-          image File.expand_path('hello_c_tab/norway.png', __dir__)
+          image File.expand_path('images/norway.png', __dir__)
 
           label {
             text 'Hei, Verden!'

@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.4.2
+
+- Hello, Label!
+
 ### 4.20.4.1
 
 - Ensure a `table` with `:editable` style loses it if `items <= ...` one-way data-binding (having read_only: true option) was setup.
