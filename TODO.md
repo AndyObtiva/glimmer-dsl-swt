@@ -36,6 +36,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Future Consideration
 
+- Make images have a transparent background by default
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
 

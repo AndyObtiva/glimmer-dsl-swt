@@ -63,6 +63,9 @@ module Glimmer
           @swt_menu_item.setMenu(swt_widget)
         elsif parent.swt_widget.is_a?(Shell)
           @swt_widget = swt_widget_class.new(parent.swt_widget, style('menu', styles))
+        elsif parent.swt_widget.is_a?(TrayItem)
+          @swt_widget = swt_widget_class.new(parent.shell_proxy.swt_widget, style('menu', styles))
+          parent.menu_proxy = self
         else
           @swt_widget = swt_widget_class.new(parent.swt_widget)
         end
@@ -70,7 +73,18 @@ module Glimmer
         if styles.include?(:bar)
           DisplayProxy.instance.auto_exec { parent.swt_widget.setMenuBar(swt_widget) }
         elsif styles.include?(:pop_up)
-          DisplayProxy.instance.auto_exec { parent.swt_widget.setMenu(swt_widget) }
+          if parent.swt_widget.is_a?(TrayItem)
+            parent.on_widget_selected {
+              self.visible = true
+            }
+            parent.on_menu_detected {
+              self.visible = true
+            }
+          else
+            DisplayProxy.instance.auto_exec {
+              parent.swt_widget.setMenu(swt_widget) unless parent.swt_widget.is_a?(TrayItem)
+            }
+          end
         end
       end
 

@@ -52,6 +52,7 @@
     - [Hello, Custom Shape!](#hello-custom-shape)
     - [Hello, Tool Bar!](#hello-tool-bar)
     - [Hello, Cool Bar!](#hello-cool-bar)
+    - [Hello, Tray Item!](#hello-tray-item)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -941,6 +942,26 @@ Hello, Cool Bar!
 ![Hello Cool Bar Reorg2](/images/glimmer-hello-cool-bar-reorg2.png)
 
 ![Hello Cool Bar Reorg3](/images/glimmer-hello-cool-bar-reorg3.png)
+
+#### Hello, Tray Item!
+
+This sample demonstrates the use of `tray_item`, which enables hiding an app (sending to background) and showing again on top of all other apps. It can also show an About Message Box and exit completely if needed.
+
+Code:
+
+[samples/hello/hello_tray_item.rb](/samples/hello/hello_tray_item.rb)
+
+Hello, Tray Item Icon!
+
+![Hello Tray Item Icon](/images/glimmer-hello-tray-item.png)
+
+Hello, Tray Item Icon App!
+
+![Hello Tray Item App](/images/glimmer-hello-tray-item-app.png)
+
+Hello, Tray Item Icon About Message Box!
+
+![Hello Tray Item Åbout](/images/glimmer-hello-tray-item-about.png)
 
 ### Elaborate Samples
 

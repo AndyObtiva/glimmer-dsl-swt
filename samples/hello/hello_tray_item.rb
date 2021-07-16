@@ -24,63 +24,99 @@ require 'glimmer-dsl-swt'
 class HelloTrayItem
   include Glimmer::UI::CustomShell
   
+  # boolean that indicates if application is visible
+  attr_accessor :show_application
+  
   before_body {
+    # application starts visible
+    @show_application = true
     # pre-render an icon image using the Canvas Shape DSL
     @image = image(16, 16) {
-      oval(1, 1, [:default, - 2], [:default, - 2])
-      oval(3, 3, [:default, - 6], [:default, - 6])
-      oval(5, 5, [:default, - 10], [:default, - 10])
-      oval(7, 7, [:default, - 14], [:default, - 14])
-    }
-    
-    display {
-#       tray {
-#         tray_item {
-#           tool_tip_text 'Glimmer'
-#
-#           menu {
-#             menu_item {
-#               text 'About'
-#
-#               on_widget_selected {
-#                 message_box {
-#                   text 'Glimmer - About'
-#                   text 'This is a Glimmer DSL for SWT Tray Item'
-#                 }.open
-#               }
-#             }
-#             menu_item(:separator)
-#             menu_item(:check) {
-#               text 'Show Application'
-#             }
-#           }
-#
-#           on_swt_Show {
-#
-#           }
-#
-#           on_swt_Hide {
-#
-#           }
-#
-#           on_widget_selected {
-#
-#           }
-#
-#           on_menu_detected {
-#
-#           }
-#         }
-#       }
+      rectangle(0, 0, 16, 16) {
+        background :black
+      }
+      oval(1, 1, [:default, - 2], [:default, - 2]) {
+        foreground :white
+      }
+      oval(3, 3, [:default, - 6], [:default, - 6]) {
+        foreground :white
+      }
+      oval(5, 5, [:default, - 10], [:default, - 10]) {
+        foreground :white
+      }
+      oval(7, 7, [:default, - 14], [:default, - 14]) {
+        foreground :white
+      }
     }
   }
   
   body {
-    shell {
+    shell(:shell_trim, :on_top) { # make it always appear on top of everything
       row_layout(:vertical) {
         center true
       }
       text 'Hello, Tray Item!'
+      
+      on_shell_closed do |event|
+        # do not perform event that closes app when shell is closed
+        event.doit = false
+        # body_root is the root shell
+        body_root.hide
+        self.show_application = false # updates Show Application checkbox menu item indirectly
+      end
+      
+      tray_item {
+        tool_tip_text 'Glimmer'
+        image @image # could use an image path instead
+
+        menu {
+          menu_item {
+            text 'About'
+
+            on_widget_selected do
+              message_box {
+                text 'Glimmer - About'
+                message 'This is a Glimmer DSL for SWT Tray Item'
+              }.open
+            end
+          }
+          menu_item(:separator)
+          menu_item(:check) {
+            text 'Show Application'
+            selection <=> [self, :show_application]
+            
+            on_widget_selected do
+              # body_root is the root shell
+              if body_root.visible?
+                body_root.hide
+              else
+                body_root.show
+              end
+            end
+          }
+          menu_item(:separator)
+          menu_item {
+            text 'Exit'
+
+            on_widget_selected {
+              exit(0)
+            }
+          }
+        }
+        
+        # supported tray item listeners (you can try to add actions to them when needed)
+#         on_swt_Show {
+#         }
+#
+#         on_swt_Hide {
+#         }
+#
+#         on_widget_selected {
+#         }
+#
+#         on_menu_detected {
+#         }
+      }
       
       label(:center) {
         text 'This is the application'

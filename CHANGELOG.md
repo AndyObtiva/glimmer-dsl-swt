@@ -3,6 +3,8 @@
 ### 4.20.5.0
 
 - Relax glimmer-dsl-swt version number when scaffolding custom shape/widget/shell gems. Keep it strict for app development.
+- Explicit support for `tray_item` keyword as nested under `shell`, having `menu` nested under `tray_item`, automating everything relating to using SWT TrayItem (no need to work with the Display System Tray or Menu objects manually).
+- Hello, Tray Item! Sample
 
 ### 4.20.4.2
 
