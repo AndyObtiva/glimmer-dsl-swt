@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.5.0
+
+- Relax glimmer-dsl-swt version number when scaffolding custom shape/widget/shell gems. Keep it strict for app development.
+
 ### 4.20.4.2
 
 - Hello, Label!

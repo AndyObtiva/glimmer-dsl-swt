@@ -4,75 +4,51 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Image!
-- Hello, Slider!
-- Hello, Scale!
-
 - Hello, Tray Item! (automate creating menu and allow nesting menu items directly under tray item; set tooltip and maybe text too in sample)
-- An elaborate sample that demos every widget that comes with SWT out of the box
-- Update Hello, Menu Bar! sample to show images on menu items
 
-- Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
-- Check `glimmer samples` issue with line numbers diverging from code content once scrolling to the bottom of a long file. When scrolling up afterwards, they line numbers freeze and delay in following the code.
-- Look into supporting `menu` pop up in Hello, Tool Bar! (automating linking it to a specific tool item)
+- Identify trimmed Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_join` styles from `join_` prefix
 
-
-- Klondike Solitaire with a `playing_card` custom widget (potentially leveraging custom shapes)
-- Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
-- Fix issue of fixing version number when scaffolding custom shape/widget/shell gems (instead of relaxing it to >=)
-- Fix the weird code text github theme gray artifacts in the html example (to the left of indented text, which goes away on hitting enter)
-- Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
-- Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
-
-- Implement charts and graphs custom widgets Hello Samples (supporting both raw data and function-calculated data)
-  - bar_chart (new custom widget)
-  - pie_chart (new custom widget, could be doughnut)
-  - scatter_plot (new custom widget. Could display back sheet squares or rulers or not)
-  - graph (new custom widget, redoes Hello, Canvas Path! and Hello, Curve! but with a papersheet behind and rulers/names for x/y axes, could take a function with start/end points and division length, or point array. Could be rendered as a line, quad or cubic curve. Could display back sheet squares or rulers or not)
-- Spreadsheet Chart Elaborate Sample showing 4 tabs of all chart types based on a spreadsheet that can be edited with data.
-
-- Support Glimmer::UI::CustomShape#to_image/to_swt_image/to_image_proxy method to build a custom image (aka sprite) from a custom shape (that could be parameterized with options) using the Canvas Shape DSL. Also, support being able to pass a custom shape to an image property directly (autoconverting it)
-
-- Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
+- Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
+- Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
 - Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
-- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas animation supporting multiple parallel animations per canvas
+- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
-- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+- Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 
 - Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
-- Handle Canvas Shape transparency properly when using background :transparent (instead of showing white background)
 - shape `center` method to identify a shape center point
 - shape `rotate` method for any shape to rotate around its center
 
 - Canvas Shape DSL autoscalable shapes or canvases
 
+- Support z_index property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+
+- Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
+- `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
+
+## Future Consideration
+
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
-- Consider supporting being able to apply any GC property unto the Canvas directly (without nesting within a Shape)
-
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
-
-- Trim Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
-
-- Trim Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
-- Trim Canvas Shape DSL attribute `line_join` styles from `join_` prefix
-
-- Add a `#save` method to ImageProxy similar to the one on `ImageLoader` that takes location and format.
 
 - Build a game sample to demonstrate all the latest canvas graphics features (above)
 
 - Auto-Focusable canvas element (with keyboard)
-- `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 - Support passing transform matrices as double-arrays to be more readable if needed
 - Capture Canvas Shape events like mouse clicks and route them to shape enabling shape handling of events withing shape regions (or lines/points)
 
-- Add External Samples to meta_sample
+- Support width, height keyword args for Shape DSL drawimage to scale it to the intended size
+- Support Glimmer::UI::CustomShape#to_image/to_swt_image/to_image_proxy method to build a custom image (aka sprite) from a custom shape (that could be parameterized with options) using the Canvas Shape DSL. Also, support being able to pass a custom shape to an image property directly (autoconverting it)
+- Add a `#save` method to ImageProxy similar to the one on `ImageLoader` that takes location and format.
+
 - Add progress dialog to meta-sample for launching bigger apps like Tetris
 - Provide an on_dialog_closed alias for on_shell_closed (for use in dialogs)
 
@@ -83,37 +59,31 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Support --no-shine option to disable if needed or there are concerns about conflicts between it and other keywords/methods that take no args
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
-- convert `glimmer` command to a shell script to achieve a faster startup time given that jruby starts slow
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
 - Consider a universal after_edit (whether save or cancel) hook for Table editing
 - Support an automatic progress bar dialog that shows up automatically for long running tasks in Glimmer (TODO figure out the details)
-- Tetris music via JSound (Java Sound)
 - Consider tweaking the Tetris color scheme
-- Make disposed? alternative to is_disposed on all widgets
-- Set glimmer logo as default logo for any run app till updated
-- Have Glimmer log errors encountered in listeners even if it tolerates them
 - Add meta-sample support for browsing all sample subdirectory files not just the top file (opening all files in tabs)
 - Add line numbers to meta-sample code viewer
 - Make `error_dialog` an official built-in Glimmer Custom Widget (extract from meta-sample/gladiator)
-- Extract glimmer-scaffolding as a gem
-- Update Hello, Message Box! Sample to include more options
 - Allow setting accelerator on cascade menu item via drop down menu proxy by automatically delegating the attribute
 - Make shell proxy pack_same_size re-focus focused element before repacking
-- Fix Gladiator issue regarding scrolling text to view when editing a line off screen in a styled_text widget
-- Remove use of bundler/setup in scaffolded Glimmer apps by default to make them usable in Glimmer DSL for Opal
-- glimmer webify task, which generates a Glimmer DSL for Opal Rails app from a pre-existing desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
-- glimmer scaffold:webready task, which generates a web-ready desktop app (including a Glimmer DSL for Opal Rails app), packages desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
-- Document webify and scaffold:webready
-- Document Heroku pre-requisite as optional for webready/webify modes.
-- Document use of jruby in rails and ability to switch manually to CRuby with RVM
-- Make display detect if an on_about dialog is already setup before adding one (like in Tetris)
-- Restructure scaffolding of model and view directories to be just like that in Tetris (nesting within Model and View namespaces)
 
-## Soon
+- Fix Gladiator issue regarding scrolling text to view when editing a line off screen in a styled_text widget
+
 
 - Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
 - Amend contact_manager to add a contact
 
+- Hello, Image!
+- Hello, Slider!
+- Hello, Scale!
+- An elaborate sample that demos every widget that comes with SWT out of the box
+- Update Hello, Menu Bar! sample to show images on menu items
+- Look into supporting `menu` pop up in Hello, Tool Bar! (automating linking it to a specific tool item)
+- Update Hello, Message Box! Sample to include more options
+
+- Make display detect if an on_about dialog is already setup before adding one (like in Tetris)
 - Have `table` support "attribute(s)" terminology in addition to "property(ies)"
 - Have `table` optionally receive sort_attribute and additional_sort_attributes as options to bind items keyword since they are related
 - Ensure a `table`'s columns cannot be clicked for sorting when it is bound as one-way datainbinding with `items <= ...` for example.
@@ -134,12 +104,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Upgrade Contact Manager elaborate sample merging with Login and User Profile
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
-- Automatic disposing of model observers & widget listeners in a custom shell/widget by monitoring all declarations in the scope of building the custom shell/widget
+- glimmer webify task, which generates a Glimmer DSL for Opal Rails app from a pre-existing desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
+- glimmer scaffold:webready task, which generates a web-ready desktop app (including a Glimmer DSL for Opal Rails app), packages desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
+- Document webify and scaffold:webready
+- Document Heroku pre-requisite as optional for webready/webify modes.
+- Document use of jruby in rails and ability to switch manually to CRuby with RVM
+
 - Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
-- Tetris remember options by saving to disk (switching from tdf tab delimited format to json)
-- Look into why closing down a tetris app from meta-sample and re-opening ends up firing events via display keyboard events to previous model for disposed shell
-- Disable Reset button in Meta-Sample until sample is changed
-- Update Meta-Sample so it data-binds user code text changes to model even if it doesn't write them to disk
 - Make code_text custom widget auto-detect current programming language
 - Accept :read_only alternative to :readonly SWT style
 - Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)
@@ -169,7 +140,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Move ext folder underneath glimmer-dsl-swt
 # - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
-- Autodiscover samples in glimmer gems (instead of just allowing their configuration)
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
 - Run glimmer command rake task presents a TUI file chooser
@@ -247,6 +217,7 @@ composite {
 
 ## Issues
 
+- Fix the weird code text github theme gray artifacts in the html example (to the left of indented text, which goes away on hitting enter)
 - Report funnotator issue to SWT folks
 ```ruby
 shell do
@@ -277,6 +248,7 @@ shell do
   end
 end.open
 ```
+- Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
 - Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
 - Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)
@@ -480,6 +452,9 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Support a path containing a nested `path`
 - Consider implementing undo/redo support for adding points/lines/quads/cubics to paths
 - `tab_folder` look into auto-packing issues
+- Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
+- Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
+- Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
 
 ## Samples
 
@@ -491,6 +466,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Battleship
 - Building Parking system
 - Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
+- Clock (changes filled background color between day and night)
 - Music playing app
 - HR Employee Management app
 - Medical Patient Management app
