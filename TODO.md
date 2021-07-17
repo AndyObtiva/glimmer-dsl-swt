@@ -4,18 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Identify trimmed Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
-- Identify trimmed Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
-- Identify trimmed Canvas Shape DSL attribute `line_join` styles from `join_` prefix
-
-- Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
-- Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
+- Canvas animation supporting multiple parallel animations per canvas
 
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
 - Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
-- Canvas animation supporting multiple parallel animations per canvas
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
@@ -33,6 +27,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 
 ## Future Consideration
+
+- Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
+- Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 
 - Make images have a transparent background by default
 - Support percentage based width and height

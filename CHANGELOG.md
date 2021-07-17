@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.20.5.2
+
+- Identify trimmed Canvas Shape DSL attribute `fill_rule` styles without `fill_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_cap` styles without `cap_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_join` styles without `join_` prefix
+
 ### 4.20.5.1
 
 - Fix issue with Namespace is required always showing up when buildling a custom widget gem or custom shape gem

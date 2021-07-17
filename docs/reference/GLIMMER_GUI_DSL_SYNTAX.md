@@ -18,6 +18,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
       - [sync_exec](#sync_exec)
       - [timer_exec](#timer_exec)
     - [Menus](#menus)
+    - [Tray Item](#tray-item)
     - [ScrolledComposite](#scrolledcomposite)
     - [Sash Form Widget](#sash-form-widget)
     - [Browser Widget](#browser-widget)
@@ -871,6 +872,101 @@ shell {
   }
 }.open
 ```
+
+#### Tray Item
+
+![Hello Tray Item Icon](/images/glimmer-hello-tray-item.png)
+
+The system tray allows showing icons for various apps that need to stay on for extended periods of time and provide quick access.
+
+In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray.
+
+Note how the shell was declared with the `:on_top` style (in addition to the default, which is `:shell_trim`) to ensure it opens above all apps when the "Show Application" menu item is selected.
+
+Example code:
+
+```ruby
+    shell(:shell_trim, :on_top) { # make it always appear on top of everything
+      row_layout(:vertical) {
+        center true
+      }
+      text 'Hello, Tray Item!'
+      
+      on_shell_closed do |event|
+        # do not perform event that closes app when shell is closed
+        event.doit = false
+        # body_root is the root shell
+        body_root.hide
+        self.show_application = false # updates Show Application checkbox menu item indirectly
+      end
+      
+      tray_item {
+        tool_tip_text 'Glimmer'
+        image @image # could use an image path instead
+
+        menu {
+          menu_item {
+            text 'About'
+
+            on_widget_selected do
+              message_box {
+                text 'Glimmer - About'
+                message 'This is a Glimmer DSL for SWT Tray Item'
+              }.open
+            end
+          }
+          menu_item(:separator)
+          menu_item(:check) {
+            text 'Show Application'
+            selection <=> [self, :show_application]
+            
+            on_widget_selected do
+              # body_root is the root shell
+              if body_root.visible?
+                body_root.hide
+              else
+                body_root.show
+              end
+            end
+          }
+          menu_item(:separator)
+          menu_item {
+            text 'Exit'
+
+            on_widget_selected {
+              exit(0)
+            }
+          }
+        }
+        
+        # supported tray item listeners (you can try to add actions to them when needed)
+#         on_swt_Show {
+#         }
+#
+#         on_swt_Hide {
+#         }
+#
+#         on_widget_selected {
+#         }
+#
+#         on_menu_detected {
+#         }
+      }
+      
+      label(:center) {
+        text 'This is the application'
+        font height: 30
+      }
+      label {
+        text 'Click on the tray item (circles icon) to open its menu'
+      }
+      label {
+        text 'Uncheck Show Application to hide the app and recheck it to show the app'
+      }
+    }
+```
+
+Learn more at [Hello, Tray Item!](/docs/reference/GLIMMER_SAMPLES.md#hello-tray-item)
 
 #### ScrolledComposite
 

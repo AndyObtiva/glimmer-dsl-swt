@@ -295,6 +295,15 @@ module Glimmer
             if method_name.to_s == 'setLineStyle'
               args[0] = "line_#{args[0]}" if !args[0].to_s.downcase.start_with?('line_')
             end
+            if method_name.to_s == 'setFillRule'
+              args[0] = "fill_#{args[0]}" if !args[0].to_s.downcase.start_with?('fill_')
+            end
+            if method_name.to_s == 'setLineCap'
+              args[0] = "cap_#{args[0]}" if !args[0].to_s.downcase.start_with?('cap_')
+            end
+            if method_name.to_s == 'setLineJoin'
+              args[0] = "join_#{args[0]}" if !args[0].to_s.downcase.start_with?('join_')
+            end
             if the_java_method.parameter_types.first == Java::int.java_class
               args[0] = SWTProxy.constant(args[0])
             end
