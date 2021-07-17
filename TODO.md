@@ -4,10 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas animation supporting multiple parallel animations per canvas
-
+- Canvas animation property data-binding (amend Hello, Canvas Animation Data Binding with start/stop options and rename as simply Hello, Canvas Animation, while renaming other sample to Hello, Canvas Parallel Animations)
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
-- Canvas animation property data-binding
 - Canvas animation loops property (with data-binding support) for repeating animation if finite (not needed if infinite)
 - Canvas animation `animated` or `started` property (data-binding alternative to invoking start/stop/resume/restart methods) (stops/resumes animation if it had frames left or prevents from animating if already stopped and start method was invoked)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)

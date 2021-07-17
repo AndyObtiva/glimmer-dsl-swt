@@ -2243,13 +2243,13 @@ Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-can
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
-Glimmer additionally provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
+Glimmer provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
 
-Animations take advantage of multi-threading, automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
+Animations take advantage of multi-threading, with Glimmer DSL for SWT automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
 
-Multiple simultaneous animations are supported by declaring an animation per `canvas` (or widget) parent.
+Multiple simultaneous animations are supported per `canvas` (or widget) parent (they do not compete or starve each other).
 
-`canvas` has the `:double_buffered` SWT style by default to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
+`canvas` has the `:double_buffered` SWT style by default on platforms other than the Mac to ensure flicker-free rendering (Mac does not need it). If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
 This example says it all (it moves a tiny red square across a blue background) (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 

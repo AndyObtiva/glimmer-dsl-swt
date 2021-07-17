@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.6.0
+
+- Canvas Animation DSL: support parallel animations per canvas (running along canvas static shapes too)
+
 ### 4.20.5.2
 
 - Identify trimmed Canvas Shape DSL attribute `fill_rule` styles without `fill_` prefix

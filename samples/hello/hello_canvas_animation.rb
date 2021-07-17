@@ -25,27 +25,30 @@ include Glimmer
 
 shell {
   text 'Hello, Canvas Animation!'
-  minimum_size 800, 420
+  minimum_size 1200, 420
 
   canvas {
+    background :white
+    
     animation {
       every 0.01 # in seconds (one hundredth)
             
       frame { |index| # frame block loops indefinitely (unless frame_count is set to an integer)
-        background rgb(index%255, 100, 200) # sets canvas background color
-        
         oval(0, 0, 400, 400) { # x, y, width, height
           foreground :black # sets oval background color
         }
         arc(0, 0, 400, 400, -1.4*index%360, 10) {  # x, y, width, height, start angle, arc angle
-          background rgb(200, 200, 50) # sets arc background color
+          background rgb(50, 200, 50) # sets arc background color
         }
       }
     }
   }
 
   canvas {
+    background :white
+    
     colors = [:yellow, :red]
+    
     animation {
       every 0.25 # in seconds (one quarter)
       cycle colors # cycles array of colors into the second variable of the frame block below
@@ -61,6 +64,44 @@ shell {
         }
         rectangle(200, 200, 200, 200) {
           background inside_color # sets rectangle background color
+        }
+      }
+    }
+  }
+
+  canvas {
+    background :white
+    
+    colors = [:yellow, :red]
+    
+    animation {
+      every 0.25 # in seconds (one quarter)
+      cycle colors # cycles array of colors into the second variable of the frame block below
+
+      frame { |index, color| # frame block loops indefinitely (unless frame_count or cycle_count is set to an integer)
+        outside_color = colors[index % 2]
+        inside_color = colors[(index + 1) % 2]
+
+        background outside_color # sets canvas background color
+
+        rectangle(0, 0, 200, 200) {
+          background inside_color # sets rectangle background color
+        }
+        rectangle(200, 200, 200, 200) {
+          background inside_color # sets rectangle background color
+        }
+      }
+    }
+    
+    animation {
+      every 0.01 # in seconds (one hundredth)
+            
+      frame { |index| # frame block loops indefinitely (unless frame_count is set to an integer)
+        oval(0, 0, 400, 400) { # x, y, width, height
+          foreground :black # sets oval background color
+        }
+        arc(0, 0, 400, 400, -1.4*index%360, 10) {  # x, y, width, height, start angle, arc angle
+          background rgb(50, 200, 50) # sets arc background color
         }
       }
     }

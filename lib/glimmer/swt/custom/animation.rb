@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/properties'
+require 'glimmer/swt/custom/shape'
 
 module Glimmer
   module SWT
@@ -222,8 +223,12 @@ module Glimmer
           self.class.schedule_frame_animation(self) do
             if started? && start_number == @start_number && within_duration_limit?
               unless @parent.isDisposed
-                @parent.clear_shapes # TODO adjust this to clear only the shapes of this animation (not all shapes) to allow simultaneous animations to occur on the same parent
-                @parent.content { frame_block.call(*block_args) }
+                @shapes.to_a.each(&:dispose)
+                parent_shapes_before = @parent.shapes.clone
+                @parent.content {
+                  frame_block.call(*block_args)
+                }
+                @shapes = @parent.shapes - parent_shapes_before
               end
             else
               if stopped? && @frame_index > current_frame_index
