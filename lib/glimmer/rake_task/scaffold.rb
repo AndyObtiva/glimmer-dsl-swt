@@ -312,13 +312,13 @@ module Glimmer
         end
     
         def custom_widget_gem(custom_widget_name, namespace)
-          return puts('Namespace is required! Usage: glimmer scaffold:custom_widget_gem[custom_widget_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
           gem_name = "glimmer-cw-#{compact_name(custom_widget_name)}"
           gem_summary = "#{human_name(custom_widget_name)} - Glimmer Custom Widget"
           if namespace
             gem_name += "-#{compact_name(namespace)}"
             gem_summary += " (#{human_name(namespace)})"
           else
+            return puts('Namespace is required! Usage: glimmer scaffold:custom_widget_gem[custom_widget_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
             namespace = 'glimmer'
           end
           
@@ -350,13 +350,13 @@ module Glimmer
         end
     
         def custom_shape_gem(custom_shape_name, namespace)
-          return puts('Namespace is required! Usage: glimmer scaffold:custom_shape_gem[custom_shape_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
           gem_name = "glimmer-cp-#{compact_name(custom_shape_name)}"
           gem_summary = "#{human_name(custom_shape_name)} - Glimmer Custom Shape"
           if namespace
             gem_name += "-#{compact_name(namespace)}"
             gem_summary += " (#{human_name(namespace)})"
           else
+            return puts('Namespace is required! Usage: glimmer scaffold:custom_shape_gem[custom_shape_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
             namespace = 'glimmer'
           end
           

@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.5.1
+
+- Fix issue with Namespace is required always showing up when buildling a custom widget gem or custom shape gem
+
 ### 4.20.5.0
 
 - Relax glimmer-dsl-swt version number when scaffolding custom shape/widget/shell gems. Keep it strict for app development.

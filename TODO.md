@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Hello, Tray Item! (automate creating menu and allow nesting menu items directly under tray item; set tooltip and maybe text too in sample)
-
 - Identify trimmed Canvas Shape DSL attribute `fill_rule` styles from `fill_` prefix
 - Identify trimmed Canvas Shape DSL attribute `line_cap` styles from `cap_` prefix
 - Identify trimmed Canvas Shape DSL attribute `line_join` styles from `join_` prefix
@@ -58,6 +56,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Add a samples directory to scaffolded custom widget gems and custom shape gems that demonstrate them (encouraging 3rd party makers to show off their widgets)
 - Support --no-shine option to disable if needed or there are concerns about conflicts between it and other keywords/methods that take no args
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
 - Make ShellProxy#size work by setting initial size properly when invoked from content body (to avoid having to set on_swt_show event)
