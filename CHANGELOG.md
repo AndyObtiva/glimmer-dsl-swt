@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.20.7.0
+
+- Add Canvas Animation DSL #finished, #finished?, #finished= properties
+- Update Hello, Canvas Animation! (formerly had Data Binding suffix)
+- Update Hello, Canvas Animation Multi! (formerly did not have Multi suffix)
+
 ### 4.20.6.0
 
 - Canvas Animation DSL: support parallel animations per canvas (running along canvas static shapes too)

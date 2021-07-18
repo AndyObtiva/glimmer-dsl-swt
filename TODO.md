@@ -4,7 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas animation property data-binding (amend Hello, Canvas Animation Data Binding with start/stop options and rename as simply Hello, Canvas Animation, while renaming other sample to Hello, Canvas Parallel Animations)
+- Canvas animation property data-binding for duration and cycle
+
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 

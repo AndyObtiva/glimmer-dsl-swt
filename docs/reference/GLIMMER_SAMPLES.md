@@ -749,9 +749,9 @@ Code:
 
 [samples/hello/hello_canvas_animation_data_binding.rb](/samples/hello/hello_canvas_animation_data_binding.rb)
 
-Hello, Canvas Animation Data Binding!
+Hello, Canvas Animation!
 
-![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation-data-binding.gif)
+![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation.gif)
 
 #### Hello, Canvas Animation Multi!
 
