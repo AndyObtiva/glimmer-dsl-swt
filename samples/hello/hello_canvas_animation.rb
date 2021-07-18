@@ -22,7 +22,7 @@
 require 'glimmer-dsl-swt'
 require 'bigdecimal'
 
-class HelloAnimationDataBinding
+class HelloCanvasAnimation
   include Glimmer::UI::CustomShell
   
   attr_accessor :delay_time
@@ -63,4 +63,4 @@ class HelloAnimationDataBinding
   }
 end
 
-HelloAnimationDataBinding.launch
+HelloCanvasAnimation.launch

@@ -24,7 +24,7 @@ require 'glimmer-dsl-swt'
 include Glimmer
 
 shell {
-  text 'Hello, Canvas Animation!'
+  text 'Hello, Canvas Animation Multi!'
   minimum_size 1200, 420
 
   canvas {

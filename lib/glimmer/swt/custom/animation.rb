@@ -240,7 +240,7 @@ module Glimmer
           end
           @frame_index += 1
           @cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
-          sleep(every) if every.is_a?(Numeric)
+          sleep(every) if every.is_a?(Numeric) # TODO consider using timer_exec as a more reliable alternative
           true
         rescue => e
           Glimmer::Config.logger.error {e}

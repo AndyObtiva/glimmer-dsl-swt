@@ -39,7 +39,7 @@
     - [Hello, Code Text!](#hello-code-text)
     - [Hello, Canvas!](#hello-canvas)
     - [Hello, Canvas Animation!](#hello-canvas-animation)
-    - [Hello, Canvas Animation Data Binding!](#hello-canvas-animation-data-binding)
+    - [Hello, Canvas Animation Multi!](#hello-canvas-animation-multi)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
@@ -743,22 +743,6 @@ Hello, Canvas! Data-Binding (changing a `text` shape `string` via data-binding c
 
 #### Hello, Canvas Animation!
 
-This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.
-
-Code:
-
-[samples/hello/hello_canvas_animation.rb](/samples/hello/hello_canvas_animation.rb)
-
-Hello, Canvas Animation!
-
-![Hello Canvas Animation](/images/glimmer-hello-canvas-animation.png)
-
-Hello, Canvas Animation Another Frame!
-
-![Hello Canvas Animation Frame 2](/images/glimmer-hello-canvas-animation-frame2.png)
-
-#### Hello, Canvas Animation Data Binding!
-
 This sample demonstrates the use of the [Canvas Animation DSL](#canvas-animation-dsl) with data-binding.
 
 Code:
@@ -768,6 +752,18 @@ Code:
 Hello, Canvas Animation Data Binding!
 
 ![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation-data-binding.gif)
+
+#### Hello, Canvas Animation Multi!
+
+This sample demonstrates parallel animations in the [Canvas Animation DSL](/docs/reference/GLIMMER_GUI_DSL_SYNTAX#canvas-animation-dsl).
+
+Code:
+
+[samples/hello/hello_canvas_animation_multi.rb](/samples/hello/hello_canvas_animation_multi.rb)
+
+Hello, Canvas Animation Multi!
+
+![Hello Canvas Animation Multi](/images/glimmer-hello-canvas-animation-multi.gif)
 
 #### Hello, Canvas Transform!
 

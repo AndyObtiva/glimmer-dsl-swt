@@ -2247,7 +2247,7 @@ Glimmer provides built-in support for animations via a declarative Animation DSL
 
 Animations take advantage of multi-threading, with Glimmer DSL for SWT automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
 
-Multiple simultaneous animations are supported per `canvas` (or widget) parent (they do not compete or starve each other).
+Multiple simultaneous animations are supported per `canvas` (or widget) parent.
 
 `canvas` has the `:double_buffered` SWT style by default on platforms other than the Mac to ensure flicker-free rendering (Mac does not need it). If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
@@ -2282,8 +2282,8 @@ Screenshot:
 Keywords:
 - `animation` declares an animation under a canvas, which renders frames using a frame block indefinitely or finitely depending on (cycle_count/frame_count) properties
 - `every` specifies delay in seconds between every two frame renders
-- `frame` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
-- `cycle` a property that takes an array to cycle into a second variable for the `frame` block
+- `frame {|index, cycle_var| }` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
+- `cycle` an optional property that takes an array to cycle into a second variable for the `frame` block
 - `cycle_count` an optional cycle count limit after which the animation stops
 - `frame_count` an optional frame count limit after which the animation stops
 - `started` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
