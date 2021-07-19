@@ -4,10 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas animation property data-binding for duration and cycle
-
+- Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
-- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 
@@ -49,6 +47,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Auto-Dispose `display` MacOS event listener registrations (e.g. `on_about`) declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
+
+- Canvas animation property data-binding for cycle count, cycle count index, frame index, duration
+- Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
 - Add a samples directory to scaffolded custom widget gems and custom shape gems that demonstrate them (encouraging 3rd party makers to show off their widgets)
 - Support --no-shine option to disable if needed or there are concerns about conflicts between it and other keywords/methods that take no args

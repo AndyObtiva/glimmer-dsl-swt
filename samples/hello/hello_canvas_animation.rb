@@ -26,11 +26,12 @@ class HelloCanvasAnimation
   include Glimmer::UI::CustomShell
   
   # data-bindable attributes (names must vary from attribute names on animation)
-  attr_accessor :animation_every, :animation_frame_count, :animation_started, :animation_finished
+  attr_accessor :animation_every, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
   
   before_body {
-    @animation_every = 0.050
+    @animation_every = 0.050 # seconds
     @animation_frame_count = 100
+    @animation_duration_limit = 0 # seconds
     @animation_started = true
     @animation_finished = false
   }
@@ -40,6 +41,7 @@ class HelloCanvasAnimation
       grid_layout(2, true)
       text 'Hello, Canvas Animation!'
       
+      # row 1
       button {
         layout_data(:fill, :center, true, false)
         text <= [self, :animation_started, on_read: ->(value) { value ? 'Stop' : 'Resume' }]
@@ -61,12 +63,16 @@ class HelloCanvasAnimation
           @animation.restart
         end
       }
+
+      # row 2
       label {
-        text 'every (milliseconds)'
+        text 'every'
       }
       label {
-        text 'frame count (0 is unlimited)'
+        text 'frame count (0=unlimited)'
       }
+      
+      # row 3
       spinner {
         layout_data(:fill, :center, true, false)
         digits 3
@@ -81,6 +87,20 @@ class HelloCanvasAnimation
         selection <=> [self, :animation_frame_count]
       }
       
+      # row 4
+      label {
+        text 'duration limit (0=unlimited)'
+      }
+      label # filler
+      
+      # row 5
+      spinner {
+        layout_data(:fill, :center, true, false)
+        minimum 0
+        maximum 10
+        selection <=> [self, :animation_duration_limit]
+      }
+      
       canvas {
         layout_data(:fill, :fill, true, true) {
           horizontal_span 2
@@ -90,6 +110,7 @@ class HelloCanvasAnimation
         @animation = animation {
           every <= [self, :animation_every]
           frame_count <= [self, :animation_frame_count]
+          duration_limit <= [self, :animation_duration_limit]
           started <=> [self, :animation_started]
           finished <=> [self, :animation_finished]
           

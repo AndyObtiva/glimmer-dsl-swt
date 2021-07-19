@@ -114,6 +114,7 @@ module Glimmer
           return if @start_number > 0 && started?
           @start_number += 1
           @start_time = Time.now
+          @duration = 0
           @original_start_time = @start_time if @duration.nil?
           self.finished = false if finished?
           self.started = true
@@ -141,8 +142,8 @@ module Glimmer
         
         # Restarts an animation (whether indefinite or not and whether stopped or not)
         def restart
-          @original_start_time = @start_time = nil
-          self.duration = nil
+          @original_start_time = @start_time = Time.now
+          self.duration = 0
           self.frame_index = 0
           self.cycle_count_index = 0
           stop
@@ -189,16 +190,19 @@ module Glimmer
         def cycle_count_index=(value)
           @cycle_count_index = value
           self.finished = true if cycle_limited? && @cycle_count_index == @cycle_count
+          @cycle_count_index
         end
         
         def frame_index=(value)
           @frame_index = value
           self.finished = true if frame_count_limited? && @frame_index == @frame_count
+          @frame_index
         end
         
         def duration=(value)
           @duration = value
           self.finished = true if surpassed_duration_limit?
+          @duration
         end
         
         def cycle_enabled?
@@ -210,7 +214,7 @@ module Glimmer
         end
         
         def duration_limited?
-          @duration_limit.is_a?(Integer)
+          @duration_limit.is_a?(Numeric) && @duration_limit > 0
         end
         
         def frame_count_limited?
@@ -218,7 +222,7 @@ module Glimmer
         end
         
         def surpassed_duration_limit?
-          duration_limited? && ((Time.now - @start_time) > (@duration_limit - @duration.to_f))
+          duration_limited? && ((Time.now - @start_time) > @duration_limit)
         end
         
         def within_duration_limit?
@@ -234,6 +238,7 @@ module Glimmer
               (frame_count_limited? && @frame_index == @frame_count) or
               (cycle_limited? && @cycle_count_index == @cycle_count) or
               surpassed_duration_limit?
+            self.duration = Time.now - @start_time
             return false
           end
           block_args = [@frame_index]
@@ -241,6 +246,7 @@ module Glimmer
           current_frame_index = @frame_index
           current_cycle_count_index = @cycle_count_index
           self.class.schedule_frame_animation(self) do
+            self.duration = Time.now - @start_time # TODO should this be set here, after the if statement, in the else too, or outside both?
             if started? && start_number == @start_number && within_duration_limit?
               unless @parent.isDisposed
                 @shapes.to_a.each(&:dispose)
@@ -249,9 +255,9 @@ module Glimmer
                   frame_block.call(*block_args)
                 }
                 @shapes = @parent.shapes - parent_shapes_before
+                self.duration = Time.now - @start_time # TODO consider if this is needed
               end
             else
-              self.finished = true if surpassed_duration_limit?
               if stopped? && @frame_index > current_frame_index
                 self.frame_index = current_frame_index
                 self.cycle_count_index = current_cycle_count_index
@@ -260,7 +266,7 @@ module Glimmer
           end
           self.frame_index += 1
           self.cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
-          sleep(every) if every.is_a?(Numeric) # TODO consider using timer_exec as a more reliable alternative
+          sleep(every) if every.is_a?(Numeric) # TODO consider using timer_exec as a perhaps more reliable alternative
           true
         rescue => e
           Glimmer::Config.logger.error {e}

@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.20.8.0
+
+- Support data-binding Animation `duration_limit` property
+- Improve support of Animation `duration_limit` property in recognizing when an animation is finished
+- Added duration limit to Hello, Canvas Animation! sample
+
 ### 4.20.7.0
 
 - Add Canvas Animation DSL #finished, #finished?, #finished= properties

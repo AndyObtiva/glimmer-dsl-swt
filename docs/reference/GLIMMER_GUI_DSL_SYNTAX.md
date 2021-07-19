@@ -2284,9 +2284,11 @@ Keywords:
 - `every` specifies delay in seconds between every two frame renders
 - `frame {|index, cycle_var| }` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
 - `cycle` an optional property that takes an array to cycle into a second variable for the `frame` block
-- `cycle_count` an optional cycle count limit after which the animation stops
-- `frame_count` an optional frame count limit after which the animation stops
-- `started` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
+- `cycle_count` an optional cycle count limit after which the animation stops (finishes)
+- `frame_count` an optional frame count limit after which the animation stops (finishes)
+- `duration_limit` an optional duration limit in seconds after which the animation stops (finishes)
+- `started`/`started?` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
+- `finished`/`finished?` a boolean indicating if the animation finished (for finite animations only)
 
 API of Animation Object (returned from `animation` keyword):
 - `#start` starts an animation that is indefinite or has never been started before (i.e. having `started: false` option). Otherwise, resumes a stopped animation that has not been completed.
