@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
 - Canvas animation frame_rate/fps property to set frames per second rate of rendering
 
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
@@ -49,6 +48,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
 - Canvas animation property data-binding for cycle count, cycle count index, frame index, duration
+- Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
 - Add a samples directory to scaffolded custom widget gems and custom shape gems that demonstrate them (encouraging 3rd party makers to show off their widgets)

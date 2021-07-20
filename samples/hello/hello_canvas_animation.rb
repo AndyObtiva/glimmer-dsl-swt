@@ -26,10 +26,11 @@ class HelloCanvasAnimation
   include Glimmer::UI::CustomShell
   
   # data-bindable attributes (names must vary from attribute names on animation)
-  attr_accessor :animation_every, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
+  attr_accessor :animation_every, :animation_fps, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
   
   before_body {
     @animation_every = 0.050 # seconds
+    @animation_fps = 0
     @animation_frame_count = 100
     @animation_duration_limit = 0 # seconds
     @animation_started = true
@@ -69,14 +70,14 @@ class HelloCanvasAnimation
         text 'every'
       }
       label {
-        text 'frame count (0=unlimited)'
+        text 'frames per second'
       }
       
       # row 3
       spinner {
         layout_data(:fill, :center, true, false)
         digits 3
-        minimum 1
+        minimum 0
         maximum 100
         selection <=> [self, :animation_every, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f}]
       }
@@ -84,16 +85,24 @@ class HelloCanvasAnimation
         layout_data(:fill, :center, true, false)
         minimum 0
         maximum 100
-        selection <=> [self, :animation_frame_count]
+        selection <=> [self, :animation_fps]
       }
       
       # row 4
       label {
+        text 'frame count (0=unlimited)'
+      }
+      label {
         text 'duration limit (0=unlimited)'
       }
-      label # filler
       
       # row 5
+      spinner {
+        layout_data(:fill, :center, true, false)
+        minimum 0
+        maximum 100
+        selection <=> [self, :animation_frame_count]
+      }
       spinner {
         layout_data(:fill, :center, true, false)
         minimum 0
@@ -124,6 +133,20 @@ class HelloCanvasAnimation
       }
     }
   }
+  
+  def animation_every=(value)
+    @animation_every = value
+    if @animation_every.to_f > 0
+      self.animation_fps = 0
+    end
+  end
+  
+  def animation_fps=(value)
+    @animation_fps = value
+    if @animation_fps.to_f > 0
+      self.animation_every = 0
+    end
+  end
 end
 
 HelloCanvasAnimation.launch

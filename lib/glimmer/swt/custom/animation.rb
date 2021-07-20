@@ -21,6 +21,7 @@
 
 require 'glimmer/swt/properties'
 require 'glimmer/swt/custom/shape'
+require 'bigdecimal'
 
 module Glimmer
   module SWT
@@ -79,10 +80,12 @@ module Glimmer
         end
         
         attr_reader :parent, :options
-        attr_accessor :frame_index, :cycle, :frame_block, :every, :cycle_count, :frame_count, :started, :duration_limit, :duration, :finished, :cycle_count_index
+        attr_accessor :frame_index, :cycle, :frame_block, :every, :fps, :cycle_count, :frame_count, :started, :duration_limit, :duration, :finished, :cycle_count_index
         alias current_frame_index frame_index
         alias started? started
         alias finished? finished
+        alias frame_rate fps
+        alias frame_rate= fps=
         # TODO consider supporting an async: false option
         
         def initialize(parent)
@@ -266,7 +269,12 @@ module Glimmer
           end
           self.frame_index += 1
           self.cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
-          sleep(every) if every.is_a?(Numeric) # TODO consider using timer_exec as a perhaps more reliable alternative
+          # TODO consider using timer_exec as a perhaps more reliable alternative
+          if every.is_a?(Numeric)
+            sleep(every)
+          elsif fps.is_a?(Numeric)
+            sleep((BigDecimal(1.0.to_s) / BigDecimal(fps.to_f.to_s)).to_f)
+          end
           true
         rescue => e
           Glimmer::Config.logger.error {e}
