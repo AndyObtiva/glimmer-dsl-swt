@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.9.1
+
+- Fix issue with not being able to use :default x/y location with composite/custom shapes containing lines
+
 ### 4.20.9.0
 
 - Canvas animation fps/frame_rate property to set frames-per-second rate of rendering (alternative to every)

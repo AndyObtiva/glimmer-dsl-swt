@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
-
 - Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
 - shape `#center` method to identify a shape center point
