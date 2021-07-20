@@ -2239,7 +2239,7 @@ Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-can
 
 ### Canvas Animation DSL
 
-**(ALPHA FEATURE)**
+**(EXPERIMENTAL EARLY ALPHA FEATURE)**
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
