@@ -71,14 +71,14 @@ module Glimmer
           # Logical x coordinate relative to parent
           def x
             x_value = bounds.x
-            x_value -= parent.absolute_x if parent.is_a?(Shape)
+            x_value -= parent.absolute_x if parent.is_a?(Shape) && parent.class != Shape
             x_value
           end
           
           # Logical y coordinate relative to parent
           def y
             y_value = bounds.y
-            y_value -= parent.absolute_y if parent.is_a?(Shape)
+            y_value -= parent.absolute_y if parent.is_a?(Shape) && parent.class != Shape
             y_value
           end
           
@@ -91,7 +91,7 @@ module Glimmer
           end
           
           def absolute_x1
-            if parent.is_a?(Shape)
+            if parent.is_a?(Shape) && parent.class != Shape
               parent.absolute_x + x1
             else
               x1
@@ -99,7 +99,7 @@ module Glimmer
           end
           
           def absolute_y1
-            if parent.is_a?(Shape)
+            if parent.is_a?(Shape) && parent.class != Shape
               parent.absolute_y + y1
             else
               y1
@@ -107,7 +107,7 @@ module Glimmer
           end
           
           def absolute_x2
-            if parent.is_a?(Shape)
+            if parent.is_a?(Shape) && parent.class != Shape
               parent.absolute_x + x2.to_f
             else
               x2
@@ -115,7 +115,7 @@ module Glimmer
           end
           
           def absolute_y2
-            if parent.is_a?(Shape)
+            if parent.is_a?(Shape) && parent.class != Shape
               parent.absolute_y + y2.to_f
             else
               y2
