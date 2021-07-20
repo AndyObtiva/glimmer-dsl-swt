@@ -2281,7 +2281,8 @@ Screenshot:
 
 Keywords:
 - `animation` declares an animation under a canvas, which renders frames using a frame block indefinitely or finitely depending on (cycle_count/frame_count) properties
-- `every` specifies delay in seconds between every two frame renders
+- `every` specifies delay in seconds between every two frame renders (an alternative to `fps`, cannot use together)
+- `fps` (alias: `frame_rate`) specifies frame rate as frames per second (an alternative to `every`, cannot use together)
 - `frame {|index, cycle_var| }` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
 - `cycle` an optional property that takes an array to cycle into a second variable for the `frame` block
 - `cycle_count` an optional cycle count limit after which the animation stops (finishes)

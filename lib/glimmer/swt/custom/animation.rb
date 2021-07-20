@@ -270,9 +270,9 @@ module Glimmer
           self.frame_index += 1
           self.cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
           # TODO consider using timer_exec as a perhaps more reliable alternative
-          if every.is_a?(Numeric)
+          if every.is_a?(Numeric) && every > 0
             sleep(every)
-          elsif fps.is_a?(Numeric)
+          elsif fps.is_a?(Numeric) && fps > 0
             sleep((BigDecimal(1.0.to_s) / BigDecimal(fps.to_f.to_s)).to_f)
           end
           true

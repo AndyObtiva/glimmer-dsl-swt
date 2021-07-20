@@ -25,7 +25,6 @@ require 'bigdecimal'
 class HelloCanvasAnimation
   include Glimmer::UI::CustomShell
   
-  # data-bindable attributes (names must vary from attribute names on animation)
   attr_accessor :animation_every, :animation_fps, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
   
   before_body {
@@ -117,11 +116,12 @@ class HelloCanvasAnimation
           height_hint 320
         }
         @animation = animation {
-          every <= [self, :animation_every]
-          frame_count <= [self, :animation_frame_count]
-          duration_limit <= [self, :animation_duration_limit]
-          started <=> [self, :animation_started]
-          finished <=> [self, :animation_finished]
+          every          <=  [self, :animation_every]
+          fps            <=  [self, :animation_fps]
+          frame_count    <=  [self, :animation_frame_count]
+          duration_limit <=  [self, :animation_duration_limit]
+          started        <=> [self, :animation_started]
+          finished       <=> [self, :animation_finished]
           
           frame { |index|
             background rgb(index%100, index%100 + 100, index%55 + 200)
@@ -136,16 +136,12 @@ class HelloCanvasAnimation
   
   def animation_every=(value)
     @animation_every = value
-    if @animation_every.to_f > 0
-      self.animation_fps = 0
-    end
+    self.animation_fps = 0 if @animation_every.to_f > 0
   end
   
   def animation_fps=(value)
     @animation_fps = value
-    if @animation_fps.to_f > 0
-      self.animation_every = 0
-    end
+    self.animation_every = 0 if @animation_fps.to_f > 0
   end
 end
 
