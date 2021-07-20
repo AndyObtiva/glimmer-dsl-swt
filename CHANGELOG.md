@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.9.0
+
+- Canvas animation fps/frame_rate property to set frames-per-second rate of rendering (alternative to every)
+
 ### 4.20.8.0
 
 - Support data-binding Animation `duration_limit` property

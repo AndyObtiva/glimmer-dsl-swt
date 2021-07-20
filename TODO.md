@@ -4,14 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas animation frame_rate/fps property to set frames per second rate of rendering
-
 - Fix issue with not being able to use :default location with composite/custom shapes (check default/max width/height usage too) though it works with standard shapes
 
 - Support nouns for `Canvas Transform DSL` operations
 - Canvas Transform DSL property data-binding
-- shape `center` method to identify a shape center point
-- shape `rotate` method for any shape to rotate around its center
+- shape `#center` method to identify a shape center point
+- shape `#rotate` method for any shape to rotate around its center
 
 - Canvas Shape DSL autoscalable shapes or canvases
 
