@@ -19,48 +19,30 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer-dsl-swt'
-require 'bigdecimal'
+require 'glimmer/dsl/static_expression'
+require 'glimmer/dsl/parent_expression'
+require 'glimmer/swt/display_proxy'
+require 'glimmer/swt/tray_proxy'
+require 'glimmer/swt/tray_item_proxy'
 
-class HelloAnimationDataBinding
-  include Glimmer::UI::CustomShell
-  
-  attr_accessor :delay_time
-  
-  before_body {
-    @delay_time = 0.050
-  }
-  
-  body {
-    shell {
-      text 'Hello, Canvas Animation Data Binding!'
-      minimum_size 320, 320
-      
-      canvas {
-        grid_layout
+module Glimmer
+  module DSL
+    module SWT
+      class TrayItemExpression < StaticExpression
+        include ParentExpression
         
-        spinner {
-          layout_data(:center, :center, true, true) {
-            minimum_width 75
-          }
-          digits 3
-          minimum 1
-          maximum 100
-          selection bind(self, :delay_time, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f})
-        }
-        animation {
-          every bind(self, :delay_time)
-          
-          frame { |index|
-            background rgb(index%100, index%100 + 100, index%55 + 200)
-            oval(index*3%300, index*3%300, 20, 20) {
-              background :yellow
-            }
-          }
-        }
-      }
-    }
-  }
+        include_package 'org.eclipse.swt.widgets'
+      
+        def can_interpret?(parent, keyword, *args, &block)
+          super and
+            parent.swt_widget.is_a?(Shell) and
+            args.empty?
+        end
+  
+        def interpret(parent, keyword, *args, &block)
+          Glimmer::SWT::TrayItemProxy.new(parent, *args)
+        end
+      end
+    end
+  end
 end
-
-HelloAnimationDataBinding.launch

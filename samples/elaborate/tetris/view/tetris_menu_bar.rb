@@ -35,7 +35,7 @@ class Tetris
             
             menu_item {
               text '&Start'
-              enabled bind(game, :game_over)
+              enabled <= [game, :game_over]
               accelerator COMMAND_KEY, :s
               
               on_widget_selected {
@@ -45,9 +45,9 @@ class Tetris
             menu_item(:check) {
               text '&Pause'
               accelerator COMMAND_KEY, :p
-              enabled bind(game, :game_over, on_read: :!) {|value| value && !game.show_high_scores}
-              enabled bind(game, :show_high_scores, on_read: :!) {|value| value && !game.game_over}
-              selection bind(game, :paused)
+              enabled <= [game, :game_over, on_read: ->(value) { value && !game.show_high_scores }]
+              enabled <= [game, :show_high_scores, on_read: ->(value) { value && !game.game_over }]
+              selection <=> [game, :paused]
             }
             menu_item {
               text '&Restart'
@@ -76,7 +76,7 @@ class Tetris
               menu_item(:check) {
                 text '&Show'
                 accelerator COMMAND_KEY, :shift, :h
-                selection bind(game, :show_high_scores)
+                selection <=> [game, :show_high_scores]
               }
               menu_item {
                 text '&Clear'
@@ -94,24 +94,24 @@ class Tetris
             menu_item(:check) {
               text '&Beeping'
               accelerator COMMAND_KEY, :b
-              selection bind(game, :beeping)
+              selection <=> [game, :beeping]
             }
             menu {
               text 'Up Arrow'
               menu_item(:radio) {
                 text '&Instant Down'
                 accelerator COMMAND_KEY, :shift, :i
-                selection bind(game, :instant_down_on_up, computed_by: :up_arrow_action)
+                selection <=> [game, :instant_down_on_up, computed_by: :up_arrow_action]
               }
               menu_item(:radio) {
                 text 'Rotate &Right'
                 accelerator COMMAND_KEY, :shift, :r
-                selection bind(game, :rotate_right_on_up, computed_by: :up_arrow_action)
+                selection <=> [game, :rotate_right_on_up, computed_by: :up_arrow_action]
               }
               menu_item(:radio) {
                 text 'Rotate &Left'
                 accelerator COMMAND_KEY, :shift, :l
-                selection bind(game, :rotate_left_on_up, computed_by: :up_arrow_action)
+                selection <=> [game, :rotate_left_on_up, computed_by: :up_arrow_action]
               }
             }
           } # end of menu

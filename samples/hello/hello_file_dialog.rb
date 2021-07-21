@@ -44,7 +44,7 @@ class HelloFileDialog
       
       label {
         layout_data :fill, :center, true, false
-        text bind(self, :selected_file)
+        text <=> [self, :selected_file]
         font height: 14
       }
       

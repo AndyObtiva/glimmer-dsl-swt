@@ -71,6 +71,12 @@ module Glimmer
       def platform_os
         OPERATING_SYSTEMS_SUPPORTED.detect {|os| OS.send("#{os}?")}
       end
+      
+      def special_cpu_architecture_suffix
+        host_cpu = OS.host_cpu.downcase
+        special = host_cpu.include?('aarch64') || host_cpu.include?('arm')
+        special ? "_aarch64" : ''
+      end
 
       def swt_jar_file
         @swt_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'swt', platform_os, 'swt.jar'))

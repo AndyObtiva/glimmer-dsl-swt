@@ -21,9 +21,27 @@
 
 require 'glimmer-dsl-swt'
 
-require_relative 'hello_computed/contact'
-
 class HelloComputed
+  class Contact
+    attr_accessor :first_name, :last_name, :year_of_birth
+  
+    def initialize(attribute_map)
+      @first_name = attribute_map[:first_name]
+      @last_name = attribute_map[:last_name]
+      @year_of_birth = attribute_map[:year_of_birth]
+    end
+  
+    def name
+      "#{last_name}, #{first_name}"
+    end
+  
+    def age
+      Time.now.year - year_of_birth.to_i
+    rescue
+      0
+    end
+  end
+
   include Glimmer::UI::CustomShell
 
   before_body {
@@ -48,7 +66,7 @@ class HelloComputed
         
         label {text 'First &Name: '}
         text {
-          text bind(@contact, :first_name)
+          text <=> [@contact, :first_name]
           layout_data {
             horizontal_alignment :fill
             grab_excess_horizontal_space true
@@ -57,7 +75,7 @@ class HelloComputed
         
         label {text '&Last Name: '}
         text {
-          text bind(@contact, :last_name)
+          text <=> [@contact, :last_name]
           layout_data {
             horizontal_alignment :fill
             grab_excess_horizontal_space true
@@ -66,7 +84,7 @@ class HelloComputed
         
         label {text '&Year of Birth: '}
         text {
-          text bind(@contact, :year_of_birth)
+          text <=> [@contact, :year_of_birth]
           layout_data {
             horizontal_alignment :fill
             grab_excess_horizontal_space true
@@ -75,7 +93,7 @@ class HelloComputed
         
         label {text 'Name: '}
         label {
-          text bind(@contact, :name, computed_by: [:first_name, :last_name])
+          text <= [@contact, :name, computed_by: [:first_name, :last_name]]
           layout_data {
             horizontal_alignment :fill
             grab_excess_horizontal_space true
@@ -84,7 +102,7 @@ class HelloComputed
         
         label {text 'Age: '}
         label {
-          text bind(@contact, :age, on_write: :to_i, computed_by: [:year_of_birth])
+          text <= [@contact, :age, on_write: :to_i, computed_by: [:year_of_birth]]
           layout_data {
             horizontal_alignment :fill
             grab_excess_horizontal_space true

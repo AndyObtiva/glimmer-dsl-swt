@@ -83,7 +83,7 @@ class Metronome
       spinner {
         minimum 1
         maximum 64
-        selection bind(self, 'rhythm.beat_count', after_write: ->(v) {restart_metronome})
+        selection <=> [self, 'rhythm.beat_count', after_write: ->(v) {restart_metronome}]
         font height: 30
       }
       
@@ -95,7 +95,7 @@ class Metronome
       spinner {
         minimum 30
         maximum 1000
-        selection bind(self, 'rhythm.bpm')
+        selection <=> [self, 'rhythm.bpm']
         font height: 30
       }
       
@@ -122,7 +122,7 @@ class Metronome
             height_hint 50
           }
           rectangle(0, 0, :default, :default, 36, 36) {
-            background bind(self, "rhythm.beats[#{n}].on") {|on| on ? :red : :yellow}
+            background <= [self, "rhythm.beats[#{n}].on", on_read: ->(on) { on ? :red : :yellow}]
           }
         }
       }

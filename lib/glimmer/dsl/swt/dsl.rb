@@ -20,7 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/launcher'
-require Glimmer::Launcher.swt_jar_file
+require ENV['SWT_JAR_FILE_PATH'] || "#{Glimmer::Launcher.swt_jar_file}#{Glimmer::Launcher.special_cpu_architecture_suffix}"
 require 'glimmer/dsl/engine'
 Dir[File.expand_path('../*_expression.rb', __FILE__)].each {|f| require f}
 
@@ -52,6 +52,7 @@ module Glimmer
           image
           multiply
           property
+          shine_data_binding
           block_property
           dialog
           widget

@@ -314,8 +314,8 @@ class HelloTree
             margin_height 5
           }
           @tree = tree {
-            items bind(Employee, :ceo), tree_properties(children: :subordinates, text: :to_s)
-            selection bind(Employee, :selected_employee)
+            items <= [Employee, :ceo, tree_properties: {children: :subordinates, text: :to_s}]
+            selection <=> [Employee, :selected_employee]
           }
         }
         
@@ -329,7 +329,7 @@ class HelloTree
           }
           text {
             layout_data(:fill, :center, true, false)
-            text bind(Employee, "selected_employee.first_name")
+            text <=> [Employee, "selected_employee.first_name"]
             font height: 16
           }
                   
@@ -340,7 +340,7 @@ class HelloTree
           }
           text {
             layout_data(:fill, :center, true, false)
-            text bind(Employee, "selected_employee.last_name")
+            text <=> [Employee, "selected_employee.last_name"]
             font height: 16
           }
                   
@@ -351,7 +351,7 @@ class HelloTree
           }
           combo {
             layout_data(:fill, :center, true, false)
-            selection bind(Employee, "selected_employee.position")
+            selection <=> [Employee, "selected_employee.position"]
             font height: 16
           }
                   
@@ -373,7 +373,7 @@ class HelloTree
             spinner {
               maximum 999_999
               minimum 0
-              selection bind(Employee, "selected_employee.salary")
+              selection <=> [Employee, "selected_employee.salary"]
               font height: 16
             }
           }
@@ -385,7 +385,7 @@ class HelloTree
           }
           combo(:read_only) {
             layout_data(:fill, :center, true, false)
-            selection bind(Employee, "selected_employee.health_insurance")
+            selection <=> [Employee, "selected_employee.health_insurance"]
             font height: 16
           }
                                                   
@@ -396,7 +396,7 @@ class HelloTree
           }
           combo(:read_only) {
             layout_data(:fill, :center, true, false)
-            selection bind(Employee, "selected_employee.desk_location")
+            selection <=> [Employee, "selected_employee.desk_location"]
             font height: 16
           }
               
@@ -414,7 +414,7 @@ class HelloTree
             spinner {
               maximum 100
               minimum 0
-              selection bind(Employee, "selected_employee.sales_bonus_percentage")
+              selection <=> [Employee, "selected_employee.sales_bonus_percentage"]
               font height: 16
             }
             label {
@@ -441,7 +441,7 @@ class HelloTree
             spinner {
               maximum 999_999
               minimum 0
-              selection bind(Employee, "selected_employee.merit_bonus")
+              selection <=> [Employee, "selected_employee.merit_bonus"]
               font height: 16
             }
           }
@@ -467,7 +467,7 @@ class HelloTree
                 maximum 999_999_00
                 minimum 0
                 increment 100
-                selection bind(Employee, "selected_employee.#{attribute}", on_read: ->(v) {v.to_f * 100}, on_write: ->(v) {v.to_f / 100})
+                selection <=> [Employee, "selected_employee.#{attribute}", on_read: ->(v) {v.to_f * 100}, on_write: ->(v) {v.to_f / 100}]
                 font height: 16
               }
             }

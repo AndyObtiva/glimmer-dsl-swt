@@ -50,7 +50,7 @@ class HelloCombo
       text 'Hello, Combo!'
       
       combo(:read_only) {
-        selection bind(@person, :country) # also binds to country_options by convention
+        selection <=> [@person, :country] # also binds to country_options by convention
       }
       
       button {

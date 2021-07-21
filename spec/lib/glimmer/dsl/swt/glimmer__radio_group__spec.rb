@@ -40,7 +40,7 @@ module GlimmerSpec
       @radio_group.radios.each do |radio|
         expect(radio.swt_widget).to be_a(Button)
         expect(radio).to have_style(:radio)
-      end      
+      end
     end
 
     it 'sets selection in items, selecting radio accordingly' do
@@ -53,7 +53,7 @@ module GlimmerSpec
       @radio_group.radios.each do |radio|
         expect(radio.swt_widget).to be_a(Button)
         expect(radio).to have_style(:radio)
-      end      
+      end
       expect(@radio_group.radios[0].selection).to be_falsey
       expect(@radio_group.radios[1].selection).to be_truthy
       expect(@radio_group.radios[2].selection).to be_falsey
@@ -98,7 +98,7 @@ module GlimmerSpec
       event.item = @radio_group.radios[2].swt_widget
       event.widget = @radio_group.radios[2].swt_widget
       event.type = Glimmer::SWT::SWTProxy[:selection]
-      @radio_group.radios[2].notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)      
+      @radio_group.radios[2].notifyListeners(Glimmer::SWT::SWTProxy[:selection], event)
       expect(@listener_fired).to be_truthy
       
       @listener_fired = false
@@ -149,7 +149,7 @@ module GlimmerSpec
       expect(@listener_fired).to be_truthy
     end
 
-    it 'data-binds selection property' do      
+    it 'data-binds selection property' do
       @target = shell {
         @radio_group = radio_group {
           selection bind(person, :country)
@@ -198,7 +198,7 @@ module GlimmerSpec
 
       @radio_group.radios.each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(@radio_group.selection).to eq("")
       expect(@radio_group.selection_index).to eq(-1)
 
@@ -213,7 +213,7 @@ module GlimmerSpec
       expect(@radio_group.radios[2].selection).to be_truthy
       (@radio_group.radios[0..1] + @radio_group.radios[3..-1]).each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(person.country).to eq("Mexico")
 
       person.country = "Russia"
@@ -221,7 +221,7 @@ module GlimmerSpec
       expect(@radio_group.radios[3].selection).to be_truthy
       (@radio_group.radios[0..2] + @radio_group.radios[4..-1]).each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(@radio_group.selection).to eq("Russia")
       expect(@radio_group.selection_index).to eq(3)
 
@@ -229,7 +229,7 @@ module GlimmerSpec
 
       @radio_group.radios.each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(@radio_group.selection).to eq("")
       expect(@radio_group.selection_index).to eq(-1)
 
@@ -237,7 +237,7 @@ module GlimmerSpec
 
       @radio_group.radios.each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(@radio_group.selection).to eq("")
       expect(@radio_group.selection_index).to eq(-1)
 
@@ -245,7 +245,7 @@ module GlimmerSpec
 
       @radio_group.radios.each do |radio|
         expect(radio.selection).to be_falsey
-      end      
+      end
       expect(@radio_group.selection).to eq("")
       expect(@radio_group.selection_index).to eq(-1)
     end
@@ -254,6 +254,19 @@ module GlimmerSpec
       @target = shell {
         @radio_group = red_radio_group {
           selection bind(person, :country)
+        }
+      }
+
+      expect(@radio_group.background).to eq(Glimmer::SWT::ColorProxy.new(:red).swt_color)
+      expect(@radio_group.radios.count).to eq(3)
+      expect(@radio_group.selection_index).to eq(-1)
+      expect(@radio_group.selection).to eq("")
+    end
+
+    it 'data binds selection property on a custom widget radio_group with Shine syntax' do
+      @target = shell {
+        @radio_group = red_radio_group {
+          selection <=> [person, :country]
         }
       }
 

@@ -58,12 +58,12 @@ class HelloGroup
         
         radio {
           text 'Male'
-          selection bind(@person, :male)
+          selection <=> [@person, :male]
         }
         
         radio {
           text 'Female'
-          selection bind(@person, :female)
+          selection <=> [@person, :female]
         }
       }
       
@@ -75,22 +75,22 @@ class HelloGroup
         
         radio {
           text 'Child'
-          selection bind(@person, :child)
+          selection <=> [@person, :child]
         }
         
         radio {
           text 'Teen'
-          selection bind(@person, :teen)
+          selection <=> [@person, :teen]
         }
         
         radio {
           text 'Adult'
-          selection bind(@person, :adult)
+          selection <=> [@person, :adult]
         }
         
         radio {
           text 'Senior'
-          selection bind(@person, :senior)
+          selection <=> [@person, :senior]
         }
       }
       

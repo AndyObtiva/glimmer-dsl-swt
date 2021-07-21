@@ -207,6 +207,8 @@ class MetaSampleApplication
       image File.expand_path('../../icons/scaffold_app.png', __dir__)
       
       sash_form {
+        weights 4, 14
+      
         composite {
           grid_layout(1, false) {
             margin_width 0
@@ -226,7 +228,7 @@ class MetaSampleApplication
                   row_layout(:vertical) {
                     fill true
                   }
-                  selection bind(sample_directory, :selected_sample_name)
+                  selection <=> [sample_directory, :selected_sample_name]
                   font height: 20
                 }
               }
@@ -242,7 +244,7 @@ class MetaSampleApplication
             button {
               text 'Launch'
               font height: 25
-              enabled bind(SampleDirectory, 'selected_sample.launchable')
+              enabled <= [SampleDirectory, 'selected_sample.launchable']
               
               on_widget_selected {
                 begin
@@ -255,7 +257,7 @@ class MetaSampleApplication
             button {
               text 'Reset'
               font height: 25
-              enabled bind(SampleDirectory, 'selected_sample.editable')
+              enabled <= [SampleDirectory, 'selected_sample.editable']
               
               on_widget_selected {
                 SampleDirectory.selected_sample.reset_code!
@@ -268,20 +270,20 @@ class MetaSampleApplication
           root {
             grid_layout(2, false) {
               horizontal_spacing 0
-              margin_width 0
-              margin_height 0
+              margin_left 0
+              margin_right 0
+              margin_top 0
+              margin_bottom 0
             }
           }
           line_numbers {
             background :white
           }
-          text bind(SampleDirectory, 'selected_sample.code', read_only: true)
-          editable bind(SampleDirectory, 'selected_sample.editable')
+          text <=> [SampleDirectory, 'selected_sample.code']
+          editable <= [SampleDirectory, 'selected_sample.editable']
           left_margin 7
           right_margin 7
         }
-        
-        weights 4, 11
       }
     }
   }

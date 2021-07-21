@@ -106,15 +106,23 @@ module Glimmer
           /vendor/jars/
         MULTI_LINE_STRING
     
-        GEMFILE = <<~MULTI_LINE_STRING
+        GEMFILE_PREFIX = <<~MULTI_LINE_STRING
           # frozen_string_literal: true
           
           source 'https://rubygems.org'
           
           git_source(:github) {|repo_name| "https://github.com/\#{repo_name}" }
-          
+        MULTI_LINE_STRING
+        GEMFILE_APP_MIDFIX = <<~MULTI_LINE_STRING
+        
           gem 'glimmer-dsl-swt', '~> #{VERSION}'
-          
+        MULTI_LINE_STRING
+        GEMFILE_GEM_MIDFIX = <<~MULTI_LINE_STRING
+        
+          gem 'glimmer-dsl-swt', '~> #{VERSION.split('.')[0...2].join('.')}'
+        MULTI_LINE_STRING
+        GEMFILE_SUFFIX = <<~MULTI_LINE_STRING
+        
           group :development do
             gem 'rspec', '~> 3.5.0'
             gem 'juwelier', '2.4.9'
@@ -122,6 +130,8 @@ module Glimmer
             gem 'simplecov', '>= 0'
           end
         MULTI_LINE_STRING
+        APP_GEMFILE = GEMFILE_PREFIX + GEMFILE_APP_MIDFIX + GEMFILE_SUFFIX
+        GEM_GEMFILE = GEMFILE_PREFIX + GEMFILE_GEM_MIDFIX + GEMFILE_SUFFIX
     
         def app(app_name)
           common_app(app_name)
@@ -250,7 +260,7 @@ module Glimmer
           write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
-          write 'Gemfile', GEMFILE
+          write 'Gemfile', GEM_GEMFILE
           write 'Rakefile', gem_rakefile(custom_shell_name, namespace, gem_name)
           append "lib/#{gem_name}.rb", gem_main_file(custom_shell_name, namespace)
           custom_shell(custom_shell_name, namespace, :gem)
@@ -302,13 +312,13 @@ module Glimmer
         end
     
         def custom_widget_gem(custom_widget_name, namespace)
-          return puts('Namespace is required! Usage: glimmer scaffold:custom_widget_gem[custom_widget_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
           gem_name = "glimmer-cw-#{compact_name(custom_widget_name)}"
           gem_summary = "#{human_name(custom_widget_name)} - Glimmer Custom Widget"
           if namespace
             gem_name += "-#{compact_name(namespace)}"
             gem_summary += " (#{human_name(namespace)})"
           else
+            return puts('Namespace is required! Usage: glimmer scaffold:custom_widget_gem[custom_widget_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
             namespace = 'glimmer'
           end
           
@@ -321,7 +331,7 @@ module Glimmer
           write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
-          write 'Gemfile', GEMFILE
+          write 'Gemfile', GEM_GEMFILE
           write 'Rakefile', gem_rakefile
           append "lib/#{gem_name}.rb", gem_main_file(custom_widget_name, namespace)
           custom_widget(custom_widget_name, namespace)
@@ -340,13 +350,13 @@ module Glimmer
         end
     
         def custom_shape_gem(custom_shape_name, namespace)
-          return puts('Namespace is required! Usage: glimmer scaffold:custom_shape_gem[custom_shape_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
           gem_name = "glimmer-cp-#{compact_name(custom_shape_name)}"
           gem_summary = "#{human_name(custom_shape_name)} - Glimmer Custom Shape"
           if namespace
             gem_name += "-#{compact_name(namespace)}"
             gem_summary += " (#{human_name(namespace)})"
           else
+            return puts('Namespace is required! Usage: glimmer scaffold:custom_shape_gem[custom_shape_name,namespace]') unless `git config --get github.user`.to_s.strip == 'AndyObtiva'
             namespace = 'glimmer'
           end
           
@@ -359,7 +369,7 @@ module Glimmer
           write '.ruby-version', RUBY_VERSION
           write '.ruby-gemset', gem_name
           write 'VERSION', '1.0.0'
-          write 'Gemfile', GEMFILE
+          write 'Gemfile', GEM_GEMFILE
           write 'Rakefile', gem_rakefile
           append "lib/#{gem_name}.rb", gem_main_file(custom_shape_name, namespace)
           custom_shape(custom_shape_name, namespace)
@@ -418,7 +428,7 @@ module Glimmer
         
         def gemfile(shell_type)
           if shell_type == :desktopify
-            lines = GEMFILE.split("\n")
+            lines = APP_GEMFILE.split("\n")
             require_glimmer_dsl_swt_index = lines.index(lines.detect {|l| l.include?("gem 'glimmer-dsl-swt'") })
             lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
               "",
@@ -428,7 +438,7 @@ module Glimmer
             ]
             lines.join("\n")
           else
-            GEMFILE
+            APP_GEMFILE
           end
         end
     
@@ -441,8 +451,6 @@ module Glimmer
             require '#{file_name(app_name)}/view/app_view'
     
             class #{class_name(app_name)}
-              include Glimmer
-            
               APP_ROOT = File.expand_path('../..', __FILE__)
               VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
               LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
@@ -644,7 +652,7 @@ module Glimmer
             custom_shell_file_content += <<-MULTI_LINE_STRING
           grid_layout
           label(:center) {
-            text bind(self, :greeting)
+            text <= [self, :greeting]
             font height: 40
             layout_data :fill, :center, true, true
           }
@@ -714,7 +722,7 @@ module Glimmer
             ].each do |greeting_text|
               button(:radio) {
                 text greeting_text
-                selection bind(self, :greeting) { |g| g == greeting_text }
+                selection <= [self, :greeting, on_read: ->(g) { g == greeting_text }]
                 layout_data {
                   width 160
                 }

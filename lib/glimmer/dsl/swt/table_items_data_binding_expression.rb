@@ -35,10 +35,10 @@ module Glimmer
             block.nil? and
             parent.respond_to?(:swt_widget) and
             parent.swt_widget.is_a?(Table) and
-            args.size == 2 and
+            args.size.between?(1, 2) and
             args[0].is_a?(DataBinding::ModelBinding) and
             args[0].evaluate_property.is_a?(Array) and
-            args[1].is_a?(Array)
+            (args[1].nil? or args[1].is_a?(Array))
         end
   
         def interpret(parent, keyword, *args, &block)

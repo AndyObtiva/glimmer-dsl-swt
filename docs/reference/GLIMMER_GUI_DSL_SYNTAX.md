@@ -18,6 +18,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
       - [sync_exec](#sync_exec)
       - [timer_exec](#timer_exec)
     - [Menus](#menus)
+    - [Tray Item](#tray-item)
     - [ScrolledComposite](#scrolledcomposite)
     - [Sash Form Widget](#sash-form-widget)
     - [Browser Widget](#browser-widget)
@@ -49,6 +50,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Animation via Data-Binding](#animation-via-data-binding)
   - [Data-Binding](#data-binding)
     - [General Examples](#general-examples)
+    - [Shine](#shine)
     - [Combo](#combo)
     - [List](#list)
     - [Table](#table)
@@ -183,8 +185,9 @@ This screenshot taken from the link above should give a glimpse of how SWT widge
 
 [![SWT Widgets](/images/glimmer-swt-widgets.png)](https://www.eclipse.org/swt/widgets/)
 
-In Glimmer DSL, widgets are declared with lowercase underscored names mirroring their SWT names minus the package name. For example, here are some Glimmer widgets and their SWT counterparts:
+In Glimmer DSL, widgets are declared with lowercase underscored names mirroring their SWT names minus the package name.
 
+For example, here are some Glimmer widgets and their SWT counterparts:
 - `shell` instantiates `org.eclipse.swt.widgets.Shell`
 - `text` instantiates `org.eclipse.swt.widgets.Text`
 - `button` instantiates `org.eclipse.swt.widgets.Button`
@@ -297,7 +300,8 @@ This is not an exaustive list, but should give you a good start in learning Glim
 - `checkbox`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox)
 - `checkbox_group`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group)
 - `combo`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo)
-- `composite`: featured in [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `composite`: featured in [Hello, Composite!](GLIMMER_SAMPLES.md#hello-composite) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `cool_bar`: featured in [Hello, Cool Bar!](GLIMMER_SAMPLES.md#hello-cool-bar)
 - `date`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
 - `date_drop_down`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
 - `group`: featured in [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
@@ -317,14 +321,16 @@ This is not an exaustive list, but should give you a good start in learning Glim
 - `table_column`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 - `text`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 - `time`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
+- `tool_bar`: featured in [Hello, Tool Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-tool-bar)
+- `tool_item`: featured in [Hello, Tool Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-tool-bar)
 - Glimmer::UI::CustomWidget: ability to define any keyword as a custom widget - featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
 - Glimmer::UI::CustomShell: ability to define any keyword as a custom shell (aka custom window) that opens in a new browser window (tab) automatically unless there is no shell open in the current browser window (tab) - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
 
 **Layouts:**
-- `grid_layout`: featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `row_layout`: featured in [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `fill_layout`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
-- `layout_data`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `grid_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `row_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `fill_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
+- `layout_data`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
 
 **Graphics/Style:**
 - `color`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
@@ -380,6 +386,7 @@ Shell widget proxy has extra methods specific to SWT Shell:
 - `#visible?`: Returns whether a shell is visible
 - `#opened_before?`: Returns whether a shell has been opened at least once before (additionally implying the SWT Event Loop has been started already)
 - `#visible=`: Setting to true opens/shows shell. Setting to false hides the shell.
+- `#layout`: Lays out contained widgets using SWT's `Shell#layout` method
 - `#pack`: Packs contained widgets using SWT's `Shell#pack` method
 - `#pack_same_size`: Packs contained widgets without changing shell's size when widget sizes change
 
@@ -866,6 +873,101 @@ shell {
 }.open
 ```
 
+#### Tray Item
+
+![Hello Tray Item Icon](/images/glimmer-hello-tray-item.png)
+
+The system tray allows showing icons for various apps that need to stay on for extended periods of time and provide quick access.
+
+In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray.
+
+Note how the shell was declared with the `:on_top` style (in addition to the default, which is `:shell_trim`) to ensure it opens above all apps when the "Show Application" menu item is selected.
+
+Example code:
+
+```ruby
+    shell(:shell_trim, :on_top) { # make it always appear on top of everything
+      row_layout(:vertical) {
+        center true
+      }
+      text 'Hello, Tray Item!'
+      
+      on_shell_closed do |event|
+        # do not perform event that closes app when shell is closed
+        event.doit = false
+        # body_root is the root shell
+        body_root.hide
+        self.show_application = false # updates Show Application checkbox menu item indirectly
+      end
+      
+      tray_item {
+        tool_tip_text 'Glimmer'
+        image @image # could use an image path instead
+
+        menu {
+          menu_item {
+            text 'About'
+
+            on_widget_selected do
+              message_box {
+                text 'Glimmer - About'
+                message 'This is a Glimmer DSL for SWT Tray Item'
+              }.open
+            end
+          }
+          menu_item(:separator)
+          menu_item(:check) {
+            text 'Show Application'
+            selection <=> [self, :show_application]
+            
+            on_widget_selected do
+              # body_root is the root shell
+              if body_root.visible?
+                body_root.hide
+              else
+                body_root.show
+              end
+            end
+          }
+          menu_item(:separator)
+          menu_item {
+            text 'Exit'
+
+            on_widget_selected {
+              exit(0)
+            }
+          }
+        }
+        
+        # supported tray item listeners (you can try to add actions to them when needed)
+#         on_swt_Show {
+#         }
+#
+#         on_swt_Hide {
+#         }
+#
+#         on_widget_selected {
+#         }
+#
+#         on_menu_detected {
+#         }
+      }
+      
+      label(:center) {
+        text 'This is the application'
+        font height: 30
+      }
+      label {
+        text 'Click on the tray item (circles icon) to open its menu'
+      }
+      label {
+        text 'Uncheck Show Application to hide the app and recheck it to show the app'
+      }
+    }
+```
+
+Learn more at [Hello, Tray Item!](/docs/reference/GLIMMER_SAMPLES.md#hello-tray-item)
+
 #### ScrolledComposite
 
 Glimmer provides smart defaults for the `scrolled_composite` widget by:
@@ -919,6 +1021,7 @@ Example loading a URL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 ```ruby
 shell {
   minimum_size 1024, 860
+  maximum_size 2000, 1000
   browser {
     url 'http://brightonresort.com/about'
   }
@@ -1392,7 +1495,6 @@ https://www.eclipse.org/articles/Article-Understanding-Layouts/Understanding-Lay
 Also, for a reference, check the SWT API:
 
 https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/api/index.html
-
 
 ### Canvas Shape DSL
 
@@ -2137,17 +2239,17 @@ Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-can
 
 ### Canvas Animation DSL
 
-**(ALPHA FEATURE)**
+**(EXPERIMENTAL EARLY ALPHA FEATURE)**
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
-Glimmer additionally provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
+Glimmer provides built-in support for animations via a declarative Animation DSL, another sub-DSL of the Glimmer GUI DSL.
 
-Animations take advantage of multi-threading, automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
+Animations take advantage of multi-threading, with Glimmer DSL for SWT automatically running each animation in its own independent thread of execution while updating the GUI asynchronously.
 
-Multiple simultaneous animations are supported by declaring an animation per `canvas` (or widget) parent.
+Multiple simultaneous animations are supported per `canvas` (or widget) parent.
 
-`canvas` has the `:double_buffered` SWT style by default to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
+`canvas` has the `:double_buffered` SWT style by default on platforms other than the Mac to ensure flicker-free rendering (Mac does not need it). If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
 This example says it all (it moves a tiny red square across a blue background) (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
@@ -2179,12 +2281,15 @@ Screenshot:
 
 Keywords:
 - `animation` declares an animation under a canvas, which renders frames using a frame block indefinitely or finitely depending on (cycle_count/frame_count) properties
-- `every` specifies delay in seconds between every two frame renders
-- `frame` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
-- `cycle` a property that takes an array to cycle into a second variable for the `frame` block
-- `cycle_count` an optional cycle count limit after which the animation stops
-- `frame_count` an optional frame count limit after which the animation stops
-- `started` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
+- `every` specifies delay in seconds between every two frame renders (an alternative to `fps`, cannot use together)
+- `fps` (alias: `frame_rate`) specifies frame rate as frames per second (an alternative to `every`, cannot use together)
+- `frame {|index, cycle_var| }` a block that can contain Shape DSL syntax that is rendered dynamically with variables calculated on the fly
+- `cycle` an optional property that takes an array to cycle into a second variable for the `frame` block
+- `cycle_count` an optional cycle count limit after which the animation stops (finishes)
+- `frame_count` an optional frame count limit after which the animation stops (finishes)
+- `duration_limit` an optional duration limit in seconds after which the animation stops (finishes)
+- `started`/`started?` a boolean indicating if the animation is started right away or stopped waiting for manual startup via `#start` method
+- `finished`/`finished?` a boolean indicating if the animation finished (for finite animations only)
 
 API of Animation Object (returned from `animation` keyword):
 - `#start` starts an animation that is indefinite or has never been started before (i.e. having `started: false` option). Otherwise, resumes a stopped animation that has not been completed.
@@ -2230,13 +2335,13 @@ This example adds on the one above it by specifying converters on read and write
 
 `text bind(contact, 'address.street', sync_exec: true)`
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 This example forces GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
 
 `text bind(contact, 'address.street', async_exec: true)`
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 This example forces GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
 
@@ -2248,7 +2353,7 @@ This example also specifies a converter on read of the model property, but via a
 
 This is a block shortcut version of the syntax above it. It facilitates formatting model data for read-only widgets since it's a very common view concern. It also saves the developer from having to create a separate formatter/presenter for the model when the view can be an active view that handles common simple formatting operations directly.
 
-`text bind(contact, 'address.street', read_only: true)
+`text bind(contact, 'address.street', read_only: true)`
 
 This is read-ohly data-binding. It doesn't update contact.address.street when widget text property is changed.
 
@@ -2269,6 +2374,36 @@ This example demonstrates computed value data binding whereby the value of `name
 This example demonstrates nested indexed computed value data binding whereby the value of `profiles[0].name` depends on changes to both nested `profiles[0].first_name` and `profiles[0].last_name`.
 
 Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+#### Shine
+
+**(BETA FEATURE)**
+
+The new Shine syntax for View/Model Attribute Mapping allows data-binding visually with simple arrow operators in Ruby.
+
+Use `<=> [model, attribute, options]` for bidirectional (two-way) data-binding instead of `bind(model, attribute, options)`.
+Use `<= [model, attribute, options]` for unidirectional (one-way) data-binding instead of `bind(model, attribute, read_only: true, more_options)`
+
+One thing special with the `table` widget is that `<=`, which makes data-binding unidirectional, stops the `table` from supporting automatic sorting by default since that involves modifying the model collection ordering (albeit not the content).
+To enable automatic sorting in a `table`, but still not permit edit actions to the data itself, you simply use `<=>` for bidirectional data-binding, but without passing the `:editable` style to the `table`.
+
+Examples:
+
+```ruby
+text <=> [@contact, :first_name]
+```
+
+```ruby
+text <=> [@contact, :last_name]
+```
+
+```ruby
+text <= [@contact, :name, computed_by: [:first_name, :last_name]]
+```
+
+Given that Shine is new, if you encounter any issues, you can use `bind` instead.
+
+Check out [sample code](/samples) for more examples of Shine syntax in action, such as [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed).
 
 #### Combo
 
@@ -3123,8 +3258,6 @@ You may see another example at the [Hello, Radio Group!](GLIMMER_SAMPLES.md#hell
 
 ##### Code Text Custom Widget
 
-**(BETA FEATURE)**
-
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
 It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
@@ -3148,8 +3281,6 @@ To use, simply use `code_text` in place of the `text` or `styled_text` widget. I
 
 **lines**
 (default: `false`)
-
-**(BETA FEATURE)**
 
 Shows line numbers when set to true.
 
@@ -3188,7 +3319,7 @@ Sets the code language, which can be one of the following [rouge gem](#https://r
 - bibtex
 - biml
 - bpf
-- brainfuck
+- brainf*ck
 - brightscript
 - bsl
 - c

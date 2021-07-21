@@ -20,6 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/swt/properties'
+require 'glimmer/swt/custom/shape'
+require 'bigdecimal'
 
 module Glimmer
   module SWT
@@ -27,6 +29,7 @@ module Glimmer
       # Represents an animation declaratively
       class Animation
         include Properties
+        include Glimmer::DataBinding::ObservableModel
         
         class << self
           def schedule_frame_animation(animation, &frame_animation_block)
@@ -76,18 +79,21 @@ module Glimmer
           end
         end
         
-        attr_reader :parent, :options, :frame_index, :cycle
+        attr_reader :parent, :options
+        attr_accessor :frame_index, :cycle, :frame_block, :every, :fps, :cycle_count, :frame_count, :started, :duration_limit, :duration, :finished, :cycle_count_index
         alias current_frame_index frame_index
-        attr_accessor :frame_block, :every, :cycle_count, :frame_count, :started, :duration_limit
         alias started? started
+        alias finished? finished
+        alias frame_rate fps
+        alias frame_rate= fps=
         # TODO consider supporting an async: false option
         
         def initialize(parent)
           @parent = parent
           @parent.requires_shape_disposal = true
-          @started = true
-          @frame_index = 0
-          @cycle_count_index = 0
+          self.started = true
+          self.frame_index = 0
+          self.cycle_count_index = 0
           @start_number = 0 # denotes the number of starts (increments on every start)
           self.class.swt_display # ensures initializing variable to set from GUI thread
         end
@@ -99,14 +105,22 @@ module Glimmer
           end
         end
         
+        def content(&block)
+          Glimmer::SWT::DisplayProxy.instance.auto_exec do
+            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::AnimationExpression.new, 'animation', &block)
+          end
+        end
+                
         # Starts an animation that is indefinite or has never been started before (i.e. having `started: false` option).
         # Otherwise, resumes a stopped animation that has not been completed.
         def start
           return if @start_number > 0 && started?
           @start_number += 1
-          @started = true
           @start_time = Time.now
+          @duration = 0
           @original_start_time = @start_time if @duration.nil?
+          self.finished = false if finished?
+          self.started = true
           # TODO track when finished in a variable for finite animations (whether by frame count, cycle count, or duration limit)
           Thread.new do
             start_number = @start_number
@@ -125,16 +139,16 @@ module Glimmer
         
         def stop
           return if stopped?
-          @started = false
-          @duration = (Time.now - @start_time) + @duration.to_f if duration_limited? && !@start_time.nil?
+          self.started = false
+          self.duration = (Time.now - @start_time) + @duration.to_f if duration_limited? && !@start_time.nil?
         end
         
         # Restarts an animation (whether indefinite or not and whether stopped or not)
         def restart
-          @original_start_time = @start_time = nil
-          @duration = nil
-          @frame_index = 0
-          @cycle_count_index = 0
+          @original_start_time = @start_time = Time.now
+          self.duration = 0
+          self.frame_index = 0
+          self.cycle_count_index = 0
           stop
           start
         end
@@ -176,6 +190,24 @@ module Glimmer
           end
         end
         
+        def cycle_count_index=(value)
+          @cycle_count_index = value
+          self.finished = true if cycle_limited? && @cycle_count_index == @cycle_count
+          @cycle_count_index
+        end
+        
+        def frame_index=(value)
+          @frame_index = value
+          self.finished = true if frame_count_limited? && @frame_index == @frame_count
+          @frame_index
+        end
+        
+        def duration=(value)
+          @duration = value
+          self.finished = true if surpassed_duration_limit?
+          @duration
+        end
+        
         def cycle_enabled?
           @cycle.is_a?(Array)
         end
@@ -185,15 +217,15 @@ module Glimmer
         end
         
         def duration_limited?
-          @duration_limit.is_a?(Integer)
+          @duration_limit.is_a?(Numeric) && @duration_limit > 0
         end
         
         def frame_count_limited?
-          @frame_count.is_a?(Integer)
+          @frame_count.is_a?(Integer) && @frame_count > 0
         end
         
         def surpassed_duration_limit?
-          duration_limited? && ((Time.now - @start_time) > (@duration_limit - @duration.to_f))
+          duration_limited? && ((Time.now - @start_time) > @duration_limit)
         end
         
         def within_duration_limit?
@@ -204,32 +236,45 @@ module Glimmer
         
         # Returns true on success of painting a frame and false otherwise
         def draw_frame(start_number)
-          return false if stopped? ||
-                          start_number != @start_number ||
-                          (frame_count_limited? && @frame_index == @frame_count) ||
-                          (cycle_limited? && @cycle_count_index == @cycle_count) ||
-                          surpassed_duration_limit?
+          if stopped? or
+              (start_number != @start_number) or
+              (frame_count_limited? && @frame_index == @frame_count) or
+              (cycle_limited? && @cycle_count_index == @cycle_count) or
+              surpassed_duration_limit?
+            self.duration = Time.now - @start_time
+            return false
+          end
           block_args = [@frame_index]
           block_args << @cycle[@frame_index % @cycle.length] if cycle_enabled?
           current_frame_index = @frame_index
           current_cycle_count_index = @cycle_count_index
           self.class.schedule_frame_animation(self) do
+            self.duration = Time.now - @start_time # TODO should this be set here, after the if statement, in the else too, or outside both?
             if started? && start_number == @start_number && within_duration_limit?
               unless @parent.isDisposed
-                @parent.clear_shapes # TODO adjust this to clear only the shapes of this animation (not all shapes) to allow simultaneous animations to occur on the same parent
-                @parent.content { frame_block.call(*block_args) }
+                @shapes.to_a.each(&:dispose)
+                parent_shapes_before = @parent.shapes.clone
+                @parent.content {
+                  frame_block.call(*block_args)
+                }
+                @shapes = @parent.shapes - parent_shapes_before
+                self.duration = Time.now - @start_time # TODO consider if this is needed
               end
             else
               if stopped? && @frame_index > current_frame_index
-                @started = false
-                @frame_index = current_frame_index
-                @cycle_count_index = current_cycle_count_index
+                self.frame_index = current_frame_index
+                self.cycle_count_index = current_cycle_count_index
               end
             end
           end
-          @frame_index += 1
-          @cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
-          sleep(every) if every.is_a?(Numeric)
+          self.frame_index += 1
+          self.cycle_count_index += 1 if cycle_limited? && (@frame_index % @cycle&.length&.to_i) == 0
+          # TODO consider using timer_exec as a perhaps more reliable alternative
+          if every.is_a?(Numeric) && every > 0
+            sleep(every)
+          elsif fps.is_a?(Numeric) && fps > 0
+            sleep((BigDecimal(1.0.to_s) / BigDecimal(fps.to_f.to_s)).to_f)
+          end
           true
         rescue => e
           Glimmer::Config.logger.error {e}

@@ -65,40 +65,40 @@ class HelloProgressBar
       }
       
       spinner {
-        selection bind(@progress_model, :minimum)
+        selection <=> [@progress_model, :minimum]
       }
       
       spinner {
-        selection bind(@progress_model, :maximum)
+        selection <=> [@progress_model, :maximum]
       }
       
       spinner {
-        selection bind(@progress_model, :selection)
+        selection <=> [@progress_model, :selection]
       }
         
       spinner {
         digits 2
         minimum 1
         maximum 200
-        selection bind(@progress_model, :delay, on_read: ->(v) {v.to_f*100.0}, on_write: ->(v) {v.to_f/100.0})
+        selection <=> [@progress_model, :delay, on_read: ->(v) {v.to_f*100.0}, on_write: ->(v) {v.to_f/100.0}]
       }
           
       progress_bar {
         layout_data(:fill, :center, true, false) {
           horizontal_span 4
         }
-        minimum bind(@progress_model, :minimum)
-        maximum bind(@progress_model, :maximum)
-        selection bind(@progress_model, :selection)
+        minimum <= [@progress_model, :minimum]
+        maximum <= [@progress_model, :maximum]
+        selection <= [@progress_model, :selection]
       }
       
       progress_bar(:vertical) {
         layout_data(:fill, :center, true, false) {
           horizontal_span 4
         }
-        minimum bind(@progress_model, :minimum)
-        maximum bind(@progress_model, :maximum)
-        selection bind(@progress_model, :selection)
+        minimum <= [@progress_model, :minimum]
+        maximum <= [@progress_model, :maximum]
+        selection <= [@progress_model, :selection]
       }
       
       button {

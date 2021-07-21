@@ -52,7 +52,7 @@ module Glimmer
           widget_binding.call(model_binding.evaluate_property)
           widget_binding.observe(model_binding)
   
-          raise(Glimmer::Error, "No radios found! Make sure radio selection is data-bound to a property having property_options as non-empty array!") if parent.items.empty?
+          raise(Glimmer::Error, "No radios found! Make sure radio selection is data-bound to a property having property_options as non-empty array!") if parent.get_items.empty?
           Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: model_binding.binding_options[:sync_exec], override_async_exec: model_binding.binding_options[:async_exec]) do
             parent.on_widget_selected do
               model_binding.call(widget_binding.evaluate_property)

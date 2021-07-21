@@ -135,6 +135,27 @@ module GlimmerSpec
       expect(person.name).to eq("Allen Deiley")
     end
     
+    it "tests text widget data binding string property with Shine syntax" do
+      person = Person.new
+      person.name = "Bruce Ting"
+
+      @target = shell {
+        composite {
+          @text = text {
+            text <=> [person, :name]
+          }
+        }
+      }
+
+      expect(@text.swt_widget.getText).to eq("Bruce Ting")
+
+      person.name = "Lady Butterfly"
+      expect(@text.swt_widget.getText).to eq("Lady Butterfly")
+
+      @text.swt_widget.setText("Allen Deiley")
+      expect(person.name).to eq("Allen Deiley")
+    end
+    
     context "text widget selection" do
       it "updates text widget selection when hitting key down" do
         person = Person.new
@@ -146,6 +167,39 @@ module GlimmerSpec
             @text = text {
               text bind(person, :name)
               selection bind(person, :name_selection)
+            }
+          }
+        }
+  
+        expect(@text.swt_widget.getText).to eq("Bruce Ting")
+        expect(@text.swt_widget.getSelection.x).to eq(1)
+        expect(@text.swt_widget.getSelection.y).to eq(4)
+        
+        @text.swt_widget.setSelection(Point.new(2, 4))
+        event = Event.new
+        event.keyCode = Glimmer::SWT::SWTProxy[:arrow_right]
+        event.doit = true
+        event.character = 26.chr
+        event.display = Glimmer::SWT::DisplayProxy.instance.swt_display
+        event.item = @text.swt_widget
+        event.widget = @text.swt_widget
+        event.type = Glimmer::SWT::SWTProxy[:keydown]
+        @text.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:keydown], event)
+        
+        expect(person.name_selection.x).to eq(2)
+        expect(person.name_selection.y).to eq(4)
+      end
+       
+      it "updates text widget selection when hitting key down using Shine syntax" do
+        person = Person.new
+        person.name = "Bruce Ting"
+        person.name_selection = Point.new(1,4)
+  
+        @target = shell {
+          composite {
+            @text = text {
+              text <=> [person, :name]
+              selection <=> [person, :name_selection]
             }
           }
         }
@@ -405,7 +459,7 @@ module GlimmerSpec
       expect(person.adult).to eq(false)
     end
 
-    it "tests menu item widget ready-only data binding of boolean selection property" do
+    it "tests menu item widget read-only data binding of boolean selection property" do
       person = Person.new
       person.age = 17
 
@@ -415,6 +469,31 @@ module GlimmerSpec
             @menu_item = menu_item(:radio) {
               text 'Adult'
               selection bind(person, :age, read_only: true) {|a| a >= 18}
+            }
+          }
+        }
+      }
+
+      expect(@menu_item.swt_widget.getSelection).to eq(false)
+
+      person.age = 20
+      expect(@menu_item.swt_widget.getSelection).to eq(true)
+
+      @menu_item.swt_widget.setSelection(false)
+      @menu_item.swt_widget.notifyListeners(Glimmer::SWT::SWTProxy[:selection], nil)
+      expect(person.age).to eq(20)
+    end
+
+    it "tests menu item widget read-only data binding of boolean selection property with Shine syntax" do
+      person = Person.new
+      person.age = 17
+
+      @target = shell {
+        menu_bar {
+          menu {
+            @menu_item = menu_item(:radio) {
+              text 'Adult'
+              selection <= [person, :age, on_read: ->(a) { a >= 18 }]
             }
           }
         }

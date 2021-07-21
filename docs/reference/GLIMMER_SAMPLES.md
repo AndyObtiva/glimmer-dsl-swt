@@ -1,6 +1,12 @@
 - [Samples](#samples)
   - [Hello Samples](#hello-samples)
     - [Hello, World!](#hello-world)
+    - [Hello, Button!](#hello-button)
+    - [Hello, Label!](#hello-label)
+    - [Hello, Text!](#hello-text)
+    - [Hello, Composite!](#hello-composite)
+    - [Hello, Layout!](#hello-layout)
+    - [Hello, Shell!](#hello-shell)
     - [Hello, Tab!](#hello-tab)
     - [Hello, C Tab!](#hello-c-tab)
     - [Hello, Combo!](#hello-combo)
@@ -28,13 +34,12 @@
     - [Hello, Date Time!](#hello-date-time)
     - [Hello, Spinner!](#hello-spinner)
     - [Hello, Table!](#hello-table)
-    - [Hello, Button!](#hello-button)
     - [Hello, Link!](#hello-link)
     - [Hello, Dialog!](#hello-dialog)
     - [Hello, Code Text!](#hello-code-text)
     - [Hello, Canvas!](#hello-canvas)
     - [Hello, Canvas Animation!](#hello-canvas-animation)
-    - [Hello, Canvas Animation Data Binding!](#hello-canvas-animation-data-binding)
+    - [Hello, Canvas Animation Multi!](#hello-canvas-animation-multi)
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
@@ -45,6 +50,9 @@
     - [Hello, Font Dialog!](#hello-font-dialog)
     - [Hello, Shape!](#hello-shape)
     - [Hello, Custom Shape!](#hello-custom-shape)
+    - [Hello, Tool Bar!](#hello-tool-bar)
+    - [Hello, Cool Bar!](#hello-cool-bar)
+    - [Hello, Tray Item!](#hello-tray-item)
   - [Elaborate Samples](#elaborate-samples)
     - [User Profile](#user-profile)
     - [Login](#login)
@@ -54,6 +62,7 @@
     - [Mandelbrot Fractal](#mandelbrot-fractal)
     - [Stock Ticker](#stock-ticker)
     - [Metronome](#metronome)
+    - [Weather](#weather)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -93,6 +102,132 @@ Code:
 [samples/hello/hello_world.rb](/samples/hello/hello_world.rb)
 
 ![Hello World](/images/glimmer-hello-world.png)
+
+#### Hello, Button!
+
+This sample demonstrates the use of the `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
+
+Code:
+
+[samples/hello/hello_button.rb](/samples/hello/hello_button.rb)
+
+Hello, Button!
+
+![Hello Button](/images/glimmer-hello-button.png)
+
+Hello, Button! Incremented 7 times!
+
+![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
+
+#### Hello, Label!
+
+This sample demonstrates the use of the `label` widget in Glimmer.
+
+Code:
+
+[samples/hello/hello_label.rb](/samples/hello/hello_label.rb)
+
+![Hello Label Left Aligned](/images/glimmer-hello-label-left-aligned.png)
+
+![Hello Label Center Aligned](/images/glimmer-hello-label-center-aligned.png)
+
+![Hello Label Right Aligned](/images/glimmer-hello-label-right-aligned.png)
+
+![Hello Label Images](/images/glimmer-hello-label-images.png)
+
+![Hello Label Background Images](/images/glimmer-hello-label-background_images.png)
+
+![Hello Label Horizontal Separator](/images/glimmer-hello-label-horizontal-separator.png)
+
+![Hello Label Vertical Separator](/images/glimmer-hello-label-vertical-separator.png)
+
+#### Hello, Text!
+
+This sample demonstrates the use of the `text` widget in Glimmer, including data-binding (e.g. via the `<=>` operator) and event handling.
+
+Code:
+
+[samples/hello/hello_text.rb](/samples/hello/hello_text.rb)
+
+Hello, Text!
+
+![Hello Text](/images/glimmer-hello-text.png)
+
+#### Hello, Composite!
+
+This sample demonstrates the `composite` widget, which is simply used as a container for visual layout and organization.
+
+Code:
+
+[samples/hello/hello_composite.rb](/samples/hello/hello_composite.rb)
+
+![Hello Composite](/images/glimmer-hello-composite.png)
+
+#### Hello, Layout!
+
+This sample demonstrates the standard 3 layouts in SWT (though one can write their own for very advanced applications): `fill_layout`, `row_layout`, and `grid_layout`
+
+Code:
+
+[samples/hello/hello_layout.rb](/samples/hello/hello_layout.rb)
+
+![Hello Layout Tab1](/images/glimmer-hello-layout-tab1.png)
+
+![Hello Layout Tab2](/images/glimmer-hello-layout-tab2.png)
+
+![Hello Layout Tab3](/images/glimmer-hello-layout-tab3.png)
+
+![Hello Layout Tab4](/images/glimmer-hello-layout-tab4.png)
+
+![Hello Layout Tab5](/images/glimmer-hello-layout-tab5.png)
+
+![Hello Layout Tab6](/images/glimmer-hello-layout-tab6.png)
+
+![Hello Layout Tab7](/images/glimmer-hello-layout-tab7.png)
+
+#### Hello, Shell!
+
+This sample demonstrates the various shells (windows) available in SWT.
+
+Code:
+
+[samples/hello/hello_shell.rb](/samples/hello/hello_shell.rb)
+
+Hello, Shell!
+
+![Hello, Shell!](/images/glimmer-hello-shell.png)
+
+Nested Shell
+
+![Nested Shell](/images/glimmer-hello-shell-nested-shell.png)
+
+Independent Shell
+
+![Independent Shell](/images/glimmer-hello-shell-independent-shell.png)
+
+Close-Button Shell
+
+![Close-Button Shell](/images/glimmer-hello-shell-close-button-shell.png)
+
+Minimize-Button Shell
+
+![Minimize-Button Shell](/images/glimmer-hello-shell-minimize-button-shell.png)
+
+Maximize-Button Shell
+
+![Maximize-Button Shell](/images/glimmer-hello-shell-maximize-button-shell.png)
+
+Buttonless Shell
+
+![Buttonless Shell](/images/glimmer-hello-shell-buttonless-shell.png)
+
+No Trim Shell
+
+![No Trim Shell](/images/glimmer-hello-shell-no-trim-shell.png)
+
+Always On Top Shell
+
+![Always On Top Shell](/images/glimmer-hello-shell-always-on-top-shell.png)
 
 #### Hello, Tab!
 
@@ -518,22 +653,6 @@ Hello, Table! Context Menu
 
 ![Hello Table](/images/glimmer-hello-table-context-menu.png)
 
-#### Hello, Button!
-
-This sample demonstrates the use of the `button` widget in Glimmer, including data-binding and click event triggering via `on_widget_selected`.
-
-Code:
-
-[samples/hello/hello_button.rb](/samples/hello/hello_button.rb)
-
-Hello, Button!
-
-![Hello Button](/images/glimmer-hello-button.png)
-
-Hello, Button! Incremented 7 times!
-
-![Hello Button Incremented](/images/glimmer-hello-button-incremented.png)
-
 #### Hello, Link!
 
 This sample demonstrates the use of the `link` widget in Glimmer, including identifying which link was clicked and performing an action (displaying help) based on its location.
@@ -624,31 +743,27 @@ Hello, Canvas! Data-Binding (changing a `text` shape `string` via data-binding c
 
 #### Hello, Canvas Animation!
 
-This sample demonstrates the use of the `canvas` widget and [Animation DSL](#canvas-animation-dsl) in Glimmer.
-
-Code:
-
-[samples/hello/hello_canvas_animation.rb](/samples/hello/hello_canvas_animation.rb)
-
-Hello, Canvas Animation!
-
-![Hello Canvas Animation](/images/glimmer-hello-canvas-animation.png)
-
-Hello, Canvas Animation Another Frame!
-
-![Hello Canvas Animation Frame 2](/images/glimmer-hello-canvas-animation-frame2.png)
-
-#### Hello, Canvas Animation Data Binding!
-
 This sample demonstrates the use of the [Canvas Animation DSL](#canvas-animation-dsl) with data-binding.
 
 Code:
 
 [samples/hello/hello_canvas_animation_data_binding.rb](/samples/hello/hello_canvas_animation_data_binding.rb)
 
-Hello, Canvas Animation Data Binding!
+Hello, Canvas Animation!
 
-![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation-data-binding.gif)
+![Hello Canvas Animation Data Binding](/images/glimmer-hello-canvas-animation.gif)
+
+#### Hello, Canvas Animation Multi!
+
+This sample demonstrates parallel animations in the [Canvas Animation DSL](/docs/reference/GLIMMER_GUI_DSL_SYNTAX#canvas-animation-dsl).
+
+Code:
+
+[samples/hello/hello_canvas_animation_multi.rb](/samples/hello/hello_canvas_animation_multi.rb)
+
+Hello, Canvas Animation Multi!
+
+![Hello Canvas Animation Multi](/images/glimmer-hello-canvas-animation-multi.gif)
 
 #### Hello, Canvas Transform!
 
@@ -785,6 +900,64 @@ Code:
 Hello, Custom Shape!
 
 ![Hello Custom Shape](/images/glimmer-hello-custom-shape.png)
+
+#### Hello, Tool Bar!
+
+This sample demonstrates the use of `tool_bar` & `tool_item` as well as being able to nest `combo` in a `tool_bar`.
+
+Code:
+
+[samples/hello/hello_tool_bar.rb](/samples/hello/hello_tool_bar.rb)
+
+Hello, Tool Bar!
+
+![Hello Tool Bar](/images/glimmer-hello-tool-bar.png)
+
+![Hello Tool Bar Cut](/images/glimmer-hello-tool-bar-cut.png)
+
+![Hello Tool Bar Copy](/images/glimmer-hello-tool-bar-copy.png)
+
+![Hello Tool Bar Paste](/images/glimmer-hello-tool-bar-paste.png)
+
+![Hello Tool Bar Font Size](/images/glimmer-hello-tool-bar-font-size.png)
+
+#### Hello, Cool Bar!
+
+This sample demonstrates the use of `cool_bar` that can contain multiple reorganizable `tool_bar` widgets
+
+Code:
+
+[samples/hello/hello_cool_bar.rb](/samples/hello/hello_cool_bar.rb)
+
+Hello, Cool Bar!
+
+![Hello Cool Bar](/images/glimmer-hello-cool-bar.png)
+
+![Hello Cool Bar Reorg1](/images/glimmer-hello-cool-bar-reorg1.png)
+
+![Hello Cool Bar Reorg2](/images/glimmer-hello-cool-bar-reorg2.png)
+
+![Hello Cool Bar Reorg3](/images/glimmer-hello-cool-bar-reorg3.png)
+
+#### Hello, Tray Item!
+
+This sample demonstrates the use of `tray_item`, which enables hiding an app (sending to background) and showing again on top of all other apps. It can also show an About Message Box and exit completely if needed.
+
+Code:
+
+[samples/hello/hello_tray_item.rb](/samples/hello/hello_tray_item.rb)
+
+Hello, Tray Item Icon!
+
+![Hello Tray Item Icon](/images/glimmer-hello-tray-item.png)
+
+Hello, Tray Item Icon App!
+
+![Hello Tray Item App](/images/glimmer-hello-tray-item-app.png)
+
+Hello, Tray Item Icon About Message Box!
+
+![Hello Tray Item Åbout](/images/glimmer-hello-tray-item-about.png)
 
 ### Elaborate Samples
 
@@ -933,6 +1106,26 @@ Code:
 ![Metronome](/images/glimmer-metronome.gif)
 
 [Download video with sound](/videos/glimmer-metronome.mp4?raw=true).
+
+#### Weather
+
+This sample demonstrates a Weather app that leverages the Ruby built-in `'net/http'` library, courtesy of openweathermap.org. It provides a good example of tackling JSON hierarchical hash/array data and converting into data-bindable model object attributes for Glimmer GUI synchronization.
+
+Code:
+
+[samples/elaborate/weather.rb](/samples/elaborate/weather.rb)
+
+Montreal - Celsius
+
+![Montreal C](/images/glimmer-weather-montreal-celsius.png)
+
+Montreal - Fahrenheit
+
+![Montreal F](/images/glimmer-weather-montreal-fahrenheit.png)
+
+Atlanta - Fahrenheit
+
+![Atlanta F](/images/glimmer-weather-atlanta-fahrenheit.png)
 
 ### External Samples
 

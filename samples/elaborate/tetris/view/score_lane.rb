@@ -55,7 +55,7 @@ class Tetris
             font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
-            text bind(game, :score)
+            text <= [game, :score]
             font height: @font_height
           }
           
@@ -66,7 +66,7 @@ class Tetris
             font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
-            text bind(game, :lines)
+            text <= [game, :lines]
             font height: @font_height
           }
           
@@ -77,7 +77,7 @@ class Tetris
             font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
           }
           label(:center) {
-            text bind(game, :level)
+            text <= [game, :level]
             font height: @font_height
           }
         }

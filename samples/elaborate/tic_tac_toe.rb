@@ -47,8 +47,8 @@ class TicTacToe
           (1..3).each { |column|
             button {
               layout_data :fill, :fill, true, true
-              text        bind(@tic_tac_toe_board[row, column], :sign)
-              enabled     bind(@tic_tac_toe_board[row, column], :empty)
+              text        <= [@tic_tac_toe_board[row, column], :sign]
+              enabled     <= [@tic_tac_toe_board[row, column], :empty]
               font        style: :bold, height: 20
               on_widget_selected {
                 @tic_tac_toe_board.mark(row, column)

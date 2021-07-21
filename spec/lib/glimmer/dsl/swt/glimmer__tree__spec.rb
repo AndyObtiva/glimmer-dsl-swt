@@ -196,10 +196,268 @@ module GlimmerSpec
       expect(@tree.swt_widget.getItems.size).to eq(0)
     end
     
+    it "data binds tree widget tree item text to a string property by passing a hash" do
+      @target = shell {
+        @tree = tree {
+          items bind(company, :owner, tree_properties: {children: :coworkers, text: :name})
+        }
+      }
+      
+      expect(@tree.swt_widget).to have_style(:border)
+      expect(@tree.swt_widget).to have_style(:virtual)
+      expect(@tree.swt_widget).to have_style(:v_scroll)
+      expect(@tree.swt_widget).to have_style(:h_scroll)
+
+      expect(@tree.swt_widget.getItems.size).to eq(1)
+
+      root_node = @tree.swt_widget.getItems[0]
+      expect(root_node.getText).to eq("Tim Harkins")
+
+      expect(root_node.getItems.size).to eq(2)
+      node1 = root_node.getItems[0]
+      node2 = root_node.getItems[1]
+      expect(node1.getText).to eq("Bruce Ting")
+      expect(node2.getText).to eq("Julia Fang")
+      
+      @tree.swt_widget.getItems.first.setExpanded(true)
+      
+      manager.name = "Tim Lee Harkins"
+      
+      # maintains expansion on tree item text change
+      
+      expect(@tree.swt_widget.getItems.first.getExpanded).to eq(true)
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1 = @tree.swt_widget.getItems.first.getItems.first
+      expect(node1.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2 = @tree.swt_widget.getItems.first.getItems.last
+      expect(node2.getText).to eq("Julia Katherine Fang")
+
+      person3 = Person.new
+      person3.name = "Bob David Kennith"
+      person3.age = 37
+      person3.adult = true
+
+      old_coworkers = Array[*manager.coworkers.clone]
+
+      manager.coworkers << person3
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(3)
+      node3 = root_node.getItems.last
+      expect(node3.getText).to eq("Bob David Kennith")
+      
+      person2.coworkers << person3
+
+      node2 = @tree.swt_widget.getItems.first.getItems[1]
+      expect(node2.getItems.size).to eq(1)
+      node2a = node2.getItems.first
+      expect(node2a.getText).to eq("Bob David Kennith")
+      
+      manager.coworkers = old_coworkers
+      
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(2)
+      expect(root_node.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1 = @tree.swt_widget.getItems.first.getItems.first
+      expect(node1.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2 = @tree.swt_widget.getItems.first.getItems.last
+      expect(node2.getText).to eq("Julia Katherine Fang")
+
+      manager.coworkers << person3
+      manager.coworkers.delete_at(0)
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(2)
+      node1 = root_node.getItems.first
+      node2 = root_node.getItems.last
+      expect(node1.getText).to eq("Julia Katherine Fang")
+      expect(node2.getText).to eq("Bob David Kennith")
+      
+      manager.coworkers = []
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(0)
+      
+      manager.coworkers = nil
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(0)
+      
+      company.owner = nil
+      expect(@tree.swt_widget.getItems.size).to eq(0)
+    end
+    
+    it "data binds tree widget tree item text to a string property using Shine syntax" do
+      @target = shell {
+        @tree = tree {
+          items <= [company, :owner, tree_attributes: {children: :coworkers, text: :name}]
+        }
+      }
+      
+      expect(@tree.swt_widget).to have_style(:border)
+      expect(@tree.swt_widget).to have_style(:virtual)
+      expect(@tree.swt_widget).to have_style(:v_scroll)
+      expect(@tree.swt_widget).to have_style(:h_scroll)
+
+      expect(@tree.swt_widget.getItems.size).to eq(1)
+
+      root_node = @tree.swt_widget.getItems[0]
+      expect(root_node.getText).to eq("Tim Harkins")
+
+      expect(root_node.getItems.size).to eq(2)
+      node1 = root_node.getItems[0]
+      node2 = root_node.getItems[1]
+      expect(node1.getText).to eq("Bruce Ting")
+      expect(node2.getText).to eq("Julia Fang")
+      
+      @tree.swt_widget.getItems.first.setExpanded(true)
+      
+      manager.name = "Tim Lee Harkins"
+      
+      # maintains expansion on tree item text change
+      
+      expect(@tree.swt_widget.getItems.first.getExpanded).to eq(true)
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1 = @tree.swt_widget.getItems.first.getItems.first
+      expect(node1.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2 = @tree.swt_widget.getItems.first.getItems.last
+      expect(node2.getText).to eq("Julia Katherine Fang")
+
+      person3 = Person.new
+      person3.name = "Bob David Kennith"
+      person3.age = 37
+      person3.adult = true
+
+      old_coworkers = Array[*manager.coworkers.clone]
+
+      manager.coworkers << person3
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(3)
+      node3 = root_node.getItems.last
+      expect(node3.getText).to eq("Bob David Kennith")
+      
+      person2.coworkers << person3
+
+      node2 = @tree.swt_widget.getItems.first.getItems[1]
+      expect(node2.getItems.size).to eq(1)
+      node2a = node2.getItems.first
+      expect(node2a.getText).to eq("Bob David Kennith")
+      
+      manager.coworkers = old_coworkers
+      
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(2)
+      expect(root_node.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1 = @tree.swt_widget.getItems.first.getItems.first
+      expect(node1.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2 = @tree.swt_widget.getItems.first.getItems.last
+      expect(node2.getText).to eq("Julia Katherine Fang")
+
+      manager.coworkers << person3
+      manager.coworkers.delete_at(0)
+
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(2)
+      node1 = root_node.getItems.first
+      node2 = root_node.getItems.last
+      expect(node1.getText).to eq("Julia Katherine Fang")
+      expect(node2.getText).to eq("Bob David Kennith")
+      
+      manager.coworkers = []
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(0)
+      
+      manager.coworkers = nil
+      root_node = @tree.swt_widget.getItems.first
+      expect(root_node.getItems.size).to eq(0)
+      
+      company.owner = nil
+      expect(@tree.swt_widget.getItems.size).to eq(0)
+    end
+    
     it "data binds tree widget tree item text to an indexed string property" do
       @target = shell {
         @tree_nested_indexed = tree(:virtual, :border) {
           items bind(company_group, "companies[0].owner"), tree_properties(children: :coworkers, text: :name)
+        }
+      }
+
+      expect(@tree_nested_indexed.swt_widget.getItems.size).to eq(1)
+
+      manager.name = "Tim Lee Harkins"
+
+      root_node_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first
+      expect(root_node_nested_indexed.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first.getItems.first
+      expect(node1_nested_indexed.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first.getItems.last
+      expect(node2_nested_indexed.getText).to eq("Julia Katherine Fang")
+
+      person3 = Person.new
+      person3.name = "Bob David Kennith"
+      person3.age = 37
+      person3.adult = true
+
+      old_coworkers = Array[*manager.coworkers.clone]
+
+      manager.coworkers << person3
+
+      root_node_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first
+      expect(root_node_nested_indexed.getItems.size).to eq(3)
+      node3_nested_indexed = root_node_nested_indexed.getItems.last
+      expect(node3_nested_indexed.getText).to eq("Bob David Kennith")
+      
+      manager.coworkers = old_coworkers
+      
+      root_node_nested_indexed = @tree_nested_indexed.swt_widget.getItems[0]
+      expect(root_node_nested_indexed.getText).to eq("Tim Lee Harkins")
+
+      person1.name = "Bruce A. Ting"
+      node1_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first.getItems.first
+      expect(node1_nested_indexed.getText).to eq("Bruce A. Ting")
+
+      person2.name = "Julia Katherine Fang"
+      node2_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first.getItems.last
+      expect(node2_nested_indexed.getText).to eq("Julia Katherine Fang")
+
+      manager.coworkers << person3
+      manager.coworkers.delete_at(0)
+
+      root_node_nested_indexed = @tree_nested_indexed.swt_widget.getItems.first
+      expect(root_node_nested_indexed.getItems.size).to eq(2)
+      node1_nested_indexed = root_node_nested_indexed.getItems.first
+      node2_nested_indexed = root_node_nested_indexed.getItems.last
+      expect(node1_nested_indexed.getText).to eq("Julia Katherine Fang")
+      expect(node2_nested_indexed.getText).to eq("Bob David Kennith")
+    end
+    
+    it "data binds tree widget tree item text to an indexed string property using Shine syntax" do
+      @target = shell {
+        @tree_nested_indexed = tree(:virtual, :border) {
+          items <= [company_group, "companies[0].owner", tree_attributes: {children: :coworkers, text: :name}]
         }
       }
 
@@ -294,7 +552,7 @@ module GlimmerSpec
     end
     
     it "data binds tree widget selection" do
-      @target = shell {      
+      @target = shell {
         @tree = tree {
           items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
           selection bind(company, :selected_coworker)
@@ -337,11 +595,11 @@ module GlimmerSpec
       # test that it maintains selection
       selection = @tree.swt_widget.getSelection
       expect(selection.size).to eq(1)
-      expect(selection.first.getData).to eq(person2)      
+      expect(selection.first.getData).to eq(person2)
     end
     
     it "triggers tree widget editing on selected tree item which is done via ENTER key" do
-      @target = shell {      
+      @target = shell {
         @tree = tree {
           items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
           selection bind(company, :selected_coworker)
@@ -353,12 +611,12 @@ module GlimmerSpec
       @tree.edit_selected_tree_item(
         before_write: lambda {
           expect(@tree.edit_in_progress?).to eq(true)
-        }, 
+        },
         after_write: lambda { |edited_tree_item|
           expect(edited_tree_item.getText).to eq('Julie Fan')
-          @write_done = true 
+          @write_done = true
         }
-      )      
+      )
       expect(@tree.tree_editor_text_proxy).to_not be_nil
       @tree.tree_editor_text_proxy.swt_widget.setText('Julie Fan')
       # simulate hitting enter to trigger write action
@@ -380,11 +638,11 @@ module GlimmerSpec
       # test that it maintains selection
       selection = @tree.swt_widget.getSelection
       expect(selection.size).to eq(1)
-      expect(selection.first.getData).to eq(person2)            
-    end    
+      expect(selection.first.getData).to eq(person2)
+    end
     
     it "triggers tree widget editing on specified tree item which is done via ENTER key" do
-      @target = shell {      
+      @target = shell {
         @tree = tree {
           items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
           selection bind(company, :selected_coworker)
@@ -394,8 +652,8 @@ module GlimmerSpec
       expect(@tree.tree_editor_text_proxy).to be_nil
       @write_done = false
       @tree.edit_tree_item(
-        @tree.swt_widget.getSelection.first, 
-        before_write: -> {expect(person2.name).to eq('Julia Fang')}, 
+        @tree.swt_widget.getSelection.first,
+        before_write: -> {expect(person2.name).to eq('Julia Fang')},
         after_write: -> (edited_tree_item) { @write_done = true }
       )
       expect(@tree.tree_editor_text_proxy).to_not be_nil
@@ -417,8 +675,8 @@ module GlimmerSpec
       # test that it maintains selection
       selection = @tree.swt_widget.getSelection
       expect(selection.size).to eq(1)
-      expect(selection.first.getData).to eq(person2)            
-    end    
+      expect(selection.first.getData).to eq(person2)
+    end
     
     it "triggers tree widget editing on selected tree item which is done via focus out" do
       @target = shell {
@@ -454,7 +712,7 @@ module GlimmerSpec
     end
     
     it "triggers tree widget editing on selected tree item and cancels by not making a change and focusing out" do
-      @target = shell {      
+      @target = shell {
         @tree = tree {
           items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
           selection bind(company, :selected_coworker)
@@ -485,7 +743,7 @@ module GlimmerSpec
     end
     
     it "triggers tree widget editing on selected tree item and cancels by hitting escape button after making a change" do
-      @target = shell {      
+      @target = shell {
         @tree = tree {
           items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
           selection bind(company, :selected_coworker)

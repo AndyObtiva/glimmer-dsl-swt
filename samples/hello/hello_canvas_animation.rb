@@ -20,49 +20,129 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer-dsl-swt'
+require 'bigdecimal'
 
-include Glimmer
-
-shell {
-  text 'Hello, Canvas Animation!'
-  minimum_size 800, 420
-
-  canvas {
-    animation {
-      every 0.01 # in seconds (one hundredth)
-            
-      frame { |index| # frame block loops indefinitely (unless frame_count is set to an integer)
-        background rgb(index%255, 100, 200) # sets canvas background color
+class HelloCanvasAnimation
+  include Glimmer::UI::CustomShell
+  
+  attr_accessor :animation_every, :animation_fps, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
+  
+  before_body {
+    @animation_every = 0.050 # seconds
+    @animation_fps = 0
+    @animation_frame_count = 100
+    @animation_duration_limit = 0 # seconds
+    @animation_started = true
+    @animation_finished = false
+  }
+  
+  body {
+    shell {
+      grid_layout(2, true)
+      text 'Hello, Canvas Animation!'
+      
+      # row 1
+      button {
+        layout_data(:fill, :center, true, false)
+        text <= [self, :animation_started, on_read: ->(value) { value ? 'Stop' : 'Resume' }]
+        enabled <= [self, :animation_finished, on_read: :!]
         
-        oval(0, 0, 400, 400) { # x, y, width, height
-          foreground :black # sets oval background color
+        on_widget_selected do
+          if @animation.started?
+            @animation.stop
+          else
+            @animation.start
+          end
+        end
+      }
+      button {
+        layout_data(:fill, :center, true, false)
+        text 'Restart'
+        
+        on_widget_selected do
+          @animation.restart
+        end
+      }
+
+      # row 2
+      label {
+        text 'every'
+      }
+      label {
+        text 'frames per second'
+      }
+      
+      # row 3
+      spinner {
+        layout_data(:fill, :center, true, false)
+        digits 3
+        minimum 0
+        maximum 100
+        selection <=> [self, :animation_every, on_read: ->(v) {(BigDecimal(v.to_s)*1000).to_f}, on_write: ->(v) {(BigDecimal(v.to_s)/1000).to_f}]
+      }
+      spinner {
+        layout_data(:fill, :center, true, false)
+        minimum 0
+        maximum 100
+        selection <=> [self, :animation_fps]
+      }
+      
+      # row 4
+      label {
+        text 'frame count (0=unlimited)'
+      }
+      label {
+        text 'duration limit (0=unlimited)'
+      }
+      
+      # row 5
+      spinner {
+        layout_data(:fill, :center, true, false)
+        minimum 0
+        maximum 100
+        selection <=> [self, :animation_frame_count]
+      }
+      spinner {
+        layout_data(:fill, :center, true, false)
+        minimum 0
+        maximum 10
+        selection <=> [self, :animation_duration_limit]
+      }
+      
+      canvas {
+        layout_data(:fill, :fill, true, true) {
+          horizontal_span 2
+          width_hint 320
+          height_hint 320
         }
-        arc(0, 0, 400, 400, -1.4*index%360, 10) {  # x, y, width, height, start angle, arc angle
-          background rgb(200, 200, 50) # sets arc background color
+        @animation = animation {
+          every          <=  [self, :animation_every]
+          fps            <=  [self, :animation_fps]
+          frame_count    <=  [self, :animation_frame_count]
+          duration_limit <=  [self, :animation_duration_limit]
+          started        <=> [self, :animation_started]
+          finished       <=> [self, :animation_finished]
+          
+          frame { |index|
+            background rgb(index%100, index%100 + 100, index%55 + 200)
+            oval(index*3%300, index*3%300, 20, 20) {
+              background :yellow
+            }
+          }
         }
       }
     }
   }
+  
+  def animation_every=(value)
+    @animation_every = value
+    self.animation_fps = 0 if @animation_every.to_f > 0
+  end
+  
+  def animation_fps=(value)
+    @animation_fps = value
+    self.animation_every = 0 if @animation_fps.to_f > 0
+  end
+end
 
-  canvas {
-    colors = [:yellow, :red]
-    animation {
-      every 0.25 # in seconds (one quarter)
-      cycle colors # cycles array of colors into the second variable of the frame block below
-
-      frame { |index, color| # frame block loops indefinitely (unless frame_count or cycle_count is set to an integer)
-        outside_color = colors[index % 2]
-        inside_color = colors[(index + 1) % 2]
-
-        background outside_color # sets canvas background color
-
-        rectangle(0, 0, 200, 200) {
-          background inside_color # sets rectangle background color
-        }
-        rectangle(200, 200, 200, 200) {
-          background inside_color # sets rectangle background color
-        }
-      }
-    }
-  }
-}.open
+HelloCanvasAnimation.launch

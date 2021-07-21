@@ -232,9 +232,12 @@ module Glimmer
       def has_attribute?(attribute_name, *args)
         # TODO test that attribute getter responds too
         widget_custom_attribute = widget_custom_attribute_mapping[attribute_name.to_s]
+        property_type_converter = property_type_converters[attribute_name.to_s.to_sym]
         auto_exec do
           if widget_custom_attribute
             @swt_widget.respond_to?(widget_custom_attribute[:setter][:name])
+          elsif property_type_converter
+            true
           else
             super
           end
@@ -765,7 +768,7 @@ module Glimmer
 
       def can_add_listener?(underscored_listener_name)
         auto_exec do
-          !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
+          @swt_widget && !self.class.find_listener(@swt_widget.getClass, underscored_listener_name).empty?
         end
       end
 
@@ -838,7 +841,7 @@ module Glimmer
           widget_listener_proxy = nil
           safe_block = lambda { |*args| block.call(*args) unless @swt_widget.isDisposed }
           @swt_widget.addListener(event_type, &safe_block)
-          widget_listener_proxy = WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
+          WidgetListenerProxy.new(swt_widget: @swt_widget, swt_listener: @swt_widget.getListeners(event_type).last, event_type: event_type, swt_constant: swt_constant)
         end
       end
 
@@ -1004,6 +1007,12 @@ module Glimmer
             end
           end,
           image: lambda do |*value|
+            ImageProxy.create(*value).swt_image
+          end,
+          disabled_image: lambda do |*value|
+            ImageProxy.create(*value).swt_image
+          end,
+          hot_image: lambda do |*value|
             ImageProxy.create(*value).swt_image
           end,
           images: lambda do |array|

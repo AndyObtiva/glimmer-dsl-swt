@@ -248,7 +248,7 @@ module Glimmer
       # Otherwise, if a block is passed, it adds it as content to this custom shape
       def content(&block)
         if block_given?
-          body_root.content(&block)
+          Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::CustomShapeExpression.new, self.class.keyword, &block)
         else
           @content
         end

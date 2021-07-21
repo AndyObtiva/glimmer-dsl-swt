@@ -54,8 +54,8 @@ shell {
     layout_data(:fill, :fill, true, true) {
       height_hint 200
     }
-    sash_width bind(@presenter, :sash_width)
-    orientation bind(@presenter, :orientation_style)
+    sash_width <=> [@presenter, :sash_width]
+    orientation <=> [@presenter, :orientation_style]
     weights 1, 2
     
     @green_label = label {
@@ -86,7 +86,7 @@ shell {
       layout_data(:fill, :center, true, false) {
         width_hint 100
       }
-      selection bind(@presenter, :sash_width)
+      selection <=> [@presenter, :sash_width]
       font height: 16
     }
     
@@ -99,7 +99,7 @@ shell {
       layout_data(:fill, :center, true, false) {
         width_hint 100
       }
-      selection bind(@presenter, :orientation)
+      selection <=> [@presenter, :orientation]
       font height: 16
     }
     

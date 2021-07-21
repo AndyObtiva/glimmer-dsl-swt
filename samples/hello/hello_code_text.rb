@@ -83,47 +83,14 @@ class HelloCodeText
       tab_folder {
         tab_item {
           fill_layout
-          text 'Ruby (glimmer)'
+          text 'Ruby (glimmer theme)'
           code_text(language: 'ruby', theme: 'glimmer', lines: true) {
-            text bind(self, :ruby_code)
+            text <=> [self, :ruby_code]
           }
         }
         tab_item {
           fill_layout
-          text 'Ruby (pastie)'
-          code_text(language: 'ruby', theme: 'pastie', lines: {width: 2}) {
-            text bind(self, :ruby_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'Ruby (github)'
-          code_text(language: 'ruby', theme: 'github', lines: false) {
-            text bind(self, :ruby_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'JavaScript (glimmer)'
-          # No border (SWT styles are passed explicitly)
-          code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'glimmer', lines: true) {
-            # With lines, the custom widget has a root composite, which can be configured separately
-            root {
-              grid_layout(2, false) {
-                margin_width 2
-              }
-              background :white
-            }
-            # With lines, the line numbers widget can be configured separately
-            line_numbers {
-              background :white
-            }
-            text bind(self, :js_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'JavaScript (pastie)'
+          text 'JavaScript (pastie theme)'
           code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'pastie', lines: {width: 2}) {
             root {
               grid_layout(2, false) {
@@ -134,35 +101,14 @@ class HelloCodeText
             line_numbers {
               background :white
             }
-            text bind(self, :js_code)
+            text <=> [self, :js_code]
           }
         }
         tab_item {
           fill_layout
-          text 'JavaScript (github)'
-          code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'github') { # default is lines: false
-            text bind(self, :js_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'HTML (glimmer)'
-          code_text(language: 'html', theme: 'glimmer', lines: true) {
-            text bind(self, :html_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'HTML (pastie)'
-          code_text(language: 'html', theme: 'pastie', lines: {width: 2}) {
-            text bind(self, :html_code)
-          }
-        }
-        tab_item {
-          fill_layout
-          text 'HTML (github)'
+          text 'HTML (github theme)'
           code_text(language: 'html', theme: 'github') { # default is lines: false
-            text bind(self, :html_code)
+            text <=> [self, :html_code]
           }
         }
       }

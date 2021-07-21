@@ -124,21 +124,15 @@ module Glimmer
               
               @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
-                top_pixel_before_read = nil
+
                 text bind(self,
                   :styled_text_proxy_text,
                   read_only: true,
                   on_read: lambda { |text_value|
-                    line_count = "#{text_value} ".split("\n").count
-                    line_count = 1 if line_count == 0
-                    lines_text_size = [line_count.to_s.size, @lines_width].max
-                    if lines_text_size > @lines_width
-                      @lines_width = lines_text_size
-                    end
-                    line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
+                    line_numbers_text_from(text_value)
                   },
                   after_read: lambda {
-                    @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel
+                    @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel unless styled_text_proxy_top_pixel.nil?
                   }
                 )
                 top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)
@@ -151,6 +145,7 @@ module Glimmer
                 left_margin 5
                 editable false
                 caret nil
+                
                 on_focus_gained {
                   @styled_text_proxy&.setFocus
                 }
@@ -173,6 +168,7 @@ module Glimmer
           @styled_text_proxy = styled_text(swt_style) {
 #             custom_widget_property_owner # TODO implement to route properties here without declaring method_missing
             layout_data :fill, :fill, true, true if lines
+            
             text bind(self, :styled_text_proxy_text) if lines
             top_pixel bind(self, :styled_text_proxy_top_pixel) if lines
             font name: @font_name, height: OS.mac? ? 15 : 12
@@ -290,6 +286,14 @@ module Glimmer
           beginning_of_current_line_offset = @styled_text_proxy.getOffsetAtLine(current_line_index)
           new_offset = beginning_of_current_line_offset + current_line.size
           @styled_text_proxy.setSelection(new_offset, new_offset)
+        end
+        
+        def line_numbers_text_from(text_value)
+          line_count = "#{text_value} ".split("\n").count
+          line_count = 1 if line_count == 0
+          lines_text_size = [line_count.to_s.size, @lines_width].max
+          @lines_width = lines_text_size if lines_text_size > @lines_width
+          line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
         end
       end
     end

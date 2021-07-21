@@ -35,7 +35,7 @@ class HelloButton
       text 'Hello, Button!'
       
       button {
-        text bind(self, :count) {|value| "Click To Increment: #{value}  "}
+        text <= [self, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         
         on_widget_selected {
           self.count += 1

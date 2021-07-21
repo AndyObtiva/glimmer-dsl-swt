@@ -51,8 +51,8 @@ class HelloFontDialog
           height_hint 200
         }
         background :white
-        font bind(self, 'selected_font_data')
-        text bind(self, 'selected_font_data') {|font_data|
+        font <=> [self, 'selected_font_data']
+        text <=> [self, 'selected_font_data', on_read: ->(font_data) {
           style = case font_data.style
           when swt(:normal)
             'Normal'
@@ -64,7 +64,7 @@ class HelloFontDialog
             'Bold Italic'
           end
           "#{font_data.name}\n#{font_data.height}\n#{style}"
-        }
+        }]
       }
       
       button {

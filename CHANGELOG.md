@@ -1,5 +1,115 @@
 # Change Log
 
+### 4.20.9.0
+
+- Canvas animation fps/frame_rate property to set frames-per-second rate of rendering (alternative to every)
+
+### 4.20.8.0
+
+- Support data-binding Animation `duration_limit` property
+- Improve support of Animation `duration_limit` property in recognizing when an animation is finished
+- Added duration limit to Hello, Canvas Animation! sample
+
+### 4.20.7.0
+
+- Add Canvas Animation DSL #finished, #finished?, #finished= properties
+- Update Hello, Canvas Animation! (formerly had Data Binding suffix)
+- Update Hello, Canvas Animation Multi! (formerly did not have Multi suffix)
+
+### 4.20.6.0
+
+- Canvas Animation DSL: support parallel animations per canvas (running along canvas static shapes too)
+
+### 4.20.5.2
+
+- Identify trimmed Canvas Shape DSL attribute `fill_rule` styles without `fill_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_cap` styles without `cap_` prefix
+- Identify trimmed Canvas Shape DSL attribute `line_join` styles without `join_` prefix
+
+### 4.20.5.1
+
+- Fix issue with Namespace is required always showing up when buildling a custom widget gem or custom shape gem
+
+### 4.20.5.0
+
+- Relax glimmer-dsl-swt version number when scaffolding custom shape/widget/shell gems. Keep it strict for app development.
+- Explicit support for `tray_item` keyword as nested under `shell`, having `menu` nested under `tray_item`, automating everything relating to using SWT TrayItem (no need to work with the Display System Tray or Menu objects manually).
+- Hello, Tray Item! Sample
+
+### 4.20.4.2
+
+- Hello, Label!
+
+### 4.20.4.1
+
+- Ensure a `table` with `:editable` style loses it if `items <= ...` one-way data-binding (having read_only: true option) was setup.
+- Tweak/refactor/improve samples
+
+### 4.20.4.0
+
+- Extracted Shine data-binding syntax and `BindExpression` to Glimmer 2
+
+### 4.20.3.0
+
+- Shine data-binding support for `custom widgets`, `custom shells`, and `custom shapes`
+- Update remaining samples with `bind` keyword to switch to Shine data-binding syntax
+- Switch scaffolded classes' data-binding to Shine
+- Fix `table` Shine syntax support for unidirectional (one-way) data-binding
+
+### 4.20.2.1
+
+- Shine data-binding support for `animation` (also supporting `#content {}` method in `Animation`)
+- Update Hello, Custom Shell! to use Shine data-binding syntax
+- Fix `table` automatic sorting support when using one-way Shine data-binding syntax (which was disabling reads)
+
+### 4.20.2.0
+
+- Shine data-binding syntax support for `tree` widget
+- Use Shine syntax in Hello, Tree! sample
+
+### 4.20.1.0
+
+- Shine data-binding syntax support for `table` widget
+- Use Shine syntax in Hello, Table! and Contact Manager samples
+
+### 4.20.0.5
+
+- Hello, Text! sample
+- Timer elaborate sample (copied and simplified from external sample)
+- Calculator elaborate sample (copied and simplified from external sample)
+- Fixed issue relating to cleaning up display listeners
+
+### 4.20.0.4
+
+- Weather elaborate sample
+
+### 4.20.0.3
+
+- Hello, Shell! sample
+
+### 4.20.0.2
+
+- Hello, Tool Bar! sample
+- Hello, Cool Bar! sample
+
+### 4.20.0.1
+
+- Hello, Composite! sample
+- Hello, Layout! sample
+- Removed inclusion of Glimmer module in scaffolded App class since it is no longer needed with relying on SomeCustomShell.launch method
+
+### 4.20.0.0
+
+- Upgrade to SWT 4.20, supporting AARCH64 experimentally
+- Upgrade to JRuby 9.2.19.0
+- Shine syntax for data-binding
+- Tweak/Fix Samples
+
+### 4.19.0.2
+
+- Fixed issue with Meta-Sample code editing not showing changes properly (although recording them)
+- Stop Mandelbrot Fractal sample background calculation when its custom shell is closed
+
 ### 4.19.0.1
 
 - Upgrade to JRuby 9.2.17.0

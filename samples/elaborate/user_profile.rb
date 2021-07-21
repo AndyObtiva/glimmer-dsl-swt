@@ -23,7 +23,9 @@ require 'glimmer-dsl-swt'
 
 include Glimmer
 
-shell {
+# A version of this was featured in a dzone article as an intro to Glimmer syntax:
+# https://dzone.com/articles/an-introduction-glimmer
+shell { |shell_proxy|
   text "User Profile"
 
   composite {
@@ -72,7 +74,7 @@ shell {
     button {
       text "close"
       layout_data :left, :center, true, true
-      on_widget_selected { exit(0) }
+      on_widget_selected { shell_proxy.close }
     }
   }
 }.open
