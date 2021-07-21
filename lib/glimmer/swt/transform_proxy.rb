@@ -34,6 +34,12 @@ module Glimmer
       include_package 'org.eclipse.swt.graphics'
       include_package 'org.eclipse.swt.widgets'
       
+      ATTRIBUTE_ALIASES = {
+        'rotation'    => 'rotate',
+        'translation' => 'translate',
+        'inversion'   => 'invert',
+      }
+      
       attr_reader :swt_transform, :parent
       
       def initialize(parent, *args, swt_transform: nil, multiply: false)
@@ -81,15 +87,21 @@ module Glimmer
       end
       
       def has_attribute?(attribute_name, *args)
-        Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.respond_to?(attribute_name) } || super
+        ATTRIBUTE_ALIASES.keys.include?(attribute_name.to_s) || Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.respond_to?(attribute_name) } || super
       end
 
       def set_attribute(attribute_name, *args)
+        attribute_name = ATTRIBUTE_ALIASES[attribute_name.to_s] || attribute_name
         if @swt_transform.respond_to?(attribute_name)
           Glimmer::SWT::DisplayProxy.instance.auto_exec { @swt_transform.send(attribute_name, *args) }
         else
           super
         end
+      end
+      
+      def get_attribute(attribute_name)
+        attribute_name = ATTRIBUTE_ALIASES[attribute_name.to_s] || attribute_name
+        super(attribute_name)
       end
       
       def method_missing(method_name, *args, &block)

@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.20.10.0
+
+- Support noun alternatives for `Canvas Transform DSL` operations:
+  - `multiply(&block)` => `multiplication(&block)`
+  - `invert`           => `inversion`
+  - `rotate(angle)`    => `rotation(angle)`
+  - `translate(x, y)`  => `translation(x, y)`
+
 ### 4.20.9.1
 
 - Fix issue with not being able to use :default x/y location with composite/custom shapes containing lines
