@@ -2165,12 +2165,12 @@ The first 2 values represent the 1st row, the second 2 values represent the 2nd 
 
 Additionally, Transform operation keywords may be nested within the `transform` keyword to set its properties:
 - `identity` resets transform to identity (no transformation)
-- `invert` inverts a transform
-- `multiply(&block)` multiplies by another transform (takes a block representing properties of another transform, no need for using the word transform again)
-- `rotate(angle)` rotates by angle degrees
+- `invert` (alias: `inversion`) inverts a transform
+- `multiply(&transform_properties_block)` (alias: `multiplication`) multiplies by another transform (takes a block representing properties of another transform, no need for using the word transform again)
+- `rotate(angle)` (alias: `rotation`) rotates by angle degrees
 - `scale(x, y)` scales a shape (stretch)
 - `shear(x, y)` shear effect
-- `translate(x, y)` translate x and y coordinates (move)
+- `translate(x, y)` (alias: `translation`) translate x and y coordinates (move)
 - `elements(m11, m12, m21, m22, dx, dy)` resets all values of the transform matrix (first 2 values represent the 1st row, second 2 values represent the 2nd row, the last 2 values represent translation on x and y axes)
  
 Also, setting `transform` to `nil` after a previous `transform` has been set is like calling `identity`. It resets the transform.

@@ -31,7 +31,10 @@ module Glimmer
         include ParentExpression
 
         def can_interpret?(parent, keyword, *args, &block)
-          keyword == 'multiply' and
+          (
+            keyword == 'multiply' or
+            keyword == 'multiplication'
+          ) and
             parent.is_a?(Glimmer::SWT::TransformProxy)
         end
 

@@ -13,28 +13,29 @@ shell {
 
     image(glimmer_logo, 0, 0) {
       transform {
-        translate 110, 110
-        rotate 90
+        translation 110, 110
+        rotation 90
+        scale 0.21, 0.21
+        # also supports inversion, identity, shear, and multiplication {transform properties}
+      }
+    }
+    image(glimmer_logo, 0, 0) {
+      transform {
+        translation 110, 220
         scale 0.21, 0.21
       }
     }
     image(glimmer_logo, 0, 0) {
       transform {
-        translate 110, 220
+        translation 220, 220
+        rotation 270
         scale 0.21, 0.21
       }
     }
     image(glimmer_logo, 0, 0) {
       transform {
-        translate 220, 220
-        rotate 270
-        scale 0.21, 0.21
-      }
-    }
-    image(glimmer_logo, 0, 0) {
-      transform {
-        translate 220, 110
-        rotate 180
+        translation 220, 110
+        rotation 180
         scale 0.21, 0.21
       }
     }
