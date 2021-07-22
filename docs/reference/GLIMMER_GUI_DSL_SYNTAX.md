@@ -1901,6 +1901,8 @@ They are implemented with the help of the highly robust Java built-in shape geom
 - `Shape#contain?(x, y)` : indicates if shape contains x, y point
 - `Shape#include?(x, y)` : indicates if shape includes x, y point on the edge if drawn or inside if filled (include uses contain for filled shapes)
 - `Shape#move_by(x_delta, y_delta)` : moves shape object at x, y location
+- `Shape#rotate(angle)` : rotates around center by an angle (not cumulative, reseting angle on every call)
+- `Shape#rotatation_angle` : current rotation angle (according to use of rotate method)
 - `Shape#dispose` : disposes of shape, removing it form its parent canvas, widget, or shape
 - `Shape#content {}` : reopens a shape to add more content inside it using the Glimmer GUI DSL (e.g. Canvas Shape DSL) just like `WidgetProxy#content {}`.
 - `Shape#size` : calculated size for shape bounding box (e.g. a polygon with an irregular shape will have its bounding box width and height calculated)
@@ -1921,6 +1923,10 @@ They are implemented with the help of the highly robust Java built-in shape geom
 - `Shape#default_y?` : calculated top-left corner y position
 - `Shape#calculated_x` : calculated top-left corner x position when default/delta is set (i.e. centered within parent)
 - `Shape#calculated_y` : calculated top-left corner y position when default/delta is set (i.e. centered within parent)
+- `Shape#center_x` : center x
+- `Shape#center_y` : center y
+- `Shape#x_end` : right-most included x coordinate
+- `Shape#y_end` : bottom-most included y coordinate
 
 Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.
 

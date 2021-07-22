@@ -25,6 +25,7 @@ require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/transform_proxy'
+require 'glimmer/swt/image_proxy'
 
 module Glimmer
   module SWT
@@ -69,11 +70,15 @@ module Glimmer
           end
           
           def width
-            dest_width || image.bounds.width
+            dest_width || image_proxy.bounds.width
           end
           
           def height
-            dest_height || image.bounds.height
+            dest_height || image_proxy.bounds.height
+          end
+          
+          def image_proxy
+            ImageProxy.create(image)
           end
           
           def default_x?

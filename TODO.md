@@ -4,17 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- `labeled_scale` widget
-- Hello, Labeled Scale!
-
-- `labeled_scale` widget vertical support
-- Hello, Labeled Scale! (vertical)
-
-- shape `#center` method to identify a shape center point
-- shape `#rotate` method for any shape to rotate around its center
-
-- Canvas Shape DSL autoscalable shapes or canvases
-
 - Support z_index property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
 
 - Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
@@ -48,6 +37,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Canvas Shape DSL autoscalable shapes or canvases (e.g. support percentages)
 - Canvas animation property data-binding for cycle count, cycle count index, frame index, duration
 - Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)

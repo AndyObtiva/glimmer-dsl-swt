@@ -240,6 +240,45 @@ module Glimmer
           end
         end
         
+        # rotates shape for an angle around its center
+        # this operation is not cumulative (it resets angle every time)
+        # consumers may inspect corresponding rotation_angle attribute to know which angle the shape is currently at for convenience
+        # this overrides any pre-existing transforms that are applied to shape
+        def rotate(angle)
+          half_width = calculated_width/2.0
+          half_height = calculated_height/2.0
+          self.transform = Glimmer::SWT::TransformProxy.new(self).translate(half_width, half_height).rotate(angle).translate(-1.0*half_width, -1.0*half_height)
+          @rotation_angle = angle
+        end
+        
+        # returns rotation angle
+        # consumers may inspect rotation_angle attribute to know which angle the shape is rotated at via rotate method
+        # it is not guaranteed to give the right result if a transform is applied outside of rotate method.
+        # starts at 0
+        def rotation_angle
+          @rotation_angle.to_f
+        end
+        
+        def center_x
+          center_x_dependencies = [x_end, calculated_width]
+          if center_x_dependencies != @center_x_dependencies
+            @center_x_dependencies = center_x_dependencies
+            the_x_end, the_calculated_width = center_x_dependencies
+            @center_x = the_x_end - the_calculated_width/2.0
+          end
+          @center_x
+        end
+        
+        def center_y
+          center_y_dependencies = [y_end, calculated_height]
+          if center_y_dependencies != @center_y_dependencies
+            @center_y_dependencies = center_y_dependencies
+            the_y_end, the_calculated_height = center_y_dependencies
+            @center_y = the_y_end - the_calculated_height/2.0
+          end
+          @center_y
+        end
+        
         def content(&block)
           Glimmer::SWT::DisplayProxy.instance.auto_exec do
             Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, @name, &block)
@@ -936,7 +975,7 @@ module Glimmer
           @x_end
         end
         
-        # right-most y coordinate in this shape (adding up its height and location)
+        # bottom-most y coordinate in this shape (adding up its height and location)
         def y_end
           y_end_dependencies = [calculated_height, default_y?, !default_y? && y]
           if y_end_dependencies != @y_end_dependencies

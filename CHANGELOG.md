@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.11.0
+
+- Shape `#center_x`/`#center_y` methods to identify a shape's center point
+- Shape `#rotate` method to rotate around center point
+
 ### 4.20.10.2
 
 - Fix issue "Resolve 'NameError: uninitialized constant Glimmer::DataBinding' on Windows" https://github.com/AndyObtiva/glimmer-dsl-swt/issues/9 (originally in https://github.com/AMaleh/glimmer-dsl-swt/pull/1)
