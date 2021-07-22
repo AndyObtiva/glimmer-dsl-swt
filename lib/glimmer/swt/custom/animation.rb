@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer/data_binding/observable_model'
 require 'glimmer/swt/properties'
 require 'glimmer/swt/custom/shape'
 require 'bigdecimal'
