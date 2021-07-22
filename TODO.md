@@ -4,7 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Transform DSL property data-binding
+- `labeled_scale` widget
+- Hello, Labeled Scale!
+
+- `labeled_scale` widget vertical support
+- Hello, Labeled Scale! (vertical)
+
 - shape `#center` method to identify a shape center point
 - shape `#rotate` method for any shape to rotate around its center
 
@@ -191,6 +196,7 @@ composite {
 }
 ```
   - Use custom widgets for the menu bar and dialogs in scaffolded apps
+- Canvas Transform DSL property data-binding
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command

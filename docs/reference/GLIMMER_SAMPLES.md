@@ -32,6 +32,7 @@
     - [Hello, Directory Dialog!](#hello-directory-dialog)
     - [Hello, File Dialog!](#hello-file-dialog)
     - [Hello, Date Time!](#hello-date-time)
+    - [Hello, Scale!](#hello-scale)
     - [Hello, Spinner!](#hello-spinner)
     - [Hello, Table!](#hello-table)
     - [Hello, Link!](#hello-link)
@@ -592,6 +593,18 @@ Code:
 Hello, Date Time!
 
 ![Hello Date Time](/images/glimmer-hello-date-time.png)
+
+#### Hello, Scale!
+
+This sample demonstrates the use of `scale` widget in Glimmer
+
+Code:
+
+[samples/hello/hello_scale.rb](/samples/hello/hello_scale.rb)
+
+Hello, Scale!
+
+![Hello Scale](/images/glimmer-hello-scale.png)
 
 #### Hello, Spinner!
 

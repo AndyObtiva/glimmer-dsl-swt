@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.10.1
+
+- Hello, Scale! sample.
+
 ### 4.20.10.0
 
 - Support noun alternatives for `Canvas Transform DSL` operations:
