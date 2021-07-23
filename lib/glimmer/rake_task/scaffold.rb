@@ -445,9 +445,15 @@ module Glimmer
         def app_main_file(app_name)
           <<~MULTI_LINE_STRING
             $LOAD_PATH.unshift(File.expand_path('..', __FILE__))
-    
-            require 'bundler/setup'
-            Bundler.require(:default)
+            
+            begin
+              require 'bundler/setup'
+              Bundler.require(:default)
+            rescue
+              # this runs when packaged as a gem (no bundler)
+              require 'glimmer-dsl-swt'
+              # add more gems if needed
+            end
             require '#{file_name(app_name)}/view/app_view'
     
             class #{class_name(app_name)}

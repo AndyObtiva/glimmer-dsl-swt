@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.11.1
+
+- Make scaffolded app project use bundler optionally only and still load glimmer-dsl-swt otherwise, like in gem-packaged mode (`glimmer package:gem`) to avoid erroring out about bundler.
+
 ### 4.20.11.0
 
 - Shape `#center_x`/`#center_y` methods to identify a shape's center point

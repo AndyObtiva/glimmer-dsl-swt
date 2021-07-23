@@ -4,17 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support z_index property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
-
 - Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
-- `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 
 ## Future Consideration
 
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
 - Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 
-- Consider supporting a one-way `->` write-only data-binding (only useful in animation to write its frame index for example during progress without caring to read back into it)
 - Make images have a transparent background by default
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
@@ -37,6 +33,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Handle listener name space clashes by providing on_listener_event option instead of typical on_event
 
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact)
+- `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 - Canvas Shape DSL autoscalable shapes or canvases (e.g. support percentages)
 - Canvas animation property data-binding for cycle count, cycle count index, frame index, duration
 - Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
