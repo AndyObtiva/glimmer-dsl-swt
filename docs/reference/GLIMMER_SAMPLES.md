@@ -44,6 +44,7 @@
     - [Hello, Canvas Transform!](#hello-canvas-transform)
     - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
+    - [Hello, Canvas Shape Listeners!](#hello-canvas-shape-listeners)
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
     - [Hello, Tree!](#hello-tree)
@@ -815,6 +816,22 @@ Hello, Canvas Data Binding!
 ![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.png)
 
 ![Hello Canvas Data Binding Line Changed](/images/glimmer-hello-canvas-data-binding-line-changed.png)
+
+#### Hello, Canvas Shape Listeners!
+
+This sample demonstrates Canvas Shape DSL listeners, which are constrained within the bounds of their owning shape.
+
+Code:
+
+[samples/hello/hello_canvas_shape_listeners.rb](/samples/hello/hello_canvas_shape_listeners.rb)
+
+Hello, Canvas Shape Listeners!
+
+![Hello Canvas Shape Listeners](/images/glimmer-hello-canvas-shape-listeners.png)
+
+Hello, Canvas Shape Listeners! - Dragged Circle
+
+![Hello Canvas Shape Listeners Dragged](/images/glimmer-hello-canvas-shape-listeners-dragged.png)
 
 #### Hello, Cursor!
 

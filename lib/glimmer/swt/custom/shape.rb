@@ -239,6 +239,7 @@ module Glimmer
             end
           end
         end
+        alias translate move_by
         
         # rotates shape for an angle around its center
         # this operation is not cumulative (it resets angle every time)
@@ -561,6 +562,17 @@ module Glimmer
           else
             @properties[attribute_name.to_s]
           end
+        end
+        
+        def can_handle_observation_request?(observation_request)
+          drawable.can_handle_observation_request?(observation_request)
+        end
+        
+        def handle_observation_request(observation_request, &block)
+          shape_block = lambda do |event|
+            block.call(event) if include?(event.x, event.y)
+          end
+          drawable.handle_observation_request(observation_request, &shape_block)
         end
         
         # Sets data just like SWT widgets

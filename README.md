@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.20.11.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.20.12.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -15,7 +15,7 @@
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.11.1 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter).
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.12.0 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter).
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword (keep in mind that it is still a beta, so default back to `bind` whenever needed).
 
@@ -45,12 +45,6 @@ shell {
 }.open
 ```
 
-Run via `glimmer samples` or directly:
-
-```
-glimmer samples/hello/hello_world.rb
-```
-
 Glimmer app:
 
 ![Hello World](images/glimmer-hello-world.png)
@@ -62,25 +56,25 @@ Learn more about [Hello, World!](docs/reference/GLIMMER_SAMPLES#hello-world).
 Glimmer GUI DSL code (from [samples/hello/hello_table.rb](samples/hello/hello_table.rb)):
 
 ```ruby
-# ... model code precedes
 shell {
   grid_layout
   
   text 'Hello, Table!'
   background_image File.expand_path('hello_table/baseball_park.png', __dir__)
+  image File.expand_path('hello_table/baseball_park.png', __dir__)
   
   label {
     layout_data :center, :center, true, false
     
     text 'BASEBALL PLAYOFF SCHEDULE'
-    background :transparent
+    background :transparent if OS.windows?
     foreground rgb(94, 107, 103)
     font name: 'Optima', height: 38, style: :bold
   }
   
   combo(:read_only) {
     layout_data :center, :center, true, false
-    selection bind(BaseballGame, :playoff_type)
+    selection <=> [BaseballGame, :playoff_type]
     font height: 14
   }
   
@@ -121,10 +115,10 @@ shell {
     }
     
     # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-    items bind(BaseballGame, :schedule), column_properties(:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion)
+    items <=> [BaseballGame, :schedule, column_properties: [:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion]]
     
     # Data-bind table selection
-    selection bind(BaseballGame, :selected_game)
+    selection <=> [BaseballGame, :selected_game]
     
     # Default initial sort property
     sort_property :date
@@ -147,20 +141,13 @@ shell {
     text 'Book Selected Game'
     layout_data :center, :center, true, false
     font height: 14
-    enabled bind(BaseballGame, :selected_game)
+    enabled <= [BaseballGame, :selected_game]
     
     on_widget_selected {
       book_selected_game
     }
   }
-}.open
-# ...
-```
-
-Run via `glimmer samples` or directly:
-
-```
-glimmer samples/hello/hello_table.rb
+}
 ```
 
 Glimmer App:
@@ -174,7 +161,6 @@ Learn more about [Hello, Table!](docs/reference/GLIMMER_SAMPLES#hello-table).
 Glimmer GUI DSL code (from [samples/elaborate/tetris.rb](samples/elaborate/tetris.rb)):
 
 ```ruby
-# ... more code resides in other files (navigate sample files to learn more)
 shell(:no_resize) {
   grid_layout {
     num_columns 2
@@ -196,13 +182,6 @@ shell(:no_resize) {
     layout_data(:fill, :fill, true, true)
   }
 }
-# ...
-```
-
-Run via `glimmer samples` or directly:
-
-```
-glimmer samples/elaborate/tetris.rb
 ```
 
 Glimmer app:
@@ -347,7 +326,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.20.11.1
+jgem install glimmer-dsl-swt -v 4.20.12.0
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -375,7 +354,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.20.11.1'
+gem 'glimmer-dsl-swt', '~> 4.20.12.0'
 ```
 
 And, then run:
@@ -396,7 +375,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.20.11.1
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.20.12.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -443,7 +422,9 @@ Select a Glimmer task to run: (Press ↑/↓ arrow to move, Enter to select and 
   glimmer scaffold:gem:customwidget[name,namespace]          # Scaffold Glimmer::UI::CustomWidget subclass (part of a view) under its own Ruby gem project (namespace is required) [alt: scaffold:gem:cw]
 ```
 
-Learn more at: [docs/reference/GLIMMER_COMMAND.md](docs/reference/GLIMMER_COMMAND.md)
+Learn more at:
+
+[docs/reference/GLIMMER_COMMAND.md](docs/reference/GLIMMER_COMMAND.md)
 
 ## Girb (Glimmer irb) Command
 
@@ -455,7 +436,9 @@ girb
 
 ![GIRB](/images/glimmer-girb.png)
 
-Learn more at: [docs/reference/GLIMMER_GIRB.md](docs/reference/GLIMMER_GIRB.md)
+Learn more at:
+
+[docs/reference/GLIMMER_GIRB.md](docs/reference/GLIMMER_GIRB.md)
 
 ## Glimmer GUI DSL Syntax
 
@@ -495,19 +478,27 @@ table(:multi) {
 
 If you need more widgets, you can check out the [Nebula Project](https://github.com/AndyObtiva/glimmer-cw-nebula) (50+ enterprise-grade custom widgets)
 
-Learn more at: [docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
+Learn more at:
+
+[docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
 
 ## Glimmer Configuration
 
 Glimmer configuration may be done via the `Glimmer::Config` module.
 
-Learn more at: [docs/reference/GLIMMER_CONFIGURATION.md](docs/reference/GLIMMER_CONFIGURATION.md)
+Learn more at:
+
+[docs/reference/GLIMMER_CONFIGURATION.md](docs/reference/GLIMMER_CONFIGURATION.md)
 
 ## Glimmer Style Guide
 
 [docs/reference/GLIMMER_STYLE_GUIDE.md](docs/reference/GLIMMER_STYLE_GUIDE.md)
 
 ## Samples
+
+See a listing of samples including screenshots and explanations at:
+
+[docs/reference/GLIMMER_SAMPLES.md](/docs/reference/GLIMMER_SAMPLES.md)
 
 Check the [samples](/docs/reference/GLIMMER_SAMPLES.md) directory in [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) for examples on how to write Glimmer applications. To run a sample, make sure to install the `glimmer-dsl-swt` gem first and then run:
 ```
@@ -517,8 +508,6 @@ glimmer samples
 (alternatively, you may clone the repo, follow [CONTRIBUTING.md](CONTRIBUTING.md) instructions, and run samples locally with development glimmer command: `bin/glimmer`)
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
-
-See a listing of samples including screenshots and explanations at: [docs/reference/GLIMMER_SAMPLES.md](/docs/reference/GLIMMER_SAMPLES.md)
 
 ## In Production
 

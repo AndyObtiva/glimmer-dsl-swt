@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.12.0
+
+- Canvas Shape Listeners: on_mouse_up, on_mouse_down, on_mouse_move, on_drag_detected
+- Make scaffolding not generate an empty () after shell
+
 ### 4.20.11.1
 
 - Make scaffolded app project use bundler optionally only and still load glimmer-dsl-swt otherwise, like in gem-packaged mode (`glimmer package:gem`) to avoid erroring out about bundler.

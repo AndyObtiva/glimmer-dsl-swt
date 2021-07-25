@@ -640,7 +640,7 @@ module Glimmer
       ## Top-most widget must be a shell or another custom shell
       #
       body {
-        shell(#{':fill_screen' if shell_type == :desktopify}) {
+        shell#{'(:fill_screen)' if shell_type == :desktopify} {
           # Replace example content below with custom shell content
           minimum_size #{shell_type == :desktopify ? '768, 432' : '420, 240'}
           image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
