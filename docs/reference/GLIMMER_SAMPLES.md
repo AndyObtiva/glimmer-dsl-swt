@@ -45,6 +45,7 @@
     - [Hello, Canvas Path!](#hello-canvas-path)
     - [Hello, Canvas Data Binding!](#hello-canvas-data-binding)
     - [Hello, Canvas Shape Listeners!](#hello-canvas-shape-listeners)
+    - [Hello, Canvas Drag and Drop!](#hello-canvas-drag-and-drop)
     - [Hello, Cursor!](#hello-cursor)
     - [Hello, Progress Bar!](#hello-progress-bar)
     - [Hello, Tree!](#hello-tree)
@@ -832,6 +833,16 @@ Hello, Canvas Shape Listeners!
 Hello, Canvas Shape Listeners! - Dragged Circle
 
 ![Hello Canvas Shape Listeners Dragged](/images/glimmer-hello-canvas-shape-listeners-dragged.png)
+
+#### Hello, Canvas Drag and Drop!
+
+This sample demonstrates Canvas Shape DSL drag and drop (different from standard widget drag and drop).
+
+Code:
+
+[samples/hello/hello_canvas_drag_and_drop.rb](/samples/hello/hello_canvas_drag_and_drop.rb)
+
+![Hello Canvas Drag and Drop](/images/glimmer-hello-canvas-drag-and-drop.gif)
 
 #### Hello, Cursor!
 

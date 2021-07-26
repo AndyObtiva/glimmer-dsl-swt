@@ -1,10 +1,14 @@
 # Change Log
 
+### 4.20.12.1
+
+- Hello, Canvas Drag & Drop! sample
+
 ### 4.20.12.0
 
 - Canvas Shape Listeners: on_mouse_up, on_mouse_down, on_mouse_move, on_drag_detected
-- Hello, Canvas Shape Listeners! Sample
 - Make scaffolding not generate an empty () after shell
+- Hello, Canvas Shape Listeners! Sample
 
 ### 4.20.11.1
 

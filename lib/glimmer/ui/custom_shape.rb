@@ -180,7 +180,7 @@ module Glimmer
         raise Glimmer::Error, 'Invalid custom shape for having no body! Please define body block!' if body_block.nil?
         @body_root = instance_exec(&body_block)
         raise Glimmer::Error, 'Invalid custom shape for having an empty body! Please fill body block!' if @body_root.nil?
-        auto_exec do
+        auto_exec do # TODO is this necessary given shape is a lightweight construct (not SWT widget) ?
           @body_root.set_data('custom_shape', self)
         end
         execute_hook('after_body')
