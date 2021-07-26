@@ -570,7 +570,9 @@ module Glimmer
         
         def handle_observation_request(observation_request, &block)
           shape_block = lambda do |event|
-            block.call(event) if include?(event.x, event.y)
+            included = include?(event.x, event.y)
+            included ||= shapes.to_a.detect { |shape| shape.include?(event.x, event.y) }
+            block.call(event) if included
           end
           drawable.handle_observation_request(observation_request, &shape_block)
         end

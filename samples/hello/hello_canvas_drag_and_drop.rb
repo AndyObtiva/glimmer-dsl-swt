@@ -25,15 +25,16 @@ class HelloCanvasDragAndDrop
         }
       
         background :white
-        
-        @drop_square_border = rectangle(150, 260, 50, 50) {
-          foreground :black
-          line_width 3
-          line_style :dash
-        }
-                              
-        @drop_square = rectangle(153, 263, 44, 44) {
-          background :transparent
+                                                          
+        @drop_square = rectangle(150, 260, 50, 50) {
+          background :white
+                                                  
+          # unspecified width and height become max width and max height by default
+          @drop_square_border = rectangle(0, 0) {
+            foreground :black
+            line_width 3
+            line_style :dash
+          }
                     
           @number_shape = text {
             x :default
@@ -66,6 +67,11 @@ class HelloCanvasDragAndDrop
         10.times do |n|
           an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
             background rgb(255, 165, 0)
+            
+            # unspecified width and height become max width and max height by default
+            oval(0, 0) {
+              foreground :black
+            }
 
             on_drag_detected do |event|
               @dragging = an_oval

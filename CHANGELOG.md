@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.12.2
+
+- Make Shape listeners check inclusion against all sub-shapes
+- Refactor Hello, Canvas Drag & Drop! sample to use composite shapes (e.g. ball containing a ball border)
+
 ### 4.20.12.1
 
 - Hello, Canvas Drag & Drop! sample

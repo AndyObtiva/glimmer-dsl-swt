@@ -4,8 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make Shape register listeners against all its sub-shapes
-- Make Custom Shape register listeners
+- Make Custom Shapes register listeners
 - Canvas Shape DSL drag & drop support (drag_source and on_drop listener events on shapes)
 - `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
