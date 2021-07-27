@@ -39,6 +39,7 @@ class HelloShape
           
           a_stick_figure = stick_figure(x_location, y_location, 35+n*2, 35+n*2) {
             foreground foreground_color
+            drag_and_move true
             
             # on mouse click, change color
             on_mouse_up do

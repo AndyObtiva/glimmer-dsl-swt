@@ -565,7 +565,7 @@ module Glimmer
             @properties[attribute_name.to_s]
           end
         end
-        
+          
         def can_handle_observation_request?(observation_request)
           drawable.can_handle_observation_request?(observation_request)
         end
@@ -599,7 +599,7 @@ module Glimmer
             set_attribute(method_name, *args)
           elsif has_attribute?(method_name)
             get_attribute(method_name)
-          else
+          else # TODO support proxying calls to handle_observation_request for listeners just like WidgetProxy
             super
           end
         end
@@ -612,6 +612,36 @@ module Glimmer
           else
             super
           end
+        end
+          
+        def drag_and_move=(drag_and_move_value)
+          drag_and_move_old_value = @drag_and_move
+          @drag_and_move = drag_and_move_value
+          if @drag_and_move && !drag_and_move_old_value
+            @on_drag_detected = handle_observation_request('on_drag_detected') do |event|
+              @dragging = true
+              @dragging_x = event.x
+              @dragging_y = event.y
+            end
+            @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
+              if @dragging
+                move_by((event.x - @dragging_x), (event.y - @dragging_y))
+                @dragging_x = event.x
+                @dragging_y = event.y
+              end
+            end
+            @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
+              @dragging = false
+            end
+          elsif !@drag_and_move && drag_and_move_old_value
+            @on_drag_detected.deregister
+            @drawable_on_mouse_move.deregister
+            @drawable_on_mouse_up.deregister
+          end
+        end
+            
+        def drag_and_move
+          @drag_and_move
         end
         
         def pattern(*args, type: nil)

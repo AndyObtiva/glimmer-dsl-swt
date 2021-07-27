@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.0
+
+- Shape `drag_and_move true` property to make shapes movable via dragging (drag and drop)
+
 ### 4.20.12.4
 
 - Update Hello, Shape! to take advantage of shape listeners (on mouse click, change color)
