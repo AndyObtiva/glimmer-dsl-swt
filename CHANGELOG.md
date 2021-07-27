@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.12.3
+
+- Make Custom Shapes support on_event listeners just like Shapes
+- Update Hello, Custom Shape! to take advantage of custom shape listeners (on mouse click, change color)
+
 ### 4.20.12.2
 
 - Make Shape listeners check inclusion against all sub-shapes

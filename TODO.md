@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make Custom Shapes register listeners
 - Canvas Shape DSL drag & drop support (drag_source and on_drop listener events on shapes)
 - `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
@@ -187,7 +186,7 @@ composite {
   }
 }
 ```
-  - Use custom widgets for the menu bar and dialogs in scaffolded apps
+- Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
@@ -206,6 +205,7 @@ composite {
 
 ## Issues
 
+- Fix issue with hello canvas data binding changing of x and y after changing line width overwrites/annuls it
 - Fix the weird code text github theme gray artifacts in the html example (to the left of indented text, which goes away on hitting enter)
 - Report funnotator issue to SWT folks
 ```ruby
