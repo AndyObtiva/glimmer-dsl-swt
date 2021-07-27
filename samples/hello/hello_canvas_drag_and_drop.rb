@@ -43,55 +43,37 @@ class HelloCanvasDragAndDrop
           }
         
           on_mouse_move do
-            if @dragging
-              @drop_square_border.foreground = :red
-            end
+            @drop_square_border.foreground = :red if Glimmer::SWT::Custom::Shape.dragging?
           end
           
-          on_mouse_up do
-            if @dragging
-              ball_count = @number_shape.string.to_i
-              @number_shape.dispose
-              @drop_square.content {
-                @number_shape = text {
-                  x :default
-                  y :default
-                  string (ball_count + 1).to_s
-                }
+          on_drop do |event|
+            ball_count = @number_shape.string.to_i
+            @number_shape.dispose
+            @drop_square.content {
+              @number_shape = text {
+                x :default
+                y :default
+                string (ball_count + 1).to_s
               }
-              @dragging.dispose
-            end
+            }
+            event.dragged_shape.dispose
           end
         }
                                          
         10.times do |n|
           an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
             background rgb(255, 165, 0)
+            drag_source true
             
             # unspecified width and height become max width and max height by default
             oval(0, 0) {
               foreground :black
             }
-
-            on_drag_detected do |event|
-              @dragging = an_oval
-              @last_x = event.x
-              @last_y = event.y
-            end
           }
         end
                                          
         on_mouse_up do
           @drop_square_border.foreground = :black
-          @dragging = nil
-        end
-              
-        on_mouse_move do |event|
-          if @dragging
-            @dragging.move_by((event.x - @last_x), (event.y - @last_y))
-            @last_x = event.x
-            @last_y = event.y
-          end
         end
       }
     }

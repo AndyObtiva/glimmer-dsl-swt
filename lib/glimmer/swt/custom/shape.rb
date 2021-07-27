@@ -66,6 +66,7 @@ module Glimmer
         
         class << self
           attr_accessor :dragging, :dragging_x, :dragging_y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y
+          alias dragging? dragging
         
           def create(parent, keyword, *args, &property_block)
             potential_shape_class_name = keyword.to_s.camelcase(:upper).to_sym

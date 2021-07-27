@@ -2,7 +2,9 @@
 
 ### 4.20.13.0
 
-- Shape `drag_and_move true` property to make shapes movable via dragging (drag and drop)
+- Shape `drag_and_move true` property to make shapes movable via dragging
+- Shape `drag_source true` and `on_drop {|event| }` built-in support for drag and drop
+- Refactor Hello, Canvas Drag and Drop! to use new Shape built-in support for drag and drop
 
 ### 4.20.12.4
 
