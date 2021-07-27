@@ -509,6 +509,7 @@ module Glimmer
         def set_attribute(attribute_name, *args)
           options = args.last if args.last.is_a?(Hash)
           args.pop if !options.nil? && !options[:redraw].nil?
+          options ||= {}
           perform_redraw = @perform_redraw
           perform_redraw = options[:redraw] if perform_redraw.nil? && !options.nil?
           perform_redraw ||= true
@@ -529,11 +530,12 @@ module Glimmer
             @properties[ruby_attribute_getter_name] = args
             amend_method_name_options_based_on_properties! if @content_added && new_property
             property_change = true
+            calculated_paint_args_changed! if container?
           end
-          if pd(@content_added && perform_redraw && !drawable.is_disposed)
+          if @content_added && perform_redraw && !drawable.is_disposed
             redrawn = false
-            calculated_paint_args_changed!
             unless property_change
+              calculated_paint_args_changed!(children: false)
               if is_a?(PathSegment)
                 root_path&.calculated_path_args = @calculated_path_args = false
                 calculated_args_changed!
@@ -549,7 +551,7 @@ module Glimmer
             end
             # TODO consider redrawing an image proxy's gc in the future
             # TODO consider ensuring only a single redraw happens for a hierarchy of nested shapes
-            drawable.redraw if pd(property_change || (!redrawn && !drawable.is_a?(ImageProxy)))
+            drawable.redraw if !redrawn && !drawable.is_a?(ImageProxy)
           end
         end
         
@@ -815,7 +817,6 @@ module Glimmer
         def calculated_paint_args_changed!(children: true)
           @calculated_paint_args = nil
           @all_parent_properties = nil
-          @converted_properties = nil
           shapes.each(&:calculated_paint_args_changed!) if children
         end
         
