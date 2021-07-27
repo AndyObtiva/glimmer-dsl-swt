@@ -4,8 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL drag & drop support (drag_source and on_drop listener events on shapes)
 - `:draggable` or `:drag_movable` style for any shape to make it movable through dragging (drag and drop)
+- Canvas Shape DSL drag & drop support (drag_source and on_drop listener events on shapes)
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
 - Update style guide for before_body and after_body methods to have a do/end block since it is logic not GUI
 
