@@ -60,13 +60,24 @@ class HelloCustomShape
       @canvas = canvas {
         background :white
         
-        15.times { |n|
+        #15
+        1.times { |n|
           x_location = (rand*WIDTH/2).to_i%WIDTH + (rand*15).to_i
           y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*15).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
           
-          stick_figure(x: x_location, y: y_location, width: 35+n*2, height: 35+n*2) {
+          a_stick_figure = stick_figure(x: x_location, y: y_location, width: 35+n*2, height: 35+n*2) {
             foreground foreground_color
+            
+            on_mouse_up do
+              # update color randomly on click
+              pd a_stick_figure.class, header: true
+              fg = a_stick_figure.foreground.first
+              pd fg.red, fg.green, fg.blue
+              a_stick_figure.foreground = rgb(rand*255, rand*255, rand*255)
+              fg = a_stick_figure.foreground.first
+              pd fg.red, fg.green, fg.blue
+            end
           }
         }
       }

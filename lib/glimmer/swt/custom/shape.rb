@@ -530,10 +530,10 @@ module Glimmer
             amend_method_name_options_based_on_properties! if @content_added && new_property
             property_change = true
           end
-          if @content_added && perform_redraw && !drawable.is_disposed
+          if pd(@content_added && perform_redraw && !drawable.is_disposed)
             redrawn = false
+            calculated_paint_args_changed!
             unless property_change
-              @calculated_paint_args = false
               if is_a?(PathSegment)
                 root_path&.calculated_path_args = @calculated_path_args = false
                 calculated_args_changed!
@@ -549,7 +549,7 @@ module Glimmer
             end
             # TODO consider redrawing an image proxy's gc in the future
             # TODO consider ensuring only a single redraw happens for a hierarchy of nested shapes
-            drawable.redraw unless redrawn || drawable.is_a?(ImageProxy)
+            drawable.redraw if pd(property_change || (!redrawn && !drawable.is_a?(ImageProxy)))
           end
         end
         
@@ -571,7 +571,7 @@ module Glimmer
         def handle_observation_request(observation_request, &block)
           shape_block = lambda do |event|
             included = include?(event.x, event.y)
-            included ||= shapes.to_a.detect { |shape| shape.include?(event.x, event.y) }
+            included ||= expanded_shapes.detect { |shape| shape.include?(event.x, event.y) }
             block.call(event) if included
           end
           drawable.handle_observation_request(observation_request, &shape_block)
@@ -790,7 +790,7 @@ module Glimmer
             extent_args << extent_flags unless extent_flags.nil?
             self.extent = paint_event.gc.send("#{@name}Extent", *extent_args)
           end
-          if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y)
+          if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y) # TODO add a check to text content changing too
             calculated_args_changed!
             parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
           end
@@ -810,6 +810,13 @@ module Glimmer
           # TODO add a children: true option to enable setting to false to avoid recalculating children args
           @calculated_args = nil
           shapes.each(&:calculated_args_changed!) if children
+        end
+        
+        def calculated_paint_args_changed!(children: true)
+          @calculated_paint_args = nil
+          @all_parent_properties = nil
+          @converted_properties = nil
+          shapes.each(&:calculated_paint_args_changed!) if children
         end
         
         # Notifies object that calculated args changed for defaults. Returns true if redrawing and false otherwise.
@@ -1205,7 +1212,8 @@ module Glimmer
                 end
               end
             else
-              @properties = all_parent_properties.merge(@properties)
+              @original_properties ||= @properties
+              @properties = all_parent_properties.merge(@original_properties)
               @properties['background'] = [@drawable.background] if fill? && !has_some_background?
               @properties['foreground'] = [@drawable.foreground] if @drawable.respond_to?(:foreground) && draw? && !has_some_foreground?
               # TODO regarding alpha, make sure to reset it to parent stored alpha once we allow setting shape properties on parents directly without shapes

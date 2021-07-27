@@ -254,6 +254,16 @@ module Glimmer
         end
       end
       
+      # TODO consider bringing observer_registrations method from CustomWidget if needed
+
+      def can_handle_observation_request?(observation_request)
+        body_root&.can_handle_observation_request?(observation_request)
+      end
+
+      def handle_observation_request(observation_request, &block)
+        body_root.handle_observation_request(observation_request, &block)
+      end
+      
       def method_missing(method, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here
         # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output

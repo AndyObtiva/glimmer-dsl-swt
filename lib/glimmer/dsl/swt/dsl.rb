@@ -39,7 +39,7 @@ module Glimmer
         SWT,
         %w[
           layout
-          widget_listener
+          listener
           combo_selection_data_binding
           checkbox_group_selection_data_binding
           radio_group_selection_data_binding

@@ -22,17 +22,17 @@
 require 'glimmer/dsl/expression'
 require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/custom/shape'
+require 'glimmer/ui/custom_shape'
 
 module Glimmer
   module DSL
     module SWT
-      class WidgetListenerExpression < Expression
-        include_package 'org.eclipse.swt.widgets'
-  
+      # Widget, Shape, and Display listener experssion
+      class ListenerExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
           Glimmer::Config.logger.debug {"keyword starts with on_: #{keyword.start_with?('on_')}"}
           return false unless keyword.start_with?('on_')
-          proper_parent = parent.respond_to?(:swt_widget) || parent.is_a?(Glimmer::SWT::DisplayProxy) || parent.is_a?(Glimmer::SWT::Custom::Shape)
+          proper_parent = parent.respond_to?(:swt_widget) || parent.is_a?(Glimmer::SWT::DisplayProxy) || parent.is_a?(Glimmer::SWT::Custom::Shape) || parent.is_a?(Glimmer::UI::CustomShape)
           Glimmer::Config.logger.debug {"parent #{parent} is a widget, shape, or display: #{proper_parent}"}
           return false unless proper_parent
           Glimmer::Config.logger.debug {"block exists?: #{!block.nil?}"}
