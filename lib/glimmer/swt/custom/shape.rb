@@ -217,7 +217,7 @@ module Glimmer
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def contain?(x, y)
           # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
-          x.between?(self.absolute_x, self.absolute_x + calculated_width) && y.between?(self.absolute_y, self.absolute_y + calculated_height)
+          x.between?(self.absolute_x, self.absolute_x + calculated_width.to_f) && y.between?(self.absolute_y, self.absolute_y + calculated_height.to_f)
         end
         
         # Returns if shape includes a point. When the shape is filled, this is the same as contain. When the shape is drawn, it only returns true if the point lies on the edge (boundary/border)

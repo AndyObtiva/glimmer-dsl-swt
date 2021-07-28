@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.3
+
+- Fix issue regarding `nil` calculated_width/calculated_height encountered in Shape#contain?
+
 ### 4.20.13.2
 
 - Support `drop_event.doit = false` to deny dropping and move dragged shape back to where it was
