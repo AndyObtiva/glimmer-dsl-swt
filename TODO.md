@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Ensure that if a shape that is a `drag_source` is dragged and not dropped at a target, it goes back to its original position
 - Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
 
 ## Future Consideration

@@ -29,6 +29,9 @@ class HelloCanvasDragAndDrop
         10.times do |n|
           an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
             background rgb(255, 165, 0)
+            
+            # declare shape as a drag source, which unlike `drag_and_move true`, it means the shape now
+            # goes back to original position if not dropped at an on_drop shape target
             drag_source true
             
             # unspecified width and height become max width and max height by default
@@ -58,7 +61,8 @@ class HelloCanvasDragAndDrop
             @drop_square_border.foreground = :red if Glimmer::SWT::Custom::Shape.dragging?
           end
           
-          on_drop do |event|
+          on_drop do |drop_event|
+            # drop_event attributes: :x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes
             ball_count = @number_shape.string.to_i
             @number_shape.dispose
             @drop_square.content {
@@ -68,7 +72,7 @@ class HelloCanvasDragAndDrop
                 string (ball_count + 1).to_s
               }
             }
-            event.dragged_shape.dispose
+            drop_event.dragged_shape.dispose
           end
         }
                                                                                   

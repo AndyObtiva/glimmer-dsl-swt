@@ -62,7 +62,7 @@ module Glimmer
       class Shape
         include Properties
         
-        DropEvent = Struct.new(:x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, keyword_init: true)
+        DropEvent = Struct.new(:x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes, keyword_init: true)
         
         class << self
           attr_accessor :dragging, :dragging_x, :dragging_y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y
@@ -131,6 +131,11 @@ module Glimmer
           
           def flyweight_patterns
             @flyweight_patterns ||= {}
+          end
+          
+          # shapes that have defined on_drop expecting to received a dragged shape
+          def drop_shapes
+            @drop_shapes ||= []
           end
         end
         
@@ -221,6 +226,11 @@ module Glimmer
         def include?(x, y)
           # assume a rectangular shape by default
           contain?(x, y)
+        end
+
+        def include_with_children?(x, y)
+          included = include?(x, y)
+          included ||= expanded_shapes.detect { |shape| shape.include?(x, y) }
         end
 
         # Indicates if a shape's x, y, width, height differ from its bounds calculation (e.g. arc / polygon)
@@ -570,18 +580,17 @@ module Glimmer
             @properties[attribute_name.to_s]
           end
         end
-          
+        
         def can_handle_observation_request?(observation_request)
           drawable.can_handle_observation_request?(observation_request)
         end
         
         def handle_observation_request(observation_request, &block)
           shape_block = lambda do |event|
-            included = include?(event.x, event.y)
-            included ||= expanded_shapes.detect { |shape| shape.include?(event.x, event.y) }
-            block.call(event) if included
+            block.call(event) if include_with_children?(event.x, event.y)
           end
           if observation_request == 'on_drop'
+            Shape.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
               if Shape.dragged_shape
                 drop_event = DropEvent.new(
@@ -590,6 +599,7 @@ module Glimmer
                   dragged_shape_original_y: Shape.dragged_shape_original_y,
                   dragging_x: Shape.dragging_x,
                   dragging_y: Shape.dragging_y,
+                  drop_shapes: Shape.drop_shapes,
                   x: event.x,
                   y: event.y
                 )
@@ -648,14 +658,12 @@ module Glimmer
           @drag_and_move = drag_and_move_value
           if @drag_and_move && !drag_and_move_old_value
             @on_drag_detected = handle_observation_request('on_drag_detected') do |event|
-              if !Shape.dragging
-                Shape.dragging = true
-                Shape.dragging_x = event.x
-                Shape.dragging_y = event.y
-                Shape.dragged_shape = self
-                Shape.dragged_shape_original_x = x
-                Shape.dragged_shape_original_y = y
-              end
+              Shape.dragging = true
+              Shape.dragging_x = event.x
+              Shape.dragging_y = event.y
+              Shape.dragged_shape = self
+              Shape.dragged_shape_original_x = x
+              Shape.dragged_shape_original_y = y
             end
             @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
               if Shape.dragging && Shape.dragged_shape == self
@@ -685,14 +693,12 @@ module Glimmer
           @drag_source = drag_source_value
           if @drag_source && !drag_source_old_value
             @on_drag_detected = handle_observation_request('on_drag_detected') do |event|
-              if !Shape.dragging
-                Shape.dragging = true
-                Shape.dragging_x = event.x
-                Shape.dragging_y = event.y
-                Shape.dragged_shape = self
-                Shape.dragged_shape_original_x = x
-                Shape.dragged_shape_original_y = y
-              end
+              Shape.dragging = true
+              Shape.dragging_x = event.x
+              Shape.dragging_y = event.y
+              Shape.dragged_shape = self
+              Shape.dragged_shape_original_x = x
+              Shape.dragged_shape_original_y = y
             end
             @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
               if Shape.dragging && Shape.dragged_shape == self
@@ -702,8 +708,11 @@ module Glimmer
               end
             end
             @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y)}
                 Shape.dragging = false
+                Shape.dragged_shape.x = Shape.dragged_shape_original_x
+                Shape.dragged_shape.y = Shape.dragged_shape_original_y
+                Shape.dragged_shape = nil
               end
             end
           elsif !@drag_source && drag_source_old_value

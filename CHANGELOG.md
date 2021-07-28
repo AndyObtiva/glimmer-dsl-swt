@@ -2,7 +2,9 @@
 
 ### 4.20.13.1
 
+- Supporting having a `drag_source` that is dragged and not dropped at a target go back to its original position
 - Fix issue of dragged shape getting obscured by ensuring that it is rendered on top of all other shapes
+- Fix issue with shapes obscured by shapes on top of them getting preference when dragged (surprising behavior). Now, the top-most shapes get dragged first if they overlap with others.
 
 ### 4.20.13.0
 
