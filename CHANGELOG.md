@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.2
+
+- Support `drop_event.doit = false` to deny dropping and move dragged shape back to where it was
+
 ### 4.20.13.1
 
 - Supporting having a `drag_source` that is dragged and not dropped at a target go back to its original position

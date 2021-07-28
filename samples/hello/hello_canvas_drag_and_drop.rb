@@ -63,6 +63,7 @@ class HelloCanvasDragAndDrop
           
           on_drop do |drop_event|
             # drop_event attributes: :x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes
+            # drop_event.doit = false # drop event can be cancelled by setting doit attribute to false
             ball_count = @number_shape.string.to_i
             @number_shape.dispose
             @drop_square.content {

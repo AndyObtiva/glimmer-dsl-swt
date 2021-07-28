@@ -62,7 +62,7 @@ module Glimmer
       class Shape
         include Properties
         
-        DropEvent = Struct.new(:x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes, keyword_init: true)
+        DropEvent = Struct.new(:doit, :x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes, keyword_init: true)
         
         class << self
           attr_accessor :dragging, :dragging_x, :dragging_y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y
@@ -594,6 +594,7 @@ module Glimmer
             handle_observation_request('on_mouse_up') do |event|
               if Shape.dragged_shape
                 drop_event = DropEvent.new(
+                  doit: true,
                   dragged_shape: Shape.dragged_shape,
                   dragged_shape_original_x: Shape.dragged_shape_original_x,
                   dragged_shape_original_y: Shape.dragged_shape_original_y,
@@ -609,6 +610,10 @@ module Glimmer
                   Glimmer::Config.logger.error e.full_message
                 ensure
                   Shape.dragging = false
+                  if !drop_event.doit && Shape.dragged_shape
+                    Shape.dragged_shape.x = Shape.dragged_shape_original_x
+                    Shape.dragged_shape.y = Shape.dragged_shape_original_y
+                  end
                   Shape.dragged_shape = nil
                 end
               end
@@ -776,6 +781,7 @@ module Glimmer
             shapes.dup.each {|shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: false) }
           end
         end
+        alias dispose_shapes clear_shapes
         
         # Indicate if this is a container shape (meaning a shape bag that is just there to contain nested shapes, but doesn't render anything of its own)
         def container?
