@@ -4,15 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Canvas Shape DSL drag & drop support (drag_source and on_drop listener events on shapes)
-- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
-- Support shape listeners for on_mouse_enter, on_mouse_exit, and on_mouse_hover (the SWT default implementation for canvas wouldn't work as is)
-- Update style guide for before_body and after_body methods to have a do/end block since it is logic not GUI
-
+- Ensure that if a shape that is a `drag_source` is dragged and not dropped at a target, it goes back to its original position
 - Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
 
 ## Future Consideration
 
+- Update style guide for before_body and after_body methods to have a do/end block since it is logic not GUI
+- Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
+- Support shape listeners for on_mouse_enter, on_mouse_exit, and on_mouse_hover (the SWT default implementation for canvas wouldn't work as is)
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
 - Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 

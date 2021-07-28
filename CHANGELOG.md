@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.1
+
+- Fix issue of dragged shape getting obscured by ensuring that it is rendered on top of all other shapes
+
 ### 4.20.13.0
 
 - Shape `drag_and_move true` property to make shapes movable via dragging

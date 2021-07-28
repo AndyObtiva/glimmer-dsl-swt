@@ -25,6 +25,18 @@ class HelloCanvasDragAndDrop
         }
       
         background :white
+        
+        10.times do |n|
+          an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
+            background rgb(255, 165, 0)
+            drag_source true
+            
+            # unspecified width and height become max width and max height by default
+            oval(0, 0) {
+              foreground :black
+            }
+          }
+        end
                                                           
         @drop_square = rectangle(150, 260, 50, 50) {
           background :white
@@ -59,19 +71,7 @@ class HelloCanvasDragAndDrop
             event.dragged_shape.dispose
           end
         }
-                                         
-        10.times do |n|
-          an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
-            background rgb(255, 165, 0)
-            drag_source true
-            
-            # unspecified width and height become max width and max height by default
-            oval(0, 0) {
-              foreground :black
-            }
-          }
-        end
-                                         
+                                                                                  
         on_mouse_up do
           @drop_square_border.foreground = :black
         end

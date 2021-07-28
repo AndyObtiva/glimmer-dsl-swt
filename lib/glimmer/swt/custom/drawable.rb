@@ -120,6 +120,10 @@ module Glimmer
                 paintable_shapes.each do |shape|
                   shape.paint(paint_event)
                 end
+                # When dragging, render dragged shape again on top of everything else.
+                if !@image_double_buffered && Glimmer::SWT::Custom::Shape.dragging?
+                  Glimmer::SWT::Custom::Shape.dragged_shape.paint(paint_event)
+                end
               end
               if @image_double_buffered
                 if @image_proxy_buffer.nil?
