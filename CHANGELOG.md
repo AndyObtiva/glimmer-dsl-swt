@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.13.6
+
+- Ensure a dragged shape can be dropped back into a parent it originally belonged to without it counting as a drop into itself.
+- Add set_data and get_data to Glimmer::UI::CustomShape, which proxies calls to body_root
+
 ### 4.20.13.5
 
 - Fix issue occurring with shape drag & drop when the dragged shape is a drop target too, thus getting dropped back to itself.

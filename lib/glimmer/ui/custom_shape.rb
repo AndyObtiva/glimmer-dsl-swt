@@ -264,6 +264,19 @@ module Glimmer
         body_root.handle_observation_request(observation_request, &block)
       end
       
+      # Sets data just like SWT widgets
+      def set_data(key=nil, value)
+        body_root.set_data(key, value)
+      end
+      alias setData set_data # for compatibility with SWT APIs
+
+      # Gets data just like SWT widgets
+      def get_data(key=nil)
+        body_root.get_data(key)
+      end
+      alias getData get_data # for compatibility with SWT APIs
+      alias data get_data # for compatibility with SWT APIs
+    
       def method_missing(method, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here
         # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output

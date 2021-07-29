@@ -228,9 +228,9 @@ module Glimmer
           contain?(x, y)
         end
 
-        def include_with_children?(x, y)
+        def include_with_children?(x, y, except_child: nil)
           included = include?(x, y)
-          included ||= expanded_shapes.detect { |shape| shape.include?(x, y) }
+          included ||= expanded_shapes.reject {|shape| shape == except_child}.detect { |shape| shape.include?(x, y) }
         end
 
         # Indicates if a shape's x, y, width, height differ from its bounds calculation (e.g. arc / polygon)
@@ -592,7 +592,7 @@ module Glimmer
           if observation_request == 'on_drop'
             Shape.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && !expanded_shapes.include?(Shape.dragged_shape) && include_with_children?(event.x, event.y)
+              if Shape.dragging && include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)
                 drop_event = DropEvent.new(
                   doit: true,
                   dragged_shape: Shape.dragged_shape,
