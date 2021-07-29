@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.5
+
+- Fix issue occurring with shape drag & drop when the dragged shape is a drop target too, thus getting dropped back to itself.
+
 ### 4.20.13.4
 
 - Improved shape drag and drop checking for inclusion in drop target when there are multiple drop targets

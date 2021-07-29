@@ -592,7 +592,7 @@ module Glimmer
           if observation_request == 'on_drop'
             Shape.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && include_with_children?(event.x, event.y)
+              if Shape.dragging && !expanded_shapes.include?(Shape.dragged_shape) && include_with_children?(event.x, event.y)
                 drop_event = DropEvent.new(
                   doit: true,
                   dragged_shape: Shape.dragged_shape,
