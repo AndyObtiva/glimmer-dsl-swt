@@ -592,7 +592,7 @@ module Glimmer
           if observation_request == 'on_drop'
             Shape.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragged_shape
+              if Shape.dragging && include_with_children?(event.x, event.y)
                 drop_event = DropEvent.new(
                   doit: true,
                   dragged_shape: Shape.dragged_shape,
@@ -605,7 +605,7 @@ module Glimmer
                   y: event.y
                 )
                 begin
-                  shape_block.call(drop_event)
+                  block.call(drop_event)
                 rescue => e
                   Glimmer::Config.logger.error e.full_message
                 ensure

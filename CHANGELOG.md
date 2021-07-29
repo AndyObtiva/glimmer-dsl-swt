@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.4
+
+- Improved shape drag and drop checking for inclusion in drop target when there are multiple drop targets
+
 ### 4.20.13.3
 
 - Fix issue regarding `nil` calculated_width/calculated_height encountered in Shape#contain?
