@@ -405,7 +405,7 @@ module Glimmer
           end
           if @name == 'image'
             if @args.first.is_a?(::String)
-              @args[0] = ImageProxy.new(@args[0])
+              @args[0] = ImageProxy.create(@args[0])
             end
             if @args.first.is_a?(ImageProxy)
               @image = @args[0] = @args[0].swt_image

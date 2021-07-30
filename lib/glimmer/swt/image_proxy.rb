@@ -74,8 +74,8 @@ module Glimmer
         end
         options = @args.last.is_a?(Hash) ? @args.delete_at(-1) : {}
         options[:swt_image] = @args.first if @args.size == 1 && @args.first.is_a?(Image)
-        @file_path = @args.first if @args.first.is_a?(String)
         @args = @args.first if @args.size == 1 && @args.first.is_a?(Array)
+        @file_path = @args.first if @args.first.is_a?(String)
         if options&.keys&.include?(:swt_image)
           @swt_image = options[:swt_image]
           @original_image_data = @image_data = @swt_image.image_data

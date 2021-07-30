@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.13.7
+
+- Support accepting ImageProxy objects in Canvas Shape DSL (not just image paths)
+- Fix issue in ImageProxy not flattening args before selecting file path
+
 ### 4.20.13.6
 
 - Ensure a dragged shape can be dropped back into a parent it originally belonged to without it counting as a drop into itself.
