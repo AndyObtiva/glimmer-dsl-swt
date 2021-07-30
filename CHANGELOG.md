@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.8
+
+- Glimmer Klondike Solitaire elaborate sample
+
 ### 4.20.13.7
 
 - Support accepting ImageProxy objects in Canvas Shape DSL (not just image paths)
