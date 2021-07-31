@@ -170,6 +170,26 @@ class GameOfLife
           end
         end
                 
+        context 'live cell with 4 or more live neighbors' do
+          it 'dies when inside and has 4 live neighbors' do
+            cell = subject.cell_rows[1][1]
+            cell.live!
+            cell_neighbor1 = subject.cell_rows[0][1]
+            cell_neighbor1.live!
+            cell_neighbor2 = subject.cell_rows[1][0]
+            cell_neighbor2.live!
+            cell_neighbor3 = subject.cell_rows[0][0]
+            cell_neighbor3.live!
+            cell_neighbor4 = subject.cell_rows[2][2]
+            cell_neighbor4.live!
+            
+            subject.step!
+            cell = subject.cell_rows[1][1]
+            
+            expect(cell.alive?).to be_falsey
+          end
+        end
+                
       end
       
     end
