@@ -121,7 +121,7 @@ module Glimmer
           @line_numbers_styled_text_proxy.content(&block)
         end
         
-        before_body {
+        before_body do
           require 'rouge'
           require 'ext/rouge/themes/glimmer'
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
@@ -132,11 +132,11 @@ module Glimmer
             @lines_width = lines[:width]
           end
           @dsl_mode = true
-        }
+        end
         
-        after_body {
+        after_body do
           @dsl_mode = nil
-        }
+        end
         
         body {
           if lines

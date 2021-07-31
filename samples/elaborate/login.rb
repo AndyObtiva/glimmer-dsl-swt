@@ -65,9 +65,9 @@ end
 class Login
   include Glimmer::UI::CustomShell
 
-  before_body {
+  before_body do
     @presenter = LoginPresenter.new
-  }
+  end
 
   body {
     shell {

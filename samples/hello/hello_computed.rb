@@ -44,13 +44,13 @@ class HelloComputed
 
   include Glimmer::UI::CustomShell
 
-  before_body {
+  before_body do
     @contact = Contact.new(
       first_name: 'Barry',
       last_name: 'McKibbin',
       year_of_birth: 1985
     )
-  }
+  end
 
   body {
     shell {
@@ -66,51 +66,43 @@ class HelloComputed
         
         label {text 'First &Name: '}
         text {
+          fill_horizontally_layout_data
           text <=> [@contact, :first_name]
-          layout_data {
-            horizontal_alignment :fill
-            grab_excess_horizontal_space true
-          }
         }
         
         label {text '&Last Name: '}
         text {
+          fill_horizontally_layout_data
           text <=> [@contact, :last_name]
-          layout_data {
-            horizontal_alignment :fill
-            grab_excess_horizontal_space true
-          }
         }
         
         label {text '&Year of Birth: '}
         text {
+          fill_horizontally_layout_data
           text <=> [@contact, :year_of_birth]
-          layout_data {
-            horizontal_alignment :fill
-            grab_excess_horizontal_space true
-          }
         }
         
         label {text 'Name: '}
         label {
+          fill_horizontally_layout_data
           text <= [@contact, :name, computed_by: [:first_name, :last_name]]
-          layout_data {
-            horizontal_alignment :fill
-            grab_excess_horizontal_space true
-          }
         }
         
         label {text 'Age: '}
         label {
+          fill_horizontally_layout_data
           text <= [@contact, :age, on_write: :to_i, computed_by: [:year_of_birth]]
-          layout_data {
-            horizontal_alignment :fill
-            grab_excess_horizontal_space true
-          }
         }
       }
     }
   }
+  
+  def fill_horizontally_layout_data
+    layout_data {
+      horizontal_alignment :fill
+      grab_excess_horizontal_space true
+    }
+  end
 end
 
 HelloComputed.launch

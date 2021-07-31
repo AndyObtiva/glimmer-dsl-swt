@@ -26,7 +26,7 @@ class HelloCodeText
   
   attr_accessor :ruby_code, :js_code, :html_code
   
-  before_body {
+  before_body do
     self.ruby_code = <<~RUBY
       greeting = 'Hello, World!'
       
@@ -73,7 +73,7 @@ class HelloCodeText
         </body>
       </html>
     HTML
-  }
+  end
   
   body {
     shell {

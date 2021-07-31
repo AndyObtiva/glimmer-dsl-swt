@@ -37,9 +37,9 @@ class HelloCombo
 
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     @person = Person.new
-  }
+  end
   
   body {
     shell {

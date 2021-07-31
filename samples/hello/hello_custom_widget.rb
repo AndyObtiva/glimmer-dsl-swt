@@ -34,12 +34,12 @@ class GreetingLabel
   # internal attribute (not a custom widget option)
   attr_accessor :color
   
-  before_body {
+  before_body do
     @font = {height: 24, style: :bold}
     @color = :black
-  }
+  end
   
-  after_body {
+  after_body do
     return if colors.nil?
     
     Thread.new {
@@ -48,7 +48,7 @@ class GreetingLabel
         sleep(1)
       }
     }
-  }
+  end
   
   body {
     # pass received swt_style through to label to customize (e.g. :center to center text)

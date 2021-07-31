@@ -26,9 +26,9 @@ class HelloButton
   
   attr_accessor :count
   
-  before_body {
+  before_body do
     @count = 0
-  }
+  end
   
   body {
     shell {

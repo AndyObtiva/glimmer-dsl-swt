@@ -27,12 +27,12 @@ class StickFigure
   
   options :x, :y, :width, :height
   
-  before_body {
+  before_body do
     @head_width = width*0.2
     @head_height = height*0.2
     @trunk_height = height*0.4
     @extremity_length = height*0.4
-  }
+  end
   
   body {
     shape(x + @head_width/2.0 + @extremity_length, y) {

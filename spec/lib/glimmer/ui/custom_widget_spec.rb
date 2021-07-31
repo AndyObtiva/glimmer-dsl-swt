@@ -108,15 +108,15 @@ module GlimmerSpec
         
         attr_reader :mouse_down
 
-        before_body {
+        before_body do
           @background = :red
           @foreground = :green
-        }
+        end
 
-        after_body {
+        after_body do
           @label.swt_widget.setText "Before and After"
           @label.swt_widget.setEnabled(false)
-        }
+        end
 
         body {
           composite {

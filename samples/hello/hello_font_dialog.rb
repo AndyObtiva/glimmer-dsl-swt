@@ -26,9 +26,9 @@ class HelloFontDialog
   
   attr_accessor :selected_font_data
   
-  before_body {
+  before_body do
     @selected_font_data = FontData.new('Times New Roman', 40, swt(:bold))
-  }
+  end
   
   body {
     shell {

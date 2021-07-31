@@ -29,10 +29,10 @@ class Tetris
   
       options :block_size, :game
       
-      before_body {
+      before_body do
         @font_name = FONT_NAME
         @font_height = FONT_TITLE_HEIGHT
-      }
+      end
   
       body {
         composite {

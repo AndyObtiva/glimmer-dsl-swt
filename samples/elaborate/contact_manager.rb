@@ -26,10 +26,10 @@ require_relative "contact_manager/contact_manager_presenter"
 class ContactManager
   include Glimmer::UI::CustomShell
 
-  before_body {
+  before_body do
     @contact_manager_presenter = ContactManagerPresenter.new
     @contact_manager_presenter.list
-  }
+  end
 
   body {
     shell {

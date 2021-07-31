@@ -37,7 +37,7 @@ class HelloCanvasDataBinding
     [:solid, :dash, :dot, :dashdot, :dashdotdot]
   end
   
-  before_body {
+  before_body do
     self.x1_value = 0
     self.y1_value = 0
     self.x2_value = CANVAS_WIDTH
@@ -47,7 +47,7 @@ class HelloCanvasDataBinding
     self.foreground_blue = 228
     self.line_width_value = 3
     self.line_style_value = :dot
-  }
+  end
   
   body {
     shell {

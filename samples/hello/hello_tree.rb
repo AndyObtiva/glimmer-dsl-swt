@@ -288,13 +288,13 @@ class HelloTree
 
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     Employee.selected_employee = Employee.ceo
-  }
+  end
   
-  after_body {
+  after_body do
     @tree.items.first.expanded = true
-  }
+  end
 
   body {
     shell {

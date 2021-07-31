@@ -15,17 +15,7 @@ class KlondikeSolitaire
   TABLEAU_WIDTH = 2*MARGIN + 7*(PLAYING_CARD_WIDTH + PLAYING_CARD_SPACING)
   TABLEAU_HEIGHT = 400
 
-
-  ## Add options like the following to configure CustomShell by outside consumers
-  #
-  # options :title, :background_color
-  # option :width, default: 320
-  # option :height, default: 240
-
-  ## Use before_body block to pre-initialize variables to use in body
-  #
-  #
-  before_body {
+  before_body do
     @game = Model::Game.new
     Display.app_name = 'Glimmer Klondike Solitaire'
     @display = display {
@@ -36,17 +26,8 @@ class KlondikeSolitaire
         display_about_dialog
       }
     }
-  }
+  end
 
-  ## Use after_body block to setup observers for widgets in body
-  #
-  # after_body {
-  #
-  # }
-
-  ## Add widget content inside custom shell body
-  ## Top-most widget must be a shell or another custom shell
-  #
   body {
     shell(:no_resize) {
       row_layout(:vertical) {

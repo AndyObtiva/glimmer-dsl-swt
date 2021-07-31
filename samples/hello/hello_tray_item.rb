@@ -27,7 +27,7 @@ class HelloTrayItem
   # boolean that indicates if application is visible
   attr_accessor :show_application
   
-  before_body {
+  before_body do
     # application starts visible
     @show_application = true
     # pre-render an icon image using the Canvas Shape DSL
@@ -48,7 +48,7 @@ class HelloTrayItem
         foreground :white
       }
     }
-  }
+  end
   
   body {
     shell(:shell_trim, :on_top) { # make it always appear on top of everything

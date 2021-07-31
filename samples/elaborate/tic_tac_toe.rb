@@ -26,16 +26,16 @@ require_relative "tic_tac_toe/board"
 class TicTacToe
   include Glimmer::UI::CustomShell
 
-  before_body {
+  before_body do
     @tic_tac_toe_board = Board.new
-  }
+  end
   
-  after_body {
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
+  after_body do
+    observe(@tic_tac_toe_board, :game_status) do |game_status|
       display_win_message if game_status == Board::WIN
       display_draw_message if game_status == Board::DRAW
-    }
-  }
+    end
+  end
 
   body {
     shell {

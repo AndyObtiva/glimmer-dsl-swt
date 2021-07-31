@@ -149,33 +149,33 @@ class MandelbrotFractal
       
   option :zoom, default: 1.0
   
-  before_body {
+  before_body do
     Display.app_name = 'Mandelbrot Fractal'
     # pre-calculate mandelbrot image
     @mandelbrot_image = build_mandelbrot_image
-  }
+  end
   
-  after_body {
-    observe(Mandelbrot, :work_in_progress) {
+  after_body do
+    observe(Mandelbrot, :work_in_progress) do
       update_mandelbrot_shell_title!
-    }
-    observe(Mandelbrot, :zoom) {
+    end
+    observe(Mandelbrot, :zoom) do
       update_mandelbrot_shell_title!
-    }
+    end
     # pre-calculate zoomed mandelbrot images even before the user zooms in
     puts 'Starting background calculation thread...'
-    @thread = Thread.new {
+    @thread = Thread.new do
       future_zoom = 1.5
-      loop {
+      loop do
         puts "Creating mandelbrot for background calculation at zoom: #{future_zoom}"
         the_mandelbrot = Mandelbrot.for(max_iterations: color_palette.size - 1, zoom: future_zoom, background: true)
         pixels = the_mandelbrot.calculate_points
         build_mandelbrot_image(mandelbrot_zoom: future_zoom)
         @canvas.cursor = :cross unless @canvas.disposed?
         future_zoom += 0.5
-      }
-    }
-  }
+      end
+    end
+  end
   
   body {
     shell(:no_resize) {

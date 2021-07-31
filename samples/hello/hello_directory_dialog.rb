@@ -26,9 +26,9 @@ class HelloDirectoryDialog
   
   attr_accessor :selected_directory
   
-  before_body {
+  before_body do
     @selected_directory = 'Please select a directory.'
-  }
+  end
   
   body {
     shell {

@@ -28,13 +28,13 @@ class HelloProgressBar
     attr_accessor :minimum, :maximum, :selection, :delay
   end
         
-  before_body {
+  before_body do
     @progress_model = ProgressModel.new
     @progress_model.minimum = 0
     @progress_model.maximum = 100
     @progress_model.selection = 0
     @progress_model.delay = 0.01
-  }
+  end
 
   body {
     shell {

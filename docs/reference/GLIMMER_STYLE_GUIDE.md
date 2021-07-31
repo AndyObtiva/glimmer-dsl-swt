@@ -10,6 +10,7 @@
 - Widget listeners are always declared starting with `on_` prefix and affixing listener event method name afterwards in underscored lowercase form. Their multi-line blocks rely on the `do; end` style.
 - Widget listeners are always followed by a block using curly braces (Only when declared in DSL. When invoked on widget object directly outside of GUI declarations, standard Ruby conventions apply)
 - Data-binding is done via `bind` keyword, which always takes arguments wrapped in parentheses
-- Custom widget `body`, `before_body`, and `after_body` blocks open their blocks and close them with curly braces.
+- Custom widget/shell/shape `body` blocks open and close with curly braces.
+- Custom widget/shell/shape `before_body` and `after_body` blocks are declared as `do; end` blocks.
 - Custom widgets receive additional keyword arguments called options, which come after the SWT styles.
 - Pure logic multi-line blocks that do not constitute GUI DSL view elements (such as `Thread.new`, `loop`, `each` and `observe` blocks) rely on the `do; end` style to clearly separate logic code from view code.

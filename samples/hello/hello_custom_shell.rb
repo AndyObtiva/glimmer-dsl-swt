@@ -34,9 +34,9 @@ class EmailShell
   # single option with default value
   option :to, default: '"John Irwin" <john.irwin@example.com>'
   
-  before_body {
+  before_body do
     @swt_style |= swt(:shell_trim, :modeless)
-  }
+  end
   
   body {
     # pass received swt_style through to shell to customize it (e.g. :dialog_trim for a blocking shell)

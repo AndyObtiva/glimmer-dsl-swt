@@ -5,10 +5,10 @@ class KlondikeSolitaire
   
       options :card_x, :card_y, :model, :parent_pile
       
-      before_body {
+      before_body do
         self.card_x ||= 0
         self.card_y ||= 0
-      }
+      end
   
       body {
         rectangle(card_x, card_y, 49, 79, 15, 15) {

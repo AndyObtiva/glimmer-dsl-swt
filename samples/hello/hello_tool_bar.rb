@@ -30,9 +30,9 @@ class HelloToolBar
     (10..30).to_a.map(&:to_s)
   end
   
-  before_body {
+  before_body do
     self.font_size = '30'
-  }
+  end
 
   body {
     shell {

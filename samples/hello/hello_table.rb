@@ -183,9 +183,9 @@ class HelloTable
 
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     Display.app_name = 'Hello, Table!'
-  }
+  end
   
   body {
     shell {

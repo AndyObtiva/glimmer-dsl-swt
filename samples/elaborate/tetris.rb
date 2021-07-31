@@ -43,7 +43,7 @@ class Tetris
   
   attr_reader :game
   
-  before_body {
+  before_body do
     @mutex = Mutex.new
     @game = Model::Game.new(playfield_width, playfield_height)
         
@@ -99,9 +99,9 @@ class Tetris
         exit(0)
       }
     }
-  }
+  end
   
-  after_body {
+  after_body do
     observe(@game, :game_over) do |game_over|
       if game_over
         show_high_score_dialog
@@ -117,7 +117,7 @@ class Tetris
       end
     end
     @game.start!
-  }
+  end
   
   body {
     shell(:no_resize) {

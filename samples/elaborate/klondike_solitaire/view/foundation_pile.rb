@@ -10,12 +10,12 @@ class KlondikeSolitaire
       
       attr_accessor :current_image, :model
       
-      before_body {
+      before_body do
         self.current_image = image(50, 80) {empty_playing_card(suit: suit)}
         self.model = game.foundation_piles[Model::PlayingCard::SUITS.index(suit)]
-      }
+      end
   
-      after_body {
+      after_body do
         observe(model, 'playing_cards.last') do |last_card|
           if last_card
             body_root.content {
@@ -28,7 +28,7 @@ class KlondikeSolitaire
             }
           end
         end
-      }
+      end
       
       body {
         shape(pile_x, pile_y) {

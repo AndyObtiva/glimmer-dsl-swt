@@ -5,7 +5,7 @@ class HelloText
   
   attr_accessor :default, :center, :left, :right, :password, :telephone, :read_only, :wrap, :multi
   
-  before_body {
+  before_body do
     self.default = 'default is :border style'
     self.center = 'centered'
     self.left = 'left-aligned'
@@ -15,7 +15,7 @@ class HelloText
     self.read_only = 'Telephone area code is 555'
     self.wrap = 'wraps if text content is too long like this example'
     self.multi = "multi-line enables hitting enter,\nbut does not wrap by default"
-  }
+  end
   
   body {
     shell {

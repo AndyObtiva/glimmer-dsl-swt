@@ -15,7 +15,7 @@ class Calculator
 
   attr_reader :presenter
 
-  before_body {
+  before_body do
     @presenter = Model::Presenter.new
     
     Display.setAppName('Glimmer Calculator')
@@ -30,7 +30,7 @@ class Calculator
         display_about_dialog
       }
     }
-  }
+  end
 
   body {
     shell {

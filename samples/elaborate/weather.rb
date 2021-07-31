@@ -33,13 +33,13 @@ class Weather
   
   attr_accessor :city, :temp, :temp_min, :temp_max, :feels_like, :humidity
   
-  before_body {
+  before_body do
     @weather_mutex = Mutex.new
     self.city = 'Montreal, QC, CA'
     fetch_weather!
-  }
+  end
   
-  after_body {
+  after_body do
     Thread.new do
       loop do
         sleep(10)
@@ -47,7 +47,7 @@ class Weather
         fetch_weather!
       end
     end
-  }
+  end
   
   body {
     shell(:no_resize) {

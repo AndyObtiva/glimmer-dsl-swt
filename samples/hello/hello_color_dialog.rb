@@ -26,9 +26,9 @@ class HelloColorDialog
   
   attr_accessor :selected_color
   
-  before_body {
+  before_body do
     self.selected_color = :black
-  }
+  end
   
   body {
     shell {

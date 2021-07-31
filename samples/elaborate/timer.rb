@@ -20,7 +20,7 @@ class Timer
   ## Use before_body block to pre-initialize variables to use in body
   #
   #
-  before_body {
+  before_body do
     Display.setAppName('Glimmer Timer')
     
     @display = display {
@@ -34,11 +34,11 @@ class Timer
 
     @min = 0
     @sec = 0
-  }
+  end
 
   ## Use after_body block to setup observers for widgets in body
   #
-  after_body {
+  after_body do
     Thread.new {
       loop {
         sleep(1)
@@ -56,7 +56,7 @@ class Timer
         end
       }
     }
-  }
+  end
 
   ## Add widget content inside custom shell body
   ## Top-most widget must be a shell or another custom shell

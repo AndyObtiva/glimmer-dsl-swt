@@ -29,9 +29,9 @@ class Tetris
       option :x, default: 0
       option :y, default: 0
       
-      before_body {
+      before_body do
         self.bevel_pixel_size = 0.16*size.to_f if bevel_pixel_size.nil?
-      }
+      end
       
       body {
         rectangle(x, y, size, size) {

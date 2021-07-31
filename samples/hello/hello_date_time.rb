@@ -28,10 +28,10 @@ class HelloDateTime
   
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     @person = Person.new
     @person.date_of_birth = DateTime.new(2013, 7, 12, 18, 37, 23)
-  }
+  end
   
   body {
     shell {

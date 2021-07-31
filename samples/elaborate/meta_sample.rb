@@ -192,13 +192,13 @@ end
 class MetaSampleApplication
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     Sample.ensure_user_glimmer_directory
     selected_sample_directory = SampleDirectory.sample_directories.first
     selected_sample = selected_sample_directory.samples.first
     selected_sample_directory.selected_sample_name = selected_sample.name
     Display.app_name = 'Glimmer Meta-Sample'
-  }
+  end
   
   body {
     shell(:fill_screen) {

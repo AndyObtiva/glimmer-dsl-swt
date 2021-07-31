@@ -4,11 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Klondike Solitaire [perhaps with a `playing_card` custom widget having operations like flip, is draggable, etc... (potentially leveraging smaller custom shapes or simply images)] [consider leveraging an SVG to Shape DSL converter in case of using cards from the Internet]
+- Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 
 ## Future Consideration
 
-- Update style guide for before_body and after_body methods to have a do/end block since it is logic not GUI
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
 - Support shape listeners for on_mouse_enter, on_mouse_exit, and on_mouse_hover (the SWT default implementation for canvas wouldn't work as is)
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
@@ -446,14 +445,14 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
-- Add some minor improvements to all samples (e.g. keyboard shortcuts, refactorings, cover more features of each widget, etc...)
-- Add hello samples for every built-in SWT widget, including the custom package
-- Add hello samples for every [Nebula](https://www.eclipse.org/nebula/) widget, in a separate glimmer-cw-nebula gem.
-- Hello, Tree Column!
+- Hello, Slider!
+- Hello, Arrow! (button(:arrow))
+- Hello, Toggle! (button(:toggle))
+- Hello, Task Bar! (bottom status bar)
+- Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
 - Connect4
 - Battleship
 - Building Parking system
-- Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
 - Clock (changes filled background color between day and night)
 - Music playing app
 - HR Employee Management app

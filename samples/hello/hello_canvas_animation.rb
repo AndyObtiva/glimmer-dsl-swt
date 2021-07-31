@@ -27,14 +27,14 @@ class HelloCanvasAnimation
   
   attr_accessor :animation_every, :animation_fps, :animation_frame_count, :animation_duration_limit, :animation_started, :animation_finished
   
-  before_body {
+  before_body do
     @animation_every = 0.050 # seconds
     @animation_fps = 0
     @animation_frame_count = 100
     @animation_duration_limit = 0 # seconds
     @animation_started = true
     @animation_finished = false
-  }
+  end
   
   body {
     shell {

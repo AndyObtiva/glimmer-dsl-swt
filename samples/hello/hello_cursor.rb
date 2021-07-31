@@ -31,11 +31,11 @@ class HelloCursor
     Glimmer::SWT::SWTProxy.cursor_options
   end
   
-  after_body {
+  after_body do
     observe(self, :selected_cursor) {
       body_root.cursor = selected_cursor
     }
-  }
+  end
   
   body {
     shell {

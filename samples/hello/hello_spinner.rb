@@ -28,10 +28,10 @@ class HelloSpinner
   
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     @person = Person.new
     @person.donation = 500 # in cents
-  }
+  end
   
   body {
     shell {

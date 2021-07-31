@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.20.13.10
+
+- Update Glimmer Style Guide, scaffolding, and samples to have `before_body` and `after_body` in custom widgets/shells/shapes always take a `do; end` block since they contain logic not visuals
+
+### 4.20.13.9
+
+- Update Klondike Solitaire to have playing card suit symbols and avoid clipping of cards on the boundaries
+
 ### 4.20.13.8
 
 - Glimmer Klondike Solitaire elaborate sample

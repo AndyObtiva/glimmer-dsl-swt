@@ -65,7 +65,7 @@ class StockTicker
   
   include Glimmer::UI::CustomShell
   
-  before_body {
+  before_body do
     @stocks = [
       Stock.new('DELL', 81),
       Stock.new('AAPL', 121),
@@ -126,16 +126,16 @@ class StockTicker
         end
       end
     end
-  }
+  end
   
-  after_body {
-    @thread = Thread.new {
-      loop {
+  after_body do
+    @thread = Thread.new do
+      loop do
         @stocks.each(&:tick!)
         sleep(0.01)
-      }
-    }
-  }
+      end
+    end
+  end
   
   body {
     shell {

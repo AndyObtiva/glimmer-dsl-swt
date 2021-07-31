@@ -26,9 +26,9 @@ class HelloFileDialog
   
   attr_accessor :selected_file
   
-  before_body {
+  before_body do
     @selected_file = 'Please select a file.'
-  }
+  end
   
   body {
     shell {

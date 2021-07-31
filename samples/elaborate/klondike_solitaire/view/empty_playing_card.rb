@@ -5,10 +5,15 @@ class KlondikeSolitaire
     class EmptyPlayingCard
       include Glimmer::UI::CustomShape
       
-      option :suit
-  
+      options :card_x, :card_y, :suit
+      
+      before_body do
+        self.card_x ||= 0
+        self.card_y ||= 0
+      end
+      
       body {
-        rectangle(0, 0, 49, 79, 15, 15) {
+        rectangle(card_x, card_y, 49, 79, 15, 15) {
           foreground :gray
           
           if suit

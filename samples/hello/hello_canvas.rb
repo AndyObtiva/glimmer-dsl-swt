@@ -27,19 +27,19 @@ class HelloCanvas
   attr_accessor :selected_shape
   attr_accessor :artist
   
-  before_body {
+  before_body do
     @image_object = image(File.expand_path('../../icons/scaffold_app.png', __dir__), width: 50)
     @artist = ''
-  }
+  end
   
-  after_body {
+  after_body do
     Thread.new {
       'Picasso'.chars.each do |character|
         sleep(1)
         self.artist += character
       end
     }
-  }
+  end
   
   body {
     shell {

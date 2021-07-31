@@ -607,7 +607,7 @@ module Glimmer
           
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
-      before_body {
+      before_body do
         Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
         Display.app_version = VERSION
         @display = display {
@@ -618,13 +618,13 @@ module Glimmer
             #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
           }
         }
-      }
+      end
             MULTI_LINE_STRING
           else
             custom_shell_file_content += <<-MULTI_LINE_STRING
-      # before_body {
+      # before_body do
       #
-      # }
+      # end
             MULTI_LINE_STRING
           end
     
@@ -632,9 +632,9 @@ module Glimmer
   
       ## Use after_body block to setup observers for widgets in body
       #
-      # after_body {
+      # after_body do
       #
-      # }
+      # end
   
       ## Add widget content inside custom shell body
       ## Top-most widget must be a shell or another custom shell
@@ -767,15 +767,15 @@ end
       ## Use before_body block to pre-initialize variables to use in body
       #
       #
-      # before_body {
+      # before_body do
       #
-      # }
+      # end
   
       ## Use after_body block to setup observers for widgets in body
       #
-      # after_body {
+      # after_body do
       #
-      # }
+      # end
   
       ## Add widget content under custom widget body
       ##
@@ -817,15 +817,15 @@ end
       ## Use before_body block to pre-initialize variables to use in body
       #
       #
-      # before_body {
+      # before_body do
       #
-      # }
+      # end
   
       ## Use after_body block to setup observers for shapes in body
       #
-      # after_body {
+      # after_body do
       #
-      # }
+      # end
   
       ## Add shape content under custom shape body
       #

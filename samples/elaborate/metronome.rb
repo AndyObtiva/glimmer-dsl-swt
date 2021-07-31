@@ -64,9 +64,9 @@ class Metronome
       
   attr_accessor :rhythm
   
-  before_body {
+  before_body do
     @rhythm = Rhythm.new(4)
-  }
+  end
   
   body {
     shell(:no_resize) {

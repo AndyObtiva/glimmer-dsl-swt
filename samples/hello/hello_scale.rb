@@ -26,9 +26,9 @@ class HelloScale
   
   attr_accessor :value
   
-  before_body {
+  before_body do
     @value = 50
-  }
+  end
   
   body {
     shell {
