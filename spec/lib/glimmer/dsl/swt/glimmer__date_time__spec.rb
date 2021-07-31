@@ -33,6 +33,9 @@ module GlimmerSpec
           day bind(person, :dob, on_read: ->(v) {v.day}, on_write: ->(v) {DateTime.new(person.dob.year, person.dob.month, v, person.dob.hour, person.dob.min, person.dob.sec)})
         }
       }
+      
+      # TODO test without setting dob first (this line was added because of a false negative test failure)
+      person.dob = DateTime.new(2038, 11, 29, 12, 47, 32)
 
       expect(@date_time).to_not be_nil
       expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)

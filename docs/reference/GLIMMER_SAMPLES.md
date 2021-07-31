@@ -62,6 +62,7 @@
     - [Tic Tac Toe](#tic-tac-toe)
     - [Contact Manager](#contact-manager)
     - [Glimmer Tetris](#glimmer-tetris)
+    - [Klondike Solitaire](#klondike-solitaire)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
     - [Stock Ticker](#stock-ticker)
     - [Metronome](#metronome)
@@ -1097,6 +1098,18 @@ Code:
 ![Tetris Options Menu](/images/glimmer-tetris-options-menu.png)
 
 ![Tetris Help Menu](/images/glimmer-tetris-help-menu.png)
+
+#### Klondike Solitaire
+
+This sample demonstrates how to build an interactive card game with MVC architecture, custom-shell/custom-widgets, data-binding, observers, and drag & drop.
+
+Code:
+
+[samples/elaborate/klondike_solitaire.rb](/samples/elaborate/klondike_solitaire.rb)
+
+![Tetris](/images/glimmer-klondike-solitaire.png)
+
+![Tetris](/images/glimmer-klondike-solitaire-played.png)
 
 #### Mandelbrot Fractal
 
