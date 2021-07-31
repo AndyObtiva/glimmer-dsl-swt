@@ -190,6 +190,23 @@ class GameOfLife
           end
         end
                 
+        context 'dead cell with 3 live neighbors' do
+          it 'lives when inside and has 3 live neighbors' do
+            cell = subject.cell_rows[1][1]
+            cell_neighbor1 = subject.cell_rows[0][1]
+            cell_neighbor1.live!
+            cell_neighbor2 = subject.cell_rows[1][0]
+            cell_neighbor2.live!
+            cell_neighbor3 = subject.cell_rows[0][0]
+            cell_neighbor3.live!
+            
+            subject.step!
+            cell = subject.cell_rows[1][1]
+            
+            expect(cell.alive?).to be_truthy
+          end
+        end
+                
       end
       
     end

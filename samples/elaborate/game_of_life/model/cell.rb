@@ -26,7 +26,7 @@ class GameOfLife
       
       # produces a new cell offspring for the next generation
       def step
-        new_alive = (alive? && alive_neighbor_count.between?(2, 3)) # || (dead? && alive_neighbor_count == 3)
+        new_alive = (alive? && alive_neighbor_count.between?(2, 3)) || (dead? && alive_neighbor_count == 3)
         Cell.new(grid, row_index, column_index, new_alive)
       end
       
