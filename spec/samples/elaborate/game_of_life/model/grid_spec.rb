@@ -84,6 +84,96 @@ class GameOfLife
           expect(cell.dead?).to be_truthy
         end
       end
+      
+      describe '#step!' do
+        context 'live cell with fewer than 2 live neighbors' do
+          it 'dies when inside and has zero live neighbors' do
+            cell = subject.cell_rows[1][1]
+            cell.live!
+            
+            subject.step!
+            cell = subject.cell_rows[1][1]
+            
+            expect(cell.alive?).to be_falsey
+          end
+          
+          it 'dies when inside and has one live neighbor' do
+            cell = subject.cell_rows[1][1]
+            cell.live!
+            cell_neighbor1 = subject.cell_rows[0][1]
+            cell_neighbor1.live!
+            
+            subject.step!
+            cell = subject.cell_rows[1][1]
+            
+            expect(cell.alive?).to be_falsey
+          end
+          
+          it 'dies when in a corner and has zero live neighbors' do
+            cell = subject.cell_rows[0][0]
+            cell.live!
+            
+            subject.step!
+            cell = subject.cell_rows[0][0]
+            
+            expect(cell.alive?).to be_falsey
+          end
+          
+          it 'dies when in a corner and has one live neighbor' do
+            cell = subject.cell_rows[0][0]
+            cell.live!
+            cell_neighbor1 = subject.cell_rows[0][1]
+            cell_neighbor1.live!
+            
+            subject.step!
+            cell = subject.cell_rows[0][0]
+            
+            expect(cell.alive?).to be_falsey
+          end
+          
+          it 'dies when in top edge and has zero live neighbors' do
+            cell = subject.cell_rows[0][1]
+            cell.live!
+            
+            subject.step!
+            cell = subject.cell_rows[0][1]
+            
+            expect(cell.alive?).to be_falsey
+          end
+          
+          it 'dies when in top edge and has one live neighbor' do
+            cell = subject.cell_rows[0][1]
+            cell.live!
+            cell_neighbor1 = subject.cell_rows[0][0]
+            cell_neighbor1.live!
+            
+            subject.step!
+            cell = subject.cell_rows[0][1]
+            
+            expect(cell.alive?).to be_falsey
+          end
+        end
+        
+        context 'live cell with 2-3 live neighbors' do
+          it 'lives when inside and has two live neighbors' do
+            cell = subject.cell_rows[1][1]
+            cell.live!
+            cell_neighbor1 = subject.cell_rows[0][1]
+            cell_neighbor1.live!
+            cell_neighbor2 = subject.cell_rows[1][0]
+            cell_neighbor2.live!
+            
+            subject.step!
+            cell = subject.cell_rows[1][1]
+            
+            expect(cell.alive?).to be_truthy
+          end
+        end
+                
+      end
+      
     end
+    
   end
+  
 end
