@@ -21,7 +21,7 @@ class KlondikeSolitaire
           
           unless model.hidden?
             text {
-              string model ? "#{model.rank} #{model.suit.to_s[0].upcase}" : ""
+              string model ? "#{model.rank_text}#{model.suit_text}" : ""
               x 5
               y 5
               foreground model ? model.color : :transparent

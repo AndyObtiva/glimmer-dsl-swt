@@ -1,3 +1,5 @@
+require_relative '../model/playing_card'
+
 class KlondikeSolitaire
   module View
     class EmptyPlayingCard
@@ -11,10 +13,11 @@ class KlondikeSolitaire
           
           if suit
             text {
-              string suit.to_s[0].upcase
+              string Model::PlayingCard.suit_text(suit)
               x :default
               y :default
               is_transparent true
+              foreground Model::PlayingCard::BLACK_SUITS.include?(suit) ? :black : :red
             }
           end
         }

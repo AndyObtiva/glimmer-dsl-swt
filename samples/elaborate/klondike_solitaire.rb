@@ -63,6 +63,25 @@ class KlondikeSolitaire
       
       menu_bar {
         menu {
+          text '&Game'
+          menu_item {
+            text '&Restart'
+            accelerator (OS.mac? ? :command : :ctrl), :r
+            
+            on_widget_selected {
+              @game.restart!
+            }
+          }
+          menu_item {
+            text 'E&xit'
+            accelerator :alt, :f4
+            
+            on_widget_selected {
+              body_root.close
+            }
+          }
+        }
+        menu {
           text '&Help'
           menu_item {
             text '&About...'

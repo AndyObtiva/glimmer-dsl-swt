@@ -22,6 +22,34 @@ class KlondikeSolitaire
             new(rank, suit)
           end
         end
+        
+        def rank_text(rank)
+          case rank
+          when 1
+            'A'
+          when 11
+            'J'
+          when 12
+            'Q'
+          when 13
+            'K'
+          else
+            rank
+          end
+        end
+        
+        def suit_text(suit)
+          case suit
+          when :spades
+            "♠"
+          when :hearts
+            "♥"
+          when :clubs
+            "♣"
+          when :diamonds
+            "♦"
+          end
+        end
       end
       
       attr_reader :rank, :suit
@@ -44,6 +72,14 @@ class KlondikeSolitaire
       
       def to_s
         "Playing Card #{rank}#{suit.to_s[0].upcase}"
+      end
+      
+      def suit_text
+        self.class.suit_text(suit)
+      end
+      
+      def rank_text
+        self.class.rank_text(rank)
       end
     end
   end
