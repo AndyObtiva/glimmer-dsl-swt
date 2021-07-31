@@ -7,7 +7,7 @@ class GameOfLife
       DEFAULT_COLUMN_COUNT = 100
       
       attr_reader :row_count, :column_count
-      attr_accessor :cell_rows
+      attr_accessor :cell_rows, :previous_cell_rows
     
       def initialize(row_count=DEFAULT_ROW_COUNT, column_count=DEFAULT_COLUMN_COUNT)
         @row_count = row_count
@@ -17,9 +17,14 @@ class GameOfLife
       
       # steps into the next generation of cells given their current neighbors
       def step!
-        self.cell_rows = cell_rows.map do |row|
+        self.previous_cell_rows = cell_rows.map do |row|
           row.map do |cell|
-            cell.step
+            cell.clone
+          end
+        end
+        cell_rows.each do |row|
+          row.each do |cell|
+            cell.step!
           end
         end
       end

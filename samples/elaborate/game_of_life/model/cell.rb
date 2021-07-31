@@ -20,14 +20,18 @@ class GameOfLife
         self.alive = false
       end
       
+      def toggle_aliveness!
+        dead ? live! : die!
+      end
+      
       def dead?
         !alive?
       end
+      alias dead dead?
       
-      # produces a new cell offspring for the next generation
-      def step
-        new_alive = (alive? && alive_neighbor_count.between?(2, 3)) || (dead? && alive_neighbor_count == 3)
-        Cell.new(grid, row_index, column_index, new_alive)
+      # step into the next generation
+      def step!
+        self.alive = (alive? && alive_neighbor_count.between?(2, 3)) || (dead? && alive_neighbor_count == 3)
       end
       
       def alive_neighbor_count
@@ -36,7 +40,7 @@ class GameOfLife
             if current_row_index == row_index && current_column_index == column_index
               0
             else
-              grid.cell_rows[current_row_index][current_column_index].alive? ? 1 : 0
+              grid.previous_cell_rows[current_row_index][current_column_index].alive? ? 1 : 0
             end
           end
         end.flatten.reduce(:+)
