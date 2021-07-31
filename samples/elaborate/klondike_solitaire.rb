@@ -11,6 +11,10 @@ class KlondikeSolitaire
   PLAYING_CARD_WIDTH = 50
   PLAYING_CARD_HEIGHT = 80
   PLAYING_CARD_SPACING = 5
+  MARGIN = 15
+  TABLEAU_WIDTH = 2*MARGIN + 7*(PLAYING_CARD_WIDTH + PLAYING_CARD_SPACING)
+  TABLEAU_HEIGHT = 400
+
 
   ## Add options like the following to configure CustomShell by outside consumers
   #
@@ -48,16 +52,19 @@ class KlondikeSolitaire
       row_layout(:vertical) {
         fill true
         center true
+        margin_width 0
+        margin_height 0
+        margin_top 15
       }
-      minimum_size 400, 400
+      minimum_size TABLEAU_WIDTH, TABLEAU_HEIGHT
       text "Glimmer Klondike Solitaire"
       background :dark_green
     
       action_panel(game: @game)
       tableau(game: @game) {
         layout_data {
-          width 380
-          height 400
+          width TABLEAU_WIDTH
+          height TABLEAU_HEIGHT
         }
       }
       
