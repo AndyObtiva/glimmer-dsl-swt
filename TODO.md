@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Conway's Game of Life (as per https://andymaleh.blogspot.com/2009/11/conways-game-of-life-glimmer-edition.html but the old code is lost)
+- Building Parking system
 
 ## Future Consideration
 
@@ -452,7 +452,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
 - Connect4
 - Battleship
-- Building Parking system
 - Clock (changes filled background color between day and night)
 - Music playing app
 - HR Employee Management app

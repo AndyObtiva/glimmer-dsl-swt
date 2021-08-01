@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.20.13.12
+
+- Fixed issue with dragged shapes having `drag_source true` not going back to original position when not dropped in a target if they were part of a composite shape
+
+### 4.20.13.11
+
+- Conway's Game of Life elaborate sample
+
 ### 4.20.13.10
 
 - Update Glimmer Style Guide, scaffolding, and samples to have `before_body` and `after_body` in custom widgets/shells/shapes always take a `do; end` block since they contain logic not visuals

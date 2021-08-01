@@ -713,7 +713,7 @@ module Glimmer
               end
             end
             @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y)}
+              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
                 Shape.dragging = false
                 Shape.dragged_shape.x = Shape.dragged_shape_original_x
                 Shape.dragged_shape.y = Shape.dragged_shape_original_y
