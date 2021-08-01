@@ -23,37 +23,59 @@ require 'glimmer-dsl-swt'
 
 require_relative 'game_of_life/model/grid'
 
-width = 7
-height = 7
-grid = GameOfLife::Model::Grid.new(width, height)
-
-include Glimmer
-
-shell {
-  text "Conway's Game of Life (Glimmer Edition)"
-  composite {
-    grid_layout width, true
+class GameOfLife
+  include Glimmer::UI::CustomShell
+  
+  WIDTH = 7
+  HEIGHT = 7
+  
+  before_body do
+    @grid = GameOfLife::Model::Grid.new(WIDTH, HEIGHT)
+  end
+  
+  body {
+    shell {
+      row_layout :vertical
+      text "Conway's Game of Life (Glimmer Edition)"
     
-    (0...height).each do |row_index|
-      (0...width).each do |column_index|
-        cell =
-        button(:toggle) {
-          layout_data :fill, :fill, true, true
-          
-          selection <= [grid.cell_rows[row_index][column_index], "alive"]
-          
+      composite {
+        grid_layout {
+          num_columns WIDTH
+          make_columns_equal_width true
+          horizontal_spacing 0
+          vertical_spacing 0
+        }
+        
+        (0...HEIGHT).each do |row_index|
+          (0...WIDTH).each do |column_index|
+            button(:toggle) {
+              layout_data(:fill, :fill, true, true) {
+                width_hint 60
+                height_hint 60
+              }
+              
+              selection <= [@grid.cell_rows[row_index][column_index], "alive"]
+              
+              on_widget_selected {
+                @grid.cell_rows[row_index][column_index].toggle_aliveness!
+              }
+            }
+          end
+        end
+      }
+        
+      composite {
+        row_layout(:horizontal)
+        
+        button {
+          text "Step"
           on_widget_selected {
-            grid.cell_rows[row_index][column_index].toggle_aliveness!
+            @grid.step!
           }
         }
-      end
-    end
-    
-    button {
-      text "Step"
-      on_widget_selected {
-        grid.step!
       }
     }
   }
-}.open
+end
+
+GameOfLife.launch
