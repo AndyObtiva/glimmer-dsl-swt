@@ -21,10 +21,17 @@
 
 require 'glimmer-dsl-swt'
 
+require_relative 'parking/model/parking_presenter'
+      
 class Parking
   include Glimmer::UI::CustomShell
     
-  PARKING_SPOTS = %W[A B C D E F G H I J K L M N O P]
+  FLOOR_COUNT = 4
+  
+  before_body do
+    @parking_spots = Model::ParkingSpot::LETTERS.clone
+    @parking_presenter = Model::ParkingPresenter.new(FLOOR_COUNT)
+  end
 
   body {
     shell(:no_resize) {
@@ -44,10 +51,19 @@ class Parking
       }
       spinner {
         minimum 1
-        maximum 4
+        maximum FLOOR_COUNT
         font height: 20
+        selection <=> [@parking_presenter, :selected_floor]
+        
+        on_widget_selected do
+          @parking_spots = Model::ParkingSpot::LETTERS.clone
+          @canvas.dispose_shapes
+          @canvas.content {
+            parking_floor
+          }
+        end
       }
-      canvas {
+      @canvas = canvas {
         layout_data {
           width 600
           height 600
@@ -55,19 +71,23 @@ class Parking
         
         background :dark_gray
         
-        parking_quad(67.5, 0, 125)
-        parking_quad(67.5, 0, 125) { |shp|
-          shp.rotate(90)
-        }
-        parking_quad(67.5, 0, 125) { |shp|
-          shp.rotate(180)
-        }
-        parking_quad(67.5, 0, 125) { |shp|
-          shp.rotate(270)
-        }
+        parking_floor
       }
     }
   }
+  
+  def parking_floor
+    parking_quad(67.5, 0, 125)
+    parking_quad(67.5, 0, 125) { |shp|
+      shp.rotate(90)
+    }
+    parking_quad(67.5, 0, 125) { |shp|
+      shp.rotate(180)
+    }
+    parking_quad(67.5, 0, 125) { |shp|
+      shp.rotate(270)
+    }
+  end
         
   def parking_quad(location_x, location_y, length, &block)
     distance = (1.0/3)*length
@@ -78,6 +98,7 @@ class Parking
   end
       
   def parking_spot(location_x, location_y, length, &block)
+    parking_spot_letter = @parking_spots.shift
     height = length
     width = (2.0/3)*length
     shape(location_x, location_y) { |the_shape|
@@ -87,14 +108,27 @@ class Parking
       block&.call(the_shape)
     
       rectangle(location_x, location_y, width, height) {
-        background :dark_gray
+        background <= [
+          @parking_presenter.floors[@parking_presenter.selected_floor - 1].parking_spots[parking_spot_letter],
+          :booked,
+          on_read: ->(b) {b ? :red : :dark_gray}
+        ]
         
         text {
           x :default
           y :default
-          string PARKING_SPOTS.shift
+          string parking_spot_letter
           font height: 20
         }
+        
+        on_mouse_up do
+          @parking_presenter.floors[@parking_presenter.selected_floor - 1].book!(parking_spot_letter)
+          @parking_spots = Model::ParkingSpot::LETTERS.clone
+          @canvas.dispose_shapes
+          @canvas.content {
+            parking_floor
+          }
+        end
       }
     
       line(location_x, location_y, location_x, location_y + height)

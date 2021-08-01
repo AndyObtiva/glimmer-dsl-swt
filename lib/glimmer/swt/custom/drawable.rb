@@ -62,6 +62,7 @@ module Glimmer
           # Optimize further by having a collection of disposable_shapes independent of shapes, which is much smaller and only has shapes that require disposal (shapes with patterns or image)
           shapes.dup.each {|s| s.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns) } if requires_shape_disposal?
         end
+        alias dispose_shapes clear_shapes
         
         def paint_pixel_by_pixel(width = nil, height = nil, &each_pixel_color)
           if @image_double_buffered
