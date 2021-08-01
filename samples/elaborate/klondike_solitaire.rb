@@ -29,7 +29,7 @@ class KlondikeSolitaire
   end
 
   body {
-    shell(:no_resize) {
+    shell {
       row_layout(:vertical) {
         fill true
         center true
