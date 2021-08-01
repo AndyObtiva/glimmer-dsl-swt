@@ -26,8 +26,10 @@ require_relative 'game_of_life/model/grid'
 class GameOfLife
   include Glimmer::UI::CustomShell
   
-  WIDTH = 7
-  HEIGHT = 7
+  WIDTH = 20
+  HEIGHT = 20
+  CELL_WIDTH = 25
+  CELL_HEIGHT = 25
   
   before_body do
     @grid = GameOfLife::Model::Grid.new(WIDTH, HEIGHT)
@@ -38,25 +40,22 @@ class GameOfLife
       row_layout :vertical
       text "Conway's Game of Life (Glimmer Edition)"
     
-      composite {
-        grid_layout {
-          num_columns WIDTH
-          make_columns_equal_width true
-          horizontal_spacing 0
-          vertical_spacing 0
+      canvas {
+        layout_data {
+          width WIDTH*CELL_WIDTH
+          height HEIGHT*CELL_HEIGHT
         }
-        
         (0...HEIGHT).each do |row_index|
           (0...WIDTH).each do |column_index|
-            button(:toggle) {
-              layout_data(:fill, :fill, true, true) {
-                width_hint 60
-                height_hint 60
+            rectangle(column_index*CELL_WIDTH, row_index*CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT) {
+              background <= [@grid.cell_rows[row_index][column_index], "alive", on_read: ->(a) {a ? :black : :white}]
+              
+              # border rectangle (width and height are left off, meaning max values)
+              rectangle(0, 0) {
+                foreground :black
               }
-              
-              selection <= [@grid.cell_rows[row_index][column_index], "alive"]
-              
-              on_widget_selected {
+  
+              on_mouse_up {
                 @grid.cell_rows[row_index][column_index].toggle_aliveness!
               }
             }
