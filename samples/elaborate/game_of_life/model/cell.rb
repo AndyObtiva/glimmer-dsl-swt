@@ -21,6 +21,7 @@ class GameOfLife
       end
       
       def toggle_aliveness!
+        return if grid.playing?
         dead ? live! : die!
       end
       

@@ -61,6 +61,7 @@
     - [Login](#login)
     - [Tic Tac Toe](#tic-tac-toe)
     - [Contact Manager](#contact-manager)
+    - [Game of Life](#game-of-life)
     - [Glimmer Tetris](#glimmer-tetris)
     - [Klondike Solitaire](#klondike-solitaire)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
@@ -1071,6 +1072,16 @@ Contact Manager - Edit Done
 
 ![Contact Manager](/images/glimmer-contact-manager-edit-done.png)
 
+#### Game of Life
+
+This sample demonstrates how to build an interactive canvas-based visualization of Conway's Game of Life (test-first), taking advantage of data-binding and multi-threading.
+
+Code:
+
+[samples/elaborate/game_of_life.rb](/samples/elaborate/game_of_life.rb)
+
+![Game of Life](/images/glimmer-game-of-life.gif)
+
 #### Glimmer Tetris
 
 This sample demonstrates how to build an interactive animated game with MVC architecture, custom-shell/custom-widgets, multi-threading, asynchronous programming, data-binding, canvas shape graphic decorations, canvas shape icon image generation, and keyboard events/shortcuts.
@@ -1101,15 +1112,15 @@ Code:
 
 #### Klondike Solitaire
 
-This sample demonstrates how to build an interactive card game with MVC architecture, custom-shell/custom-widgets, data-binding, observers, and drag & drop.
+This sample demonstrates how to build an interactive card game with MVC architecture, canvas, custom-shapes, data-binding, observers, and drag & drop.
 
 Code:
 
 [samples/elaborate/klondike_solitaire.rb](/samples/elaborate/klondike_solitaire.rb)
 
-![Tetris](/images/glimmer-klondike-solitaire.png)
+![Klondike Solitaire](/images/glimmer-klondike-solitaire.png)
 
-![Tetris](/images/glimmer-klondike-solitaire-played.png)
+![Klondike Solitaire Played](/images/glimmer-klondike-solitaire-played.png)
 
 #### Mandelbrot Fractal
 

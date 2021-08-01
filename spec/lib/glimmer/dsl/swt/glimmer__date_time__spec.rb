@@ -34,9 +34,6 @@ module GlimmerSpec
         }
       }
       
-      # TODO test without setting dob first (this line was added because of a false negative test failure)
-      person.dob = DateTime.new(2038, 11, 29, 12, 47, 32)
-
       expect(@date_time).to_not be_nil
       expect(@date_time.swt_widget).to be_a(Java::OrgEclipseSwtWidgets::DateTime)
       expect(@date_time).to have_style(:date)

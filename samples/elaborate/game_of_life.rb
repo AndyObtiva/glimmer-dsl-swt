@@ -50,12 +50,7 @@ class GameOfLife
             rectangle(column_index*CELL_WIDTH, row_index*CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT) {
               background <= [@grid.cell_rows[row_index][column_index], "alive", on_read: ->(a) {a ? :black : :white}]
               
-              # border rectangle (width and height are left off, meaning max values)
-              rectangle(0, 0) {
-                foreground :black
-              }
-  
-              on_mouse_up {
+              on_mouse_down {
                 @grid.cell_rows[row_index][column_index].toggle_aliveness!
               }
             }
@@ -64,14 +59,50 @@ class GameOfLife
       }
         
       composite {
-        row_layout(:horizontal)
-        
+        row_layout(:horizontal) {
+          margin_width 0
+        }
+                
         button {
-          text "Step"
+          text 'Step'
+          enabled <= [@grid, :playing, on_read: :! ]
+          
           on_widget_selected {
             @grid.step!
           }
         }
+        
+        button {
+          text 'Clear'
+          enabled <= [@grid, :playing, on_read: :! ]
+          
+          on_widget_selected {
+            @grid.clear!
+          }
+        }
+                
+        button {
+          text <= [@grid, :playing, on_read: ->(p) { p ? 'Stop' : 'Play' }]
+          
+          on_widget_selected {
+            @grid.toggle_playback!
+          }
+        }
+  
+        label {
+          text 'Slower'
+        }
+              
+        scale {
+          minimum 1
+          maximum 100
+          selection <=> [@grid, :speed]
+        }
+          
+        label {
+          text 'Faster'
+        }
+          
       }
     }
   }
