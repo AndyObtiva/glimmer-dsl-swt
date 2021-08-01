@@ -23,12 +23,17 @@ require 'glimmer-dsl-swt'
 
 class Parking
   include Glimmer::UI::CustomShell
+    
+  PARKING_SPOTS = %W[A B C D E F G H I J K L M N O P]
 
   body {
     shell(:no_resize) {
       row_layout(:vertical) {
         center true
       }
+    
+      text 'Parking'
+    
       label {
         text 'Select an available spot to park'
         font height: 30
@@ -75,18 +80,27 @@ class Parking
   def parking_spot(location_x, location_y, length, &block)
     height = length
     width = (2.0/3)*length
-    marker_length = (1.0/6)*length
     shape(location_x, location_y) { |the_shape|
       line_width (1.0/15)*length
       foreground :white
   
       block&.call(the_shape)
     
+      rectangle(location_x, location_y, width, height) {
+        background :dark_gray
+        
+        text {
+          x :default
+          y :default
+          string PARKING_SPOTS.shift
+          font height: 20
+        }
+      }
+    
       line(location_x, location_y, location_x, location_y + height)
       line(location_x, location_y, location_x + width, location_y)
       line(location_x + width, location_y, location_x + width, location_y + height)
-      #line(location_x - marker_length, location_y + height, location_x + marker_length, location_y + height)
-      #line(location_x + width - marker_length, location_y + height, location_x + width + marker_length, location_y + height)
+      
     }
   end
 end
