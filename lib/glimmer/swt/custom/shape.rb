@@ -216,6 +216,7 @@ module Glimmer
         # Subclasses (like polygon) may override to indicate if a point x,y coordinates falls inside the shape
         # some shapes may choose to provide a fuzz factor to make usage of this method for mouse clicking more user friendly
         def contain?(x, y)
+          x, y = inverse_transform_point(x, y)
           # assume a rectangular filled shape by default (works for several shapes like image, text, and focus)
           x.between?(self.absolute_x, self.absolute_x + calculated_width.to_f) && y.between?(self.absolute_y, self.absolute_y + calculated_height.to_f)
         end
@@ -231,6 +232,24 @@ module Glimmer
         def include_with_children?(x, y, except_child: nil)
           included = include?(x, y)
           included ||= expanded_shapes.reject {|shape| shape == except_child}.detect { |shape| shape.include?(x, y) }
+        end
+        
+        # if there is a transform, invert it and apply on x, y point coordinates
+        def inverse_transform_point(x, y)
+          current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first
+          if current_transform
+            transform_array = [1,2,3,4,5,6].to_java(:float)
+            current_transform.getElements(transform_array)
+            inverse_transform = TransformProxy.new(DisplayProxy.instance.swt_display, *transform_array.to_a)
+            inverse_transform_array = [1,2,3,4,5,6].to_java(:float)
+            inverse_transform.getElements(inverse_transform_array)
+            matrix = Matrix[[inverse_transform_array[0], inverse_transform_array[1]], [inverse_transform_array[2], inverse_transform_array[3]]]
+            result = matrix * Matrix.column_vector([x, y])
+            x, y = result.to_a.flatten
+            x += inverse_transform_array[5]
+            y += inverse_transform_array[4]
+          end
+          [x, y]
         end
 
         # Indicates if a shape's x, y, width, height differ from its bounds calculation (e.g. arc / polygon)

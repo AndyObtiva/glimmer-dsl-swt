@@ -53,6 +53,7 @@ module Glimmer
             
           # checks if shape contains the point denoted by x and y
           def contain?(x, y)
+            x, y = inverse_transform_point(x, y)
             geometry.contains(x, y)
           end
           
@@ -60,6 +61,7 @@ module Glimmer
             if filled?
               contain?(x, y)
             else
+              x, y = inverse_transform_point(x, y)
               # give it some fuzz to allow a larger region around the drawn oval to accept including a point (helps with mouse clickability on a shape)
               outer_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, calculated_width + 3, calculated_height + 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)
               inner_shape_geometry = java.awt.geom.Arc2D::Double.new(self.absolute_x, self.absolute_y, calculated_width - 3, calculated_height - 3, start_angle, arc_angle, java.awt.geom.Arc2D::PIE)

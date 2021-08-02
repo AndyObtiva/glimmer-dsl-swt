@@ -123,6 +123,7 @@ module Glimmer
           end
           
           def include?(x, y)
+            x, y = inverse_transform_point(x, y)
             # TODO must account for line width
             Line.include?(absolute_x1, absolute_y1, absolute_x2, absolute_y2, x, y)
           end

@@ -152,6 +152,7 @@ module Glimmer
           end
           
           def contain?(x, y)
+            x, y = inverse_transform_point(x, y)
             geometry.contains(x, y)
           end
 
@@ -159,6 +160,7 @@ module Glimmer
             if filled?
               contain?(x, y)
             else
+              x, y = inverse_transform_point(x, y)
               comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
               comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
             end

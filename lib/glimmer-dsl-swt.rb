@@ -38,6 +38,7 @@ require 'super_module'
 require 'date'
 require 'facets/string/capitalized'
 require 'facets/hash/symbolize_keys'
+require 'matrix'
 
 # Internal requires
 require 'ext/glimmer/config'

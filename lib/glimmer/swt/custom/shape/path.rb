@@ -62,16 +62,12 @@ module Glimmer
           end
           
           def contain?(x, y)
-            makeshift_gc = org.eclipse.swt.graphics.GC.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
-            @swt_path.contains(x.to_f, y.to_f, makeshift_gc, false)
-          end
-          
-          def contain?(x, y)
             include?(x, y, filled: true)
           end
         
           # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the edge)
           def include?(x, y, filled: nil)
+            x, y = inverse_transform_point(x, y)
             filled = filled? if filled.nil?
             makeshift_gc = org.eclipse.swt.graphics.GC.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
             @swt_path.contains(x.to_f, y.to_f, makeshift_gc, !filled)

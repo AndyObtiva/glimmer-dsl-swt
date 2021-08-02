@@ -55,6 +55,7 @@ module Glimmer
         
           # checks if drawn or filled rectangle includes the point denoted by x and y (if drawn, it only returns true if point lies on the edge)
           def include?(x, y, filled: nil)
+            x, y = inverse_transform_point(x, y)
             filled = filled? if filled.nil?
             makeshift_gc = org.eclipse.swt.graphics.GC.new(Glimmer::SWT::DisplayProxy.instance.swt_display)
             swt_path = org.eclipse.swt.graphics.Path.new(Glimmer::SWT::DisplayProxy.instance.swt_display)

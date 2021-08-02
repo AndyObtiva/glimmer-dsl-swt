@@ -130,6 +130,7 @@ module Glimmer
           end
           
           def include?(x, y)
+            x, y = inverse_transform_point(x, y)
             comparison_lines = absolute_point_xy_array.zip(absolute_point_xy_array.rotate(1))
             comparison_lines.pop # ignore last pair since you don't want to compare last point with first point
             comparison_lines.any? {|line| Line.include?(line.first.first, line.first.last, line.last.first, line.last.last, x, y)}
