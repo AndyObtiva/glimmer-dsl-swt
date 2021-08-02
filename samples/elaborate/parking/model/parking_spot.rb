@@ -34,7 +34,7 @@ class Parking
       end
       
       def book!
-        raise "Floor #{parking_floor.number} Parking Spot #{letter} is Booked!" if booked?
+        raise "Floor #{parking_floor.number} Parking Spot #{letter} Is Already Booked!" if booked?
         self.booked = true
       end
       

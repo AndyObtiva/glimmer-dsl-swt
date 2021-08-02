@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.13.13
+
+- Parking elaborate sample
+- Support shape contain?/include? when a transform (e.g. rotation) is applied
+
 ### 4.20.13.12
 
 - Fixed issue with dragged shapes having `drag_source true` not going back to original position when not dropped in a target if they were part of a composite shape

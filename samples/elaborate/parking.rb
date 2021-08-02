@@ -122,12 +122,15 @@ class Parking
         }
         
         on_mouse_up do
-          @parking_presenter.floors[@parking_presenter.selected_floor - 1].book!(parking_spot_letter)
-          @parking_spots = Model::ParkingSpot::LETTERS.clone
-          @canvas.dispose_shapes
-          @canvas.content {
-            parking_floor
-          }
+          begin
+            @parking_presenter.floors[@parking_presenter.selected_floor - 1].book!(parking_spot_letter)
+            message_box {
+              text 'Parking Booked!'
+              message "Floor #{@parking_presenter.selected_floor} Parking Spot #{parking_spot_letter} Is Booked!"
+            }.open
+          rescue => e
+            # No Op if already booked
+          end
         end
       }
     

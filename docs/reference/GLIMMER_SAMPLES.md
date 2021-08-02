@@ -65,6 +65,7 @@
     - [Glimmer Tetris](#glimmer-tetris)
     - [Klondike Solitaire](#klondike-solitaire)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
+    - [Parking](#parking)
     - [Stock Ticker](#stock-ticker)
     - [Metronome](#metronome)
     - [Weather](#weather)
@@ -1147,6 +1148,28 @@ Code:
 ![Mandelbrot Fractal Cores Menu](/images/glimmer-mandelbrot-menu-cores.png)
 
 ![Mandelbrot Fractal Help Menu](/images/glimmer-mandelbrot-menu-help.png)
+
+#### Parking
+
+This sample demonstrates how to use method-based custom shapes and how to take advantage of transforms (e.g. rotation).
+
+It enables booking a parking spot at the entrance of a building's parking, which in a real scenario would have prompted for payment too.
+
+Code:
+
+[samples/elaborate/parking.rb](/samples/elaborate/parking.rb)
+
+Parking
+
+![Parking](/images/glimmer-parking.png)
+
+Parking Floor 4
+
+![Parking Floor 4](/images/glimmer-parking-floor4.png)
+
+Parking Booked
+
+![Parking Booked](/images/glimmer-parking-booked.png)
 
 #### Stock Ticker
 
