@@ -4,10 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Building Parking system
+- Connect4
 
 ## Future Consideration
 
+- Cache/memoize awt geom objects when used in shape contain?/include? methods
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
 - Support shape listeners for on_mouse_enter, on_mouse_exit, and on_mouse_hover (the SWT default implementation for canvas wouldn't work as is)
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
@@ -450,7 +451,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Toggle! (button(:toggle))
 - Hello, Task Bar! (bottom status bar)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
-- Connect4
 - Battleship
 - Clock (changes filled background color between day and night)
 - Music playing app
