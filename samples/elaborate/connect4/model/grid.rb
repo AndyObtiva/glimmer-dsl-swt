@@ -74,6 +74,8 @@ class Connect4
       def evaluate_game_over
         evaluate_horizontal_win
         evaluate_vertical_win
+        evaluate_sw_ne_diagonal_win
+        evaluate_se_nw_diagonal_win
         self.game_over ||= true if @slot_rows.flatten.map(&:value).all? {|v| v > 0}
       end
       
@@ -81,6 +83,8 @@ class Connect4
         connections = nil
         last_slot_value = nil
         height.times do |row_index|
+          connections = nil
+          last_slot_value = nil
           width.times do |column_index|
             slot = @slot_rows[row_index][column_index]
             if slot.value.to_i > 0 && slot.value == last_slot_value
@@ -100,6 +104,8 @@ class Connect4
         connections = nil
         last_slot_value = nil
         width.times do |column_index|
+          connections = nil
+          last_slot_value = nil
           height.times do |row_index|
             slot = @slot_rows[row_index][column_index]
             if slot.value.to_i > 0 && slot.value == last_slot_value
@@ -114,6 +120,54 @@ class Connect4
         end
         self.game_over = last_slot_value if connections == 4
       end
+      
+      def evaluate_sw_ne_diagonal_win
+        sw_ne_coordinates = [
+          [[3, 0], [2, 1], [1, 2], [0, 3]],
+          [[4, 0], [3, 1], [2, 2], [1, 3], [0, 4]],
+          [[5, 0], [4, 1], [3, 2], [2, 3], [1, 4], [0, 5]],
+          [[5, 1], [4, 2], [3, 3], [2, 4], [1, 5], [0, 6]],
+          [[5, 2], [4, 3], [3, 4], [2, 5], [1, 6]],
+          [[5, 3], [4, 4], [3, 5], [2, 6]],
+        ]
+        evaluate_diagonal_win(sw_ne_coordinates)
+      end
+      
+      def evaluate_se_nw_diagonal_win
+        sw_ne_coordinates = [
+          [[0, 3], [1, 4], [2, 5], [3, 6]],
+          [[0, 2], [1, 3], [2, 4], [3, 5], [4, 6]],
+          [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]],
+          [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]],
+          [[1, 0], [2, 1], [3, 2], [4, 3], [5, 4]],
+          [[2, 0], [3, 1], [4, 2], [5, 3]],
+        ]
+        evaluate_diagonal_win(sw_ne_coordinates)
+      end
+      
+      def evaluate_diagonal_win(diagonal_coordinates)
+        connections = nil
+        last_slot_value = nil
+        diagonal_coordinates.each do |group|
+          connections = nil
+          last_slot_value = nil
+          group.each do |row_index, column_index|
+            slot = @slot_rows[row_index][column_index]
+            if slot.value.to_i > 0 && slot.value == last_slot_value
+              connections += 1
+            else
+              last_slot_value = slot.value
+              connections = 1
+            end
+            break if connections == 4
+          end
+          break if connections == 4
+        end
+        self.game_over = last_slot_value if connections == 4
+      end
+    
     end
+    
   end
+  
 end

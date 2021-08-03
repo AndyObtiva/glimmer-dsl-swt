@@ -49,7 +49,7 @@ class Connect4
       if game_over_value
         game_over_message = case game_over_value
         when true
-          "Game over!\nIt is a draw!"
+          "Game over!\nDraw!"
         when 1
           "Game over!\nPlayer 1 (yellow) wins!"
         when 2
@@ -67,7 +67,7 @@ class Connect4
   end
   
   body {
-    shell {
+    shell(:no_resize) {
       grid_layout(7, true)
 
       text 'Glimmer Connect 4'
