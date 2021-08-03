@@ -1066,7 +1066,7 @@ Connect 4 - Dropped Coin
 
 ![Connect 4 Dropped Coin](/images/glimmer-connect4-dropped-coin.png)
 
-Connect 4 - Player 1 Wins
+Connect 4 - Player 1 Wins (keeps the coin about to drop visual cue)
 
 ![Connect 4 Player 1 Wins](/images/glimmer-connect4-player1-wins.png)
 
