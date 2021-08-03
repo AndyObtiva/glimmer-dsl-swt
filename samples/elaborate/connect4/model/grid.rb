@@ -25,20 +25,28 @@ class Connect4
   module Model
     class Grid
       attr_reader :width, :height, :slot_rows
-      attr_accessor :current_player
+      attr_accessor :current_player, :game_over
     
       def initialize(width, height)
         @width = width
         @height = height
         build_slots
-        @current_player = 1
+        start!
       end
+      
+      def start!
+        self.game_over = false
+        self.current_player = 1
+        reset_slots
+      end
+      alias restart! start!
       
       def insert!(column_index)
         found_row_index = bottom_most_free_row_index(column_index)
         raise "Illegal move at #{column_index}" if found_row_index == -1
         @slot_rows[found_row_index][column_index].value = @current_player
         self.current_player = @current_player%2 + 1
+        evaluate_game_over
       end
       
       # returns bottom most free row index
@@ -57,6 +65,15 @@ class Connect4
             Slot.new(self)
           end
         end
+      end
+      
+      def reset_slots
+        @slot_rows.flatten.each {|s| s.value = 0}
+      end
+      
+      def evaluate_game_over
+        # TODO evaluate horizontal/vertical/diagonal wins
+        self.game_over = true if @slot_rows.flatten.map(&:value).all? {|v| v > 0}
       end
     end
   end

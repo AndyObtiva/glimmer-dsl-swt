@@ -38,9 +38,31 @@ class Connect4
   before_body do
     @grid = Model::Grid.new(WIDTH, HEIGHT)
     select_player_color
+  end
     
+  after_body do
     observe(@grid, :current_player) do
       select_player_color
+    end
+
+    observe(@grid, :game_over) do |game_over_value|
+      if game_over_value
+        game_over_message = case game_over_value
+        when true
+          'Game over! It is a draw!'
+        when 1
+          'Game over! Player 1 (yellow) wins!'
+        when 2
+          'Game over! Player 2 (red) wins!'
+        end
+        
+        message_box {
+          text 'Game Over!'
+          message game_over_message
+        }.open
+        
+        @grid.restart!
+      end
     end
   end
   
