@@ -60,6 +60,7 @@
     - [User Profile](#user-profile)
     - [Login](#login)
     - [Tic Tac Toe](#tic-tac-toe)
+    - [Connect 4](#connect-4)
     - [Contact Manager](#contact-manager)
     - [Game of Life](#game-of-life)
     - [Glimmer Tetris](#glimmer-tetris)
@@ -1045,6 +1046,34 @@ Code:
 ![Tic Tac Toe In Progress](/images/glimmer-tic-tac-toe-in-progress.png)
 ![Tic Tac Toe Game Over](/images/glimmer-tic-tac-toe-game-over.png)
 
+#### Connect 4
+
+This sample demonstrates a widget/shape hybrid MVC application, including GUI layout and data-binding.
+
+Code:
+
+[samples/elaborate/connect4.rb](/samples/elaborate/connect4.rb)
+
+Connect 4
+
+![Connect 4](/images/glimmer-connect4.png)
+
+Connect 4 - About To Drop
+
+![Connect 4 About To Drop](/images/glimmer-connect4-about-to-drop.png)
+
+Connect 4 - Dropped Coin
+
+![Connect 4 Dropped Coin](/images/glimmer-connect4-dropped-coin.png)
+
+Connect 4 - Player 1 Wins
+
+![Connect 4 Player 1 Wins](/images/glimmer-connect4-player1-wins.png)
+
+Connect 4 - Game Over Message Box
+
+![Connect 4 Game Over Message Box](/images/glimmer-connect4-game-over-dialog.png)
+
 #### Contact Manager
 
 This sample demonstrates table data-binding, sorting, filtering, GUI layout, MVP pattern, and test-driven development (has [specs](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/spec/samples/elaborate/contact_manager/contact_manager_presenter_spec.rb)).
@@ -1075,7 +1104,7 @@ Contact Manager - Edit Done
 
 #### Game of Life
 
-This sample demonstrates how to build an interactive canvas-based visualization of Conway's Game of Life (test-first), taking advantage of data-binding and multi-threading.
+This sample demonstrates how to build an interactive canvas-based visualization of Conway's Game of Life ([test-first](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/spec/samples/elaborate/game_of_life/model/grid_spec.rb)), taking advantage of data-binding and multi-threading.
 
 Code:
 

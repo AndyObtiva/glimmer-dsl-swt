@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.14
+
+- Connect 4 elaborate sample
+
 ### 4.20.13.13
 
 - Parking elaborate sample
