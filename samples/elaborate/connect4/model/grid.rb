@@ -72,8 +72,26 @@ class Connect4
       end
       
       def evaluate_game_over
-        # TODO evaluate horizontal/vertical/diagonal wins
-        self.game_over = true if @slot_rows.flatten.map(&:value).all? {|v| v > 0}
+        evaluate_horizontal_win
+        self.game_over ||= true if @slot_rows.flatten.map(&:value).all? {|v| v > 0}
+      end
+      
+      def evaluate_horizontal_win
+        connections = nil
+        last_slot_value = nil
+        @slot_rows.each do |row|
+          row.each do |slot|
+            if slot.value.to_i > 0 && slot.value == last_slot_value
+              connections += 1
+            else
+              last_slot_value = slot.value
+              connections = 1
+            end
+            break if connections == 4
+          end
+          break if connections == 4
+        end
+        self.game_over = last_slot_value if connections == 4
       end
     end
   end

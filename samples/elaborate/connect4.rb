@@ -49,11 +49,11 @@ class Connect4
       if game_over_value
         game_over_message = case game_over_value
         when true
-          'Game over! It is a draw!'
+          "Game over!\nIt is a draw!"
         when 1
-          'Game over! Player 1 (yellow) wins!'
+          "Game over!\nPlayer 1 (yellow) wins!"
         when 2
-          'Game over! Player 2 (red) wins!'
+          "Game over!\nPlayer 2 (red) wins!"
         end
         
         message_box {
