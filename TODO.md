@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Connect4
+- Battleship
 
 ## Future Consideration
 
@@ -451,7 +451,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Toggle! (button(:toggle))
 - Hello, Task Bar! (bottom status bar)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
-- Battleship
 - Clock (changes filled background color between day and night)
 - Music playing app
 - HR Employee Management app

@@ -26,8 +26,6 @@ require_relative 'connect4/model/grid'
 class Connect4
   include Glimmer::UI::CustomShell
   
-  WIDTH = 7
-  HEIGHT = 6
   COLOR_BACKGROUND = rgb(63, 104, 212)
   COLOR_EMPTY_SLOT = :white
   COLOR_COIN1 = rgb(236, 223, 56)
@@ -36,7 +34,7 @@ class Connect4
   attr_accessor :current_player_color
   
   before_body do
-    @grid = Model::Grid.new(WIDTH, HEIGHT)
+    @grid = Model::Grid.new
     select_player_color
   end
     
@@ -68,13 +66,13 @@ class Connect4
   
   body {
     shell(:no_resize) {
-      grid_layout(7, true)
+      grid_layout(Model::Grid::WIDTH, true)
 
       text 'Glimmer Connect 4'
       background COLOR_BACKGROUND
       
-      HEIGHT.times do |row_index|
-        WIDTH.times do |column_index|
+      Model::Grid::HEIGHT.times do |row_index|
+        Model::Grid::WIDTH.times do |column_index|
           canvas {
             layout_data {
               width_hint 50

@@ -24,12 +24,13 @@ require_relative 'slot'
 class Connect4
   module Model
     class Grid
-      attr_reader :width, :height, :slot_rows
+      WIDTH = 7
+      HEIGHT = 6
+    
+      attr_reader :slot_rows
       attr_accessor :current_player, :game_over
     
-      def initialize(width, height)
-        @width = width
-        @height = height
+      def initialize
         build_slots
         start!
       end
@@ -60,8 +61,8 @@ class Connect4
       private
       
       def build_slots
-        @slot_rows = height.times.map do |row_index|
-          width.times.map do |column_index|
+        @slot_rows = HEIGHT.times.map do |row_index|
+          WIDTH.times.map do |column_index|
             Slot.new(self)
           end
         end
@@ -82,10 +83,10 @@ class Connect4
       def evaluate_horizontal_win
         connections = nil
         last_slot_value = nil
-        height.times do |row_index|
+        HEIGHT.times do |row_index|
           connections = nil
           last_slot_value = nil
-          width.times do |column_index|
+          WIDTH.times do |column_index|
             slot = @slot_rows[row_index][column_index]
             if slot.value.to_i > 0 && slot.value == last_slot_value
               connections += 1
@@ -103,10 +104,10 @@ class Connect4
       def evaluate_vertical_win
         connections = nil
         last_slot_value = nil
-        width.times do |column_index|
+        WIDTH.times do |column_index|
           connections = nil
           last_slot_value = nil
-          height.times do |row_index|
+          HEIGHT.times do |row_index|
             slot = @slot_rows[row_index][column_index]
             if slot.value.to_i > 0 && slot.value == last_slot_value
               connections += 1
