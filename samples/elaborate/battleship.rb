@@ -54,10 +54,14 @@ class Battleship
   
   body {
     shell(:no_resize) {
+      row_layout(:vertical) {
+        spacing 15
+      }
+      
       text 'Glimmer Battleship'
 
-      @player_grid = grid(game: @game, type: :player)
       @enemy_grid = grid(game: @game, type: :enemy)
+      @player_grid = grid(game: @game, type: :player)
     }
   }
 end

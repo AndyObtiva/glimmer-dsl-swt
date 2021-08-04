@@ -31,7 +31,7 @@ class Battleship
       COLOR_WATER = rgb(156, 211, 219)
       COLOR_SHIP = :dark_gray
       
-      options :game
+      options :game, :type
       
       body {
         composite {
@@ -40,21 +40,28 @@ class Battleship
             margin_height 0
           }
     
-          background COLOR_WATER
+          label(:center) {
+            layout_data(:fill, :center, true, false) {
+              horizontal_span Model::Game::WIDTH
+            }
+            
+            text type == :player ? 'You' : 'Enemy'
+            font height: 20, style: :bold
+          }
           
           Model::Game::HEIGHT.times do |row_index|
             Model::Game::WIDTH.times do |column_index|
               canvas {
                 layout_data {
-                  width_hint 50
-                  height_hint 50
+                  width_hint 25
+                  height_hint 25
                 }
                 
-                background :transparent
+                background COLOR_WATER
                 
                 rectangle(0, 0, [:max, -1], [:max, -1])
-                oval(:default, :default, 15, 15)
-                oval(:default, :default, 10, 10) {
+                oval(:default, :default, 10, 10)
+                oval(:default, :default, 5, 5) {
                   background :black
                 }
               }
