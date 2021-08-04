@@ -1153,6 +1153,8 @@ Code:
 
 ![Klondike Solitaire Played](/images/glimmer-klondike-solitaire-played.png)
 
+Check out a souped up large-card-size packaged version of the game in the [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire) external sample.
+
 #### Mandelbrot Fractal
 
 This sample demonstrates how to render canvas graphics with multi-threaded processing taking advantage of all CPU cores and doing background processing of images.
