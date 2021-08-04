@@ -30,26 +30,39 @@ class Battleship
       
       COLOR_WATER = rgb(156, 211, 219)
       COLOR_SHIP = :dark_gray
+      ROW_ALPHABETS = %w[A B C D E F G H I J]
       
       options :game, :type
       
       body {
         composite {
-          grid_layout(Model::Game::WIDTH, true) {
+          grid_layout(Model::Game::WIDTH + 1, true) {
             margin_width 0
             margin_height 0
           }
     
           label(:center) {
             layout_data(:fill, :center, true, false) {
-              horizontal_span Model::Game::WIDTH
+              horizontal_span (Model::Game::WIDTH + 1)
             }
             
             text type == :player ? 'You' : 'Enemy'
             font height: 20, style: :bold
           }
           
+          label # filler
+          Model::Game::WIDTH.times do |column_index|
+            label {
+              text (column_index + 1).to_s
+              font height: 16
+            }
+          end
+          
           Model::Game::HEIGHT.times do |row_index|
+            label {
+              text ROW_ALPHABETS[row_index]
+              font height: 16
+            }
             Model::Game::WIDTH.times do |column_index|
               canvas {
                 layout_data {
