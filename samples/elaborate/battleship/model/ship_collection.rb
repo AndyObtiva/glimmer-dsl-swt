@@ -37,7 +37,10 @@ class Battleship
       def initialize(game, player)
         @game = game
         @player = player
-        @ships = BATTLESHIPS.map {|name, width| Ship.new(self, name, width)}
+        @ships = BATTLESHIPS.reduce({}) do |hash, pair|
+          name, width = pair
+          hash.merge(name => Ship.new(self, name, width))
+        end
       end
       
       def reset!

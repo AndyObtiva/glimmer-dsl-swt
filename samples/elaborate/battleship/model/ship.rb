@@ -27,6 +27,7 @@ class Battleship
       ORIENTATIONS = [:horizontal, :vertical]
       
       attr_reader :ship_collection, :name, :length
+      # cell represents the top-left cell
       attr_accessor :orientation, :cell
             
       def initialize(ship_collection, name, length)

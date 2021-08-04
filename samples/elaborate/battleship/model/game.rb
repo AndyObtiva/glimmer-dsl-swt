@@ -37,7 +37,7 @@ class Battleship
             
       def initialize
         @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
-        @ship_collections = PLAYERS.reduce({})  { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
+        @ship_collections = PLAYERS.reduce({}) { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
       end
       
       def restart!

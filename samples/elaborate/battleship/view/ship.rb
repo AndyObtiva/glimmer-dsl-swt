@@ -50,7 +50,7 @@ class Battleship
             }
             
             ship_length.times do |column_index|
-              cell(game: game, player: player, type: :ship, column_index: column_index, ship: self) {
+              cell(game: game, player: player, type: :ship, column_index: column_index, ship: game.ship_collections[player].ships[ship_name]) {
                 layout_data {
                   width_hint 25
                   height_hint 25
