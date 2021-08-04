@@ -26,7 +26,7 @@ require 'facets/string/underscore'
 require_relative 'battleship/model/game'
 
 require_relative 'battleship/view/grid'
-require_relative 'battleship/view/ship_container'
+require_relative 'battleship/view/ship_collection'
 
 class Battleship
   include Glimmer::UI::CustomShell
@@ -67,10 +67,10 @@ class Battleship
       text 'Glimmer Battleship'
 
       @enemy_grid = grid(game: @game, player: :enemy)
-      @enemy_ship_container = ship_container(game: @game, player: :enemy)
+      @enemy_ship_collection = ship_collection(game: @game, player: :enemy)
       
       @player_grid = grid(game: @game, player: :you)
-      @player_ship_container = ship_container(game: @game, player: :you)
+      @player_ship_collection = ship_collection(game: @game, player: :you)
     }
   }
 end

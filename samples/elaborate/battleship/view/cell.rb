@@ -37,7 +37,11 @@ class Battleship
       
       body {
         canvas {
-          background type == :grid ? COLOR_WATER : COLOR_SHIP
+          if type == :grid
+            background <= [game.grids[player].cell_rows[row_index][column_index], :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
+          else
+            background COLOR_SHIP
+          end
           
           rectangle(0, 0, [:max, -1], [:max, -1])
           oval(:default, :default, 10, 10)

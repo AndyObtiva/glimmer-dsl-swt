@@ -19,30 +19,38 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative '../model/game'
-
-require_relative 'ship'
+require_relative 'cell'
 
 class Battleship
-  module View
-    class ShipContainer
-      include Glimmer::UI::CustomWidget
+  module Model
+    class Ship
+      ORIENTATIONS = [:horizontal, :vertical]
       
-      options :game, :player
-      
-      body {
-        composite {
-          row_layout(:vertical) {
-            fill true
-            margin_width 0
-            margin_height 0
-          }
-          
-          Model::Game::BATTLESHIPS.each do |ship_name, ship_width|
-            ship(game: game, player: player, ship_name: ship_name, ship_width: ship_width)
+      attr_reader :ship_collection, :name, :length
+      attr_accessor :orientation, :cell
+            
+      def initialize(ship_collection, name, length)
+        @ship_collection = ship_collection
+        @name = name
+        @length = length
+        @orientation = :horizontal
+      end
+        
+      def cells
+        if cell
+          length.times.map do |index|
+            if orientation == :horizontal
+              cell.grid.cell_rows[cell.row_index][cell.column_index + index]
+            else
+              cell.grid.cell_rows[cell.row_index + index][cell.column_index]
+            end
           end
-        }
-      }
+        end
+      end
+      
+      def reset!
+        ships.each(&:reset!)
+      end
     end
   end
 end

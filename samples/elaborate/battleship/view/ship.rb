@@ -26,7 +26,7 @@ class Battleship
     class Ship
       include Glimmer::UI::CustomWidget
       
-      options :game, :player, :ship_name, :ship_width
+      options :game, :player, :ship_name, :ship_length
       
       body {
         composite {
@@ -42,14 +42,14 @@ class Battleship
           }
         
           composite {
-            grid_layout(ship_width, true) {
+            grid_layout(ship_length, true) {
               margin_width 0
               margin_height 0
               horizontal_spacing 0
               vertical_spacing 0
             }
             
-            ship_width.times do |column_index|
+            ship_length.times do |column_index|
               cell(game: game, player: player, type: :ship, column_index: column_index, ship: self) {
                 layout_data {
                   width_hint 25
