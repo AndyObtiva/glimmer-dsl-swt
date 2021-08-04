@@ -19,26 +19,24 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer-dsl-swt'
-
 require_relative '../model/game'
+
+require_relative 'cell'
 
 class Battleship
   module View
     class Grid
       include Glimmer::UI::CustomWidget
       
-      COLOR_WATER = rgb(156, 211, 219)
-      COLOR_SHIP = :dark_gray
-      ROW_ALPHABETS = %w[A B C D E F G H I J]
-      
-      options :game, :type
+      options :game, :player
       
       body {
         composite {
           grid_layout(Model::Game::WIDTH + 1, true) {
             margin_width 0
             margin_height 0
+            horizontal_spacing 0
+            vertical_spacing 0
           }
     
           label(:center) {
@@ -46,7 +44,7 @@ class Battleship
               horizontal_span (Model::Game::WIDTH + 1)
             }
             
-            text type == :player ? 'You' : 'Enemy'
+            text player.to_s.capitalize
             font height: 20, style: :bold
           }
           
@@ -60,22 +58,14 @@ class Battleship
           
           Model::Game::HEIGHT.times do |row_index|
             label {
-              text ROW_ALPHABETS[row_index]
+              text Model::Game::ROW_ALPHABETS[row_index]
               font height: 16
             }
             Model::Game::WIDTH.times do |column_index|
-              canvas {
+              cell(game: game, player: player, row_index: row_index, column_index: column_index) {
                 layout_data {
                   width_hint 25
                   height_hint 25
-                }
-                
-                background COLOR_WATER
-                
-                rectangle(0, 0, [:max, -1], [:max, -1])
-                oval(:default, :default, 10, 10)
-                oval(:default, :default, 5, 5) {
-                  background :black
                 }
               }
             end

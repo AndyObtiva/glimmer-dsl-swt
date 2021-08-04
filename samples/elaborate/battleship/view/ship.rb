@@ -19,22 +19,48 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer-dsl-swt'
+require_relative '../model/game'
 
-# require_relative 'grid'
+require_relative 'cell'
 
 class Battleship
-  module Model
-    class Game
-      HEIGHT = 10
-      WIDTH = 10
-      ROW_ALPHABETS = %w[A B C D E F G H I J]
-      BATTLESHIPS = {
-        aircraft_carrier: 5,
-        battleship: 4,
-        submarine: 3,
-        cruiser: 3,
-        destroyer: 2
+  module View
+    class Ship
+      include Glimmer::UI::CustomWidget
+      
+      options :game, :player, :ship_name, :ship_width
+      
+      body {
+        composite {
+          row_layout(:vertical) {
+            fill true
+            margin_width 0
+            margin_height 0
+          }
+      
+          label {
+            text ship_name.to_s.titlecase
+            font height: 16
+          }
+        
+          composite {
+            grid_layout(ship_width, true) {
+              margin_width 0
+              margin_height 0
+              horizontal_spacing 0
+              vertical_spacing 0
+            }
+            
+            ship_width.times do |column_index|
+              cell(game: game, player: player, type: :battleship, column_index: column_index) {
+                layout_data {
+                  width_hint 25
+                  height_hint 25
+                }
+              }
+            end
+          }
+        }
       }
     end
   end

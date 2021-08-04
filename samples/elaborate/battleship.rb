@@ -20,8 +20,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer-dsl-swt'
+require 'facets/string/titlecase'
+
+require_relative 'battleship/model/game'
 
 require_relative 'battleship/view/grid'
+require_relative 'battleship/view/ship_container'
 
 class Battleship
   include Glimmer::UI::CustomShell
@@ -54,14 +58,18 @@ class Battleship
   
   body {
     shell(:no_resize) {
-      row_layout(:vertical) {
-        spacing 15
+      grid_layout(2, false) {
+        horizontal_spacing 15
+        vertical_spacing 15
       }
       
       text 'Glimmer Battleship'
 
-      @enemy_grid = grid(game: @game, type: :enemy)
-      @player_grid = grid(game: @game, type: :player)
+      @enemy_grid = grid(game: @game, player: :enemy)
+      @enemy_ship_container = ship_container(game: @game, player: :enemy)
+      
+      @player_grid = grid(game: @game, player: :you)
+      @player_ship_container = ship_container(game: @game, player: :you)
     }
   }
 end
