@@ -74,6 +74,7 @@
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
     - [Timer](#timer)
+    - [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire)
 - [License](#license)
 
 ## Samples
@@ -1274,6 +1275,14 @@ Gladiator is a good demonstration of:
 [<img alt="Glimmer Timer Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/images/glimmer-timer-logo.png" height=40 /> Timer](https://github.com/AndyObtiva/glimmer-cs-timer) is a sample app demonstrating data-binding, multi-threading, and JSound (Java Sound) library integration in a desktop application.
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/glimmer-timer-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-timer)
+
+#### Glimmer Klondike Solitaire
+
+This is a souped up version of the Klondike Solitaire elaborate sample, which is built as an external application to enable packaging as a native executable installer. Enjoy!
+
+[<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/package/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
+
+![Glimmer Klondike Solitaire](https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/images/glimmer-klondike-solitaire.png)
 
 ## License
 
