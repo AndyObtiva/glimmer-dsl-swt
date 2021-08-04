@@ -21,6 +21,7 @@
 
 require 'glimmer-dsl-swt'
 require 'facets/string/titlecase'
+require 'facets/string/underscore'
 
 require_relative 'battleship/model/game'
 

@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative '../model/game'
-
 require_relative 'cell'
 
 class Battleship
@@ -52,7 +50,7 @@ class Battleship
             }
             
             ship_width.times do |column_index|
-              cell(game: game, player: player, type: :battleship, column_index: column_index) {
+              cell(game: game, player: player, type: :ship, column_index: column_index, ship: self) {
                 layout_data {
                   width_hint 25
                   height_hint 25

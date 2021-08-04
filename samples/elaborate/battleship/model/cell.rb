@@ -19,28 +19,27 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'grid'
+# require_relative 'ship'
 
 class Battleship
   module Model
-    class Game
-      BATTLESHIPS = {
-        aircraft_carrier: 5,
-        battleship: 4,
-        submarine: 3,
-        cruiser: 3,
-        destroyer: 2
-      }
-      PLAYERS = [:enemy, :you]
-      
-      attr_reader :grids
+    class Cell
+      attr_reader :grid, :row_index, :column_index
+      attr_accessor :hit, :ship, :ship_row_index, :ship_column_index
+      alias hit? hit
             
-      def initialize
-        @grids = PLAYERS.reduce({}) {|hash, player| hash.merge(player => Grid.new(self, player))}
+      def initialize(grid, row_index, column_index)
+        @grid = grid
+        @row_index = row_index
+        @column_index = column_index
       end
       
-      def restart!
-        @grids.each(:reset!)
+      def reset!
+        # TODO consider an occupied attribute too
+        self.hit = nil
+        self.ship = nil
+        self.ship_row_index = nil
+        self.ship_column_index = nil
       end
     end
   end

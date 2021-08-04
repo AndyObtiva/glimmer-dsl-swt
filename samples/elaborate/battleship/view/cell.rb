@@ -24,11 +24,16 @@ class Battleship
     class Cell
       include Glimmer::UI::CustomWidget
       
+      class << self
+        attr_accessor :dragging
+        alias dragging? dragging
+      end
+      
       COLOR_WATER = rgb(156, 211, 219)
       COLOR_SHIP = :dark_gray
       
-      options :game, :player, :row_index, :column_index
-      option :type, default: :grid
+      options :game, :player, :row_index, :column_index, :ship
+      option :type, default: :grid # other type is :ship
       
       body {
         canvas {
@@ -39,6 +44,28 @@ class Battleship
           oval(:default, :default, 5, 5) {
             background :black
           }
+          
+          on_drag_set_data do |event|
+            event.data = "#{player},#{ship.ship_name}"
+            Cell.dragging = true
+          end
+          
+          on_mouse_up do
+            Cell.dragging = false
+          end
+          
+          on_mouse_enter do |event|
+            body_root.background = :yellow if Cell.dragging?
+          end
+          
+          on_mouse_exit do |event|
+            body_root.background = type == :grid ? COLOR_WATER : COLOR_SHIP if Cell.dragging?
+          end
+          
+          on_drop do |event|
+            body_root.background = COLOR_SHIP # TODO redo this from model data and data binding
+            Cell.dragging = false
+          end
         }
       }
     end
