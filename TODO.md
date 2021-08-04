@@ -5,6 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Battleship
+- TodoMVC External Sample
+- IdeaRank External Sample
 
 ## Future Consideration
 
