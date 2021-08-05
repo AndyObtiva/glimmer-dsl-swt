@@ -36,6 +36,14 @@ class Battleship
         @length = length
         @orientation = :horizontal
       end
+      
+      def cell=(a_cell)
+        if a_cell.ship && a_cell.ship != self
+          raise "Cell already occupied by ship #{a_cell.ship.name}"
+        end
+        # TODO check cell grid boundaries
+        @cell = a_cell
+      end
         
       def cells
         if cell

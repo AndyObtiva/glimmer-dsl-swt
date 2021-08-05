@@ -71,10 +71,14 @@ class Battleship
             on_drop do |event|
               player, ship_name = event.data.split(',').map(&:to_sym)
               ship = game.ship_collections[player].ships[ship_name]
-              ship.length.times do |index|
-                game.grids[player].cell_rows[row_index][column_index + index].ship = ship
+              begin
+                ship.cell = game.grids[player].cell_rows[row_index][column_index]
+                ship.length.times do |index|
+                  game.grids[player].cell_rows[row_index][column_index + index].ship = ship
+                end
+              rescue
+                # No Op
               end
-              ship.cell = game.grids[player].cell_rows[row_index][column_index]
               Cell.dragging = false
             end
           end
