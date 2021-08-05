@@ -19,34 +19,32 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'grid'
-
 class Battleship
-  module Model
-    class Game
-      BATTLESHIPS = {
-        aircraft_carrier: 5,
-        battleship: 4,
-        submarine: 3,
-        cruiser: 3,
-        destroyer: 2
-      }
-      PLAYERS = [:enemy, :you]
+  module View
+    class ActionPanel
+      include Glimmer::UI::CustomWidget
       
-      attr_reader :grids, :ship_collections
+      options :game
+      
+      body {
+        composite {
+          row_layout(:horizontal) {
+            margin_width 0
+            margin_height 0
+          }
+          
+          layout_data(:center, :center, true, false)
+                  
+          button {
+            text 'Battle!'
+            enabled <= [game.ship_collections[:you], :placed_count, on_read: ->(c) {c == 5}]
             
-      def initialize
-        @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
-        @ship_collections = PLAYERS.reduce({}) { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
-      end
-      
-      def battle!
-        
-      end
-      
-      def restart!
-        @grids.each(:reset!)
-      end
+            on_widget_selected do
+              game.battle!
+            end
+          }
+        }
+      }
     end
   end
 end

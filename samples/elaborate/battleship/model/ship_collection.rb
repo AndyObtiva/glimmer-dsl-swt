@@ -33,13 +33,18 @@ class Battleship
       }
       
       attr_reader :game, :player, :ships
+      attr_accessor :placed_count
             
       def initialize(game, player)
         @game = game
         @player = player
         @ships = BATTLESHIPS.reduce({}) do |hash, pair|
           name, width = pair
-          hash.merge(name => Ship.new(self, name, width))
+          ship = Ship.new(self, name, width)
+          Glimmer::DataBinding::Observer.proc do |cell_value|
+            self.placed_count = self.placed_count.to_i + 1 if cell_value
+          end.observe(ship, :cell)
+          hash.merge(name => ship)
         end
       end
       

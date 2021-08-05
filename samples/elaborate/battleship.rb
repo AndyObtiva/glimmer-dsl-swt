@@ -27,6 +27,7 @@ require_relative 'battleship/model/game'
 
 require_relative 'battleship/view/grid'
 require_relative 'battleship/view/ship_collection'
+require_relative 'battleship/view/action_panel'
 
 class Battleship
   include Glimmer::UI::CustomShell
@@ -71,6 +72,8 @@ class Battleship
       
       @player_grid = grid(game: @game, player: :you)
       @player_ship_collection = ship_collection(game: @game, player: :you)
+
+      action_panel(game: @game)
     }
   }
 end
