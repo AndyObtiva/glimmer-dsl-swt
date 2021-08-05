@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require_relative 'grid'
+require_relative 'ship'
 
 class Battleship
   module Model
@@ -44,12 +45,38 @@ class Battleship
       
       def battle!
         self.started = true
+        place_enemy_ships!
       end
       
       def reset!
         self.started = false
         @grids.values.each(&:reset!)
         @ship_collections.values.each(&:reset!)
+      end
+      
+      private
+      
+      def place_enemy_ships!
+        ship_collection = @ship_collections[:enemy]
+        ship_collection.ships.values.each do |ship|
+          until ship.top_left_cell
+            random_row_index = (rand * Grid::HEIGHT).to_i
+            random_column_index = (rand * Grid::WIDTH).to_i
+            enemy_grid = @grids[:enemy]
+            top_left_cell = enemy_grid.cell_rows[random_row_index][random_column_index]
+            begin
+              ship.top_left_cell = top_left_cell
+              ship.length.times do |index|
+                cell = enemy_grid.cell_rows[top_left_cell.row_index][top_left_cell.column_index + index]
+                cell.ship = ship
+                cell.ship_index = index
+              end
+              ship.toggle_orientation! if (rand * 2).to_i == 1
+            rescue => e
+              Glimmer::Config.logger.debug(e.full_message)
+            end
+          end
+        end
       end
     end
   end

@@ -50,7 +50,6 @@ class Battleship
             
             on_widget_selected do
               game.reset!
-#               @battle_button.enabled = true
             end
           }
         }

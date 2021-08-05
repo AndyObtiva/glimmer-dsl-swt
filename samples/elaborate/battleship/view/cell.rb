@@ -41,11 +41,7 @@ class Battleship
           if type == :grid
             background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
           else
-            if player == :you
-              background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
-            else
-              background COLOR_PLACED
-            end
+            background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])

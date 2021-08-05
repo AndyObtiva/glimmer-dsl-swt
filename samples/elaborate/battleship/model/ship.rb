@@ -36,6 +36,10 @@ class Battleship
         @orientation = :horizontal
       end
       
+      def to_s
+        "#{name.titlecase} (#{length} cells)"
+      end
+      
       def top_left_cell=(a_cell)
         if a_cell
           raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
