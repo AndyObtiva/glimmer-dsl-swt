@@ -41,7 +41,7 @@ class Battleship
           if type == :grid
             background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
           else
-            background <= [ship, :cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
+            background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])
@@ -57,6 +57,7 @@ class Battleship
                 event.data = ship.name.to_s
               else
                 event.doit = false
+                Cell.dragging = false
               end
             end
             
@@ -66,8 +67,8 @@ class Battleship
             
             if type == :grid
               on_drop do |event|
-                ship_name = event.data.to_sym
-                place_ship(ship_name)
+                ship_name = event.data
+                place_ship(ship_name.to_s.to_sym) if ship_name
                 Cell.dragging = false
               end
             end
@@ -82,8 +83,8 @@ class Battleship
       def place_ship(ship_name)
         ship = game.ship_collections[player].ships[ship_name]
         begin
-          old_ship_top_left_cell = ship.cell
-          ship.cell = model
+          old_ship_top_left_cell = ship.top_left_cell
+          ship.top_left_cell = model
           if old_ship_top_left_cell
             ship.length.times do |index|
               if ship.orientation == :horizontal
@@ -91,7 +92,6 @@ class Battleship
               else
                 old_cell = game.grids[player].cell_rows[old_ship_top_left_cell.row_index + index][old_ship_top_left_cell.column_index]
               end
-              old_cell.row_index, old_cell.column_index
               old_cell.reset!
             end
           end

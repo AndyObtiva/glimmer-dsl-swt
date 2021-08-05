@@ -27,8 +27,7 @@ class Battleship
       ORIENTATIONS = [:horizontal, :vertical]
       
       attr_reader :ship_collection, :name, :length
-      # cell represents the top-left cell (TODO rename to indicate so)
-      attr_accessor :orientation, :cell
+      attr_accessor :orientation, :top_left_cell
             
       def initialize(ship_collection, name, length)
         @ship_collection = ship_collection
@@ -37,19 +36,19 @@ class Battleship
         @orientation = :horizontal
       end
       
-      def cell=(a_cell)
+      def top_left_cell=(a_cell)
         raise "Cell already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
         # TODO check cell grid boundaries
-        @cell = a_cell
+        @top_left_cell = a_cell
       end
         
       def cells
-        if cell
+        if top_left_cell
           length.times.map do |index|
             if orientation == :horizontal
-              cell.grid.cell_rows[cell.row_index][cell.column_index + index]
+              top_left_cell.grid.cell_rows[top_left_cell.row_index][top_left_cell.column_index + index]
             else
-              cell.grid.cell_rows[cell.row_index + index][cell.column_index]
+              top_left_cell.grid.cell_rows[top_left_cell.row_index + index][top_left_cell.column_index]
             end
           end
         end
