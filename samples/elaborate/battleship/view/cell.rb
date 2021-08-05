@@ -66,20 +66,21 @@ class Battleship
             end
             
             if type == :grid
+              on_mouse_move do |event|
+                set_orientation_cursor
+              end
+              
               on_mouse_hover do |event|
-                if ship
-                  body_root.cursor = ship.orientation == :horizontal ? :sizens : :sizewe
-                else
-                  body_root.cursor = :arrow
-                end
+                set_orientation_cursor
               end
               
               on_mouse_up do |event|
                 begin
-                  ship.toggle_orientation!
+                  ship.toggle_orientation! if ship
                 rescue => e
                   Glimmer::Config.logger.debug e.full_message
                 end
+                set_orientation_cursor
               end
               
               on_drop do |event|
@@ -119,6 +120,14 @@ class Battleship
           end
         rescue => e
           Glimmer::Config.logger.debug(e.full_message)
+        end
+      end
+      
+      def set_orientation_cursor
+        if ship
+          body_root.cursor = ship.orientation == :horizontal ? :sizens : :sizewe
+        else
+          body_root.cursor = :arrow
         end
       end
     end

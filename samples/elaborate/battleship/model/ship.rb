@@ -43,31 +43,35 @@ class Battleship
       end
       
       def orientation=(value)
-        old_value = @orientation
-        @orientation = value
         if top_left_cell
-          if @orientation == :horizontal
+          if value == :horizontal
             if top_left_cell.column_index + length > Grid::WIDTH
-              @orientation = old_value
               raise "Top left cell #{top_left_cell} cannot fit ship #{name}"
             end
           else
             if top_left_cell.row_index + length > Grid::HEIGHT
-              @orientation = old_value
               raise "Top left cell #{top_left_cell} cannot fit ship #{name}"
             end
           end
-          if cells[1..-1].map(&:ship).reject {|s| s == self}.any?
-            @orientation = old_value
+          if cells(value)[1..-1].map(&:ship).reject {|s| s == self}.any?
             raise 'Orientation #{value} cells occupied by another ship'
+          end
+        end
+        if value != @orientation
+          cells.each(&:reset!)
+          @orientation = value
+          cells.each_with_index do |cell, index|
+            cell.ship = self
+            cell.ship_index = index
           end
         end
       end
         
-      def cells
+      def cells(for_orientation = nil)
+        for_orientation ||= orientation
         if top_left_cell
           length.times.map do |index|
-            if orientation == :horizontal
+            if for_orientation == :horizontal
               top_left_cell.grid.cell_rows[top_left_cell.row_index][top_left_cell.column_index + index]
             else
               top_left_cell.grid.cell_rows[top_left_cell.row_index + index][top_left_cell.column_index]
