@@ -66,6 +66,22 @@ class Battleship
             end
             
             if type == :grid
+              on_mouse_hover do |event|
+                if ship
+                  body_root.cursor = ship.orientation == :horizontal ? :sizens : :sizewe
+                else
+                  body_root.cursor = :arrow
+                end
+              end
+              
+              on_mouse_up do |event|
+                begin
+                  ship.toggle_orientation!
+                rescue => e
+                  Glimmer::Config.logger.debug e.full_message
+                end
+              end
+              
               on_drop do |event|
                 ship_name = event.data
                 place_ship(ship_name.to_s.to_sym) if ship_name

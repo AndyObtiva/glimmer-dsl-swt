@@ -38,8 +38,30 @@ class Battleship
       
       def top_left_cell=(a_cell)
         raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
-        raise "Top left cell #{a_cell} cannot fit ship #{a_cell.ship.name}" if a_cell.column_index + length > Grid::WIDTH
+        raise "Top left cell #{a_cell} cannot fit ship #{name}" if a_cell.column_index + length > Grid::WIDTH
         @top_left_cell = a_cell
+      end
+      
+      def orientation=(value)
+        old_value = @orientation
+        @orientation = value
+        if top_left_cell
+          if @orientation == :horizontal
+            if top_left_cell.column_index + length > Grid::WIDTH
+              @orientation = old_value
+              raise "Top left cell #{top_left_cell} cannot fit ship #{name}"
+            end
+          else
+            if top_left_cell.row_index + length > Grid::HEIGHT
+              @orientation = old_value
+              raise "Top left cell #{top_left_cell} cannot fit ship #{name}"
+            end
+          end
+          if cells[1..-1].map(&:ship).reject {|s| s == self}.any?
+            @orientation = old_value
+            raise 'Orientation #{value} cells occupied by another ship'
+          end
+        end
       end
         
       def cells
@@ -56,6 +78,10 @@ class Battleship
       
       def reset!
         ships.each(&:reset!)
+      end
+      
+      def toggle_orientation!
+        self.orientation = ORIENTATIONS[(ORIENTATIONS.index(orientation) + 1) % ORIENTATIONS.length]
       end
     end
   end

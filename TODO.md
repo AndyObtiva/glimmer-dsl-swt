@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Battleship
+- Battleship (TODO handle drag-moving ship from its middle after it's place on grid not just its top-left cell)
 - TodoMVC External Sample
 - IdeaRank External Sample
 
