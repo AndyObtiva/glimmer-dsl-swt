@@ -74,7 +74,9 @@ class Battleship
               begin
                 ship.cell = game.grids[player].cell_rows[row_index][column_index]
                 ship.length.times do |index|
-                  game.grids[player].cell_rows[row_index][column_index + index].ship = ship
+                  cell = game.grids[player].cell_rows[row_index][column_index + index]
+                  cell.ship = ship
+                  cell.ship_index = index
                 end
               rescue
                 # No Op

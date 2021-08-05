@@ -23,7 +23,7 @@ class Battleship
   module Model
     class Cell
       attr_reader :grid, :row_index, :column_index
-      attr_accessor :hit, :ship, :ship_row_index, :ship_column_index
+      attr_accessor :hit, :ship, :ship_index
       alias hit? hit
             
       def initialize(grid, row_index, column_index)
@@ -36,8 +36,7 @@ class Battleship
         # TODO consider an occupied attribute too
         self.hit = nil
         self.ship = nil
-        self.ship_row_index = nil
-        self.ship_column_index = nil
+        self.ship_index = nil
       end
     end
   end
