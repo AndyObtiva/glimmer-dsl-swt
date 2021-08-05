@@ -49,7 +49,7 @@ class Battleship
       end
       
       def reset!
-        ships.each(&:reset!)
+        ships.values.each(&:reset!)
       end
     end
   end

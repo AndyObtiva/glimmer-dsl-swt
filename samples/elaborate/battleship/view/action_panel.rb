@@ -35,12 +35,22 @@ class Battleship
           
           layout_data(:center, :center, true, false)
                   
-          button {
+          @battle_button = button {
             text 'Battle!'
             enabled <= [game.ship_collections[:you], :placed_count, on_read: ->(c) {c == 5}]
             
             on_widget_selected do
               game.battle!
+              @battle_button.enabled = false
+            end
+          }
+                  
+          button {
+            text 'Restart'
+            
+            on_widget_selected do
+              game.reset!
+#               @battle_button.enabled = true
             end
           }
         }

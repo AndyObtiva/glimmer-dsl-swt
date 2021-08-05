@@ -34,6 +34,8 @@ class Battleship
       PLAYERS = [:enemy, :you]
       
       attr_reader :grids, :ship_collections
+      attr_accessor :started
+      alias started? started
             
       def initialize
         @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
@@ -41,11 +43,13 @@ class Battleship
       end
       
       def battle!
-        
+        self.started = true
       end
       
-      def restart!
-        @grids.each(:reset!)
+      def reset!
+        self.started = false
+        @grids.values.each(&:reset!)
+        @ship_collections.values.each(&:reset!)
       end
     end
   end

@@ -37,7 +37,7 @@ class Battleship
       end
       
       def reset!
-        @cell_rows.flatten.each(:reset!)
+        @cell_rows.flatten.each(&:reset!)
       end
 
       private

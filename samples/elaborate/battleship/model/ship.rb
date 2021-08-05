@@ -37,8 +37,10 @@ class Battleship
       end
       
       def top_left_cell=(a_cell)
-        raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
-        raise "Top left cell #{a_cell} cannot fit ship #{name}" if a_cell.column_index + length > Grid::WIDTH
+        if a_cell
+          raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
+          raise "Top left cell #{a_cell} cannot fit ship #{name}" if a_cell.column_index + length > Grid::WIDTH
+        end
         @top_left_cell = a_cell
       end
       
@@ -81,7 +83,8 @@ class Battleship
       end
       
       def reset!
-        ships.each(&:reset!)
+        self.top_left_cell = nil
+        self.orientation = :horizontal
       end
       
       def toggle_orientation!

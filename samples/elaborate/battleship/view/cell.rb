@@ -41,7 +41,11 @@ class Battleship
           if type == :grid
             background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
           else
-            background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
+            if player == :you
+              background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
+            else
+              background COLOR_PLACED
+            end
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])
@@ -52,48 +56,68 @@ class Battleship
           
           if player == :you
             on_drag_detected do |event|
-              Cell.dragging = true
-              body_root.cursor = :hand if type == :grid
+              unless game.started?
+                Cell.dragging = true
+                body_root.cursor = :hand if type == :grid
+              end
             end
           
             on_drag_set_data do |event|
-              the_ship = ship || model&.ship
-              if the_ship
-                event.data = the_ship.name.to_s
-              else
-                event.doit = false
-                Cell.dragging = false
+              unless game.started?
+                the_ship = ship || model&.ship
+                if the_ship
+                  event.data = the_ship.name.to_s
+                else
+                  event.doit = false
+                  Cell.dragging = false
+                end
               end
             end
             
             on_mouse_up do
-              Cell.dragging = false
-              change_cursor
+              unless game.started?
+                Cell.dragging = false
+                change_cursor
+              end
+            end
+            
+            on_mouse_move do |event|
+              if game.started?
+                body_root.cursor = :cross
+              end
             end
             
             if type == :grid
               on_mouse_move do |event|
-                change_cursor
+                unless game.started?
+                  change_cursor
+                end
               end
               
               on_mouse_hover do |event|
-                change_cursor
+                unless game.started?
+                  change_cursor
+                end
               end
               
               on_mouse_up do |event|
-                begin
-                  model.ship&.toggle_orientation!
-                rescue => e
-                  Glimmer::Config.logger.debug e.full_message
+                unless game.started?
+                  begin
+                    model.ship&.toggle_orientation!
+                  rescue => e
+                    Glimmer::Config.logger.debug e.full_message
+                  end
+                  change_cursor
                 end
-                change_cursor
               end
               
               on_drop do |event|
-                ship_name = event.data
-                place_ship(ship_name.to_s.to_sym) if ship_name
-                Cell.dragging = false
-                change_cursor
+                unless game.started?
+                  ship_name = event.data
+                  place_ship(ship_name.to_s.to_sym) if ship_name
+                  Cell.dragging = false
+                  change_cursor
+                end
               end
             end
           end
