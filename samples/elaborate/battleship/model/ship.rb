@@ -37,8 +37,8 @@ class Battleship
       end
       
       def top_left_cell=(a_cell)
-        raise "Cell already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
-        # TODO check cell grid boundaries
+        raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
+        raise "Top left cell #{a_cell} cannot fit ship #{a_cell.ship.name}" if a_cell.column_index + length > Grid::WIDTH
         @top_left_cell = a_cell
       end
         

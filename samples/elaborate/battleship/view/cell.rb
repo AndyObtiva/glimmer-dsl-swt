@@ -101,8 +101,8 @@ class Battleship
             cell.ship = ship
             cell.ship_index = index
           end
-        rescue
-          # No Op
+        rescue => e
+          Glimmer::Config.logger.debug(e.full_message)
         end
       end
     end

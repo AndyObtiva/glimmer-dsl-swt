@@ -38,6 +38,10 @@ class Battleship
         self.ship = nil
         self.ship_index = nil
       end
+      
+      def to_s
+        "#{(Grid::ROW_ALPHABETS[row_index])}#{(column_index + 1)}"
+      end
     end
   end
 end
