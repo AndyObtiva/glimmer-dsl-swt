@@ -30,8 +30,8 @@ class Battleship
       end
       
       COLOR_WATER = rgb(156, 211, 219)
-      COLOR_SHIP = :dark_gray
-      COLOR_PLACED = :gray
+      COLOR_SHIP = :gray
+      COLOR_PLACED = :white
       
       options :game, :player, :row_index, :column_index, :ship
       option :type, default: :grid # other type is :ship
@@ -39,9 +39,9 @@ class Battleship
       body {
         canvas {
           if type == :grid
-            background <= [game.grids[player].cell_rows[row_index][column_index], :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
+            background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
           else
-            background <= [ship, :cell, on_read: ->(c) {c ? :gray : COLOR_PLACED} ]
+            background <= [ship, :cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])
@@ -52,40 +52,59 @@ class Battleship
           
           if player == :you
             on_drag_set_data do |event|
-              event.data = "#{player},#{ship.name}"
               Cell.dragging = true
+              if ship
+                event.data = ship.name.to_s
+              else
+                event.doit = false
+              end
             end
             
             on_mouse_up do
               Cell.dragging = false
             end
             
-            on_mouse_enter do |event|
-              body_root.background = :yellow if Cell.dragging?
-            end
-            
-            on_mouse_exit do |event|
-              body_root.background = type == :grid ? COLOR_WATER : COLOR_SHIP if Cell.dragging?
-            end
-            
-            on_drop do |event|
-              player, ship_name = event.data.split(',').map(&:to_sym)
-              ship = game.ship_collections[player].ships[ship_name]
-              begin
-                ship.cell = game.grids[player].cell_rows[row_index][column_index]
-                ship.length.times do |index|
-                  cell = game.grids[player].cell_rows[row_index][column_index + index]
-                  cell.ship = ship
-                  cell.ship_index = index
-                end
-              rescue
-                # No Op
+            if type == :grid
+              on_drop do |event|
+                ship_name = event.data.to_sym
+                place_ship(ship_name)
+                Cell.dragging = false
               end
-              Cell.dragging = false
             end
           end
         }
       }
+      
+      def model
+        game.grids[player].cell_rows[row_index][column_index] if type == :grid
+      end
+      
+      def place_ship(ship_name)
+        ship = game.ship_collections[player].ships[ship_name]
+        begin
+          old_ship_top_left_cell = ship.cell
+          ship.cell = model
+          if old_ship_top_left_cell
+            ship.length.times do |index|
+              if ship.orientation == :horizontal
+                old_cell = game.grids[player].cell_rows[old_ship_top_left_cell.row_index][old_ship_top_left_cell.column_index + index]
+              else
+                old_cell = game.grids[player].cell_rows[old_ship_top_left_cell.row_index + index][old_ship_top_left_cell.column_index]
+              end
+              old_cell.row_index, old_cell.column_index
+              old_cell.reset!
+            end
+          end
+          self.ship = ship
+          ship.length.times do |index|
+            cell = game.grids[player].cell_rows[row_index][column_index + index]
+            cell.ship = ship
+            cell.ship_index = index
+          end
+        rescue
+          # No Op
+        end
+      end
     end
   end
 end
