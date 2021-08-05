@@ -51,10 +51,15 @@ class Battleship
           }
           
           if player == :you
-            on_drag_set_data do |event|
+            on_drag_detected do |event|
               Cell.dragging = true
-              if ship
-                event.data = ship.name.to_s
+              body_root.cursor = :hand if type == :grid
+            end
+          
+            on_drag_set_data do |event|
+              the_ship = ship || model&.ship
+              if the_ship
+                event.data = the_ship.name.to_s
               else
                 event.doit = false
                 Cell.dragging = false
@@ -63,30 +68,32 @@ class Battleship
             
             on_mouse_up do
               Cell.dragging = false
+              change_cursor
             end
             
             if type == :grid
               on_mouse_move do |event|
-                set_orientation_cursor
+                change_cursor
               end
               
               on_mouse_hover do |event|
-                set_orientation_cursor
+                change_cursor
               end
               
               on_mouse_up do |event|
                 begin
-                  ship.toggle_orientation! if ship
+                  model.ship&.toggle_orientation!
                 rescue => e
                   Glimmer::Config.logger.debug e.full_message
                 end
-                set_orientation_cursor
+                change_cursor
               end
               
               on_drop do |event|
                 ship_name = event.data
                 place_ship(ship_name.to_s.to_sym) if ship_name
                 Cell.dragging = false
+                change_cursor
               end
             end
           end
@@ -112,7 +119,6 @@ class Battleship
               old_cell.reset!
             end
           end
-          self.ship = ship
           ship.length.times do |index|
             cell = game.grids[player].cell_rows[row_index][column_index + index]
             cell.ship = ship
@@ -123,10 +129,10 @@ class Battleship
         end
       end
       
-      def set_orientation_cursor
-        if ship
-          body_root.cursor = ship.orientation == :horizontal ? :sizens : :sizewe
-        else
+      def change_cursor
+        if type == :grid && model.ship && !Cell.dragging?
+          body_root.cursor = model.ship.orientation == :horizontal ? :sizens : :sizewe
+        elsif !Cell.dragging?
           body_root.cursor = :arrow
         end
       end

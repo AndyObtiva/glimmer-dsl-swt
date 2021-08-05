@@ -31,7 +31,7 @@ require_relative 'battleship/view/action_panel'
 
 class Battleship
   include Glimmer::UI::CustomShell
-  
+
   COLOR_WATER = rgb(156, 211, 219)
   COLOR_SHIP = :dark_gray
   
