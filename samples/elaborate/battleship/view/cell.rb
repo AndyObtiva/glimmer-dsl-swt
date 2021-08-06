@@ -45,7 +45,6 @@ class Battleship
             if player == :you
               background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
             else
-              # TODO else have it only show ship once it has been sunk
               background COLOR_WATER
             end
           else
@@ -83,7 +82,7 @@ class Battleship
           
           if player == :you
             on_drag_detected do |event|
-              unless game.started?
+              unless game.started? || game.over?
                 Cell.dragging = true
                 body_root.cursor = :hand if type == :grid
               end
@@ -91,7 +90,7 @@ class Battleship
           
             on_drag_set_data do |event|
               the_ship = ship || model&.ship
-              if the_ship && !game.started? && !(type == :ship && the_ship.top_left_cell)
+              if the_ship && !game.started? && !game.over? && !(type == :ship && the_ship.top_left_cell)
                 event.data = the_ship.name.to_s
               else
                 event.doit = false
@@ -100,7 +99,7 @@ class Battleship
             end
             
             on_mouse_up do
-              unless game.started?
+              unless game.started? || game.over?
                 Cell.dragging = false
                 change_cursor
               end
@@ -108,19 +107,19 @@ class Battleship
                         
             if type == :grid
               on_mouse_move do |event|
-                unless game.started?
+                unless game.started? || game.over?
                   change_cursor
                 end
               end
               
               on_mouse_hover do |event|
-                unless game.started?
+                unless game.started? || game.over?
                   change_cursor
                 end
               end
               
               on_mouse_up do |event|
-                unless game.started?
+                unless game.started? || game.over?
                   begin
                     model.ship&.toggle_orientation!
                   rescue => e
@@ -131,7 +130,7 @@ class Battleship
               end
               
               on_drop do |event|
-                unless game.started?
+                unless game.started? || game.over?
                   ship_name = event.data
                   place_ship(ship_name.to_s.to_sym) if ship_name
                   Cell.dragging = false

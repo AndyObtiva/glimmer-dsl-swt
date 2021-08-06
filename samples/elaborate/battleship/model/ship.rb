@@ -28,6 +28,7 @@ class Battleship
       
       attr_reader :ship_collection, :name, :length
       attr_accessor :orientation, :top_left_cell, :sunk
+      alias sunk? sunk
             
       def initialize(ship_collection, name, length)
         @ship_collection = ship_collection

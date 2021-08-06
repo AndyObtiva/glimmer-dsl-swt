@@ -35,8 +35,9 @@ class Battleship
       PLAYERS = [:enemy, :you]
       
       attr_reader :grids, :ship_collections
-      attr_accessor :started, :current_player
+      attr_accessor :started, :current_player, :over
       alias started? started
+      alias over? over
             
       def initialize
         @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
@@ -54,6 +55,7 @@ class Battleship
       
       def reset!
         self.started = false
+        self.over = false
         self.current_player = :enemy
         @grids.values.each(&:reset!)
         @ship_collections.values.each(&:reset!)
@@ -71,28 +73,23 @@ class Battleship
       
       # Enemy attack artificial intelligence
       def enemy_attack!
-        # TODO if last move was a hit, target a neighbor unless its ship is sunk
         begin
           cell = nil
-          if @enemy_moves.any?
-            # TODO if last cell ship is sunk, pursue a random point instead
-            if @enemy_moves.last.hit?
-              # TODO check last last cell to identify orientation for next move if possible
-              if @enemy_moves[-2].nil? || !@enemy_moves[-2].hit?
-                orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
-              else
-                orientation = @enemy_moves.last.row_index == @enemy_moves[-2].row_index ? :horizontal : :vertical
-              end
-              offset = 1 * ((rand * 2).to_i == 1 ? 1 : -1)
-              if orientation == :horizontal
-                offset *= -1 if [-1, Grid::WIDTH].include?(@enemy_moves.last.column_index + offset)
-                cell = opposite_grid.cell_rows[@enemy_moves.last.row_index][@enemy_moves.last.column_index + offset]
-              else
-                offset *= -1 if [-1, Grid::HEIGHT].include?(@enemy_moves.last.row_index + offset)
-                cell = opposite_grid.cell_rows[@enemy_moves.last.row_index + offset][@enemy_moves.last.column_index]
-              end
-              cell = nil if cell.hit?
+          if @enemy_moves.any? && @enemy_moves.last.hit? && !@enemy_moves.last.ship.sunk?
+            if @enemy_moves[-2].nil? || !@enemy_moves[-2].hit?
+              orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
+            else
+              orientation = @enemy_moves.last.row_index == @enemy_moves[-2].row_index ? :horizontal : :vertical
             end
+            offset = 1 * ((rand * 2).to_i == 1 ? 1 : -1)
+            if orientation == :horizontal
+              offset *= -1 if [-1, Grid::WIDTH].include?(@enemy_moves.last.column_index + offset)
+              cell = opposite_grid.cell_rows[@enemy_moves.last.row_index][@enemy_moves.last.column_index + offset]
+            else
+              offset *= -1 if [-1, Grid::HEIGHT].include?(@enemy_moves.last.row_index + offset)
+              cell = opposite_grid.cell_rows[@enemy_moves.last.row_index + offset][@enemy_moves.last.column_index]
+            end
+            cell = nil if cell.hit?
           end
           if cell.nil?
             random_row_index = (rand * Grid::HEIGHT).to_i
@@ -108,12 +105,18 @@ class Battleship
         grids[opposite_player]
       end
       
-      def opposite_player
-        PLAYERS[(PLAYERS.index(current_player) + 1) % PLAYERS.size]
+      def opposite_player(player = nil)
+        player ||= current_player
+        PLAYERS[(PLAYERS.index(player) + 1) % PLAYERS.size]
       end
       
       def switch_player!
         self.current_player = opposite_player
+      end
+      
+      def over=(value)
+        @over = value
+        self.started = false
       end
       
       private

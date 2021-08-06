@@ -40,9 +40,9 @@ class Battleship
   end
     
   after_body do
-    observe(@game, :game_over) do |game_over_value|
+    observe(@game, :over) do |game_over_value|
       if game_over_value
-        game_over_message = if game_over_value
+        game_over_message = if game_over_value == :you
           "Game over!\nYou Won!"
         else
           "Game over!\nYou Lost!"
@@ -52,8 +52,6 @@ class Battleship
           text 'Game Over!'
           message game_over_message
         }.open
-        
-        @game.restart!
       end
     end
   end

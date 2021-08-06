@@ -73,6 +73,7 @@ class Battleship
       def hit=(value)
         @hit = value
         ship&.sunk = true if ship&.all_cells_hit?
+        grid.game.over = grid.game.opposite_player(grid.player) if grid.game.started? && grid.game.ship_collections[grid.player].ships.values.map(&:sunk).all?
       end
       
       def to_s
