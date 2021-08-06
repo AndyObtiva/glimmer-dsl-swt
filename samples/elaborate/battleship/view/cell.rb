@@ -49,7 +49,7 @@ class Battleship
               background COLOR_WATER
             end
           else
-            background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
+            background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP}]
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])

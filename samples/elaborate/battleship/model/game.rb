@@ -61,6 +61,7 @@ class Battleship
       def attack!(row_index, column_index)
         return unless started?
         cell = opposite_grid.cell_rows[row_index][column_index]
+        return unless cell.hit.nil?
         cell.hit = !!cell.ship
         switch_player!
         enemy_attack! if current_player == :enemy
@@ -69,8 +70,8 @@ class Battleship
       # Enemy attack artificial intelligence
       def enemy_attack!
         # TODO if last move was a hit, target a neighbor unless its ship is sunk
-        cell = nil
         begin
+          cell = nil
           if @last_enemy_attack_row_index
             last_cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index]
             # TODO if last cell ship is sunk, pursue a random point instead
@@ -79,21 +80,26 @@ class Battleship
               orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
               offset = 1 * ((rand * 2).to_i == 1 ? 1 : -1)
               if orientation == :horizontal
-#                 if @last_enemy_attack_column_index + offset
-                # TODO check if offset hits boundary. If so, multiply offset by -1
-                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index]
+                offset *= -1 if [-1, Grid::WIDTH].include?(@last_enemy_attack_column_index + offset)
+                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index + offset]
               else
+                offset *= -1 if [-1, Grid::HEIGHT].include?(@last_enemy_attack_row_index + offset)
+                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index + offset][@last_enemy_attack_column_index]
               end
+              cell = nil if cell.hit?
             else
+              cell = nil
               # TODO check last last cell when there is no hit to attempt a hit in another direction
               # Consider keeping last last last cell too (or just keeping history in general)
             end
           end
-          random_row_index = (rand * Grid::HEIGHT).to_i
-          random_column_index = (rand * Grid::WIDTH).to_i
-          cell = opposite_grid.cell_rows[random_row_index][random_column_index]
+          if cell.nil?
+            random_row_index = (rand * Grid::HEIGHT).to_i
+            random_column_index = (rand * Grid::WIDTH).to_i
+            cell = opposite_grid.cell_rows[random_row_index][random_column_index]
+          end
         end until cell.hit.nil?
-        attack!(random_row_index, random_column_index)
+        attack!(cell.row_index, cell.column_index)
         @last_last_enemy_attack_row_index = @last_enemy_attack_row_index
         @last_last_enemy_attack_column_index = @last_enemy_attack_column_index
         @last_enemy_attack_row_index = random_row_index

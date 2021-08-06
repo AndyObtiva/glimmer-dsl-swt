@@ -95,6 +95,10 @@ class Battleship
         end
       end
       
+      def sunk?
+        cells&.map(&:hit)&.all? {|h| h == true}
+      end
+      
       def reset!
         self.top_left_cell = nil
         self.orientation = :horizontal
