@@ -64,13 +64,8 @@ class Battleship
             random_column_index = (rand * Grid::WIDTH).to_i
             enemy_grid = @grids[:enemy]
             top_left_cell = enemy_grid.cell_rows[random_row_index][random_column_index]
+            top_left_cell.place_ship!(ship)
             begin
-              ship.top_left_cell = top_left_cell
-              ship.length.times do |index|
-                cell = enemy_grid.cell_rows[top_left_cell.row_index][top_left_cell.column_index + index]
-                cell.ship = ship
-                cell.ship_index = index
-              end
               ship.toggle_orientation! if (rand * 2).to_i == 1
             rescue => e
               Glimmer::Config.logger.debug(e.full_message)

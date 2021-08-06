@@ -39,6 +39,38 @@ class Battleship
         self.ship_index = nil
       end
       
+      # Places ship horizontally so that its top left cell is self,
+      # automatically figuring out the rest of the cells
+      def place_ship!(ship)
+        begin
+          old_ship_top_left_cell = ship.top_left_cell
+          old_ship_orientation = ship.orientation
+          ship.top_left_cell = self
+          if old_ship_top_left_cell
+            ship.cells(old_ship_orientation).each(&:reset!)
+            ship.length.times do |index|
+              if ship.orientation == :horizontal
+                old_cell = grid.cell_rows[old_ship_top_left_cell.row_index][old_ship_top_left_cell.column_index + index]
+              else
+                old_cell = grid.cell_rows[old_ship_top_left_cell.row_index + index][old_ship_top_left_cell.column_index]
+              end
+              old_cell.reset!
+            end
+          end
+          ship.length.times do |index|
+            if ship.orientation == :horizontal
+              cell = grid.cell_rows[row_index][column_index + index]
+            else
+              cell = grid.cell_rows[row_index + index][column_index]
+            end
+            cell.ship = ship
+            cell.ship_index = index
+          end
+        rescue => e
+          Glimmer::Config.logger.debug(e.full_message)
+        end
+      end
+      
       def to_s
         "#{(Grid::ROW_ALPHABETS[row_index])}#{(column_index + 1)}"
       end

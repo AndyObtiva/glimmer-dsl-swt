@@ -32,6 +32,7 @@ class Battleship
       COLOR_WATER = rgb(156, 211, 219)
       COLOR_SHIP = :gray
       COLOR_PLACED = :white
+      COLOR_HIT = :red
       
       options :game, :player, :row_index, :column_index, :ship
       option :type, default: :grid # other type is :ship
@@ -126,27 +127,7 @@ class Battleship
       
       def place_ship(ship_name)
         ship = game.ship_collections[player].ships[ship_name]
-        begin
-          old_ship_top_left_cell = ship.top_left_cell
-          ship.top_left_cell = model
-          if old_ship_top_left_cell
-            ship.length.times do |index|
-              if ship.orientation == :horizontal
-                old_cell = game.grids[player].cell_rows[old_ship_top_left_cell.row_index][old_ship_top_left_cell.column_index + index]
-              else
-                old_cell = game.grids[player].cell_rows[old_ship_top_left_cell.row_index + index][old_ship_top_left_cell.column_index]
-              end
-              old_cell.reset!
-            end
-          end
-          ship.length.times do |index|
-            cell = game.grids[player].cell_rows[row_index][column_index + index]
-            cell.ship = ship
-            cell.ship_index = index
-          end
-        rescue => e
-          Glimmer::Config.logger.debug(e.full_message)
-        end
+        model.place_ship!(ship)
       end
       
       def change_cursor

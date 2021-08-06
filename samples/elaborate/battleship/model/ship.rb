@@ -44,6 +44,15 @@ class Battleship
         if a_cell
           raise "Top left cell #{a_cell} already occupied by ship #{a_cell.ship.name}" if a_cell.ship && a_cell.ship != self
           raise "Top left cell #{a_cell} cannot fit ship #{name}" if a_cell.column_index + length > Grid::WIDTH
+          grid = ship_collection.game.grids[ship_collection.player]
+          1.upto(length - 1).each do |index|
+            if orientation == :horizontal
+              other_cell = grid.cell_rows[a_cell.row_index][a_cell.column_index + index]
+            else
+              other_cell = grid.cell_rows[a_cell.row_index + index][a_cell.column_index]
+            end
+            raise "Cell #{other_cell} already occupied by ship #{other_cell.ship.name}" if other_cell.ship && other_cell.ship != self
+          end
         end
         @top_left_cell = a_cell
       end
