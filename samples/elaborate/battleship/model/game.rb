@@ -42,28 +42,42 @@ class Battleship
         @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
         @ship_collections = PLAYERS.reduce({}) { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
         @started = false
-        @current_player = :you
+        @current_player = :enemy
       end
       
       def battle!
         self.started = true
         place_enemy_ships!
+        enemy_attack!
       end
       
       def reset!
         self.started = false
-#         self.current_player = :enemy
-        self.current_player = :you
+        self.current_player = :enemy
         @grids.values.each(&:reset!)
         @ship_collections.values.each(&:reset!)
       end
       
       def attack!(row_index, column_index)
         return unless started?
-        opposite_grid = grids[opposite_player]
         cell = opposite_grid.cell_rows[row_index][column_index]
         cell.hit = !!cell.ship
-#         switch_player!
+        switch_player!
+        enemy_attack! if current_player == :enemy
+      end
+      
+      def enemy_attack!
+        # TODO if last move was a hit, target a neighbor unless its ship is sunk
+        begin
+          random_row_index = (rand * Grid::HEIGHT).to_i
+          random_column_index = (rand * Grid::WIDTH).to_i
+          cell = opposite_grid.cell_rows[random_row_index][random_column_index]
+        end until cell.hit.nil?
+        attack!(random_row_index, random_column_index)
+      end
+      
+      def opposite_grid
+        grids[opposite_player]
       end
       
       def opposite_player

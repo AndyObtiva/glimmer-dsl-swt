@@ -71,13 +71,13 @@ class Battleship
           if cells(value)[1..-1].map(&:ship).reject {|s| s == self}.any?
             raise 'Orientation #{value} cells occupied by another ship'
           end
-        end
-        if value != @orientation
-          cells.each(&:reset!)
-          @orientation = value
-          cells.each_with_index do |cell, index|
-            cell.ship = self
-            cell.ship_index = index
+          if value != @orientation
+            cells.each(&:reset!)
+            @orientation = value
+            cells.each_with_index do |cell, index|
+              cell.ship = self
+              cell.ship_index = index
+            end
           end
         end
       end
