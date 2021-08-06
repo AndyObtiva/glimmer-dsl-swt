@@ -43,6 +43,7 @@ class Battleship
         @ship_collections = PLAYERS.reduce({}) { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
         @started = false
         @current_player = :enemy
+        @enemy_moves = []
       end
       
       def battle!
@@ -56,6 +57,7 @@ class Battleship
         self.current_player = :enemy
         @grids.values.each(&:reset!)
         @ship_collections.values.each(&:reset!)
+        @enemy_moves = []
       end
       
       def attack!(row_index, column_index)
@@ -72,25 +74,24 @@ class Battleship
         # TODO if last move was a hit, target a neighbor unless its ship is sunk
         begin
           cell = nil
-          if @last_enemy_attack_row_index
-            last_cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index]
+          if @enemy_moves.any?
             # TODO if last cell ship is sunk, pursue a random point instead
-            if last_cell.hit?
+            if @enemy_moves.last.hit?
               # TODO check last last cell to identify orientation for next move if possible
-              orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
+              if @enemy_moves[-2].nil? || !@enemy_moves[-2].hit?
+                orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
+              else
+                orientation = @enemy_moves.last.row_index == @enemy_moves[-2].row_index ? :horizontal : :vertical
+              end
               offset = 1 * ((rand * 2).to_i == 1 ? 1 : -1)
               if orientation == :horizontal
-                offset *= -1 if [-1, Grid::WIDTH].include?(@last_enemy_attack_column_index + offset)
-                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index + offset]
+                offset *= -1 if [-1, Grid::WIDTH].include?(@enemy_moves.last.column_index + offset)
+                cell = opposite_grid.cell_rows[@enemy_moves.last.row_index][@enemy_moves.last.column_index + offset]
               else
-                offset *= -1 if [-1, Grid::HEIGHT].include?(@last_enemy_attack_row_index + offset)
-                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index + offset][@last_enemy_attack_column_index]
+                offset *= -1 if [-1, Grid::HEIGHT].include?(@enemy_moves.last.row_index + offset)
+                cell = opposite_grid.cell_rows[@enemy_moves.last.row_index + offset][@enemy_moves.last.column_index]
               end
               cell = nil if cell.hit?
-            else
-              cell = nil
-              # TODO check last last cell when there is no hit to attempt a hit in another direction
-              # Consider keeping last last last cell too (or just keeping history in general)
             end
           end
           if cell.nil?
@@ -100,10 +101,7 @@ class Battleship
           end
         end until cell.hit.nil?
         attack!(cell.row_index, cell.column_index)
-        @last_last_enemy_attack_row_index = @last_enemy_attack_row_index
-        @last_last_enemy_attack_column_index = @last_enemy_attack_column_index
-        @last_enemy_attack_row_index = random_row_index
-        @last_enemy_attack_column_index = random_column_index
+        @enemy_moves << cell
       end
       
       def opposite_grid
