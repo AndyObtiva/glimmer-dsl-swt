@@ -27,7 +27,7 @@ class Battleship
       ORIENTATIONS = [:horizontal, :vertical]
       
       attr_reader :ship_collection, :name, :length
-      attr_accessor :orientation, :top_left_cell
+      attr_accessor :orientation, :top_left_cell, :sunk
             
       def initialize(ship_collection, name, length)
         @ship_collection = ship_collection
@@ -95,11 +95,12 @@ class Battleship
         end
       end
       
-      def sunk?
+      def all_cells_hit?
         cells&.map(&:hit)&.all? {|h| h == true}
       end
       
       def reset!
+        self.sunk = nil
         self.top_left_cell = nil
         self.orientation = :horizontal
       end

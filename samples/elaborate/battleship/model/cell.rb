@@ -70,6 +70,11 @@ class Battleship
         end
       end
       
+      def hit=(value)
+        @hit = value
+        ship&.sunk = true if ship&.all_cells_hit?
+      end
+      
       def to_s
         "#{(Grid::ROW_ALPHABETS[row_index])}#{(column_index + 1)}"
       end

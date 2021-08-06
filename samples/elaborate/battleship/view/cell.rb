@@ -49,6 +49,7 @@ class Battleship
               background COLOR_WATER
             end
           else
+            background <= [ship, :sunk, on_read: ->(s) {s ? COLOR_HIT : COLOR_PLACED}]
             background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP}]
           end
           
@@ -60,6 +61,20 @@ class Battleship
             background <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
           }
           
+          on_mouse_move do |event|
+            if game.started?
+              if type == :grid
+                if player == :enemy
+                  body_root.cursor = :cross
+                else
+                  body_root.cursor = :arrow
+                end
+              else
+                body_root.cursor = :arrow
+              end
+            end
+          end
+                    
           if player == :enemy
             on_mouse_up do
               game.attack!(row_index, column_index)
@@ -90,13 +105,7 @@ class Battleship
                 change_cursor
               end
             end
-            
-            on_mouse_move do |event|
-              if game.started?
-                body_root.cursor = :cross
-              end
-            end
-            
+                        
             if type == :grid
               on_mouse_move do |event|
                 unless game.started?
