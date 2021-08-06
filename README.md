@@ -15,7 +15,7 @@
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.13.15 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (report any issues you may encounter).
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.20.13.15 includes [SWT 4.20](https://download.eclipse.org/eclipse/downloads/drops4/R-4.20-202106111600/), which was released on June 11, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (please report any issues you may encounter).
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword (keep in mind that it is still a beta, so default back to `bind` whenever needed).
 
@@ -198,11 +198,6 @@ Glimmer app:
 [<img alt="Math Bowling Logo" src="https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/images/math-bowling-logo.png" width="40" />Math Bowling](https://github.com/AndyObtiva/MathBowling) - Elementary Level Math Game Featuring Bowling Rules
 
 [![Math Bowling App Screenshot](https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/Math-Bowling-Screenshot.png)](https://github.com/AndyObtiva/MathBowling)
-
-**Note:** I offer Glimmer DSL for SWT as a free and open-source [Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt) that represents my interests in Ruby Programming, Desktop GUI application development with SWT, Object Oriented Design, Design Patterns, and Software Architecture.
-Additionally, I am sharing my professional experience and expertise in Eclipse SWT given that I am an [EclipseCon](http://andymaleh.blogspot.com/2007/03/eclipsecon-2007-day-3.html)/[EclipseWorld](http://andymaleh.blogspot.com/2008/11/eclipseworld-2008-highlights.html) presenter and have built professional applications in SWT/JFace/RCP for Obtiva and the Pampered Chef in the past. This is also done in the hopes that it would indirectly bring me work in a field I am extremely passionate about.
-That said, please keep in mind that I myself am learning topics in Software Engineering too everyday, including newer editions of SWT and JRuby, which seem to pop up every quarter.
-If you see anything that needs to be improved, please do not hesitate to contact me on [Gitter](https://gitter.im/AndyObtiva/glimmer) or submit [Issues](https://github.com/AndyObtiva/glimmer-dsl-swt/issues)/[Pull-Requests](https://github.com/AndyObtiva/glimmer-dsl-swt/pulls).
 
 ## Table of contents
 
