@@ -60,14 +60,12 @@ class Battleship
             end
           
             on_drag_set_data do |event|
-              unless game.started?
-                the_ship = ship || model&.ship
-                if the_ship
-                  event.data = the_ship.name.to_s
-                else
-                  event.doit = false
-                  Cell.dragging = false
-                end
+              the_ship = ship || model&.ship
+              if the_ship && !game.started? && !(type == :ship && the_ship.top_left_cell)
+                event.data = the_ship.name.to_s
+              else
+                event.doit = false
+                Cell.dragging = false
               end
             end
             
