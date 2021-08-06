@@ -36,7 +36,6 @@ class KlondikeSolitaire
           
           on_drop do |drop_event|
             begin
-              # TODO make sure one cannot drag a column pile of cards here
               card_shape = drop_event.dragged_shape.get_data('custom_shape')
               card = card_shape.model
               card_parent_pile = card_shape.parent_pile
@@ -46,7 +45,6 @@ class KlondikeSolitaire
               card_source_model.remove!(card)
               drop_event.dragged_shape.dispose
             rescue => e
-#               pd e
               drop_event.doit = false
             end
           end

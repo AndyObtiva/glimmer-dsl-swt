@@ -66,14 +66,38 @@ class Battleship
         enemy_attack! if current_player == :enemy
       end
       
+      # Enemy attack artificial intelligence
       def enemy_attack!
         # TODO if last move was a hit, target a neighbor unless its ship is sunk
+        cell = nil
         begin
+          if @last_enemy_attack_row_index
+            last_cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index]
+            # TODO if last cell ship is sunk, pursue a random point instead
+            if last_cell.hit?
+              # TODO check last last cell to identify orientation for next move if possible
+              orientation = Ship::ORIENTATIONS[(rand * 2).to_i]
+              offset = 1 * ((rand * 2).to_i == 1 ? 1 : -1)
+              if orientation == :horizontal
+#                 if @last_enemy_attack_column_index + offset
+                # TODO check if offset hits boundary. If so, multiply offset by -1
+                cell = opposite_grid.cell_rows[@last_enemy_attack_row_index][@last_enemy_attack_column_index]
+              else
+              end
+            else
+              # TODO check last last cell when there is no hit to attempt a hit in another direction
+              # Consider keeping last last last cell too (or just keeping history in general)
+            end
+          end
           random_row_index = (rand * Grid::HEIGHT).to_i
           random_column_index = (rand * Grid::WIDTH).to_i
           cell = opposite_grid.cell_rows[random_row_index][random_column_index]
         end until cell.hit.nil?
         attack!(random_row_index, random_column_index)
+        @last_last_enemy_attack_row_index = @last_enemy_attack_row_index
+        @last_last_enemy_attack_column_index = @last_enemy_attack_column_index
+        @last_enemy_attack_row_index = random_row_index
+        @last_enemy_attack_column_index = random_column_index
       end
       
       def opposite_grid

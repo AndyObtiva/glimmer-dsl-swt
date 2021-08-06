@@ -43,7 +43,6 @@ class KlondikeSolitaire
               end
               drop_event.dragged_shape.dispose
             rescue => e
-#               pd e
               drop_event.doit = false
             end
           end

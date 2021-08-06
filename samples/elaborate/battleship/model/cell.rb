@@ -33,7 +33,6 @@ class Battleship
       end
       
       def reset!
-        # TODO consider an occupied attribute too
         self.hit = nil
         self.ship = nil
         self.ship_index = nil
