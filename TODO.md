@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Battleship
 - Issue with setting app name outside of packaged mode (always gets set to Glimmer)
 - TodoMVC External Sample
 - IdeaRank External Sample

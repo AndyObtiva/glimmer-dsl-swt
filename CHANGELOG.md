@@ -3,7 +3,6 @@
 ### 4.20.13.15
 
 - Battleship elaborate sample
-- Prevent Display from auto-setting app name to Glimmer
 
 ### 4.20.13.14
 

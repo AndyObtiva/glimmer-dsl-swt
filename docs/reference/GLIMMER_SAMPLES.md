@@ -65,6 +65,7 @@
     - [Game of Life](#game-of-life)
     - [Glimmer Tetris](#glimmer-tetris)
     - [Klondike Solitaire](#klondike-solitaire)
+    - [Battleship](#battleship)
     - [Mandelbrot Fractal](#mandelbrot-fractal)
     - [Parking](#parking)
     - [Stock Ticker](#stock-ticker)
@@ -1143,7 +1144,7 @@ Code:
 
 #### Klondike Solitaire
 
-This sample demonstrates how to build an interactive card game with MVC architecture, canvas, custom-shapes, data-binding, observers, and drag & drop.
+This sample demonstrates how to build an interactive card game with MVC architecture, canvas, custom-shapes, data-binding, observers, and canvas shape drag & drop.
 
 Code:
 
@@ -1154,6 +1155,24 @@ Code:
 ![Klondike Solitaire Played](/images/glimmer-klondike-solitaire-played.png)
 
 Check out a souped up large-card-size packaged version of the game in the [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire) external sample.
+
+#### Battleship
+
+This sample demonstrates how to build an interactive board game with A.I., MVC architecture, hybrid canvas widget/shape approach, custom-widgets, data-binding, observers, and widget drag & drop.
+
+Code:
+
+[samples/elaborate/battleship.rb](/samples/elaborate/battleship.rb)
+
+![Battleship](/images/glimmer-battleship.png)
+
+![Battleship Placement](/images/glimmer-battleship-placement.png)
+
+![Battleship Ready for Battle](/images/glimmer-battleship-ready-for-battle.png)
+
+![Battleship Won](/images/glimmer-battleship-won.png)
+
+![Battleship Game Over](/images/glimmer-battleship-game-over.png)
 
 #### Mandelbrot Fractal
 
