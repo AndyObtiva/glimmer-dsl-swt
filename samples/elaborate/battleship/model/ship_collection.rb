@@ -42,7 +42,7 @@ class Battleship
           name, width = pair
           ship = Ship.new(self, name, width)
           Glimmer::DataBinding::Observer.proc do |cell_value|
-            self.placed_count = self.placed_count.to_i + 1 if cell_value
+            self.placed_count = ships.values.map(&:top_left_cell).compact.size
           end.observe(ship, :top_left_cell)
           hash.merge(name => ship)
         end
