@@ -32,6 +32,8 @@ class Battleship
       COLOR_WATER = rgb(156, 211, 219)
       COLOR_SHIP = :gray
       COLOR_PLACED = :white
+      COLOR_EMPTY = :black
+      COLOR_NO_HIT = :white
       COLOR_HIT = :red
       
       options :game, :player, :row_index, :column_index, :ship
@@ -40,16 +42,29 @@ class Battleship
       body {
         canvas {
           if type == :grid
-            background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
+            if player == :you
+              background <= [model, :ship, on_read: ->(s) {s ? COLOR_SHIP : COLOR_WATER}]
+            else
+              # TODO else have it only show ship once it has been sunk
+              background COLOR_WATER
+            end
           else
             background <= [ship, :top_left_cell, on_read: ->(c) {c ? COLOR_PLACED : COLOR_SHIP} ]
           end
           
           rectangle(0, 0, [:max, -1], [:max, -1])
-          oval(:default, :default, 10, 10)
-          oval(:default, :default, 5, 5) {
-            background :black
+          oval(:default, :default, 10, 10) {
+            foreground <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
           }
+          oval(:default, :default, 5, 5) {
+            background <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
+          }
+          
+          if player == :enemy
+            on_mouse_up do
+              game.attack!(row_index, column_index)
+            end
+          end
           
           if player == :you
             on_drag_detected do |event|

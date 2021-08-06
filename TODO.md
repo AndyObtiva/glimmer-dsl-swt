@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Battleship (TODO handle drag-moving ship from its middle after it's place on grid not just its top-left cell)
+- Battleship (TODO fix issue with battle button disabled after dragging placed ships around. it must remain enabled instead)
 - Issue with setting app name outside of packaged mode (always gets set to Glimmer)
 - TodoMVC External Sample
 - IdeaRank External Sample

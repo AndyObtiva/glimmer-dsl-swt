@@ -35,12 +35,14 @@ class Battleship
       PLAYERS = [:enemy, :you]
       
       attr_reader :grids, :ship_collections
-      attr_accessor :started
+      attr_accessor :started, :current_player
       alias started? started
             
       def initialize
         @grids = PLAYERS.reduce({}) { |hash, player| hash.merge(player => Grid.new(self, player)) }
         @ship_collections = PLAYERS.reduce({}) { |hash, player| hash.merge(player => ShipCollection.new(self, player)) }
+        @started = false
+        @current_player = :you
       end
       
       def battle!
@@ -50,8 +52,26 @@ class Battleship
       
       def reset!
         self.started = false
+#         self.current_player = :enemy
+        self.current_player = :you
         @grids.values.each(&:reset!)
         @ship_collections.values.each(&:reset!)
+      end
+      
+      def attack!(row_index, column_index)
+        return unless started?
+        opposite_grid = grids[opposite_player]
+        cell = opposite_grid.cell_rows[row_index][column_index]
+        cell.hit = !!cell.ship
+#         switch_player!
+      end
+      
+      def opposite_player
+        PLAYERS[(PLAYERS.index(current_player) + 1) % PLAYERS.size]
+      end
+      
+      def switch_player!
+        self.current_player = opposite_player
       end
       
       private
