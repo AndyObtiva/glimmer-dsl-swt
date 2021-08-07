@@ -87,16 +87,14 @@ class TodoMVC
       end
 
       def populate_todo_items!
-        self.todo_items = TodoItem.all_todo_items.select do |todo_item|
-          case filter
-          when :all
-            true
-          when :active
-            !todo_item.done?
-          when :completed
-            todo_item.done?
-          end
-        end.to_a
+        self.todo_items = case filter
+        when :all
+          TodoItem.all_todo_items
+        when :active
+          TodoItem.active_todo_items
+        when :completed
+          TodoItem.completed_todo_items
+        end
       end
 
       def save_new_todo_item!
@@ -114,6 +112,7 @@ class TodoMVC
 
       def clear_completed!
         TodoItem.all_todo_items.delete_if(&:done?)
+        TodoItem.update_active_and_completed_todo_items!
       end
 
       private
