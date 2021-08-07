@@ -26,38 +26,97 @@ class TodoMVC
   
   module Model
     class TodoItem
-      attr_accessor :task, :done
-      
+      class << self
+        def all_todo_items
+          @all_todo_items ||= []
+        end
+        
+        attr_accessor :active_todo_items
+        attr_accessor :completed_todo_items
+        
+        def update_active_and_completed_todo_items!
+          self.active_todo_items = all_todo_items.select {|item| !item.done?}.to_a
+          self.completed_todo_items = all_todo_items.select {|item| item.done?}.to_a
+        end
+      end
+
+      attr_accessor :task, :done, :done_text
+      alias done? done
+
       def initialize(task)
         @task = task
+        TodoItem.all_todo_items << self
+        TodoItem.update_active_and_completed_todo_items!
+      end
+      
+      def done=(value)
+        @done = value
+        self.done_text = @done ? '✔' : ''
+        TodoItem.update_active_and_completed_todo_items!
+      end
+
+      def done!
+        self.done = true
+      end
+
+      def delete!
+        TodoItem.all_todo_items.delete(self)
       end
     end
-    
+
     class Presenter
-      attr_accessor :new_todo_item_text, :todo_items
-      
+      attr_accessor :new_todo_item_task, :filter, :todo_items
+
       def initialize
-        reset!
+        reset_task!
+        self.filter = :all
         @todo_items = []
+        Glimmer::DataBinding::Observer.proc do
+          populate_todo_items!
+        end.observe(TodoItem.all_todo_items)
+        Glimmer::DataBinding::Observer.proc do
+          populate_todo_items!
+        end.observe(self, :filter)
       end
-      
+
+      def populate_todo_items!
+        self.todo_items = TodoItem.all_todo_items.select do |todo_item|
+          case filter
+          when :all
+            true
+          when :active
+            !todo_item.done?
+          when :completed
+            todo_item.done?
+          end
+        end.to_a
+      end
+
       def save_new_todo_item!
-        self.todo_items << TodoItem.new(@new_todo_item_text)
-        reset!
+        TodoItem.new(@new_todo_item_task)
+        reset_task!
       end
-      
+
+      def complete_all!
+        TodoItem.all_todo_items.each(&:done!)
+      end
+
+      def clear_completed!
+        TodoItem.all_todo_items.delete_if(&:done?)
+      end
+
       private
-      
-      def reset!
-        self.new_todo_item_text = 'What needs to be done?'
+
+      def reset_task!
+        self.new_todo_item_task = 'What needs to be done?'
       end
     end
   end
-  
+
   before_body do
     @presenter = Model::Presenter.new
   end
-  
+
   body {
     shell {
       row_layout(:vertical) {
@@ -68,7 +127,7 @@ class TodoMVC
       }
       text 'Glimmer TodoMVC'
       minimum_size 500, 160
-      
+
       label(:center) {
         text 'todos'
         font name: 'Helvetica Neue', height: 100
@@ -79,58 +138,93 @@ class TodoMVC
           margin_width 0
           margin_height 0
         }
-                
+
         arrow(:arrow, :down) {
-        
+          on_widget_selected do
+            @presenter.complete_all!
+          end
         }
-        
+
         @new_todo_item_text = text {
           layout_data {
             width_hint 500
             height_hint 65
           }
-          
-          text <=> [@presenter, :new_todo_item_text]
+
+          text <=> [@presenter, :new_todo_item_task]
           font name: 'Helvetica Neue', height: 24, style: :italic
           focus true
-          
+
           on_focus_gained do
             @new_todo_item_text.select_all
           end
-          
+
           on_key_pressed do |key_event|
-            @presenter.save_new_todo_item!
+            @presenter.save_new_todo_item! if key_event.keyCode == swt(:cr)
           end
         }
       }
-      
-      @task_container = composite {
+
+      @task_container = table(:editable) {
+        header_visible false
+
+        table_column {
+          text 'Done'
+          width 20
+          editor :checkbox, property: :done
+        }
+        table_column {
+          text 'Task'
+          width 500
+        }
+
+        items <=> [@presenter, :todo_items, column_properties: [:done_text, :task]]
       }
-      
+
       @action_panel = composite {
         row_layout(:horizontal) {
           margin_width 0
           margin_height 0
         }
-        
+
         label {
-          text '1 item left'
+          layout_data {
+            width 100
+          }
+          text <= [Model::TodoItem, 'active_todo_items.to_a', on_read: ->(a) { a.nil? ? '          ' : "#{a.size} item#{a.size == 1 ? '' : 's'} left" }]
         }
-        
+
         button {
           text 'All'
+
+          on_widget_selected do
+            @presenter.filter = :all
+          end
         }
-        
+
         button {
           text 'Active'
+
+          on_widget_selected do
+            @presenter.filter = :active
+          end
         }
-        
+
         button {
           text 'Completed'
+
+          on_widget_selected do
+            @presenter.filter = :completed
+          end
         }
-        
+
         button {
           text 'Clear Completed'
+          visible <= [Model::TodoItem, 'completed_todo_items.to_a.any?']
+
+          on_widget_selected do
+            @presenter.clear_completed!
+          end
         }
       }
     }
