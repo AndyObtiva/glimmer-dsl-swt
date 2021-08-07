@@ -58,9 +58,15 @@ class TodoMVC
       def done!
         self.done = true
       end
+      
+      def task=(value)
+        @task = value
+        delete! if @task.nil? || @task == ''
+      end
 
       def delete!
         TodoItem.all_todo_items.delete(self)
+        TodoItem.update_active_and_completed_todo_items!
       end
     end
 
