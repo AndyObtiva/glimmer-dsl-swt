@@ -176,16 +176,16 @@ module Glimmer
         options ||= {}
         @options = self.class.options.merge(options)
         @content = Util::ProcTracker.new(content) if content
-        execute_hook('before_body')
+        auto_exec { execute_hook('before_body') }
         body_block = self.class.instance_variable_get("@body_block")
         raise Glimmer::Error, 'Invalid custom widget for having no body! Please define body block!' if body_block.nil?
-        @body_root = instance_exec(&body_block)
+        @body_root = auto_exec { instance_exec(&body_block) }
         raise Glimmer::Error, 'Invalid custom widget for having an empty body! Please fill body block!' if @body_root.nil?
         @swt_widget = @body_root.swt_widget
         auto_exec do
           @swt_widget.set_data('custom_widget', self)
         end
-        execute_hook('after_body')
+        auto_exec { execute_hook('after_body') }
         auto_exec do
           @dispose_listener_registration = @body_root.on_widget_disposed do
             observer_registrations.compact.each(&:deregister)

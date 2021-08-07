@@ -30,8 +30,8 @@ module Glimmer
       
       class << self
         def launch(*args, &content)
+          launched_custom_shell = send(keyword, *args, &content)
           auto_exec do
-            launched_custom_shell = send(keyword, *args, &content)
             launched_custom_shell.swt_widget.set_data('launched', true)
             launched_custom_shell.open
           end

@@ -88,6 +88,8 @@ class EmailShell
 end
 
 class HelloCustomShell
+  include Glimmer
+  
   Email = Struct.new(:date, :subject, :from, :message, keyword_init: true)
   EmailSystem = Struct.new(:emails, keyword_init: true)
   
