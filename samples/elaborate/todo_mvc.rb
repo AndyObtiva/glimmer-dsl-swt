@@ -80,7 +80,7 @@ class TodoMVC
         @todo_items = []
         Glimmer::DataBinding::Observer.proc do
           populate_todo_items!
-        end.observe(TodoItem.all_todo_items)
+        end.observe(TodoItem.all_todo_items, 'done')
         Glimmer::DataBinding::Observer.proc do
           populate_todo_items!
         end.observe(self, :filter)
@@ -113,6 +113,7 @@ class TodoMVC
       def clear_completed!
         TodoItem.all_todo_items.delete_if(&:done?)
         TodoItem.update_active_and_completed_todo_items!
+        populate_todo_items!
       end
 
       private
