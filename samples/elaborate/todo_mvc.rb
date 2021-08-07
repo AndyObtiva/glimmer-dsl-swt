@@ -65,6 +65,7 @@ class TodoMVC
     end
 
     class Presenter
+      DEFAULT_TASK = 'What needs to be done?'
       attr_accessor :new_todo_item_task, :filter, :todo_items
 
       def initialize
@@ -97,8 +98,12 @@ class TodoMVC
         reset_task!
       end
 
-      def complete_all!
-        TodoItem.all_todo_items.each(&:done!)
+      def toggle_all_done!
+        if TodoItem.all_todo_items.map(&:done).all?
+          TodoItem.all_todo_items.each { |item| item.done = false }
+        else
+          TodoItem.all_todo_items.each(&:done!)
+        end
       end
 
       def clear_completed!
@@ -108,7 +113,7 @@ class TodoMVC
       private
 
       def reset_task!
-        self.new_todo_item_task = 'What needs to be done?'
+        self.new_todo_item_task = DEFAULT_TASK
       end
     end
   end
@@ -141,7 +146,7 @@ class TodoMVC
 
         arrow(:arrow, :down) {
           on_widget_selected do
-            @presenter.complete_all!
+            @presenter.toggle_all_done!
           end
         }
 
@@ -151,7 +156,7 @@ class TodoMVC
             height_hint 65
           }
 
-          text <=> [@presenter, :new_todo_item_task]
+          text <=> [@presenter, :new_todo_item_task, after_read: ->(val) {@new_todo_item_text.select_all if val == Model::Presenter::DEFAULT_TASK}]
           font name: 'Helvetica Neue', height: 24, style: :italic
           focus true
 
