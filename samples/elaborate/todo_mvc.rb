@@ -150,6 +150,8 @@ class TodoMVC
         }
 
         arrow(:arrow, :down) {
+          visible <= [Model::TodoItem, 'all_todo_items.to_a.any?']
+          
           on_widget_selected do
             @presenter.toggle_all_done!
           end
@@ -175,7 +177,8 @@ class TodoMVC
         }
       }
 
-      @task_container = table(:editable) {
+      @todo_item_table = table(:editable) {
+        visible <= [Model::TodoItem, 'all_todo_items.to_a.any?']
         header_visible false
 
         table_column {
@@ -192,6 +195,7 @@ class TodoMVC
       }
 
       @action_panel = composite {
+        visible <= [Model::TodoItem, 'all_todo_items.to_a.any?']
         row_layout(:horizontal) {
           margin_width 0
           margin_height 0
@@ -204,29 +208,15 @@ class TodoMVC
           text <= [Model::TodoItem, 'active_todo_items.to_a', on_read: ->(a) { a.nil? ? '          ' : "#{a.size} item#{a.size == 1 ? '' : 's'} left" }]
         }
 
-        button {
-          text 'All'
-
-          on_widget_selected do
-            @presenter.filter = :all
-          end
-        }
-
-        button {
-          text 'Active'
-
-          on_widget_selected do
-            @presenter.filter = :active
-          end
-        }
-
-        button {
-          text 'Completed'
-
-          on_widget_selected do
-            @presenter.filter = :completed
-          end
-        }
+        [:all, :active, :completed].each do |filter|
+          button {
+            text filter.to_s.capitalize
+  
+            on_widget_selected do
+              @presenter.filter = filter
+            end
+          }
+        end
 
         button {
           text 'Clear Completed'
