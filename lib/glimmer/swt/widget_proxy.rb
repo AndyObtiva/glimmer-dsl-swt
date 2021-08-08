@@ -48,7 +48,7 @@ module Glimmer
       include Custom::Drawable
 
       DEFAULT_STYLES = {
-        'arrow'               => [:arrow],
+        'arrow'               => [:arrow, :down],
         'button'              => [:push],
         'canvas'              => ([:double_buffered] unless OS.mac?),
         'ccombo'              => [:border],

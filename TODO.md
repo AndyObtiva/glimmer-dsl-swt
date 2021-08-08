@@ -421,7 +421,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Consider building drag panning into ScrolledComposite ( scrolled_composite ) as an option
 - Build image with a transparent background by default
 - Look into the idea of applying `transform` objects on any widget's rendering
-- Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 - Canvas Shape DSL Support default sizing (default width/height) of Arc containing text (or any shapes)
 - Optimize Flicker Free repaints of canvas shapes on data-binding changes (consider forms of regional clipping/caching/buffering)
 - Support nesting `polyline` and `polygon` under path in Canvas Shape DSL (breaking them down into lines)
@@ -444,10 +443,10 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
-- Hello, Arrow! (button(:arrow))
 - Hello, Toggle! (button(:toggle))
 - Hello, Task Bar! (bottom status bar)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
+- Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 - Clock (changes filled background color between day and night)
 - Music playing app
 - Medical Patient Management app

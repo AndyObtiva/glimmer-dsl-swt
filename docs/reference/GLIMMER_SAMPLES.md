@@ -19,6 +19,7 @@
     - [Hello, Drag and Drop!](#hello-drag-and-drop)
     - [Hello, Menu Bar!](#hello-menu-bar)
     - [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu)
+    - [Hello, Arrow!](#hello-arrow)
     - [Hello, Custom Widget!](#hello-custom-widget)
     - [Hello, Custom Shell!](#hello-custom-shell)
     - [Hello, Sash Form!](#hello-sash-form)
@@ -33,6 +34,7 @@
     - [Hello, File Dialog!](#hello-file-dialog)
     - [Hello, Date Time!](#hello-date-time)
     - [Hello, Scale!](#hello-scale)
+    - [Hello, Slider!](#hello-slider)
     - [Hello, Spinner!](#hello-spinner)
     - [Hello, Table!](#hello-table)
     - [Hello, Link!](#hello-link)
@@ -399,6 +401,20 @@ Code:
 ![Hello Pop Up Context Menu](/images/glimmer-hello-pop-up-context-menu.png)
 ![Hello Pop Up Context Menu Popped Up](/images/glimmer-hello-pop-up-context-menu-popped-up.png)
 
+#### Hello, Arrow!
+
+This sample demonstrates `arrow` button (aka `button(:arrow)`).
+
+Code:
+
+[samples/hello/hello_arrow.rb](/samples/hello/hello_arrow.rb)
+
+![Hello Arrow](/images/glimmer-hello-arrow.png)
+
+![Hello Arrow Menu](/images/glimmer-hello-arrow-menu.png)
+
+![Hello Arrow Item Selected](/images/glimmer-hello-arrow-item-selected.png)
+
 #### Hello, Custom Widget!
 
 This sample demonstrates the use of a custom widget in Glimmer.
@@ -613,6 +629,18 @@ Code:
 Hello, Scale!
 
 ![Hello Scale](/images/glimmer-hello-scale.png)
+
+#### Hello, Slider!
+
+This sample demonstrates the use of `slider` widget in Glimmer
+
+Code:
+
+[samples/hello/hello_slider.rb](/samples/hello/hello_slider.rb)
+
+Hello, Slider!
+
+![Hello Slider](/images/glimmer-hello-slider.png)
 
 #### Hello, Spinner!
 
