@@ -21,7 +21,7 @@
 
 require 'glimmer-dsl-swt'
 
-class HelloScale
+class HelloSlider
   include Glimmer::UI::CustomShell
   
   attr_accessor :value
@@ -55,4 +55,4 @@ class HelloScale
   }
 end
 
-HelloScale.launch
+HelloSlider.launch

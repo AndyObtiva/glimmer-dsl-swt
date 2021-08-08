@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.14.1
+
+- Upgrade to Glimmer 2.1.1
+- Correct Hello, Slider! sample class name
+
 ### 4.20.14.0
 
 - Extract ObserveExpression into Glimmer
