@@ -1,5 +1,10 @@
 # Change Log
 
+### 4.20.14.0
+
+- Extract ObserveExpression into Glimmer
+- Upgrade to Glimmer 2.1.0
+
 ### 4.20.13.18
 
 - Change `arrow` widget default SWT style to include `:down`

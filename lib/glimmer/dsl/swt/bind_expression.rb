@@ -21,7 +21,6 @@
 
 require 'glimmer/dsl/static_expression'
 require 'glimmer/dsl/bind_expression'
-require 'glimmer/data_binding/model_binding'
 
 module Glimmer
   module DSL

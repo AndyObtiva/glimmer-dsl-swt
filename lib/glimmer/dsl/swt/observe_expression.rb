@@ -21,8 +21,7 @@
 
 require 'glimmer/dsl/static_expression'
 require 'glimmer/dsl/top_level_expression'
-require 'glimmer/data_binding/observer'
-require 'glimmer/data_binding/model_binding'
+require 'glimmer/dsl/observe_expression'
 require 'glimmer/ui/custom_widget'
 
 module Glimmer
@@ -30,23 +29,10 @@ module Glimmer
     module SWT
       class ObserveExpression < StaticExpression
         include TopLevelExpression
+        include Glimmer::DSL::ObserveExpression
 
-        REGEX_NESTED_OR_INDEXED_PROPERTY = /([^\[]+)(\[[^\]]+\])?/
-  
-        def can_interpret?(parent, keyword, *args, &block)
-          keyword == 'observe' and
-            block_given? and
-            (args.size == 2) and
-            textual?(args[1])
-        end
-  
         def interpret(parent, keyword, *args, &block)
-          observer = DataBinding::Observer.proc(&block)
-          if args[1].to_s.match(REGEX_NESTED_OR_INDEXED_PROPERTY)
-            observer_registration = observer.observe(DataBinding::ModelBinding.new(args[0], args[1]))
-          else
-            observer_registration = observer.observe(args[0], args[1])
-          end
+          observer_registration = super
           Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(observer_registration)
           observer_registration
         end
