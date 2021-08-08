@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.13.17
+
+- Hello, Slider! sample
+
 ### 4.20.13.16
 
 - Fix issue with setting app name (via `Display.app_name=`) when app is not packaged (always gets set to Glimmer)

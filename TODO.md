@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- TodoMVC External Sample
-- IdeaRank External Sample
 
 ## Future Consideration
 
@@ -62,8 +60,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Amend contact_manager to add a contact
 
 - Hello, Image!
-- Hello, Slider!
-- Hello, Scale!
 - An elaborate sample that demos every widget that comes with SWT out of the box
 - Update Hello, Menu Bar! sample to show images on menu items
 - Look into supporting `menu` pop up in Hello, Tool Bar! (automating linking it to a specific tool item)
@@ -78,7 +74,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Use flyweight pattern with cursors
 - Allow data-binding table column_properties via table_column {} elements instead, just like how they specify editors for themselves
 - Update Hello, Drag and Drop! sample to change mouse cursor while dragging and dropping (like drag a flag of the country)
-- `:draggable` or `:drag_movable` style for any widget to make it movable through dragging (drag and drop)
 - Provide a way to customize display in its own file in scaffolded app (just like configuration) instead of embedding in custom shell which custom shells invoke automatically behind the scenes instead of having to add to before_block
 - add a config file during scaffolding that lists glimmer options (consider using a config dsl)
 - Swtich scaffolding models/views directories into true Ruby namespaces nested under the project main namespace (e.g. calculator namespace for glimmer-cs-calculator)
@@ -445,21 +440,21 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Support a `curve` Custom Shape keyword as a custom path with a `type` (as `point`, `line`, `quad`, or `cubic`), a `point_array` (or optionally `line_array`, `quad_array`, or `cube_array`, preserving data when switching type), and an optional `previous_point_connected true` property. If it starts as cubic, and you change type via data-binding while keeping the same points, it intelligently drops the control points only (remembering them in case you change the type back unless you update the points afterwards). If it starts as quad or line and you change the type upward, it intelligently fills missing control points symettrically. Consider supporting functions at the `curve` shape level also with start/end/division properties). Perhaps provide option for what to do when changing type (preserve_points_on_type_change false option)
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
 - Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
+- Update Hello, Tree! to enable adding/removing nodes
 
 ## Samples
 
-- Hello, Slider!
 - Hello, Arrow! (button(:arrow))
 - Hello, Toggle! (button(:toggle))
 - Hello, Task Bar! (bottom status bar)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
 - Clock (changes filled background color between day and night)
 - Music playing app
-- HR Employee Management app
 - Medical Patient Management app
 - Business Accounting app
-- Backgammon game
 - Add improvements to Timer to do Countup and Pomodoro, and use Nebula's digital clock custom widget
+- TodoMVC External Sample
+- IdeaRank External Sample
 
 ## Side Projects
 
@@ -513,10 +508,6 @@ A terminal written in Glimmer DSL for SWT.
 - Consider optional mouse interaction support and in-terminal GUI
 - Dark look and feel by default (themable through terminal command configuration only)
 
-### Glimmertalk project
-
-- Build a Smalltalk-like Ruby app to allow people to build and edit GUI apps by introspecting GUI directly without restarting
-
 ### Connector (Web Browser)
 
 - Chromium based Glimmer DSL for SWT Ruby web browser
@@ -537,13 +528,11 @@ A terminal written in Glimmer DSL for SWT.
 - Ability to gel any Glimmer Platform app into a standalone app on the machine
 - SSL connection encryption and baked in authentication/account management services for customers and developers
 - Glimmer Platform becomes a framework that handles many concerns and services (accounts, location, configuration, etc...) effortlessly so that developers can very productively roll out desktop apps with pure Ruby code (this becomes the default way to build Glimmer apps)
-- Glimmer Platform can integrate perfectly with Glimmertalk to enable direct in-platform development and distribution of apps
 - Glimmer Platform can integrate perfectly with the FreeHire website to deliver work for free
 - Add minimum_width and minimum_height convenience attributes on ShellProxy for `shell` keyword
 
 ### UML For Life
 
-- glimmer-cp-stickfigure which provides the `stick_figure` custom shape keyword
 - A UML diagraming app (consider eventually webifying via Opal)
 
 ## Custom Widgets/Shells/Shapes/Images
