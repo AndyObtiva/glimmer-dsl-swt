@@ -1,6 +1,6 @@
 # Change Log
 
-### 4.20.14.0
+### 4.20.13.18
 
 - Change `arrow` widget default SWT style to include `:down`
 - Hello, Arrow! sample

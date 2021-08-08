@@ -443,7 +443,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
-- Hello, Toggle! (button(:toggle))
+- Hello, Toggle! (button(:toggle)) - toggle red, green, and/or blue to achieve a composite color
 - Hello, Task Bar! (bottom status bar)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete)
 - Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
