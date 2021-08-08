@@ -7,6 +7,10 @@ module GlimmerSpec
     before do
       class Person
         attr_accessor :name, :main_address, :addresses
+        
+        def initialize
+          self.addresses = []
+        end
       end
 
       class Address
@@ -110,7 +114,7 @@ module GlimmerSpec
         @observer_notified = true
       end
 
-      person.addresses = [address]
+      person.addresses << address
       expect(@observer_notified).to eq(true)
 
       observer_registration.unregister
