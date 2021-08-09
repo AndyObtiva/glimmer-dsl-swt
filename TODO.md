@@ -445,7 +445,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
-- Hello, Print Dialog! and printing with Glimmer DSL for SWT (make it a one method call, perhaps on any widget)
 - Clock (changes filled background color between day and night)
 - Music playing app
 - Medical Patient Management app
