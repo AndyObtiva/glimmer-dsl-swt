@@ -31,6 +31,7 @@ module Glimmer
       'org.eclipse.swt.browser',
       'org.eclipse.swt.custom',
       'org.eclipse.swt.dnd',
+      'org.eclipse.swt.printing',
     ]
     DEFAULT_AUTO_SYNC_EXEC = true
     
