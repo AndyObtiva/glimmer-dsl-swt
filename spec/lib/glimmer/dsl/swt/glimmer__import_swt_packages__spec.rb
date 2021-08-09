@@ -11,7 +11,7 @@ describe Glimmer do
       SomeShell
     ].each do |constant|
       Object.send(:remove_const, constant) if Object.const_defined?(constant)
-    end    
+    end
     Glimmer::Config.send(:remove_class_variable, :@@import_swt_packages)
     Glimmer::SWT.send(:remove_const, :Packages)
     load 'glimmer/swt/packages.rb'
@@ -19,7 +19,7 @@ describe Glimmer do
   
   describe '.import_swt_packages' do
     it 'enables automatic include of SWT packages in Glimmer apps by default' do
-      class SomeApp   
+      class SomeApp
         include Glimmer
       end
   
@@ -37,7 +37,7 @@ describe Glimmer do
   
       expect(Glimmer::Config.import_swt_packages).to eq(Glimmer::Config::DEFAULT_IMPORT_SWT_PACKAGES)
       
-      expect(SomeApp::Label).to eq(org.eclipse.swt.widgets.Label)    
+      expect(SomeApp::Label).to eq(org.eclipse.swt.widgets.Label)
     end
   
     it 'enables automatic include of SWT packages in Glimmer apps by specifying extra packages' do
@@ -57,6 +57,7 @@ describe Glimmer do
         'org.eclipse.swt.browser',
         'org.eclipse.swt.custom',
         'org.eclipse.swt.dnd',
+        'org.eclipse.swt.printing',
         'org.eclipse.nebula.widgets.ganttchart',
       ])
   
@@ -85,6 +86,7 @@ describe Glimmer do
         'org.eclipse.swt.browser',
         'org.eclipse.swt.custom',
         'org.eclipse.swt.dnd',
+        'org.eclipse.swt.printing',
         'org.eclipse.nebula.widgets.ganttchart',
       ])
   
@@ -93,7 +95,7 @@ describe Glimmer do
       shell {
         some_widget {
         }
-      }    
+      }
     end
   
     it 'enables automatic include of SWT packages in Glimmer custom shells by specifying extra packages' do
@@ -120,6 +122,7 @@ describe Glimmer do
         'org.eclipse.swt.browser',
         'org.eclipse.swt.custom',
         'org.eclipse.swt.dnd',
+        'org.eclipse.swt.printing',
         'org.eclipse.nebula.widgets.ganttchart',
       ])
   
@@ -156,7 +159,7 @@ describe Glimmer do
     end
   
     it 'disables automatic include of SWT packages in Glimmer apps' do
-      Glimmer::Config.import_swt_packages = false    
+      Glimmer::Config.import_swt_packages = false
       
       class SomeApp
         include Glimmer

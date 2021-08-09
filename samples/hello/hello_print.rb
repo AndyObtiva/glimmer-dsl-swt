@@ -21,12 +21,12 @@
 
 require 'glimmer-dsl-swt'
 
-class HelloPrintDialog
+class HelloPrint
   include Glimmer::UI::CustomShell
   
   body {
     shell {
-      text 'Hello, Print Dialog!'
+      text 'Hello, Print!'
       @composite = composite {
         row_layout(:vertical) {
           fill true
@@ -42,36 +42,9 @@ class HelloPrintDialog
           text 'Print'
           
           on_widget_selected do
-            # note: you may check out Hello, Print! for a simpler version that automates the work below
-            image = Image.new(display.swt_display, @composite.bounds)
-            gc = org.eclipse.swt.graphics.GC.new(image)
-            success = @composite.print(gc)
-            if success
-              printer_data = print_dialog.open
-              printer = Printer.new(printer_data)
-              if printer.start_job('Glimmer')
-                printer_gc = org.eclipse.swt.graphics.GC.new(printer)
-                if printer.start_page
-                  printer_gc.drawImage(image, 0, 0)
-                  printer.end_page
-                else
-                  message_box {
-                    text 'Unable To Print'
-                    message 'Sorry! Cannot start printer page!'
-                  }.open
-                end
-                printer_gc.dispose
-                printer.end_job
-              else
-                message_box {
-                  text 'Unable To Print'
-                  message 'Sorry! Cannot start printer job!'
-                }.open
-              end
-              printer.dispose
-              gc.dispose
-              image.dispose
-            else
+            # The widget#print method automates all the work seen in Hello, Print Dialog!
+            # the caveat is it assumes everything fits on one page
+            unless @composite.print
               message_box {
                 text 'Unable To Print'
                 message 'Sorry! Printing is not supported on this platform!'
@@ -84,4 +57,4 @@ class HelloPrintDialog
   }
 end
 
-HelloPrintDialog.launch
+HelloPrint.launch

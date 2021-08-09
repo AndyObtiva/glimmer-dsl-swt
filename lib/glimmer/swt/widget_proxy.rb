@@ -610,6 +610,38 @@ module Glimmer
           (@swt_widget.style & comparison) == comparison
         end
       end
+      
+      def print(gc=nil, job_name: nil)
+        if gc.is_a?(org.eclipse.swt.graphics.GC)
+          @swt_widget.print(gc)
+        else
+          image = Image.new(DisplayProxy.instance.swt_display, bounds)
+          gc = org.eclipse.swt.graphics.GC.new(image)
+          success = print(gc)
+          if success
+            printer_data = DialogProxy.new('print_dialog', shell.get_data('proxy')).open
+            printer = Printer.new(printer_data)
+            job_name ||= 'Glimmer'
+            if printer.start_job(job_name)
+              printer_gc = org.eclipse.swt.graphics.GC.new(printer)
+              if printer.start_page
+                printer_gc.drawImage(image, 0, 0)
+                printer.end_page
+              else
+                success = false
+              end
+              printer_gc.dispose
+              printer.end_job
+            else
+              success = false
+            end
+            printer.dispose
+            gc.dispose
+            image.dispose
+          end
+          success
+        end
+      end
 
       def dispose
         auto_exec do
