@@ -33,6 +33,8 @@
     - [Hello, Checkbox Group!](#hello-checkbox-group)
     - [Hello, Directory Dialog!](#hello-directory-dialog)
     - [Hello, File Dialog!](#hello-file-dialog)
+    - [Hello, Print Dialog!](#hello-print-dialog)
+    - [Hello, Print!](#hello-print)
     - [Hello, Date Time!](#hello-date-time)
     - [Hello, Scale!](#hello-scale)
     - [Hello, Slider!](#hello-slider)
@@ -613,7 +615,7 @@ Hello, Directory Dialog! Selected Directory
 
 #### Hello, File Dialog!
 
-This sample demonstrates the use of a `file_dialog` in Glimmer.
+This sample demonstrates the use of `file_dialog` in Glimmer.
 
 Code:
 
@@ -630,6 +632,30 @@ Hello, File Dialog! Browse...
 Hello, File Dialog! Selected File
 
 ![Hello File Dialog](/images/glimmer-hello-file-dialog-selected-file.png)
+
+#### Hello, Print Dialog!
+
+This sample demonstrates the use of `print_dialog` in Glimmer.
+
+Code:
+
+[samples/hello/hello_print_dialog.rb](/samples/hello/hello_print_dialog.rb)
+
+Hello, Print Dialog!
+
+![Hello Print Dialog](/images/glimmer-hello-print-dialog.png)
+
+#### Hello, Print!
+
+This sample demonstrates the use of `widget#print`, which automates work from Hello, Print Dialog! assuming a single page
+
+Code:
+
+[samples/hello/hello_print.rb](/samples/hello/hello_print.rb)
+
+Hello, Print!
+
+![Hello Print](/images/glimmer-hello-print.png)
 
 #### Hello, Date Time!
 
