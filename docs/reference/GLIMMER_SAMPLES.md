@@ -14,6 +14,7 @@
     - [Hello, List Single Selection!](#hello-list-single-selection)
     - [Hello, List Multi Selection!](#hello-list-multi-selection)
     - [Hello, Computed!](#hello-computed)
+    - [Hello, Toggle!](#hello-toggle)
     - [Hello, Message Box!](#hello-message-box)
     - [Hello, Browser!](#hello-browser)
     - [Hello, Drag and Drop!](#hello-drag-and-drop)
@@ -314,6 +315,30 @@ Code:
 [samples/hello/hello_computed.rb](/samples/hello/hello_computed.rb)
 
 ![Hello Browser](/images/glimmer-hello-computed.png)
+
+#### Hello, Toggle!
+
+This sample demonstrates the use of `toggle` button (aka `button(:toggle)`)
+
+Code:
+
+[samples/hello/hello_toggle.rb](/samples/hello/hello_toggle.rb)
+
+![Hello Toggle](/images/glimmer-hello-toggle.png)
+
+![Hello Toggle Red](/images/glimmer-hello-toggle-red.png)
+
+![Hello Toggle Green](/images/glimmer-hello-toggle-green.png)
+
+![Hello Toggle Blue](/images/glimmer-hello-toggle-blue.png)
+
+![Hello Toggle Red Green](/images/glimmer-hello-toggle-red-green.png)
+
+![Hello Toggle Red Blue](/images/glimmer-hello-toggle-red-blue.png)
+
+![Hello Toggle Green Blue](/images/glimmer-hello-toggle-green-blue.png)
+
+![Hello Toggle Red Green Blue](/images/glimmer-hello-toggle-red-green-blue.png)
 
 #### Hello, Message Box!
 
