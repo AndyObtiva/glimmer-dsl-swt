@@ -67,6 +67,7 @@
     - [Tic Tac Toe](#tic-tac-toe)
     - [Connect 4](#connect-4)
     - [Contact Manager](#contact-manager)
+    - [Clock](#clock)
     - [Game of Life](#game-of-life)
     - [Glimmer Tetris](#glimmer-tetris)
     - [Klondike Solitaire](#klondike-solitaire)
@@ -1182,6 +1183,16 @@ Contact Manager - Edit In Progress
 Contact Manager - Edit Done
 
 ![Contact Manager](/images/glimmer-contact-manager-edit-done.png)
+
+#### Clock
+
+This sample demonstrates how to build an animation based application.
+
+Code:
+
+[samples/elaborate/clock.rb](/samples/elaborate/clock.rb)
+
+![Clock](/images/glimmer-clock.png)
 
 #### Game of Life
 

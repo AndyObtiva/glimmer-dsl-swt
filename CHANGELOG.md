@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.15.1
+
+- Glimmer Clock elaborate sample
+
 ### 4.20.15.0
 
 - Hello, Print Dialog!
