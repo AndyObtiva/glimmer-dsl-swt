@@ -40,9 +40,6 @@ class Clock
             oval(0, 0, 400, 400) {
               background :white
             }
-            oval(0, 0, 400, 400) {
-              foreground :black
-            }
             polygon(-5, -5, 180, 0, -5, 5) {
               background :black
               
