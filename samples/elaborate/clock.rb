@@ -25,36 +25,46 @@ class Clock
   body {
     shell {
       text 'Glimmer Clock'
-      minimum_size 400, 420
+      minimum_size 400, 430
     
       canvas {
         initial_time = Time.now
-        background :yellow # sets canvas background color
+        background :black
+        
         animation {
-          every 0.1667 # in seconds (one thousandth)
+          every 0.01 # every hundredth of a second to ensure higher accuracy
                 
-          frame { |index| # frame block loops indefinitely (unless frame_count is set to an integer)
-            # TODO cycle from green to yellow to blue
-            
-            oval(0, 0, 400, 400) { # x, y, width, height
-              # TODO make the color change cycle 15 seconds
-              background rgb(155, index%255, index%255)
+          frame { |index|
+            time = Time.now
+          
+            oval(0, 0, 400, 400) {
+              background :white
             }
-            oval(0, 0, 400, 400) { # x, y, width, height
-              foreground :yellow # sets oval background color
-              line_width 5
+            oval(0, 0, 400, 400) {
+              foreground :black
             }
-            # TODO replace arc with line
-    #         arc(0, 0, 400, 400, -1.4*index%360, 10) {  # x, y, width, height, start angle, arc angle
-            # TODO divide correctly to ensure having 60 seconds around 360 degrees (with 1 hundredth of each or some other subdivision)
-#             arc(0, 0, 400, 400, 90 - ((Time.now - initial_time)*6), -1) {  # x, y, width, height, start angle, arc angle
-#               background rgb(200, 200, 50) # sets arc background color
-#             }
-            rectangle(0, 200, 400, 6) {
+            polygon(-5, -5, 180, 0, -5, 5) {
+              background :black
+              
               transform {
                 translate 200, 200
-                rotate(index)
-                translate -200, -200
+                rotate(time.sec*6 - 90)
+              }
+            }
+            polygon(-5, -5, 135, 0, -5, 5) {
+              background :dark_gray
+              
+              transform {
+                translate 200, 200
+                rotate(time.min*6 - 90)
+              }
+            }
+            polygon(-5, -5, 90, 0, -5, 5) {
+              background :gray
+              
+              transform {
+                translate 200, 200
+                rotate((time.hour - 12)*30 - 90)
               }
             }
           }
