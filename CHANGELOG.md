@@ -10,6 +10,10 @@
 - Hello, Print!
 - `widget#print` method that automates work in Hello, Print Dialog! and is used in Hello, Print!
 
+### 4.20.14.2
+
+- Hello, Toggle!
+
 ### 4.20.14.1
 
 - Upgrade to Glimmer 2.1.1
