@@ -39,8 +39,8 @@ class Timer
   ## Use after_body block to setup observers for widgets in body
   #
   after_body do
-    Thread.new {
-      loop {
+    Thread.new do
+      loop do
         sleep(1)
         if @countdown
           sync_exec {
@@ -54,8 +54,8 @@ class Timer
             end
           }
         end
-      }
-    }
+      end
+    end
   end
 
   ## Add widget content inside custom shell body

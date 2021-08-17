@@ -87,7 +87,7 @@ class HelloLabel
           
           ['denmark', 'finland', 'norway'].each do |image_name|
             label {
-              layout_data :fill, :center, true, false
+              layout_data :center, :center, true, false
               image File.expand_path("images/#{image_name}.png", __dir__)
             }
             text {
