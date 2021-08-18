@@ -48,29 +48,31 @@ class HelloPrintDialog
             success = @composite.print(gc)
             if success
               printer_data = print_dialog.open
-              printer = Printer.new(printer_data)
-              if printer.start_job('Glimmer')
-                printer_gc = org.eclipse.swt.graphics.GC.new(printer)
-                if printer.start_page
-                  printer_gc.drawImage(image, 0, 0)
-                  printer.end_page
+              if printer_data
+                printer = Printer.new(printer_data)
+                if printer.start_job('Glimmer')
+                  printer_gc = org.eclipse.swt.graphics.GC.new(printer)
+                  if printer.start_page
+                    printer_gc.drawImage(image, 0, 0)
+                    printer.end_page
+                  else
+                    message_box {
+                      text 'Unable To Print'
+                      message 'Sorry! Cannot start printer page!'
+                    }.open
+                  end
+                  printer_gc.dispose
+                  printer.end_job
                 else
                   message_box {
                     text 'Unable To Print'
-                    message 'Sorry! Cannot start printer page!'
+                    message 'Sorry! Cannot start printer job!'
                   }.open
                 end
-                printer_gc.dispose
-                printer.end_job
-              else
-                message_box {
-                  text 'Unable To Print'
-                  message 'Sorry! Cannot start printer job!'
-                }.open
+                printer.dispose
+                gc.dispose
+                image.dispose
               end
-              printer.dispose
-              gc.dispose
-              image.dispose
             else
               message_box {
                 text 'Unable To Print'

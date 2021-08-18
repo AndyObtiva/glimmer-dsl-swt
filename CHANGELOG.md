@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.15.2
+
+- Fixed `widget#print` support and Hello, Print Dialog! handling of cancellation of printing
+
 ### 4.20.15.1
 
 - Glimmer Clock elaborate sample

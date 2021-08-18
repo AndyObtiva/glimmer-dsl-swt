@@ -620,24 +620,26 @@ module Glimmer
           success = print(gc)
           if success
             printer_data = DialogProxy.new('print_dialog', shell.get_data('proxy')).open
-            printer = Printer.new(printer_data)
-            job_name ||= 'Glimmer'
-            if printer.start_job(job_name)
-              printer_gc = org.eclipse.swt.graphics.GC.new(printer)
-              if printer.start_page
-                printer_gc.drawImage(image, 0, 0)
-                printer.end_page
+            if printer_data
+              printer = Printer.new(printer_data)
+              job_name ||= 'Glimmer'
+              if printer.start_job(job_name)
+                printer_gc = org.eclipse.swt.graphics.GC.new(printer)
+                if printer.start_page
+                  printer_gc.drawImage(image, 0, 0)
+                  printer.end_page
+                else
+                  success = false
+                end
+                printer_gc.dispose
+                printer.end_job
               else
                 success = false
               end
-              printer_gc.dispose
-              printer.end_job
-            else
-              success = false
+              printer.dispose
+              gc.dispose
+              image.dispose
             end
-            printer.dispose
-            gc.dispose
-            image.dispose
           end
           success
         end
