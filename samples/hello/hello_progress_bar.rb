@@ -107,18 +107,18 @@ class HelloProgressBar
         }
         text "Start"
         
-        on_widget_selected {
+        on_widget_selected do
           # if a previous thread is running, then kill first
           # (killing is not dangerous since it is only a thread about updating progress)
           @current_thread&.kill
-          @current_thread = Thread.new {
+          @current_thread = Thread.new do
             @progress_model.selection = @progress_model.minimum
             (@progress_model.minimum..@progress_model.maximum).to_a.each do |n|
               @progress_model.selection = n
               sleep(@progress_model.delay)
             end
-          }
-        }
+          end
+        end
       }
     }
   }

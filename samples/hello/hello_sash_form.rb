@@ -109,9 +109,9 @@ shell {
       foreground :dark_green
       font height: 16
       
-      on_widget_selected {
+      on_widget_selected do
         @sash_form.maximized_control = @green_label.swt_widget
-      }
+      end
     }
     button {
       layout_data(:fill, :center, true, false)
@@ -119,9 +119,9 @@ shell {
       foreground :red
       font height: 16
       
-      on_widget_selected {
+      on_widget_selected do
         @sash_form.maximized_control = @red_label.swt_widget
-      }
+      end
     }
     
     button {
@@ -131,9 +131,9 @@ shell {
       text 'Maximize None'
       font height: 16
       
-      on_widget_selected {
+      on_widget_selected do
         @sash_form.maximized_control = nil
-      }
+      end
     }
   }
 }.open
