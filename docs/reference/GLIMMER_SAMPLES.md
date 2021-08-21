@@ -1248,7 +1248,7 @@ Check out a souped up large-card-size packaged version of the game in the [Glimm
 
 #### Battleship
 
-This sample demonstrates how to build an interactive board game with A.I., MVC architecture, hybrid canvas widget/shape approach, custom-widgets, data-binding, observers, and widget drag & drop.
+This sample demonstrates how to build an interactive board game with MVC architecture, hybrid canvas widget/shape approach, custom-widgets, data-binding, observers, and widget drag & drop. Note that the A.I. is very simplistic as it is besides the point of this GUI demo, which focuses on leveraging Glimmer DSL for SWT.
 
 Code:
 
