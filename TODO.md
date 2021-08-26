@@ -40,6 +40,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Canvas animation loop_count property to set number of loops assuming it is a finite animation (having frame count, cycle count, or duration)
 - Canvas consider supporting an async: false option (to use sync_exec instead of async_exec)
 
+- Build oval in Canvas Shape DSL with radius or diameter as alternatives to width and height
+
 - Add a samples directory to scaffolded custom widget gems and custom shape gems that demonstrate them (encouraging 3rd party makers to show off their widgets)
 - Support --no-shine option to disable if needed or there are concerns about conflicts between it and other keywords/methods that take no args
 - Provide an SWTProxy API method for picking out line styles (line_style property in Canvas Shape DSL)
