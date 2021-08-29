@@ -463,12 +463,12 @@ include Glimmer
   text 'Hello, Message Box!'
   button {
     text 'Please Click To Win a Surprise'
-    on_widget_selected {
+    on_widget_selected do
       message_box(@shell) {
         text 'Surprise'
         message "Congratulations!\n\nYou have won $1,000,000!"
       }.open
-    }
+    end
   }
 }
 @shell.open
@@ -502,9 +502,9 @@ automatically uses the `display` created earlier without having to explicitly ho
 ```ruby
 @display = display {
   cursor_location 300, 300
-  on_swt_keydown {
+  on_swt_keydown do
     # ...
-  }
+  end
   # ...
 }
 @shell = shell { # uses display created above
@@ -607,52 +607,52 @@ shell {
         text '&New'
         accelerator :command, :N
         
-        on_widget_selected {
+        on_widget_selected do
           message_box {
             text 'New'
             message 'New file created.'
           }.open
-        }
+        end
       }
       menu_item {
         text '&Open...'
         accelerator :command, :O
         
-        on_widget_selected {
+        on_widget_selected do
           message_box {
             text 'Open'
             message 'Opening File...'
           }.open
-        }
+        end
       }
       menu {
         text 'Open &Recent'
         menu_item {
           text 'File 1'
-          on_widget_selected {
+          on_widget_selected do
             message_box {
               text 'File 1'
               message 'File 1 Contents'
             }.open
-          }
+          end
         }
         menu_item {
           text 'File 2'
-          on_widget_selected {
+          on_widget_selected do
             message_box {
               text 'File 2'
               message 'File 2 Contents'
             }.open
-          }
+          end
         }
       }
       menu_item(:separator)
       menu_item {
         text 'E&xit'
         
-        on_widget_selected {
+        on_widget_selected do
           exit(0)
-        }
+        end
       }
     }
     menu {
@@ -676,10 +676,10 @@ shell {
       menu_item(:radio) {
         text '&Enabled'
         
-        on_widget_selected {
+        on_widget_selected do
           @select_one_menu.enabled = true
           @select_multiple_menu.enabled = true
-        }
+        end
       }
       @select_one_menu = menu {
         text '&Select One'
@@ -718,9 +718,9 @@ shell {
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
             
-            on_widget_selected {
+            on_widget_selected do
               @label.background = color_style
-            }
+            end
           }
         }
       }
@@ -730,9 +730,9 @@ shell {
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
             
-            on_widget_selected {
+            on_widget_selected do
               @label.foreground = color_style
-            }
+            end
           }
         }
       }
@@ -742,27 +742,27 @@ shell {
       menu_item(:radio) {
         text 'Small'
         
-        on_widget_selected {
+        on_widget_selected do
           @label.font = {height: 25}
           @label.parent.pack
-        }
+        end
       }
       menu_item(:radio) {
         text 'Medium'
         selection true
         
-        on_widget_selected {
+        on_widget_selected do
           @label.font = {height: 50}
           @label.parent.pack
-        }
+        end
       }
       menu_item(:radio) {
         text 'Large'
         
-        on_widget_selected {
+        on_widget_selected do
           @label.font = {height: 75}
           @label.parent.pack
-        }
+        end
       }
     }
     menu {
@@ -771,34 +771,34 @@ shell {
         text '&Manual'
         accelerator :command, :shift, :M
         
-        on_widget_selected {
+        on_widget_selected do
           message_box {
             text 'Manual'
             message 'Manual Contents'
           }.open
-        }
+        end
       }
       menu_item {
         text '&Tutorial'
         accelerator :command, :shift, :T
         
-        on_widget_selected {
+        on_widget_selected do
           message_box {
             text 'Tutorial'
             message 'Tutorial Contents'
           }.open
-        }
+        end
       }
       menu_item(:separator)
       menu_item {
         text '&Report an Issue...'
         
-        on_widget_selected {
+        on_widget_selected do
           message_box {
             text 'Report an Issue'
             message 'Reporting an issue...'
           }.open
-        }
+        end
       }
     }
   }
@@ -829,42 +829,42 @@ shell {
           text '&Recent'
           menu_item {
             text 'File 1'
-            on_widget_selected {
+            on_widget_selected do
               message_box {
                 text 'File 1'
                 message 'File 1 Contents'
               }.open
-            }
+            end
           }
           menu_item {
             text 'File 2'
-            on_widget_selected {
+            on_widget_selected do
               message_box {
                 text 'File 2'
                 message 'File 2 Contents'
               }.open
-            }
+            end
           }
         }
         menu {
           text '&Archived'
           menu_item {
             text 'File 3'
-            on_widget_selected {
+            on_widget_selected do
               message_box {
                 text 'File 3'
                 message 'File 3 Contents'
               }.open
-            }
+            end
           }
           menu_item {
             text 'File 4'
-            on_widget_selected {
+            on_widget_selected do
               message_box {
                 text 'File 4'
                 message 'File 4 Contents'
               }.open
-            }
+            end
           }
         }
       }
@@ -933,24 +933,24 @@ Example code:
           menu_item {
             text 'Exit'
 
-            on_widget_selected {
+            on_widget_selected do
               exit(0)
-            }
+            end
           }
         }
         
         # supported tray item listeners (you can try to add actions to them when needed)
-#         on_swt_Show {
-#         }
+#         on_swt_Show do
+#         end
 #
-#         on_swt_Hide {
-#         }
+#         on_swt_Hide do
+#         end
 #
-#         on_widget_selected {
-#         }
+#         on_widget_selected do
+#         end
 #
-#         on_menu_detected {
-#         }
+#         on_menu_detected do
+#         end
       }
       
       label(:center) {
@@ -1042,9 +1042,9 @@ shell {
         h1 { "Hello, World!" }
       }
     }
-    on_completed { # on load of the page execute this JavaScript
+    on_completed do # on load of the page execute this JavaScript
       @browser.swt_widget.execute("alert('Hello, World!');")
-    }
+    end
   }
 }.open
 ```
@@ -1715,7 +1715,7 @@ shell {
   canvas {
     background :dark_yellow
     
-    on_paint_control { |paint_event|
+    on_paint_control do |paint_event|
       gc = paint_event.gc
       
       gc.background = color(:dark_red).swt_color
@@ -1737,7 +1737,7 @@ shell {
       gc.draw_rectangle(200, 80, 108, 36)
       
       gc.draw_image(image_object.swt_image, 70, 50)
-    }
+    end
   }
 }.open
 ```
@@ -1987,15 +1987,15 @@ shell {
   text 'Pixel Graphics Example'
   
   canvas {
-    on_paint_control { |paint_event|
+    on_paint_control do |paint_event|
       gc = paint_event.gc
-      250.times {|y|
-        250.times {|x|
+      250.times do |y|
+        250.times do |x|
           gc.foreground = Color.new(y%255, x%255, (x+y)%255)
           gc.draw_point(x, y)
-        }
-      }
-    }
+        end
+      end
+    end
   }
 }.open
 ```
@@ -2572,9 +2572,9 @@ shell {
     }
     items bind(group, :people), column_properties(:name, :age, :adult)
     selection bind(group, :selected_person)
-    on_mouse_up { |event|
+    on_mouse_up do |event|
       @table.edit_table_item(event.table_item, event.column_index)
-    }
+    end
   }
 }
 ```
@@ -2886,9 +2886,9 @@ shell {
           layout_data :fill, :fill, true, true
           text        bind(@tic_tac_toe_board[row, column], :sign)
           enabled     bind(@tic_tac_toe_board[row, column], :empty)
-          on_widget_selected {
+          on_widget_selected do
             @tic_tac_toe_board.mark(row, column)
-          }
+          end
         }
       }
     }
@@ -2914,22 +2914,22 @@ shell {
   @button1 = button {
     text "Show 2nd Button"
     visible true
-    on_swt_show {
+    on_swt_show do
       @button2.swt_widget.setVisible(false)
-    }
-    on_widget_selected {
+    end
+    on_widget_selected do
       @button2.swt_widget.setVisible(true)
-    }
+    end
   }
   @button2 = button {
     text "Show 1st Button"
     visible false
-    on_swt_show {
+    on_swt_show do
       @button1.swt_widget.setVisible(false)
-    }
-    on_widget_selected {
+    end
+    on_widget_selected do
       @button1.swt_widget.setVisible(true)
-    }
+    end
   }
 }.open
 ```
@@ -2948,9 +2948,9 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
     text "Hello, World!"
   }
 }
-@shell.on_shell_iconified {
+@shell.on_shell_iconified do
   @shell.close
-}
+end
 @shell.open
 ```
 
@@ -2968,10 +2968,10 @@ class TicTacToe
 
   def initialize
     # ...
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
+    observe(@tic_tac_toe_board, :game_status) do |game_status|
       display_win_message if game_status == Board::WIN
       display_draw_message if game_status == Board::DRAW
-    }
+    end
   end
   # ...
 end
@@ -2988,10 +2988,10 @@ class TicTacToe
 
   def initialize
     # ...
-    observe(@tic_tac_toe_board, :game_status) { |game_status|
+    observe(@tic_tac_toe_board, :game_status) do |game_status|
       display_win_message if game_status == Board::WIN
       display_draw_message if game_status == Board::DRAW
-    }
+    end
   end
 
   def display_win_message
@@ -3577,9 +3577,9 @@ class WizardStep
       if number < step_count
         button {
           text "Go To Next Step"
-          on_widget_selected {
+          on_widget_selected do
             body_root.hide
-          }
+          end
         }
       end
     }
@@ -3592,22 +3592,22 @@ shell { |app_shell|
   @current_step_number = 1
   @wizard_steps = 5.times.map { |n|
     wizard_step(number: n+1, step_count: 5) {
-      on_swt_hide {
+      on_swt_hide do
         if @current_step_number < 5
           @current_step_number += 1
           app_shell.hide
           @wizard_steps[@current_step_number - 1].open
         end
-      }
+      end
     }
   }
   button {
     text "Start"
     font height: 40
-    on_widget_selected {
+    on_widget_selected do
       app_shell.hide
       @wizard_steps[@current_step_number - 1].open
-    }
+    end
   }
 }.open
 ```
@@ -3647,17 +3647,17 @@ shell {
   text 'Hello, Drag and Drop!'
   list {
     selection bind(@location, :country)
-    on_drag_set_data { |event|
+    on_drag_set_data do |event|
       list = event.widget.getControl
       event.data = list.getSelection.first
-    }
+    end
   }
   label(:center) {
     text 'Drag a country here!'
     font height: 20
-    on_drop { |event|
+    on_drop do |event|
       event.widget.getControl.setText(event.data)
-    }
+    end
   }
 }.open
 ```
@@ -3824,15 +3824,17 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
 class Example
-  def initialize
+  include Glimmer::UI::CustomShell
+  
+  before_body do
     display {
-      on_about {
+      on_about do
         message_box(@shell_proxy) {
           text 'About'
           message 'About Application'
         }.open
-      }
-      on_preferences {
+      end
+      on_preferences do
         preferences_dialog = dialog {
           text 'Preferences'
           row_layout {
@@ -3853,24 +3855,28 @@ class Example
           }
         }
         preferences_dialog.open
-      }
+      end
     }
-    @shell_proxy = shell {
-      text 'Application Menu Items'
+  end
+  
+  body {
+    shell {
       fill_layout {
         margin_width 15
         margin_height 15
       }
+      
+      text 'Application Menu Items'
+      
       label {
         text 'Application Menu Items'
         font height: 30
       }
-    }
-    @shell_proxy.open
-  end
+    }    
+  }
 end
 
-Example.new
+Example.launch
 ```
 
 #### App Name and Version
@@ -3919,9 +3925,9 @@ Example:
 ```ruby
 shell {
   # some code
-  on_swt_show {
+  on_swt_show do
     exit(0)
-  }
+  end
 }
 ```
 

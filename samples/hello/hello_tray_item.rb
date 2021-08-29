@@ -105,17 +105,17 @@ class HelloTrayItem
         }
         
         # supported tray item listeners (you can try to add actions to them when needed)
-#         on_swt_Show {
-#         }
+#         on_swt_Show do
+#         end
 #
-#         on_swt_Hide {
-#         }
+#         on_swt_Hide do
+#         end
 #
-#         on_widget_selected {
-#         }
+#         on_widget_selected do
+#         end
 #
-#         on_menu_detected {
-#         }
+#         on_menu_detected do
+#         end
       }
       
       label(:center) {
