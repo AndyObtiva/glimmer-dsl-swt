@@ -48,6 +48,7 @@ class HelloCanvas
     
       @canvas = canvas {
         background :yellow
+        
         rectangle(0, 0, 220, 400) {
           background rgb(255, 0, 0)
         }

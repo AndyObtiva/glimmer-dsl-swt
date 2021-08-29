@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.15.3
+
+- Updated Hello, Text! sample to have a no-border `text` widget
+
 ### 4.20.15.2
 
 - Fixed `widget#print` support and Hello, Print Dialog! handling of cancellation of printing

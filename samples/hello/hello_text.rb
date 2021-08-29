@@ -24,10 +24,11 @@ require 'glimmer-dsl-swt'
 class HelloText
   include Glimmer::UI::CustomShell
   
-  attr_accessor :default, :center, :left, :right, :password, :telephone, :read_only, :wrap, :multi
+  attr_accessor :default, :no_border, :center, :left, :right, :password, :telephone, :read_only, :wrap, :multi
   
   before_body do
     self.default = 'default is :border style'
+    self.no_border = 'no border'
     self.center = 'centered'
     self.left = 'left-aligned'
     self.right = 'right-aligned'
@@ -51,6 +52,14 @@ class HelloText
       text { # includes :border style by default
         layout_data :fill, :center, true, false
         text <=> [self, :default]
+      }
+      
+      label {
+        text 'text(:none)'
+      }
+      text(:none) { # no border
+        layout_data :fill, :center, true, false
+        text <=> [self, :no_border]
       }
       
       label {
@@ -90,7 +99,7 @@ class HelloText
       }
       text(:read_only, :border) {
         layout_data :fill, :center, true, false
-        text <=> [self, :read_only]
+        text <= [self, :read_only]
       }
       
       label {
