@@ -37,10 +37,10 @@ shell {
     text 'Regenerate'
     enabled false
     
-    on_widget_selected {
+    on_widget_selected do
       @regenerate = true
       @button.enabled = false
-    }
+    end
   }
   canvas {
     layout_data :fill, :fill, true, true
@@ -71,10 +71,10 @@ shell {
     }
   }
   
-  on_swt_show {
+  on_swt_show do
     @regenerate = true
-    @thread = Thread.new {
-      loop {
+    @thread = Thread.new do
+      loop do
         if @regenerate
           @regenerate = false
           @path1.clear
@@ -107,14 +107,14 @@ shell {
           @button.enabled = true
         end
         sleep(0.1)
-      }
+      end
             
-    }
+    end
     
-  }
+  end
   
-  on_widget_disposed {
+  on_widget_disposed do
     @thread.kill # safe to kill since data is in memory only
-  }
+  end
   
 }.open
