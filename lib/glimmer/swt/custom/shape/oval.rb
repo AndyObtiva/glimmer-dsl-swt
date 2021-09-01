@@ -33,10 +33,6 @@ module Glimmer
       # That is because Shape is drawn on a parent as graphics and doesn't have an SWT widget for itself
       class Shape
         class Oval < Shape
-          def parameter_names
-            [:x, :y, :width, :height]
-          end
-          
           # checks if shape contains the point denoted by x and y
           def contain?(x, y)
             x, y = inverse_transform_point(x, y)

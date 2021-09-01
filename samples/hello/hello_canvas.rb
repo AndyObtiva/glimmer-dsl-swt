@@ -60,7 +60,7 @@ class HelloCanvas
           rectangle([:default, -70], :default, :default, [:default, 1]) {
             foreground :cyan
             text {
-              string <=> [self, :artist]
+              string <= [self, :artist]
               x :default, 1 # add 1 pixel to default x (shape centered within parent horizontally)
               y :default, 1 # add 1 pixel to default y (shape centered within parent vertically)
               background :yellow
