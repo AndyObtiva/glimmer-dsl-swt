@@ -192,6 +192,7 @@ module Glimmer
             observer_registrations.clear
           end
         end
+        post_add_content if content.nil?
       end
       
       # Subclasses may override to perform post initialization work on an added child
@@ -199,6 +200,10 @@ module Glimmer
         # No Op by default
       end
 
+      def post_add_content
+        Glimmer::UI::CustomWidget.current_custom_widgets.delete(self)
+      end
+      
       def observer_registrations
         @observer_registrations ||= []
       end

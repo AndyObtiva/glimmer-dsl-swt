@@ -59,6 +59,7 @@ module Glimmer
           else
             super
           end
+          parent.post_add_content
         end
       end
     end

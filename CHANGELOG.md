@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.15.4
+
+- Fix issue with not tying observer registrations to custom widgets correctly automatically
+
 ### 4.20.15.3
 
 - Updated Hello, Text! sample to have a no-border `text` widget
