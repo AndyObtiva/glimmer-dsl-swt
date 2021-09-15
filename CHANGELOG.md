@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.15.5
+
+- Upgrade to glimmer 2.1.5
+
 ### 4.20.15.4
 
 - Fix issue with not tying observer registrations to custom widgets correctly automatically
