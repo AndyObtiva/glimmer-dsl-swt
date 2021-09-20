@@ -195,7 +195,7 @@ module Glimmer
           end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
-            system "glimmer \"package[image]\"" # TODO handle Windows with batch file
+            system "glimmer \"package[app-image]\"" # TODO handle Windows with batch file
             system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
@@ -294,7 +294,7 @@ module Glimmer
           puts "Created #{current_dir_name}/#{icon_file}"
           
           if OS.windows?
-            system "glimmer package[image]" # TODO handle windows properly with batch file
+            system "glimmer package[app-image]" # TODO handle windows properly with batch file
             system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
@@ -540,14 +540,8 @@ module Glimmer
             file_content << <<~MULTI_LINE_STRING
               Glimmer::RakeTask::Package.javapackager_extra_args =
                 " --name '#{human_name(custom_shell_name)}'" +
-                " --description '#{human_name(custom_shell_name)}'" +
-                " --mac-package-name '#{human_name(custom_shell_name)}'" +
-                " --mac-package-identifier 'org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'"
-                # " --license-file file_path" + # Path to the license file (absolute path or relative to the current directory)
-                # " --mac-sign" + # Request that the package be signed
-                # " --mac-signing-key-user-name team_name" + # Team name portion in Apple signing identities' names. For example "Developer ID Application: "
-                # " --mac-signing-keychain file_path" + # Path of the keychain to search for the signing identity (absolute path or relative to the current directory). If not specified, the standard keychains are used.
-                # " --mac-package-signing-prefix prefix_string" # When signing the application package, this value is prefixed to all components that need to be signed that don't have an existing package identifier.
+                " --description '#{human_name(custom_shell_name)}'"
+                # You can add more options from https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
             MULTI_LINE_STRING
           end
           file_content

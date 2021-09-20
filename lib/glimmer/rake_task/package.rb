@@ -109,14 +109,15 @@ module Glimmer
           icon = "package/#{OS.mac? ? 'macosx' : 'windows'}/#{human_name}.#{OS.mac? ? 'icns' : 'ico'}"
           if (`jpackage`.to_s.include?('Usage: jpackage') rescue nil)
             FileUtils.mkdir_p('packages/bundles')
+            FileUtils.rm_rf("packages/bundles/#{human_name}") if native_type == 'app-image'
             command = "jpackage"
             command += " --type #{native_type}" unless native_type.to_s.strip.empty?
             command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
-            command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows?
+            command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows? && native_type != 'app-image'
             command += " --linux-menu-group '#{human_name}' " if OS.linux?
             command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
             command += " --app-version \"#{version}\" " if version
-            command += " --license-file LICENSE.txt " if license
+            command += " --license-file LICENSE.txt " if license && native_type != 'app-image'
             command += " --copyright \"#{copyright}\" " if copyright
           else
             puts "jpackage does not exist in your Java installation. Please ensure jpackage is available in PATH environment variable."
