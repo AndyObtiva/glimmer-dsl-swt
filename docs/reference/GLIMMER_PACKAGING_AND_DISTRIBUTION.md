@@ -159,4 +159,4 @@ The problem is Oracle seems to be adding an indirect Java path junction in later
 
 Simply replace it with the simple path mentioned above (`"C:\Program Files\Java\jdk-16.0.2\bin"` matching your correct version number) 
 
-If you continue to encounter trouble afterwards, reinstall JRuby to ensure it is using Java from the right path.
+Lastly, reinstall JRuby to ensure it is using Java from the right path.
