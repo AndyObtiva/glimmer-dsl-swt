@@ -539,13 +539,15 @@ module Glimmer
           if custom_shell_name
             file_content << <<~MULTI_LINE_STRING
               Glimmer::RakeTask::Package.javapackager_extra_args =
-                " -name '#{human_name(custom_shell_name)}'" +
-                " -title '#{human_name(custom_shell_name)}'" +
-                " -Bmac.CFBundleName='#{human_name(custom_shell_name)}'" +
-                " -Bmac.CFBundleIdentifier='org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'"
-                # " -BlicenseType=" +
-                # " -Bmac.category=" +
-                # " -Bmac.signing-key-developer-id-app="
+                " --name '#{human_name(custom_shell_name)}'" +
+                " --description '#{human_name(custom_shell_name)}'" +
+                " --mac-package-name '#{human_name(custom_shell_name)}'" +
+                " --mac-package-identifier 'org.#{namespace ? compact_name(namespace) : compact_name(custom_shell_name)}.application.#{compact_name(custom_shell_name).camelcase(:upper)}'"
+                # " --license-file file_path" + # Path to the license file (absolute path or relative to the current directory)
+                # " --mac-sign" + # Request that the package be signed
+                # " --mac-signing-key-user-name team_name" + # Team name portion in Apple signing identities' names. For example "Developer ID Application: "
+                # " --mac-signing-keychain file_path" + # Path of the keychain to search for the signing identity (absolute path or relative to the current directory). If not specified, the standard keychains are used.
+                # " --mac-package-signing-prefix prefix_string" # When signing the application package, this value is prefixed to all components that need to be signed that don't have an existing package identifier.
             MULTI_LINE_STRING
           end
           file_content

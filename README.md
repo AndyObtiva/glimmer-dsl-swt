@@ -290,10 +290,10 @@ https://www.eclipse.org/swt/faq.php
 
 ## Pre-requisites
 
-- JDK 8u241 (1.8.0_241) (find at https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html / On Windows, ensure PATH includes Java bin directory  like C:\Program Files\Java\jdk1.8.0_241\bin for javapackager to work during packaging Glimmer applications)
+- JDK 16 (16.0.2) (find at https://www.oracle.com/java/technologies/downloads/#java16 / On Windows, ensure PATH includes Java bin directory for jpackage to work during packaging Glimmer applications)
 - [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
 - JRuby 9.2.19.0 (supporting Ruby 2.5.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.2.19.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
-- SWT 4.20 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
+- SWT 4.21 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.

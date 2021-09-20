@@ -1,8 +1,8 @@
 ## Glimmer Packaging and Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory like "C:\Program Files\Java\jdk1.8.0_241\bin" for javapackager command to work during packaging Glimmer applications.
+Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory for jpackage command to work during packaging Glimmer applications.
 
-Note 2: Glimmer packaging has a strong dependency on JDK8 at the moment. JDK9 & JDK10 might work, but JDK11 and onward definitely won't since they dropped javapackager, which later came back as jpackage in JDK14, but it's not ready for prime time yet. Just stick to JDK8 for now, strongly supported by Oracle for the next 6 years at least.
+Note 2: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`.
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
@@ -10,9 +10,7 @@ Glimmer simplifies the process of native-executable packaging and distribution o
 glimmer package
 ```
 
-It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating all available packaging types on the current platform (e.g. `DMG`, `PKG`, `APP` on the Mac) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows). If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.
-
-(note: if you see this error on the Mac 'Error: Bundler "DMG Installer" (dmg) failed to produce a bundle.', ignore it as it should have produced a bundle anyways. It is a harmless issue in 3rd party dependency: javapackager.)
+It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating all available packaging types on the current platform (e.g. `dmg`, `pkg`, `app-image` on the Mac) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows). If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.
 
 You may choose to generate a specific type of packaging instead by addionally passing in the `[type]` option. For example, this generates an MSI setup file on Windows:
 
@@ -26,8 +24,8 @@ Make sure to surround with double-quotes when running from ZShell (zsh):
 glimmer "package[msi]"
 ```
 
-- Available Mac packaging types are `dmg`, `pkg`, and `image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
-- Available Windows packaging types are `msi`, `exe`, and `image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
+- Available Mac packaging types are `dmg`, `pkg`, and `app-image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
+- Available Windows packaging types are `msi`, `exe`, and `app-image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
 
 Note: if you are using Glimmer manually, to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
 
@@ -40,20 +38,20 @@ The Glimmer packaging process done in the `glimmer package` command consists of 
 1. Lock JAR versions (`glimmer package:lock_jars`): This locks versions of JAR dependencies leveraged by the `jar-dependencies` JRuby gem, downloading them into the `./vendor` directory so they would get inside the top-level Glimmer app/gem JAR file.
 1. Generate [Warbler](https://github.com/jruby/warbler) config (`glimmer package:config`): Generates initial Warbler config file (under `./config/warble.rb`) to use for generating JAR file.
 1. Generate JAR file using [Warbler](https://github.com/jruby/warbler) (`glimmer package:jar`): Enables bundling a Glimmer app into a JAR file under the `./dist` directory
-1. Generate native executable using [javapackager](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `javapackager` manually afterwards if needed).
+1. Generate native executable using [jpackage](https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `jpackage` manually afterwards if needed).
 
-Those steps automatically ensure generating a JAR file under the `./dist` directory using [Warbler](https://github.com/jruby/warbler), which is then used to automatically generate a DMG/MSI file (and other executables) under the `./packages/bundles` directory using `javapackager`.
+Those steps automatically ensure generating a JAR file under the `./dist` directory using [Warbler](https://github.com/jruby/warbler), which is then used to automatically generate a DMG/MSI file (and other executables) under the `./packages/bundles` directory using `jpackage`.
 The JAR file name will match your application local directory name (e.g. `MathBowling.jar` for `~/code/MathBowling`)
 The DMG file name will match the humanized local directory name + dash + application version (e.g. `Math Bowling-1.0.dmg` for `~/code/MathBowling` with version 1.0 or unspecified)
 
 The `glimmer package` command will automatically set "mac.CFBundleIdentifier" to ="org.#{project_name}.application.#{project_name}".
-You may override by configuring as an extra argument for javapackger (e.g. Glimmer::RakeTask::Package.javapackager_extra_args = " -Bmac.CFBundleIdentifier=org.andymaleh.application.MathBowling")
+You may override by configuring as an extra argument for javapackger (e.g. Glimmer::RakeTask::Package.jpackage_extra_args = " --mac-package-identifier org.andymaleh.application.MathBowling")
 
 ### Packaging Defaults
 
 Glimmer employs smart defaults in packaging.
 
-The package application name (shows up in top menu bar on the Mac) will be a human form of the app root directory name (e.g. "Math Bowling" for "MathBowling" or "math_bowling" app root directory name). However, application name and version may be specified explicitly via "-Bmac.CFBundleName" and "-Bmac.CFBundleVersion" options.
+The package application name (shows up in top menu bar on the Mac) will be a human form of the app root directory name (e.g. "Math Bowling" for "MathBowling" or "math_bowling" app root directory name). However, application name and version may be specified explicitly via "--name", "--mac-package-name" and "--version" options.
 
 Also, the package will only include these directories: app, config, db, lib, script, bin, docs, fonts, images, sounds, videos
 
@@ -74,47 +72,41 @@ require_relative '../app/my_application.rb'
 - Include Icon (Optional): If you'd like to include an icon for your app (.icns format on the Mac), place it under `package/macosx` matching the humanized application local directory name (e.g. 'Math Bowling.icns' [containing space] for MathBowling or math_bowling). You may generate your Mac icon easily using tools like Image2Icon (http://www.img2icnsapp.com/) or manually using the Mac terminal command `iconutil` (iconutil guide: https://applehelpwriter.com/tag/iconutil/)
 - Include DMG Background Icon (Optional): Simply place a .png file under `package/macosx/{HumanAppName}-background.png`
 - Include Version (Optional): Create a `VERSION` file in your application and fill it your app version on one line (e.g. `1.1.0`)
-- Include License (Optional): Create a `LICENSE.txt` file in your application and fill it up with your license (e.g. MIT). It will show up to people when installing your app. Note that, you may optionally also specify license type, but you'd have to do so manually via `-BlicenseType=MIT` shown in an [example below](#javapackager-extra-arguments).
-- Extra args (Optional): You may optionally add the following to `Rakefile` to configure extra arguments for javapackager: `Glimmer::RakeTask::Package.javapackager_extra_args = "..."` (Useful to avoid re-entering extra arguments on every run of rake task.). Read about them in [their section below](#javapackager-extra-arguments).
+- Include License (Optional): Create a `LICENSE.txt` file in your application and fill it up with your license (e.g. MIT). It will show up to people when installing your app. Note that, you may optionally also specify license type, but you'd have to do so manually via `--license-file LICENSE.txt` shown in an [example below](#jpackage-extra-arguments).
+- Extra args (Optional): You may optionally add the following to `Rakefile` to configure extra arguments for jpackage: `Glimmer::RakeTask::Package.jpackage_extra_args = "..."` (Useful to avoid re-entering extra arguments on every run of rake task.). Read about them in [their section below](#jpackage-extra-arguments).
 
-### javapackager Extra Arguments
+### jpackage Extra Arguments
 
-(note: currently `Glimmer::RakeTask::Package.javapackager_extra_args` is only honored when packaging from bash, not zsh)
+(note: currently `Glimmer::RakeTask::Package.jpackage_extra_args` is only honored when packaging from bash, not zsh)
 
-In order to explicitly configure javapackager, Mac package attributes, or sign your Mac app to distribute on the App Store, you can follow more advanced instructions for `javapackager` here:
-- https://docs.oracle.com/javase/9/tools/javapackager.htm#JSWOR719
-- https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html
-- https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/self-contained-packaging.html#BCGICFDB
-- https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/self-contained-packaging.html
+In order to explicitly configure jpackage, Mac package attributes, or sign your Mac app to distribute on the App Store, you can follow more advanced instructions for `jpackage` here:
+- Run `jpackage --help` for more info
+- https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
 - https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8
 
-The Glimmer rake task allows passing extra options to javapackager via:
-- `Glimmer::RakeTask::Package.javapackager_extra_args="..."` in your application Rakefile
-- Environment variable: `JAVAPACKAGER_EXTRA_ARGS`
+The Glimmer rake task allows passing extra options to jpackage via:
+- `Glimmer::RakeTask::Package.jpackage_extra_args="..."` in your application Rakefile
+- Environment variable: `JPACKAGE_EXTRA_ARGS`
 
 Example (Rakefile):
 
 ```ruby
 require 'glimmer/rake_task'
 
-Glimmer::RakeTask::Package.javapackager_extra_args = '-BlicenseType="MIT" -Bmac.category="public.app-category.business" -Bmac.signing-key-developer-id-app="Andy Maleh"'
+Glimmer::RakeTask::Package.jpackage_extra_args = '--license-file LICENSE.txt --mac-sign --mac-signing-key-user-name "Andy Maleh"'
 ```
-
-Note that `mac.category` defaults to "public.app-category.business", but can be overridden with one of the category UTI values mentioned here:
-
-https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8
 
 Example (env var):
 
 ```
-JAVAPACKAGER_EXTRA_ARGS='-Bmac.CFBundleName="Math Bowling Game"' glimmer package
+JPACKAGE_EXTRA_ARGS='--mac-package-name "Math Bowling Game"' glimmer package
 ```
 
 That overrides the default application display name.
 
 ### Verbose Mode
 
-Pass `-v` to javapackager in `Glimmer::RakeTask::Package.javapackager_extra_args` or by running `glimmer package:native[type] -v` to learn more about further available customizations for the installer you are requesting to generate.
+Pass `-v` to jpackage in `Glimmer::RakeTask::Package.jpackage_extra_args` or by running `glimmer package:native[type] -v` to learn more about further available customizations for the installer you are requesting to generate.
 
 ### Windows Application Packaging
 
@@ -128,70 +120,29 @@ If you just want to test out packaging into a native Windows app that is not pac
 
 Recent macOS versions (starting with Catalina) have very stringent security requirements requiring all applications to be signed before running (unless the user goes to System Preferences -> Privacy -> General tab and clicks "Open Anyway" after failing to open application the first time they run it). So, to release a desktop application on the Mac, it is recommended to enroll in the [Apple Developer Program](https://developer.apple.com/programs/) to distribute on the [Mac App Store](https://developer.apple.com/distribute/) or otherwise request [app notarization from Apple](https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution) to distribute independently.
 
-Afterwards, you may add developer-id/signing-key arguments to `javapackager` via `Glimmer::RakeTask::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/javase/9/tools/javapackager.htm#JSWOR719
+Afterwards, you may add signing arguments to `jpackage` via `Glimmer::RakeTask::Package.jpackage_extra_args` or `JPACKAGE_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
 
-DMG signing key argument:
 ```
--Bmac.signing-key-developer-id-app="..."
+  --mac-package-signing-prefix <prefix string>
+          When signing the application package, this value is prefixed
+          to all components that need to be signed that don't have
+          an existing package identifier.
+  --mac-sign
+          Request that the package be signed
+  --mac-signing-keychain <file path>
+          Path of the keychain to search for the signing identity
+          (absolute path or relative to the current directory).
+          If not specified, the standard keychains are used.
+  --mac-signing-key-user-name <team name>
+          Team name portion in Apple signing identities' names.
+          For example "Developer ID Application: "
 ```
-
-PKG signing key argument:
-```
--Bmac.signing-key-developer-id-installer="..."
-```
-
-Mac App Store signing key arguments:
-```
--Bmac.signing-key-app="..."
--Bmac.signing-key-pkg="..."
-```
-
-### Self Signed Certificate
-
-You may still release a signed DMG file without enrolling into the Apple Developer Program with the caveat that users will always fail in opening the app the first time, and have to go to System Preferences -> Privacy -> General tab to "Open Anyway".
-
-To do so, you may follow these steps (abbreviated version from https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW2):
-- Open Keychain Access
-- Choose Keychain Access > Certificate Assistant > Create Certificate ...
-- Enter Name (referred to below as "CertificateName")
-- Set 'Certificate Type' to 'Code Signing'
-- Create (if you alternatively override defaults, make sure to enable all capabilities)
-- Add the following option to javapackager: `-Bmac.signing-key-developer-id-app="CertificateName"` via `Glimmer::RakeTask::Package.javapackager_extra_args` or `JAVAPACKAGER_EXTRA_ARGS`
-
-Example:
-
-```ruby
-Glimmer::RakeTask::Package.javapackager_extra_args = '-Bmac.signing-key-developer-id-app="Andy Maleh"'
-```
-
-Now, when you run `glimmer package`, it builds a self-signed DMG file. When you make available online, and users download, upon launching application, they are presented with your certificate, which they have to sign if they trust you in order to use the application.
 
 ### Packaging Gotchas
 
-1. Specifying License File
+1. Zsh (Z Shell)
 
-The javapackager documentation states that a license file may be specified with "-BlicenseFile" javapackager option. However, in order for that to work, one must specify as a source file via "-srcfiles" javapackager option.
-Keep that in mind if you are not going to rely on the default `LICENSE.txt` support.
-
-Example:
-
-```ruby
-Glimmer::RakeTask::Package.javapackager_extra_args = '-srcfiles "ACME.txt" -BlicenseFile="ACME.txt" -BlicenseType="ACME"'
-```
-
-2. Mounted DMG Residue
-
-If you run `glimmer package` multiple times, sometimes it leaves a mounted DMG project in your finder. Unmount before you run the command again or it might fail with an error saying: "Error: Bundler "DMG Installer" (dmg) failed to produce a bundle."
-
-By the way, keep in mind that during normal operation, it does also indicate a false-negative while completing successfully similar to the following (please ignore):
-
-```
-Exec failed with code 2 command [[/usr/bin/SetFile, -c, icnC, /var/folders/4_/g1sw__tx6mjdgyh3mky7vydc0000gp/T/fxbundler4076750801763032201/images/MathBowling/.VolumeIcon.icns] in unspecified directory
-```
-
-3. Zsh (Z Shell)
-
-Currently, `Glimmer::RakeTask::Package.javapackager_extra_args` is only honored when packaging from bash, not zsh.
+Currently, `Glimmer::RakeTask::Package.jpackage_extra_args` is only honored when packaging from bash, not zsh.
 
 You can get around that in zsh by running glimmer package commands with `bash -c` prefix:
 
@@ -199,10 +150,9 @@ You can get around that in zsh by running glimmer package commands with `bash -c
 bash -c 'source ~/.glimmer_source; glimmer package'
 ```
 
-4. Java on Windows System PATH
+2. Java on Windows System PATH
 
-If you get any errors running Java on Windows, keep in mind that you need to have the Java binaries on the Windows System PATH environment variable:
-c:\program files\java\jre1.8.0_241
+If you get any errors running Java on Windows, keep in mind that you need to have the Java binaries on the Windows System PATH environment variable.
 
 The problem is Oracle seems to be adding an indirect Java path junction in later versions of their installer:
 C:\Program Files (x86)\Common Files\Oracle\Java\javapath
