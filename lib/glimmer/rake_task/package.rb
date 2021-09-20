@@ -114,7 +114,7 @@ module Glimmer
             command += " --type #{native_type}" unless native_type.to_s.strip.empty?
             command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
             command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows? && native_type != 'app-image'
-            command += " --linux-menu-group '#{human_name}' " if OS.linux?
+            command += " --linux-menu-group '#{human_name}' " if OS.linux? && native_type != 'app-image'
             command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
             command += " --app-version \"#{version}\" " if version
             command += " --license-file LICENSE.txt " if license && native_type != 'app-image'
