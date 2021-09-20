@@ -157,4 +157,6 @@ If you get any errors running Java on Windows, keep in mind that you need to hav
 The problem is Oracle seems to be adding an indirect Java path junction in later versions of their installer:
 `C:\Program Files (x86)\Common Files\Oracle\Java\javapath`
 
-Simply replace it with the simple path mentioned above (`"C:\Program Files\Java\jdk-16.0.2\bin"` matching your correct version number) and then reinstall JRuby to have it use Java from the right path.
+Simply replace it with the simple path mentioned above (`"C:\Program Files\Java\jdk-16.0.2\bin"` matching your correct version number) 
+
+If you continue to encounter trouble afterwards, reinstall JRuby to ensure it is using Java from the right path.
