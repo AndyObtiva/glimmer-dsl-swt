@@ -1,6 +1,6 @@
 ## Glimmer Packaging and Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory "C:\Program Files\Java\jdk-16.0.2\bin" for `jpackage` command to work during packaging Glimmer applications.
+Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` for `jpackage` command to work during packaging Glimmer applications.
 
 Note 2: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`.
 
@@ -155,6 +155,6 @@ bash -c 'source ~/.glimmer_source; glimmer package'
 If you get any errors running Java on Windows, keep in mind that you need to have the Java binaries "C:\Program Files\Java\jdk-16.0.2\bin" on the Windows System PATH environment variable.
 
 The problem is Oracle seems to be adding an indirect Java path junction in later versions of their installer:
-C:\Program Files (x86)\Common Files\Oracle\Java\javapath
+`C:\Program Files (x86)\Common Files\Oracle\Java\javapath`
 
-Simply replace with the simple one above "C:\Program Files\Java\jdk-16.0.2\bin" (setting the correct version number) and then reinstall JRuby to have it use Java from the right path.
+Simply replace it with the simple path mentioned above (`"C:\Program Files\Java\jdk-16.0.2\bin"` matching your correct version number) and then reinstall JRuby to have it use Java from the right path.
