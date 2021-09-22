@@ -195,14 +195,14 @@ module Glimmer
           end
           write 'spec/spec_helper.rb', spec_helper_file
           if OS.windows?
-            system "glimmer \"package[app-image]\"" # TODO handle Windows with batch file
+            system "glimmer package" # TODO handle Windows with batch file
             system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
             if OS.mac?
-              system "open packages/bundles/#{human_name(app_name).gsub(' ', '\ ')}.app"
+              system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
             else
-              system "glimmer run"
+              system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
             end
           end
         end
@@ -294,14 +294,14 @@ module Glimmer
           puts "Created #{current_dir_name}/#{icon_file}"
           
           if OS.windows?
-            system "glimmer package[app-image]" # TODO handle windows properly with batch file
+            system "glimmer package" # TODO handle windows properly with batch file
             system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
           else
             system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
             if OS.mac?
-              system "open packages/bundles/#{human_name(custom_shell_name).gsub(' ', '\ ')}.app"
+              system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
             else
-              system "glimmer run"
+              system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
             end
           end
           puts "Finished creating #{gem_name} Ruby gem."
@@ -640,6 +640,7 @@ module Glimmer
           # Replace example content below with custom shell content
           minimum_size #{shell_type == :desktopify ? '768, 432' : '420, 240'}
           image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
+          image File.join(APP_ROOT, 'package', 'linux', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.png") unless OS.windows?
           text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
         
           MULTI_LINE_STRING

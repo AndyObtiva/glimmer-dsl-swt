@@ -337,7 +337,7 @@ On the Mac, you also have to run:
 glimmer-setup
 ```
 
-This ensures configuring extra required Mac options before using `glimmer` and `girb` commands.
+This ensures configuring required Mac jruby options before using `glimmer` and `girb` commands (adding `export JRUBY_OPTS="$JRUBY_OPTS -J-XstartOnFirstThread"` to `~/.zprofile` and `~/.bash_profile`).
 
 If you are new to Glimmer and would like to continue learning the basics, you may continue to the [Glimmer Command](#glimmer-command) section.
 
