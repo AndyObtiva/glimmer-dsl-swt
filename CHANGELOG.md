@@ -4,6 +4,7 @@
 
 - Upgrade to SWT 4.21
 - Upgrade to JDK 16.0.2
+- Upgrade to JRuby 9.3.0.0
 - Update packaging to rely on JDK 16 `jpackage` (instead of older JDK 8 `javapackager`)
 
 ### 4.20.15.5
