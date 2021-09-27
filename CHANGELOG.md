@@ -6,6 +6,8 @@
 - Upgrade to JDK 16.0.2
 - Upgrade to JRuby 9.3.0.0
 - Update packaging to rely on JDK 16 `jpackage` (instead of older JDK 8 `javapackager`)
+- Renamed `Glimmer::RakeTask::Package.javapackager_extra_args` to `Glimmer::RakeTask::Package.jpackage_extra_args` to match the name of `jpackage` in JDK 16
+- Change `package/[os]` scaffolding placement for packaging icons into `icons/[os]` to accomodate Java 9 Module security for icon retrieval from within a JAR
 
 ### 4.20.15.5
 

@@ -167,20 +167,25 @@ module Glimmer
             custom_shell('AppView', current_dir_name, shell_type)
           end
             
-          mkdir_p 'package/windows'
-          icon_file = "package/windows/#{human_name(app_name)}.ico"
+          mkdir_p 'icons/windows'
+          icon_file = "icons/windows/#{human_name(app_name)}.ico"
           cp File.expand_path('../../../../icons/scaffold_app.ico', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
-          mkdir_p 'package/macosx'
-          icon_file = "package/macosx/#{human_name(app_name)}.icns"
+          mkdir_p 'icons/macosx'
+          icon_file = "icons/macosx/#{human_name(app_name)}.icns"
           cp File.expand_path('../../../../icons/scaffold_app.icns', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
         
-          mkdir_p 'package/linux'
-          icon_file = "package/linux/#{human_name(app_name)}.png"
+          mkdir_p 'icons/linux'
+          icon_file = "icons/linux/#{human_name(app_name)}.png"
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
+          
+          write "Resource.java", resource_java_file(app_name)
+          cd '..'
+          system "javac #{file_name(app_name)}/Resource.java"
+          cd gem_name
         
           mkdir_p "app/#{file_name(app_name)}"
           write "app/#{file_name(app_name)}/launch.rb", app_launch_file(app_name)
@@ -278,20 +283,25 @@ module Glimmer
           end
           write 'spec/spec_helper.rb', spec_helper_file
     
-          mkdir_p 'package/windows'
-          icon_file = "package/windows/#{human_name(custom_shell_name)}.ico"
+          mkdir_p 'icons/windows'
+          icon_file = "icons/windows/#{human_name(custom_shell_name)}.ico"
           cp File.expand_path('../../../../icons/scaffold_app.ico', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
             
-          mkdir_p 'package/macosx'
-          icon_file = "package/macosx/#{human_name(custom_shell_name)}.icns"
+          mkdir_p 'icons/macosx'
+          icon_file = "icons/macosx/#{human_name(custom_shell_name)}.icns"
           cp File.expand_path('../../../../icons/scaffold_app.icns', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
-          mkdir_p 'package/linux'
-          icon_file = "package/linux/#{human_name(custom_shell_name)}.png"
+          mkdir_p 'icons/linux'
+          icon_file = "icons/linux/#{human_name(custom_shell_name)}.png"
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
+          
+          write "Resource.java", resource_java_file(custom_shell_name)
+          cd '..'
+          system "javac #{file_name(custom_shell_name)}/Resource.java"
+          cd gem_name
           
           if OS.windows?
             system "glimmer package" # TODO handle windows properly with batch file
@@ -485,6 +495,16 @@ module Glimmer
             #{class_name(app_name)}::View::AppView.launch
           MULTI_LINE_STRING
         end
+        
+        def resource_java_file(app_name)
+          <<~MULTI_LINE_STRING
+            package #{file_name(app_name)};
+            
+            /** The soul purpose of this class is to retrieve icons for uri:classloader paths used from JAR */
+            class Resource {
+            }
+          MULTI_LINE_STRING
+        end
     
         def app_bin_command_file(app_name_or_gem_name, custom_shell_name=nil, namespace=nil)
           if custom_shell_name.nil?
@@ -525,7 +545,7 @@ module Glimmer
           lines.insert(require_rake_line_index, "require 'glimmer/launcher'")
           gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
           if custom_shell_name
-            lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'package/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
+            lines.insert(gem_files_line_index, "  gem.files = Dir['Resource.class', 'VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
             # the second executable is needed for warbler as it matches the gem name, which is the default expected file (alternatively in the future, we could do away with it and configure warbler to use the other file)
             lines.insert(gem_files_line_index+1, "  gem.require_paths = ['vendor', 'lib', 'app']")
             lines.insert(gem_files_line_index+2, "  gem.executables = ['#{file_name(custom_shell_name)}']") if custom_shell_name
@@ -538,7 +558,7 @@ module Glimmer
           file_content = lines.join("\n")
           if custom_shell_name
             file_content << <<~MULTI_LINE_STRING
-              Glimmer::RakeTask::Package.javapackager_extra_args =
+              Glimmer::RakeTask::Package.jpackage_extra_args =
                 " --name '#{human_name(custom_shell_name)}'" +
                 " --description '#{human_name(custom_shell_name)}'"
                 # You can add more options from https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
@@ -639,8 +659,8 @@ module Glimmer
         shell#{'(:fill_screen)' if shell_type == :desktopify} {
           # Replace example content below with custom shell content
           minimum_size #{shell_type == :desktopify ? '768, 432' : '420, 240'}
-          image File.join(APP_ROOT, 'package', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
-          image File.join(APP_ROOT, 'package', 'linux', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.png") unless OS.windows?
+          image File.join(APP_ROOT, 'icons', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
+          image File.join(APP_ROOT, 'icons', 'linux', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.png") unless OS.windows?
           text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
         
           MULTI_LINE_STRING

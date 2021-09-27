@@ -26,8 +26,7 @@ module Glimmer
   module RakeTask
     module Package
       class << self
-        attr_accessor :javapackager_extra_args
-        alias jpackage_extra_args javapackager_extra_args
+        attr_accessor :jpackage_extra_args
         
         def clean
           require 'fileutils'
@@ -106,14 +105,14 @@ module Glimmer
           license = (File.read(license_file).strip if File.exists?(license_file) && File.file?(license_file)) rescue nil
           copyright = license.split("\n").first
           human_name = project_name.underscore.titlecase
-          icon = "package/#{OS.mac? ? 'macosx' : 'windows'}/#{human_name}.#{OS.mac? ? 'icns' : 'ico'}"
+          icon = "icons/#{OS.mac? ? 'macosx' : (OS.linux? ? 'linux' : 'windows')}/#{human_name}.#{OS.mac? ? 'icns' : (OS.linux? ? 'png' : 'ico')}"
           native_type = 'app-image' if native_type.to_s.strip.empty?
           if (`jpackage`.to_s.include?('Usage: jpackage') rescue nil)
+            FileUtils.rm_rf("packages/bundles")
             FileUtils.mkdir_p('packages/bundles')
-            FileUtils.rm_rf("packages/bundles/#{human_name}") if native_type == 'app-image'
             command = "jpackage"
             command += " --type #{native_type}"
-            command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
+            command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --java-options '-Dproject_name=#{project_name}' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
             command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows? && native_type != 'app-image'
             command += " --linux-menu-group '#{human_name}' " if OS.linux? && native_type != 'app-image'
             command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?
@@ -124,9 +123,8 @@ module Glimmer
             puts "jpackage does not exist in your Java installation. Please ensure jpackage is available in PATH environment variable."
             return
           end
-          Rake.application.load_rakefile # make sure to load potential javapackager_extra_args config in app Rakefile
-          command += " #{javapackager_extra_args} " if javapackager_extra_args
-          command += " #{ENV['JAVAPACKAGER_EXTRA_ARGS']} " if ENV['JAVAPACKAGER_EXTRA_ARGS']
+          Rake.application.load_rakefile # make sure to load potential jpackage_extra_args config in app Rakefile
+          command += " #{jpackage_extra_args} " if jpackage_extra_args
           command += " #{ENV['JPACKAGE_EXTRA_ARGS']} " if ENV['JPACKAGE_EXTRA_ARGS']
           command += " #{native_extra_args} " if native_extra_args
           puts command

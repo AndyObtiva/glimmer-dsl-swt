@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Make sure to default to 'app-image' on the Mac
-
 ## Future Consideration
 
 - Cache/memoize awt geom objects when used in shape contain?/include? methods
