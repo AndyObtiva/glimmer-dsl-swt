@@ -54,6 +54,7 @@ GEM
     jruby-jars (9.3.0.0)
     jruby-rack (1.1.21)
     jruby-win32ole (0.8.5)
+    json (2.5.1)
     json (2.5.1-java)
     juwelier (2.4.9)
       builder
@@ -79,7 +80,9 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.12.4-java)
+    nokogiri (1.12.5-java)
+      racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -90,11 +93,13 @@ GEM
     os (1.1.1)
     pastel (0.8.0)
       tty-color (~> 0.5)
+    psych (3.3.2)
     psych (3.3.2-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (4.0.6)
     puts_debuggerer (0.13.1)
       awesome_print (~> 1.9.2)
+    racc (1.5.2)
     racc (1.5.2-java)
     rack (2.2.3)
     rake (13.0.6)
@@ -132,6 +137,7 @@ GEM
       tins (~> 1.0)
     text-table (1.2.4)
     thor (1.1.0)
+    thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tins (1.29.1)
       sync
@@ -155,6 +161,7 @@ GEM
 PLATFORMS
   universal-java-1.8
   universal-java-16
+  x86_64-linux
 
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
