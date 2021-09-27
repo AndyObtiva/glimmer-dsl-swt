@@ -79,7 +79,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.12.4-java)
+    nokogiri (1.12.5-java)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -182,4 +182,4 @@ RUBY VERSION
    ruby 2.5.7p0 (jruby 9.2.14.0)
 
 BUNDLED WITH
-   2.2.27
+   2.2.28

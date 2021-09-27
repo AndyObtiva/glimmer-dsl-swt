@@ -122,9 +122,9 @@ module Glimmer
       def input_stream
         if @file_path.start_with?('uri:classloader')
           @jar_file_path = @file_path
-          file_path = @jar_file_path.sub(/^uri\:classloader\:/, '').sub('//', '/') # the latter sub is needed for Mac
-          object = java.lang.Object.new
-          file_input_stream = object.java_class.resource_as_stream(file_path)
+          file_path = @jar_file_path.sub(/^uri\:classloader\:/, '').sub('//', '') # the latter sub is needed for Mac
+          project_name = java.lang.System.getProperty('project_name')
+          file_input_stream = java_import("#{project_name}.Resource").last.java_class.resource_as_stream(file_path)
         else
           file_input_stream = java.io.FileInputStream.new(@file_path)
         end
