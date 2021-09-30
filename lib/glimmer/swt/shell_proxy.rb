@@ -32,7 +32,7 @@ module Glimmer
       include_package 'org.eclipse.swt.widgets'
       include_package 'org.eclipse.swt.layout'
 
-      WIDTH_MIN = 130
+      WIDTH_MIN = 190
       HEIGHT_MIN = 0
 
       attr_reader :opened_before
