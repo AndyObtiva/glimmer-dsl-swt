@@ -57,7 +57,7 @@ class Tetris
       on_swt_keydown { |key_event|
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
-          game.down! if OS.mac?
+          game.down! unless OS.windows?
         when swt(:arrow_up)
           case game.up_arrow_action
           when :instant_down

@@ -1,5 +1,13 @@
 # Change Log
 
+### 4.21.0.2
+
+- Minor sample fixes for Linux: Tetris (down button now works), Hello, Scale! (now fits horizontally), and Hello, Slider! (now fits horizontally)
+
+### 4.21.0.1
+
+- Updated default width for `shell` to `190` (was `130` before)
+
 ### 4.21.0.0
 
 - Upgrade to SWT 4.21

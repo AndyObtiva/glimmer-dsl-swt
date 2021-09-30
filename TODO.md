@@ -200,6 +200,7 @@ composite {
 
 ## Issues
 
+- Fix issue with canvas drag and drop not working on Linux (seems related to drag detected event working differnetly on Linux)
 - Fix issue with Hello, Canvas Drag and Drop refactoring to use data-binding for drop target text not reflecting changes upon dropping balls until it hits 10 (seems caused by caching until textExtent is changed which happens between a single digit number to double-digits)
 - Fix issue with hello canvas data binding changing of x and y after changing line width overwrites/annuls it
 - Fix issue with setting shell app icon in meta-sample (not working from the inside of the app shell anymore)

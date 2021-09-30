@@ -32,10 +32,7 @@ class HelloScale
   
   body {
     shell {
-      row_layout(:vertical) {
-        fill true
-        center true
-      }
+      fill_layout :vertical
       
       text 'Hello, Scale!'
       
