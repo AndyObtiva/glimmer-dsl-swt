@@ -1,8 +1,10 @@
 # Change Log
 
-### 4.21.0.2
+### 4.21.1.0
 
+- Upgrade to glimmer 2.3.0 (with better observing of array of arrays nested changes)
 - Minor sample fixes for Linux: Tetris (down button now works), Hello, Scale! (now fits horizontally), and Hello, Slider! (now fits horizontally)
+- Adjusted minimum size of Meta-Sample to allow more shrinking (`minimum_size 640, 384`)
 
 ### 4.21.0.1
 

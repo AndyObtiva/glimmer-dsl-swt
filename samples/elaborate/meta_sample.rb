@@ -202,7 +202,7 @@ class MetaSampleApplication
   
   body {
     shell(:fill_screen) {
-      minimum_size 1280, 768
+      minimum_size 640, 384
       text 'Glimmer Meta-Sample (The Sample of Samples)'
       image File.expand_path('../../icons/scaffold_app.png', __dir__)
       

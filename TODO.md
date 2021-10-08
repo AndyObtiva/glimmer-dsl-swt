@@ -4,6 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Hello, Scrolled Composite!
+- Fix issue with canvas drag and drop not working on Linux (seems related to drag detected event working differnetly on Linux)
+- Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
+- Fix issues with samples on Windows
+
 ## Future Consideration
 
 - Cache/memoize awt geom objects when used in shape contain?/include? methods
@@ -120,7 +125,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Simplify tab_folder/tab_item api (like having methods for switch to next tab and previous tab, and instead of relying on selection and get_data('proxy'), provide a shortcut)
 - Move ext folder underneath glimmer-dsl-swt
-# - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
+- Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
@@ -200,7 +205,6 @@ composite {
 
 ## Issues
 
-- Fix issue with canvas drag and drop not working on Linux (seems related to drag detected event working differnetly on Linux)
 - Fix issue with Hello, Canvas Drag and Drop refactoring to use data-binding for drop target text not reflecting changes upon dropping balls until it hits 10 (seems caused by caching until textExtent is changed which happens between a single digit number to double-digits)
 - Fix issue with hello canvas data binding changing of x and y after changing line width overwrites/annuls it
 - Fix issue with setting shell app icon in meta-sample (not working from the inside of the app shell anymore)
@@ -330,7 +334,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Test DB support with Derby DB
 - Support c_tab_folder/c_tab_item
 - Support auto-java-import all SWT widgets as an option (and consider making it happen automatically if an SWT widget wasn't loaded successfully)
-- Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets)
 - Support Glimmer CSS styling alternative to SWT CSS in case it is too complicated to use
 - Support HTML-like CSS styling by translating SWT widgets into HTML equivalents in an inspector and then applying CSS styles with another translater. This makes styling desktop apps appealing to web designers.
 - Make scaffolding generate a README.md that mentions "Built with Glimmer" or "Built for Glimmer" (app vs gem) and includes Glimmer logo
