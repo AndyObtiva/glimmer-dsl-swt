@@ -2,9 +2,11 @@
 
 ### 4.21.1.0
 
-- Upgrade to glimmer 2.3.0 (with better observing of array of arrays nested changes)
+- Upgrade to jruby 9.3.1.0
+- Upgrade to glimmer 2.4.0 (with better observing of array of arrays nested changes)
 - Minor sample fixes for Linux: Tetris (down button now works), Hello, Scale! (now fits horizontally), and Hello, Slider! (now fits horizontally)
 - Adjusted minimum size of Meta-Sample to allow more shrinking (`minimum_size 640, 384`)
+- Do not clean observers when disposing of a widget while closing the last shell  (e.g. when closing an app, it is not needed to clean observers, so it is better to exit faster)
 
 ### 4.21.0.1
 

@@ -35,7 +35,8 @@ module Glimmer
       WIDTH_MIN = 190
       HEIGHT_MIN = 0
 
-      attr_reader :opened_before
+      attr_reader :opened_before, :last_shell_closing
+      alias last_shell_closing? last_shell_closing
       alias opened_before? opened_before
 
       # Instantiates ShellProxy with same arguments expected by SWT Shell
@@ -85,9 +86,10 @@ module Glimmer
               end
             end
           end
-          on_widget_disposed {
+          on_widget_disposed do
+            @last_shell_closing = true if @display.shells.count == 1 && @display.shells.first == @swt_widget
             clear_shapes
-          }
+          end
           @display ||= @swt_widget.getDisplay
         end
       end

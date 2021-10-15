@@ -198,6 +198,10 @@ module Glimmer
         @finished_add_content = true
       end
       
+      def shell_proxy
+        @swt_widget.shell.get_data('proxy')
+      end
+      
       def extract_args(underscored_widget_name, args)
         @arg_extractor_mapping ||= {
           'menu_item' => lambda do |args|

@@ -40,7 +40,7 @@ module Glimmer
         SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @sync_exec, override_async_exec: @async_exec) do
           if @widget.respond_to?(:on_widget_disposed)
             @widget.on_widget_disposed do |dispose_event|
-              unregister_all_observables
+              deregister_all_observables unless @widget.shell_proxy.last_shell_closing?
             end
           end
         end
@@ -49,7 +49,7 @@ module Glimmer
       def call(value)
         SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @sync_exec, override_async_exec: @async_exec) do
           if @widget.respond_to?(:disposed?) && @widget.disposed?
-            unregister_all_observables
+            deregister_all_observables
             return
           end
           # need the rescue false for a scenario with tree items not being equal to model objects raising an exception
@@ -61,7 +61,7 @@ module Glimmer
       
       def evaluate_property
         if @widget.respond_to?(:disposed?) && @widget.disposed?
-          unregister_all_observables
+          deregister_all_observables
           return
         end
         @widget.get_attribute(@property)
