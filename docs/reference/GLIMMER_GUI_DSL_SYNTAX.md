@@ -2383,8 +2383,6 @@ Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you 
 
 #### Shine
 
-**(BETA FEATURE)**
-
 The new Shine syntax for View/Model Attribute Mapping allows data-binding visually with simple arrow operators in Ruby.
 
 Use `<=> [model, attribute, options]` for bidirectional (two-way) data-binding instead of `bind(model, attribute, options)`.
