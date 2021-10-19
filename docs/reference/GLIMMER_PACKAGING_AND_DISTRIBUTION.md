@@ -1,8 +1,10 @@
 ## Glimmer Packaging and Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). On Windows, ensure system PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` at the top for `jpackage` command to work during packaging Glimmer applications.
+Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). 
 
-Note 2: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`.
+Note 2: On Windows, ensure system environment PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` at the top for `jpackage` command to work during packaging Glimmer applications (the default Oracle setup path for Java after installing the JDK is usually not sufficient).
+
+Note 3: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`.
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
@@ -34,7 +36,7 @@ glimmer "package[dmg]"
 - Available Windows packaging types are `msi`, `exe`, and `app-image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
 - Available Linux packaging types are `deb`, `rpm`, and `app-image` (Note: Linux native packaging has not been tested successfully, which is why `glimmer package:gem` is recommended on Linux instead. If you get it working, please contribute to this doc file with a Pull Request).
 
-Note: if you are using Glimmer manually, to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
+Note: if you are using Glimmer manually without scaffolding, in order to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
 
 ```ruby
 require 'glimmer/rake_task'
@@ -121,7 +123,7 @@ Windows s two options for setup packaging:
 - `msi` (recommended): simpler packaging option. Requires [WiX Toolset](https://wixtoolset.org/) and [.NET Framework](https://dotnet.microsoft.com/download/dotnet-framework). Simply run `glimmer package[msi]` (or `glimmer package:native[msi]` if it's not your first time) and it will give you more details on the pre-requisites you need to install (e.g. [WiX Toolset](https://wixtoolset.org/) and [.NET Framework 3.5 SP1](https://dotnet.microsoft.com/download/dotnet-framework/net35-sp1)).
 - `exe`: more advanced packaging option. Requires [Inno Setup](https://jrsoftware.org/isinfo.php). Simply run `glimmer package[exe]` (or `glimmer package:native[exe]` if it's not your first time) and it will tell you what you need to install.
 
-If you just want to test out packaging into a native Windows app that is not packaged for Windows setup, just pass `image` to generate a native Windows app only.
+If you just want to test out packaging into a native Windows app that is not packaged for Windows setup, just pass `app-image` (default) to generate a native Windows app only.
 
 ### Mac Application Distribution
 
