@@ -676,7 +676,8 @@ You may apply for contributing to any of these Glimmer DSL gems whether you pref
 ## Contributors
 
 * [Andy Maleh](https://github.com/AndyObtiva) (Founder)
-* [Dennis Theisen](https://github.com/Soleone) (Contributor, originally in [Glimmer](https://github.com/AndyObtiva/glimmer/graphs/contributors) before splitting glimmer-dsl-swt)
+* [Dennis Theisen](https://github.com/Soleone) (Contributor, originally in [Glimmer](https://github.com/AndyObtiva/glimmer/graphs/contributors) before splitting [glimmer-dsl-swt](https://rubygems.org/gems/glimmer))
+* [Wayne Vucenic](https://github.com/rubycoder)
 
 [Click here to view contributor commits.](https://github.com/AndyObtiva/glimmer-dsl-swt/graphs/contributors)
 
