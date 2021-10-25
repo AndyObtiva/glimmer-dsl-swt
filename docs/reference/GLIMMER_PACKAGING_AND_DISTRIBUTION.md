@@ -4,7 +4,7 @@ Note: this section mostly applies to Mac and Windows. On Linux, you can just run
 
 Note 2: On Windows, ensure system environment PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` at the top for `jpackage` command to work during packaging Glimmer applications (the default Oracle setup path for Java after installing the JDK is usually not sufficient).
 
-Note 3: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`.
+Note 3: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`. On the Mac, it seems there is a new gotcha in the latest JDK 16 DMG/PKG installable that is resulting in `jpackage` to be missing from `PATH`. To include, you might need to add `export PATH="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/bin:$PATH"` to `~/.zprofile` or `~/.bashrc`
 
 Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
 
@@ -182,6 +182,10 @@ org.apache.maven.InternalErrorException: Internal error: org.jruby.exceptions.Ra
 Caused by: org.jruby.exceptions.RaiseException: (LoadError) library `java' could not be loaded: java.lang.reflect.InaccessibleObjectException: Unable to make protected native java.lang.Object java.lang.Object.clone() throws java.lang.CloneNotSupportedException accessible: module java.base does not "opens java.lang" to unnamed module @138caeca
 [ERROR]
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+
+3. jpackage missing from PATH on the Mac
+
+On the Mac, the latest JDK 16 installable DMG/PKG is resulting in `jpackage` to be missing from `PATH`. To include, you might need to add `export PATH="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/bin:$PATH"` to `~/.zprofile` or `~/.bashrc`
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
 [ERROR]
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
