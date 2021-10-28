@@ -213,7 +213,7 @@ In order to run the app after making changes, you must run the `glimmer run`. It
 glimmer run
 ```
 
-Alternatively, to mantually run the app, you may type:
+Alternatively, to manually run the app, you may type:
 
 ```
 glimmer run[bin/greeter]
