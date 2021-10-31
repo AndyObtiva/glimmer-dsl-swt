@@ -42,33 +42,31 @@ class HelloToolBar
       }
       
       text 'Hello, Tool Bar!'
+      minimum_size 280, 50
       
       tool_bar { # optionally takes a :flat style, :wrap style if you need wrapping upon shrinking window, and :vertical style if you need vertical layout
         tool_item {
-          image cut_image # alternatively you can pass an image file path
+          image File.expand_path('./images/cut.png', __dir__), height: 16
           
           on_widget_selected do
             self.operation = 'Cut'
           end
         }
         tool_item {
-          image copy_image # alternatively you can pass an image file path
+          image File.expand_path('./images/copy.png', __dir__), height: 16
           
           on_widget_selected do
             self.operation = 'Copy'
           end
         }
         tool_item {
-          image paste_image # alternatively you can pass an image file path
+          image File.expand_path('./images/paste.png', __dir__), height: 16
           
           on_widget_selected do
             self.operation = 'Paste'
           end
         }
         tool_item(:separator)
-        tool_item {
-          text 'Font Size'
-        }
         # a combo can be nested in a tool_bar (it auto-generates a tool_item for itself behind the scenes)
         combo {
           selection <=> [self, :font_size]
@@ -84,59 +82,15 @@ class HelloToolBar
   }
   
   def cut_image
-    # building image on the fly with Canvas Shape DSL
-    image(25, 25) {
-      rectangle(0, 0, 25, 25) {
-        background_pattern 0, 0, 0, 25, :white, :gray
-        line(20, 2, 9, 15) {
-          line_width 2
-        }
-        line(5, 2, 16, 15) {
-          line_width 2
-        }
-        oval(2, 15, 8, 8) {
-          line_width 2
-        }
-        oval(16, 15, 8, 8) {
-          line_width 2
-        }
-      }
-    }
+    File.expand_path('./images/cut.png', __dir__)
   end
   
   def copy_image
-    # building image on the fly with Canvas Shape DSL
-    image(25, 25) {
-      rectangle(0, 0, 25, 25) {
-        background_pattern 0, 0, 0, 25, :white, :gray
-        rectangle([:default, 2], [:default, -2], 14, 14, 5, 5) {
-          line_width 2
-        }
-        rectangle([:default, -2], [:default, 2], 14, 14, 5, 5) {
-          line_width 2
-        }
-      }
-    }
+    File.expand_path('./images/copy.png', __dir__)
   end
   
   def paste_image
-    image(25, 25) {
-      rectangle(0, 0, 25, 25) {
-        background_pattern 0, 0, 0, 25, :white, :gray
-        rectangle(:default, [:default, 1], 15, 20, 5, 5) {
-          line_width 2
-        }
-        line(7, 8, 18, 8) {
-          line_width 2
-        }
-        line(7, 13, 18, 13) {
-          line_width 2
-        }
-        line(7, 18, 18, 18) {
-          line_width 2
-        }
-      }
-    }
+    File.expand_path('./images/paste.png', __dir__)
   end
 end
 

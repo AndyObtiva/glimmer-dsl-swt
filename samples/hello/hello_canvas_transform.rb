@@ -6,7 +6,7 @@ glimmer_logo = File.expand_path('../../icons/scaffold_app.png', __dir__)
 
 shell {
   text 'Hello, Canvas Transform!'
-  minimum_size 330, 352
+  minimum_size (OS.windows? ? 347 : 330), (OS.windows? ? 372 : 352)
   
   canvas {
     background :white

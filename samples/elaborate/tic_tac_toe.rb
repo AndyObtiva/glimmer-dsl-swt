@@ -41,18 +41,21 @@ class TicTacToe
     shell {
       text "Tic-Tac-Toe"
       minimum_size 176, 200
+
       composite {
         grid_layout 3, true
+
         (1..3).each { |row|
           (1..3).each { |column|
             button {
               layout_data :fill, :fill, true, true
               text        <= [@tic_tac_toe_board[row, column], :sign]
               enabled     <= [@tic_tac_toe_board[row, column], :empty]
-              font        style: :bold, height: 20
-              on_widget_selected {
+              font        style: :bold, height: (OS.windows? ? 18 : 20)
+
+              on_widget_selected do
                 @tic_tac_toe_board.mark(row, column)
-              }
+              end
             }
           }
         }

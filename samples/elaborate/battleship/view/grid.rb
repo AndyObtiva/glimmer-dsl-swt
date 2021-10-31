@@ -45,21 +45,21 @@ class Battleship
             }
             
             text player.to_s.capitalize
-            font height: 20, style: :bold
+            font height: OS.windows? ? 18 : 20, style: :bold
           }
           
           label # filler
           Model::Grid::WIDTH.times do |column_index|
             label {
               text (column_index + 1).to_s
-              font height: 16
+              font height: OS.windows? ? 14 : 16
             }
           end
           
           Model::Grid::HEIGHT.times do |row_index|
             label {
               text Model::Grid::ROW_ALPHABETS[row_index]
-              font height: 16
+              font height: OS.windows? ? 14 : 16
             }
             Model::Grid::WIDTH.times do |column_index|
               cell(game: game, player: player, row_index: row_index, column_index: column_index) {

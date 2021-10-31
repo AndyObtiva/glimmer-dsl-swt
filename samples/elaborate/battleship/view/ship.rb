@@ -38,7 +38,7 @@ class Battleship
       
           label {
             text ship_name.to_s.titlecase
-            font height: 16
+            font height: OS.windows? ? 14 : 16
           }
         
           composite {

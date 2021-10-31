@@ -102,6 +102,7 @@ class Weather
       layout_data(:fill, :center, true, false)
       text <= [self, field_name, on_read: ->(t) { "#{kelvin_to_temp_unit(t, temp_unit).to_f.round}°" }]
       font height: DEFAULT_FONT_HEIGHT
+      background DEFAULT_BACKGROUND
       foreground DEFAULT_FOREGROUND
     }
   end
@@ -112,6 +113,7 @@ class Weather
       layout_data(:fill, :center, true, false)
       text <= [self, 'humidity', on_read: ->(h) { "#{h.to_f.round}%" }]
       font height: DEFAULT_FONT_HEIGHT
+      background DEFAULT_BACKGROUND
       foreground DEFAULT_FOREGROUND
     }
   end
@@ -121,6 +123,7 @@ class Weather
       layout_data :fill, :center, false, false
       text field_name.titlecase
       font height: DEFAULT_FONT_HEIGHT
+      background DEFAULT_BACKGROUND
       foreground DEFAULT_FOREGROUND
     }
   end

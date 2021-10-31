@@ -65,7 +65,7 @@ class HelloCanvas
               y :default, 1 # add 1 pixel to default y (shape centered within parent vertically)
               background :yellow
               foreground :dark_magenta
-              font name: 'Courier', height: 30
+              font name: 'Courier', height: (OS.windows? ? 26 : 30)
             }
           }
           rectangle(155, 30) { # width and height are assumed to be the default (calculated from children)

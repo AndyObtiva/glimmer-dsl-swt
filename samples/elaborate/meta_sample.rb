@@ -23,8 +23,6 @@ require 'glimmer-dsl-swt'
 require 'fileutils'
 
 class Sample
-  include Glimmer::DataBinding::ObservableModel
-  
   class << self
     def glimmer_directory
       File.expand_path('../../..', __FILE__)
@@ -42,6 +40,10 @@ class Sample
       end
     end
   end
+  
+  include Glimmer::DataBinding::ObservableModel
+  
+  UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
 
   attr_accessor :sample_directory, :file, :selected
   
@@ -74,9 +76,13 @@ class Sample
   end
   
   def editable
+    !UNEDITABLE.include?(File.basename(file))
+  end
+  alias editable? editable
+  
+  def launchable
     File.basename(file) != 'meta_sample.rb'
   end
-  alias launchable editable
     
   def file_relative_path
     file.sub(self.class.glimmer_directory, '')
@@ -97,6 +103,7 @@ class Sample
   def launch(modified_code)
     launch_file = user_file
     begin
+      raise 'Unsupported through editor!' unless editable?
       FileUtils.cp_r(file, user_file_parent_directory)
       FileUtils.cp_r(directory, user_file_parent_directory) if File.exist?(directory)
       File.write(user_file, modified_code)
@@ -207,7 +214,7 @@ class MetaSampleApplication
       image File.expand_path('../../icons/scaffold_app.png', __dir__)
       
       sash_form {
-        weights 4, 14
+        weights 1, 2
       
         composite {
           grid_layout(1, false) {
