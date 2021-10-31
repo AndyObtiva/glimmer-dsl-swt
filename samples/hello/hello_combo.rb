@@ -43,7 +43,9 @@ class HelloCombo
   
   body {
     shell {
-      fill_layout(:vertical)
+      row_layout(:vertical) {
+        fill true
+      }
       
       text 'Hello, Combo!'
       

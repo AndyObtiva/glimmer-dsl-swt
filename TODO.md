@@ -7,6 +7,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Hello, Scrolled Composite!
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 - Check issue with clipped text during table editing on Linux
+- Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop)
 
 ## Future Consideration
 
