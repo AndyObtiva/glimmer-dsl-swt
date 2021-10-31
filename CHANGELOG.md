@@ -1,5 +1,11 @@
 # Change Log
 
+### 4.21.1.1
+
+- Fix samples for Windows, espcially Hello, Cool Bar!, Hello, Tool Bar!, and Weather
+- Fix down button for Tetris on Windows/Linux
+- Fix pause menu item for Tetris
+
 ### 4.21.1.0
 
 - Upgrade to jruby 9.3.1.0

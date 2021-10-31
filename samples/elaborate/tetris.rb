@@ -57,7 +57,17 @@ class Tetris
       on_swt_keydown { |key_event|
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
-          game.down! unless OS.windows?
+          if OS.mac?
+            game.down!
+          else
+            # rate limit downs in Windows/Linux as they go too fast when key is held
+            @queued_downs ||= 0
+            @queued_downs += 1
+            async_exec do
+              game.down! if @queued_downs < 3
+              @queued_downs -= 1
+            end
+          end
         when swt(:arrow_up)
           case game.up_arrow_action
           when :instant_down
@@ -80,16 +90,6 @@ class Tetris
         end
       }
 
-      # invoke game.down! on keyup with Windows/Linux since they seem to group-render similar events, preventing intermediate renders (causing invisiblity while holding keys)
-      if !OS.mac?
-        on_swt_keyup { |key_event|
-          case key_event.keyCode
-          when swt(:arrow_down), 's'.bytes.first
-            game.down!
-          end
-        }
-      end
-      
       # if running in app mode, set the Mac app about dialog (ignored in platforms)
       on_about {
         show_about_dialog
@@ -170,9 +170,7 @@ class Tetris
           sleep @game.delay
           break if @game.game_over? || body_root.disposed?
           # ensure entire game tetromino down movement happens as one GUI update event with sync_exec (to avoid flicker/stutter)
-          sync_exec {
-            @game.down! unless @game.paused?
-          }
+          sync_exec { @game.down! unless @game.paused? }
         end
       end
     end

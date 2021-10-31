@@ -5,9 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Hello, Scrolled Composite!
-- Fix issue with canvas drag and drop not working on Linux (seems related to drag detected event working differnetly on Linux)
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
-- Fix issues with samples on Windows
+- Check issue with clipped text during table editing on Linux
 
 ## Future Consideration
 
