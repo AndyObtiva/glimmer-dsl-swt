@@ -1,5 +1,12 @@
 # Change Log
 
+### 4.21.2.0
+
+- Support Linux packaging into deb/rpm native executables (not just gems) through standard `glimmer package` call (e.g. `glimmer package[deb]` or `glimmer package[rpm]`)
+- Update `Glimmer::SWT::ImageProxy` implementation of image loading from JAR to use `JRuby.runtime.jruby_class_loader.get_resource_as_stream(file_path).to_io.to_input_stream`
+- Remove scaffolding/packaging building/using of a generated Java `Resource` class
+- Force installing `gem 'psych', '3.3.2'` in scaffolded app as a temporary workaround to `psych` issues with the latest jruby (jruby-9.3.1.0)
+
 ### 4.21.1.1
 
 - Fix samples for Windows, espcially Hello, Cool Bar!, Hello, Tool Bar!, and Weather

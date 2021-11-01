@@ -116,10 +116,12 @@ module Glimmer
         GEMFILE_APP_MIDFIX = <<~MULTI_LINE_STRING
         
           gem 'glimmer-dsl-swt', '~> #{VERSION}'
+          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16 was causing issues
         MULTI_LINE_STRING
         GEMFILE_GEM_MIDFIX = <<~MULTI_LINE_STRING
         
           gem 'glimmer-dsl-swt', '~> #{VERSION.split('.')[0...2].join('.')}'
+          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16 was causing issues
         MULTI_LINE_STRING
         GEMFILE_SUFFIX = <<~MULTI_LINE_STRING
         
@@ -182,11 +184,6 @@ module Glimmer
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
-          write "Resource.java", resource_java_file(app_name)
-          cd '..'
-          system "javac #{file_name(app_name)}/Resource.java"
-          cd gem_name
-        
           mkdir_p "app/#{file_name(app_name)}"
           write "app/#{file_name(app_name)}/launch.rb", app_launch_file(app_name)
           mkdir_p 'bin'
@@ -297,11 +294,6 @@ module Glimmer
           icon_file = "icons/linux/#{human_name(custom_shell_name)}.png"
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
-          
-          write "Resource.java", resource_java_file(custom_shell_name)
-          cd '..'
-          system "javac #{file_name(custom_shell_name)}/Resource.java"
-          cd gem_name
           
           if OS.windows?
             system "glimmer package" # TODO handle windows properly with batch file
@@ -496,16 +488,6 @@ module Glimmer
           MULTI_LINE_STRING
         end
         
-        def resource_java_file(app_name)
-          <<~MULTI_LINE_STRING
-            package #{file_name(app_name)};
-            
-            /** The soul purpose of this class is to retrieve icons for uri:classloader paths used from JAR */
-            class Resource {
-            }
-          MULTI_LINE_STRING
-        end
-    
         def app_bin_command_file(app_name_or_gem_name, custom_shell_name=nil, namespace=nil)
           if custom_shell_name.nil?
             runner = "File.expand_path('../../app/#{file_name(app_name_or_gem_name)}/launch.rb', __FILE__)"
@@ -545,7 +527,7 @@ module Glimmer
           lines.insert(require_rake_line_index, "require 'glimmer/launcher'")
           gem_files_line_index = lines.index(lines.detect {|l| l.include?('# dependencies defined in Gemfile') })
           if custom_shell_name
-            lines.insert(gem_files_line_index, "  gem.files = Dir['Resource.class', 'VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
+            lines.insert(gem_files_line_index, "  gem.files = Dir['VERSION', 'LICENSE.txt', 'app/**/*', 'bin/**/*', 'config/**/*', 'db/**/*', 'docs/**/*', 'fonts/**/*', 'icons/**/*', 'images/**/*', 'lib/**/*', 'script/**/*', 'sounds/**/*', 'vendor/**/*', 'videos/**/*']")
             # the second executable is needed for warbler as it matches the gem name, which is the default expected file (alternatively in the future, we could do away with it and configure warbler to use the other file)
             lines.insert(gem_files_line_index+1, "  gem.require_paths = ['vendor', 'lib', 'app']")
             lines.insert(gem_files_line_index+2, "  gem.executables = ['#{file_name(custom_shell_name)}']") if custom_shell_name

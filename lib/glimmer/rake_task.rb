@@ -111,11 +111,7 @@ namespace :glimmer do
     Rake::Task['glimmer:package:lock_jars'].execute
     Rake::Task['glimmer:package:config'].execute
     Rake::Task['glimmer:package:jar'].execute
-    if OS.linux?
-      Rake::Task['glimmer:package:gem'].execute
-    else
-      Rake::Task['glimmer:package:native'].execute(args)
-    end
+    Rake::Task['glimmer:package:native'].execute(args)
   end
 
   desc 'Scaffold Glimmer application directory structure to build a new app'

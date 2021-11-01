@@ -112,7 +112,7 @@ module Glimmer
             FileUtils.mkdir_p('packages/bundles')
             command = "jpackage"
             command += " --type #{native_type}"
-            command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --java-options '-Dproject_name=#{project_name}' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
+            command += " --dest 'packages/bundles' --input 'dist' --main-class JarMain --main-jar '#{project_name}.jar' --name '#{human_name}' --vendor '#{human_name}' --icon '#{icon}' "
             command += " --win-per-user-install --win-dir-chooser --win-menu --win-menu-group '#{human_name}' " if OS.windows? && native_type != 'app-image'
             command += " --linux-menu-group '#{human_name}' " if OS.linux? && native_type != 'app-image'
             command += " --java-options '-XstartOnFirstThread' --mac-package-name '#{human_name}' --mac-package-identifier 'org.#{project_name}.application.#{project_name}' " if OS.mac?

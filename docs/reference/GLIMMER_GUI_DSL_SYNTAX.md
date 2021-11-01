@@ -1270,6 +1270,17 @@ It is a graphics `Image` object (not a widget), but is used used in setting the 
 
 Glimmer recently included **EXPERIMENTAL** gif animation support for the `background_image` property on `composite' since SWT does not support animation by default. On Windows, it only works inside composites nested under standard shells, not ones that have the SWT styles :on_top or :no_trim
 
+When an app is packaged (i.e. JAR inside a DMG or MSI native executable), jruby generates file paths that start with "uri:classloader". The `image` keyword automatically knows how to interpret such paths when passed as an argument.
+
+Should you need to read a file from a JAR file manually, you may use this code (assuming a `file_path` formed using standard Ruby `File.expand_path` call, which jruby automatically overrides when running from a JAR to generate a `uri:classloader` path) :
+```ruby
+require 'jruby'
+file_path = file_path.sub(/^uri\:classloader\:/, '').sub(/^\/+/, '')
+jcl = JRuby.runtime.jruby_class_loader
+resource = jcl.get_resource_as_stream(file_path)
+file_input_stream = resource.to_io.to_input_stream
+```
+
 Learn more about images in general at this SWT Image guide: https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html
 
 #### Image Options
@@ -3870,7 +3881,7 @@ class Example
         text 'Application Menu Items'
         font height: 30
       }
-    }    
+    }
   }
 end
 

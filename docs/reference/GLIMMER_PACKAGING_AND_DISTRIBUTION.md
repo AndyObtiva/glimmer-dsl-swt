@@ -1,18 +1,12 @@
 ## Glimmer Packaging and Distribution
 
-Note: this section mostly applies to Mac and Windows. On Linux, you can just run `glimmer package:gem` and after installing the gem, you get an executable matching the name of the app/custom-shell-gem you are building (e.g. `calculator` command becomes available after installing the [glimmer-cs-calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) gem). 
-
-Note 2: On Windows, ensure system environment PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` at the top for `jpackage` command to work during packaging Glimmer applications (the default Oracle setup path for Java after installing the JDK is usually not sufficient).
-
-Note 3: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`. On the Mac, it seems there is a new gotcha in the latest JDK 16 DMG/PKG installable that is resulting in `jpackage` to be missing from `PATH`. To include, you might need to add `export PATH="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/bin:$PATH"` to `~/.zprofile` or `~/.bashrc`
-
-Glimmer simplifies the process of native-executable packaging and distribution on Mac and Windows via a single `glimmer package` command:
+Glimmer simplifies the process of native-executable packaging and distribution on Mac, Windows, and Linux via a single `glimmer package` command:
 
 ```
 glimmer package
 ```
 
-It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating default packaging type on the current platform if not specified (i.e. `app-image`) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows). If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.
+It works out of the box for any application scaffolded by [Glimmer Scaffolding](#scaffolding), generating default packaging type on the current platform if not specified (i.e. `app-image`) and displaying a message indicating what pre-requisite setup tools are needed if not installed already (e.g. [Wix Toolset](https://wixtoolset.org/) to generate MSI files on Windows. If you install Wix, make sure it is on the system PATH by adding for example "C:\Program Files (x86)\WiX Toolset v3.11\bin" to the Windows Environment Variables.).
 
 You may choose to generate a specific type of packaging instead by addionally passing in the `[type]` option. For example, this generates an MSI setup file on Windows:
 
@@ -20,7 +14,7 @@ You may choose to generate a specific type of packaging instead by addionally pa
 glimmer package[msi]
 ```
 
-This generates a DMG file on the Mac:
+This command generates a DMG file on the Mac:
 
 ```
 glimmer package[dmg]
@@ -32,11 +26,23 @@ Make sure to surround with double-quotes when running from ZShell (zsh):
 glimmer "package[dmg]"
 ```
 
+This command generates a DEB file on a Linux that supports deb packages (e.g. Linux Mint Cinnamon):
+
+```
+glimmer package[deb]
+```
+
 - Available Mac packaging types are `dmg`, `pkg`, and `app-image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
 - Available Windows packaging types are `msi`, `exe`, and `app-image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
-- Available Linux packaging types are `deb`, `rpm`, and `app-image` (Note: Linux native packaging has not been tested successfully, which is why `glimmer package:gem` is recommended on Linux instead. If you get it working, please contribute to this doc file with a Pull Request).
+- Available Linux packaging types are `deb`, `rpm`, and `app-image` (note the prerequisites: for Red Hat Linux, the `rpm-build` package is required (for rpm) and for Ubuntu Linux, the `fakeroot` package is required (for deb). Also, use common sense to know which package type to generate on what Linux [e.g. use `deb` on `Linux Mint Cinnamon` or use `rpm` on `Fedora Linux`]).
 
-Note: if you are using Glimmer manually without scaffolding, in order to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
+Note 1: On Windows, ensure system environment PATH includes Java bin directory `"C:\Program Files\Java\jdk-16.0.2\bin"` at the top for `jpackage` command to work during packaging Glimmer applications (the default Oracle setup path for Java after installing the JDK is usually not sufficient).
+
+Note 2: Glimmer packaging has a strong dependency on JDK16 since it includes the packaging tool `jpackage`. On the Mac, it seems there is a new gotcha in the latest JDK 16 DMG/PKG installable that is resulting in `jpackage` to be missing from `PATH`. To include, you might need to add `export PATH="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/bin:$PATH"` to `~/.zprofile` or `~/.bashrc`
+
+Note 3: On Linux, note the prerequisites: for Red Hat Linux, the `rpm-build` package is required (for rpm) and for Ubuntu Linux, the `fakeroot` package is required (for deb). Also, use common sense to know which package type to generate on what Linux (e.g. use `deb` on `Linux Mint Cinnamon` or use `rpm` on `Fedora Linux`)
+
+Note 4: if you are using Glimmer packaging with a manually generated app (without scaffolding), in order to make the `glimmer package` command available, you must add the following line to your application `Rakefile` (automatically done for you if you scaffold an app or gem with `glimmer scaffold[AppName]` or `glimmer scaffold:gem:customshell[GemName]`):
 
 ```ruby
 require 'glimmer/rake_task'
@@ -119,7 +125,7 @@ Pass `-v` to jpackage in `Glimmer::RakeTask::Package.jpackage_extra_args` or by 
 
 ### Windows Application Packaging
 
-Windows s two options for setup packaging:
+Windows offers two options for packaging:
 - `msi` (recommended): simpler packaging option. Requires [WiX Toolset](https://wixtoolset.org/) and [.NET Framework](https://dotnet.microsoft.com/download/dotnet-framework). Simply run `glimmer package[msi]` (or `glimmer package:native[msi]` if it's not your first time) and it will give you more details on the pre-requisites you need to install (e.g. [WiX Toolset](https://wixtoolset.org/) and [.NET Framework 3.5 SP1](https://dotnet.microsoft.com/download/dotnet-framework/net35-sp1)).
 - `exe`: more advanced packaging option. Requires [Inno Setup](https://jrsoftware.org/isinfo.php). Simply run `glimmer package[exe]` (or `glimmer package:native[exe]` if it's not your first time) and it will tell you what you need to install.
 
@@ -182,10 +188,12 @@ org.apache.maven.InternalErrorException: Internal error: org.jruby.exceptions.Ra
 Caused by: org.jruby.exceptions.RaiseException: (LoadError) library `java' could not be loaded: java.lang.reflect.InaccessibleObjectException: Unable to make protected native java.lang.Object java.lang.Object.clone() throws java.lang.CloneNotSupportedException accessible: module java.base does not "opens java.lang" to unnamed module @138caeca
 [ERROR]
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+```
 
 3. jpackage missing from PATH on the Mac
 
 On the Mac, the latest JDK 16 installable DMG/PKG is resulting in `jpackage` to be missing from `PATH`. To include, you might need to add `export PATH="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/bin:$PATH"` to `~/.zprofile` or `~/.bashrc`
+```
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
 [ERROR]
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
@@ -194,7 +202,7 @@ On the Mac, the latest JDK 16 installable DMG/PKG is resulting in `jpackage` to 
 
 Please ignore. It should be harmless. If you get blocked by it for any reason, please open an Issue about it.
 
-3. Java on Windows System PATH
+4. Java on Windows System PATH
 
 If you get any errors running Java on Windows, keep in mind that you need to have the Java binaries "C:\Program Files\Java\jdk-16.0.2\bin" on the Windows System PATH environment variable.
 
@@ -204,3 +212,21 @@ The problem is Oracle seems to be adding an indirect Java path junction in later
 Simply replace it with the simple path mentioned above (`"C:\Program Files\Java\jdk-16.0.2\bin"` matching your correct version number)
 
 Lastly, reinstall JRuby to ensure it is using Java from the right path.
+
+5. File paths in app running from packaged JAR file
+
+Glimmer packaged apps always reside within a JAR file before being wrapped by a native executable.
+
+JRuby automatically converts any paths produced by File.expand_path inside packaged JAR file into uri:classloader prefixed paths. They work just fine when performing File.read, but if you need to access as a Java input stream, you need to use special code:
+
+```ruby
+require 'jruby'
+file_path = File.expand_path(some_path, __dir__)
+file_path = file_path.sub(/^uri\:classloader\:/, '').sub(/^\/+/, '')
+jcl = JRuby.runtime.jruby_class_loader
+resource = jcl.get_resource_as_stream(file_path)
+file_input_stream = resource.to_io.to_input_stream
+``` 
+
+The `image` keyword in Glimmer automatically does that work when passing an image path produced from inside a JAR file.
+
