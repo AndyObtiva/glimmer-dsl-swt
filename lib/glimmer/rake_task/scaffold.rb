@@ -561,7 +561,7 @@ module Glimmer
               Glimmer::RakeTask::Package.jpackage_extra_args =
                 " --name '#{human_name(custom_shell_name)}'" +
                 " --description '#{human_name(custom_shell_name)}'"
-                # You can add more options from https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
+                # You can add more options from https://docs.oracle.com/en/java/javase/16/jpackage/packaging-tool-user-guide.pdf
             MULTI_LINE_STRING
           end
           file_content
