@@ -47,7 +47,7 @@ The Glimmer packaging process done in the `glimmer package` command consists of 
 1. Lock JAR versions (`glimmer package:lock_jars`): This locks versions of JAR dependencies leveraged by the `jar-dependencies` JRuby gem, downloading them into the `./vendor` directory so they would get inside the top-level Glimmer app/gem JAR file.
 1. Generate [Warbler](https://github.com/jruby/warbler) config (`glimmer package:config`): Generates initial Warbler config file (under `./config/warble.rb`) to use for generating JAR file.
 1. Generate JAR file using [Warbler](https://github.com/jruby/warbler) (`glimmer package:jar`): Enables bundling a Glimmer app into a JAR file under the `./dist` directory
-1. Generate native executable using [jpackage](https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `jpackage` manually afterwards if needed).
+1. Generate native executable using [jpackage](https://docs.oracle.com/en/java/javase/16/jpackage/packaging-tool-user-guide.pdf) (`glimmer package:native`): Enables packaging a JAR file as a DMG/PKG/APP file on Mac, MSI/EXE/APP on Windows, and DEB/RPM/APP on Linux (Glimmer does not officially support Linux with the `glimmer package` command yet, but it generates the JAR file successfully, and you could use `jpackage` manually afterwards if needed).
 
 Those steps automatically ensure generating a JAR file under the `./dist` directory using [Warbler](https://github.com/jruby/warbler), which is then used to automatically generate a DMG/MSI file (and other executables) under the `./packages/bundles` directory using `jpackage`.
 The JAR file name will match your application local directory name (e.g. `MathBowling.jar` for `~/code/MathBowling`)
@@ -90,7 +90,7 @@ require_relative '../app/my_application.rb'
 
 In order to explicitly configure jpackage, Mac package attributes, or sign your Mac app to distribute on the App Store, you can follow more advanced instructions for `jpackage` here:
 - Run `jpackage --help` for more info
-- https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
+- https://docs.oracle.com/en/java/javase/16/jpackage/packaging-tool-user-guide.pdf
 - https://developer.apple.com/library/archive/releasenotes/General/SubmittingToMacAppStore/index.html#//apple_ref/doc/uid/TP40010572-CH16-SW8
 
 The Glimmer rake task allows passing extra options to jpackage via:
@@ -129,7 +129,7 @@ If you just want to test out packaging into a native Windows app that is not pac
 
 Recent macOS versions (starting with Catalina) have very stringent security requirements requiring all applications to be signed before running (unless the user goes to System Preferences -> Privacy -> General tab and clicks "Open Anyway" after failing to open application the first time they run it). So, to release a desktop application on the Mac, it is recommended to enroll in the [Apple Developer Program](https://developer.apple.com/programs/) to distribute on the [Mac App Store](https://developer.apple.com/distribute/) or otherwise request [app notarization from Apple](https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution) to distribute independently.
 
-Afterwards, you may add signing arguments to `jpackage` via `Glimmer::RakeTask::Package.jpackage_extra_args` or `JPACKAGE_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/en/java/javase/14/jpackage/packaging-tool-user-guide.pdf
+Afterwards, you may add signing arguments to `jpackage` via `Glimmer::RakeTask::Package.jpackage_extra_args` or `JPACKAGE_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/en/java/javase/16/jpackage/packaging-tool-user-guide.pdf
 
 ```
   --mac-package-signing-prefix <prefix string>
