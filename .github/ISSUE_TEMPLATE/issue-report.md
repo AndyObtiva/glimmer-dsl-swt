@@ -8,10 +8,11 @@ assignees: ''
 ---
 
 **Desktop (please complete the following information and make sure it matches [Glimmer Pre-Requisites](https://github.com/AndyObtiva/glimmer-dsl-swt#pre-requisites) before reporting an issue):**
+ - CPU Architecture [e.g. x86_64 or AArch64]
  - OS [e.g. Linux Ubuntu 20.04.1 LTS]:
- - Java Version [e.g. 1.8.0_241]:
- - JRuby Version [e.g. jruby-9.2.13.0]:
- - Glimmer Libraries/Versions [e.g. glimmer 1.0.1 / glimmer-dsl-swt 4.17.2.4]:
+ - Java Version [e.g. JDK 16.0.2]:
+ - JRuby Version [e.g. jruby-9.3.1.0]:
+ - Glimmer Libraries/Versions [e.g. glimmer 2.4.1 / glimmer-dsl-swt 4.21.2.0]:
 
 **Describe the issue**
-A clear and concise description of what the issue is.
+A clear and concise description of what the issue is, including expected behavior and actual result.
