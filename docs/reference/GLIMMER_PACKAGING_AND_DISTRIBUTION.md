@@ -149,7 +149,7 @@ If you just want to test out packaging into a native Windows app that is not pac
 
 ### Mac Application Distribution
 
-Recent macOS versions (starting with Catalina) have very stringent security requirements requiring all applications to be signed before running (unless the user goes to System Preferences -> Privacy -> General tab and clicks "Open Anyway" after failing to open application the first time they run it). So, to release a desktop application on the Mac, it is recommended to enroll in the [Apple Developer Program](https://developer.apple.com/programs/) to distribute on the [Mac App Store](https://developer.apple.com/distribute/) or otherwise request [app notarization from Apple](https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution) to distribute independently.
+Recent macOS versions (starting with Catalina) have very stringent security requirements requiring all applications to be signed before running (unless the user goes to System Preferences -> Security & Privacy -> General tab and clicks "Open Anyway" after failing to open application the first time they run it). So, to release a desktop application on the Mac, it is recommended to enroll in the [Apple Developer Program](https://developer.apple.com/programs/) to distribute on the [Mac App Store](https://developer.apple.com/distribute/) or otherwise request [app notarization from Apple](https://developer.apple.com/documentation/xcode/notarizing_macos_software_before_distribution) to distribute independently.
 
 Afterwards, you may add signing arguments to `jpackage` via `Glimmer::RakeTask::Package.jpackage_extra_args` or `JPACKAGE_EXTRA_ARGS` according to this webpage: https://docs.oracle.com/en/java/javase/16/jpackage/packaging-tool-user-guide.pdf
 
@@ -246,3 +246,12 @@ file_input_stream = resource.to_io.to_input_stream
 
 The `image` keyword in Glimmer automatically does that work when passing an image path produced from inside a JAR file.
 
+6. NAME.app is damaged and can't be opened. You should move it to the trash
+
+If you package an app for the Mac and an end-user gets the error message above upon installing, note that you probably have a system incompatibility issue between your OS/CPU Architecture and the end-user's OS/CPU Architecture. To resolve the issue, make sure to repackage the app for the Mac on a system perfectly matching the end-user's OS/CPU Architecture (sometimes, packaging on a newer MacOS with the same CPU Architecture also works, but you would have to test that to confirm and ensure full compatibility).
+
+7. Message about a Mac app for which the developer cannot be verified (Move To Trash or Cancel)
+
+If you get the above message when running a packaged Mac app for the first time, choose cancel and then immediately go to System Preferences -> Security & Privacy -> General Tab -> Choose Open Anyway at the bottom where the app name should be showing.
+
+This would not be an issue if the app was [signed by Apple as per Mac Application Distribution instructions](#mac-application-distribution)

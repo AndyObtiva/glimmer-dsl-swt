@@ -1509,7 +1509,7 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 ### Canvas Shape DSL
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 While other GUI toolkits only offer a way to draw graphics imperatively (e.g. fill_rectangle, draw_point, etc...), Glimmer DSL for SWT breaks away from the mold by enabling software engineers to draw graphics declaratively. Simply declare all the shapes you want to see with their attributes, like background/foreground colors, and Glimmer DSL for SWT takes care of the rest, painting graphics on a blank `canvas` widget or amending/decorating an existing widget. This is accomplished through the Canvas Shape DSL, a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax. Still, for the rare cases where imperative logic is needed, Glimmer DSL for SWT supports imperative painting of graphics through direct usage of SWT.
 
@@ -1944,7 +1944,7 @@ Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.
 
 #### Pixel Graphics
 
-**(Early Alpha Feature)**
+**(BETA FEATURE)**
 
 If you need to paint pixel graphics, use the optimized `pixel` keyword alternative to `point`, which takes foreground as a hash argument and bypasses the [Glimmer DSL Engine chain of responsibility](https://github.com/AndyObtiva/glimmer#dsl-engine), thus rendering faster when having very large pixel counts.
 
@@ -2126,7 +2126,7 @@ As they say, there are many ways to skin a cat! This is in line with the Ruby wa
 
 ### Canvas Path DSL
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 Unlike common imperative GUI graphing toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path { }` keyword and by nesting one of the following path segment keywords underneath:
 - `point(x1, y1)`: renders a Point (Dot) as part of a path.
@@ -2172,7 +2172,7 @@ Every path segment object (mixing in [`Glimmer::SWT::Custom::PathSegment`](/lib/
 
 ### Canvas Transform DSL
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 The transform DSL builds [org.eclipse.swt.graphics.Transform](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Transform.html) objects with a nice declarative syntax.
 
@@ -2256,7 +2256,7 @@ Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-can
 
 ### Canvas Animation DSL
 
-**(EXPERIMENTAL EARLY ALPHA FEATURE)**
+**(ALPHA FEATURE)**
 
 (note: this is a very new feature of Glimmer. It may change a bit while getting battle tested. As always, you could default to basic SWT usage if needed.)
 
@@ -2352,13 +2352,9 @@ This example adds on the one above it by specifying converters on read and write
 
 `text bind(contact, 'address.street', sync_exec: true)`
 
-**(BETA FEATURE)**
-
 This example forces GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
 
 `text bind(contact, 'address.street', async_exec: true)`
-
-**(BETA FEATURE)**
 
 This example forces GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
 
@@ -3306,8 +3302,6 @@ Keep in mind that if the text grows and required a wider line numbers area, it g
 **theme**
 (default: `'glimmer'`)
 
-**(BETA FEATURE)**
-
 Changes syntax color highlighting theme. Can be one of the following:
 - glimmer
 - github
@@ -3315,8 +3309,6 @@ Changes syntax color highlighting theme. Can be one of the following:
 
 **language**
 (default: `'ruby'`)
-
-**(BETA FEATURE)**
 
 Sets the code language, which can be one of the following [rouge gem](#https://rubygems.org/gems/rouge) supported languages:
 - abap

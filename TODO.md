@@ -4,6 +4,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Drag and drop from list to list (perhaps add to Hello Drag and Drop by adding a second tab)
+- Drag to upload files into an area
+- Support `drag_source true` on most widgets to further simplify drag and drop for default cases
+- Support `drop_target true` on most widgets to further simplify drag and drop for default cases
+- Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
+- Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this)
 - Hello, Scrolled Composite!
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop)
 
