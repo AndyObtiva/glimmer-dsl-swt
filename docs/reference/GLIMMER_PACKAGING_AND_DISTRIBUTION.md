@@ -14,6 +14,8 @@ You may choose to generate a specific type of packaging instead by addionally pa
 glimmer package[msi]
 ```
 
+![glimmer packaging windows msi](/images/glimmer-packaging-windows-msi.png)
+
 This command generates a DMG file on the Mac:
 
 ```
@@ -26,11 +28,25 @@ Make sure to surround with double-quotes when running from ZShell (zsh):
 glimmer "package[dmg]"
 ```
 
+![glimmer packaging mac dmg license screen](/images/glimmer-packaging-mac-dmg-license-screen.png)
+
+![glimmer packaging mac dmg](/images/glimmer-packaging-mac-dmg.png)
+
 This command generates a DEB file on a Linux that supports deb packages (e.g. Linux Mint Cinnamon):
 
 ```
 glimmer package[deb]
 ```
+
+![glimmer packaging linux deb](/images/glimmer-packaging-linux-deb.png)
+
+This command generates an RPM file on a Linux that supports rpm packages (e.g. Red Hat Enterprise Linux):
+
+```
+glimmer package[rpm]
+```
+
+![glimmer packaging linux rpm](/images/glimmer-packaging-linux-rpm.png)
 
 - Available Mac packaging types are `dmg`, `pkg`, and `app-image` (image means a pure Mac `app` without a setup program). Keep in mind that the packages you produce are compatible with the same MacOS you are on or older.
 - Available Windows packaging types are `msi`, `exe`, and `app-image` (image means a Windows application directory without a setup program). Learn more about Windows packaging are [over here](#windows-application-packaging).
