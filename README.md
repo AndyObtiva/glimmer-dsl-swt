@@ -292,7 +292,7 @@ https://www.eclipse.org/swt/faq.php
 
 - JDK 16 (16.0.2) (find at https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html / Ensure PATH includes Java bin directory for `jpackage` command to work when packaging Glimmer applications)
 - [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
-- JRuby 9.3.0.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.0.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download) [you might have to dual-install JDK8 temporarily as it might be required by jruby installer and then switch JAVA_HOME to JDK16 once done installing and restart command prompt/git bash])
+- JRuby 9.3.1.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.1.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
 - SWT 4.21 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
