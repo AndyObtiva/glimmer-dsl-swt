@@ -35,18 +35,22 @@ include Glimmer
 
 shell {
   text 'Hello, Drag and Drop!'
+  minimum_size 250, 100
+  
   list {
     selection <=> [@location, :country]
-    on_drag_set_data { |event|
-      list = event.widget.getControl
-      event.data = list.getSelection.first
-    }
+    
+    on_drag_set_data do |event|
+      drag_widget = event.widget.control
+      event.data = drag_widget.selection.first
+    end
   }
-  label(:center) {
-    text 'Drag a country here!'
-    font height: 20
-    on_drop { |event|
-      event.widget.getControl.setText(event.data)
-    }
+  
+  list {
+    on_drop do |event|
+      drop_widget = event.widget.control
+      drop_widget.items += [event.data]
+      drop_widget.select(drop_widget.items.count - 1)
+    end
   }
 }.open

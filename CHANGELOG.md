@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.21.2.1
+
+- Update Hello, Drag and Drop! to move items from list to list
+
 ### 4.21.2.0
 
 - Support Linux packaging of deb/rpm native executable installers (not just gems) through standard `glimmer package` call (e.g. `glimmer package[deb]` or `glimmer package[rpm]`)
