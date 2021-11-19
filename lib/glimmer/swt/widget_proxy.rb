@@ -919,7 +919,7 @@ module Glimmer
                 if @swt_widget.is_a?(List)
                   on_drop do |event|
                     drop_widget = event.widget.control
-                    drop_widget.add(event.data)
+                    drop_widget.add(event.data) unless @drop_target == :unique && drop_widget.items.include?(event.data)
                     drop_widget.select(drop_widget.items.count - 1)
                   end
                 end

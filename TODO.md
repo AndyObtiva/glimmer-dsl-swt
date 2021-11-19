@@ -4,8 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support `drag_source true` on most widgets (`label`, `list` (selection), `spinner`, `text` (selection)) to further simplify drag and drop for default cases
-- Support `drop_target true` on most widgets (`label`, `list` (add/select unique or not), `spinner`, `text` (replace or insert)) to further simplify drag and drop for default cases
+- Support `drag_source true` on most widgets (`label`, `spinner`, `text` (selection)) to further simplify drag and drop for default cases
+- Support `drop_target true` on most widgets (`label`, `spinner`, `text` (replace or insert)) to further simplify drag and drop for default cases
 
 - Demo inter-application Drag and Drop (e.g. drag a file from Finder/Explorer and drop it in Glimmer DSL for SWT app drop zone to store it in a list)
 

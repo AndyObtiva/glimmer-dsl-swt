@@ -3,6 +3,7 @@
 ### 4.21.2.1
 
 - Update Hello, Drag and Drop! to move items from list to list
+- Support `list` attributes `drag_source true` (selection), `drop_target true` (add item & select), and `drop_target :unique` (add item without repetition & select)
 
 ### 4.21.2.0
 

@@ -73,7 +73,7 @@ shell {
   
   list {
     # Option 1: Automatic Drop Data Consumption
-    # drop_target :unique # does not add same data twice
+#     drop_target :unique # does not add same data twice
     drop_target true
     
     # Option 2: Manual Drop Data Consumption
