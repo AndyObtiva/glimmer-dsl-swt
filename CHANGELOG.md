@@ -4,6 +4,7 @@
 
 - Demo file drag and drop in Hello, Drag and Drop!
 - Make shapes added inside a widget with `:default` or `:max` dimensions auto-resize as the widget resizes
+- Upgrade to glimmer 2.5.0
 
 ### 4.21.2.1
 
