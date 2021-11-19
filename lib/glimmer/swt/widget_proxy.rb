@@ -905,6 +905,11 @@ module Glimmer
                     drag_widget = event.widget.control
                     event.data = drag_widget.selection.first
                   end
+                elsif @swt_widget.is_a?(Label)
+                  on_drag_set_data do |event|
+                    drag_widget = event.widget.control
+                    event.data = drag_widget.text
+                  end
                 end
               end
             }},
@@ -921,6 +926,11 @@ module Glimmer
                     drop_widget = event.widget.control
                     drop_widget.add(event.data) unless @drop_target == :unique && drop_widget.items.include?(event.data)
                     drop_widget.select(drop_widget.items.count - 1)
+                  end
+                elsif @swt_widget.is_a?(Label)
+                  on_drop do |event|
+                    drop_widget = event.widget.control
+                    drop_widget.text = event.data
                   end
                 end
               end
