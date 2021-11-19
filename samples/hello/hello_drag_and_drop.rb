@@ -196,7 +196,7 @@ shell {
       }
       
       label {
-        text 'Drop To Insert'
+        text 'Drop To Replace'
       }
       
       spinner {
