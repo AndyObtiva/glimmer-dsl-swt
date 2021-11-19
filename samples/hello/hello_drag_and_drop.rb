@@ -42,13 +42,13 @@ shell {
     selection <=> [@location, :country]
     
     # Option 1: Automatic Drag Data Setting
-#     drag_source true
+    drag_source true
     
     # Option 2: Manual Drag Data Setting
-    on_drag_set_data do |event|
-      drag_widget = event.widget.control
-      event.data = drag_widget.selection.first
-    end
+#     on_drag_set_data do |event|
+#       drag_widget = event.widget.control
+#       event.data = drag_widget.selection.first
+#     end
     
     # Option 3: Full Customization of Drag Source (details at:  https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html)
 #     drag_source(:drop_copy) { # options: :drop_copy, :drop_link, :drop_move, :drop_target_move
@@ -74,21 +74,20 @@ shell {
   list {
     # Option 1: Automatic Drop Data Consumption
     # drop_target :unique # does not add same data twice
-#     drop_target true
+    drop_target true
     
     # Option 2: Manual Drop Data Consumption
-    on_drop do |event|
-      drop_widget = event.widget.control
-      drop_widget.add(event.data)
-      drop_widget.select(drop_widget.items.count - 1)
-    end
+#     on_drop do |event|
+#       drop_widget = event.widget.control
+#       drop_widget.add(event.data)
+#       drop_widget.select(drop_widget.items.count - 1)
+#     end
     
     # Option 3: Full Customization of Drop Target (details at:  https://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html)
 #     drop_target(:drop_copy) { # options: :drop_copy, :drop_link, :drop_move, :drop_target_move
 #       transfer :text # options: :text, :file, :rtf
 #
 #       on_drag_enter do |event|
-#         event.detail = DND::DROP_COPY # this is required to enable drop
 #         drop_widget = event.widget.control.data('proxy') # obtain Glimmer widget proxy since it permits nicer syntax for setting background via symbol
 #         drop_widget.background = :red
 #       end

@@ -743,6 +743,13 @@ module Glimmer
 
       def handle_observation_request(observation_request, &block)
         observation_request = normalize_observation_request(observation_request)
+        if observation_request.start_with?('on_drag_enter')
+          original_block = block
+          block = Proc.new do |event|
+            event.detail = DNDProxy[:drop_copy]
+            original_block.call(event)
+          end
+        end
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           add_swt_event_listener(constant_name, &block)
@@ -886,6 +893,39 @@ module Glimmer
       def widget_custom_attribute_mapping
         # TODO scope per widget class type just like other mappings
         @swt_widget_custom_attribute_mapping ||= {
+          'drag_source' => {
+            getter: {name: 'getShell', invoker: lambda { |widget, args|
+              @drag_source
+            }},
+            setter: {name: 'getShell', invoker: lambda { |widget, args|
+              @drag_source = args.first
+              if @drag_source
+                if @swt_widget.is_a?(List)
+                  on_drag_set_data do |event|
+                    drag_widget = event.widget.control
+                    event.data = drag_widget.selection.first
+                  end
+                end
+              end
+            }},
+          },
+          'drop_target' => {
+            getter: {name: 'getShell', invoker: lambda { |widget, args|
+              @drop_target
+            }},
+            setter: {name: 'getShell', invoker: lambda { |widget, args|
+              @drop_target = args.first
+              if @drop_target
+                if @swt_widget.is_a?(List)
+                  on_drop do |event|
+                    drop_widget = event.widget.control
+                    drop_widget.add(event.data)
+                    drop_widget.select(drop_widget.items.count - 1)
+                  end
+                end
+              end
+            }},
+          },
           'window' => {
             getter: {name: 'getShell'},
             setter: {name: 'getShell', invoker: lambda { |widget, args| @swt_widget.getShell }}, # No Op
