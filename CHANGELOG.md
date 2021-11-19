@@ -2,11 +2,9 @@
 
 ### 4.21.2.1
 
-- Update Hello, Drag and Drop! to move items from list to list
-- Support `list` attributes `drag_source true` (selection), `drop_target true` (add item & select), and `drop_target :unique` (add item without repetition & select)
-- Support `label` attributes `drag_source true` and `drop_target true`
-- Support `text` attributes `drag_source true` (selection) and `drop_target true` (insert or replace)
-- Support `spinner` attributes `drag_source true` and `drop_target true`
+- Update Hello, Drag and Drop! to include `list`, `label`, `text`, and `spinner` examples
+- Add manual and fully customizable drag and drop syntax alternatives to Hello, Drag and Drop!
+- Support simpler drag and drop syntax (`drag_source true`/`drop_target true`) for simple cases concerning `list`, `label`, `text`, and `spinner`
 
 ### 4.21.2.0
 
