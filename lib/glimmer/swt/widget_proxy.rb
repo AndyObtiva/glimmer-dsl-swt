@@ -916,6 +916,11 @@ module Glimmer
                     drag_widget = event.widget.control
                     event.data = drag_widget.selection_text
                   end
+                when Spinner
+                  on_drag_set_data do |event|
+                    drag_widget = event.widget.control
+                    event.data = drag_widget.selection.to_s
+                  end
                 end
               end
             }},
@@ -947,6 +952,11 @@ module Glimmer
                     else
                       drop_widget.insert(event.data)
                     end
+                  end
+                when Spinner
+                  on_drop do |event|
+                    drop_widget = event.widget.control
+                    drop_widget.selection = event.data.to_f
                   end
                 end
               end

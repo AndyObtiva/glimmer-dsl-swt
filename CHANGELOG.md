@@ -6,6 +6,7 @@
 - Support `list` attributes `drag_source true` (selection), `drop_target true` (add item & select), and `drop_target :unique` (add item without repetition & select)
 - Support `label` attributes `drag_source true` and `drop_target true`
 - Support `text` attributes `drag_source true` (selection) and `drop_target true` (insert or replace)
+- Support `spinner` attributes `drag_source true` and `drop_target true`
 
 ### 4.21.2.0
 

@@ -35,7 +35,6 @@ include Glimmer
 
 shell {
   text 'Hello, Drag and Drop!'
-  minimum_size 250, 100
   
   tab_folder {
     tab_item {
@@ -184,6 +183,30 @@ shell {
         layout_data :fill, :center, true, false
         text 'Drop To Replace'
         drop_target :replace
+      }
+    }
+    
+    tab_item {
+      grid_layout 2, true
+      text 'Spinner'
+      
+      label {
+        text 'Drag'
+      }
+      
+      label {
+        text 'Drop To Insert'
+      }
+      
+      spinner {
+        layout_data :fill, :center, true, false
+        selection 30
+        drag_source true
+      }
+      
+      spinner {
+        layout_data :fill, :center, true, false
+        drop_target true
       }
     }
   }
