@@ -4,14 +4,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Support `drag_source true` on most widgets to further simplify drag and drop for default cases
-- Support `drop_target true` on most widgets to further simplify drag and drop for default cases
-- Drag to upload files into an area
-- Support inter-application Drag and Drop (e.g. drag a file from Finder/Explorer and drop it in Glimmer DSL for SWT app drop zone to store it in a list)
+- Support `drag_source true` on most widgets (`label`, `list` (selection), `spinner`, `text` (selection)) to further simplify drag and drop for default cases
+- Support `drop_target true` on most widgets (`label`, `list` (add/select unique or not), `spinner`, `text` (replace or insert)) to further simplify drag and drop for default cases
+
+- Demo inter-application Drag and Drop (e.g. drag a file from Finder/Explorer and drop it in Glimmer DSL for SWT app drop zone to store it in a list)
 
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this)
 - Hello, Scrolled Composite!
+- Hello, Tooltip!
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop)
 
 ## Soon
@@ -20,6 +21,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 
 ## Future Consideration
+
+- Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
+- Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 
 - Cache/memoize awt geom objects when used in shape contain?/include? methods
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value

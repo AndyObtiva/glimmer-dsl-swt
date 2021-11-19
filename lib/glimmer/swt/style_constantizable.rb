@@ -151,6 +151,8 @@ module Glimmer
         def include?(swt_constant, *symbols)
           swt_constant & self[symbols] == self[symbols]
         end
+        
+        # TODO support listing all symbols
       end
     end
   end
