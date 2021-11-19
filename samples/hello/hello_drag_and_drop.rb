@@ -20,7 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer-dsl-swt'
-require 'pd'
 
 class Location
   attr_accessor :country
@@ -141,6 +140,51 @@ shell {
           drop_target true
         }
       end
+    }
+    
+    tab_item {
+      grid_layout 2, true
+      text 'Text'
+      
+      label {
+        text 'Drag'
+      }
+      
+      label {
+        text 'Drop To Insert'
+      }
+      
+      text {
+        layout_data :fill, :center, true, false
+        text 'Text1'
+        drag_source true
+      }
+      
+      text {
+        layout_data :fill, :center, true, false
+        text 'Drop To Insert'
+        drop_target true
+      }
+      
+      label {
+        text 'Drag'
+      }
+      
+      label {
+        text 'Drop To Replace'
+      }
+      
+      text {
+        layout_data :fill, :center, true, false
+        text 'Text2'
+        drag_source true
+      }
+      
+      text {
+        layout_data :fill, :center, true, false
+        text 'Drop To Replace'
+        drop_target :replace
+      }
     }
   }
 }.open
