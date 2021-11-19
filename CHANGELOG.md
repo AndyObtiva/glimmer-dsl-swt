@@ -3,6 +3,7 @@
 ### 4.21.2.2
 
 - Demo file drag and drop in Hello, Drag and Drop!
+- Make shapes added inside a widget with `:default` or `:max` dimensions auto-resize as the widget resizes
 
 ### 4.21.2.1
 

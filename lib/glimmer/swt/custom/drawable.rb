@@ -110,6 +110,7 @@ module Glimmer
         
         def deregister_shape_painting
           @paint_listener_proxy&.deregister
+          @resize_listener_proxy&.deregister
         end
         
         def setup_shape_painting
@@ -143,6 +144,7 @@ module Glimmer
               shape_painter.call(self) # treat self as paint event since image has its own gc and doesn't do repaints (it's a one time deal for now though could be adjusted in the future.)
             else
               @paint_listener_proxy = on_swt_paint(&shape_painter)
+              @resize_listener_proxy = on_swt_Resize { shapes.each(&:calculated_args_changed!) }
             end
           else
             redraw if respond_to?(:redraw) && @finished_add_content && !is_disposed

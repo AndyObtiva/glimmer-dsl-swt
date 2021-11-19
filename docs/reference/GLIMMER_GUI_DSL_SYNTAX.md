@@ -1600,7 +1600,7 @@ Screenshot:
 
 If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent `canvas`.
 
-If you specify the `width` and `height` parameters as `:max`, they get calculated from the parent's size, filling the parent maximally.
+If you specify the `width` and `height` parameters as `:max`, they get calculated from the parent's size, filling the parent maximally (and they are auto-calculated on parent resize).
 
 Note that you could shift a shape off its centered position within its parent `canvas` by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 
@@ -1759,11 +1759,11 @@ Shapes can be nested within each other. If you nest a shape within another, its 
 
 As such, if you move the parent, it moves all its children with it.
 
-If you specify the `x` and `y` coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent shape relatively.
+If you specify the `x` and `y` coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent shape relatively (and auto-recalculated on parent resize).
 
 If you specify the `width` and `height` parameters as `:default`, `nil`, or leave them out, they get calculated automatically from the shape's nested children shapes if any (e.g calculating the dimensions of a text from its extent according to its font size) or from the parent's size otherwise.
 
-If you specify the `width` and `height` parameters as `:max`, they get calculated from the parent's size, filling the parent maximally.
+If you specify the `width` and `height` parameters as `:max`, they get calculated from the parent's size, filling the parent maximally (and auto-recalculated on parent resize).
 
 Note that you could shift a shape off its centered position within its parent shape by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 

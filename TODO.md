@@ -28,7 +28,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
 - Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 
-- Make rectangle border added inside a widget with max size auto-resize as the widget resizes
 - Make images have a transparent background by default
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
