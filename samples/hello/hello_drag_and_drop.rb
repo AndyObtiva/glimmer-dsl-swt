@@ -76,8 +76,8 @@ shell {
       
       list {
         # Option 1: Automatic Drop Data Consumption
-#         drop_target :unique # does not add same data twice
         drop_target true
+#         drop_target :unique # setting drop_target to :unique makes the list not add the same data twice
         
         # Option 2: Manual Drop Data Consumption
 #         on_drop do |event|
@@ -91,6 +91,7 @@ shell {
 #           transfer :text # options: :text, :file, :rtf
 #
 #           on_drag_enter do |event|
+#             ### event.detail = DND::DROP_NONE # To reject a drop, you can set event.detail to DND::DROP_NONE
 #             drop_widget = event.widget.control.data('proxy') # obtain Glimmer widget proxy since it permits nicer syntax for setting background via symbol
 #             drop_widget.background = :red
 #           end
@@ -207,6 +208,41 @@ shell {
       spinner {
         layout_data :fill, :center, true, false
         drop_target true
+      }
+    }
+    tab_item {
+      fill_layout
+      text 'File'
+      
+      @drop_zone_label = label(:center, :wrap) {
+        text 'Drop One File Or More Here'
+        background :white
+        
+        rectangle  {
+          foreground :black
+          line_width 4
+          line_style :dash
+        }
+        
+        drop_target(:drop_copy) {
+          transfer :file
+          
+          on_drag_enter do |event|
+            drop_widget = event.widget.control.data('proxy') # obtain Glimmer widget proxy since it permits nicer syntax for setting background via symbol
+            drop_widget.background = :yellow
+          end
+
+          on_drag_leave do |event|
+            drop_widget = event.widget.control.data('proxy') # obtain Glimmer widget proxy since it permits nicer syntax for setting background via symbol
+            drop_widget.background = :white
+          end
+          
+          on_drop do |event|
+            drop_widget = event.widget.control.data('proxy') # obtain Glimmer widget proxy since it permits nicer syntax for setting background/cursor via symbol
+            drop_widget.background = :white
+            @drop_zone_label.text = event.data.to_a.join("\n")
+          end
+        }
       }
     }
   }

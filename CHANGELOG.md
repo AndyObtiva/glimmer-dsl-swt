@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.21.2.2
+
+- Demo file drag and drop in Hello, Drag and Drop!
+
 ### 4.21.2.1
 
 - Update Hello, Drag and Drop! to include `list`, `label`, `text`, and `spinner` examples

@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Demo inter-application Drag and Drop (e.g. drag a file from Finder/Explorer and drop it in Glimmer DSL for SWT app drop zone to store it in a list)
+- Document Canvas Shape DSL with more example, one per shape
 
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this)
@@ -28,6 +28,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Implement charts and graphs custom widgets using Nebula Visualization and Draw2D (glimmer-cw-visualization-nebula)
 - Consider building a Spreadsheet Chart Nebula Sample showing 4 tabs of chart types based on a spreadsheet that can be edited with data.
 
+- Make rectangle border added inside a widget with max size auto-resize as the widget resizes
 - Make images have a transparent background by default
 - Support percentage based width and height
 - Canvas Shape shadows (or access to previous shape to paint a shadow if needed)
