@@ -19,6 +19,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Future Consideration
 
+- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 - Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 

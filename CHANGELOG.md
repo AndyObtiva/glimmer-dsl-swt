@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.21.2.3
+
+- Upgrade to glimmer 2.5.1 to fix an issue with mistakenly referencing `OpenStruct` without `'ostruct'` being loaded
+
 ### 4.21.2.2
 
 - Demo file drag and drop in Hello, Drag and Drop!
