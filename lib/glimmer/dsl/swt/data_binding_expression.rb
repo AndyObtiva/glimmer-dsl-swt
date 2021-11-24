@@ -33,7 +33,7 @@ module Glimmer
       # of a ModelBinding, which is then connected to an anonymous widget observer
       # (aka widget_data_binder as per widget_data_binders array)
       #
-      # Depends on BindCommandHandler
+      # Depends on BindExpression
       class DataBindingExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
           args.size == 1 and
