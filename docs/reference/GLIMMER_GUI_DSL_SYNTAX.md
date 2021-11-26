@@ -111,6 +111,7 @@ include Glimmer
 
 shell {
   text "Glimmer"
+  
   label {
     text "Hello, World!"
   }
@@ -131,6 +132,7 @@ class HelloWorld
     # the following are GUI DSL keywords (shell, text, and label) used in the instance scope
     shell {
       text "Glimmer"
+      
       label {
         text "Hello, World!"
         foreground COLOR_FOREGROUND_DEFAULT
@@ -210,6 +212,7 @@ For example, if we were to revisit `samples/hello/hello_world.rb` above (you may
 ```ruby
 shell {
   text "Glimmer"
+  
   label {
     text "Hello, World!"
   }
@@ -223,6 +226,7 @@ Note that `shell` instantiates the outer shell **widget**, in other words, the w
 ```ruby
 # ...
   text "Glimmer" # text property of shell
+  
   label { # label widget declaration as content of shell
     text "Hello, World!" # text property of label
   }
@@ -268,15 +272,19 @@ Example from [hello_tab.rb](samples/hello/hello_tab.rb) sample (you may copy/pas
 ```ruby
 shell {
   text "Hello, Tab!"
+  
   tab_folder {
     tab_item {
       text "English"
+      
       label {
         text "Hello, World!"
       }
     }
+    
     tab_item {
       text "French"
+      
       label {
         text "Bonjour Univers!"
       }
@@ -294,63 +302,63 @@ If you are an advanced user of Glimmer DSL for SWT and need more widgets, check 
 This is not an exaustive list, but should give you a good start in learning Glimmer GUI DSL keywords, keeping in mind that the full list can be derived from the [SWT documentation](https://www.eclipse.org/swt/widgets/). More will be explained in the following sections.
 
 **Widgets:**
-- `button`: featured in [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login)
-- `browser`: featured in [Hello, Browser!](GLIMMER_SAMPLES.md#hello-browser)
-- `calendar`: featured in [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
-- `checkbox`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox)
-- `checkbox_group`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group)
-- `combo`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo)
-- `composite`: featured in [Hello, Composite!](GLIMMER_SAMPLES.md#hello-composite) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `cool_bar`: featured in [Hello, Cool Bar!](GLIMMER_SAMPLES.md#hello-cool-bar)
-- `date`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `date_drop_down`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
-- `group`: featured in [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `label`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, World!](GLIMMER_SAMPLES.md#hello-world) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login)
-- `list` (w/ optional `:multi` SWT style): featured in [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `menu`: featured in [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table)
-- `menu_bar`: featured in [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
-- `menu_item`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
-- `message_box`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
-- `radio`: featured in [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group)
-- `radio_group`: featured in [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group)
+- `button`: featured in [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](/docs/reference/GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Message Box!](/docs/reference/GLIMMER_SAMPLES.md#hello-message-box) / [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login)
+- `browser`: featured in [Hello, Browser!](/docs/reference/GLIMMER_SAMPLES.md#hello-browser)
+- `calendar`: featured in [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time)
+- `checkbox`: featured in [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox)
+- `checkbox_group`: featured in [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group)
+- `combo`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo)
+- `composite`: featured in [Hello, Composite!](/docs/reference/GLIMMER_SAMPLES.md#hello-composite) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `cool_bar`: featured in [Hello, Cool Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-cool-bar)
+- `date`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
+- `date_drop_down`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time)
+- `group`: featured in [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `label`: featured in [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, World!](/docs/reference/GLIMMER_SAMPLES.md#hello-world) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](/docs/reference/GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login)
+- `list` (w/ optional `:multi` SWT style): featured in [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `menu`: featured in [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table)
+- `menu_bar`: featured in [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar)
+- `menu_item`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar)
+- `message_box`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](/docs/reference/GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar)
+- `radio`: featured in [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group)
+- `radio_group`: featured in [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group)
 - `scrolled_composite`
-- `shell`: featured in [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](GLIMMER_SAMPLES.md#login)
-- `tab_folder`: featured in [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab)
-- `tab_item`: featured in [Hello, Tab!](GLIMMER_SAMPLES.md#hello-tab)
-- `table`: featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `table_column`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `text`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `time`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time)
+- `shell`: featured in [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](/docs/reference/GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Tab!](/docs/reference/GLIMMER_SAMPLES.md#hello-tab) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login)
+- `tab_folder`: featured in [Hello, Tab!](/docs/reference/GLIMMER_SAMPLES.md#hello-tab)
+- `tab_item`: featured in [Hello, Tab!](/docs/reference/GLIMMER_SAMPLES.md#hello-tab)
+- `table`: featured in [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `table_column`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `text`: featured in [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `time`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time)
 - `tool_bar`: featured in [Hello, Tool Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-tool-bar)
 - `tool_item`: featured in [Hello, Tool Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-tool-bar)
-- Glimmer::UI::CustomWidget: ability to define any keyword as a custom widget - featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
-- Glimmer::UI::CustomShell: ability to define any keyword as a custom shell (aka custom window) that opens in a new browser window (tab) automatically unless there is no shell open in the current browser window (tab) - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
+- Glimmer::UI::CustomWidget: ability to define any keyword as a custom widget - featured in [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget)
+- Glimmer::UI::CustomShell: ability to define any keyword as a custom shell (aka custom window) that opens in a new browser window (tab) automatically unless there is no shell open in the current browser window (tab) - featured in [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell)
 
 **Layouts:**
-- `grid_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `row_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
-- `fill_layout`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget)
-- `layout_data`: featured in [Hello, Layout!](GLIMMER_SAMPLES.md#hello-layout) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `grid_layout`: featured in [Hello, Layout!](/docs/reference/GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
+- `row_layout`: featured in [Hello, Layout!](/docs/reference/GLIMMER_SAMPLES.md#hello-layout) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
+- `fill_layout`: featured in [Hello, Layout!](/docs/reference/GLIMMER_SAMPLES.md#hello-layout) / [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget)
+- `layout_data`: featured in [Hello, Layout!](/docs/reference/GLIMMER_SAMPLES.md#hello-layout) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
 
 **Graphics/Style:**
-- `color`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar)
-- `font`: featured in [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `color`: featured in [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar)
+- `font`: featured in [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
 - `Point` class used in setting location on widgets
-- `swt` and `SWT` class to set SWT styles on widgets - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `swt` and `SWT` class to set SWT styles on widgets - featured in [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
 
 **Data-Binding/Observers:**
-- `bind`: featured in [Hello, Computed!](GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `observe`: featured in [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `on_widget_selected`: featured in [Hello, Combo!](GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) / [Login](GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
+- `bind`: featured in [Hello, Computed!](/docs/reference/GLIMMER_SAMPLES.md#hello-computed) / [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](/docs/reference/GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) / [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
+- `observe`: featured in [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
+- `on_widget_selected`: featured in [Hello, Combo!](/docs/reference/GLIMMER_SAMPLES.md#hello-combo) / [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) / [Hello, Checkbox!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox) / [Hello, Button!](/docs/reference/GLIMMER_SAMPLES.md#hello-button) / [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) / [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) / [Hello, Radio!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio) / [Hello, Pop Up Context Menu!](/docs/reference/GLIMMER_SAMPLES.md#hello-pop-up-context-menu) / [Hello, Message Box!](/docs/reference/GLIMMER_SAMPLES.md#hello-message-box) / [Hello, Menu Bar!](/docs/reference/GLIMMER_SAMPLES.md#hello-menu-bar) / [Hello, List Single Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-single-selection) / [Hello, List Multi Selection!](/docs/reference/GLIMMER_SAMPLES.md#hello-list-multi-selection) / [Hello, Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-group) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) / [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
 - `on_modify_text`
-- `on_key_pressed` (and SWT alias `on_swt_keydown`) - featured in [Login](GLIMMER_SAMPLES.md#login) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `on_key_pressed` (and SWT alias `on_swt_keydown`) - featured in [Login](/docs/reference/GLIMMER_SAMPLES.md#login) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
 - `on_key_released` (and SWT alias `on_swt_keyup`)
 - `on_mouse_down` (and SWT alias `on_swt_mousedown`)
-- `on_mouse_up` (and SWT alias `on_swt_mouseup`) - featured in [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](GLIMMER_SAMPLES.md#contact-manager)
+- `on_mouse_up` (and SWT alias `on_swt_mouseup`) - featured in [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) / [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager)
 
 **Event loop:**
-- `display`: featured in [Tic Tac Toe](GLIMMER_SAMPLES.md#tic-tac-toe)
-- `async_exec`: featured in [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell)
+- `display`: featured in [Tic Tac Toe](/docs/reference/GLIMMER_SAMPLES.md#tic-tac-toe)
+- `async_exec`: featured in [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) / [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell)
 - `sync_exec`: executes a block on the event loop synchronously (usually from another thread)
 - `timer_exec`: executes a block after a delay of time has passed
 - `auto_exec`: executes a block on the event loop synchronously only when needed (when running from a thread other than GUI thread)
@@ -400,12 +408,14 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 @shell = shell {
   text "Application"
   row_layout
+  
   @label1 = label {
     text "Hello,"
   }
 }
 @shell.content {
   minimum_size 130, 130
+  
   label {
     text "World!"
   }
@@ -448,7 +458,7 @@ Dialog is a variation on Shell. It is basically a shell that is modal (blocks wh
 
 Glimmer facilitates building dialogs by using the `dialog` keyword, which automatically adds the SWT.DIALOG_TRIM and SWT.APPLICATION_MODAL [widget styles](#widget-styles) needed for a dialog.
 
-Check out [Hello, Dialog!](GLIMMER_SAMPLES.md#hello-dialog) sample to learn more.
+Check out [Hello, Dialog!](/docs/reference/GLIMMER_SAMPLES.md#hello-dialog) sample to learn more.
 
 ##### message_box
 
@@ -461,8 +471,10 @@ include Glimmer
 
 @shell = shell {
   text 'Hello, Message Box!'
+  
   button {
     text 'Please Click To Win a Surprise'
+    
     on_widget_selected do
       message_box(@shell) {
         text 'Surprise'
@@ -502,6 +514,7 @@ automatically uses the `display` created earlier without having to explicitly ho
 ```ruby
 @display = display {
   cursor_location 300, 300
+  
   on_swt_keydown do
     # ...
   end
@@ -519,7 +532,7 @@ Although SWT Display is not technically a widget, it has similar APIs and DSL su
 
 Most of the time, you simply get away with Ruby [Threads](https://ruby-doc.org/core-2.5.7/Thread.html) and [Mutexes](https://ruby-doc.org/core-2.5.7/Mutex.html).
 
-Otherwise, if you need more advanced concurrency, Glimmer includes the [concurrent-ruby gem](https://rubygems.org/gems/concurrent-ruby), which supports many helpful concurrency techniques such as [Thread Pools](http://ruby-concurrency.github.io/concurrent-ruby/master/file.thread_pools.html) (used in the [Mandelbrot Fractal](GLIMMER_SAMPLES.md#mandelbrot-fractal) sample).
+Otherwise, if you need more advanced concurrency, Glimmer includes the [concurrent-ruby gem](https://rubygems.org/gems/concurrent-ruby), which supports many helpful concurrency techniques such as [Thread Pools](http://ruby-concurrency.github.io/concurrent-ruby/master/file.thread_pools.html) (used in the [Mandelbrot Fractal](/docs/reference/GLIMMER_SAMPLES.md#mandelbrot-fractal) sample).
 
 One thing Glimmer DSL for SWT innovates over plain old SWT is not requiring developers to explicitly use `Display.syncExec` from threads other than the GUI threads.
 Glimmer automatically detects if you're running in a different thread and uses `Display.syncExec` automatically using its own enhanced `auto_exec`
@@ -535,21 +548,22 @@ Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 ```
 @shell = shell {
   text 'Glimmer'
+  
   @label = label {
     text 'Hello, World!'
   }
 }
 
-Thread.new {
-  [:red, :dark_green, :blue].cycle { |color|
-    async_exec {
+Thread.new do
+  [:red, :dark_green, :blue].cycle do |color|
+    async_exec do
       @label.content {
         foreground color if @shell.visible?
       }
-    }
+    end
     sleep(1)
-  }
-}
+  end
+end
 
 @shell.open
 ```
@@ -627,8 +641,10 @@ shell {
       }
       menu {
         text 'Open &Recent'
+        
         menu_item {
           text 'File 1'
+          
           on_widget_selected do
             message_box {
               text 'File 1'
@@ -636,8 +652,10 @@ shell {
             }.open
           end
         }
+        
         menu_item {
           text 'File 2'
+          
           on_widget_selected do
             message_box {
               text 'File 2'
@@ -646,7 +664,9 @@ shell {
           end
         }
       }
+      
       menu_item(:separator)
+      
       menu_item {
         text 'E&xit'
         
@@ -657,19 +677,23 @@ shell {
     }
     menu {
       text '&Edit'
+      
       menu_item {
         text 'Cut'
         accelerator :command, :X
       }
+      
       menu_item {
         text 'Copy'
         accelerator :command, :C
       }
+      
       menu_item {
         text 'Paste'
         accelerator :command, :V
       }
     }
+    
     menu {
       text '&Options'
       
@@ -681,6 +705,7 @@ shell {
           @select_multiple_menu.enabled = true
         end
       }
+      
       @select_one_menu = menu {
         text '&Select One'
         enabled false
@@ -688,13 +713,16 @@ shell {
         menu_item(:radio) {
           text 'Option 1'
         }
+        
         menu_item(:radio) {
           text 'Option 2'
         }
+        
         menu_item(:radio) {
           text 'Option 3'
         }
       }
+      
       @select_multiple_menu = menu {
         text '&Select Multiple'
         enabled false
@@ -702,18 +730,23 @@ shell {
         menu_item(:check) {
           text 'Option 4'
         }
+        
         menu_item(:check) {
           text 'Option 5'
         }
+        
         menu_item(:check) {
           text 'Option 6'
         }
       }
     }
+    
     menu {
       text '&Format'
+      
       menu {
         text '&Background Color'
+        
         COLORS.each { |color_style|
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
@@ -724,8 +757,10 @@ shell {
           }
         }
       }
+      
       menu {
         text 'Foreground &Color'
+        
         COLORS.each { |color_style|
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
@@ -737,8 +772,10 @@ shell {
         }
       }
     }
+    
     menu {
       text '&View'
+      
       menu_item(:radio) {
         text 'Small'
         
@@ -747,6 +784,7 @@ shell {
           @label.parent.pack
         end
       }
+      
       menu_item(:radio) {
         text 'Medium'
         selection true
@@ -756,6 +794,7 @@ shell {
           @label.parent.pack
         end
       }
+      
       menu_item(:radio) {
         text 'Large'
         
@@ -765,8 +804,10 @@ shell {
         end
       }
     }
+    
     menu {
       text '&Help'
+      
       menu_item {
         text '&Manual'
         accelerator :command, :shift, :M
@@ -778,6 +819,7 @@ shell {
           }.open
         end
       }
+      
       menu_item {
         text '&Tutorial'
         accelerator :command, :shift, :T
@@ -789,7 +831,9 @@ shell {
           }.open
         end
       }
+      
       menu_item(:separator)
+      
       menu_item {
         text '&Report an Issue...'
         
@@ -825,10 +869,13 @@ shell {
     menu {
       menu {
         text '&History'
+        
         menu {
           text '&Recent'
+          
           menu_item {
             text 'File 1'
+            
             on_widget_selected do
               message_box {
                 text 'File 1'
@@ -836,8 +883,10 @@ shell {
               }.open
             end
           }
+          
           menu_item {
             text 'File 2'
+            
             on_widget_selected do
               message_box {
                 text 'File 2'
@@ -846,10 +895,13 @@ shell {
             end
           }
         }
+        
         menu {
           text '&Archived'
+          
           menu_item {
             text 'File 3'
+            
             on_widget_selected do
               message_box {
                 text 'File 3'
@@ -857,8 +909,10 @@ shell {
               }.open
             end
           }
+          
           menu_item {
             text 'File 4'
+            
             on_widget_selected do
               message_box {
                 text 'File 4'
@@ -1006,7 +1060,7 @@ shell {
 }.open
 ```
 
-You may check out a more full-fledged example in [Hello, Sash Form!](GLIMMER_SAMPLES.md#hello-sash-form)
+You may check out a more full-fledged example in [Hello, Sash Form!](/docs/reference/GLIMMER_SAMPLES.md#hello-sash-form)
 
 ![Hello Sash Form](/images/glimmer-hello-sash-form.png)
 
@@ -1321,12 +1375,16 @@ This sets the shell `cursor` to that of `SWT::CURSOR_APPSTARTING`
 
 ### Layouts
 
-Glimmer lays widgets out visually using SWT layouts, which can only be set on composite widget and subclasses.
+Glimmer lays widgets out visually using SWT layouts, configurable with many options (e.g. whether widgets are responsive to window sizing), which can only be set on composite widget and subclasses.
 
 The most common SWT layouts are:
-- `FillLayout`: lays widgets out in equal proportion horizontally or vertically with spacing/margin options. This is the ***default*** layout for ***shell*** (with `:horizontal` option) in Glimmer.
-- `RowLayout`: lays widgets out horizontally or vertically in varying proportions with advanced spacing/margin/justify options
-- `GridLayout`: lays widgets out in a grid with advanced spacing/margin/alignment/indentation options. This is the **default** layout for **composite** in Glimmer. It is important to master.
+- [`fill_layout`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/FillLayout.html): lays widgets out in equal proportion horizontally or vertically with spacing/margin options. This is the ***default*** layout for ***shell*** (with `:horizontal` option) in Glimmer.
+- [`row_layout`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/RowLayout.html): lays widgets out horizontally or vertically in varying proportions with advanced spacing/margin/justify options
+- [`grid_layout`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/GridLayout.html): lays widgets out in a grid with advanced spacing/margin/alignment/indentation options. This is the **default** layout for **composite** in Glimmer. It is important to master.
+
+Note that if you need to have widgets fill a `row_layout` and resize automatically upon window resize, you must nest `fill true` within. This is the automatic behavior of `fill_layout`. For `grid_layout`, you would have to add `layout_data :fill, :center, true, false` to a child that you want to fill all available space horizontally (whether initially or after window resize) and `layout_data :fill, :fill, true, true` if you want to fill all available space horizontally and vertically.
+
+Do not be alarmed if widget sizes were kept fixed on resize of a window or change of text data. This is normal behavior that can always be overridden with options, such as `fill true` mentioned above. You need to [learn more about each layout](https://help.eclipse.org/latest/index.jsp?topic=/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/package-summary.html) before you have mastered them enough for your needs. [Samples](/docs/reference/GLIMMER_SAMPLES.md) like [Hello, Layout!](/docs/reference/GLIMMER_SAMPLES.md#hello-layout) are greatly helpful in learning too.
 
 In Glimmer DSL, just like widgets, layouts can be specified with lowercase underscored names followed by a block containing properties, also lowercase underscored names (e.g. `RowLayout` is `row_layout`).
 
@@ -1478,6 +1536,23 @@ composite {
   label {
     # layout data followed by arguments passed to SWT GridData constructor
     layout_data :fill, :end, true, false
+  }
+}
+# ...
+```
+
+```ruby
+# ...
+composite {
+  grid_layout 3, false # grid layout with 3 columns not of equal width
+  label {
+    # layout data with explicit setting of properties instead of relying on arguments
+    layout_data {
+      horizontal_alignment :fill # could be :beginning, :center or :end too
+      vertical_alignment :center # could be :beginning, :fill, or :end too
+      grab_excess_horizontal_space true
+      grab_excess_vertical_space false
+    }
   }
 }
 # ...
@@ -1708,7 +1783,7 @@ shell {
 }.open
 ```
 
-Learn more at the [Hello, Canvas! Sample](GLIMMER_SAMPLES.md#hello-canvas).
+Learn more at the [Hello, Canvas! Sample](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas).
 
 If you ever have special needs or optimizations, you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
 
@@ -1767,7 +1842,7 @@ If you specify the `width` and `height` parameters as `:max`, they get calculate
 
 Note that you could shift a shape off its centered position within its parent shape by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 
-Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example that nests lines, points, a polyline, and an image within a drawn rectangle parent:
+Check [Hello, Canvas!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas) for an example that nests lines, points, a polyline, and an image within a drawn rectangle parent:
 
 ```ruby
         rectangle(205, 50, 88, 96) {
@@ -1789,7 +1864,7 @@ Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example that nest
 
 #### Shapes inside a Widget
 
-Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](GLIMMER_SAMPLES.md#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
+Keep in mind that the Shape DSL can be used inside any widget, not just `canvas`. Unlike shapes on a `canvas`, which are standalone graphics, when included in a widget, which already has its own look and feel, shapes are used as a decorative add-on that complements its look by getting painted on top of it. For example, shapes were used to decorate `composite` blocks in the [Tetris](/docs/reference/GLIMMER_SAMPLES.md#tetris) sample to have a more bevel look. In summary, Shapes can be used in a hybrid approach (shapes inside a widget), not just standalone in a `canvas`.
 
 #### Shapes inside an Image
 
@@ -1939,7 +2014,7 @@ They are implemented with the help of the highly robust Java built-in shape geom
 - `Shape#x_end` : right-most included x coordinate
 - `Shape#y_end` : bottom-most included y coordinate
 
-Check [Hello, Canvas!](GLIMMER_SAMPLES.md#hello-canvas) for an example.
+Check [Hello, Canvas!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas) for an example.
 
 
 #### Pixel Graphics
@@ -2157,7 +2232,7 @@ shell {
 
 ![Canvas Path Example](/images/glimmer-example-canvas-path.png)
 
-Learn more at the [Hello, Canvas Path!](GLIMMER_SAMPLES.md#hello-canvas-path) and [Stock Ticker](GLIMMER_SAMPLES.md#stock-ticker) samples.
+Learn more at the [Hello, Canvas Path!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas-path) and [Stock Ticker](/docs/reference/GLIMMER_SAMPLES.md#stock-ticker) samples.
 
 ![Stock Ticker](/images/glimmer-stock-ticker.gif)
 
@@ -2252,7 +2327,7 @@ transform(1, 1, 4, 2, 2, 4).
   translate(3, 7)
 ```
 
-Learn more at the [Hello, Canvas Transform! Sample](GLIMMER_SAMPLES.md#hello-canvas-transform).
+Learn more at the [Hello, Canvas Transform! Sample](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas-transform).
 
 ### Canvas Animation DSL
 
@@ -2321,7 +2396,7 @@ API of Animation Object (returned from `animation` keyword):
 - `#cycle_limited?` returns true if `cycle_count` is specified
 - `#duration_limited?` returns true if `duration_limit` is specified
 
-Learn more at the [Hello, Canvas Animation!](GLIMMER_SAMPLES.md#hello-canvas-animation) and [Hello, Canvas Animation Data Binding!](GLIMMER_SAMPLES.md#hello-canvas-animation-data-binding) samples.
+Learn more at the [Hello, Canvas Animation!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas-animation) and [Hello, Canvas Animation Data Binding!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas-animation-data-binding) samples.
 
 If there is anything missing you would like added to the Glimmer Animation DSL that you saw available in the SWT APIs, you may [report an issue](https://github.com/AndyObtiva/glimmer-dsl-swt/issues) or implement yourself and [contribute](#contributing) via a Pull Request.
 
@@ -2329,7 +2404,7 @@ If there is anything missing you would like added to the Glimmer Animation DSL t
 
 Animation could be alternatively implemented without the `animation` keyword through a loop that invokes model methods inside `sync_exec {}` (or `async_exec {}`), which indirectly cause updates to the GUI via data-binding.
 
-The [Glimmer Tetris](GLIMMER_SAMPLES.md#tetris) sample provides a good example of that.
+The [Glimmer Tetris](/docs/reference/GLIMMER_SAMPLES.md#tetris) sample provides a good example of that.
 
 ### Data-Binding
 
@@ -2714,7 +2789,7 @@ shell {
 }
 ```
 
-Check out [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) for an actual example including table editors.
+Check out [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) for an actual example including table editors.
 
 [Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database.
 
@@ -2722,7 +2797,7 @@ Check out [Hello, Table!](GLIMMER_SAMPLES.md#hello-table) for an actual example 
 
 Glimmer automatically adds sorting support to the SWT `Table` widget.
 
-Check out the [Contact Manager](GLIMMER_SAMPLES.md#contact-manager) sample for an example.
+Check out the [Contact Manager](/docs/reference/GLIMMER_SAMPLES.md#contact-manager) sample for an example.
 You may click on any column and it will sort by ascending order first and descending if you click again.
 
 Glimmer automatic table sorting supports `String`, `Integer`, and `Float` columns out of the box as well as any column data that is comparable.
@@ -2821,7 +2896,7 @@ This finds the root node. The array is a Java array. This enables easy passing o
 To edit a tree, you must invoke `TreeProxy#edit_selected_tree_item` or `TreeProxy#edit_tree_item`. This automatically leverages the SWT TreeEditor custom class behind the scenes, displaying
 a text widget to the user to change the selected or passed tree item text into something else. It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
-Learn more at the [Hello, Tree!](GLIMMER_SAMPLES.md#hello-tree) and [Gladiator](GLIMMER_SAMPLES.md#gladiator) samples.
+Learn more at the [Hello, Tree!](/docs/reference/GLIMMER_SAMPLES.md#hello-tree) and [Gladiator](/docs/reference/GLIMMER_SAMPLES.md#gladiator) samples.
 
 #### DateTime
 
@@ -2844,7 +2919,7 @@ You can data-bind any of these properties:
 - `minutes bind(model, :property)`: produces an integer
 - `seconds bind(model, :property)`: produces an integer
 
-Learn more at the [Hello, Date Time!](GLIMMER_SAMPLES.md#hello-date-time) sample.
+Learn more at the [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) sample.
 
 If you need a better widget with the ability to customize the date format pattern, check out the [Nebula CDateTime Glimmer Custom Widget](https://github.com/AndyObtiva/glimmer-cw-cdatetime-nebula)
 
@@ -3230,7 +3305,7 @@ The `checkboxes` property returns the list of nested `checkbox` widgets.
 
 When data-binding `selection`, the model property should have a matching property with `_options` suffix (e.g. `activities_options` for `activities`) to provide an `Array` of `String` objects for `checkbox` buttons.
 
-You may see an example at the [Hello, Checkbox Group!](GLIMMER_SAMPLES.md#hello-checkbox-group) sample.
+You may see an example at the [Hello, Checkbox Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-checkbox-group) sample.
 
 ![Hello Checkbox Group](/images/glimmer-hello-checkbox-group.png)
 
@@ -3265,7 +3340,7 @@ radio_group { |radio_group_proxy|
 # ...
 ```
 
-You may see another example at the [Hello, Radio Group!](GLIMMER_SAMPLES.md#hello-radio-group) sample.
+You may see another example at the [Hello, Radio Group!](/docs/reference/GLIMMER_SAMPLES.md#hello-radio-group) sample.
 
 ##### Code Text Custom Widget
 
@@ -3529,7 +3604,7 @@ This adds some default keyboard shortcuts:
 
 If you prefer it to be vanilla with no default key event listeners, then pass the `default_behavior: false` option.
 
-Learn more at [Hello, Code Text!](GLIMMER_SAMPLES.md#hello-code-text)
+Learn more at [Hello, Code Text!](/docs/reference/GLIMMER_SAMPLES.md#hello-code-text)
 
 ##### Video Custom Custom Widget
 
@@ -3544,7 +3619,7 @@ Simply install the [glimmer-cw-video](https://rubygems.org/gems/glimmer-cw-video
 This [Eclipse guide](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm) for how to write custom SWT widgets is also applicable to Glimmer Custom Widgets written in Ruby. I recommend reading it:
 [https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm](https://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm)
 
-Also, you may check out [Hello, Custom Widget!](GLIMMER_SAMPLES.md#hello-custom-widget) for another example.
+Also, you may check out [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-widget) for another example.
 
 ### Custom Shells
 
@@ -3615,7 +3690,7 @@ shell { |app_shell|
 
 If you use a Custom Shell as the top-level app shell, you may invoke the class method `.launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
 
-You may check out [Hello, Custom Shell!](GLIMMER_SAMPLES.md#hello-custom-shell) for another example.
+You may check out [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) for another example.
 
 ### Drag and Drop
 
@@ -3641,7 +3716,7 @@ As a second option, you may customize the data being transferred through drag an
 3. On the drop target widget, add `on_drop` [DropTargetListener](https://help.eclipse.org/2020-03/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/dnd/DropTargetListener.html) event handler block at minimum (you may also add `on_drag_enter` [must set [`event.detail`](https://help.eclipse.org/2020-06/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/dnd/DropTargetEvent.html#detail) if added], `on_drag_over`, `on_drag_leave`, `on_drag_operation_changed` and `on_drop_accept` if needed)
 4. Read `event.data` and consume it (e.g. change widget text) inside the `on_drop` event handler block.
 
-Example (taken from [samples/hello/hello_drag_and_drop.rb](GLIMMER_SAMPLES.md#hello-drag-and-drop) / you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+Example (taken from [samples/hello/hello_drag_and_drop.rb](/docs/reference/GLIMMER_SAMPLES.md#hello-drag-and-drop) / you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
 class Location

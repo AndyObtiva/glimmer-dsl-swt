@@ -6,14 +6,16 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/aaf1cba142dd351f84bd/maintainability)](https://codeclimate.com/github/AndyObtiva/glimmer-dsl-swt/maintainability)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**[Contributors Wanted! (Submit a Glimmer App Sample to Get Started)](#contributing)**
-
 **(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for [SWT](https://www.eclipse.org/swt/) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and DEB/RPM files on [Linux](https://www.linux.org/). [Glimmer](https://github.com/AndyObtiva/glimmer) was the [first Ruby gem](https://rubygems.org/gems/glimmer) to bring [SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) to [Ruby](https://www.ruby-lang.org/en/), thanks to creator [Andy Maleh](https://andymaleh.blogspot.com/), EclipseCon/EclipseWorld/RubyConf speaker.
 
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
+
+[SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) is a very robust GUI toolkit that is most famous for building the [Eclipse IDE](https://www.eclipse.org/ide/), a free and open-source general language Integrated Development Environment that was the first to provide a high-performance pause-free [Java](https://www.oracle.com/ca-en/java/) IDE (unlike earlier versions of NetBeans and other [Java](https://www.oracle.com/ca-en/java/) IDEs), thanks to its very smart software architecture. Additionally, [Eclipse RCP (Rich Client Platform, built on top of SWT) has been used by NASA to build Mars Rover operational software](https://www.eclipse.org/community/casestudies/NASAfinal.pdf). So, [Eclipse technologies](https://www.eclipse.org/) are not only very highly proven, but are also considered some of the best in the world. In fact, it took CSS decades before it finally caught up with one of [SWT](https://www.eclipse.org/swt/)'s very effective ideas, the [GridLayout](https://help.eclipse.org/latest/index.jsp?topic=/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/package-summary.html). [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) makes [Eclipse Technologies](https://www.eclipse.org/) available in [Ruby](https://www.ruby-lang.org) via [JRuby](https://www.jruby.org/).
+
+![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
 [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.21.2.4 includes [SWT 4.21](https://download.eclipse.org/eclipse/downloads/drops4/R-4.21-202109060500/), which was released on September 6, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (please report any issues you may encounter).
 
@@ -40,6 +42,7 @@ include Glimmer
 
 shell {
   text "Glimmer"
+
   label {
     text "Hello, World!"
   }
@@ -231,7 +234,7 @@ Glimmer app:
   
 ## Background
 
-[Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that Java libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
+[Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that [Java](https://www.oracle.com/ca-en/java/) libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
 
 ## Software Architecture
 

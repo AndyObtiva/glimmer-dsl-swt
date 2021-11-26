@@ -5,7 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Document Canvas Shape DSL with more example, one per shape
-
+- Auto-derive column properties from column names (by convention through dehumanize of each column name)
+- Implement new table data-binding features from Glimmer DSL for LibUI
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this)
 - Hello, Scrolled Composite!
