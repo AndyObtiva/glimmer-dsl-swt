@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.21.2.5
+
+- Hello, Scrolled Composite! sample
+
 ### 4.21.2.4
 
 - Update gem `post_install_message` to clearly indicate that `-J-XstartOnFirstThread` jruby option is needed on the Mac and is handled automatically with global configuration after running `glimmer-setup`.

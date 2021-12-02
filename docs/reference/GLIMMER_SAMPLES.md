@@ -5,6 +5,7 @@
     - [Hello, Label!](#hello-label)
     - [Hello, Text!](#hello-text)
     - [Hello, Composite!](#hello-composite)
+    - [Hello, Scrolled Composite!](#hello-scrolled-composite)
     - [Hello, Layout!](#hello-layout)
     - [Hello, Shell!](#hello-shell)
     - [Hello, Tab!](#hello-tab)
@@ -177,6 +178,18 @@ Code:
 [samples/hello/hello_composite.rb](/samples/hello/hello_composite.rb)
 
 ![Hello Composite](/images/glimmer-hello-composite.png)
+
+#### Hello, Scrolled Composite!
+
+This sample demonstrates the `scrolled_composite` widget, which is used to add scrollbars around content that exceeds the size of the window.
+
+Code:
+
+[samples/hello/hello_scrolled_composite.rb](/samples/hello/hello_scrolled_composite.rb)
+
+![Hello Scrolled Composite](/images/glimmer-hello-scrolled-composite.png)
+
+![Hello Scrolled Composite](/images/glimmer-hello-scrolled-composite-scrolled.png)
 
 #### Hello, Layout!
 

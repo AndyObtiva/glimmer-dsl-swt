@@ -46,7 +46,7 @@ module GlimmerSpec
     describe '#depth_first_search' do
       let(:person4) {Person.new('Mark')}
       let(:person5) {Person.new('Derrick')}
-      let(:person2) do 
+      let(:person2) do
         Person.new('Chuck').tap do |person|
           person.coworkers = [person4, person5]
         end
@@ -57,12 +57,12 @@ module GlimmerSpec
           person.coworkers = [person6]
         end
       end
-      let(:person1) do 
+      let(:person1) do
         Person.new('Sean').tap do |person|
           person.coworkers = [person2, person3]
         end
       end
-      let(:company1) do 
+      let(:company1) do
         Company.new.tap do |company|
           company.owner = person1
         end
