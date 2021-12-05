@@ -25,6 +25,8 @@ require 'os'
 module Glimmer
   module RakeTask
     module Package
+      JDK_VERSION = '17.0.1'
+      
       class << self
         attr_accessor :jpackage_extra_args
         
@@ -90,10 +92,10 @@ module Glimmer
         def native(native_type=nil, native_extra_args)
           puts "Generating native executable with jpackage..."
           java_version = `jruby -v`
-          if java_version.include?('16.0.2')
-            puts "Java Version 16.0.2 Detected!"
+          if java_version.include?(JDK_VERSION)
+            puts "Java Version #{JDK_VERSION} Detected!"
           else
-            puts "WARNING! Glimmer Packaging Pre-Requisite Java Version 16.0.2 Is Not Found!"
+            puts "WARNING! Glimmer Packaging Pre-Requisite Java Version #{JDK_VERSION} Is Not Found!"
           end
           require 'facets/string/titlecase'
           require 'facets/string/underscore'

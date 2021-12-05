@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.22.0.0
+
+- Upgrade to JDK17
+
 ### 4.21.2.5
 
 - Hello, Scrolled Composite! sample

@@ -4,17 +4,22 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Upgrade to SWT 4.22
+- Fix setting logo icon on app shell
+- Update Data-Binding documentation to be all in Shine syntax (keeping `bind` as a minor reference)
 - Document Canvas Shape DSL with more example, one per shape
+
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
-- Implement new table data-binding features from Glimmer DSL for LibUI
+- Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
+- Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
-- Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this)
+- Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this) [if still needed, might not be a true issue]
 - Hello, Tooltip!
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop)
 
 ## Soon
 
-- Upgrade to JDK17
+- Upgrade to jruby-9.3.3.0
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 
 ## Future Consideration
