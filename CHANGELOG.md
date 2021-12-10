@@ -1,5 +1,9 @@
 # Change Log
 
+### 4.20.16.0
+
+- Fix API of `Glimmer::Launcher` by renaming `#application_paths` to `#application_path`
+
 ### 4.20.15.5
 
 - Upgrade to glimmer 2.1.5
