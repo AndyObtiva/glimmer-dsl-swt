@@ -54,10 +54,18 @@ class Battleship
           
           rectangle(0, 0, [:max, -1], [:max, -1])
           oval(:default, :default, 10, 10) {
-            foreground <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
+            if model.nil?
+              foreground COLOR_EMPTY
+            else
+              foreground <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
+            end
           }
           oval(:default, :default, 5, 5) {
-            background <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
+            if model.nil?
+              background COLOR_EMPTY
+            else
+              background <= [model, :hit, on_read: ->(h) {h == nil ? COLOR_EMPTY : (h ? COLOR_HIT : COLOR_NO_HIT)}]
+            end
           }
           
           on_mouse_move do |event|

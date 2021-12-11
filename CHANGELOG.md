@@ -6,7 +6,8 @@
 - Upgrade to JDK17
 - Upgrade to glimmer 2.5.4
 - More work regarding: Do not clean observers when disposing of a widget while closing the last shell  (e.g. when closing an app, it is not needed to clean observers, so it is better to exit faster)
-- Fix issue with closing Stock Ticker taking too long
+- Fix issue in Battleship sample caused by data-binding nil model, which is forbidden in glimmer 2.5.x
+- Fix issue with closing Stock Ticker sample taking too long
 
 ### 4.21.2.5
 
