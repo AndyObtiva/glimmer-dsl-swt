@@ -188,8 +188,10 @@ module Glimmer
         auto_exec { execute_hook('after_body') }
         auto_exec do
           @dispose_listener_registration = @body_root.on_widget_disposed do
-            observer_registrations.compact.each(&:deregister)
-            observer_registrations.clear
+            unless @body_root.shell_proxy.last_shell_closing?
+              observer_registrations.compact.each(&:deregister)
+              observer_registrations.clear
+            end
           end
         end
         post_add_content if content.nil?

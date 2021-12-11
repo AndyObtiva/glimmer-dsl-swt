@@ -4,11 +4,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix issue with Battleship
+- Fix issue in Battleship
+- Fix issue in Klondike Solitaire
 - Fix setting logo icon on app shell
 - Update Data-Binding documentation to be all in Shine syntax (keeping `bind` as a minor reference)
 - Document Canvas Shape DSL with more example, one per shape
 
+- Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
@@ -107,7 +109,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support being able to pass swt_widget to MenuProxy
 - Distinguish between display filters and listeners
 - Upgrade Contact Manager elaborate sample merging with Login and User Profile
-- Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
 - glimmer webify task, which generates a Glimmer DSL for Opal Rails app from a pre-existing desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available
 - glimmer scaffold:webready task, which generates a web-ready desktop app (including a Glimmer DSL for Opal Rails app), packages desktop app, starts local rails server, launches website in the browser, and publishes app on Heroku if available

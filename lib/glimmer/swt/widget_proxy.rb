@@ -175,8 +175,10 @@ module Glimmer
           @keyword = underscored_widget_name.to_s
           if respond_to?(:on_widget_disposed)
             on_widget_disposed {
-              clear_shapes
-              deregister_shape_painting
+              unless shell_proxy.last_shell_closing?
+                clear_shapes
+                deregister_shape_painting
+              end
             }
           end
         end
@@ -199,7 +201,11 @@ module Glimmer
       end
       
       def shell_proxy
-        @swt_widget.shell.get_data('proxy')
+        if @swt_widget.respond_to?(:shell)
+          @swt_widget.shell.get_data('proxy')
+        else
+          @parent_proxy&.shell_proxy
+        end
       end
       
       def extract_args(underscored_widget_name, args)

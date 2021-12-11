@@ -88,7 +88,7 @@ module Glimmer
           end
           on_widget_disposed do
             @last_shell_closing = true if @display.shells.count == 1 && @display.shells.first == @swt_widget
-            clear_shapes
+            clear_shapes unless @last_shell_closing
           end
           @display ||= @swt_widget.getDisplay
         end

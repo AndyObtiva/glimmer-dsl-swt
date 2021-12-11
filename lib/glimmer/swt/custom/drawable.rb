@@ -109,8 +109,10 @@ module Glimmer
         end
         
         def deregister_shape_painting
-          @paint_listener_proxy&.deregister
-          @resize_listener_proxy&.deregister
+          unless shell_proxy.last_shell_closing?
+            @paint_listener_proxy&.deregister
+            @resize_listener_proxy&.deregister
+          end
         end
         
         def setup_shape_painting
