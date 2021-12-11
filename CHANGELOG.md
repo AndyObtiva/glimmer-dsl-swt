@@ -2,6 +2,7 @@
 
 ### 4.22.0.0
 
+- Upgrade to SWT 4.22
 - Upgrade to JDK17
 
 ### 4.21.2.5

@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Upgrade to SWT 4.22
+- Fix issue with Battleship
 - Fix setting logo icon on app shell
 - Update Data-Binding documentation to be all in Shine syntax (keeping `bind` as a minor reference)
 - Document Canvas Shape DSL with more example, one per shape

@@ -180,7 +180,7 @@ DEPENDENCIES
   warbler (>= 2.0.5, < 3.0.0)
 
 RUBY VERSION
-   ruby 2.5.7p0 (jruby 9.2.14.0)
+   ruby 2.6.8p0 (jruby 9.3.1.0)
 
 BUNDLED WITH
    2.2.29
