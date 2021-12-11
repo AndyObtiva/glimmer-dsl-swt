@@ -4,6 +4,7 @@
 
 - Upgrade to SWT 4.22
 - Upgrade to JDK17
+- Upgrade to glimmer 2.5.4
 - More work regarding: Do not clean observers when disposing of a widget while closing the last shell  (e.g. when closing an app, it is not needed to clean observers, so it is better to exit faster)
 - Fix issue with closing Stock Ticker taking too long
 
