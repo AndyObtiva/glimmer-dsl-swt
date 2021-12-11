@@ -367,6 +367,8 @@ You may learn more about other Glimmer related gems ([`glimmer-dsl-opal`](https:
 
 ## Glimmer Command
 
+[docs/reference/GLIMMER_COMMAND.md](docs/reference/GLIMMER_COMMAND.md)
+
 You can use the glimmer command to scaffold new apps, run apps & samples, package native executables, and list Glimmer community gems.
 
 ```
@@ -440,6 +442,8 @@ Learn more at:
 [docs/reference/GLIMMER_GIRB.md](docs/reference/GLIMMER_GIRB.md)
 
 ## Glimmer GUI DSL Syntax
+
+[docs/reference/GLIMMER_GUI_DSL_SYNTAX.md](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md)
 
 Here is a listing of supported widgets taken from the [SWT website](https://www.eclipse.org/swt/widgets/):
 

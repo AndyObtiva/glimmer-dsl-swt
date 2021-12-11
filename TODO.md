@@ -4,11 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Fix setting logo icon on app shell
-- Update Data-Binding documentation to be all in Shine syntax (keeping `bind` as a minor reference)
 - Document Canvas Shape DSL with more example, one per shape
-
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
+
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
@@ -222,6 +220,7 @@ composite {
 
 ## Issues
 
+- Fix setting logo icon on app shell (though it seems to be a recent SWT issue, so consider reporting after proving in Java)
 - Fix issue with building images on the fly (with image nested DSL) on Windows
 - Fix issue with Hello, Canvas Drag and Drop refactoring to use data-binding for drop target text not reflecting changes upon dropping balls until it hits 10 (seems caused by caching until textExtent is changed which happens between a single digit number to double-digits)
 - Fix issue with hello canvas data binding changing of x and y after changing line width overwrites/annuls it

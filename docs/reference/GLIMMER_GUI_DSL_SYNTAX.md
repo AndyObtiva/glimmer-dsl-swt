@@ -572,6 +572,10 @@ end
 
 `sync_exec {}` is required by SWT when running GUI update from a thread other than the GUI thread. In Glimmer, it is automatically invoked for you so that you wouldn't have to worry about it. It works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
 
+##### sync_call
+
+`sync_exec {}` is required by SWT when running GUI update from a thread other than the GUI thread. In Glimmer, it is automatically invoked for you so that you wouldn't have to worry about it. It works just like `async_exec` except it executes the block synchronously at the earliest opportunity possible, waiting for the block to be finished.
+
 ##### auto_exec
 
 `auto_exec(override_sync_exec:, override_async_exec) {}` only executes code block with `sync_exec` when necessary (running from a thread other than the GUI thread). It is used automatically all over the Glimmer DSL for SWT codebase, so you wouldn't need it unless you grab a direct handle on `swt_widget` from a widget proxy.
@@ -2408,58 +2412,66 @@ The [Glimmer Tetris](/docs/reference/GLIMMER_SAMPLES.md#tetris) sample provides 
 
 ### Data-Binding
 
-Data-binding is done with `bind` command following widget property to bind and taking model and bindable attribute as arguments.
+Data-binding is done with either the [Shine](#shine) syntax `<=>` (bidirectional data-binding) & `<=` (unidirectional data-binding) or via the `bind` keyword, following widget property to bind and taking model and bindable attribute as arguments.
 
 #### General Examples
 
+`text <=> [contact, :first_name]`
+
+This example binds the text property of a widget like `label` to the first name of a contact model using Shine data-binding syntax (recommended).
+
 `text bind(contact, :first_name)`
 
-This example binds the text property of a widget like `label` to the first name of a contact model.
+This example binds the text property of a widget like `label` to the first name of a contact model (older style of data-binding, not recommended).
 
-`text bind(contact, 'address.street')`
+`text <=> [contact, 'address.street']`
 
 This example binds the text property of a widget like `label` to the nested street of
 the address of a contact. This is called nested property data binding.
 
-`text bind(contact, 'address.street', on_read: :upcase, on_write: :downcase)`
+`text <=> [contact, 'address.street', on_read: :upcase, on_write: :downcase]`
 
 This example adds on the one above it by specifying converters on read and write of the model property, like in the case of a `text` widget. The text widget will then displays the street upper case and the model will store it lower case. When specifying converters, read and write operations must be symmetric (to avoid an infinite update loop between the widget and the model since the widget checks first if value changed before updating)
 
-`text bind(contact, 'address.street', sync_exec: true)`
-
-This example forces GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
-
-`text bind(contact, 'address.street', async_exec: true)`
-
-This example forces GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
-
-`text bind(contact, 'address.street', on_read: lambda { |s| s[0..10] })`
+`text <=> [contact, 'address.street', on_read: ->(s) { s[0..10] }]`
 
 This example also specifies a converter on read of the model property, but via a lambda, which truncates the street to 10 characters only. Note that the read and write operations are assymetric. This is fine in the case of formatting data for a read-only widget like `label`
 
 `text bind(contact, 'address.street') { |s| s[0..10] }`
 
-This is a block shortcut version of the syntax above it. It facilitates formatting model data for read-only widgets since it's a very common view concern. It also saves the developer from having to create a separate formatter/presenter for the model when the view can be an active view that handles common simple formatting operations directly.
+This is a block shortcut version of the syntax above it. It facilitates formatting model data for read-only widgets since it's a very common view concern. It also saves the developer from having to create a separate formatter/presenter for the model when the view can be an active view that handles common simple formatting operations directly (older style of data-binding, not recommended).
 
-`text bind(contact, 'address.street', read_only: true)`
+`text <= [contact, 'address.street']`
 
 This is read-ohly data-binding. It doesn't update contact.address.street when widget text property is changed.
 
-`text bind(contact, 'addresses[1].street')`
+`text bind(contact, 'address.street', read_only: true)`
+
+This is read-ohly data-binding. It doesn't update contact.address.street when widget text property is changed (older style of data-binding, not recommended).
+
+`text <=> [contact, 'addresses[1].street']`
 
 This example binds the text property of a widget like `label` to the nested indexed address street of a contact. This is called nested indexed property data binding.
 
-`text bind(contact, :age, computed_by: :date_of_birth)`
+`text <=> [contact, :age, computed_by: :date_of_birth]`
 
 This example demonstrates computed value data binding whereby the value of `age` depends on changes to `date_of_birth`.
 
-`text bind(contact, :name, computed_by: [:first_name, :last_name])`
+`text <=> [contact, :name, computed_by: [:first_name, :last_name]]`
 
 This example demonstrates computed value data binding whereby the value of `name` depends on changes to both `first_name` and `last_name`.
 
-`text bind(contact, 'profiles[0].name', computed_by: ['profiles[0].first_name', 'profiles[0].last_name'])`
+`text <=> [contact, 'profiles[0].name', computed_by: ['profiles[0].first_name', 'profiles[0].last_name']]`
 
 This example demonstrates nested indexed computed value data binding whereby the value of `profiles[0].name` depends on changes to both nested `profiles[0].first_name` and `profiles[0].last_name`.
+
+`text <=> [contact, 'address.street', sync_exec: true]`
+
+This example forces GUI updates via [sync_exec](#sync_exec) assuming they are coming from another thread (different from the GUI thread)
+
+`text <=> [contact, 'address.street', async_exec: true]`
+
+This example forces GUI updates via [async_exec](#async_exec) assuming they are coming from another thread (different from the GUI thread)
 
 Example from [samples/hello/hello_combo.rb](samples/hello_combo.rb) sample (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 

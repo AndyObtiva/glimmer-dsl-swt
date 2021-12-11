@@ -5,6 +5,7 @@
 - Upgrade to SWT 4.22
 - Upgrade to JDK17
 - Upgrade to glimmer 2.5.4
+- Support new SWT 4.22 `sync_call` keyword, which is like `sync_exec`, but returns value of evaluating expression (though `sync_exec` was already enhanced by Glimmer to return the expression evaluated value just like `sync_call`)
 - More work regarding: Do not clean observers when disposing of a widget while closing the last shell  (e.g. when closing an app, it is not needed to clean observers, so it is better to exit faster)
 - Fix issue in Battleship sample caused by data-binding nil model, which is forbidden in glimmer 2.5.x
 - Fix issue with closing Stock Ticker sample taking too long
