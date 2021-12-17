@@ -578,11 +578,9 @@ module Glimmer
             flyweight_swt_widget_classes[underscored_widget_name] = swt_widget_class
           rescue SyntaxError, NameError => e
             Glimmer::Config.logger.debug {e.full_message}
-            # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
             nil
           rescue => e
             Glimmer::Config.logger.debug {e.full_message}
-            # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
             nil
           end
         end

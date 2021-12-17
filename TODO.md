@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Remove App View from shell title in Desktopify
 - Document Canvas Shape DSL with more example, one per shape
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 
@@ -528,7 +529,7 @@ A terminal written in Glimmer DSL for SWT.
 
 ### Connector (Web Browser)
 
-- Chromium based Glimmer DSL for SWT Ruby web browser
+- JxBrowser based Glimmer DSL for SWT Ruby web browser
 - Supports "Ruby powered web pages"
 - Supports Glimmer GUI apps natively via Glimmer DSL for SWT (Glimmer DSL for Opal automatically sends pure Ruby code instead of transpiling to JS)
 

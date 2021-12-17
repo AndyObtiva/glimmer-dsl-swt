@@ -1107,6 +1107,8 @@ shell {
 }.open
 ```
 
+This relies on Glimmer's [Multi-DSL Support](#multi-dsl-support) for building the HTML text using [Glimmer XML DSL](https://github.com/AndyObtiva/glimmer-dsl-xml).
+
 Learn more at the [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html) API.
 
 ### Widget Styles
@@ -4040,25 +4042,6 @@ shell {
 You may run `glimmer` with the `--profile.graph` instead for a more detailed output.
 
 Learn more at the [JRuby Performance Profile WIKI page](https://github.com/jruby/jruby/wiki/Profiling-JRuby).
-
-##### SWT Browser Style Options
-
-The `browser` widget can use a particular desktop browser by setting the SWT Style to:
-- `:webkit`: use the Webkit browser engine
-- `:chromium`: use the Chromium browser engine
-
-Example using the Chromium browser (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
-
-```ruby
-shell {
-  minimum_size 1024, 860
-  browser(:chromium) {
-    url 'http://brightonresort.com/about'
-  }
-}.open
-```
-
-This relies on Glimmer's [Multi-DSL Support](#multi-dsl-support) for building the HTML text using [Glimmer XML DSL](https://github.com/AndyObtiva/glimmer-dsl-xml).
 
 ## License
 

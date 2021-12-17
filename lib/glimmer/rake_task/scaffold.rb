@@ -429,19 +429,7 @@ module Glimmer
         end
         
         def gemfile(shell_type)
-          if shell_type == :desktopify
-            lines = APP_GEMFILE.split("\n")
-            require_glimmer_dsl_swt_index = lines.index(lines.detect {|l| l.include?("gem 'glimmer-dsl-swt'") })
-            lines[(require_glimmer_dsl_swt_index + 1)..(require_glimmer_dsl_swt_index + 1)] = [
-              "",
-              "# Enable Chromium Browser Glimmer Custom Widget gem if needed (e.g. Linux needs it to support HTML5 Video), and use `browser(:chromium)` in GUI.",
-              "# gem 'glimmer-cw-browser-chromium', '>= 0'",
-              "",
-            ]
-            lines.join("\n")
-          else
-            APP_GEMFILE
-          end
+          APP_GEMFILE
         end
     
         def app_main_file(app_name)
