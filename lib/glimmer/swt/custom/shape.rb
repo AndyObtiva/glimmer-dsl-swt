@@ -238,10 +238,10 @@ module Glimmer
         def inverse_transform_point(x, y)
           current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first
           if current_transform
-            transform_array = [1,2,3,4,5,6].to_java(:float)
+            transform_array = [1,2,3,4,5,6].to_java(:float) # just placeholder data that gets overwritten with getElements
             current_transform.getElements(transform_array)
             inverse_transform = TransformProxy.new(DisplayProxy.instance.swt_display, *transform_array.to_a)
-            inverse_transform_array = [1,2,3,4,5,6].to_java(:float)
+            inverse_transform_array = [1,2,3,4,5,6].to_java(:float) # just placeholder data that gets overwritten with getElements
             inverse_transform.getElements(inverse_transform_array)
             matrix = Matrix[[inverse_transform_array[0], inverse_transform_array[1]], [inverse_transform_array[2], inverse_transform_array[3]]]
             result = matrix * Matrix.column_vector([x, y])

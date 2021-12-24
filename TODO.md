@@ -23,11 +23,13 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Future Consideration
 
+- Extract Metronome sample into an external sample and enhance further (like click-based tempo calculation)
 - Demo drag and drop sample reordering a list or faux-list of labels
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 - Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 
+- Fix issue with moving Paths (like through drag and drop). It seems that move_by is not working correctly with them (cubics disappear, and lines rotate instead of move)
 - Cache/memoize awt geom objects when used in shape contain?/include? methods
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value
 - Support shape listeners for on_mouse_enter, on_mouse_exit, and on_mouse_hover (the SWT default implementation for canvas wouldn't work as is)
