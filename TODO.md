@@ -29,6 +29,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 - Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 
+- Support updating code_text language/theme on the fly (right now, it is only supported during declaration construction)
 - Fix issue with moving Paths (like through drag and drop). It seems that move_by is not working correctly with them (cubics disappear, and lines rotate instead of move)
 - Cache/memoize awt geom objects when used in shape contain?/include? methods
 - Support z_order property for Canvas Shape DSL Layer Support Z-Order (Ensure z-order is honored when adding canvas shapes after the fact). Perhaps support :last or :top also as value

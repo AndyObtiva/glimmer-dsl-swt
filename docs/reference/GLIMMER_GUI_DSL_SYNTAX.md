@@ -69,6 +69,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
       - [Class-Based Custom Widget Example](#class-based-custom-widget-example)
     - [Custom Widget Lifecycle Hooks](#custom-widget-lifecycle-hooks)
     - [Lifecycle Hooks Example](#lifecycle-hooks-example)
+    - [Custom Widget Listeners](#custom-widget-listeners)
     - [Custom Widget API](#custom-widget-api)
     - [Content/Options Example](#contentoptions-example)
     - [Custom Widget Gotchas](#custom-widget-gotchas)
@@ -3121,7 +3122,7 @@ Approach #1 is a casual Ruby-based approach. Approach #2 is the official Glimmer
 
 A developer might start with approach #1 to eliminate duplication in a view and later upgrade it to approach #2 when needing to export a custom widget to make it available in many views.
 
-Class-based Custom Widgets  a number of benefits over method-based custom widgets, such as built-in support for passing SWT style, nested block of extra widgets and properties, and `before_body`/`after_body` hooks.
+Class-based Custom Widgets offer a number of benefits over method-based custom widgets, such as built-in support for passing SWT style, nested block of extra widgets and properties, and `before_body`/`after_body` hooks.
 
 #### Simple Example
 
@@ -3218,6 +3219,100 @@ shell {
 Notice how `Red::Composite` became `red__composite` with double-underscore, which is how Glimmer Custom Widgets signify namespaces by convention. Additionally, the `before_body` lifecycle hook was utilized to set a `@color` variable and use inside the `body`.
 
 Keep in mind that namespaces are not needed to be specified if the Custom Widget class has a unique name, not clashing with a basic SWT widget or another custom widget name.
+
+#### Custom Widget Listeners
+
+If you need to declare a custom listener on a custom widget, you must override these methods:
+- `can_handle_observation_request?(event, &block)`: returns if an event is supported or delegates to super otherwise (to ensure continued support for built-in events)
+- `handle_observation_request(event, &block)`: handles event by storing the block in a list of block handlers to invoke at the right time in the custom widget code
+
+Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+# This class declares a `greeting_label` custom widget (by convention)
+class GreetingLabel
+  include Glimmer::UI::CustomWidget
+  
+  # multiple options without default values
+  options :name, :colors
+  
+  # single option with default value
+  option :greeting, default: 'Hello'
+  
+  # internal attribute (not a custom widget option)
+  attr_accessor :label_color
+  
+  def can_handle_observation_request?(event, &block)
+    event.to_s == 'on_color_changed' || super
+  end
+  
+  def handle_observation_request(event, &block)
+    if event.to_s == 'on_color_changed'
+      @color_changed_handlers ||= []
+      @color_changed_handlers << block
+    else
+      super
+    end
+  end
+  
+  before_body do
+    @font = {height: 24, style: :bold}
+    @label_color = :black
+  end
+  
+  after_body do
+    return if colors.nil?
+    
+    Thread.new {
+      colors.cycle { |color|
+        self.label_color = color
+        @color_changed_handlers&.each {|handler| handler.call(color)}
+        sleep(1)
+      }
+    }
+  end
+  
+  body {
+    # pass received swt_style through to label to customize (e.g. :center to center text)
+    label(swt_style) {
+      text "#{greeting}, #{name}!"
+      font @font
+      foreground <=> [self, :label_color]
+    }
+  }
+  
+end
+
+# including Glimmer enables the Glimmer DSL syntax, including auto-discovery of the `greeting_label` custom widget
+include Glimmer
+
+shell {
+  fill_layout :vertical
+  
+  minimum_size 215, 215
+  text 'Hello, Custom Widget!'
+  
+  # custom widget options are passed in a hash
+  greeting_label(name: 'Sean')
+  
+  # pass :center SWT style followed by custom widget options hash
+  greeting_label(:center, name: 'Laura', greeting: 'Aloha') #
+  
+  greeting_label(:right, name: 'Rick') {
+    # you can nest attributes under custom widgets just like any standard widget
+    foreground :red
+  }
+  
+  # the colors option cycles between colors for the label foreground every second
+  greeting_label(:center, name: 'Mary', greeting: 'Aloha', colors: [:red, :dark_green, :blue]) {
+    on_color_changed do |color|
+      puts "Label color changed: #{color}"
+    end
+  }
+}.open
+```
 
 #### Custom Widget API
 

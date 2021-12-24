@@ -32,11 +32,24 @@ class GreetingLabel
   option :greeting, default: 'Hello'
   
   # internal attribute (not a custom widget option)
-  attr_accessor :color
+  attr_accessor :label_color
+  
+  def can_handle_observation_request?(event, &block)
+    event.to_s == 'on_color_changed' || super
+  end
+  
+  def handle_observation_request(event, &block)
+    if event.to_s == 'on_color_changed'
+      @color_changed_handlers ||= []
+      @color_changed_handlers << block
+    else
+      super
+    end
+  end
   
   before_body do
     @font = {height: 24, style: :bold}
-    @color = :black
+    @label_color = :black
   end
   
   after_body do
@@ -44,7 +57,8 @@ class GreetingLabel
     
     Thread.new {
       colors.cycle { |color|
-        self.color = color
+        self.label_color = color
+        @color_changed_handlers&.each {|handler| handler.call(color)}
         sleep(1)
       }
     }
@@ -55,7 +69,7 @@ class GreetingLabel
     label(swt_style) {
       text "#{greeting}, #{name}!"
       font @font
-      foreground <=> [self, :color]
+      foreground <=> [self, :label_color]
     }
   }
   
@@ -82,5 +96,9 @@ shell {
   }
   
   # the colors option cycles between colors for the label foreground every second
-  greeting_label(:center, name: 'Mary', greeting: 'Aloha', colors: [:red, :dark_green, :blue])
+  greeting_label(:center, name: 'Mary', greeting: 'Aloha', colors: [:red, :dark_green, :blue]) {
+    on_color_changed do |color|
+      puts "Label color changed: #{color}"
+    end
+  }
 }.open
