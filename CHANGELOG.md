@@ -1,6 +1,12 @@
 # Change Log
 
-### 4.22.0.0
+## 4.22.0.1
+
+- Remove " - App View" from shell title in `desktopify` scaffolding mode
+- Remove SWT Chromium browser option since it is no longer supported by SWT.
+- Update Hello, Custom Widget! sample with a custom listener example
+
+## 4.22.0.0
 
 - Upgrade to SWT 4.22
 - Upgrade to JDK17
@@ -10,44 +16,44 @@
 - Fix issue in Battleship sample caused by data-binding nil model, which is forbidden in glimmer 2.5.x
 - Fix issue with closing Stock Ticker sample taking too long
 
-### 4.21.2.5
+## 4.21.2.5
 
 - Hello, Scrolled Composite! sample
 
-### 4.21.2.4
+## 4.21.2.4
 
 - Update gem `post_install_message` to clearly indicate that `-J-XstartOnFirstThread` jruby option is needed on the Mac and is handled automatically with global configuration after running `glimmer-setup`.
 
-### 4.21.2.3
+## 4.21.2.3
 
 - Upgrade to glimmer 2.5.1 to fix an issue with mistakenly referencing `OpenStruct` without `'ostruct'` being loaded
 
-### 4.21.2.2
+## 4.21.2.2
 
 - Demo file drag and drop in Hello, Drag and Drop!
 - Make shapes added inside a widget with `:default` or `:max` dimensions auto-resize as the widget resizes
 - Upgrade to glimmer 2.5.0
 
-### 4.21.2.1
+## 4.21.2.1
 
 - Update Hello, Drag and Drop! to include `list`, `label`, `text`, and `spinner` examples
 - Add manual and fully customizable drag and drop syntax alternatives to Hello, Drag and Drop!
 - Support simpler drag and drop syntax (`drag_source true`/`drop_target true`) for simple cases concerning `list`, `label`, `text`, and `spinner`
 
-### 4.21.2.0
+## 4.21.2.0
 
 - Support Linux packaging of deb/rpm native executable installers (not just gems) through standard `glimmer package` call (e.g. `glimmer package[deb]` or `glimmer package[rpm]`)
 - Update `Glimmer::SWT::ImageProxy` implementation of image loading from JAR to use `JRuby.runtime.jruby_class_loader.get_resource_as_stream(file_path).to_io.to_input_stream`
 - Remove scaffolding/packaging building/using of a generated Java `Resource` class
 - Force installing `gem 'psych', '3.3.2'` in scaffolded app as a temporary workaround to `psych` issues with the latest jruby (jruby-9.3.1.0)
 
-### 4.21.1.1
+## 4.21.1.1
 
 - Fix samples for Windows, espcially Hello, Cool Bar!, Hello, Tool Bar!, and Weather
 - Fix down button for Tetris on Windows/Linux
 - Fix pause menu item for Tetris
 
-### 4.21.1.0
+## 4.21.1.0
 
 - Upgrade to jruby 9.3.1.0
 - Upgrade to glimmer 2.4.0 (with better observing of array of arrays nested changes)
@@ -55,11 +61,11 @@
 - Adjusted minimum size of Meta-Sample to allow more shrinking (`minimum_size 640, 384`)
 - Do not clean observers when disposing of a widget while closing the last shell  (e.g. when closing an app, it is not needed to clean observers, so it is better to exit faster)
 
-### 4.21.0.1
+## 4.21.0.1
 
 - Updated default width for `shell` to `190` (was `130` before)
 
-### 4.21.0.0
+## 4.21.0.0
 
 - Upgrade to SWT 4.21
 - Upgrade to JDK 16.0.2
@@ -68,173 +74,173 @@
 - Renamed `Glimmer::RakeTask::Package.javapackager_extra_args` to `Glimmer::RakeTask::Package.jpackage_extra_args` to match the name of `jpackage` in JDK 16
 - Change `package/[os]` scaffolding placement for packaging icons into `icons/[os]` to accomodate Java 9 Module security for icon retrieval from within a JAR
 
-### 4.20.15.5
+## 4.20.15.5
 
 - Upgrade to glimmer 2.1.5
 
-### 4.20.15.4
+## 4.20.15.4
 
 - Fix issue with not tying observer registrations to custom widgets correctly automatically
 
-### 4.20.15.3
+## 4.20.15.3
 
 - Updated Hello, Text! sample to have a no-border `text` widget
 
-### 4.20.15.2
+## 4.20.15.2
 
 - Fixed `widget#print` support and Hello, Print Dialog! handling of cancellation of printing
 
-### 4.20.15.1
+## 4.20.15.1
 
 - Glimmer Clock elaborate sample
 
-### 4.20.15.0
+## 4.20.15.0
 
 - Hello, Print Dialog!
 - Hello, Print!
 - `widget#print` method that automates work in Hello, Print Dialog! and is used in Hello, Print!
 
-### 4.20.14.2
+## 4.20.14.2
 
 - Hello, Toggle!
 
-### 4.20.14.1
+## 4.20.14.1
 
 - Upgrade to Glimmer 2.1.1
 - Correct Hello, Slider! sample class name
 
-### 4.20.14.0
+## 4.20.14.0
 
 - Extract ObserveExpression into Glimmer
 - Upgrade to Glimmer 2.1.0
 
-### 4.20.13.18
+## 4.20.13.18
 
 - Change `arrow` widget default SWT style to include `:down`
 - Hello, Arrow! sample
 
-### 4.20.13.17
+## 4.20.13.17
 
 - Hello, Slider! sample
 
-### 4.20.13.16
+## 4.20.13.16
 
 - Fix issue with setting app name (via `Display.app_name=`) when app is not packaged (always gets set to Glimmer)
 - Fix Hello, Custom Shell! sample
 
-### 4.20.13.15
+## 4.20.13.15
 
 - Battleship elaborate sample
 
-### 4.20.13.14
+## 4.20.13.14
 
 - Connect 4 elaborate sample
 
-### 4.20.13.13
+## 4.20.13.13
 
 - Parking elaborate sample
 - Support shape contain?/include? when a transform (e.g. rotation) is applied
 
-### 4.20.13.12
+## 4.20.13.12
 
 - Fixed issue with dragged shapes having `drag_source true` not going back to original position when not dropped in a target if they were part of a composite shape
 
-### 4.20.13.11
+## 4.20.13.11
 
 - Conway's Game of Life elaborate sample
 
-### 4.20.13.10
+## 4.20.13.10
 
 - Update Glimmer Style Guide, scaffolding, and samples to have `before_body` and `after_body` in custom widgets/shells/shapes always take a `do; end` block since they contain logic not visuals
 
-### 4.20.13.9
+## 4.20.13.9
 
 - Update Klondike Solitaire to have playing card suit symbols and avoid clipping of cards on the boundaries
 
-### 4.20.13.8
+## 4.20.13.8
 
 - Glimmer Klondike Solitaire elaborate sample
 
-### 4.20.13.7
+## 4.20.13.7
 
 - Support accepting ImageProxy objects in Canvas Shape DSL (not just image paths)
 - Fix issue in ImageProxy not flattening args before selecting file path
 
-### 4.20.13.6
+## 4.20.13.6
 
 - Ensure a dragged shape can be dropped back into a parent it originally belonged to without it counting as a drop into itself.
 - Add set_data and get_data to Glimmer::UI::CustomShape, which proxies calls to body_root
 
-### 4.20.13.5
+## 4.20.13.5
 
 - Fix issue occurring with shape drag & drop when the dragged shape is a drop target too, thus getting dropped back to itself.
 
-### 4.20.13.4
+## 4.20.13.4
 
 - Improved shape drag and drop checking for inclusion in drop target when there are multiple drop targets
 
-### 4.20.13.3
+## 4.20.13.3
 
 - Fix issue regarding `nil` calculated_width/calculated_height encountered in Shape#contain?
 
-### 4.20.13.2
+## 4.20.13.2
 
 - Support `drop_event.doit = false` to deny dropping and move dragged shape back to where it was
 
-### 4.20.13.1
+## 4.20.13.1
 
 - Supporting having a `drag_source` that is dragged and not dropped at a target go back to its original position
 - Fix issue of dragged shape getting obscured by ensuring that it is rendered on top of all other shapes
 - Fix issue with shapes obscured by shapes on top of them getting preference when dragged (surprising behavior). Now, the top-most shapes get dragged first if they overlap with others.
 
-### 4.20.13.0
+## 4.20.13.0
 
 - Shape `drag_and_move true` property to make shapes movable via dragging
 - Shape `drag_source true` and `on_drop {|event| }` built-in support for drag and drop
 - Refactor Hello, Canvas Drag and Drop! to use new Shape built-in support for drag and drop
 
-### 4.20.12.4
+## 4.20.12.4
 
 - Update Hello, Shape! to take advantage of shape listeners (on mouse click, change color)
 
-### 4.20.12.3
+## 4.20.12.3
 
 - Make Custom Shapes support on_event listeners just like Shapes
 - Update Hello, Custom Shape! to take advantage of custom shape listeners (on mouse click, change color)
 
-### 4.20.12.2
+## 4.20.12.2
 
 - Make Shape listeners check inclusion against all sub-shapes
 - Refactor Hello, Canvas Drag & Drop! sample to use composite shapes (e.g. ball containing a ball border)
 
-### 4.20.12.1
+## 4.20.12.1
 
 - Hello, Canvas Drag & Drop! sample
 
-### 4.20.12.0
+## 4.20.12.0
 
 - Canvas Shape Listeners: on_mouse_up, on_mouse_down, on_mouse_move, on_drag_detected
 - Make scaffolding not generate an empty () after shell
 - Hello, Canvas Shape Listeners! Sample
 
-### 4.20.11.1
+## 4.20.11.1
 
 - Make scaffolded app project use bundler optionally only and still load glimmer-dsl-swt otherwise, like in gem-packaged mode (`glimmer package:gem`) to avoid erroring out about bundler.
 
-### 4.20.11.0
+## 4.20.11.0
 
 - Shape `#center_x`/`#center_y` methods to identify a shape's center point
 - Shape `#rotate` method to rotate around center point
 
-### 4.20.10.2
+## 4.20.10.2
 
 - Fix issue "Resolve 'NameError: uninitialized constant Glimmer::DataBinding' on Windows" https://github.com/AndyObtiva/glimmer-dsl-swt/issues/9 (originally in https://github.com/AMaleh/glimmer-dsl-swt/pull/1)
 
-### 4.20.10.1
+## 4.20.10.1
 
 - Hello, Scale! sample.
 
-### 4.20.10.0
+## 4.20.10.0
 
 - Support noun alternatives for `Canvas Transform DSL` operations:
   - `multiply(&block)` => `multiplication(&block)`
@@ -242,127 +248,127 @@
   - `rotate(angle)`    => `rotation(angle)`
   - `translate(x, y)`  => `translation(x, y)`
 
-### 4.20.9.1
+## 4.20.9.1
 
 - Fix issue with not being able to use :default x/y location with composite/custom shapes containing lines
 
-### 4.20.9.0
+## 4.20.9.0
 
 - Canvas animation fps/frame_rate property to set frames-per-second rate of rendering (alternative to every)
 
-### 4.20.8.0
+## 4.20.8.0
 
 - Support data-binding Animation `duration_limit` property
 - Improve support of Animation `duration_limit` property in recognizing when an animation is finished
 - Added duration limit to Hello, Canvas Animation! sample
 
-### 4.20.7.0
+## 4.20.7.0
 
 - Add Canvas Animation DSL #finished, #finished?, #finished= properties
 - Update Hello, Canvas Animation! (formerly had Data Binding suffix)
 - Update Hello, Canvas Animation Multi! (formerly did not have Multi suffix)
 
-### 4.20.6.0
+## 4.20.6.0
 
 - Canvas Animation DSL: support parallel animations per canvas (running along canvas static shapes too)
 
-### 4.20.5.2
+## 4.20.5.2
 
 - Identify trimmed Canvas Shape DSL attribute `fill_rule` styles without `fill_` prefix
 - Identify trimmed Canvas Shape DSL attribute `line_cap` styles without `cap_` prefix
 - Identify trimmed Canvas Shape DSL attribute `line_join` styles without `join_` prefix
 
-### 4.20.5.1
+## 4.20.5.1
 
 - Fix issue with Namespace is required always showing up when buildling a custom widget gem or custom shape gem
 
-### 4.20.5.0
+## 4.20.5.0
 
 - Relax glimmer-dsl-swt version number when scaffolding custom shape/widget/shell gems. Keep it strict for app development.
 - Explicit support for `tray_item` keyword as nested under `shell`, having `menu` nested under `tray_item`, automating everything relating to using SWT TrayItem (no need to work with the Display System Tray or Menu objects manually).
 - Hello, Tray Item! Sample
 
-### 4.20.4.2
+## 4.20.4.2
 
 - Hello, Label!
 
-### 4.20.4.1
+## 4.20.4.1
 
 - Ensure a `table` with `:editable` style loses it if `items <= ...` one-way data-binding (having read_only: true option) was setup.
 - Tweak/refactor/improve samples
 
-### 4.20.4.0
+## 4.20.4.0
 
 - Extracted Shine data-binding syntax and `BindExpression` to Glimmer 2
 
-### 4.20.3.0
+## 4.20.3.0
 
 - Shine data-binding support for `custom widgets`, `custom shells`, and `custom shapes`
 - Update remaining samples with `bind` keyword to switch to Shine data-binding syntax
 - Switch scaffolded classes' data-binding to Shine
 - Fix `table` Shine syntax support for unidirectional (one-way) data-binding
 
-### 4.20.2.1
+## 4.20.2.1
 
 - Shine data-binding support for `animation` (also supporting `#content {}` method in `Animation`)
 - Update Hello, Custom Shell! to use Shine data-binding syntax
 - Fix `table` automatic sorting support when using one-way Shine data-binding syntax (which was disabling reads)
 
-### 4.20.2.0
+## 4.20.2.0
 
 - Shine data-binding syntax support for `tree` widget
 - Use Shine syntax in Hello, Tree! sample
 
-### 4.20.1.0
+## 4.20.1.0
 
 - Shine data-binding syntax support for `table` widget
 - Use Shine syntax in Hello, Table! and Contact Manager samples
 
-### 4.20.0.5
+## 4.20.0.5
 
 - Hello, Text! sample
 - Timer elaborate sample (copied and simplified from external sample)
 - Calculator elaborate sample (copied and simplified from external sample)
 - Fixed issue relating to cleaning up display listeners
 
-### 4.20.0.4
+## 4.20.0.4
 
 - Weather elaborate sample
 
-### 4.20.0.3
+## 4.20.0.3
 
 - Hello, Shell! sample
 
-### 4.20.0.2
+## 4.20.0.2
 
 - Hello, Tool Bar! sample
 - Hello, Cool Bar! sample
 
-### 4.20.0.1
+## 4.20.0.1
 
 - Hello, Composite! sample
 - Hello, Layout! sample
 - Removed inclusion of Glimmer module in scaffolded App class since it is no longer needed with relying on SomeCustomShell.launch method
 
-### 4.20.0.0
+## 4.20.0.0
 
 - Upgrade to SWT 4.20, supporting AARCH64 experimentally
 - Upgrade to JRuby 9.2.19.0
 - Shine syntax for data-binding
 - Tweak/Fix Samples
 
-### 4.19.0.2
+## 4.19.0.2
 
 - Fixed issue with Meta-Sample code editing not showing changes properly (although recording them)
 - Stop Mandelbrot Fractal sample background calculation when its custom shell is closed
 
-### 4.19.0.1
+## 4.19.0.1
 
 - Upgrade to JRuby 9.2.17.0
 - Fix Hello, C Tab! sample not showing flags on Windows
 - Fix Stock Ticker elaborate sample non-scrolling and clipped stock names on Windows
 
-### 4.19.0.0
+## 4.19.0.0
 
 - Upgrade to SWT 4.19
 - Upgrade to JRuby 9.2.16.0
@@ -381,23 +387,23 @@
 - Fix mandelbrot fractal sample on Windows (added missing `jruby-win32ole` gem for use with `concurrent-ruby` gem)
 - Fix this `glimmer package` message, which comes out even with the right Java version: `WARNING! Glimmer Packaging Pre-Requisite Java Version 1.8.0_241 Is Not Found!`
 
-### 4.18.7.7
+## 4.18.7.7
 
 - Upgrade to glimmer v1.3.0
 - Handle `code_text` encountering errors in adding observation request
 - Always notify widget binding observer on `async_exec: true` data-bindings
 
-### 4.18.7.6
+## 4.18.7.6
 
 - Update the Hello, Code Text! sample to use data-binding
 - Upgrade `puts_debuggerer` gem dependency to version 0.12.0
 - Fix issue with `code_text` data-binding
 
-### 4.18.7.5
+## 4.18.7.5
 
 - Update `ImageProxy` with missing methods `#size`, `#parent_proxy`, and `#parent`, needed for a better "Shapes in an Image" support.
 
-### 4.18.7.4
+## 4.18.7.4
 
 - Add `glimmer scaffold:customshape[name,namespace]` command
 - Add `glimmer scaffold:gem:customshape[name,namespace]` command
@@ -406,24 +412,24 @@
 - Support `filled: true` alternative for `fill: true` Canvas Shape DSL option
 - Fix issue with having to pass base_color to `bevel` custom shape in Tetris before data-binding instead of data-binding being sufficient
 
-### 4.18.7.3
+## 4.18.7.3
 
 - Support the ability for nested shapes to override their parent `shape` common shared properties
 - Refactor Tetris to use a custom shape (`bevel`) for its blocks given they are used in both the game and the icon, thus achieving code reuse
 - Fix issue with moving filled polygon (moving drawn polygon works)
 
-### 4.18.7.2
+## 4.18.7.2
 
 - Enable defining custom shapes with direct args just like basic shapes (alternative to using keyword arg options)
 - Fix interpretation of `:max`/`:default` `width`/`height` values in Canvas Shape DSL
 
-### 4.18.7.1
+## 4.18.7.1
 
 - Hello, Canvas Animation Data Binding! Sample
 - Metronome Elaborate Sample
 - Update Hello, Spinner! Sample to data bind a Thank you message to selected value
 
-### 4.18.7.0
+## 4.18.7.0
 
 - Support direct use of the `shape` keyword as a shape composite that could contain other shapes and shares common attributes (e.g. background color) with all of them
 - Hello, Shape! Sample (implements a method-based custom shape containing other nested shapes)
@@ -432,7 +438,7 @@
 - Support :max value for Canvas Shape DSL width and height, meaning fill up parent (useful for using rectangles as borders)
 - Upgrade to glimmer v1.2.0
 
-### 4.18.6.3
+## 4.18.6.3
 
 - Support `Glimmer::SWT::Custom::Shape::PathSegment#dispose` method
 - Amend Hello, Canvas Path! sample with ability to regenerate paths
@@ -440,7 +446,7 @@
 - Support trimming line style symbols (no need to say line_ before each style. e.g. `:line_solid` becomes `:solid`) in Canvas Shape DSL line_style property
 - Support `antialias true` as an alternative to `antialias :on`, `antialias false` as an alternative to `antialias :off`, and `antialias nil` as an alternative to `antialias :default`
 
-### 4.18.6.2
+## 4.18.6.2
 
 - Hello, Canvas Data Binding! Sample
 - Update Stock Ticker sample to keep stock names visible when scrolling graphs off the screen
@@ -449,14 +455,14 @@
 - Added `Glimmer::SWT::Custom::Shape::PathSegment` `#path` and `#root_path` API methods to enable determining what path/root-path the path segment is part of.
 - Fixed issues with geometry calculation of path segments (especially line)
 
-### 4.18.6.1
+## 4.18.6.1
 
 - Fixed issues with Canvas Path DSL handling of connected vs non-connected path segments (including in geometry calculations)
 - Optimized Canvas Path DSL redraw performance by removing extra redraws
 - Fixed issues in the Hello, Canvas Path! sample and renamed to Stock Ticker
 - Added a new simpler Hello, Canvas Path! sample
 
-### 4.18.6.0
+## 4.18.6.0
 
 - Canvas Path DSL support (Alpha) for `path` as drawn or filled (`fill: true`) to the Canvas Shape DSL, supporting `point`, `line` (first point is auto-derived from previous point if not specified)
 - Hello, Canvas Path! sample showing a Stock Ticker with line curves for multiple company stocks, animated with randomly generated data, moving to the left out of screen second by second. Has multiple tabs demonstrating different types of paths for graphing/charting of different real world business applications: point, line, quad, cubic.
@@ -465,7 +471,7 @@
 - Support a path containing a `quad` bezier curve with `point_array` property
 - Support a path containing a `cubic` bezier curve with `point_array` property
 
-### 4.18.5.5
+## 4.18.5.5
 
 - Automatically recalculate default size (width/height) to accomodate nested shapes when changing x/y/width/height sticking out of parent from right or bottom.
 - Support special case of centering a nested shape with default x/y within a parent with default width/height calculated from nested shape
@@ -474,20 +480,20 @@
 - Ensure all Canvas Shape DSL properties are restored upon painting a shape to what they were prior to painting that shape
 - Fix issue with bringing high score dialog up in Tetris caused by latest dialog changes for supporting the new `color_dialog` and `font_dialog`
 
-### 4.18.5.4
+## 4.18.5.4
 
 - Support passing width, height as :default (or nil or not passed in if they are the last args) in all shapes that include other shapes to indicate they are calculated automatically from nested shapes, text/string extent, or otherwise defaulting to 0, 0
 - Support [:default, width_delta], [:default, height_delta] attributes for width and height, which add/subtract from defaults used for shape
 - Switch from use of `:default` with x_delta/y_delta to passing `[:default, x_delta]` or `[:default, y_delta]` (e.g. `image(file, [:default, -30], :default)` for x = default - 30 and y = default + 0)
 - Support a bounding box for all shapes, implementing `#bounds` (x, y, width, and height) and `#size` (width, height) for the ones that don't receive as parameters (like polygon)
 
-### 4.18.5.3
+## 4.18.5.3
 
 - Support nesting shapes within shapes, with relative positioning (meaning x, y coordinates are assumed relative to parent's x, y in nested shapes)
 - Support passing x, y coordinates as :default (or nil or not passed in if they are the last args) in all shapes, meaning they are centered within parent taking their width and height into account
 - Support default_x_delta, y_delta attributes, which add/subtract from defaults used for shape
 
-### 4.18.5.2
+## 4.18.5.2
 
 - Support checking if an `arc` shape accurately includes a point x,y coordinates within pie region only
 - Support checking if an `oval` shape includes a point x,y coordinates in oval region only (not its rectangular region)
@@ -500,7 +506,7 @@
 - Fix issue with `polygon` check if it includes a point x,y coordinates (replace with available `java.awt` robust geometry algorithms)
 - Fix issue with transforms not working after the latest changes
 
-### 4.18.5.1
+## 4.18.5.1
 
 - Hello, Color Dialog! Sample
 - Hello, Font Dialog! Sample
@@ -508,7 +514,7 @@
 - Enhance Hello, Canvas! with Color selector via right-click menu
 - Fixed issue with tree multi selection throwing an exception
 
-### 4.18.5.0
+## 4.18.5.0
 
 - Automatic `sync_exec` usage from threads other than the GUI thread, thus absolving software engineers from the need to use `sync_exec` explicitly anymore.
 - `auto_exec` keyword to automatically use `sync_exec` with SWT code when needed (running from a thread other than GUI thread)
@@ -541,7 +547,7 @@
 - Fix issue with logging remaining async in debug mode
 - Fix issue with combo, list, radio group, and checkbox group not supporting nested data-binding
 
-### 4.18.4.11
+## 4.18.4.11
 
 - Support creating images pixel by pixel with `image(width, height) {|x,y| [r, g, b]}` keyword, which takes a block with x, y coordinates based on the image width and height and returns a pixel foreground color per point
 - Add proper indentation in code_text upon hitting ENTER
@@ -552,7 +558,7 @@
 - Fix issue with Mandelbrot sample off by one error on Cores selected via Menu
 - Fix use of on_events in code_text widget with lines mode true
 
-### 4.18.4.10
+## 4.18.4.10
 
 - Hello, Progress Bar!
 - Alias shell as window, Glimmer::UI::CustomShell as Glimmer::UI::CustomWindow, on_shell_xyz events as on_window_xyz events, and :shell_trim SWT style as :window_trim SWT Glimmer custom style
@@ -560,7 +566,7 @@
 - Show progress bar for Mandelbrot calculation
 - Mandelbrot Cores menu options to switch the number of CPU cores being used for calculation on the next zoom calculation cycle
 
-### 4.18.4.9
+## 4.18.4.9
 
 - Hello, Cursor! Sample
 - Log errors that occur in widget event listener blocks to help with troubleshooting
@@ -570,7 +576,7 @@
 - Mandelbrot menu bar menu items
 - Mandelbrot panning via scrollbars or dragging
 
-### 4.18.4.8
+## 4.18.4.8
 
 - Make `image` a top-level expression keyword
 - Default placing image on Canvas at coordinates 0, 0 if they are not specified (e.g. canvas {image some_image})
@@ -580,18 +586,18 @@
 - Fix issue with closing a canvas shell with pixel graphics freezing temporarily for a long time while disposing shapes
 - Fix issue with disposing `image` having shapes
 
-### 4.18.4.7
+## 4.18.4.7
 
 - Fixed issue with Tetris breaking with the latest Canvas Shape/Animation DSL performance optimizations
 
-### 4.18.4.6
+## 4.18.4.6
 
 - Mandlebrot Fractal Elaborate Sample
 - Optimize Canvas Shape/Animation DSL performance by combining multiple shapes in a single paint listener
 - Memoized attribute-to-SWT-property-method-name translation
 - Support a `pixel` static expression that is an optimized `point`, which takes a foreground hash property to bypass the dynamic DSL chain of responsibility
 
-### 4.18.4.5
+## 4.18.4.5
 
 - Added double_buffered SWT style as default for `canvas` widget to ensure smooth animations
 - Officially support `timer_exec` keyword to execute code asynchronously after time has elapsed
@@ -599,13 +605,13 @@
 - Auto-Dispose observers declared inside custom widgets and custom shells (during their construction with before_body or after_body) with the observe keyword.
 - Refactor Tetris sample to remove observer deregister calls now that they happen automatically
 
-### 4.18.4.4
+## 4.18.4.4
 
 - Ensure code_text line numbers text font matches that of the actual styled_text widget
 - Use after_read data binding option to update top pixel in code text line numbers after updating text (ensuring top_pixel remains in sync after text changes)
 - Remove unnecessary image copies in hello canvas transform and meta-sample samples
 
-### 4.18.4.3
+## 4.18.4.3
 
 - Fix flashing issue when using ShellProxy#pack_same_size on Windows
 - Double buffer Hello, Canvas Animation! Sample to remove flickering
@@ -613,7 +619,7 @@
 - Tetris - Substituted command key with control on Windows/Linux to make Tetris menu shortcuts work (e.g. CTRL+P pauses)
 - Tetris - Workaround for Windows issue with  tetromino down invisibility upon holding down arrow key (now holding down does only one down)
 
-### 4.18.4.2
+## 4.18.4.2
 
 - Remove Tetris Clear button from High Score dialog (since it is available via menu and is rarely used)
 - Make right control button rotate right with Tetris
@@ -628,7 +634,7 @@
 - Fix issue with adding content to the end of a styled text widget breaking line number scrolling
 - Fix issue with code_text not showing line numbers for extra new lines at the end
 
-### 4.18.4.1
+## 4.18.4.1
 
 - Support data-binding of `code_text` with lines enabled.
 - Upgrade the Glimmer Meta-Sample with code_text lines: {width: 2}
@@ -637,7 +643,7 @@
 - Update the Hello, Code Text! sample to remove borders and line numbers background in the JavaScript example
 - Fix issue with updating layout upon later reopening layout/layout data via `proxy.content {}` method
 
-### 4.18.4.0
+## 4.18.4.0
 
 - Extract line numbers part of text_editor widget from Gladiator into Glimmer code_text and make it an option (e.g. lines: true or lines: {width: 4})
 - code_text support select all via CMD+A
@@ -651,7 +657,7 @@
 - Change Glimmer Tetris Sample up arrow default to rotate left
 - Fix issue with "undefined method lex for nil:NilClass" in `code_text`
 
-### 4.18.3.5
+## 4.18.3.5
 
 - Add `write_on_cancel: true` option for TableProxy#edit_table_item to make cancel behave just like save for special cases where you cannot cancel except the edit mode itself
 - Make code_text custom widget support multiple code languages via `language: 'java'` option
@@ -660,14 +666,14 @@
 - Fix issue with High Score Dialog in Tetris Sample not sorting by scores correctly (string compare instead of numeric compare) until first game is completed
 - Fix issue with setting date geting rejected in `date_time` for month or day being incompatible with the year/month/day combo
 
-### 4.18.3.4
+## 4.18.3.4
 
 - Support building Image objects with the Glimmer Canvas Shape DSL
 - Tetris build icon image in-game by nesting Glimmer Shape DSL syntax
 - Canvas Make shapes auto-fill if you specify a background only (no need to say fill: true) or not fill if you specify a foreground only
 - Tetris option to switch Up Arrow between Instant Down, Rotate Right, and Rotate Left
 
-### 4.18.3.3
+## 4.18.3.3
 
 - Support Table data binding read_only_sort: true option to allow visual sorting without affecting model data
 -  on_quit to
@@ -680,7 +686,7 @@
 - Tetris Fix escape button upon entering high score name
 - If WidgetBinding encounters a disposed widget, it deregisters all observables that it is observing
 
-### 4.18.3.2
+## 4.18.3.2
 
 - Tetris High Scores
 - Tetris Modify High Score Player Name
@@ -691,7 +697,7 @@
 - Fix issues relating to setting parenthood with custom widgets before building their body (instead of after)
 - Fix issues relating to not respecting arity of passed in table editing callbacks: before_write, after_write, and after_cancel
 
-### 4.18.3.1
+## 4.18.3.1
 
 - Provide an auto_sync_exec all data-binding config option to automatically sync_exec GUI calls from other threads instead of requiring users to use sync_exec on model attribute-change logic. Default value to false.
 - Have CustomShell::launch method take options to pass to custom shell keyword invocation
@@ -710,13 +716,13 @@
 - Turn Tetris::Model::Game class from a singleton class to a standard class supporting instances
 - Fix issue of `tetris` keyword not found when run from meta-sample app
 
-### 4.18.3.0
+## 4.18.3.0
 
 - Canvas Transform DSL (DSL declared Transform objects are auto-disposed after getting used by their parent shape)
 - Canvas support a top-level Transform DSL fluent interface for methods that use Transform arguments manually (e.g. tr1 = transform.rotate(90).translate(0, -100))
 - Hello, Canvas Transformation!
 
-### 4.18.2.5
+## 4.18.2.5
 
 - ColorProxy args now are automatically fit into 0..255 bounds upon use of the `color`/`rgb`/`rgba` keywords
 - Canvas Shape DSL (Property) Data-Binding support (No Argument Data-Binding support yet)
@@ -728,7 +734,7 @@
 - Optimized performance of Tetris game
 - Fixed issue with top-level sync_exec/async_exec use randomly bombing
 
-### 4.18.2.4
+## 4.18.2.4
 
 - Tetris scoring
 - Tetris eliminated Line tracking
@@ -739,21 +745,21 @@
 - Fixed issue with shell/dialog/custom-shell not maintaining parent when not passed
 - Fix Tetris sideways edge detection
 
-### 4.18.2.3
+## 4.18.2.3
 
 - Added Tetris Elaborate Sample
 - Added support for CustomShell `::launch` and `::shutdown` class methods to treat a top-level custom shell as a self contained launchable app (saving you from writing boilerplate code for launching Glimmer applications)
 
-### 4.18.2.2
+## 4.18.2.2
 
 - Fixed issue with processing shape color due to missing Color class package name
 
-### 4.18.2.1
+## 4.18.2.1
 
 - Ensure drawing image works in Shape DSL
 - Support passing image as simply an image path or image proxy to Shape DSL image method
 
-### 4.18.2.0
+## 4.18.2.0
 
 - Canvas animation start method (useful if animation had a frame count limit or cycle count limit and needed to be started again after it stopped)
 - Canvas animation stop method
@@ -767,7 +773,7 @@
 - Canvas Shape DSL smart defaults for fill option depending on shape being drawn
 - Added fallback font "Courier" for `code_text` widget when "Consolas" is not available.
 
-### 4.18.1.1
+## 4.18.1.1
 
 - Add smart defaults for round rectangle angles (defaults to 60 degrees angles)
 - Add smart default for gradient rectangle vertical option
@@ -784,7 +790,7 @@
 - Fix issue with `glimmer list:gems:dsl` command
 - Fix issue with scaffolding still depending on git-glimmer despite being merged back to git gem
 
-### 4.18.1.0
+## 4.18.1.0
 
 - Canvas Shape DSL
 - Hello, Canvas! Sample
@@ -792,12 +798,12 @@
 - Hello, Canvas Animation! Sample
 - Fixed issue with async_exec not working in ShellProxy when delegate widget is nil
 
-### 4.18.0.2
+## 4.18.0.2
 
 - Minor update on Hello, Dialog! Sample
 - Upgrade to glimmer v1.0.7
 
-### 4.18.0.1
+## 4.18.0.1
 
 - Hello, Dialog! Sample
 - Added Glimmer icon to Glimmer Meta-Sample (Sample of Samples)
@@ -805,7 +811,7 @@
 - Switch back to official git gem v1.8.1 now that glimmer-git gem branch is merged into it
 - Fix issue with not reporting exception encountered in editing a tree item if consumer code had a bug
 
-### 4.18.0.0
+## 4.18.0.0
 
 - Upgrade to SWT v4.18
 - Upgrade to JRuby v9.2.14.0
@@ -819,48 +825,48 @@
 - Fix enablement on `menu` (as opposed to menu_item, where it works)
 - Fix issue relating to background image scaling on resize of widget
 
-### 4.17.10.8
+## 4.17.10.8
 
 - Support editing sample code in the Glimmer Meta-Sample to enable experimentation and learning
 - Add a "Reset" button to the Glimmer Meta-Sample to allow resetting sample code changes
 - Refactor/revise hello_message_box.rb and hello_pop_up_context_menu.rb samples
 - Upgrade to glimmer 1.0.6
 
-### 4.17.10.7
+## 4.17.10.7
 
 - Loosened dependencies on most Glimmer author-owned gems
 - Refactored/Simplified/Fixed Hello, Link! Sample
 
-### 4.17.10.6
+## 4.17.10.6
 
 - Hello, Link! Sample
 - Refactor hello list samples
 
-### 4.17.10.5
+## 4.17.10.5
 
 - Hello, Button! Sample
 
-### 4.17.10.4
+## 4.17.10.4
 
 - Do not select first row in a table by default (keep unselected)
 - Prevented extra call to model data in table items data-binding
 - Upgraded to glimmer v1.0.5
 
-### 4.17.10.3
+## 4.17.10.3
 
 - Fixed issue in StyledText data-binding relating to capturing selection changes on mouse click
 
-### 4.17.10.2
+## 4.17.10.2
 
 - Upgraded glimmer gem to version 1.0.4
 - Fixed issues relating to data-binding `styled_text` widget
 
-### 4.17.10.1
+## 4.17.10.1
 
 - Upgraded glimmer gem to version 1.0.3
 - Upgraded rouge gem to version 3.25.0
 
-### 4.17.10.0
+## 4.17.10.0
 
 - Support table editing via `date_time` for date/time values
 - Support table default sort configuration via sort_property
@@ -874,7 +880,7 @@
 - Fix issue with table selection data-binding when in single selection mode vs multi
 - Hello, Spinner! Sample
 
-### 4.17.9.0
+## 4.17.9.0
 
 - Add table style :editable to hook editing listener on mouse click automatically (instead of manually via on_widget_selected)
 - Support table editing via `spinner` for integer values
@@ -885,22 +891,22 @@
 - date_drop_down widget alias for date_time(:date, :drop_down)
 - Hello, Date Time! Sample
 
-### 4.17.8.3
+## 4.17.8.3
 
 - Hello, Table! Sample
 - Disable editing on a column with `editor :none`
 - Improve `code_text` performance immensely by only styling the lines being shown upon editing
 - Fix dead spots with syntax highlighting in some files in Gladiator like file.rb
 
-### 4.17.8.2
+## 4.17.8.2
 
 - Hello, Group! Sample
 
-### 4.17.8.1
+## 4.17.8.1
 
 - Fixed an issue in Windows with code_text
 
-### 4.17.8.0
+## 4.17.8.0
 
 - Officially Support SWT FileDialog with the `file_dialog` keyword (was unofficially supported before via standard SWT)
 - Officially Support SWT DirectoryDialog with the `directory_dialog` keyword (was unofficially supported before via standard SWT)
@@ -909,7 +915,7 @@
 - Prevent tree items data-binding from updating if no tree data change occurred
 - Performance optimization for `code_text` syntax highlighting through caching
 
-### 4.17.7.0
+## 4.17.7.0
 
 - `checkbox_group` built-in custom widget
 - Hello, Checkbox Group! Sample
@@ -917,14 +923,14 @@
 - Refactor Glimmer Meta-Sample to use `radio_group` instead of `radio`
 - Fix issue with ExpandBar fill_layout with the extra element at the end (remove it)
 
-### 4.17.6.0
+## 4.17.6.0
 
 - New `radio_group` built-in Glimmer custom widget
 - Hello, Radio! Sample
 - Hello, Radio Group! Sample
 - Hello, Checkbox! Sample
 
-### 4.17.5.0
+## 4.17.5.0
 
 - Support auto-scaling by aspect ratio of width and height (write specs)
 - Support SWT ExpandBar via expand_bar keyword
@@ -932,18 +938,18 @@
 - Hello, Styled Text! Sample
 - Use expand_bar in Glimmer Meta-Sample
 
-### 4.17.4.2
+## 4.17.4.2
 
 - Support StyledText data-binding of caret_offset, selection_count, selection, top_index, and top_pixel, useful for code_text
 - Support `width, height` hash options for ImageProxy and image properties on widgets
 - Default SWT styles for tool_bar (:border) and tool_item (:push)
 
-### 4.17.4.1
+## 4.17.4.1
 
 - Optimize code_text line style listener algorithm or avoid setting code_text style via listener for performance reasons
 - Optimize code_text syntax highlighting by not lexing except when content changes (e.g. during scrolling, do not lex)
 
-### 4.17.4.0
+## 4.17.4.0
 
 - Glimmer sample app to launch samples (sample of samples meta-sample)
 - Syntax Color Highlighting in meta-sample
@@ -954,7 +960,7 @@
 - Add rake task `samples` to point to the new Glimmer Meta-Sample
 - Have meta-sample load samples from gems
 
-### 4.17.3.0
+## 4.17.3.0
 
 - `glimmer scaffold:desktopify[appname,website]` Mac
 - `glimmer scaffold:desktopify[appname,website]` Windows
@@ -968,7 +974,7 @@
 - Have glimmer packaging check the Java version and give a warning if an unsupported version is used.
 
 
-### 4.17.2.4
+## 4.17.2.4
 
 - New `glimmer run` glimmer command task.
 - Add built in support for handling jar file paths like that in ImageProxy code processing "uri:classloader" path
@@ -979,7 +985,7 @@
 - Fix SWTProxy.deconstruct method
 
 
-### 4.17.2.3
+## 4.17.2.3
 
 - Maintain image file path upon scaling an ImageProxy
 - Add a glimmer rake task that wraps the juwelier rake gemspec:generate task
@@ -988,19 +994,19 @@
 - Fix issue with table redraw after data-binding changes leaving old removed table items visible (even if user cannot interact with anymore)
 - Fix issue with running package rake task from `glimmer` command TUI
 
-### 4.17.2.2
+## 4.17.2.2
 
 - Small updates/refactorings in samples
 - Fix issue with displaying `glimmer` command tasks on Windows
 
-### 4.17.2.1
+## 4.17.2.1
 
 - Add `--bundler=group` option to `glimmer` command
 - Add `--pd` option to `glimmer` command
 - Hello, Custom Widget! sample
 - Hello, Custom Shell! sample
 
-### 4.17.2.0
+## 4.17.2.0
 
 - `glimmer` command --bundler option to run with bundler/setup (instead of picking gems directly)
 - Remove Gemfile dependency on Juwelier since it does not relate to GUI (delaying install of it till scaffolding)
@@ -1008,11 +1014,11 @@
 - Move Package and Scaffold classes under Glimmer::RakeTask (Glimmer::Package.javapackager_extra_args is now Glimmer::RakeTask::Package.javapackager_extra_args)
 - Fixed issue with scaffolding spec/spec_helper.rb with Juwelier (since it changed from Jeweler)
 
-### 4.17.1.1
+## 4.17.1.1
 
 - Fixed issue with showing glimmer command tasks twice
 
-### 4.17.1.0
+## 4.17.1.0
 
 - Switch to Juwelier gem (from Jeweler)
 - Load samples from Glimmer gems automatically (no need for configuration)
@@ -1020,30 +1026,30 @@
 - require 'bundler/setup' in `glimmer` command if a `Gemfile` is present (disabled with GLIMMER_BUNDLER_SETUP=false env var)
 - Upgrade to rvm-tui version 0.2.2
 
-### 4.17.0.0
+## 4.17.0.0
 
 - Upgrade to SWT (Standard Widget Toolkit) 4.17 and sync version with SWT going forward
 - Upgrade to Glimmer (DSL Engine) 1.0.0
 - Sync version number with the SWT version number (first two numbers, leaving the last two as minor and patch)
 
-### 0.6.9
+## 0.6.9
 
 - Log error messages when running inside sync_exec or async_exec (since you cannot rescue their errors from outside them)
 - Exclude gladiator from required libraries during sample listing/running/code-display
 - Ensured creating a widget with swt_widget keyword arg doesn't retrigger initializers on its parents if already initialized
 - Extract `WidgetProxy#interpret_style` to make it possible to extend with further styles with less code (e.g. CDateTimeProxy adds CDT styles by overriding method)
 
-### 0.6.8
+## 0.6.8
 
 - Support external configuration of `WidgetProxy::KEYWORD_ALIASES` (e.g. `radio` is an alias for `button(:radio)`)
 - Support external configuration of `Glimmer::Config::SAMPLE_DIRECTORIES` for the `glimmer sample` commands from Glimmer gems
 
-### 0.6.7
+## 0.6.7
 
 - Fix issue with re-initializing layout for already initialized swt_widget being wrapped by WidgetProxy via swt_widget keyword args
 - Change naming of scaffolded app bundle for mac to start with a capital letter (e.g. com.evernote.Evernote not com.evernote.evernote)
 
-### 0.6.6
+## 0.6.6
 
 - Add User Profile sample from DZone article
 - Colored Ruby syntax highlighting for sample:code and sample:run tasks courtesy of tty-markdown
@@ -1052,19 +1058,19 @@
 - GLIMMER_LOGGER_ASYNC env var for disabling async logging when needed for immediate troubleshooting purposes
 - Fix issue with table equivalent sort edge case (that is two sorts that are equivalent causing an infinite loop of resorting since the table is not correctly identified as sorted already)
 
-### 0.6.5
+## 0.6.5
 
 - Added the [rake-tui](https://github.com/AndyObtiva/rake-tui) gem as a productivity tool for arrow key navigation/text-filtering/quick-triggering of rake tasks
 - Use rake-tui gem in `glimmer` command by default on Mac and Linux
 
-### 0.6.4
+## 0.6.4
 
 - Display glimmer-dsl-swt gem version in glimmer command usage
 - Include Glimmer Samples in Gem and provide access via `glimmer samples:list`, `glimmer samples:run`, and `glimmer samples:code` commands
 - Fix issue with glimmer not listing commands in usage without having a Rakefile
 - Fix issue with passing --log-level or --debug to the `girb` command
 
-### 0.6.3
+## 0.6.3
 
 **Scaffolding:**
 
@@ -1100,7 +1106,7 @@
 - Fix transient issue with git bash not interpretting glimmer package[msi] as a rake task (yet as packages instead as it resolves [msi] by picking s to match packages local directory)
 - Fix issue with getting "Namespace is required!" when running `glimmer scaffold[app_name]` or `glimmer scaffold:gem:customshell[name,namespace]` (https://github.com/AndyObtiva/glimmer/issues/5)
 
-### 0.6.2
+## 0.6.2
 
 - Set default margins on layouts (FilLayout, RowLayout, GridLayout, and any layout that responds to marginWidth and marginHeight)
 - Have scrolled_composite autoset min width and min height based on parent size
@@ -1110,7 +1116,7 @@
 - Add `image` keyword to create an ImageProxy and be able to scale it
 - Fix issue with ImageProxy not being scalable before swt_image is called
 
-### 0.6.1
+## 0.6.1
 
 - Lock JARs task for jar-dependencies as part of packaging
 - Add 'vendor' to require_paths for custom shell gem
@@ -1121,7 +1127,7 @@
 - Fix app scaffold on Windows by having it generate jeweler gem first (to have gemspec for jar-dependencies)
 - Fix girb for Windows
 
-### 0.6.0
+## 0.6.0
 
 - Upgrade to JRuby 9.2.13.0
 - Upgrade to SWT 4.16
@@ -1129,33 +1135,33 @@
 - Support cursor setting via SWT style symbols directly
 - Support `cursor` keyword
 
-### 0.5.6
+## 0.5.6
 
 - Fixed issue with excluding on_swt_* listeners from Glimmer DSL engine processing in CustomWidget
 - Add shell minimum_size to Tic Tac Toe sample for Linux
 
-### 0.5.5
+## 0.5.5
 
 - Add 'package' directory to 'config/warble.rb' for packaging in JAR file
 - Fix issue with image path conversion to imagedata on Mac vs Windows
 
-### 0.5.4
+## 0.5.4
 
 - Fix issue with uri:classloader paths generated by JRuby when using File.expand_path inside packaged JAR files
 
-### 0.5.3
+## 0.5.3
 
 - Set widget `image`/`images` property via string file path(s) just like `background_image`
 
-### 0.5.2
+## 0.5.2
 
 - Added :full_selection to table widget default SWT styles
 
-### 0.5.1
+## 0.5.1
 
 - Made packaging -BsystemWide option true on the Mac only
 
-### 0.5.0
+## 0.5.0
 
 - Upgrade to glimmer 0.10.1 to take advantage of the new logging library
 - Make Glimmer commands support acronym, dash and no separator (default) alternatives
@@ -1178,11 +1184,11 @@
 - Eliminate unimportant (false negative) log messages getting reported as ERROR when running test suite
 - Sort table on every change to maintain its sort according to its sorted column
 
-### 0.4.1
+## 0.4.1
 
 - Fixed an issue with async_exec and sync_exec keywords not working when used from a module that mixes Glimmer
 
-### 0.4.0
+## 0.4.0
 
 - Support SWT listener events that take multiple-args (as in custom libraries like Nebula GanttChart)
 - Drop on_event_* keywords in favor of on_swt_* for SWT constant events
@@ -1192,7 +1198,7 @@
 - Set CustomShell data('custom_shell') objects
 - Delegate all WidgetProxy/ShellProxy/DisplayProxy/CustomWidget/CustomShell methods to wrapped SWT object on method_missing
 
-### 0.3.1
+## 0.3.1
 
 - Support multiple widgets for editing table items
 

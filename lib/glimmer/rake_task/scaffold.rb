@@ -631,7 +631,7 @@ module Glimmer
           minimum_size #{shell_type == :desktopify ? '768, 432' : '420, 240'}
           image File.join(APP_ROOT, 'icons', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
           image File.join(APP_ROOT, 'icons', 'linux', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.png") unless OS.windows?
-          text "#{human_name(namespace)} - #{human_name(custom_shell_name)}"
+          text "#{human_name(namespace)}#{' - ' + human_name(custom_shell_name) if shell_type != :desktopify}"
         
           MULTI_LINE_STRING
             
