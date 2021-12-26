@@ -5,8 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
-- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 
+- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Document Canvas Shape DSL with more examples, one per shape
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
