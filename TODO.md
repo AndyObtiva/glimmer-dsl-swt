@@ -4,9 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Document Canvas Shape DSL with more example, one per shape
-- Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
+- Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
+- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 
+- Document Canvas Shape DSL with more examples, one per shape
+- Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
@@ -25,7 +27,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Look into using Tracepoint to do automatic computed data-binding
 - Extract Metronome sample into an external sample and enhance further (like click-based tempo calculation)
 - Demo drag and drop sample reordering a list or faux-list of labels
-- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 - Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 
@@ -469,7 +470,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
-- Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
 - Music playing app
