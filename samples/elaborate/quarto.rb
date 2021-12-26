@@ -40,34 +40,34 @@ class Quarto
       rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER) {
         background :black
         
-        oval(0, 0, :max, :max) { # takes max dimensions by default
+        oval(0, 0, :max, :max) {
           foreground rgb(239, 196, 156)
           line_width CELL_LINE_WIDTH
           
           x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
           y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+          
           ROW_COUNT.times do |row|
             COLUMN_COUNT.times do |column|
               oval(x_offset + column * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN), y_offset + row * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN), CELL_DIAMETER, CELL_DIAMETER) {
                 foreground rgb(239, 196, 156)
                 line_width CELL_LINE_WIDTH
+                transform board_rotation_transform
               }
             end
           end
-          
-#           7.times do |row|
-#             columns = row <= 3 ? row + 1 : (7 - row)
-#             columns.times do |column|
-#               oval((BOARD_WIDTH/2.0 - CELL_DIAMETER/2.0) * column, CELL_LINE_WIDTH + CELL_DIAMETER * row, CELL_DIAMETER, CELL_DIAMETER) {
-#                 foreground rgb(239, 196, 156)
-#                 line_width 5
-#               }
-#             end
-#           end
         }
       }
     }
   }
+  
+  def board_rotation_transform
+    @board_rotation_transform ||= transform {
+      translate BOARD_DIAMETER/2.0, BOARD_DIAMETER/2.0
+      rotate 45
+      translate -BOARD_DIAMETER/2.0, -BOARD_DIAMETER/2.0
+    }
+  end
 end
 
 Quarto.launch
