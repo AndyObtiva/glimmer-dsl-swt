@@ -44,15 +44,28 @@ class Quarto
           foreground rgb(239, 196, 156)
           line_width CELL_LINE_WIDTH
           
-          x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-          y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+          board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+          board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
           
           ROW_COUNT.times do |row|
             COLUMN_COUNT.times do |column|
-              oval(x_offset + column * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN), y_offset + row * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN), CELL_DIAMETER, CELL_DIAMETER) {
-                foreground rgb(239, 196, 156)
+              oval(board_x_offset + column * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN),
+                   board_y_offset + row * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN),
+                   CELL_DIAMETER,
+                   CELL_DIAMETER) { |an_oval|
+                background :black
                 line_width CELL_LINE_WIDTH
                 transform board_rotation_transform
+                
+                oval { # this draws an outline fill dimensions maximally by default
+                  foreground rgb(239, 196, 156)
+                  line_width CELL_LINE_WIDTH
+                  transform board_rotation_transform
+                }
+                
+                on_mouse_up do
+                  an_oval.background = :white
+                end
               }
             end
           end

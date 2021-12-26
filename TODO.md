@@ -5,6 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
+- Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
 
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Document Canvas Shape DSL with more examples, one per shape
