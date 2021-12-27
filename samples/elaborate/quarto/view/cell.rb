@@ -46,9 +46,19 @@ class Quarto
             transform board_rotation_transform
           }
           
-          on_mouse_up do
-            body_root.background = :white
-          end
+          # TODO remove/update this
+#           on_mouse_up do
+#             body_root.background = :white
+#           end
+
+#           on_drop do |drop_event|
+#             drop_event.dragged_shape.dispose
+#             drop_event.dragged_shape.dispose
+#
+#             body_root.content {
+#
+#             }
+#           end
         }
       }
       

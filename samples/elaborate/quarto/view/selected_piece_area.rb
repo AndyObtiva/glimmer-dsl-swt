@@ -27,14 +27,25 @@ class Quarto
       include Glimmer::UI::CustomShape
       
       options :game
+      option :location_x, default: 0
+      option :location_y, default: 0
       
       body {
-        rectangle(0, 0, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+        rectangle(location_x, location_y, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
           background COLOR_WOOD
           
           text('Selected Piece', 15, 15) {
             font height: 18, style: :bold
           }
+          
+          on_drop do |drop_event|
+            dragged_piece = drop_event.dragged_shape
+            model = dragged_piece.get_data('custom_shape').model
+            dragged_piece.parent.shapes.delete(dragged_piece)
+            body_root.content {
+              piece(game: game, model: model, piece_x: 15, piece_y: 15 + 25)
+            }
+          end
         }
       }
     end

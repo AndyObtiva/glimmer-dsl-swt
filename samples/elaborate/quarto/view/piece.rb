@@ -31,7 +31,7 @@ class Quarto
       COLOR_LIGHT_WOOD = rgb(253, 252, 194)
       COLOR_DARK_WOOD = rgb(204, 108, 58)
       
-      options :game, :model, :piece_x, :piece_y
+      options :game, :model, :piece_x, :piece_y # TODO rename to location_x, location_y for consistency
       
       before_body do
         @background_color = model.light? ? COLOR_LIGHT_WOOD : COLOR_DARK_WOOD
@@ -44,6 +44,8 @@ class Quarto
           else
             cube(cube_height: SIZE, rectangle_width: SIZE, rectangle_height: SIZE, pitted: model.pitted?, background_color: @background_color)
           end
+        
+          drag_source true
         }
       }
     end

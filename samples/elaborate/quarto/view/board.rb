@@ -26,8 +26,11 @@ class Quarto
     class Board
       include Glimmer::UI::CustomShape
       
+      option :location_x, default: 0
+      option :location_y, default: 0
+      
       body {
-        rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER, round: true) {
+        rectangle(location_x, location_y, BOARD_DIAMETER, BOARD_DIAMETER, round: true) {
           background :black
           
           text("Glimmer\nQuarto", BOARD_DIAMETER - 69, BOARD_DIAMETER - 43) {

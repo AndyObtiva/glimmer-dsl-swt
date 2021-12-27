@@ -27,9 +27,11 @@ class Quarto
       include Glimmer::UI::CustomShape
       
       options :game
+      option :location_x, default: 0
+      option :location_y, default: 0
       
       body {
-        rectangle(0, 0, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+        rectangle(location_x, location_y, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
           background COLOR_WOOD
           
           text('Available Pieces', 15, 15) {

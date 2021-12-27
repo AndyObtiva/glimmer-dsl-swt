@@ -35,6 +35,8 @@ class Quarto
   CELL_DIAMETER = 68
   CELL_LINE_WIDTH = 5
   CELL_MARGIN = 7
+  SHELL_MARGIN = 5
+  AREA_MARGIN = 25
   ROW_COUNT = 4
   COLUMN_COUNT = 4
   COLOR_WOOD = rgb(239, 196, 156)
@@ -46,50 +48,15 @@ class Quarto
 
   body {
     shell {
-      grid_layout(2, false) {
-        margin_width 0
-        margin_height 0
-        horizontal_spacing 0
-      }
-      
       text 'Glimmer Quarto'
-      minimum_size BOARD_DIAMETER + PIECES_AREA_WIDTH, BOARD_DIAMETER + 24
-      maximum_size BOARD_DIAMETER + PIECES_AREA_WIDTH, BOARD_DIAMETER + 24
+      minimum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
+      maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
       background COLOR_WOOD
       
-      composite {
-        layout_data(:fill, :fill, true, true) {
-          width_hint BOARD_DIAMETER
-          height_hint BOARD_DIAMETER
-          vertical_span 2
-        }
-        
-        background COLOR_WOOD
-        
-        board
-      }
+      board(location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
       
-      canvas {
-        layout_data(:fill, :fill, true, true) {
-          width_hint PIECES_AREA_WIDTH
-          height_hint PIECES_AREA_HEIGHT
-        }
-        
-        background COLOR_WOOD
-        
-        available_pieces_area(game: @game)
-      }
-      
-      canvas {
-        layout_data(:fill, :fill, true, true) {
-          width_hint PIECES_AREA_WIDTH
-          height_hint PIECES_AREA_HEIGHT / 2.0
-        }
-        
-        background COLOR_WOOD
-        
-        selected_piece_area(game: @game)
-      }
+      available_pieces_area(game: @game, location_x: BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
+      selected_piece_area(game: @game, location_x: BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + PIECES_AREA_HEIGHT + AREA_MARGIN)
     }
   }
 end

@@ -72,6 +72,7 @@ end
 - Demo drag and drop sample reordering a list or faux-list of labels
 - Support `drag_source true` on advanced `tab_item` widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
 - Support `drop_target true` on advanced widgets (`styled_text`, `link`, `tab_item`, `c_tab_item`, `tooltip`, `tree_item`) to further simplify drag and drop for default cases
+- Support canvas drag & drop across canvases
 
 - Support updating code_text language/theme on the fly (right now, it is only supported during declaration construction)
 - Fix issue with moving Paths (like through drag and drop). It seems that move_by is not working correctly with them (cubics disappear, and lines rotate instead of move)
@@ -190,6 +191,7 @@ end
 - Move ext folder underneath glimmer-dsl-swt
 - Log exceptions that happen in CustomWidget body, before_body, and after_body blocks
 - Fix focus on `focus true` (maybe use force_focus by default or add a delay through `focus 0.5` or something)
+- Maybe reparent shape by being able to change parent attribute via parent= method
 - Fix issue with scaffolding custom widget and custom shell inside app when working in a custom shell gem
 - Fix text_proxy.text method call (should proxy to swt_widget.getText automatically)
 - Run glimmer command rake task presents a TUI file chooser
