@@ -21,58 +21,41 @@
 
 class Quarto
   module View
-    class Piece
+    class Cube
       include Glimmer::UI::CustomShape
       
-      HEIGHT = 28
-      TOP_WIDTH = HEIGHT
-      TOP_HEIGHT = HEIGHT
+      DEFAULT_SIZE = 28
       
-      options :game, :model, :piece_x, :piece_y
+      options :location_x, :location_y, :top_width, :top_height, :cube_height, :pitted, :background_color
+      alias pitted? pitted
       
       before_body do
-        @background_color = model.light? ? COLOR_LIGHT_WOOD : COLOR_DARK_WOOD
+        self.location_x ||= 0
+        self.location_y ||= 0
+        self.top_width ||= top_height || cube_height || DEFAULT_SIZE
+        self.top_height ||= top_width || cube_height || DEFAULT_SIZE
+        self.cube_height ||= top_width || top_height || DEFAULT_SIZE
       end
       
       body {
-        shape(piece_x, piece_y) {
-          if model.is_a?(Model::Piece::Cylinder)
-            oval(0, HEIGHT, TOP_WIDTH, TOP_HEIGHT) {
-              background @background_color
-              oval # draws with foreground :black and has max size within parent by default
+        shape(location_x, location_y) {
+          polygon(0, cube_height + top_height / 2.0, top_width / 2.0, cube_height, top_width, cube_height + top_height / 2.0, top_width / 2.0, cube_height + top_height) {
+            background background_color
+          }
+          polygon(0, cube_height + top_height / 2.0, top_width / 2.0, cube_height, top_width, cube_height + top_height / 2.0, top_width / 2.0, cube_height + top_height)
+          rectangle(0, top_height / 2.0, top_width, cube_height) {
+            background background_color
+          }
+          polyline(0, top_height / 2.0 + cube_height, 0, top_height / 2.0, top_width, top_height / 2.0, top_width, top_height / 2.0 + cube_height)
+          polygon(0, top_height / 2.0, top_width / 2.0, 0, top_width, top_height / 2.0, top_width / 2.0, top_height) {
+            background background_color
+          }
+          polygon(0, top_height / 2.0, top_width / 2.0, 0, top_width, top_height / 2.0, top_width / 2.0, top_height)
+          line(top_width / 2.0, cube_height + top_height, top_width / 2.0, top_height)
+          if pitted?
+            oval(top_width / 4.0 + 1, top_height / 4.0 + 1, top_width / 2.0, top_height / 2.0) {
+              background :black
             }
-            rectangle(0, TOP_HEIGHT / 2.0, TOP_WIDTH, HEIGHT) {
-              background @background_color
-            }
-            polyline(0, TOP_HEIGHT / 2.0 + HEIGHT, 0, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0 + HEIGHT)
-            oval(0, 0, TOP_WIDTH, TOP_HEIGHT) {
-              background @background_color
-              oval # draws with foreground :black and has max size within parent by default
-            }
-            if model.pitted?
-              oval(TOP_WIDTH / 4.0 + 1, TOP_HEIGHT / 4.0 + 1, TOP_WIDTH / 2.0, TOP_HEIGHT / 2.0) {
-                background :black
-              }
-            end
-          else
-            polygon(0, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT, TOP_WIDTH, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT) {
-              background @background_color
-            }
-            polygon(0, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT, TOP_WIDTH, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT)
-            rectangle(0, TOP_HEIGHT / 2.0, TOP_WIDTH, HEIGHT) {
-              background @background_color
-            }
-            polyline(0, TOP_HEIGHT / 2.0 + HEIGHT, 0, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0 + HEIGHT)
-            polygon(0, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, 0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, TOP_HEIGHT) {
-              background @background_color
-            }
-            polygon(0, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, 0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, TOP_HEIGHT)
-            line(TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT, TOP_WIDTH / 2.0, TOP_HEIGHT)
-            if model.pitted?
-              oval(TOP_WIDTH / 4.0 + 1, TOP_HEIGHT / 4.0 + 1, TOP_WIDTH / 2.0, TOP_HEIGHT / 2.0) {
-                background :black
-              }
-            end
           end
         }
       }

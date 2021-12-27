@@ -27,6 +27,7 @@ class Quarto
       DEFAULT_SIZE = 28
       
       options :location_x, :location_y, :top_width, :top_height, :cylinder_height, :pitted, :background_color
+      alias pitted? pitted
       
       before_body do
         self.location_x ||= 0
@@ -50,7 +51,7 @@ class Quarto
             background background_color
             oval # draws with foreground :black and has max size within parent by default
           }
-          if pitted
+          if pitted?
             oval(top_width / 4.0 + 1, top_height / 4.0 + 1, top_width / 2.0, top_height / 2.0) {
               background :black
             }

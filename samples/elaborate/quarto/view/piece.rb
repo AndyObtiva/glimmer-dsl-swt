@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require_relative 'cylinder'
+require_relative 'cube'
 
 class Quarto
   module View
@@ -41,24 +42,7 @@ class Quarto
           if model.is_a?(Model::Piece::Cylinder)
             cylinder(top_width: TOP_WIDTH, top_height: TOP_HEIGHT, cylinder_height: HEIGHT, pitted: model.pitted?, background_color: @background_color)
           else
-            polygon(0, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT, TOP_WIDTH, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT) {
-              background @background_color
-            }
-            polygon(0, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT, TOP_WIDTH, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT)
-            rectangle(0, TOP_HEIGHT / 2.0, TOP_WIDTH, HEIGHT) {
-              background @background_color
-            }
-            polyline(0, TOP_HEIGHT / 2.0 + HEIGHT, 0, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0 + HEIGHT)
-            polygon(0, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, 0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, TOP_HEIGHT) {
-              background @background_color
-            }
-            polygon(0, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, 0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, TOP_HEIGHT)
-            line(TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT, TOP_WIDTH / 2.0, TOP_HEIGHT)
-            if model.pitted?
-              oval(TOP_WIDTH / 4.0 + 1, TOP_HEIGHT / 4.0 + 1, TOP_WIDTH / 2.0, TOP_HEIGHT / 2.0) {
-                background :black
-              }
-            end
+            cube(top_width: TOP_WIDTH, top_height: TOP_HEIGHT, cube_height: HEIGHT, pitted: model.pitted?, background_color: @background_color)
           end
         }
       }
