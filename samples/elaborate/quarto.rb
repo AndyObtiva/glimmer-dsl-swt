@@ -26,11 +26,18 @@ require_relative 'quarto/view/board'
 class Quarto
   include Glimmer::UI::CustomShell
   
+  BOARD_DIAMETER = 430
+  CELL_DIAMETER = 68
+  CELL_LINE_WIDTH = 5
+  CELL_MARGIN = 7
+  ROW_COUNT = 4
+  COLUMN_COUNT = 4
+
   body {
     shell {
       text 'Glimmer Quarto'
-      minimum_size View::Board::BOARD_DIAMETER, View::Board::BOARD_DIAMETER + 24
-      maximum_size View::Board::BOARD_DIAMETER, View::Board::BOARD_DIAMETER + 24
+      minimum_size BOARD_DIAMETER, BOARD_DIAMETER + 24
+      maximum_size BOARD_DIAMETER, BOARD_DIAMETER + 24
       
       board
     }

@@ -19,35 +19,38 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'cell'
+require 'glimmer-dsl-swt'
 
 class Quarto
   module View
-    class Board
+    class Cell
       include Glimmer::UI::CustomShape
       
+      options :row, :column
+      
+      before_body do
+        @board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+        @board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+      end
+      
       body {
-        rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER) {
+        oval(@board_x_offset + column * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN),
+             @board_y_offset + row * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN),
+             CELL_DIAMETER,
+             CELL_DIAMETER) {
           background :black
+          line_width CELL_LINE_WIDTH
+          transform board_rotation_transform
           
-          text('Glimmer Quarto', BOARD_DIAMETER - 109, BOARD_DIAMETER - 23) {
-            foreground rgb(239, 196, 156)
-            font height: 14, style: :bold
-          }
-          
-          oval(0, 0, :max, :max) {
+          oval { # this draws an outline around max dimensions by default (when no x,y,w,h specified)
             foreground rgb(239, 196, 156)
             line_width CELL_LINE_WIDTH
-            
-            board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            
-            ROW_COUNT.times do |row|
-              COLUMN_COUNT.times do |column|
-                cell(row: row, column: column)
-              end
-            end
+            transform board_rotation_transform
           }
+          
+          on_mouse_up do
+            body_root.background = :white
+          end
         }
       }
       
