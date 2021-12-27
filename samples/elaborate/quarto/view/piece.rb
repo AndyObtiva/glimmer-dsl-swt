@@ -31,14 +31,14 @@ class Quarto
       COLOR_LIGHT_WOOD = rgb(253, 252, 194)
       COLOR_DARK_WOOD = rgb(204, 108, 58)
       
-      options :game, :model, :piece_x, :piece_y # TODO rename to location_x, location_y for consistency
+      options :game, :model, :location_x, :location_y
       
       before_body do
         @background_color = model.light? ? COLOR_LIGHT_WOOD : COLOR_DARK_WOOD
       end
       
       body {
-        shape(piece_x, piece_y) {
+        shape(location_x, location_y) {
           if model.is_a?(Model::Piece::Cylinder)
             cylinder(cylinder_height: SIZE, oval_width: SIZE, oval_height: SIZE, pitted: model.pitted?, background_color: @background_color)
           else

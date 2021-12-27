@@ -43,7 +43,7 @@ class Quarto
             model = dragged_piece.get_data('custom_shape').model
             dragged_piece.parent.shapes.delete(dragged_piece)
             body_root.content {
-              piece(game: game, model: model, piece_x: 15, piece_y: 15 + 25)
+              piece(game: game, model: model, location_x: 15, location_y: 15 + 25)
             }
           end
         }
