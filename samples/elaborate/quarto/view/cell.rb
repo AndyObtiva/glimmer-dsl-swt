@@ -43,7 +43,7 @@ class Quarto
           transform board_rotation_transform
           
           oval { # this draws an outline around max dimensions by default (when no x,y,w,h specified)
-            foreground rgb(239, 196, 156)
+            foreground COLOR_WOOD
             line_width CELL_LINE_WIDTH
             transform board_rotation_transform
           }

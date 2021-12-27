@@ -5,10 +5,52 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
-- Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
+- Improve styling of Quarto
+- `glimmer-cp-cylinder` custom shape:
+```ruby
+100.times do |n|
+  oval(150, (99 - n) + 150, 50, 20) {
+    background :white
+    if n == 0 || n == 99
+      oval {
+        foreground :black
+      }
+    end
+  }
+  line(150, 99 + 150 + 10, 150, 150 + 10) {
+    foreground :black
+  }
+  line(150 + 50, 99 + 150 + 10, 150 + 50, 150 + 10) {
+    foreground :black
+  }
+end
+```
+- `glimmer-cp-cube` custom shape:
+```ruby
+100.times do |n|
+  polygon(150, (99 - n) + 150 + 10, 150 + 25, (99 - n) + 150, 150 + 50, (99 - n) + 150 + 10, 150 + 25, (99 - n) + 150 + 20) {
+    if n == 0 || n == 99
+      foreground :black
+    else
+      background :white
+    end
+  }
+  line(150, 99 + 150 + 10, 150, 150 + 10) {
+    foreground :black
+  }
+  line(150 + 25, 99 + 150 + 20, 150 + 25, 150 + 20) {
+    foreground :black
+  }
+  line(150 + 50, 99 + 150 + 10, 150 + 50, 150 + 10) {
+    foreground :black
+  }
+end
+```
+- Test Quarto on Linux and Windows
 
-- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Document Canvas Shape DSL with more examples, one per shape
+- Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
+- Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
@@ -471,6 +513,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
+- Snake elaborate sample
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
 - Music playing app

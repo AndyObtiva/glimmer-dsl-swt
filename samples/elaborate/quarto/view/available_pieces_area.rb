@@ -19,44 +19,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'cell'
+# require_relative 'piece'
 
 class Quarto
   module View
-    class Board
+    class AvailablePiecesArea
       include Glimmer::UI::CustomShape
       
+      options :game
+      
       body {
-        rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER, round: true) {
-          background :black
+        rectangle(0, 0, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+          background COLOR_WOOD
           
-          text("Glimmer\nQuarto", BOARD_DIAMETER - 69, BOARD_DIAMETER - 43) {
-            foreground COLOR_WOOD
+          text('Available Pieces', 15, 15) {
+            font height: 18, style: :bold
           }
           
-          oval(0, 0, :max, :max) {
-            foreground COLOR_WOOD
-            line_width CELL_LINE_WIDTH
-            
-            board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            
-            ROW_COUNT.times do |row|
-              COLUMN_COUNT.times do |column|
-                cell(row: row, column: column)
-              end
+          x_offset = 15
+          y_offset = 15 + 18 + 15
+          row_count = 3
+          column_count = 4
+          row_count.times do |row|
+            column_count.times do |column|
+              text(game.available_pieces[row*column_count + column].to_s, x_offset + column*50, y_offset + row*50)
             end
-          }
+          end
         }
       }
-      
-      def board_rotation_transform
-        @board_rotation_transform ||= transform {
-          translate BOARD_DIAMETER/2.0, BOARD_DIAMETER/2.0
-          rotate 45
-          translate -BOARD_DIAMETER/2.0, -BOARD_DIAMETER/2.0
-        }
-      end
     end
   end
 end

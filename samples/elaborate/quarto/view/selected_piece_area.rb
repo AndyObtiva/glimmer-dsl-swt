@@ -19,44 +19,24 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'cell'
+# require_relative 'piece'
 
 class Quarto
   module View
-    class Board
+    class SelectedPieceArea
       include Glimmer::UI::CustomShape
       
+      options :game
+      
       body {
-        rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER, round: true) {
-          background :black
+        rectangle(0, 0, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+          background COLOR_WOOD
           
-          text("Glimmer\nQuarto", BOARD_DIAMETER - 69, BOARD_DIAMETER - 43) {
-            foreground COLOR_WOOD
-          }
-          
-          oval(0, 0, :max, :max) {
-            foreground COLOR_WOOD
-            line_width CELL_LINE_WIDTH
-            
-            board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            
-            ROW_COUNT.times do |row|
-              COLUMN_COUNT.times do |column|
-                cell(row: row, column: column)
-              end
-            end
+          text('Selected Piece', 15, 15) {
+            font height: 18, style: :bold
           }
         }
       }
-      
-      def board_rotation_transform
-        @board_rotation_transform ||= transform {
-          translate BOARD_DIAMETER/2.0, BOARD_DIAMETER/2.0
-          rotate 45
-          translate -BOARD_DIAMETER/2.0, -BOARD_DIAMETER/2.0
-        }
-      end
     end
   end
 end
