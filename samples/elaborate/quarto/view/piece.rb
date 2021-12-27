@@ -28,8 +28,9 @@ class Quarto
       include Glimmer::UI::CustomShape
       
       SIZE = 28
-      COLOR_LIGHT_WOOD = rgb(253, 252, 194)
+      COLOR_LIGHT_WOOD = rgb(254, 187, 120)
       COLOR_DARK_WOOD = rgb(204, 108, 58)
+      LINE_THICKNESS = 2
       
       options :game, :model, :location_x, :location_y
       
@@ -40,9 +41,9 @@ class Quarto
       body {
         shape(location_x, location_y) {
           if model.is_a?(Model::Piece::Cylinder)
-            cylinder(cylinder_height: SIZE, oval_width: SIZE, oval_height: SIZE, pitted: model.pitted?, background_color: @background_color)
+            cylinder(cylinder_height: SIZE, oval_width: SIZE, oval_height: SIZE, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
           else
-            cube(cube_height: SIZE, rectangle_width: SIZE, rectangle_height: SIZE, pitted: model.pitted?, background_color: @background_color)
+            cube(cube_height: SIZE, rectangle_width: SIZE, rectangle_height: SIZE, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
           end
         
           drag_source true
