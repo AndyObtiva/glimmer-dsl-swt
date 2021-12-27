@@ -40,6 +40,11 @@ class Quarto
       rectangle(0, 0, BOARD_DIAMETER, BOARD_DIAMETER) {
         background :black
         
+        text('Glimmer Quarto', BOARD_DIAMETER - 109, BOARD_DIAMETER - 23) {
+          foreground rgb(239, 196, 156)
+          font height: 14, style: :bold
+        }
+        
         oval(0, 0, :max, :max) {
           foreground rgb(239, 196, 156)
           line_width CELL_LINE_WIDTH
