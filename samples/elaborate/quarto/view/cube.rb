@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'cylinder'
-
 class Quarto
   module View
     class Piece
@@ -39,7 +37,23 @@ class Quarto
       body {
         shape(piece_x, piece_y) {
           if model.is_a?(Model::Piece::Cylinder)
-            cylinder(top_width: TOP_WIDTH, top_height: TOP_HEIGHT, cylinder_height: HEIGHT, pitted: model.pitted?, background_color: @background_color)
+            oval(0, HEIGHT, TOP_WIDTH, TOP_HEIGHT) {
+              background @background_color
+              oval # draws with foreground :black and has max size within parent by default
+            }
+            rectangle(0, TOP_HEIGHT / 2.0, TOP_WIDTH, HEIGHT) {
+              background @background_color
+            }
+            polyline(0, TOP_HEIGHT / 2.0 + HEIGHT, 0, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0, TOP_WIDTH, TOP_HEIGHT / 2.0 + HEIGHT)
+            oval(0, 0, TOP_WIDTH, TOP_HEIGHT) {
+              background @background_color
+              oval # draws with foreground :black and has max size within parent by default
+            }
+            if model.pitted?
+              oval(TOP_WIDTH / 4.0 + 1, TOP_HEIGHT / 4.0 + 1, TOP_WIDTH / 2.0, TOP_HEIGHT / 2.0) {
+                background :black
+              }
+            end
           else
             polygon(0, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT, TOP_WIDTH, HEIGHT + TOP_HEIGHT / 2.0, TOP_WIDTH / 2.0, HEIGHT + TOP_HEIGHT) {
               background @background_color
