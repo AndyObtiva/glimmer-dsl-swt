@@ -8,7 +8,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Improve styling of Quarto
 - `glimmer-cp-cylinder` custom shape:
 ```ruby
-100.times do |n|
+50.times do |n|
   oval(150, (99 - n) + 150, 50, 20) {
     background :white
     if n == 0 || n == 99
@@ -27,7 +27,7 @@ end
 ```
 - `glimmer-cp-cube` custom shape:
 ```ruby
-100.times do |n|
+50.times do |n|
   polygon(150, (99 - n) + 150 + 10, 150 + 25, (99 - n) + 150, 150 + 50, (99 - n) + 150 + 10, 150 + 25, (99 - n) + 150 + 20) {
     if n == 0 || n == 99
       foreground :black

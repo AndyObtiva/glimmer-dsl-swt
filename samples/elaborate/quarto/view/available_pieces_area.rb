@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# require_relative 'piece'
+require_relative 'piece'
 
 class Quarto
   module View
@@ -38,11 +38,13 @@ class Quarto
           
           x_offset = 15
           y_offset = 15 + 18 + 15
+          x_spacing = 25
+          y_spacing = 50
           row_count = 3
           column_count = 4
           row_count.times do |row|
             column_count.times do |column|
-              text(game.available_pieces[row*column_count + column].to_s, x_offset + column*50, y_offset + row*50)
+              piece(game: game, model: game.available_pieces[row*column_count + column], piece_x: x_offset + column*(View::Piece::TOP_WIDTH + x_spacing), piece_y: y_offset + row*(View::Piece::HEIGHT + y_spacing))
             end
           end
         }

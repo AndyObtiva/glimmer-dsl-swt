@@ -42,6 +42,7 @@ class Quarto
       end
       
       attr_reader :pitted, :height, :color
+      alias pitted? pitted
       
       def initialize(pitted: , height: , color: )
         @pitted = pitted
@@ -49,8 +50,20 @@ class Quarto
         @color = color
       end
       
-      def to_s
-        "#{self.class.name.split('::').last[0]} #{pitted.to_s[0]} #{height.to_s[0]} #{color.to_s[0]}"
+      def light?
+        @color == :light
+      end
+      
+      def dark?
+        @color == :dark
+      end
+      
+      def tall?
+        @height == :tall
+      end
+      
+      def short?
+        @height == :short
       end
     end
   end

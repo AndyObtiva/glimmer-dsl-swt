@@ -23,7 +23,9 @@ require_relative '../piece'
 
 class Quarto
   module Model
-    class Cylinder < Piece
+    class Piece
+      class Cylinder < Piece
+      end
     end
   end
 end
