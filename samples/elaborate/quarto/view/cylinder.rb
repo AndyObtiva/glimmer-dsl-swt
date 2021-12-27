@@ -26,33 +26,33 @@ class Quarto
       
       DEFAULT_SIZE = 28
       
-      options :location_x, :location_y, :top_width, :top_height, :cylinder_height, :pitted, :background_color
+      options :location_x, :location_y, :oval_width, :oval_height, :cylinder_height, :pitted, :background_color
       alias pitted? pitted
       
       before_body do
         self.location_x ||= 0
         self.location_y ||= 0
-        self.top_width ||= top_height || cylinder_height || DEFAULT_SIZE
-        self.top_height ||= top_width || cylinder_height || DEFAULT_SIZE
-        self.cylinder_height ||= top_width || top_height || DEFAULT_SIZE
+        self.oval_width ||= oval_height || cylinder_height || DEFAULT_SIZE
+        self.oval_height ||= oval_width || cylinder_height || DEFAULT_SIZE
+        self.cylinder_height ||= oval_width || oval_height || DEFAULT_SIZE
       end
       
       body {
         shape(location_x, location_y) {
-          oval(0, cylinder_height, top_width, top_height) {
+          oval(0, cylinder_height, oval_width, oval_height) {
             background background_color
             oval # draws with foreground :black and has max size within parent by default
           }
-          rectangle(0, top_height / 2.0, top_width, cylinder_height) {
+          rectangle(0, oval_height / 2.0, oval_width, cylinder_height) {
             background background_color
           }
-          polyline(0, top_height / 2.0 + cylinder_height, 0, top_height / 2.0, top_width, top_height / 2.0, top_width, top_height / 2.0 + cylinder_height)
-          oval(0, 0, top_width, top_height) {
+          polyline(0, oval_height / 2.0 + cylinder_height, 0, oval_height / 2.0, oval_width, oval_height / 2.0, oval_width, oval_height / 2.0 + cylinder_height)
+          oval(0, 0, oval_width, oval_height) {
             background background_color
             oval # draws with foreground :black and has max size within parent by default
           }
           if pitted?
-            oval(top_width / 4.0 + 1, top_height / 4.0 + 1, top_width / 2.0, top_height / 2.0) {
+            oval(oval_width / 4.0 + 1, oval_height / 4.0 + 1, oval_width / 2.0, oval_height / 2.0) {
               background :black
             }
           end

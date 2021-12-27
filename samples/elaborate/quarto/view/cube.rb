@@ -26,34 +26,34 @@ class Quarto
       
       DEFAULT_SIZE = 28
       
-      options :location_x, :location_y, :top_width, :top_height, :cube_height, :pitted, :background_color
+      options :location_x, :location_y, :rectangle_width, :rectangle_height, :cube_height, :pitted, :background_color
       alias pitted? pitted
       
       before_body do
         self.location_x ||= 0
         self.location_y ||= 0
-        self.top_width ||= top_height || cube_height || DEFAULT_SIZE
-        self.top_height ||= top_width || cube_height || DEFAULT_SIZE
-        self.cube_height ||= top_width || top_height || DEFAULT_SIZE
+        self.rectangle_width ||= rectangle_height || cube_height || DEFAULT_SIZE
+        self.rectangle_height ||= rectangle_width || cube_height || DEFAULT_SIZE
+        self.cube_height ||= rectangle_width || rectangle_height || DEFAULT_SIZE
       end
       
       body {
         shape(location_x, location_y) {
-          polygon(0, cube_height + top_height / 2.0, top_width / 2.0, cube_height, top_width, cube_height + top_height / 2.0, top_width / 2.0, cube_height + top_height) {
+          polygon(0, cube_height + rectangle_height / 2.0, rectangle_width / 2.0, cube_height, rectangle_width, cube_height + rectangle_height / 2.0, rectangle_width / 2.0, cube_height + rectangle_height) {
             background background_color
           }
-          polygon(0, cube_height + top_height / 2.0, top_width / 2.0, cube_height, top_width, cube_height + top_height / 2.0, top_width / 2.0, cube_height + top_height)
-          rectangle(0, top_height / 2.0, top_width, cube_height) {
+          polygon(0, cube_height + rectangle_height / 2.0, rectangle_width / 2.0, cube_height, rectangle_width, cube_height + rectangle_height / 2.0, rectangle_width / 2.0, cube_height + rectangle_height)
+          rectangle(0, rectangle_height / 2.0, rectangle_width, cube_height) {
             background background_color
           }
-          polyline(0, top_height / 2.0 + cube_height, 0, top_height / 2.0, top_width, top_height / 2.0, top_width, top_height / 2.0 + cube_height)
-          polygon(0, top_height / 2.0, top_width / 2.0, 0, top_width, top_height / 2.0, top_width / 2.0, top_height) {
+          polyline(0, rectangle_height / 2.0 + cube_height, 0, rectangle_height / 2.0, rectangle_width, rectangle_height / 2.0, rectangle_width, rectangle_height / 2.0 + cube_height)
+          polygon(0, rectangle_height / 2.0, rectangle_width / 2.0, 0, rectangle_width, rectangle_height / 2.0, rectangle_width / 2.0, rectangle_height) {
             background background_color
           }
-          polygon(0, top_height / 2.0, top_width / 2.0, 0, top_width, top_height / 2.0, top_width / 2.0, top_height)
-          line(top_width / 2.0, cube_height + top_height, top_width / 2.0, top_height)
+          polygon(0, rectangle_height / 2.0, rectangle_width / 2.0, 0, rectangle_width, rectangle_height / 2.0, rectangle_width / 2.0, rectangle_height)
+          line(rectangle_width / 2.0, cube_height + rectangle_height, rectangle_width / 2.0, rectangle_height)
           if pitted?
-            oval(top_width / 4.0 + 1, top_height / 4.0 + 1, top_width / 2.0, top_height / 2.0) {
+            oval(rectangle_width / 4.0 + 1, rectangle_height / 4.0 + 1, rectangle_width / 2.0, rectangle_height / 2.0) {
               background :black
             }
           end

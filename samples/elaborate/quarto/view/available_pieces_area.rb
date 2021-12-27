@@ -44,7 +44,7 @@ class Quarto
           column_count = 4
           row_count.times do |row|
             column_count.times do |column|
-              piece(game: game, model: game.available_pieces[row*column_count + column], piece_x: x_offset + column*(View::Piece::TOP_WIDTH + x_spacing), piece_y: y_offset + row*(View::Piece::HEIGHT + y_spacing))
+              piece(game: game, model: game.available_pieces[row*column_count + column], piece_x: x_offset + column*(View::Piece::SIZE + x_spacing), piece_y: y_offset + row*(View::Piece::SIZE + y_spacing))
             end
           end
         }

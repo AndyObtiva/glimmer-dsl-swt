@@ -27,9 +27,9 @@ class Quarto
     class Piece
       include Glimmer::UI::CustomShape
       
-      HEIGHT = 28
-      TOP_WIDTH = HEIGHT
-      TOP_HEIGHT = HEIGHT
+      SIZE = 28
+      COLOR_LIGHT_WOOD = rgb(253, 252, 194)
+      COLOR_DARK_WOOD = rgb(204, 108, 58)
       
       options :game, :model, :piece_x, :piece_y
       
@@ -40,9 +40,9 @@ class Quarto
       body {
         shape(piece_x, piece_y) {
           if model.is_a?(Model::Piece::Cylinder)
-            cylinder(top_width: TOP_WIDTH, top_height: TOP_HEIGHT, cylinder_height: HEIGHT, pitted: model.pitted?, background_color: @background_color)
+            cylinder(cylinder_height: SIZE, oval_width: SIZE, oval_height: SIZE, pitted: model.pitted?, background_color: @background_color)
           else
-            cube(top_width: TOP_WIDTH, top_height: TOP_HEIGHT, cube_height: HEIGHT, pitted: model.pitted?, background_color: @background_color)
+            cube(cube_height: SIZE, rectangle_width: SIZE, rectangle_height: SIZE, pitted: model.pitted?, background_color: @background_color)
           end
         }
       }

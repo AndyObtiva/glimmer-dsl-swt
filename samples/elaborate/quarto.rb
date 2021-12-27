@@ -38,8 +38,6 @@ class Quarto
   ROW_COUNT = 4
   COLUMN_COUNT = 4
   COLOR_WOOD = rgb(239, 196, 156)
-  COLOR_LIGHT_WOOD = rgb(253, 252, 194)
-  COLOR_DARK_WOOD = rgb(204, 108, 58)
   COLOR_AREA = rgb(206, 188, 170)
   
   before_body do
