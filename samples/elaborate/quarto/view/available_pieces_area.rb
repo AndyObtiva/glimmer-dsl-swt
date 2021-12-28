@@ -30,6 +30,8 @@ class Quarto
       option :location_x, default: 0
       option :location_y, default: 0
       
+      attr_reader :pieces
+      
       body {
         rectangle(location_x, location_y, PIECES_AREA_WIDTH, AVAILABLE_PIECES_AREA_HEIGHT) {
           background COLOR_WOOD
@@ -49,11 +51,11 @@ class Quarto
           y_spacing = 35
           row_count = 3
           column_count = 4
-          row_count.times do |row|
-            column_count.times do |column|
+          @pieces = row_count.times.map do |row|
+            column_count.times.map do |column|
               piece(game: game, model: game.available_pieces[row*column_count + column], location_x: x_offset + column*(View::Piece::BASIC_SHAPE_WIDTH + x_spacing), location_y: y_offset + row*(View::Piece::SIZE_TALL + y_spacing))
             end
-          end
+          end.flatten
         }
       }
     end

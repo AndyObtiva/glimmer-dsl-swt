@@ -26,6 +26,7 @@ class Quarto
     class Board
       include Glimmer::UI::CustomShape
       
+      option :game
       option :location_x, default: 0
       option :location_y, default: 0
       
@@ -43,7 +44,7 @@ class Quarto
             
             ROW_COUNT.times do |row|
               COLUMN_COUNT.times do |column|
-                cell(row: row, column: column)
+                cell(game: game, row: row, column: column)
               end
             end
           }

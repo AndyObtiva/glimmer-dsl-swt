@@ -34,7 +34,7 @@ module Glimmer
         
         def can_interpret?(parent, keyword, *args, &block)
           super and
-            (parent.nil? or parent.is_a?(Glimmer::SWT::Custom::Shape))
+            (parent.nil? or parent.is_a?(Glimmer::SWT::Custom::Shape) or parent.is_a?(Glimmer::UI::CustomShape))
         end
         
         def interpret(parent, keyword, *args, &block)

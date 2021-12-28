@@ -30,6 +30,8 @@ class Quarto
       option :location_x, default: 0
       option :location_y, default: 0
       
+      attr_reader :selected_piece
+      
       body {
         rectangle(location_x, location_y, PIECES_AREA_WIDTH, SELECTED_PIECE_AREA_HEIGHT) {
           background COLOR_WOOD
@@ -48,8 +50,9 @@ class Quarto
             model = dragged_piece.get_data('custom_shape').model
             dragged_piece.parent.shapes.delete(dragged_piece)
             body_root.content {
-              piece(game: game, model: model, location_x: 15, location_y: 15 + 25)
+              @selected_piece = piece(game: game, model: model, location_x: 15, location_y: 15 + 25)
             }
+            game.select_piece(model)
           end
         }
       }

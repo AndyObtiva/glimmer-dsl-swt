@@ -73,7 +73,7 @@ class Quarto
             }
             
             on_mouse_up do
-              dispose
+              body_root.dispose
             end
           }
           

@@ -51,36 +51,15 @@ class Quarto
   before_body do
     @game = Model::Game.new
     
-#     observe(@game, :expected_move) do |new_expected_move|
-#       body_root.content {
-#         message_box_panel_x = (body_root.size.x - MESSAGE_BOX_PANEL_WIDTH) / 2.0
-#         message_box_panel_y = (body_root.size.y - MESSAGE_BOX_PANEL_HEIGHT) / 2.0
-#         @message_box_panel = rectangle(message_box_panel_x, message_box_panel_y, MESSAGE_BOX_PANEL_WIDTH, MESSAGE_BOX_PANEL_HEIGHT, round: true) {
-#           verbiage = case new_expected_move
-#           when :select_piece
-#             "Player #{@game.current_player} must select a piece for the other player to place on the board!"
-#           when :place_piece
-#             "Player #{@game.current_player} must place the selected piece on the board!"
-#           end
-#           text(verbiage, :center, :center)
-#         }
-#       }
-#       sleep(2)
-#       @message_box_panel.destroy
-#     end
+    observe(@game, :current_move) do
+      handle_current_move
+    end
   end
   
   after_body do
-    # TODO delete this, it is just a test
-    body_root.content {
-      message_box_panel(
-        message: "Player 1 must select a piece for the\n other player to place on the board!",
-        background_color: COLOR_LIGHT_WOOD,
-        text_font: {height: 16}
-      )
-    }
+    handle_current_move
   end
-
+  
   body {
     shell {
       text 'Glimmer Quarto'
@@ -88,12 +67,33 @@ class Quarto
       maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
       background COLOR_WOOD
       
-      board(location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
+      board(game: @game, location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
 
-      available_pieces_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
-      selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + AVAILABLE_PIECES_AREA_HEIGHT + AREA_MARGIN)
+      @available_pieces_area = available_pieces_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
+      @selected_piece_area = selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + AVAILABLE_PIECES_AREA_HEIGHT + AREA_MARGIN)
     }
   }
+  
+  def handle_current_move
+    verbiage = nil
+    case @game.current_move
+    when :select_piece
+      @available_pieces_area.pieces.each {|piece| piece.drag_source = true}
+      verbiage = "Player #{@game.current_player_number} must select a piece \nfor the other player to place on the board!"
+    when :place_piece
+      @available_pieces_area.pieces.each {|piece| piece.drag_source = false}
+      @selected_piece_area.selected_piece.drag_source = true
+      verbiage = "Player #{@game.current_player_number} must place the \nselected piece on the board!"
+    end
+    body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
+    body_root.content {
+      message_box_panel(
+        message: verbiage,
+        background_color: COLOR_LIGHT_WOOD,
+        text_font: {height: 16}
+      )
+    }
+  end
 end
 
 Quarto.launch

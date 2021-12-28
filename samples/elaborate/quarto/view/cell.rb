@@ -24,7 +24,7 @@ class Quarto
     class Cell
       include Glimmer::UI::CustomShape
       
-      options :row, :column
+      options :game, :row, :column
       
       before_body do
         @board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
@@ -46,19 +46,17 @@ class Quarto
             transform board_rotation_transform
           }
           
-          # TODO remove/update this
-#           on_mouse_up do
-#             body_root.background = :white
-#           end
-
-#           on_drop do |drop_event|
-#             drop_event.dragged_shape.dispose
-#             drop_event.dragged_shape.dispose
-#
-#             body_root.content {
-#
-#             }
-#           end
+          on_drop do |drop_event|
+            dragged_piece = drop_event.dragged_shape
+            model = dragged_piece.get_data('custom_shape').model
+            dragged_piece.parent.shapes.delete(dragged_piece)
+            body_root.content {
+              @selected_piece = piece(game: game, model: model, location_x: 10, location_y: -10) {
+                transform board_rotation_transform
+              }
+            }
+            game.place_piece(model, row: row, column: column)
+          end
         }
       }
       

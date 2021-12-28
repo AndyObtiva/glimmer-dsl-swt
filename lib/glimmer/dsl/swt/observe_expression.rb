@@ -23,6 +23,7 @@ require 'glimmer/dsl/static_expression'
 require 'glimmer/dsl/top_level_expression'
 require 'glimmer/dsl/observe_expression'
 require 'glimmer/ui/custom_widget'
+require 'glimmer/swt/display_proxy'
 
 module Glimmer
   module DSL
@@ -33,7 +34,7 @@ module Glimmer
 
         def interpret(parent, keyword, *args, &block)
           observer_registration = super
-          Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(observer_registration)
+          Glimmer::SWT::DisplayProxy.current_custom_widgets_and_shapes.last&.observer_registrations&.push(observer_registration)
           observer_registration
         end
       end
