@@ -27,8 +27,8 @@ class Quarto
       options :row, :column
       
       before_body do
-        @board_x_offset = (SHELL_MARGIN + BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-        @board_y_offset = (SHELL_MARGIN + BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+        @board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
+        @board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
       end
       
       body {
@@ -64,9 +64,13 @@ class Quarto
       
       def board_rotation_transform
         @board_rotation_transform ||= transform {
+          # main rotation is done by moving shape to be centered in origin, rotating, and then moving shape back
           translate (SHELL_MARGIN + BOARD_DIAMETER)/2.0, (SHELL_MARGIN + BOARD_DIAMETER)/2.0
           rotate 45
           translate -(SHELL_MARGIN + BOARD_DIAMETER)/2.0, -(SHELL_MARGIN + BOARD_DIAMETER)/2.0
+          
+          # extra translation to improve location of rotated cells
+          translate 7, -4
         }
       end
     end

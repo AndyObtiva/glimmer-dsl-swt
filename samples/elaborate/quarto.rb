@@ -30,13 +30,14 @@ class Quarto
   include Glimmer::UI::CustomShell
   
   BOARD_DIAMETER = 430
-  PIECES_AREA_WIDTH = 262
-  PIECES_AREA_HEIGHT = 280
+  PIECES_AREA_WIDTH = 252
+  AVAILABLE_PIECES_AREA_HEIGHT = 295
+  SELECTED_PIECE_AREA_HEIGHT = 124
   CELL_DIAMETER = 68
   CELL_LINE_WIDTH = 5
   CELL_MARGIN = 7
-  SHELL_MARGIN = 5
-  AREA_MARGIN = 15
+  SHELL_MARGIN = 15
+  AREA_MARGIN = 10
   ROW_COUNT = 4
   COLUMN_COUNT = 4
   COLOR_WOOD = rgb(239, 196, 156)
@@ -56,7 +57,7 @@ class Quarto
       board(location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
       
       available_pieces_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
-      selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + PIECES_AREA_HEIGHT + AREA_MARGIN)
+      selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + AVAILABLE_PIECES_AREA_HEIGHT + AREA_MARGIN)
     }
   }
 end

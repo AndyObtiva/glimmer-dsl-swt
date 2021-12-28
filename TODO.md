@@ -5,7 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
-- Improve styling of Quarto
+- Test Quarto on Linux and Windows
+- Release on the new year
 - `glimmer-cp-cylinder` custom shape:
 ```ruby
 50.times do |n|
@@ -46,8 +47,6 @@ end
   }
 end
 ```
-- Test Quarto on Linux and Windows
-- Release on the new year
 
 - Document Canvas Shape DSL with more examples, one per shape
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)

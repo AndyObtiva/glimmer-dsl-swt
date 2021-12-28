@@ -49,14 +49,6 @@ class Quarto
           }
         }
       }
-      
-      def board_rotation_transform
-        @board_rotation_transform ||= transform {
-          translate BOARD_DIAMETER/2.0, BOARD_DIAMETER/2.0
-          rotate 45
-          translate -BOARD_DIAMETER/2.0, -BOARD_DIAMETER/2.0
-        }
-      end
     end
   end
 end

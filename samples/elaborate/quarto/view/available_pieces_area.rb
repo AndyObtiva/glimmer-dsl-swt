@@ -31,15 +31,20 @@ class Quarto
       option :location_y, default: 0
       
       body {
-        rectangle(location_x, location_y, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+        rectangle(location_x, location_y, PIECES_AREA_WIDTH, AVAILABLE_PIECES_AREA_HEIGHT) {
           background COLOR_WOOD
           
-          text('Available Pieces', 15, 15) {
+          rectangle(0, 0, :max, :max, round: true) { # border
+            foreground :black
+            line_width 2
+          }
+          
+          text('Available Pieces', 15, 10) {
             font height: 18, style: :bold
           }
           
           x_offset = 15
-          y_offset = 15 + 18 + 15
+          y_offset = 10 + 18 + 10
           x_spacing = 10
           y_spacing = 35
           row_count = 3

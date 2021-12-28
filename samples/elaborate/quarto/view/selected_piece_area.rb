@@ -31,10 +31,15 @@ class Quarto
       option :location_y, default: 0
       
       body {
-        rectangle(location_x, location_y, PIECES_AREA_WIDTH, PIECES_AREA_HEIGHT) {
+        rectangle(location_x, location_y, PIECES_AREA_WIDTH, SELECTED_PIECE_AREA_HEIGHT) {
           background COLOR_WOOD
           
-          text('Selected Piece', 15, 15) {
+          rectangle(0, 0, :max, :max, round: true) { # border
+            foreground :black
+            line_width 2
+          }
+          
+          text('Selected Piece', 15, 10) {
             font height: 18, style: :bold
           }
           
