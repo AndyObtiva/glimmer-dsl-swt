@@ -41,9 +41,6 @@ class Quarto
             foreground COLOR_WOOD
             line_width CELL_LINE_WIDTH
             
-            board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
-            
             ROW_COUNT.times do |row|
               COLUMN_COUNT.times do |column|
                 cell(row: row, column: column)

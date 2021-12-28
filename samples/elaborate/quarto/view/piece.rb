@@ -27,7 +27,10 @@ class Quarto
     class Piece
       include Glimmer::UI::CustomShape
       
-      SIZE = 28
+      SIZE_SHORT = 28
+      SIZE_TALL = 48
+      BASIC_SHAPE_WIDTH = 48
+      BASIC_SHAPE_HEIGHT = 28
       COLOR_LIGHT_WOOD = rgb(254, 187, 120)
       COLOR_DARK_WOOD = rgb(204, 108, 58)
       LINE_THICKNESS = 2
@@ -36,14 +39,17 @@ class Quarto
       
       before_body do
         @background_color = model.light? ? COLOR_LIGHT_WOOD : COLOR_DARK_WOOD
+        @size = model.short? ? SIZE_SHORT : SIZE_TALL
+        @shape_location_x = 0
+        @shape_location_y = model.short? ? 20 : 0
       end
       
       body {
         shape(location_x, location_y) {
           if model.is_a?(Model::Piece::Cylinder)
-            cylinder(cylinder_height: SIZE, oval_width: SIZE, oval_height: SIZE, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
+            cylinder(location_x: @shape_location_x, location_y: @shape_location_y, cylinder_height: @size, oval_width: BASIC_SHAPE_WIDTH, oval_height: BASIC_SHAPE_HEIGHT, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
           else
-            cube(cube_height: SIZE, rectangle_width: SIZE, rectangle_height: SIZE, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
+            cube(location_x: @shape_location_x, location_y: @shape_location_y, cube_height: @size, rectangle_width: BASIC_SHAPE_WIDTH, rectangle_height: BASIC_SHAPE_HEIGHT, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
           end
         
           drag_source true

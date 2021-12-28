@@ -40,13 +40,13 @@ class Quarto
           
           x_offset = 15
           y_offset = 15 + 18 + 15
-          x_spacing = 25
-          y_spacing = 50
+          x_spacing = 10
+          y_spacing = 35
           row_count = 3
           column_count = 4
           row_count.times do |row|
             column_count.times do |column|
-              piece(game: game, model: game.available_pieces[row*column_count + column], location_x: x_offset + column*(View::Piece::SIZE + x_spacing), location_y: y_offset + row*(View::Piece::SIZE + y_spacing))
+              piece(game: game, model: game.available_pieces[row*column_count + column], location_x: x_offset + column*(View::Piece::BASIC_SHAPE_WIDTH + x_spacing), location_y: y_offset + row*(View::Piece::SIZE_TALL + y_spacing))
             end
           end
         }
