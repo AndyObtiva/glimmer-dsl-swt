@@ -7,6 +7,48 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Test Quarto on Linux and Windows
 - Release on the new year
+- `glimmer-cp-messageboxpanel` custom shape:
+```ruby
+      options :message, :location_x, :location_y
+      option :size_width, default: 300
+      option :size_height, default: 100
+      option :background_color, default: :white
+      option :foreground_color, default: :black
+      option :border_line_width, default: 1
+      option :text_font, default: {height: 16}
+      option :text_color, default: :black
+      
+      before_body do
+        self.location_x ||= (parent.size.x - size_width) / 2.0
+        self.location_y ||= (parent.size.y - size_height) / 2.0
+      end
+      
+      body {
+        rectangle(location_x, location_y, size_width, size_height, round: true) {
+          background background_color
+          
+          rectangle(round: true) { # border
+            foreground foreground_color
+            line_width border_line_width
+          }
+          
+          text(message, :default, [:default, -15]) {
+            foreground :black
+            font text_font
+          }
+          
+          rectangle(:default, [:default, 25], 80, 30, 15, 15, round: true) {
+            foreground foreground_color
+            line_width border_line_width
+            
+            text("OK") {
+              foreground text_color
+              font text_font
+            }
+          }
+        }
+      }
+```
 - `glimmer-cp-cylinder` custom shape:
 ```ruby
 50.times do |n|

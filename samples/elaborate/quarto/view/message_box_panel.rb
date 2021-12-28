@@ -19,36 +19,50 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require_relative 'cylinder'
-require_relative 'cube'
-
 class Quarto
   module View
-    class Piece
+    class MessageBoxPanel
       include Glimmer::UI::CustomShape
       
-      SIZE_SHORT = 28
-      SIZE_TALL = 48
-      BASIC_SHAPE_WIDTH = 48
-      BASIC_SHAPE_HEIGHT = 28
-      LINE_THICKNESS = 2
+      # TODO attempt to calculate from content automatically
       
-      options :game, :model, :location_x, :location_y
+      options :message, :location_x, :location_y
+      option :size_width, default: 300
+      option :size_height, default: 100
+      option :background_color, default: :white
+      option :foreground_color, default: :black
+      option :border_line_width, default: 1
+      option :text_font, default: {height: 16}
+      option :text_color, default: :black
       
       before_body do
-        @background_color = model.light? ? COLOR_LIGHT_WOOD : COLOR_DARK_WOOD
-        @size = model.short? ? SIZE_SHORT : SIZE_TALL
-        @shape_location_x = 0
-        @shape_location_y = model.short? ? 20 : 0
+        self.location_x ||= (parent.size.x - size_width) / 2.0
+        self.location_y ||= (parent.size.y - size_height) / 2.0
       end
       
       body {
-        shape(location_x, location_y) {
-          if model.is_a?(Model::Piece::Cylinder)
-            cylinder(location_x: @shape_location_x, location_y: @shape_location_y, cylinder_height: @size, oval_width: BASIC_SHAPE_WIDTH, oval_height: BASIC_SHAPE_HEIGHT, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
-          else
-            cube(location_x: @shape_location_x, location_y: @shape_location_y, cube_height: @size, rectangle_width: BASIC_SHAPE_WIDTH, rectangle_height: BASIC_SHAPE_HEIGHT, pitted: model.pitted?, background_color: @background_color, line_thickness: LINE_THICKNESS)
-          end
+        rectangle(location_x, location_y, size_width, size_height, round: true) {
+          background background_color
+          
+          rectangle(round: true) { # border
+            foreground foreground_color
+            line_width border_line_width
+          }
+          
+          text(message, :default, [:default, -15]) {
+            foreground :black
+            font text_font
+          }
+          
+          rectangle(:default, [:default, 25], 80, 30, 15, 15, round: true) {
+            foreground foreground_color
+            line_width border_line_width
+            
+            text("OK") {
+              foreground text_color
+              font text_font
+            }
+          }
         }
       }
     end
