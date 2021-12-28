@@ -68,6 +68,11 @@ module Glimmer
           instance # ensure instance
           @thread
         end
+        
+        # Current custom widgets, shells, and shapes being rendered. Useful to yoke all observers evaluated during rendering of their custom widgets/shells/shapes for automatical disposal on_widget_disposed/on_shape_disposed
+        def current_custom_widgets_and_shapes
+          @current_custom_widgets_and_shapes ||= []
+        end
       end
 
       # SWT Display object wrapped
@@ -195,7 +200,7 @@ module Glimmer
         if observation_request.start_with?('on_swt_')
           constant_name = observation_request.sub(/^on_swt_/, '')
           swt_event_reg = add_swt_event_filter(constant_name, &block)
-          Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(swt_event_reg)
+          DisplayProxy.current_custom_widgets_and_shapes.last&.observer_registrations&.push(swt_event_reg)
           swt_event_reg
         elsif observation_request.start_with?('on_')
           event_name = observation_request.sub(/^on_/, '')
@@ -205,7 +210,7 @@ module Glimmer
               menu_item = system_menu.getItems.find {|menu_item| menu_item.getID == SWTProxy["ID_#{event_name.upcase}"]}
               listener = ConcreteListener.new(&block)
               display_mac_event_registration = menu_item.addListener(SWTProxy[:Selection], listener)
-              Glimmer::UI::CustomWidget.current_custom_widgets.last&.observer_registrations&.push(display_mac_event_registration)
+              DisplayProxy.current_custom_widgets_and_shapes.last&.observer_registrations&.push(display_mac_event_registration)
               display_mac_event_registration
             end
           end

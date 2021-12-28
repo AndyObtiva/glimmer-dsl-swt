@@ -42,6 +42,12 @@ class Quarto
         self.size_width ||= [:default, @font_height*4.0]
         self.size_height ||= [:default, @font_height*4.0]
         @text_offset = -1.2*@font_height
+        
+        display {
+          on_swt_keyup do |key_event|
+            dispose if key_event.keyCode == swt(:cr)
+          end
+        }
       end
       
       body {
@@ -59,13 +65,21 @@ class Quarto
           }
           
           rectangle(:default, [:default, @font_height + (@font_height/2.0)], @font_height*5.5, @font_height*2.0, @font_height, @font_height, round: true) {
-            foreground foreground_color
-            line_width border_line_width
+            background background_color
 
             text("OK") {
               foreground text_color
               font text_font
             }
+            
+            on_mouse_up do
+              dispose
+            end
+          }
+          
+          rectangle(:default, [:default, @font_height + (@font_height/2.0)], @font_height*5.5, @font_height*2.0, @font_height, @font_height, round: true) { # border
+            foreground foreground_color
+            line_width border_line_width
           }
         }
       }

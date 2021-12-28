@@ -158,17 +158,12 @@ module Glimmer
         def after_body(&block)
           @after_body_block = block
         end
-
-        # Current custom shapes being rendered. Useful to yoke all observers evaluated during rendering of their custom shapes for automatical disposal on_shape_disposed
-        def current_custom_shapes
-          @current_custom_shapes ||= []
-        end
       end
 
       attr_reader :body_root, :args, :parent, :parent_proxy, :options
 
       def initialize(parent, *args, options, &content)
-        Glimmer::UI::CustomShape.current_custom_shapes << self
+        SWT::DisplayProxy.current_custom_widgets_and_shapes << self
         @parent_proxy = @parent = parent
         @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
         @args = args
@@ -183,12 +178,24 @@ module Glimmer
         auto_exec do # TODO is this necessary given shape is a lightweight construct (not SWT widget) ?
           @body_root.set_data('custom_shape', self)
         end
+        auto_exec do
+          @dispose_listener_registration = @body_root.on_shape_disposed do
+            unless @body_root.shell_proxy.last_shell_closing?
+              observer_registrations.compact.each(&:deregister)
+              observer_registrations.clear
+            end
+          end
+        end
         execute_hook('after_body')
       end
       
       # Subclasses may override to perform post initialization work on an added child
       def post_initialize_child(child)
         # No Op by default
+      end
+      
+      def post_add_content
+        SWT::DisplayProxy.current_custom_widgets_and_shapes.delete(self)
       end
 
       def observer_registrations

@@ -601,10 +601,14 @@ module Glimmer
         end
         
         def can_handle_observation_request?(observation_request)
-          drawable.can_handle_observation_request?(observation_request)
+          observation_request.to_s == 'on_shape_disposed' || drawable.can_handle_observation_request?(observation_request)
         end
         
         def handle_observation_request(observation_request, &block)
+          if observation_request.to_s == 'on_shape_disposed'
+            @on_shape_disposed_handlers ||= []
+            @on_shape_disposed_handlers << block
+          end
           shape_block = lambda do |event|
             block.call(event) if include_with_children?(event.x, event.y)
           end
@@ -656,9 +660,15 @@ module Glimmer
         end
         alias getData get_data # for compatibility with SWT APIs
         alias data get_data # for compatibility with SWT APIs
+        
+        def shell_proxy
+          drawable.shell_proxy
+        end
   
         def method_missing(method_name, *args, &block)
-          if method_name.to_s.end_with?('=')
+          if can_handle_observation_request?(method_name)
+            handle_observation_request(method_name, &block)
+          elsif method_name.to_s.end_with?('=')
             set_attribute(method_name, *args)
           elsif has_attribute?(method_name)
             get_attribute(method_name)
@@ -673,10 +683,12 @@ module Glimmer
           if !super_invocation && has_attribute?(method_name)
             true
           else
-            super
+            result = super
+            return true if result
+            can_handle_observation_request?(method_name)
           end
         end
-          
+        
         def drag_and_move=(drag_and_move_value)
           drag_and_move_old_value = @drag_and_move
           @drag_and_move = drag_and_move_value
@@ -784,6 +796,7 @@ module Glimmer
             @image = nil
           end
           @parent.shapes.delete(self)
+          @on_shape_disposed_handlers&.each {|handler| handler.call}
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
         

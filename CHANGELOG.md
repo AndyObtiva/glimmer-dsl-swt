@@ -6,6 +6,9 @@
 - Remove " - App View" from shell title in `desktopify` scaffolding mode
 - Remove SWT Chromium browser option since it is no longer supported by SWT.
 - Update Hello, Custom Widget! sample with a custom listener example
+- Support being able to hook listeners on a shape directly via Shape#on_event calls
+- Support Shape#on_shape_disposed listener
+- Automatic display listener disposal upon disposing a custom shape (for listeners defined in before_body/after_body of custom shape)
 
 ## 4.22.0.0
 

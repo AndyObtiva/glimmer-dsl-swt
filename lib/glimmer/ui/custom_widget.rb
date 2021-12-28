@@ -159,17 +159,12 @@ module Glimmer
         def after_body(&block)
           @after_body_block = block
         end
-
-        # Current custom widgets being rendered. Useful to yoke all observers evaluated during rendering of their custom widgets for automatical disposal on_widget_disposed
-        def current_custom_widgets
-          @current_custom_widgets ||= []
-        end
       end
 
       attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
-        Glimmer::UI::CustomWidget.current_custom_widgets << self
+        SWT::DisplayProxy.current_custom_widgets_and_shapes << self
         @parent_proxy = @parent = parent
         @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
         @swt_style = SWT::SWTProxy[*swt_constants]
@@ -203,7 +198,7 @@ module Glimmer
       end
 
       def post_add_content
-        Glimmer::UI::CustomWidget.current_custom_widgets.delete(self)
+        SWT::DisplayProxy.current_custom_widgets_and_shapes.delete(self)
       end
       
       def observer_registrations
