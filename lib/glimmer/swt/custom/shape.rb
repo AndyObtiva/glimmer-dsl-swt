@@ -924,7 +924,7 @@ module Glimmer
           old_extent = @extent
           if ['text', 'string'].include?(@name)
             extent_args = [string]
-            extent_flags = SWTProxy[:draw_transparent] if current_parameter_name?(:is_transparent) && is_transparent
+            extent_flags = SWTProxy[:draw_transparent, :draw_delimiter] if current_parameter_name?(:is_transparent) && is_transparent
             extent_flags = flags if current_parameter_name?(:flags)
             extent_args << extent_flags unless extent_flags.nil?
             self.extent = paint_event.gc.send("#{@name}Extent", *extent_args)
