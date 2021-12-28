@@ -76,6 +76,7 @@ class Quarto
       message_box_panel(
         message: "Player 1 must select a piece for the\n other player to place on the board!",
         background_color: COLOR_LIGHT_WOOD,
+        text_font: {height: 16}
       )
     }
   end

@@ -24,40 +24,44 @@ class Quarto
     class MessageBoxPanel
       include Glimmer::UI::CustomShape
       
-      # TODO attempt to calculate from content automatically
+      FONT_HEIGHT_DEFAULT = 12
       
-      options :message, :location_x, :location_y
-      option :size_width, default: 300
-      option :size_height, default: 100
+      option :message
+      option :location_x, default: :default
+      option :location_y, default: :default
+      option :size_width
+      option :size_height
       option :background_color, default: :white
       option :foreground_color, default: :black
       option :border_line_width, default: 1
-      option :text_font, default: {height: 16}
+      option :text_font, default: {height: FONT_HEIGHT_DEFAULT}
       option :text_color, default: :black
       
       before_body do
-        self.location_x ||= (parent.size.x - size_width) / 2.0
-        self.location_y ||= (parent.size.y - size_height) / 2.0
+        @font_height = text_font[:height] || FONT_HEIGHT_DEFAULT
+        self.size_width ||= [:default, @font_height*4.0]
+        self.size_height ||= [:default, @font_height*4.0]
+        @text_offset = -1.2*@font_height
       end
       
       body {
         rectangle(location_x, location_y, size_width, size_height, round: true) {
           background background_color
-          
-          rectangle(round: true) { # border
-            foreground foreground_color
-            line_width border_line_width
-          }
-          
-          text(message, :default, [:default, -15]) {
+                      
+          text(message, :default, [:default, @text_offset]) {
             foreground :black
             font text_font
           }
           
-          rectangle(:default, [:default, 25], 80, 30, 15, 15, round: true) {
+          rectangle(0, 0, :max, :max, round: true) { # border drawn around max dimensions of parent
             foreground foreground_color
             line_width border_line_width
-            
+          }
+          
+          rectangle(:default, [:default, @font_height + (@font_height/2.0)], @font_height*5.5, @font_height*2.0, @font_height, @font_height, round: true) {
+            foreground foreground_color
+            line_width border_line_width
+
             text("OK") {
               foreground text_color
               font text_font
