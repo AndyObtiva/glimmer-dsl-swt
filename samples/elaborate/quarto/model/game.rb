@@ -104,7 +104,7 @@ class Quarto
       def equivalent_pieces?(the_pieces)
         return false if the_pieces.any?(&:nil?)
         the_pieces.map(&:class).uniq.size == 1 ||
-          the_pieces.map(&:pitted).uniq.size == 1 ||
+          (the_pieces.map(&:pitted).uniq.size == 1 && the_pieces.first.pitted?) ||
           the_pieces.map(&:height).uniq.size == 1 ||
           the_pieces.map(&:color).uniq.size == 1
       end

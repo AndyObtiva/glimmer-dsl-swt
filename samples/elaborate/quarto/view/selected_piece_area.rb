@@ -47,6 +47,7 @@ class Quarto
           
           on_drop do |drop_event|
             dragged_piece = drop_event.dragged_shape
+            return drop_event.doit = false unless dragged_piece.parent.get_data('custom_shape').is_a?(AvailablePiecesArea)
             model = dragged_piece.get_data('custom_shape').model
             dragged_piece.parent.shapes.delete(dragged_piece)
             body_root.content {

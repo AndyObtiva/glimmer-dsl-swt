@@ -52,22 +52,29 @@ class Quarto
     @game = Model::Game.new
     
     observe(@game, :current_move) do
-      handle_current_move
+      perform_current_move
     end
     
-    observe(@game, :game_over) do
-      body_root.content {
-        message_box_panel(
-          message: "Game Over!\n\nPlayer #{@game.game_over} wins!",
-          background_color: COLOR_LIGHT_WOOD,
-          text_font: {height: 16}
-        )
-      }
+    observe(@game, :game_over) do |game_over_winner|
+      if game_over_winner
+        body_root.content {
+          message_box_panel(
+            message: "Game Over! Player #{@game.game_over} wins!",
+            background_color: COLOR_LIGHT_WOOD,
+            text_font: {height: 16}
+          ) {
+            on_closed do
+              # TODO ensure board and available pieces area are reset
+              @game.restart
+            end
+          }
+        }
+      end
     end
   end
   
   after_body do
-    handle_current_move
+    perform_current_move
   end
   
   body {
@@ -77,14 +84,14 @@ class Quarto
       maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
       background COLOR_WOOD
       
-      board(game: @game, location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
-
+      @board = board(game: @game, location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
+  
       @available_pieces_area = available_pieces_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
       @selected_piece_area = selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + AVAILABLE_PIECES_AREA_HEIGHT + AREA_MARGIN)
     }
   }
   
-  def handle_current_move
+  def perform_current_move
     verbiage = nil
     case @game.current_move
     when :select_piece

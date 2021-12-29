@@ -25,6 +25,7 @@ class Quarto
       include Glimmer::UI::CustomShape
       
       FONT_HEIGHT_DEFAULT = 12
+      BUTTON_TEXT_DEFAULT = 'OK'
       
       option :message
       option :location_x, default: :default
@@ -37,6 +38,19 @@ class Quarto
       option :text_font, default: {height: FONT_HEIGHT_DEFAULT}
       option :text_color, default: :black
       
+      def can_handle_observation_request?(observation_request)
+        observation_request == 'on_closed' || super
+      end
+      
+      def handle_observation_request(observation_request, &block)
+        if observation_request == 'on_closed'
+          @on_closed_handlers ||= []
+          @on_closed_handlers << block
+        else
+          super
+        end
+      end
+      
       before_body do
         @font_height = text_font[:height] || FONT_HEIGHT_DEFAULT
         self.size_width ||= [:default, @font_height*4.0]
@@ -45,7 +59,10 @@ class Quarto
         
         display {
           on_swt_keyup do |key_event|
-            dispose if key_event.keyCode == swt(:cr)
+            if key_event.keyCode == swt(:cr)
+              @on_closed_handlers&.each {|handler| handler.call}
+              dispose
+            end
           end
         }
       end
@@ -67,12 +84,13 @@ class Quarto
           rectangle(:default, [:default, @font_height + (@font_height/2.0)], @font_height*5.5, @font_height*2.0, @font_height, @font_height, round: true) {
             background background_color
 
-            text("OK") {
+            text(BUTTON_TEXT_DEFAULT) {
               foreground text_color
               font text_font
             }
             
             on_mouse_up do
+              @on_closed_handlers&.each {|handler| handler.call}
               body_root.dispose
             end
           }
