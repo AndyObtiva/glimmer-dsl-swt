@@ -65,8 +65,9 @@ class Quarto
             text_font: {height: 16}
           ) {
             on_closed do
-              # TODO ensure board and available pieces area are reset
               @available_pieces_area.reset_pieces
+              @board.reset_cells
+              # TODO have board and available pieces area auto-reset themselves upon game restart instead of reseting from here manually
               @game.restart
             end
           }

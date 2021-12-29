@@ -30,6 +30,10 @@ class Quarto
       option :location_x, default: 0
       option :location_y, default: 0
       
+      after_body do
+        reset_cells
+      end
+      
       body {
         rectangle(location_x, location_y, BOARD_DIAMETER, BOARD_DIAMETER, round: true) {
           background :black
@@ -38,18 +42,24 @@ class Quarto
             foreground COLOR_WOOD
           }
           
-          oval(0, 0, :max, :max) {
+          @cell_container = oval(0, 0, :max, :max) {
             foreground COLOR_WOOD
             line_width CELL_LINE_WIDTH
             
-            ROW_COUNT.times do |row|
-              COLUMN_COUNT.times do |column|
-                cell(game: game, row: row, column: column)
-              end
-            end
           }
         }
       }
+      
+      def reset_cells
+        @cells&.each(&:dispose)
+        @cell_container.content {
+          @cells = ROW_COUNT.times.map do |row|
+            COLUMN_COUNT.times.map do |column|
+              cell(game: game, row: row, column: column)
+            end
+          end.flatten
+        }
+      end
     end
   end
 end
