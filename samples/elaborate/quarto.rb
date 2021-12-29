@@ -54,6 +54,16 @@ class Quarto
     observe(@game, :current_move) do
       handle_current_move
     end
+    
+    observe(@game, :game_over) do
+      body_root.content {
+        message_box_panel(
+          message: "Game Over!\n\nPlayer #{@game.game_over} wins!",
+          background_color: COLOR_LIGHT_WOOD,
+          text_font: {height: 16}
+        )
+      }
+    end
   end
   
   after_body do
@@ -79,11 +89,11 @@ class Quarto
     case @game.current_move
     when :select_piece
       @available_pieces_area.pieces.each {|piece| piece.drag_source = true}
-      verbiage = "Player #{@game.current_player_number} must select a piece \nfor the other player to place on the board!"
+      verbiage = "Player #{@game.current_player_number} must drag a piece to Selected Piece\narea for other player to place on board!"
     when :place_piece
       @available_pieces_area.pieces.each {|piece| piece.drag_source = false}
       @selected_piece_area.selected_piece.drag_source = true
-      verbiage = "Player #{@game.current_player_number} must place the \nselected piece on the board!"
+      verbiage = "Player #{@game.current_player_number} must drag selected piece to board to place it!"
     end
     body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
     body_root.content {

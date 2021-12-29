@@ -51,8 +51,13 @@ class Quarto
             model = dragged_piece.get_data('custom_shape').model
             dragged_piece.parent.shapes.delete(dragged_piece)
             body_root.content {
+              # TODO fix issue with unnecessary rotation
               @selected_piece = piece(game: game, model: model, location_x: 10, location_y: -10) {
-                transform board_rotation_transform
+                transform {
+                  translate (SHELL_MARGIN + BOARD_DIAMETER)/2.0, (SHELL_MARGIN + BOARD_DIAMETER)/2.0
+                  rotate 45
+                  translate -(SHELL_MARGIN + BOARD_DIAMETER)/2.0, -(SHELL_MARGIN + BOARD_DIAMETER)/2.0
+                }
               }
             }
             game.place_piece(model, row: row, column: column)

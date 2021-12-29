@@ -31,13 +31,14 @@ class Quarto
       ROW_COUNT = 4
       COLUMN_COUNT = 4
     
-      attr_accessor :board, :available_pieces, :selected_piece, :current_move, :current_player_number
+      attr_accessor :board, :available_pieces, :selected_piece, :current_move, :current_player_number, :game_over
       
       def initialize
         start
       end
       
       def start
+        self.game_over = false
         self.board = ROW_COUNT.times.map {COLUMN_COUNT.times.map {nil}}
         self.available_pieces = Piece.all_pieces.dup
         self.current_player_number = 1
@@ -54,8 +55,11 @@ class Quarto
       def place_piece(piece, row:, column:)
         if @board[row][column].nil?
           @board[row][column] = piece
-          # TODO determine a win! (6 states of winning only)
-          next_move
+          if win?
+            self.game_over = current_player_number
+          else
+            next_move
+          end
         end
       end
       
@@ -69,6 +73,40 @@ class Quarto
         last_player_number = current_player_number
         last_player_number_index = PLAYER_NUMBERS.index(current_player_number)
         self.current_player_number = PLAYER_NUMBERS[(last_player_number_index + 1)%PLAYER_NUMBERS.size]
+      end
+      
+      def win?
+        row_win? || column_win? || diagonal_win?
+      end
+      
+      def row_win?
+        ROW_COUNT.times.any? { |row| equivalent_pieces?(@board[row]) }
+      end
+      
+      def column_win?
+        COLUMN_COUNT.times.any? do |column|
+          equivalent_pieces?(ROW_COUNT.times.map {|row| @board[row][column]})
+        end
+      end
+      
+      def diagonal_win?
+        diagonal1_win? || diagonal2_win?
+      end
+      
+      def diagonal1_win?
+        equivalent_pieces?(ROW_COUNT.times.map { |n| @board[n][n] })
+      end
+      
+      def diagonal2_win?
+        equivalent_pieces?(ROW_COUNT.times.map { |n| @board[ROW_COUNT - 1 - n][n] })
+      end
+      
+      def equivalent_pieces?(the_pieces)
+        return false if the_pieces.any?(&:nil?)
+        the_pieces.map(&:class).uniq.size == 1 ||
+          the_pieces.map(&:pitted).uniq.size == 1 ||
+          the_pieces.map(&:height).uniq.size == 1 ||
+          the_pieces.map(&:color).uniq.size == 1
       end
     end
   end
