@@ -10,7 +10,8 @@
 - Support Shape#on_shape_disposed listener
 - Automatic display listener disposal upon disposing a custom shape (for listeners defined in before_body/after_body of custom shape)
 - Made `logging` gem use optional (set `Glimmer::Config.logger_type = :logging` to activate)
-- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly (avoid calling `jgem` or loading `rake`/`Rakefile` when not needed)
+- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
+- Optimize performance of `glimmer` command to be faster than using `jruby` directly by applying `--dev` option automatically (potentially cutting out a second or a few from startup time depending on app)
 
 ## 4.22.0.0
 
