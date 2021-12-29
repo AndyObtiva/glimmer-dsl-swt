@@ -21,7 +21,9 @@
 
 require 'glimmer-dsl-swt'
 require 'complex'
-require 'concurrent-ruby'
+require 'concurrent/executor/fixed_thread_pool'
+require 'concurrent/utility/processor_counter'
+require 'concurrent/array'
 
 # Mandelbrot multi-threaded implementation leveraging all processor cores.
 class Mandelbrot

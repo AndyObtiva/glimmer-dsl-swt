@@ -7,6 +7,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Test Quarto on Linux and Windows
+- Make logging gem optionally activated and used
+- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly
+- Optimize performance of startup time in requiring glimmer-dsl-swt
+- Add Quarto menu option to disable help dialogs on every move for advanced players
 - Release on the new year
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
@@ -91,6 +95,7 @@ end
 end
 ```
 
+- Fix slowdown issue with closing Mandelbrot Fractal sample
 - Document Canvas Shape DSL with more examples, one per shape
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
@@ -109,7 +114,6 @@ end
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 - Support canvas drag & drop `on_drag_start` event to enable running logic upon dragging to determine whether to allow dragging or not conditionally (refactor Quarto with it when implemented)
 - Document support for Edge browser on Windows: https://www.eclipse.org/swt/faq.php#howuseedge
-- Optimize performance of startup time on older laptops in requiring glimmer-dsl-swt
 
 ## Future Consideration
 

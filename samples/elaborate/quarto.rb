@@ -52,6 +52,7 @@ class Quarto
     @game = Model::Game.new
     
     observe(@game, :current_move) do
+      # TODO consider async_exec to have perform_current_move show message box panel successfully after game over
       perform_current_move
     end
     
