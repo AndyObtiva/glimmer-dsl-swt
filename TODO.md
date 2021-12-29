@@ -108,6 +108,7 @@ end
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 - Support canvas drag & drop `on_drag_start` event to enable running logic upon dragging to determine whether to allow dragging or not conditionally (refactor Quarto with it when implemented)
 - Document support for Edge browser on Windows: https://www.eclipse.org/swt/faq.php#howuseedge
+- Optimize performance of startup time on older laptops in requiring glimmer-dsl-swt
 
 ## Future Consideration
 

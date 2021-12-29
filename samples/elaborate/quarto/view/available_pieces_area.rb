@@ -32,6 +32,10 @@ class Quarto
       
       attr_reader :pieces
       
+      after_body do
+        reset_pieces
+      end
+      
       body {
         rectangle(location_x, location_y, PIECES_AREA_WIDTH, AVAILABLE_PIECES_AREA_HEIGHT) {
           background COLOR_WOOD
@@ -44,7 +48,12 @@ class Quarto
           text('Available Pieces', 15, 10) {
             font height: 18, style: :bold
           }
-          
+        }
+      }
+      
+      def reset_pieces
+        @pieces&.each(&:dispose)
+        body_root.content {
           x_offset = 15
           y_offset = 10 + 18 + 10
           x_spacing = 10
@@ -57,7 +66,7 @@ class Quarto
             end
           end.flatten
         }
-      }
+      end
     end
   end
 end

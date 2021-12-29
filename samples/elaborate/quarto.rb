@@ -65,6 +65,7 @@ class Quarto
           ) {
             on_closed do
               # TODO ensure board and available pieces area are reset
+              @available_pieces_area.reset_pieces
               @game.restart
             end
           }
@@ -96,11 +97,11 @@ class Quarto
     case @game.current_move
     when :select_piece
       @available_pieces_area.pieces.each {|piece| piece.drag_source = true}
-      verbiage = "Player #{@game.current_player_number} must drag a piece to Selected Piece\narea for other player to place on board!"
+      verbiage = "Player #{@game.current_player_number} must drag a piece to the Selected Piece\narea for the other player to place on the board!"
     when :place_piece
       @available_pieces_area.pieces.each {|piece| piece.drag_source = false}
       @selected_piece_area.selected_piece.drag_source = true
-      verbiage = "Player #{@game.current_player_number} must drag selected piece to board to place it!"
+      verbiage = "Player #{@game.current_player_number} must drag the selected piece to the board\nin order to place it!"
     end
     body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
     body_root.content {
