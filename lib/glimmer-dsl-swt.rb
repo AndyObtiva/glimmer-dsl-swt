@@ -30,12 +30,13 @@ if !['', 'false'].include?(ENV['GLIMMER_BUNDLER_SETUP'].to_s.strip.downcase)
 end
 require 'java'
 require 'puts_debuggerer' if ("#{ENV['pd']}#{ENV['PD']}").to_s.downcase.include?('true')
+
 # concurrent-ruby gem ensures glimmer relies on Concurrent data-structure classes
 require 'concurrent/array'
 require 'concurrent/hash'
 require 'concurrent/set'
 require 'glimmer'
-require 'logging'
+
 require 'nested_inherited_jruby_include_package'
 require 'super_module'
 require 'date'

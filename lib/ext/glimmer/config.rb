@@ -59,6 +59,20 @@ module Glimmer
       end
       alias auto_sync_exec? auto_sync_exec
       
+      # allowed logger types are :logger (default) and :logging (logging gem supporting async logging)
+      # updating logger type value resets logger
+      def logger_type=(logger_type_class)
+        @@logger_type = logger_type_class
+        reset_logger!
+      end
+      
+      def logger_type
+        unless defined? @@logger_type
+          @@logger_type = :logger
+        end
+        @@logger_type
+      end
+      
       # Returns Logging Devices. Default is [:stdout, :syslog]
       def logging_devices
         unless defined? @@logging_devices
@@ -112,39 +126,42 @@ module Glimmer
         reset_logger!
       end
       
+      alias reset_logger_without_glimmer_dsl_swt! reset_logger!
       def reset_logger!
-        @first_time = !defined?(@@logger)
-        old_level = logger.level unless @first_time
-        self.logger = Logging.logger['glimmer'].tap do |logger|
-          logger.level = old_level || :error
-          appenders = []
-          appenders << Logging.appenders.stdout(logging_appender_options) if logging_devices.include?(:stdout)
-          appenders << Logging.appenders.stderr(logging_appender_options) if logging_devices.include?(:stderr)
-          if logging_devices.include?(:file)
-            require 'fileutils'
-            FileUtils.mkdir_p('log')
-            appenders << Logging.appenders.rolling_file('log/glimmer.log', logging_appender_options.merge(logging_device_file_options)) if logging_devices.include?(:file)
+        if logger_type == :logger
+          reset_logger_without_glimmer_dsl_swt!
+        else
+          require 'logging'
+          @first_time = !defined?(@@logger)
+          old_level = logger.level unless @first_time
+          self.logger = Logging.logger['glimmer'].tap do |logger|
+            logger.level = old_level || :error
+            appenders = []
+            appenders << Logging.appenders.stdout(logging_appender_options) if logging_devices.include?(:stdout)
+            appenders << Logging.appenders.stderr(logging_appender_options) if logging_devices.include?(:stderr)
+            if logging_devices.include?(:file)
+              require 'fileutils'
+              FileUtils.mkdir_p('log')
+              appenders << Logging.appenders.rolling_file('log/glimmer.log', logging_appender_options.merge(logging_device_file_options)) if logging_devices.include?(:file)
+            end
+            if Object.const_defined?(:Syslog) && logging_devices.include?(:syslog)
+              Syslog.close if Syslog.opened?
+              appenders << Logging.appenders.syslog('glimmer', logging_appender_options)
+            end
+            logger.appenders = appenders
           end
-          if Object.const_defined?(:Syslog) && logging_devices.include?(:syslog)
-            Syslog.close if Syslog.opened?
-            appenders << Logging.appenders.syslog('glimmer', logging_appender_options)
-          end
-          logger.appenders = appenders
         end
-        
       end
-      
     end
-    
   end
-  
 end
 
-Glimmer::Config.reset_logger! unless ENV['GLIMMER_LOGGER_ENABLED'].to_s.downcase == 'false'
 if ENV['GLIMMER_LOGGER_LEVEL']
-  # if glimmer log level is being overridden for debugging purposes, then disable async logging making logging immediate
-  Glimmer::Config.logging_appender_options = Glimmer::Config.logging_appender_options.merge(async: false, auto_flushing: 1, immediate_at: [:unknown, :debug, :info, :error, :fatal])
-  Glimmer::Config.logging_devices = [:stdout]
+  if Glimmer::Config.logger_type == :logging
+    # if glimmer log level is being overridden for debugging purposes, then disable async logging making logging immediate
+    Glimmer::Config.logging_appender_options = Glimmer::Config.logging_appender_options.merge(async: false, auto_flushing: 1, immediate_at: [:unknown, :debug, :info, :error, :fatal])
+    Glimmer::Config.logging_devices = [:stdout]
+  end
   begin
     puts "Adjusting Glimmer logging level to #{ENV['GLIMMER_LOGGER_LEVEL']}"
     Glimmer::Config.logger.level = ENV['GLIMMER_LOGGER_LEVEL'].strip

@@ -9,6 +9,7 @@
 - Support being able to hook listeners on a shape directly via Shape#on_event calls
 - Support Shape#on_shape_disposed listener
 - Automatic display listener disposal upon disposing a custom shape (for listeners defined in before_body/after_body of custom shape)
+- Made `logging` gem use optional (set `Glimmer::Config.logger_type = :logging` to activate)
 
 ## 4.22.0.0
 

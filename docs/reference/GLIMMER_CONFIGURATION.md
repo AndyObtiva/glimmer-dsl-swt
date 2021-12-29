@@ -39,7 +39,13 @@ All logging is done lazily via blocks (e.g. `logger.debug {message}`) to avoid a
 
 [Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer-dsl-swt) enhances Glimmer default logging support via the Ruby [`logging`](https://github.com/TwP/logging) gem, enabling buffered asynchronous logging in a separate thread, thus completely unhindering normal desktop app performance.
 
-Other config options related to the [`logging`](https://github.com/TwP/logging) gem are mentioned below.
+You can alternatively use the [logging](https://github.com/TwP/logging) gem for asynchronous logging (note that it adds about 0.5 - 1.0 second to startup time) by updating the logger type:
+
+```ruby
+Glimmer::Config.logger_type = :logging
+```
+
+Other config options related to the [logging](https://github.com/TwP/logging) gem are mentioned below.
 
 #### logging_devices
 

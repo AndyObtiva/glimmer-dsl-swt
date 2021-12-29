@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Test Quarto on Linux and Windows
-- Make logging gem optionally activated and used
 - Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly
 - Optimize performance of startup time in requiring glimmer-dsl-swt
 - Add Quarto menu option to disable help dialogs on every move for advanced players
