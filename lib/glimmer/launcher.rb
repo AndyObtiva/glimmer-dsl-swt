@@ -89,8 +89,7 @@ module Glimmer
       def glimmer_lib
         unless @glimmer_lib
           @glimmer_lib = GLIMMER_LIB_GEM
-          glimmer_gem_listing = `jgem list #{GLIMMER_LIB_GEM}`.split("\n").map {|l| l.split.first}
-          if !glimmer_gem_listing.include?(GLIMMER_LIB_GEM) && File.exists?(GLIMMER_LIB_LOCAL)
+          if File.exists?(GLIMMER_LIB_LOCAL)
             @glimmer_lib = GLIMMER_LIB_LOCAL
             puts "[DEVELOPMENT MODE] (detected #{@glimmer_lib})"
           end
@@ -121,18 +120,21 @@ module Glimmer
           ENV[k] = v
         end
         the_glimmer_lib = glimmer_lib
-        if the_glimmer_lib == GLIMMER_LIB_LOCAL
-          require 'puts_debuggerer'
+        require 'puts_debuggerer' if the_glimmer_lib == GLIMMER_LIB_LOCAL
+        is_rake_task = !application.end_with?('.rb')
+        rake_tasks = []
+        if is_rake_task
+          load File.expand_path('./Rakefile') if File.exist?(File.expand_path('./Rakefile')) && caller.join("\n").include?('/bin/glimmer:')
+          require_relative 'rake_task'
+          rake_tasks = Rake.application.tasks.map(&:to_s).map {|t| t.sub('glimmer:', '')}
+           
+          # handle a bash quirk with calling package[msi] while there is a "packages" directory locally (it passes package[msi] as packages)
+          application = 'package[msi]' if application == 'packages'
+          
+          potential_rake_task_parts = application.match(REGEX_RAKE_TASK_WITH_ARGS)
+          application = potential_rake_task_parts[1]
+          rake_task_args = potential_rake_task_parts[2].split(',')
         end
-        require_relative 'rake_task'
-        rake_tasks = Rake.application.tasks.map(&:to_s).map {|t| t.sub('glimmer:', '')}
-         
-        # handle a bash quirk with calling package[msi] while there is a "packages" directory locally (it passes package[msi] as packages)
-        application = 'package[msi]' if application == 'packages'
-        
-        potential_rake_task_parts = application.match(REGEX_RAKE_TASK_WITH_ARGS)
-        application = potential_rake_task_parts[1]
-        rake_task_args = potential_rake_task_parts[2].split(',')
         if rake_tasks.include?(application)
           load_env_vars(glimmer_option_env_vars(glimmer_options))
           rake_task = "glimmer:#{application}"
@@ -171,7 +173,6 @@ module Glimmer
     private
 
     def launch_application
-      load File.expand_path('./Rakefile') if File.exist?(File.expand_path('./Rakefile')) && caller.join("\n").include?('/bin/glimmer_runner.rb:')
       self.class.launch(
         @application_path,
         jruby_options: @jruby_options,

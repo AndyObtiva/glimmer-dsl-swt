@@ -3,13 +3,14 @@
 ## 4.22.0.1
 
 - Default `text` shape to flags: `[:draw_transparent, :draw_delimiter]` to handle newline delimiter correctly when sizing text extent automatically (e.g. when passing width/height 2nd/3rd args as `:default` or not passing at all)
-- Remove " - App View" from shell title in `desktopify` scaffolding mode
+- Remove `" - App View"` from shell title in `desktopify` scaffolding mode
 - Remove SWT Chromium browser option since it is no longer supported by SWT.
 - Update Hello, Custom Widget! sample with a custom listener example
 - Support being able to hook listeners on a shape directly via Shape#on_event calls
 - Support Shape#on_shape_disposed listener
 - Automatic display listener disposal upon disposing a custom shape (for listeners defined in before_body/after_body of custom shape)
 - Made `logging` gem use optional (set `Glimmer::Config.logger_type = :logging` to activate)
+- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly (avoid calling `jgem` or loading `rake`/`Rakefile` when not needed)
 
 ## 4.22.0.0
 
