@@ -283,6 +283,10 @@ module Glimmer
       end
       alias getData get_data # for compatibility with SWT APIs
       alias data get_data # for compatibility with SWT APIs
+      
+      def dispose
+        body_root.dispose
+      end
     
       def method_missing(method, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here

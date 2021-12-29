@@ -58,7 +58,8 @@ class Quarto
     observe(@game, :game_over) do |game_over_winner|
       if game_over_winner
         body_root.content {
-          message_box_panel(
+          @open_message_box_panel&.close
+          @open_message_box_panel = message_box_panel(
             message: "Game Over! Player #{@game.game_over} wins!",
             background_color: COLOR_LIGHT_WOOD,
             text_font: {height: 16}
@@ -105,7 +106,8 @@ class Quarto
     end
     body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
     body_root.content {
-      message_box_panel(
+      @open_message_box_panel&.close
+      @open_message_box_panel = message_box_panel(
         message: verbiage,
         background_color: COLOR_LIGHT_WOOD,
         text_font: {height: 16}

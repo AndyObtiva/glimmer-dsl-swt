@@ -5,6 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
+- Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Test Quarto on Linux and Windows
 - Release on the new year
 - `glimmer-cp-messageboxpanel` custom shape:

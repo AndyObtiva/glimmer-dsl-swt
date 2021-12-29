@@ -38,6 +38,9 @@ class Quarto
       option :text_font, default: {height: FONT_HEIGHT_DEFAULT}
       option :text_color, default: :black
       
+      attr_reader :closed
+      alias closed? closed
+      
       def can_handle_observation_request?(observation_request)
         observation_request == 'on_closed' || super
       end
@@ -59,10 +62,7 @@ class Quarto
         
         display {
           on_swt_keyup do |key_event|
-            if key_event.keyCode == swt(:cr)
-              @on_closed_handlers&.each {|handler| handler.call}
-              dispose
-            end
+            close if key_event.keyCode == swt(:cr)
           end
         }
       end
@@ -90,8 +90,7 @@ class Quarto
             }
             
             on_mouse_up do
-              @on_closed_handlers&.each {|handler| handler.call}
-              body_root.dispose
+              close
             end
           }
           
@@ -101,6 +100,15 @@ class Quarto
           }
         }
       }
+      
+      def close
+        unless @closed
+          @closed = true
+          @on_closed_handlers&.each {|handler| handler.call}
+          @on_closed_handlers&.clear
+          body_root.dispose
+        end
+      end
     end
   end
 end
