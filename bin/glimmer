@@ -1,4 +1,4 @@
-#!/usr/bin/env jruby --dev
+#!/usr/bin/env jruby
 
 # Copyright (c) 2007-2021 Andy Maleh
 #

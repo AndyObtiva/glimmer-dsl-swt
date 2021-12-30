@@ -13,7 +13,6 @@
 - Ensure deregistering drag & drop listeners from shapes with `drag_source=true`/`drag_and_move=true` when they are disposed
 - Support `Shape#transform_point(x, y)` by applying current `transform` to point (similar to existing opposite: `inverse_transform_point`)
 - Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
-- Optimize performance of `glimmer` command to be faster than using `jruby` directly by applying `--dev` option automatically (potentially cutting out a second or a few from startup time depending on app)
 
 ## 4.22.0.0
 
