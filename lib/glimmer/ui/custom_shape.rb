@@ -285,8 +285,8 @@ module Glimmer
       alias getData get_data # for compatibility with SWT APIs
       alias data get_data # for compatibility with SWT APIs
       
-      def dispose
-        body_root.dispose
+      def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
+        body_root.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: redraw)
       end
     
       def method_missing(method_name, *args, &block)

@@ -13,6 +13,7 @@
 - Ensure deregistering drag & drop listeners from shapes with `drag_source=true`/`drag_and_move=true` when they are disposed
 - Support `Shape#transform_point(x, y)` by applying current `transform` to point (similar to existing opposite: `inverse_transform_point`)
 - Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
+- Look into forwarding options for `#dispose` on `CustomShape` to `body_root` `Shape` (e.g. `.dispose(dispose_images: true, dispose_patterns: true, redraw: true)`)
 
 ## 4.22.0.0
 

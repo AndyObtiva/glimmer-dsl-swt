@@ -7,9 +7,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Prevent bottom cutoff in Klondike Solitaire or at least have canvas expand with resize of window
-- Look into supporting passing options to dispose() on customshape just like shape
 - Look into clipping drawing area when doing drag & drop
+- Look into compatibility of using both drag_source true and drag_and_move true (or perhaps have one cancel the other)
+- Look into klondike solitaire transient issue with not being able to drop multiple cards unto a card in the column piles
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop) [consider filtering by bounds bounding box] [ consider not checking containment within other shapes until mouse movement stopped unless there is a mouse movement listener on another shape, then filter by shapes that have listeners] [consider registering a single drag & drop listener for all shapes, and then having it do the work of filtering by shapes]
+- Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
 - Test Quarto on Linux and Windows
 - Disable logging by default
 - Release on the new year
@@ -283,15 +285,44 @@ end
 Another idea in which each is triggered upon every update to bind's content:
 ```ruby
 composite {
-  content(model, 'username') {|username|
+  content(model, 'addresses') {|address|
     label {
-      text bind(model, 'username')
+      bind(address, :street)
+    }
+    label {
+      bind(address, :zip)
     }
   }
-}
-
-composite {
-  content(model, 'addresses') {|address|
+  # Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
+  # OR
+  foreach(model, :addresses) do |address|
+    label {
+      bind(address, :street)
+    }
+    label {
+      bind(address, :zip)
+    }
+  end
+  # OR
+  [model, :addresses].foreach do |address|
+    label {
+      bind(address, :street)
+    }
+    label {
+      bind(address, :zip)
+    }
+  end
+  # OR
+  model.addresses.binding.each do |address|
+    label {
+      bind(address, :street)
+    }
+    label {
+      bind(address, :zip)
+    }
+  end
+  # OR
+  [model, :addresses] >-> { |address|
     label {
       bind(address, :street)
     }
