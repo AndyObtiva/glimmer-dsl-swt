@@ -47,13 +47,16 @@ class Quarto
           
           on_drop do |drop_event|
             dragged_piece = drop_event.dragged_shape
-            return drop_event.doit = false unless dragged_piece.parent.get_data('custom_shape').is_a?(AvailablePiecesArea)
-            model = dragged_piece.get_data('custom_shape').model
-            dragged_piece.parent.shapes.delete(dragged_piece)
-            body_root.content {
-              @selected_piece = piece(game: game, model: model, location_x: 15, location_y: 15 + 25)
-            }
-            game.select_piece(model)
+            if dragged_piece.parent.get_data('custom_shape').is_a?(AvailablePiecesArea)
+              model = dragged_piece.get_data('custom_shape').model
+              dragged_piece.dispose
+              body_root.content {
+                @selected_piece = piece(game: game, model: model, location_x: 15, location_y: 15 + 25)
+              }
+              game.select_piece(model)
+            else
+              drop_event.doit = false
+            end
           end
         }
       }

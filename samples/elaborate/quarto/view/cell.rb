@@ -50,18 +50,21 @@ class Quarto
           
           on_drop do |drop_event|
             dragged_piece = drop_event.dragged_shape
-            return drop_event.doit = false unless dragged_piece.parent.get_data('custom_shape').is_a?(SelectedPieceArea)
-            model = dragged_piece.get_data('custom_shape').model
-            dragged_piece.parent.shapes.delete(dragged_piece)
-            new_x, new_y = body_root.transform_point(body_root.absolute_x, body_root.absolute_y)
-            parent_proxy.content {
-              piece(game: game, model: model, location_x: new_x, location_y: new_y) {
-                transform {
-                  translate -38, -14
+            if dragged_piece.parent.get_data('custom_shape').is_a?(SelectedPieceArea)
+              model = dragged_piece.get_data('custom_shape').model
+              dragged_piece.dispose
+              new_x, new_y = body_root.transform_point(body_root.absolute_x, body_root.absolute_y)
+              parent_proxy.content {
+                piece(game: game, model: model, location_x: new_x, location_y: new_y) {
+                  transform {
+                    translate -38, -14
+                  }
                 }
               }
-            }
-            game.place_piece(model, row: row, column: column)
+              game.place_piece(model, row: row, column: column)
+            else
+              drop_event.doit = false
+            end
           end
         }
       }

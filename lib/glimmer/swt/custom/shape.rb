@@ -749,7 +749,7 @@ module Glimmer
               Shape.dragged_shape_original_y = y
             end
             @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if Shape.dragging && Shape.dragged_shape.equal?(self)
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
@@ -807,6 +807,9 @@ module Glimmer
             @image&.dispose
             @image = nil
           end
+          @on_drag_detected&.deregister
+          @drawable_on_mouse_move&.deregister
+          @drawable_on_mouse_up&.deregister
           @parent.shapes.delete(self)
           @on_shape_disposed_handlers&.each {|handler| handler.call}
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
