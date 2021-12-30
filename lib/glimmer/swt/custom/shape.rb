@@ -230,12 +230,26 @@ module Glimmer
         end
 
         def include_with_children?(x, y, except_child: nil)
+          children_shapes = expanded_shapes
+          children_shapes = children_shapes.reject {|shape| shape == except_child} unless except_child.nil?
+          
+          # Optimization: test against self+children bounds at first and reject early if outside of bounds
+          bounds_contained = bounds_contain?(x, y)
+          bounds_contained ||= children_shapes.any? { |shape| shape.bounds_contain?(x, y) }
+          return false if !bounds_contained
+          
           included = include?(x, y)
-          included ||= expanded_shapes.reject {|shape| shape == except_child}.detect { |shape| shape.include?(x, y) }
+          included ||= children_shapes.any? { |shape| shape.include?(x, y) }
+        end
+        
+        def bounds_contain?(x, y)
+          x, y = inverse_transform_point(x, y)
+          bounds.contains(x, y)
         end
         
         # if there is a transform, apply on x, y point coordinates
         def transform_point(x, y)
+          # keep in mind that transform is an array of a single element that is the transform object
           current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first
           if current_transform
             transform_array = [x, y].to_java(:float) # just placeholder data that gets overwritten with getElements
@@ -248,7 +262,8 @@ module Glimmer
 
         # if there is a transform, invert it and apply on x, y point coordinates
         def inverse_transform_point(x, y)
-          current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first
+          # keep in mind that transform is an array of a single element that is the transform object
+          current_transform = (transform || parent_shape_containers.map(&:transform).compact.first)&.first
           if current_transform
             transform_array = [1,2,3,4,5,6].to_java(:float) # just placeholder data that gets overwritten with getElements
             current_transform.getElements(transform_array)
