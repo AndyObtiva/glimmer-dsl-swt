@@ -53,7 +53,14 @@ module Glimmer
             # give it some fuzz (helps makes mouse clicking easier)
             x.to_i.between?(self.absolute_x.to_i - 2, self.absolute_x.to_i + 2) && y.to_i.between?(self.absolute_y.to_i - 2, self.absolute_y.to_i + 2)
           end
-          alias contain? include?
+          
+          def contain?(x, y)
+            include?(x, y)
+          end
+          
+          def bounds_contain?(x, y)
+            include?(x, y)
+          end
           
           def path_segment_method_name
             'addRectangle'
