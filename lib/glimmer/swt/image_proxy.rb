@@ -197,15 +197,15 @@ module Glimmer
         end
       end
       
-      def method_missing(method, *args, &block)
-        swt_image.send(method, *args, &block)
+      def method_missing(method_name, *args, &block)
+        swt_image.send(method_name, *args, &block)
       rescue => e
-        Glimmer::Config.logger.debug {"Neither ImageProxy nor #{swt_image.class.name} can handle the method ##{method}"}
+        Glimmer::Config.logger.debug {"Neither ImageProxy nor #{swt_image.class.name} can handle the method ##{method_name}"}
         super
       end
       
-      def respond_to?(method, *args, &block)
-        super || swt_image.respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
+        super || swt_image.respond_to?(method_name, *args, &block)
       end
     end
   end

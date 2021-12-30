@@ -41,12 +41,12 @@ module Glimmer
         @swt_widget = display_proxy.getSystemTray
       end
       
-      def method_missing(method, *args, &block)
-        @swt_widget.send(method, *args, &block)
+      def method_missing(method_name, *args, &block)
+        @swt_widget.send(method_name, *args, &block)
       end
       
-      def respond_to?(method, *args, &block)
-        super || @swt_widget.respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
+        super || @swt_widget.respond_to?(method_name, *args, &block)
       end
       
       def post_initialize_child(child)

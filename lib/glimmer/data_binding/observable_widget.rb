@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2021 Andy Maleh
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,9 +25,9 @@ module Glimmer
       # TODO see if it is worth it to eliminate duplication of method_missing
       # from WidgetProxy using a module
 
-      def method_missing(method, *args, &block)
-        method_name = method.to_s
-        if can_handle_observation_request?(method_name)
+      def method_missing(method_name, *args, &block)
+        method_name = method_name.to_s
+        if block && can_handle_observation_request?(method_name)
           handle_observation_request(method_name, &block)
         else
           super

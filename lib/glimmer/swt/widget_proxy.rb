@@ -776,20 +776,20 @@ module Glimmer
         end
       end
 
-      def method_missing(method, *args, &block)
+      def method_missing(method_name, *args, &block)
         # TODO push most of this logic down to Properties (and perhaps create Listeners module as well)
-        if can_handle_observation_request?(method)
-          handle_observation_request(method, &block)
+        if block && can_handle_observation_request?(method_name)
+          handle_observation_request(method_name, &block)
         else
           super
         end
       end
       
-      def respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
         result = super
         return true if result
         auto_exec do
-          can_handle_observation_request?(method)
+          can_handle_observation_request?(method_name)
         end
       end
       

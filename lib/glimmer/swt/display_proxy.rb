@@ -165,21 +165,21 @@ module Glimmer
         @swt_display.isDisposed
       end
 
-      def method_missing(method, *args, &block)
-        if can_handle_observation_request?(method)
-          handle_observation_request(method, &block)
+      def method_missing(method_name, *args, &block)
+        if block && can_handle_observation_request?(method_name)
+          handle_observation_request(method_name, &block)
         else
-          swt_display.send(method, *args, &block)
+          swt_display.send(method_name, *args, &block)
         end
       rescue => e
-        Glimmer::Config.logger.debug {"Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method}"}
+        Glimmer::Config.logger.debug {"Neither DisplayProxy nor #{swt_display.class.name} can handle the method ##{method_name}"}
         super
       end
       
-      def respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
         super ||
-          can_handle_observation_request?(method) ||
-          swt_display.respond_to?(method, *args, &block)
+          can_handle_observation_request?(method_name) ||
+          swt_display.respond_to?(method_name, *args, &block)
       end
 
       def can_handle_observation_request?(observation_request)

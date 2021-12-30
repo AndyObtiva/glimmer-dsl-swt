@@ -288,16 +288,21 @@ module Glimmer
         body_root.dispose
       end
     
-      def method_missing(method, *args, &block)
+      def method_missing(method_name, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here
         # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output
-        body_root.send(method, *args, &block)
+        if block && can_handle_observation_request?(method_name)
+          handle_observation_request(method_name, &block)
+        else
+          body_root.send(method_name, *args, &block)
+        end
       end
 
       alias local_respond_to? respond_to?
-      def respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
         super or
-          body_root.respond_to?(method, *args, &block)
+          can_handle_observation_request?(method_name) or
+          body_root.respond_to?(method_name, *args, &block)
       end
       
       private

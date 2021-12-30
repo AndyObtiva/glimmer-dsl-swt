@@ -111,14 +111,14 @@ module Glimmer
         begin
           super
         rescue Exception => inner_e
-          Glimmer::Config.logger.error {"Neither TransformProxy nor #{@swt_transform.class.name} can handle the method ##{method}"}
+          Glimmer::Config.logger.error {"Neither TransformProxy nor #{@swt_transform.class.name} can handle the method ##{method_name}"}
           Glimmer::Config.logger.error {e.full_message}
         end
       end
       
-      def respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
         super ||
-          @swt_transform.respond_to?(method, *args, &block)
+          @swt_transform.respond_to?(method_name, *args, &block)
       end
     end
   end

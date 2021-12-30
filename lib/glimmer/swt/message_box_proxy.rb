@@ -80,23 +80,23 @@ module Glimmer
         end
       end
       
-      def method_missing(method, *args, &block)
+      def method_missing(method_name, *args, &block)
         DisplayProxy.instance.auto_exec do
-          swt_widget.send(method, *args, &block)
+          swt_widget.send(method_name, *args, &block)
         end
       rescue => e
         begin
           super
         rescue Exception => inner_error
-          Glimmer::Config.logger.error {"Neither MessageBoxProxy nor #{swt_widget.class.name} can handle the method ##{method}"}
+          Glimmer::Config.logger.error {"Neither MessageBoxProxy nor #{swt_widget.class.name} can handle the method ##{method_name}"}
           Glimmer::Config.logger.error {e.full_message}
           raise inner_error
         end
       end
       
-      def respond_to?(method, *args, &block)
+      def respond_to?(method_name, *args, &block)
         super ||
-          swt_widget.respond_to?(method, *args, &block)
+          swt_widget.respond_to?(method_name, *args, &block)
       end
     end
   end

@@ -307,7 +307,7 @@ module Glimmer
       def method_missing(method, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here
         # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output
-        if can_handle_observation_request?(method)
+        if block && can_handle_observation_request?(method)
           handle_observation_request(method, &block)
         else
           body_root.send(method, *args, &block)
