@@ -20,6 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer-dsl-swt'
+require 'yaml'
 
 require_relative 'quarto/model/game'
 require_relative 'quarto/view/board'
@@ -47,8 +48,10 @@ class Quarto
   COLOR_DARK_WOOD = rgb(204, 108, 58)
   MESSAGE_BOX_PANEL_WIDTH = 300
   MESSAGE_BOX_PANEL_HEIGHT = 100
+  FILE_QUARTO_CONFIG = File.join(Dir.home, '.quarto')
   
   before_body do
+    load_quarto_config
     @game = Model::Game.new
     
     observe(@game, :current_move) do
@@ -88,12 +91,49 @@ class Quarto
       maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
       background COLOR_WOOD
       
+      quarto_menu_bar
+      
       @board = board(game: @game, location_x: SHELL_MARGIN, location_y: SHELL_MARGIN)
   
       @available_pieces_area = available_pieces_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN)
       @selected_piece_area = selected_piece_area(game: @game, location_x: SHELL_MARGIN + BOARD_DIAMETER + AREA_MARGIN, location_y: SHELL_MARGIN + AVAILABLE_PIECES_AREA_HEIGHT + AREA_MARGIN)
     }
   }
+  
+  def quarto_menu_bar
+    menu_bar {
+      menu {
+        text 'Help'
+        
+        menu_item(:check) {
+          text 'Help Pop Ups Enabled'
+          selection <=> [self, :help_pop_ups_enabled]
+        }
+      }
+    }
+  end
+  
+  def help_pop_ups_enabled
+    @quarto_config[:help_pop_ups_enabled]
+  end
+  alias help_pop_ups_enabled? help_pop_ups_enabled
+  
+  def help_pop_ups_enabled=(new_value)
+    @quarto_config[:help_pop_ups_enabled] = new_value
+    save_quarto_config
+  end
+  
+  def load_quarto_config
+    @quarto_config = YAML.load(File.read(FILE_QUARTO_CONFIG)) rescue {}
+    @quarto_config[:help_pop_ups_enabled] = true if @quarto_config[:help_pop_ups_enabled].nil?
+    @quarto_config
+  end
+  
+  def save_quarto_config
+    File.write(FILE_QUARTO_CONFIG, YAML.dump(@quarto_config))
+  rescue => e
+    puts "Unable to save quarto config file to: #{@quarto_config}"
+  end
   
   def perform_current_move
     verbiage = nil
@@ -107,14 +147,16 @@ class Quarto
       verbiage = "Player #{@game.current_player_number} must drag the selected piece to the board\nin order to place it!"
     end
     body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
-    body_root.content {
-      @open_message_box_panel&.close
-      @open_message_box_panel = message_box_panel(
-        message: verbiage,
-        background_color: COLOR_LIGHT_WOOD,
-        text_font: {height: 16}
-      )
-    }
+    if help_pop_ups_enabled?
+      body_root.content {
+        @open_message_box_panel&.close
+        @open_message_box_panel = message_box_panel(
+          message: verbiage,
+          background_color: COLOR_LIGHT_WOOD,
+          text_font: {height: 16}
+        )
+      }
+    end
   end
 end
 

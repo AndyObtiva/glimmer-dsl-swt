@@ -316,6 +316,7 @@ composite {
 - Consider marking custom widget options as required when you have to have them at construction time before rendering content block
 - Consider adding the jface tooltip as an external custom widget
 - Augment the Weather app elaborate sample with graphics like showing the sun, wind gusts, clouds, etc...
+- Quarto help pop up checkbox saying "do not show anymore"
 
 ## Issues
 
