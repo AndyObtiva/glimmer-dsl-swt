@@ -234,6 +234,18 @@ module Glimmer
           included ||= expanded_shapes.reject {|shape| shape == except_child}.detect { |shape| shape.include?(x, y) }
         end
         
+        # if there is a transform, apply on x, y point coordinates
+        def transform_point(x, y)
+          current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first
+          if current_transform
+            transform_array = [x, y].to_java(:float) # just placeholder data that gets overwritten with getElements
+            current_transform.transform(transform_array)
+            x = transform_array[0]
+            y = transform_array[1]
+          end
+          [x, y]
+        end
+
         # if there is a transform, invert it and apply on x, y point coordinates
         def inverse_transform_point(x, y)
           current_transform = (transform || parent_shape_containers.map(&:transform).first)&.first

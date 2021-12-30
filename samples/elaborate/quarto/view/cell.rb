@@ -26,6 +26,8 @@ class Quarto
       
       options :game, :row, :column
       
+      attr_reader :placed_piece
+      
       before_body do
         @board_x_offset = (BOARD_DIAMETER - COLUMN_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
         @board_y_offset = (BOARD_DIAMETER - ROW_COUNT * (CELL_DIAMETER + CELL_LINE_WIDTH + CELL_MARGIN) + CELL_LINE_WIDTH + CELL_MARGIN) / 2.0
@@ -51,18 +53,9 @@ class Quarto
             return drop_event.doit = false unless dragged_piece.parent.get_data('custom_shape').is_a?(SelectedPieceArea)
             model = dragged_piece.get_data('custom_shape').model
             dragged_piece.parent.shapes.delete(dragged_piece)
-            body_root.content {
-              # TODO fix issue with unnecessary rotation
-              @selected_piece = piece(game: game, model: model, location_x: 10, location_y: -10) {
-                transform {
-                  translate (SHELL_MARGIN + BOARD_DIAMETER)/2.0, (SHELL_MARGIN + BOARD_DIAMETER)/2.0
-                  rotate 45
-                  translate -(SHELL_MARGIN + BOARD_DIAMETER)/2.0, -(SHELL_MARGIN + BOARD_DIAMETER)/2.0
-                  
-                  # extra translation to improve location of rotated cells
-                  translate 7, -6
-                }
-              }
+            new_x, new_y = body_root.transform_point(body_root.absolute_x, body_root.absolute_y)
+            parent_proxy.content {
+              @placed_piece = piece(game: game, model: model, location_x: new_x, location_y: new_y)
             }
             game.place_piece(model, row: row, column: column)
           end
