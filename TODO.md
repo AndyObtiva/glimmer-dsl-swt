@@ -6,6 +6,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
+- Look into removing --dev if it causes very bad incurable slowdowns after startup
+- Prevent bottom cutoff in Klondike Solitaire or at least have canvas expand with resize of window
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop) [consider filtering by bounds bounding box] [ consider not checking containment within other shapes until mouse movement stopped unless there is a mouse movement listener on another shape, then filter by shapes that have listeners] [consider registering a single drag & drop listener for all shapes, and then having it do the work of filtering by shapes]
 - Test Quarto on Linux and Windows
 - Disable logging by default

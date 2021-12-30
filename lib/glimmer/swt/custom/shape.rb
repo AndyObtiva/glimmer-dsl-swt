@@ -680,13 +680,13 @@ module Glimmer
         end
   
         def method_missing(method_name, *args, &block)
-          if block && can_handle_observation_request?(method_name)
-            handle_observation_request(method_name, &block)
-          elsif method_name.to_s.end_with?('=')
+          if method_name.to_s.end_with?('=')
             set_attribute(method_name, *args)
           elsif has_attribute?(method_name)
             get_attribute(method_name)
-          else # TODO support proxying calls to handle_observation_request for listeners just like WidgetProxy
+          elsif block && can_handle_observation_request?(method_name)
+            handle_observation_request(method_name, &block)
+          else
             super
           end
         end

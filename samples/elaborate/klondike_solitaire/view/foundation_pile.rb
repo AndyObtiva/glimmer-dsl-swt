@@ -8,10 +8,9 @@ class KlondikeSolitaire
       
       options :pile_x, :pile_y, :game, :suit
       
-      attr_accessor :current_image, :model
+      attr_accessor :model
       
       before_body do
-        self.current_image = image(50, 80) {empty_playing_card(suit: suit)}
         self.model = game.foundation_piles[Model::PlayingCard::SUITS.index(suit)]
       end
   

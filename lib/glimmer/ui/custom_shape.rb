@@ -187,6 +187,7 @@ module Glimmer
           end
         end
         execute_hook('after_body')
+        post_add_content if content.nil?
       end
       
       # Subclasses may override to perform post initialization work on an added child

@@ -7,16 +7,6 @@ class KlondikeSolitaire
     class ColumnPile
       include Glimmer::UI::CustomShape
   
-      IMAGE_EMPTY = image(50, 80) {
-        rectangle(0, 0, 50, 80) {
-          background :dark_green
-          
-          rectangle(0, 0, 49, 79, 15, 15) {
-            foreground :gray
-          }
-        }
-      }
-      
       options :pile_x, :pile_y, :model
       
       after_body {
