@@ -235,11 +235,16 @@ module Glimmer
           
           # Optimization: test against self+children bounds at first and reject early if outside of bounds
           bounds_contained = bounds_contain?(x, y)
-          bounds_contained ||= children_shapes.any? { |shape| shape.bounds_contain?(x, y) }
+          rejected_shapes = []
+          bounds_contained ||= children_shapes.any? do |shape|
+            shape_bounds_contained = shape.bounds_contain?(x, y)
+            rejected_shapes << shape if !shape_bounds_contained
+            shape_bounds_contained
+          end
           return false if !bounds_contained
           
-          included = include?(x, y)
-          included ||= children_shapes.any? { |shape| shape.include?(x, y) }
+          included = bounds_contained && include?(x, y)
+          included ||= children_shapes.reject {|shape| rejected_shapes.include?(shape)}.any? { |shape| shape.include?(x, y) }
         end
         
         def bounds_contain?(x, y)
