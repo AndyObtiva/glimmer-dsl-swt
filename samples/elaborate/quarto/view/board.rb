@@ -51,7 +51,7 @@ class Quarto
       }
       
       def reset_cells
-        @cells&.each(&:dispose)
+        @cell_container.shapes.each(&:dispose)
         @cell_container.content {
           @cells = ROW_COUNT.times.map do |row|
             COLUMN_COUNT.times.map do |column|

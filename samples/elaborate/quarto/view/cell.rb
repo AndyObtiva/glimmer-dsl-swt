@@ -55,7 +55,7 @@ class Quarto
             dragged_piece.parent.shapes.delete(dragged_piece)
             new_x, new_y = body_root.transform_point(body_root.absolute_x, body_root.absolute_y)
             parent_proxy.content {
-              @placed_piece = piece(game: game, model: model, location_x: new_x, location_y: new_y) {
+              piece(game: game, model: model, location_x: new_x, location_y: new_y) {
                 transform {
                   translate -38, -14
                 }

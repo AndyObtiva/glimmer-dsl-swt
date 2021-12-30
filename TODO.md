@@ -6,10 +6,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
+- Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop) [consider filtering by bounds bounding box] [ consider not checking containment within other shapes until mouse movement stopped unless there is a mouse movement listener on another shape, then filter by shapes that have listeners]
 - Test Quarto on Linux and Windows
-- Load rakefile from launcher when passed rake tasks only
-- Optimize performance of startup time in requiring glimmer-dsl-swt
-- Add Quarto menu option to disable help dialogs on every move for advanced players
 - Release on the new year
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
@@ -105,7 +103,6 @@ end
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this) [if still needed, might not be a true issue]
 - Hello, Tooltip!
-- Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop) [consider filtering by bounds bounding box]
 
 ## Soon
 
@@ -562,6 +559,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
 - Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
 - Update Hello, Tree! to enable adding/removing nodes
+- Optimize performance of startup time in requiring glimmer-dsl-swt
 
 ## Samples
 
