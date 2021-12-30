@@ -52,7 +52,7 @@ class Quarto
       }
       
       def reset_pieces
-        @pieces&.each(&:dispose)
+        @pieces&.dup&.each(&:dispose)
         body_root.content {
           x_offset = 15
           y_offset = 10 + 18 + 10
