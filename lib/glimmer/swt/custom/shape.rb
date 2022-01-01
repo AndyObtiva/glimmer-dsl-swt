@@ -246,7 +246,7 @@ module Glimmer
           return false if !bounds_contained
           
           included = bounds_contained && include?(x, y)
-          included ||= children_shapes.reject {|shape| rejected_shapes.include?(shape)}.any? { |shape| shape.include?(x, y) }
+          included ||= children_shapes.reject {|shape| shape == except_child || rejected_shapes.include?(shape)}.any? { |shape| shape.include?(x, y) }
         end
         
         def bounds_contain?(x, y)
