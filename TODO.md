@@ -6,10 +6,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
-- Look into clipping drawing area when doing drag & drop
+- Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
 - Look into compatibility of using both drag_source true and drag_and_move true (or perhaps have one cancel the other)
 - Look into klondike solitaire transient issue with not being able to drop multiple cards unto a card in the column piles
-- Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop) [consider filtering by bounds bounding box] [ consider not checking containment within other shapes until mouse movement stopped unless there is a mouse movement listener on another shape, then filter by shapes that have listeners] [consider registering a single drag & drop listener for all shapes, and then having it do the work of filtering by shapes]
 - Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
 - Test Quarto on Linux and Windows
 - Disable logging by default
@@ -332,6 +331,7 @@ composite {
   }
 }
 ```
+- Look into clipping drawing area when doing drag and drop to improve performance
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
 - Scroll bar listener support
@@ -541,6 +541,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Support background warm launching of Glimmer apps (in glimmer-cs-timer GitHub project branch: glimmer-app-type-client-server) (i.e. keeping them running in the background after initial start and then launching instantly when needed)
 - Support shorter syntax for fonts when passing in one property only (e.g. `font 18` for height, `font :bold` for style, `font 'Lucida Console'` for name)
 - TODO consider the idea of aliasing getCaretPosition in StyledText to match Text
+- consider supporting adding `Shape#content {}` without redraw (by passing `(redraw: false)`)
 - Support styledtext setting of styles via data-binding
 - Support :accordion style for ExpandBar
 - Consider supporting sound in Glimmer just for the sake of making java sound dependent apps runnable in Glimmer DSL for Opal

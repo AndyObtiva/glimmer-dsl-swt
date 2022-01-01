@@ -12,7 +12,7 @@ class KlondikeSolitaire
       
       after_body {
         observe(model, 'playing_cards.empty?') do |empty_value|
-          body_root.shapes.to_a.each(&:dispose)
+          body_root.shapes.to_a.each { |shape| shape.dispose(redraw: false) }
           if empty_value
             body_root.content {
               empty_playing_card

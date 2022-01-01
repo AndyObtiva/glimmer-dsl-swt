@@ -40,7 +40,7 @@ class KlondikeSolitaire
       }
   
       def build_column_pile(playing_cards)
-        body_root.shapes.to_a.each(&:dispose)
+        body_root.shapes.to_a.dup.each { |shape| shape.dispose(redraw: false) }
         current_parent = body_root
         playing_cards.each_with_index do |card, i|
           current_parent.content {

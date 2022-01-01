@@ -75,7 +75,7 @@ module Glimmer
             true
           end
           
-          def dispose(redraw: true)
+          def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
             Glimmer::SWT::DisplayProxy.instance.auto_exec do
               # including classes could override to dispose of resources first
               # afterwards, parent removes from its path segments with post_dispose_content
@@ -83,7 +83,7 @@ module Glimmer
               if part_of_path?
                 drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
               else
-                super(redraw: redraw)
+                super(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: redraw)
               end
             end
           end

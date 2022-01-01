@@ -101,10 +101,10 @@ module Glimmer
             end
           end
           
-          def dispose(redraw: true)
+          def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
             Glimmer::SWT::DisplayProxy.instance.auto_exec do
               clear if self.class == Path
-              super(redraw: redraw) if (parent.is_a?(Shape) && (!parent.is_a?(PathSegment) || !parent.part_of_path?)) || parent.is_a?(Drawable)
+              super(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: redraw) if (parent.is_a?(Shape) && (!parent.is_a?(PathSegment) || !parent.part_of_path?)) || parent.is_a?(Drawable)
             end
           end
           

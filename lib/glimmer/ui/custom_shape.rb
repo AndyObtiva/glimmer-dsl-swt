@@ -288,6 +288,12 @@ module Glimmer
       def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
         body_root.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: redraw)
       end
+      
+      def disposed
+        body_root.disposed
+      end
+      alias disposed? disposed
+      alias is_disposed disposed
     
       def method_missing(method_name, *args, &block)
         # TODO Consider supporting a glimmer error silencing option for methods defined here

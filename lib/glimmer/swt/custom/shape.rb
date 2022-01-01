@@ -139,8 +139,10 @@ module Glimmer
           end
         end
         
-        attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties
+        attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties, :disposed
         attr_accessor :extent
+        alias disposed? disposed
+        alias is_disposed disposed # for SWT widget compatibility
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent
@@ -347,6 +349,7 @@ module Glimmer
         end
         
         def content(&block)
+          # TODO consider supporting adding content without redraw (redraw: false)
           Glimmer::SWT::DisplayProxy.instance.auto_exec do
             Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::ShapeExpression.new, @name, &block)
             calculated_args_changed!(children: false)
@@ -643,9 +646,6 @@ module Glimmer
             # TODO return a listener object that can be deregistered
             return block
           end
-          shape_block = lambda do |event|
-            block.call(event) if include_with_children?(event.x, event.y)
-          end
           if observation_request == 'on_drop'
             Shape.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
@@ -676,7 +676,19 @@ module Glimmer
               end
             end
           else
-            drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
+            observer_registration = nil
+            shape_block = lambda do |event|
+              if @disposed
+                observer_registration.deregister
+                @observer_registrations.delete(observer_registration)
+              else
+                block.call(event) if include_with_children?(event.x, event.y)
+              end
+            end
+            observer_registration = drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
+            @observer_registrations ||= []
+            @observer_registrations << observer_registration if observer_registration
+            observer_registration
           end
         end
         
@@ -736,14 +748,14 @@ module Glimmer
               Shape.dragged_shape_original_y = y
             end
             @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if !@disposed && Shape.dragging && Shape.dragged_shape == self
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
               end
             end
             @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if !@disposed && Shape.dragging && Shape.dragged_shape == self
                 Shape.dragging = false
               end
             end
@@ -769,22 +781,22 @@ module Glimmer
               Shape.dragged_shape = self
               Shape.dragged_shape_original_x = x
               Shape.dragged_shape_original_y = y
-            end # && self.background = [255, 0, 0] unless defined? @@on_drag_detected
+            end
             @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
-              if Shape.dragging && Shape.dragged_shape.equal?(self)
+              if !@disposed && Shape.dragging && Shape.dragged_shape.equal?(self)
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
               end
-            end # && self.background = [255, 0, 0] unless defined? @@drawable_on_mouse_move
+            end
             @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
+              if !@disposed && Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
                 Shape.dragging = false
                 Shape.dragged_shape.x = Shape.dragged_shape_original_x
                 Shape.dragged_shape.y = Shape.dragged_shape_original_y
                 Shape.dragged_shape = nil
               end
-            end # && self.background = [255, 0, 0] unless defined? @@drawable_on_mouse_up
+            end
           elsif !@drag_source && drag_source_old_value
             @on_drag_detected.deregister
             @drawable_on_mouse_move.deregister
@@ -818,7 +830,11 @@ module Glimmer
         end
         
         def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
-          shapes.each { |shape| shape.is_a?(Shape::Path) && shape.dispose } # TODO look into why I'm only disposing paths
+          return if @disposed
+          @disposed = true
+          @drawable_on_mouse_move&.deregister
+          @drawable_on_mouse_up&.deregister
+          @observer_registrations&.each(&:deregister)
           if dispose_patterns
             @background_pattern&.dispose
             @background_pattern = nil
@@ -829,11 +845,9 @@ module Glimmer
             @image&.dispose
             @image = nil
           end
-          @on_drag_detected&.deregister
-          @drawable_on_mouse_move&.deregister
-          @drawable_on_mouse_up&.deregister
+          shapes.dup.each { |shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: false) }
           @parent.shapes.delete(self)
-          @on_shape_disposed_handlers&.each {|handler| handler.call}
+          @on_shape_disposed_handlers&.each {|handler| handler.call(self)} # TODO pass a custom event argument to handler
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
         
@@ -996,7 +1010,6 @@ module Glimmer
         end
         
         def calculated_args_changed!(children: true)
-          # TODO add a children: true option to enable setting to false to avoid recalculating children args
           @calculated_args = nil
           shapes.each(&:calculated_args_changed!) if children
         end
@@ -1030,7 +1043,6 @@ module Glimmer
                 
         # args translated to absolute coordinates
         def calculate_args!
-        # TODO add conditions for parent having default width/height too
           return @args if parent.is_a?(Drawable) && !default_x? && !default_y? && !default_width? && !default_height? && !max_width? && !max_height?
           calculated_args_dependencies = [
             x,
