@@ -13,7 +13,6 @@ class KlondikeSolitaire
       def reset!
         playing_cards.clear
         populate!(count.times.map { @game.deck.pop })
-        notify_observers(:playing_cards)
       end
     
       # this method does not validate
