@@ -22,6 +22,7 @@ class KlondikeSolitaire
           unless model.hidden?
             text {
               string model ? "#{model.rank_text}#{model.suit_text}" : ""
+              font height: PLAYING_CARD_FONT_HEIGHT
               x 5
               y 5
               foreground model ? model.color : :transparent

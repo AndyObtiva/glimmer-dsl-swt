@@ -44,6 +44,7 @@ class KlondikeSolitaire
               model.add!(card)
               card_source_model.remove!(card)
             rescue => e
+              Glimmer::Config.logger.debug { "Error encountered on drop of a card to a foundation pile: #{e.full_message}" }
               drop_event.doit = false
             end
           end

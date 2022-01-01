@@ -19,6 +19,7 @@ class KlondikeSolitaire
           if suit
             text {
               string Model::PlayingCard.suit_text(suit)
+              font height: 20
               x :default
               y :default
               is_transparent true

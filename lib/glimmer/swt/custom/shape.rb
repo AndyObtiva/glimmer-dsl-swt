@@ -143,6 +143,7 @@ module Glimmer
         attr_accessor :extent
         alias disposed? disposed
         alias is_disposed disposed # for SWT widget compatibility
+        # TODO consider making shapes return a dup, always, in case consumers want to dispose
         
         def initialize(parent, keyword, *args, &property_block)
           @parent = parent

@@ -8,12 +8,12 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
 - Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
-- Make Klondike Solitaire cards bigger to be more readable
 - Test Quarto on Linux and Windows
 - Disable logging by default
 - Remove `logging` gem dependency
 - Fix slowdown issue with closing Mandelbrot Fractal sample
 - Release on the new year
+- Merge changes into older Glimmer DSL for SWT v4.20.x.y
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
       options :message, :location_x, :location_y
@@ -176,7 +176,6 @@ end
 
 - Fix Gladiator issue regarding scrolling text to view when editing a line off screen in a styled_text widget
 
-
 - Make Hello, Table! and Hello, Tree! stateful as in avoid static class to enable reruns after making changes in Meta-Sample
 - Amend contact_manager to add a contact
 
@@ -332,6 +331,7 @@ composite {
 ```
 - Look into clipping drawing area when doing drag and drop to improve performance
 - Make it an option to close app fast or execute dispose listeners when exiting app (closing the last shell)
+- Introduce a backdoor to amend code while a Glimmer app is running for troubleshooting purposes
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
 - Scroll bar listener support

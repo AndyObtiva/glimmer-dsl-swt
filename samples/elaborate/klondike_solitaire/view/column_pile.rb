@@ -33,6 +33,7 @@ class KlondikeSolitaire
               end
               drop_event.dragged_shape.dispose
             rescue => e
+              Glimmer::Config.logger.debug { "Error encountered on drop of a card to a column pile: #{e.full_message}" }
               drop_event.doit = false
             end
           end
