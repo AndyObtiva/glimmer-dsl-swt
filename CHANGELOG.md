@@ -14,6 +14,7 @@
 - Support `Shape#transform_point(x, y)` by applying current `transform` to point (similar to existing opposite: `inverse_transform_point`)
 - Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
 - Look into forwarding options for `#dispose` on `CustomShape` to `body_root` `Shape` (e.g. `.dispose(dispose_images: true, dispose_patterns: true, redraw: true)`)
+- Ensure that setting both `drag_source true` and `drag_and_move true` results in the last one winning (they are mutually exclusive)
 - Fix slowdown issue that occurs with drag and drop in Klondike Solitaire after finishing a full game or multiple games (it seems something is accumulating in memory and slowing things down after a while.. ensure there is no caching residue relating to drag and drop)
 
 ## 4.22.0.0

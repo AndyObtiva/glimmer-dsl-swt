@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
-- Look into compatibility of using both drag_source true and drag_and_move true (or perhaps have one cancel the other)
 - Look into klondike solitaire transient issue with not being able to drop multiple cards unto a card in the column piles
 - Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
 - Test Quarto on Linux and Windows

@@ -682,7 +682,7 @@ module Glimmer
                 observer_registration.deregister
                 @observer_registrations.delete(observer_registration)
               else
-                block.call(event) if include_with_children?(event.x, event.y)
+                block.call(event) if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
               end
             end
             observer_registration = drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
@@ -735,11 +735,24 @@ module Glimmer
           end
         end
         
+        def deregister_drag_listeners
+          @on_drag_detected&.deregister
+          @on_drag_detected = nil
+          @drawable_on_mouse_move&.deregister
+          @drawable_on_mouse_move = nil
+          @drawable_on_mouse_up&.deregister
+          @drawable_on_mouse_up = nil
+        end
+        
+        # Enables dragging for drag and move within parent widget
+        # drag_and_move and drag_source are mutually exclusive
+        # if shape had drag_source true, it is disabled by deregistering its listeners
         def drag_and_move=(drag_and_move_value)
+          deregister_drag_listeners if @drag_source
           drag_and_move_old_value = @drag_and_move
           @drag_and_move = drag_and_move_value
           if @drag_and_move && !drag_and_move_old_value
-            @on_drag_detected = handle_observation_request('on_drag_detected') do |event|
+            @on_drag_detected ||= handle_observation_request('on_drag_detected') do |event|
               Shape.dragging = true
               Shape.dragging_x = event.x
               Shape.dragging_y = event.y
@@ -747,22 +760,20 @@ module Glimmer
               Shape.dragged_shape_original_x = x
               Shape.dragged_shape_original_y = y
             end
-            @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
-              if !@disposed && Shape.dragging && Shape.dragged_shape == self
+            @drawable_on_mouse_move ||= drawable.handle_observation_request('on_mouse_move') do |event|
+              if Shape.dragging && Shape.dragged_shape == self
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
               end
             end
-            @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if !@disposed && Shape.dragging && Shape.dragged_shape == self
+            @drawable_on_mouse_up ||= drawable.handle_observation_request('on_mouse_up') do |event|
+              if Shape.dragging && Shape.dragged_shape == self
                 Shape.dragging = false
               end
             end
           elsif !@drag_and_move && drag_and_move_old_value
-            @on_drag_detected.deregister
-            @drawable_on_mouse_move.deregister
-            @drawable_on_mouse_up.deregister
+            deregister_drag_listeners
           end
         end
             
@@ -770,11 +781,15 @@ module Glimmer
           @drag_and_move
         end
         
+        # Makes shape a drag source (enables dragging for drag and drop)
+        # drag_source and drag_and_move are mutually exclusive
+        # if shape had drag_and_move true, it is disabled by deregistering its listeners
         def drag_source=(drag_source_value)
+          deregister_drag_listeners if @drag_and_move
           drag_source_old_value = @drag_source
           @drag_source = drag_source_value
           if @drag_source && !drag_source_old_value
-            @on_drag_detected = handle_observation_request('on_drag_detected') do |event|
+            @on_drag_detected ||= handle_observation_request('on_drag_detected') do |event|
               Shape.dragging = true
               Shape.dragging_x = event.x
               Shape.dragging_y = event.y
@@ -782,15 +797,15 @@ module Glimmer
               Shape.dragged_shape_original_x = x
               Shape.dragged_shape_original_y = y
             end
-            @drawable_on_mouse_move = drawable.handle_observation_request('on_mouse_move') do |event|
-              if !@disposed && Shape.dragging && Shape.dragged_shape.equal?(self)
+            @drawable_on_mouse_move ||= drawable.handle_observation_request('on_mouse_move') do |event|
+              if Shape.dragging && Shape.dragged_shape.equal?(self)
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
               end
             end
-            @drawable_on_mouse_up = drawable.handle_observation_request('on_mouse_up') do |event|
-              if !@disposed && Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
+            @drawable_on_mouse_up ||= drawable.handle_observation_request('on_mouse_up') do |event|
+              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
                 Shape.dragging = false
                 Shape.dragged_shape.x = Shape.dragged_shape_original_x
                 Shape.dragged_shape.y = Shape.dragged_shape_original_y
@@ -798,9 +813,7 @@ module Glimmer
               end
             end
           elsif !@drag_source && drag_source_old_value
-            @on_drag_detected.deregister
-            @drawable_on_mouse_move.deregister
-            @drawable_on_mouse_up.deregister
+            deregister_drag_listeners
           end
         end
             
@@ -832,8 +845,7 @@ module Glimmer
         def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
           return if @disposed
           @disposed = true
-          @drawable_on_mouse_move&.deregister
-          @drawable_on_mouse_up&.deregister
+          deregister_drag_listeners
           @observer_registrations&.each(&:deregister)
           if dispose_patterns
             @background_pattern&.dispose
