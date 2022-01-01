@@ -843,6 +843,7 @@ module Glimmer
         end
         
         def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
+          return if drawable.respond_to?(:shell_proxy) && drawable&.shell_proxy&.last_shell_closing?
           return if @disposed
           @disposed = true
           deregister_drag_listeners

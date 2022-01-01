@@ -12,6 +12,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Test Quarto on Linux and Windows
 - Disable logging by default
 - Remove `logging` gem dependency
+- Fix slowdown issue with closing Mandelbrot Fractal sample
 - Release on the new year
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
@@ -96,7 +97,6 @@ end
 end
 ```
 
-- Fix slowdown issue with closing Mandelbrot Fractal sample
 - Document Canvas Shape DSL with more examples, one per shape
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
@@ -331,6 +331,7 @@ composite {
 }
 ```
 - Look into clipping drawing area when doing drag and drop to improve performance
+- Make it an option to close app fast or execute dispose listeners when exiting app (closing the last shell)
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
 - Scroll bar listener support
