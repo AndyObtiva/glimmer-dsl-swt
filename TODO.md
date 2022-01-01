@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
-- Prevent bottom cutoff in Klondike Solitaire or at least have canvas expand with resize of window
 - Look into clipping drawing area when doing drag & drop
 - Look into compatibility of using both drag_source true and drag_and_move true (or perhaps have one cancel the other)
 - Look into klondike solitaire transient issue with not being able to drop multiple cards unto a card in the column piles
@@ -14,6 +13,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
 - Test Quarto on Linux and Windows
 - Disable logging by default
+- Remove `logging` gem dependency
 - Release on the new year
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby

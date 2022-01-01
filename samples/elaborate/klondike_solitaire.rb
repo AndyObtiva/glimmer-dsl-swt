@@ -22,9 +22,7 @@ class KlondikeSolitaire
 
   body {
     shell {
-      row_layout(:vertical) {
-        fill true
-        center true
+      grid_layout {
         margin_width 0
         margin_height 0
         margin_top 15
@@ -35,12 +33,14 @@ class KlondikeSolitaire
     
       klondike_solitaire_menu_bar(game: @game)
     
-      action_panel(game: @game)
+      action_panel(game: @game) {
+        layout_data(:fill, :center, true, false)
+      }
       
       tableau(game: @game) {
-        layout_data {
-          width TABLEAU_WIDTH
-          height TABLEAU_HEIGHT
+        layout_data(:fill, :fill, true, true) {
+          width_hint TABLEAU_WIDTH
+          height_hint TABLEAU_HEIGHT
         }
       }
     }
