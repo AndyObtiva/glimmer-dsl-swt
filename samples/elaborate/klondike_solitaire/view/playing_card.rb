@@ -11,11 +11,11 @@ class KlondikeSolitaire
       end
   
       body {
-        rectangle(card_x, card_y, 49, 79, 15, 15) {
+        rectangle(card_x, card_y, PLAYING_CARD_WIDTH - 1, PLAYING_CARD_HEIGHT - 1, 15, 15) {
           background model.hidden ? :red : :white
           
           # border
-          rectangle(0, 0, 49, 79, 15, 15) {
+          rectangle(0, 0, PLAYING_CARD_WIDTH - 1, PLAYING_CARD_HEIGHT - 1, 15, 15) {
             foreground :black
           }
           
