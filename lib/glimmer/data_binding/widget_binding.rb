@@ -38,11 +38,12 @@ module Glimmer
         @sync_exec = sync_exec
         @async_exec = async_exec
         SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @sync_exec, override_async_exec: @async_exec) do
-          if @widget.respond_to?(:on_widget_disposed)
+          if @widget.is_a?(Glimmer::SWT::WidgetProxy) && @widget.respond_to?(:on_widget_disposed)
             @widget.on_widget_disposed do |dispose_event|
               deregister_all_observables unless @widget.shell_proxy.last_shell_closing?
             end
           end
+          # TODO look into hooking on_shape_disposed without slowing down shapes in samples like Tetris
         end
       end
       

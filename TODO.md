@@ -7,13 +7,15 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
-- Find out why Tetris on very old MacBook Pro 2012 is taking 54 seconds to start in development branch instead of 24 on master branch
+- Compare Glimmer DSL for SWT against the version that has Klondike Solitare external sample written in to see what broke it with regression issue
 - Test Quarto on Linux and Windows
+- Make ESCAPE key cancel a canvas drag and drop in the middle of dragging
+- Fix regression issue in Klondike Solitaire with not being able to drop a bunch of cards on top of a card to the right of them
 - Disable logging by default
 - Remove `logging` gem dependency
 - Fix slowdown issue with closing Mandelbrot Fractal sample
 - Release on the new year
-- Merge changes into older Glimmer DSL for SWT v4.20.x.y
+
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
       options :message, :location_x, :location_y
@@ -107,6 +109,7 @@ end
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this) [if still needed, might not be a true issue]
 - Hello, Tooltip!
+- look into hooking on_shape_disposed in WidgetBinding without slowing down shapes in samples like Tetris
 
 ## Soon
 
@@ -334,6 +337,7 @@ composite {
 - Introduce a backdoor to amend code while a Glimmer app is running for troubleshooting purposes
 - Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
+- Look into the idea of supporting zooming on any desktop application for accessibility reasons
 - Scroll bar listener support
 - Extract FileTree Glimmer Custom widget from Gladiator
 - Support Cygwin with glimmer command

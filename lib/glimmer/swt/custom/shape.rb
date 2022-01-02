@@ -135,6 +135,7 @@ module Glimmer
           
           # shapes that have defined on_drop expecting to received a dragged shape
           def drop_shapes
+            # TODO limit/scope by drawable parent
             @drop_shapes ||= []
           end
         end
@@ -253,6 +254,12 @@ module Glimmer
         def bounds_contain?(x, y)
           x, y = inverse_transform_point(x, y)
           bounds.contains(x, y)
+        end
+        
+        # Recursively checks if other shape is included in this shape, beginning by comparing to self
+        # and then recursing into children shapes.
+        def include_shape?(other)
+          self == other || shapes.any? { |shape| shape.include_shape?(other) }
         end
         
         # if there is a transform, apply on x, y point coordinates
@@ -637,7 +644,15 @@ module Glimmer
         end
         
         def can_handle_observation_request?(observation_request)
-          observation_request.to_s == 'on_shape_disposed' || (drawable.respond_to?(:can_handle_observation_request?) && drawable.can_handle_observation_request?(observation_request))
+          observation_request = observation_request.to_s
+          observation_request.start_with?('on_') &&
+          (
+            observation_request == 'on_shape_disposed' ||
+            (
+              drawable.respond_to?(:can_handle_observation_request?) &&
+              drawable.can_handle_observation_request?(observation_request)
+            )
+          )
         end
         
         def handle_observation_request(observation_request, &block)
@@ -712,18 +727,6 @@ module Glimmer
           drawable.shell_proxy
         end
   
-        def method_missing(method_name, *args, &block)
-          if method_name.to_s.end_with?('=')
-            set_attribute(method_name, *args)
-          elsif has_attribute?(method_name)
-            get_attribute(method_name)
-          elsif block && can_handle_observation_request?(method_name)
-            handle_observation_request(method_name, &block)
-          else
-            super
-          end
-        end
-        
         def respond_to?(method_name, *args, &block)
           options = args.last if args.last.is_a?(Hash)
           super_invocation = options && options[:super]
@@ -733,6 +736,18 @@ module Glimmer
             result = super
             return true if result
             can_handle_observation_request?(method_name)
+          end
+        end
+        
+        def method_missing(method_name, *args, &block)
+          if method_name.to_s.end_with?('=')
+            set_attribute(method_name, *args)
+          elsif has_attribute?(method_name)
+            get_attribute(method_name)
+          elsif block && can_handle_observation_request?(method_name)
+            handle_observation_request(method_name, &block)
+          else
+            super
           end
         end
         

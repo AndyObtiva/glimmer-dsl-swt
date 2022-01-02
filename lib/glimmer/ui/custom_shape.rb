@@ -287,6 +287,7 @@ module Glimmer
       
       def dispose(dispose_images: true, dispose_patterns: true, redraw: true)
         body_root.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: redraw)
+#         @dispose_listener_registration.deregister # TODO enable once returning a true listener object or observer proc registration
       end
       
       def disposed
