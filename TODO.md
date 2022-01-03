@@ -4,23 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Build Quarto game sample: https://en.gigamic.com/game/quarto-classic
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
-- Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
-- Compare Glimmer DSL for SWT against the version that has Klondike Solitare external sample written in to see what broke it with regression issue
-- Ensuring scoping shape drag and drop logic by parent drawable
-- Ensure on_shape_disposed returns a deregistrable object (not just a plain block)
-- Consider switching ||= to just = on shape drag listeners
-- Handle shape drag and drop case with one of the drop areas doing a doit false, cancelling the entire operation instead of allowing other on drop areas to handle it
-- Apply shape drag and drop fix where dragging from text content of a rectangle fails but dragging rectangle directly succeeds
 - Test Quarto on Linux and Windows
-- Make ESCAPE key cancel a canvas drag and drop in the middle of dragging
-- Fix regression issue in Klondike Solitaire with not being able to drop a bunch of cards on top of a card to the right of them
 - Disable logging by default
 - Remove `logging` gem dependency
-- Fix slowdown issue with closing Mandelbrot Fractal sample
-- Release on the new year
+- Ensure Shape#on_shape_disposed returns a deregistrable object (not just a plain block)
+- Ensure Shape#on_drop returns a properly deregistrable object (removes from drawable#drop_shapes not just deregister listener directly)
 
+- Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
       options :message, :location_x, :location_y
@@ -358,6 +349,7 @@ composite {
 - Consider adding the jface tooltip as an external custom widget
 - Augment the Weather app elaborate sample with graphics like showing the sun, wind gusts, clouds, etc...
 - Quarto help pop up checkbox saying "do not show anymore"
+- Make ESCAPE key cancel a canvas drag and drop in the middle of dragging
 
 ## Issues
 
@@ -473,6 +465,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 ```
 - Log to SysLog using this gem: https://www.rubydoc.info/gems/syslog-logger/1.6.8
 - Implement Glimmer#respond_to? to accommodate method_missing
+- Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
 - Support the idea of application pre-warm up where an app is preloaded and shows up right away from launched
 - Support data-binding shell size and location
 - Support data-bind two widget attributes to each other
