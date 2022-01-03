@@ -40,9 +40,9 @@ class KlondikeSolitaire
               card_parent_pile = card_shape.parent_pile
               card_source_model = card_parent_pile.model
               raise 'Cannot accept multiple cards' if card_source_model.playing_cards.index(card) != (card_source_model.playing_cards.size - 1)
-              drop_event.dragged_shape.dispose(redraw: false)
               model.add!(card)
               card_source_model.remove!(card)
+              drop_event.dragged_shape.dispose
             rescue => e
               Glimmer::Config.logger.debug { "Error encountered on drop of a card to a foundation pile: #{e.full_message}" }
               drop_event.doit = false
