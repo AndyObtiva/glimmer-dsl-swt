@@ -832,9 +832,11 @@ module Glimmer
         
         def cancel_dragging!
           Shape.dragging = false
-          Shape.dragged_shape.x = Shape.dragged_shape_original_x
-          Shape.dragged_shape.y = Shape.dragged_shape_original_y
-          Shape.dragged_shape = nil
+          if Shape.dragged_shape
+            Shape.dragged_shape.x = Shape.dragged_shape_original_x
+            Shape.dragged_shape.y = Shape.dragged_shape_original_y
+            Shape.dragged_shape = nil
+          end
         end
         
         def pattern(*args, type: nil)
