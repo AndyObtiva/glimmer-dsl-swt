@@ -22,9 +22,6 @@ class KlondikeSolitaire
             begin
               card_shape = drop_event.dragged_shape.get_data('custom_shape')
               card = card_shape.model
-              pd model, h: '#'*20
-              pd card
-              pd model.playing_cards.include?(card)
               model.add!(card)
               card_parent_pile = card_shape.parent_pile
               card_source_model = card_parent_pile.model
@@ -36,7 +33,6 @@ class KlondikeSolitaire
               end
               drop_event.dragged_shape.dispose
             rescue => e
-              pd e # TODO remove this (troubleshooting only)
               Glimmer::Config.logger.debug { "Error encountered on drop of a card to a column pile: #{e.full_message}" }
               drop_event.doit = false
             end

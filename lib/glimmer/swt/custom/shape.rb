@@ -65,7 +65,7 @@ module Glimmer
         DropEvent = Struct.new(:doit, :x, :y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :dragging_x, :dragging_y, :drop_shapes, keyword_init: true)
         
         class << self
-          attr_accessor :dragging, :dragging_x, :dragging_y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y
+          attr_accessor :dragging, :dragging_x, :dragging_y, :dragged_shape, :dragged_shape_original_x, :dragged_shape_original_y, :drop_shape_handling_count
           alias dragging? dragging
         
           def create(parent, keyword, *args, &property_block)
@@ -228,8 +228,9 @@ module Glimmer
         end
 
         def include_with_children?(x, y, except_shape: nil)
-          included = (!self.equal?(except_shape) && include?(x, y))
-          included || expanded_shapes.reject {|shape| shape.equal?(except_shape)}.any? { |shape| shape.include?(x, y) }
+          included_in_self = (!self.equal?(except_shape) && include?(x, y))
+          # TODO note that expanded shapes does not filter when reject below happens, keeping nested shapes
+          included_in_self || expanded_shapes(except_shape: except_shape).any? { |shape| shape.include?(x, y) }
         end
         
         def bounds_contain?(x, y)
@@ -636,7 +637,7 @@ module Glimmer
           )
         end
         
-        def handle_observation_request(observation_request, &block)
+        def handle_observation_request(observation_request, source_observation_request: nil, &block)
           if observation_request.to_s == 'on_shape_disposed'
             @on_shape_disposed_handlers ||= []
             @on_shape_disposed_handlers << block
@@ -645,17 +646,9 @@ module Glimmer
           end
           if observation_request == 'on_drop'
             drawable.drop_shapes << self
-            handle_observation_request('on_mouse_up') do |event|
+            handle_observation_request('on_mouse_up', source_observation_request: 'on_drop') do |event|
             # TODO consider doing a countdown from number of drop_shapes to 0
-#               pd Shape.dragging, h: :t
-#               pd self
-#               pd Shape.dragged_shape
-#               pd Shape.dragged_shape == self
-#               pd include_shape?(Shape.dragged_shape)
-#               pd include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
-              # TODO include_with_children? is returning true when in fact the point is outside the self shape (it seems except_shape is not sufficient, more needs to be excluded). Happens when I drag a card by its nested text instead of its white area
               if Shape.dragging && include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
-#                 pd 'Dropping on', event.x, event.y
                 drop_event = DropEvent.new(
                   doit: true,
                   dragged_shape: Shape.dragged_shape,
@@ -669,23 +662,20 @@ module Glimmer
                 )
                 begin
                   block.call(drop_event)
-#                   pd 'on drop succeeded'
                 rescue => e
-                  # TODO consider auto-setting drop_event.doit to false here
                   Glimmer::Config.logger.error {e.full_message}
                 ensure
-#                   pd drop_event.doit
-                  Shape.dragging = false
-                  if !drop_event.doit && Shape.dragged_shape
-                    Shape.dragged_shape.x = Shape.dragged_shape_original_x
-                    Shape.dragged_shape.y = Shape.dragged_shape_original_y
+                  if drop_event.doit
+                    Shape.dragging = false
+                    Shape.dragged_shape = nil
+                  elsif Shape.drop_shape_handling_count == drawable.drop_shapes.count && Shape.dragged_shape
+                    cancel_dragging!
                   end
-                  Shape.dragged_shape = nil
-                  # NOTE: do not set dragging to false lest there are other on_drop listeners that can handle it
-                  # NOTE: do not set dragged_shape to nil lest there are other on_drop listeners that can handle it
                 end
-#               else
-#                 pd 'no dice on drop'
+              else
+                if Shape.drop_shape_handling_count == drawable.drop_shapes.count
+                  cancel_dragging!
+                end
               end
             end
           else
@@ -695,8 +685,12 @@ module Glimmer
                 observer_registration.deregister
                 @observer_registrations.delete(observer_registration)
               else
-#                 pd observation_request
-                block.call(event) if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
+                Shape.drop_shape_handling_count += 1 if source_observation_request == 'on_drop' && event.x == Shape.dragging_x && event.y == Shape.dragging_y
+                if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
+                  block.call(event)
+                elsif source_observation_request == 'on_drop' && Shape.drop_shape_handling_count == drawable.drop_shapes.count
+                  cancel_dragging!
+                end
               end
             end
             observer_registration = drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
@@ -770,6 +764,7 @@ module Glimmer
               Shape.dragging = true
               Shape.dragging_x = event.x
               Shape.dragging_y = event.y
+              Shape.drop_shape_handling_count = 0
               Shape.dragged_shape = self
               Shape.dragged_shape_original_x = x
               Shape.dragged_shape_original_y = y
@@ -807,6 +802,7 @@ module Glimmer
               Shape.dragging = true
               Shape.dragging_x = event.x
               Shape.dragging_y = event.y
+              Shape.drop_shape_handling_count = 0
               Shape.dragged_shape = self
               Shape.dragged_shape_original_x = x
               Shape.dragged_shape_original_y = y
@@ -819,24 +815,7 @@ module Glimmer
               end
             end
             @drawable_on_mouse_up ||= drawable.handle_observation_request('on_mouse_up') do |event|
-#               pd 'considering cancellation', h: '>'*20
-#               pd Shape.dragging
-#               pd Shape.dragged_shape
-#               pd self
-#               pd Shape.dragged_shape == self
-#               pd !Shape.drop_shapes.any? {|shape| shape.include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)}
-#               Shape.drop_shapes.each do |shape|
-#                 pd shape if shape.include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
-#               end
-              # TODO correct this algorithm. It is faulty because it does not take into account returning doit=false in any of the drop shapes
-              # TODO consider delaying all handling of this on mouse up listener till after all on drop on mouse up listeners had their go
-              if Shape.dragging && Shape.dragged_shape.equal?(self) && !any_potential_drop_targets?(event.x, event.y)
-#                 pd 'cancelling dragging with Shape.dragging = false'
-                Shape.dragging = false
-                Shape.dragged_shape.x = Shape.dragged_shape_original_x
-                Shape.dragged_shape.y = Shape.dragged_shape_original_y
-                Shape.dragged_shape = nil
-              end
+              cancel_dragging! if Shape.dragging && Shape.dragged_shape.equal?(self) && !any_potential_drop_targets?(event.x, event.y)
             end
           elsif !@drag_source && drag_source_old_value
             deregister_drag_listeners
@@ -849,6 +828,13 @@ module Glimmer
         
         def any_potential_drop_targets?(x, y)
           drawable.drop_shapes.any? { |shape| shape.include_with_children?(x, y, except_shape: Shape.dragged_shape) }
+        end
+        
+        def cancel_dragging!
+          Shape.dragging = false
+          Shape.dragged_shape.x = Shape.dragged_shape_original_x
+          Shape.dragged_shape.y = Shape.dragged_shape_original_y
+          Shape.dragged_shape = nil
         end
         
         def pattern(*args, type: nil)
@@ -1043,10 +1029,10 @@ module Glimmer
           end
         end
         
-        def expanded_shapes
+        def expanded_shapes(except_shape: nil)
           if shapes.to_a.any?
             shapes.map do |shape|
-              [shape] + shape.expanded_shapes
+              shape.equal?(except_shape) ? [] : ([shape] + shape.expanded_shapes(except_shape: except_shape))
             end.flatten
           else
             []
