@@ -8,6 +8,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Provide option to not dispose shape children upon disposing a shape (perhaps passing `children: false`)
 - Compare Glimmer DSL for SWT against the version that has Klondike Solitare external sample written in to see what broke it with regression issue
+- Ensuring scoping shape drag and drop logic by parent drawable
+- Ensure on_shape_disposed returns a deregistrable object (not just a plain block)
+- Consider switching ||= to just = on shape drag listeners
+- Handle shape drag and drop case with one of the drop areas doing a doit false, cancelling the entire operation instead of allowing other on drop areas to handle it
+- Apply shape drag and drop fix where dragging from text content of a rectangle fails but dragging rectangle directly succeeds
 - Test Quarto on Linux and Windows
 - Make ESCAPE key cancel a canvas drag and drop in the middle of dragging
 - Fix regression issue in Klondike Solitaire with not being able to drop a bunch of cards on top of a card to the right of them

@@ -132,12 +132,6 @@ module Glimmer
           def flyweight_patterns
             @flyweight_patterns ||= {}
           end
-          
-          # shapes that have defined on_drop expecting to received a dragged shape
-          def drop_shapes
-            # TODO limit/scope by drawable parent
-            @drop_shapes ||= []
-          end
         end
         
         attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties, :disposed
@@ -233,22 +227,9 @@ module Glimmer
           contain?(x, y)
         end
 
-        def include_with_children?(x, y, except_child: nil)
-          children_shapes = expanded_shapes
-          children_shapes = children_shapes.reject {|shape| shape == except_child} unless except_child.nil?
-          
-          # Optimization: test against self+children bounds at first and reject early if outside of bounds
-          bounds_contained = bounds_contain?(x, y)
-          rejected_shapes = []
-          bounds_contained ||= children_shapes.any? do |shape|
-            shape_bounds_contained = shape.bounds_contain?(x, y)
-            rejected_shapes << shape if !shape_bounds_contained
-            shape_bounds_contained
-          end
-          return false if !bounds_contained
-          
-          included = bounds_contained && include?(x, y)
-          included ||= children_shapes.reject {|shape| shape == except_child || rejected_shapes.include?(shape)}.any? { |shape| shape.include?(x, y) }
+        def include_with_children?(x, y, except_shape: nil)
+          included = (!self.equal?(except_shape) && include?(x, y))
+          included || expanded_shapes.reject {|shape| shape.equal?(except_shape)}.any? { |shape| shape.include?(x, y) }
         end
         
         def bounds_contain?(x, y)
@@ -663,9 +644,18 @@ module Glimmer
             return block
           end
           if observation_request == 'on_drop'
-            Shape.drop_shapes << self
+            drawable.drop_shapes << self
             handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)
+            # TODO consider doing a countdown from number of drop_shapes to 0
+#               pd Shape.dragging, h: :t
+#               pd self
+#               pd Shape.dragged_shape
+#               pd Shape.dragged_shape == self
+#               pd include_shape?(Shape.dragged_shape)
+#               pd include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
+              # TODO include_with_children? is returning true when in fact the point is outside the self shape (it seems except_shape is not sufficient, more needs to be excluded). Happens when I drag a card by its nested text instead of its white area
+              if Shape.dragging && include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
+#                 pd 'Dropping on', event.x, event.y
                 drop_event = DropEvent.new(
                   doit: true,
                   dragged_shape: Shape.dragged_shape,
@@ -673,22 +663,29 @@ module Glimmer
                   dragged_shape_original_y: Shape.dragged_shape_original_y,
                   dragging_x: Shape.dragging_x,
                   dragging_y: Shape.dragging_y,
-                  drop_shapes: Shape.drop_shapes,
+                  drop_shapes: drawable.drop_shapes,
                   x: event.x,
                   y: event.y
                 )
                 begin
                   block.call(drop_event)
+#                   pd 'on drop succeeded'
                 rescue => e
-                  Glimmer::Config.logger.error e.full_message
+                  # TODO consider auto-setting drop_event.doit to false here
+                  Glimmer::Config.logger.error {e.full_message}
                 ensure
+#                   pd drop_event.doit
                   Shape.dragging = false
                   if !drop_event.doit && Shape.dragged_shape
                     Shape.dragged_shape.x = Shape.dragged_shape_original_x
                     Shape.dragged_shape.y = Shape.dragged_shape_original_y
                   end
                   Shape.dragged_shape = nil
+                  # NOTE: do not set dragging to false lest there are other on_drop listeners that can handle it
+                  # NOTE: do not set dragged_shape to nil lest there are other on_drop listeners that can handle it
                 end
+#               else
+#                 pd 'no dice on drop'
               end
             end
           else
@@ -698,6 +695,7 @@ module Glimmer
                 observer_registration.deregister
                 @observer_registrations.delete(observer_registration)
               else
+#                 pd observation_request
                 block.call(event) if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
               end
             end
@@ -777,14 +775,14 @@ module Glimmer
               Shape.dragged_shape_original_y = y
             end
             @drawable_on_mouse_move ||= drawable.handle_observation_request('on_mouse_move') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if Shape.dragging && Shape.dragged_shape.equal?(self)
                 Shape.dragged_shape.move_by((event.x - Shape.dragging_x), (event.y - Shape.dragging_y))
                 Shape.dragging_x = event.x
                 Shape.dragging_y = event.y
               end
             end
             @drawable_on_mouse_up ||= drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self
+              if Shape.dragging && Shape.dragged_shape.equal?(self)
                 Shape.dragging = false
               end
             end
@@ -821,7 +819,19 @@ module Glimmer
               end
             end
             @drawable_on_mouse_up ||= drawable.handle_observation_request('on_mouse_up') do |event|
-              if Shape.dragging && Shape.dragged_shape == self && !Shape.drop_shapes.detect {|shape| shape.include_with_children?(event.x, event.y, except_child: Shape.dragged_shape)}
+#               pd 'considering cancellation', h: '>'*20
+#               pd Shape.dragging
+#               pd Shape.dragged_shape
+#               pd self
+#               pd Shape.dragged_shape == self
+#               pd !Shape.drop_shapes.any? {|shape| shape.include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)}
+#               Shape.drop_shapes.each do |shape|
+#                 pd shape if shape.include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
+#               end
+              # TODO correct this algorithm. It is faulty because it does not take into account returning doit=false in any of the drop shapes
+              # TODO consider delaying all handling of this on mouse up listener till after all on drop on mouse up listeners had their go
+              if Shape.dragging && Shape.dragged_shape.equal?(self) && !any_potential_drop_targets?(event.x, event.y)
+#                 pd 'cancelling dragging with Shape.dragging = false'
                 Shape.dragging = false
                 Shape.dragged_shape.x = Shape.dragged_shape_original_x
                 Shape.dragged_shape.y = Shape.dragged_shape_original_y
@@ -832,9 +842,13 @@ module Glimmer
             deregister_drag_listeners
           end
         end
-            
+        
         def drag_source
           @drag_source
+        end
+        
+        def any_potential_drop_targets?(x, y)
+          drawable.drop_shapes.any? { |shape| shape.include_with_children?(x, y, except_shape: Shape.dragged_shape) }
         end
         
         def pattern(*args, type: nil)
@@ -876,6 +890,7 @@ module Glimmer
           end
           shapes.dup.each { |shape| shape.dispose(dispose_images: dispose_images, dispose_patterns: dispose_patterns, redraw: false) }
           @parent.shapes.delete(self)
+          drawable.drop_shapes.delete(self)
           @on_shape_disposed_handlers&.each {|handler| handler.call(self)} # TODO pass a custom event argument to handler
           drawable.redraw if redraw && !drawable.is_a?(ImageProxy)
         end
