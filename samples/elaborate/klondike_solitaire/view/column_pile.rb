@@ -26,11 +26,7 @@ class KlondikeSolitaire
               card_parent_pile = card_shape.parent_pile
               card_source_model = card_parent_pile.model
               cards = card_source_model.remove!(card)
-              if cards.is_a?(Array) # if it is a column pile
-                cards[1..-1].each do |card|
-                  model.add!(card)
-                end
-              end
+              cards[1..-1].each { |card| model.add!(card) } if cards.is_a?(Array) # if it is a column pile
               drop_event.dragged_shape.dispose
             rescue => e
               Glimmer::Config.logger.debug { "Error encountered on drop of a card to a column pile: #{e.full_message}" }
