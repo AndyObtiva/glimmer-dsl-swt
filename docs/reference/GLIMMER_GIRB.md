@@ -18,7 +18,7 @@ Watch out for hands-on examples in this README indicated by "you may copy/paste 
 
 Keep in mind that all samples live under [https://github.com/AndyObtiva/glimmer-dsl-swt/samples](https://github.com/AndyObtiva/glimmer-dsl-swt/samples)
 
-If you need a more GUI interactive option to experiement with Glimmer GUI DSL Syntax, you may try:
+If you need a more GUI interactive option to experiment with Glimmer GUI DSL Syntax, you may try:
 - [Glimmer Meta-Sample (The Sample of Samples)](#samples): allows launching Glimmer samples and viewing/editing code to learn/experiment too.
 - ["Ugliest Editor Ever"](https://github.com/AndyObtiva/glimmer-cs-gladiator)
 - Just build your own GUI editor using the [Glimmer DSL for SWT Ruby Gem](https://rubygems.org/gems/glimmer-dsl-swt).

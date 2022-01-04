@@ -1,6 +1,6 @@
 ## Glimmer Command
 
-The `glimmer` command allows you to run, scaffold, package, and list Glimmer applications/gems.
+The `glimmer` command allows you to run, scaffold, package, and list Glimmer applications/gems more conveniently.
 
 You can bring up usage instructions by running the `glimmer` command without arguments:
 
@@ -17,6 +17,8 @@ If you are new to Glimmer, you may read the Basic Usage section and skip the res
 Note: If you encounter an issue running the `glimmer` command, run `bundle exec glimmer` instead.
 
 ### Basic Usage
+
+You can run any Glimmer app with `jruby` directly, which is the most lightweight way of running Glimmer DSL for SWT applications. However, if you wrote an app that does not explicitly `require 'glimmer-dsl-swt'`, then you may use the `glimmer` command for convenience instead since it automatically loads `glimmer-dsl-swt`.
 
 ```
 glimmer application.rb
@@ -207,7 +209,7 @@ And, here is the Windows version of the boilerplate Preferences dialog.
 
 ![Glimmer Scaffold App Windows Preferences](/images/glimmer-scaffolding-app-windows-preferences.png)
 
-In order to run the app after making changes, you must run the `glimmer run`. It automatically detects the generated run script under the `bin` directory and uses it as an argument.
+In order to run the app after making changes, you can run the `glimmer run`. It automatically detects the generated run script under the `bin` directory and uses it as an argument.
 
 ```
 glimmer run
@@ -216,13 +218,25 @@ glimmer run
 Alternatively, to manually run the app, you may type:
 
 ```
-glimmer run[bin/greeter]
+jruby bin/greeter
+```
+
+or:
+
+```
+bin/greeter
 ```
 
 or:
 
 ```
 glimmer bin/greeter
+```
+
+or:
+
+```
+glimmer run[bin/greeter]
 ```
 
 #### Desktopify
@@ -302,7 +316,7 @@ Desktopified App on Linux
 
 ![Glimmer Scaffold App](/images/glimmer-scaffolding-desktopify-linux.png)
 
-In order to run the app after making changes, you must run the `glimmer run`. It automatically detects the generated run script under the `bin` directory and uses it as an argument.
+In order to run the app after making changes, you can run the `glimmer run`. It automatically detects the generated run script under the `bin` directory and uses it as an argument.
 
 ```
 glimmer run

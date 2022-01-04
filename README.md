@@ -17,7 +17,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.22.1.1 includes [SWT 4.22](https://download.eclipse.org/eclipse/downloads/drops4/R-4.22-202111241800/), which was released on November 24, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (please report any issues you may encounter).
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.22.1.1 includes [SWT 4.22](https://download.eclipse.org/eclipse/downloads/drops4/R-4.22-202111241800/), which was released on November 24, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64/ARM64 on Mac and Linux, but it is not fully tested in Glimmer DSL for SWT yet, so deem its support experimental for the time being without guarantees for functionality until declared otherwise (please report any issues you may encounter).
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword.
 
@@ -147,9 +147,9 @@ shell {
     font height: 14
     enabled <= [BaseballGame, :selected_game]
     
-    on_widget_selected {
+    on_widget_selected do
       book_selected_game
-    }
+    end
   }
 }
 ```
@@ -296,7 +296,7 @@ https://www.eclipse.org/swt/faq.php
 - JDK 17 (17.0.1) (find at https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html / Ensure PATH includes Java bin directory for `jpackage` command to work when packaging Glimmer applications)
 - [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
 - JRuby 9.3.1.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.1.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
-- SWT 4.22 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
+- SWT 4.22 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64/ARM64 on Mac and Linux, but it is not fully tested with Glimmer DSL for SWT yet, so it is considered experimental until declared otherwise.
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.

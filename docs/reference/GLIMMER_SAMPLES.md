@@ -1054,14 +1054,6 @@ Hello, Tool Bar!
 
 ![Hello Tool Bar](/images/glimmer-hello-tool-bar.png)
 
-![Hello Tool Bar Cut](/images/glimmer-hello-tool-bar-cut.png)
-
-![Hello Tool Bar Copy](/images/glimmer-hello-tool-bar-copy.png)
-
-![Hello Tool Bar Paste](/images/glimmer-hello-tool-bar-paste.png)
-
-![Hello Tool Bar Font Size](/images/glimmer-hello-tool-bar-font-size.png)
-
 #### Hello, Cool Bar!
 
 This sample demonstrates the use of `cool_bar` that can contain multiple reorganizable `tool_bar` widgets

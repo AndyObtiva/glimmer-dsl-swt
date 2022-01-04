@@ -1595,6 +1595,14 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 While other GUI toolkits only offer a way to draw graphics imperatively (e.g. fill_rectangle, draw_point, etc...), Glimmer DSL for SWT breaks away from the mold by enabling software engineers to draw graphics declaratively. Simply declare all the shapes you want to see with their attributes, like background/foreground colors, and Glimmer DSL for SWT takes care of the rest, painting graphics on a blank `canvas` widget or amending/decorating an existing widget. This is accomplished through the Canvas Shape DSL, a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax. Still, for the rare cases where imperative logic is needed, Glimmer DSL for SWT supports imperative painting of graphics through direct usage of SWT.
 
+![Canvas Shape DSL Line](/images/glimmer-canvas-shape-dsl-line.png)
+![Canvas Shape DSL Rectangle](/images/glimmer-canvas-shape-dsl-rectangle.png)
+![Canvas Shape DSL Oval](/images/glimmer-canvas-shape-dsl-oval.png)
+![Canvas Shape DSL Arc](/images/glimmer-canvas-shape-dsl-arc.png)
+![Canvas Shape DSL Polyline](/images/glimmer-canvas-shape-dsl-polyline.png)
+![Canvas Shape DSL Polygon](/images/glimmer-canvas-shape-dsl-polygon.png)
+![Canvas Shape DSL Text](/images/glimmer-canvas-shape-dsl-text.png)
+
 `canvas` has the `:double_buffered` SWT style by default on platforms that need it (Windows & Linux) to ensure flicker-free rendering. If you need to disable it for whatever reason, just pass the `:none` SWT style instead (e.g. `canvas(:none)`)
 
 Shape keywords and their args (including defaults) are listed below (they basically match method names and arguments on [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) minus the `draw` or `fill` prefix in downcase):
@@ -1630,55 +1638,13 @@ Here is a list of supported attributes nestable within a block under shapes:
 - `foreground` sets draw color for drawable shapes (standard color symbol (e.g. `:red`), `rgb(red_integer, green_integer, blue_integer)` color, or Color/ColorProxy object directly)
 - `foreground_pattern` sets foreground gradient/image pattern for drawable shape lines (takes the same arguments as the SWT [Pattern](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Pattern.html) class [e.g. `foreground_pattern 2.3, 4.2, 5.4, 7.2, :red, :blue`] / note: this feature isn't extensively tested yet)
 - `interpolation` sets the interpolation value (SWT style value of `:default`, `:none`, `:low`, `:high`)
-- `line_cap` sets line cap (SWT style value of `:cap_flat`, `:cap_round`, or `:cap_square`)
+- `line_cap` sets line cap (SWT style value of `:flat`, `:round`, or `:square`, with aliases `:cap_flat`, `:cap_round`, and `:cap_square`)
 - `line_dash` line dash float values (automatically sets `line_style` to SWT style value of `:line_custom`)
-- `line_join` line join style (SWT style value of `:join_miter`, `:join_round`, or `:join_bevel`)
+- `line_join` line join style (SWT style value of `:miter`, `:round`, and `:bevel`, with aliases `:join_miter`, `:join_round`, or `:join_bevel`)
 - `line_style` line join style (SWT style value of `:solid`, `:dash`, `:dot`, `:dashdot`, `:dashdotdot`, or `:custom` while requiring `line_dash` attribute (or alternatively with `line_` prefix as per official SWT docs like `:line_solid` for `:solid`)
 - `line_width` line width in integer (used in draw operations)
 - `text_anti_alias` enables text antialiasing (SWT style value of `:default`, `:off`, `:on` whereby `:default` applies OS default, which varies per OS)
 - `transform` sets transform object using [Canvas Transform DSL](#canvas-transform-dsl) syntax
-
-Keep in mind that ordering of shapes matters as it is followed in painting. For example, it is recommended you paint filled shapes first and then drawn ones.
-
-Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
-
-```ruby
-include Glimmer
-
-# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
-image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
-
-shell {
-  text 'Canvas Example'
-  minimum_size 320, 400
-
-  canvas {
-    background :dark_yellow
-    rectangle(0, 0, 220, 400) {
-      background :dark_red
-    }
-    rectangle(50, 20, 300, 150, 30, 50, round: true) {
-      background :yellow
-    }
-    rectangle(150, 200, 100, 70, true, gradient: true) {
-      background :dark_red
-      foreground :yellow
-    }
-    text('Glimmer', 208, 83) {
-      font height: 25, style: :bold
-    }
-    rectangle(200, 80, 108, 36) {
-      foreground rgb(0, 0, 0)
-      line_width 3
-    }
-    image(image_object, 70, 50)
-  }
-}.open
-```
-
-Screenshot:
-
-![Canvas Animation Example](/images/glimmer-example-canvas.png)
 
 If you specify the x and y coordinates as `:default`, `nil`, or leave them out, they get calculated automatically by centering the shape within its parent `canvas`.
 
@@ -1686,115 +1652,699 @@ If you specify the `width` and `height` parameters as `:max`, they get calculate
 
 Note that you could shift a shape off its centered position within its parent `canvas` by setting `x` to `[:default, x_delta]` and `y` to `[:default, y_delta]`
 
-The round and gradient options could be dropped since Glimmer DSL for SWT supports auto-inference of them based on shape parameters.
+Keep in mind that ordering of shapes matters as it is followed in painting. For example, it is recommended you paint filled shapes first and then drawn ones.
 
-Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+Example of `line` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
+require 'glimmer-dsl-swt'
+
 include Glimmer
 
-# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
-image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
-
 shell {
-  text 'Canvas Example'
-  minimum_size 320, 400
-
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
   canvas {
-    background :dark_yellow
-    rectangle(0, 0, 220, 400) {
-      background :dark_red
-    }
-    rectangle(50, 20, 300, 150, 30, 50) {
-      background :yellow
-    }
-    rectangle(150, 200, 100, 70, true) {
-      background :dark_red
-      foreground :yellow
-    }
-    text('Glimmer', 208, 83) {
-      font height: 25, style: :bold
-    }
-    rectangle(200, 80, 108, 36) {
-      foreground rgb(0, 0, 0)
+    background :white
+    
+    line(30, 30, 170, 170) {
+      foreground :red
       line_width 3
     }
-    image(image_object, 70, 50)
   }
 }.open
 ```
 
-Notice how the shape declaration parameters perfectly match the method parameters in the [SWT org.eclipse.swt.graphics.GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html). This is useful for developers coming to Glimmer DSL for SWT from SWT.
+![Canvas Shape DSL Line](/images/glimmer-canvas-shape-dsl-line.png)
 
-Of course, Glimmer DSL for SWT still supports an alternative syntax that is more declarative and consistent with the rest of the Glimmer GUI DSL syntax. This syntax in fact offers the extra-benefit of data-binding for shape parameter values (meaning you could use `bind(...)` syntax with them instead of setting values directly)
-
-Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+Example of `rectangle` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
+require 'glimmer-dsl-swt'
+
 include Glimmer
 
-# image object has to be declared outside the canvas and shell to avoid confusing with canvas image property
-image_object = image(File.expand_path('./icons/scaffold_app.png'), width: 100)
-
 shell {
-  text 'Canvas Example'
-  minimum_size 320, 400
-
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
   canvas {
-    background :dark_yellow
-    rectangle {
-      x 0
-      y 0
-      width 220
-      height 400
-      background :dark_red
-    }
-    rectangle {
-      x 50
-      y 20
-      width 300
-      height 150
-      arc_width 30
-      arc_height 50
+    background :white
+    
+    rectangle(30, 50, 140, 100) {
       background :yellow
     }
-    rectangle {
-      x 150
-      y 200
-      width 100
-      height 70
-      vertical true
-      background :dark_red
-      foreground :yellow
-    }
-    text {
-      string 'Glimmer'
-      x 208
-      y 83
-      font height: 25, style: :bold
-    }
-    rectangle {
-      x 200
-      y 80
-      width 108
-      height 36
-      foreground :black
+    
+    rectangle(30, 50, 140, 100) {
+      foreground :red
       line_width 3
     }
-    image {
-      image image_object
-      x 70
+  }
+}.open
+```
+
+![Canvas Shape DSL Rectangle](/images/glimmer-canvas-shape-dsl-rectangle.png)
+
+Example of `rectangle` with round corners having 60 degree angles by default (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    rectangle(30, 50, 140, 100, round: true) {
+      background :yellow
+    }
+    
+    rectangle(30, 50, 140, 100, round: true) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Rectangle Round](/images/glimmer-canvas-shape-dsl-rectangle-round.png)
+
+Example of `rectangle` with round corners having different horizontal and vertical angles (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    rectangle(30, 50, 140, 100, 40, 80) {
+      background :yellow
+    }
+    
+    rectangle(30, 50, 140, 100, 40, 80) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Rectangle Round Angles](/images/glimmer-canvas-shape-dsl-rectangle-round-angles.png)
+
+Example of `oval` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    oval(30, 50, 140, 100) {
+      background :yellow
+    }
+    
+    oval(30, 50, 140, 100) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Oval](/images/glimmer-canvas-shape-dsl-oval.png)
+
+Example of `arc` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    arc(30, 30, 140, 140, 0, 270) {
+      background :yellow
+    }
+    
+    arc(30, 30, 140, 140, 0, 270) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Arc](/images/glimmer-canvas-shape-dsl-arc.png)
+
+Example of `polyline` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    polyline(30, 50, 50, 170, 70, 120, 90, 150, 110, 30, 130, 100, 150, 50, 170, 135) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Polyline](/images/glimmer-canvas-shape-dsl-polyline.png)
+
+Example of `polygon` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    polygon(30, 90, 80, 20, 130, 40, 170, 90, 130, 140, 80, 170, 40, 160) {
+      background :yellow
+    }
+    
+    polygon(30, 90, 80, 20, 130, 40, 170, 90, 130, 140, 80, 170, 40, 160) {
+      foreground :red
+      line_width 3
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Polygon](/images/glimmer-canvas-shape-dsl-polygon.png)
+
+Example of `text` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    text(" This is \n rendered text ", 30, 50) {
+      background :yellow
+      foreground :red
+      font height: 25, style: :italic
+      
+      rectangle { # automatically scales to match text extent
+        foreground :red
+        line_width 3
+      }
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Text](/images/glimmer-canvas-shape-dsl-text.png)
+
+Example of `image` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 512, 542
+  
+  canvas {
+    background :white
+    
+    image(File.expand_path('icons/scaffold_app.png', __dir__), 0, 5)
+  }
+}.open
+```
+
+![Canvas Shape DSL Image](/images/glimmer-canvas-shape-dsl-image.png)
+
+Example of `image` pre-built with a smaller height (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+@image_object = image(File.expand_path('icons/scaffold_app.png', __dir__), height: 200)
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 230
+  
+  canvas {
+    background :white
+    
+    image(@image_object, 0, 5)
+  }
+}.open
+```
+
+![Canvas Shape DSL Image](/images/glimmer-canvas-shape-dsl-image-shrunk.png)
+
+Example of setting `background_pattern` attribute to a horizontal gradient (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    oval(30, 30, 140, 140) {
+      background_pattern 0, 0, 200, 0, rgb(255, 255, 0), rgb(255, 0, 0)
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Oval Background Pattern Gradient](/images/glimmer-canvas-shape-dsl-oval-background-pattern-gradient.png)
+
+Example of setting `foreground_pattern` attribute to a vertical gradient (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    oval(30, 30, 140, 140) {
+      foreground_pattern 0, 0, 0, 200, :blue, :green
+      line_width 10
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Oval Foreground Pattern Gradient](/images/glimmer-canvas-shape-dsl-oval-foreground-pattern-gradient.png)
+
+Example of setting `line_style` attribute to `:dashdot` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    oval(30, 50, 140, 100) {
+      background :yellow
+    }
+    
+    oval(30, 50, 140, 100) {
+      foreground :red
+      line_width 3
+      line_style :dashdot
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Oval](/images/glimmer-canvas-shape-dsl-oval-line-style-dashdot.png)
+
+Example of setting `line_width` attribute to `10`, `line_join` attribute to `:miter` (default) and `line_cap` attribute to `:flat` (default) (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    polyline(30, 50, 50, 170, 70, 120, 90, 150, 110, 30, 130, 100, 150, 50, 170, 135) {
+      foreground :red
+      line_width 10
+      line_join :miter
+      line_cap :flat
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Polyline Line Join Miter Line Cap Flat](/images/glimmer-canvas-shape-dsl-polyline-line-join-miter-line-cap-flat.png)
+
+Example of setting `line_width` attribute to `10`, `line_join` attribute to `:round` and `line_cap` attribute to `:round` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    polyline(30, 50, 50, 170, 70, 120, 90, 150, 110, 30, 130, 100, 150, 50, 170, 135) {
+      foreground :red
+      line_width 10
+      line_join :round
+      line_cap :round
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Polyline Line Join Round Line Cap Round](/images/glimmer-canvas-shape-dsl-polyline-line-join-round-line-cap-round.png)
+
+Example of setting `line_width` attribute to `10`, `line_join` attribute to `:bevel` and `line_cap` attribute to `:square` (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    polyline(30, 50, 50, 170, 70, 120, 90, 150, 110, 30, 130, 100, 150, 50, 170, 135) {
+      foreground :red
+      line_width 10
+      line_join :bevel
+      line_cap :square
+    }
+  }
+}.open
+```
+
+![Canvas Shape DSL Polyline Line Join Miter Line Cap Flat](/images/glimmer-canvas-shape-dsl-polyline-line-join-bevel-line-cap-square.png)
+
+Shape declaration parameters perfectly match the method parameters in the [SWT org.eclipse.swt.graphics.GC API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html). This is useful for developers coming to Glimmer DSL for SWT from SWT.
+
+Glimmer DSL for SWT also supports an alternative syntax for specifying shape parameters by nesting underneath the shape instead of passing as args. This syntax in fact offers the extra-benefit of [data-binding](#data-binding) for shape parameter values (meaning you could use `<=` syntax with them instead of setting values directly)
+
+Example of alternative syntax for specifying shape parameters (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+include Glimmer
+
+shell {
+  text 'Canvas Shape DSL'
+  minimum_size 200, 220
+  
+  canvas {
+    background :white
+    
+    rectangle {
+      x 30
       y 50
+      width 140
+      height 100
+      arc_width 40
+      arc_height 80
+      background :yellow
+    }
+    
+    rectangle {
+      x 30
+      y 50
+      width 140
+      height 100
+      arc_width 40
+      arc_height 80
+      foreground :red
+      line_width 3
     }
   }
 }.open
 ```
 
-Learn more at the [Hello, Canvas! Sample](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas).
+![Canvas Shape DSL Rectangle Round Angles](/images/glimmer-canvas-shape-dsl-rectangle-round-angles.png)
 
-If you ever have special needs or optimizations, you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+Example of canvas shape parameter data-binding (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
-Example of manually doing the same things as in the previous example without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+```ruby
+require 'glimmer-dsl-swt'
+
+class HelloCanvasDataBinding
+  include Glimmer::GUI::CustomWindow # alias for Glimmer::UI::CustomShell
+  
+  CANVAS_WIDTH  = 300
+  CANVAS_HEIGHT = 300
+  
+  attr_accessor :x1_value, :y1_value, :x2_value, :y2_value, :foreground_red, :foreground_green, :foreground_blue, :line_width_value, :line_style_value
+  
+  def foreground_value
+    rgb(foreground_red, foreground_green, foreground_blue)
+  end
+  
+  def line_style_value_options
+    [:solid, :dash, :dot, :dashdot, :dashdotdot]
+  end
+  
+  before_body do
+    self.x1_value = 0
+    self.y1_value = 0
+    self.x2_value = CANVAS_WIDTH
+    self.y2_value = CANVAS_HEIGHT
+    self.foreground_red = 28
+    self.foreground_green = 128
+    self.foreground_blue = 228
+    self.line_width_value = 3
+    self.line_style_value = :dot
+  end
+  
+  body {
+    shell {
+      text 'Hello, Canvas Data-Binding!'
+      
+      tab_folder {
+        tab_item {
+          grid_layout(6, true) {
+            margin_width 0
+            margin_height 0
+            horizontal_spacing 0
+            vertical_spacing 0
+          }
+          text 'line'
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'x1'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'y1'
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [self, :x1_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [self, :y1_value]
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'x2'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'y2'
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [self, :x2_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [self, :y2_value]
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground red'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground green'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground blue'
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [self, :foreground_red]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [self, :foreground_green]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [self, :foreground_blue]
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'line width'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'line style'
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum 255
+            selection <=> [self, :line_width_value]
+          }
+          combo(:read_only) {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            selection <=> [self, :line_style_value]
+          }
+          canvas {
+            layout_data(:center, :center, false, false) {
+              horizontal_span 6
+              width_hint CANVAS_WIDTH
+              height_hint CANVAS_WIDTH
+            }
+            background :white
+            
+            line {
+              x1 <= [self, :x1_value]
+              y1 <= [self, :y1_value]
+              x2 <= [self, :x2_value]
+              y2 <= [self, :y2_value]
+              foreground <= [self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
+              line_width <= [self, :line_width_value]
+              line_style <= [self, :line_style_value]
+            }
+          }
+        }
+      }
+    }
+  }
+  
+end
+
+HelloCanvasDataBinding.launch
+```
+
+![Glimmer Example Canvas Data-Binding Line Changed](/images/glimmer-hello-canvas-data-binding-line-changed.png)
+
+If you ever have special needs for optimization, you could always default to direct SWT painting via [org.eclipse.swt.graphics.GC](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/GC.html) instead. Learn more at the [SWT Graphics Guide](https://www.eclipse.org/articles/Article-SWT-graphics/SWT_graphics.html) and [SWT Image Guide](https://www.eclipse.org/articles/Article-SWT-images/graphics-resources.html#Saving%20Images).
+
+Example of manual drawing without relying on the declarative Glimmer Shape DSL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
 include Glimmer
@@ -1834,6 +2384,8 @@ shell {
   }
 }.open
 ```
+
+![Glimmer Example Canvas](/images/glimmer-example-canvas.png)
 
 #### Shapes inside a Shape
 

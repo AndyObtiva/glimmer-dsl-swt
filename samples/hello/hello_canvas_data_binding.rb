@@ -195,13 +195,13 @@ class HelloCanvasDataBinding
             background :white
             
             line {
-              x1 <=> [self, :x1_value]
-              y1 <=> [self, :y1_value]
-              x2 <=> [self, :x2_value]
-              y2 <=> [self, :y2_value]
-              foreground <=> [self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
-              line_width <=> [self, :line_width_value]
-              line_style <=> [self, :line_style_value]
+              x1 <= [self, :x1_value]
+              y1 <= [self, :y1_value]
+              x2 <= [self, :x2_value]
+              y2 <= [self, :y2_value]
+              foreground <= [self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
+              line_width <= [self, :line_width_value]
+              line_style <= [self, :line_style_value]
             }
           }
         }
