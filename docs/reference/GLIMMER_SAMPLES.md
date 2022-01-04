@@ -78,6 +78,7 @@
     - [Stock Ticker](#stock-ticker)
     - [Metronome](#metronome)
     - [Weather](#weather)
+    - [Quarto](#quarto)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -1368,6 +1369,18 @@ Montreal - Fahrenheit
 Atlanta - Fahrenheit
 
 ![Atlanta F](/images/glimmer-weather-atlanta-fahrenheit.png)
+
+#### Quarto
+
+This sample is a classic game called [Quarto](https://en.gigamic.com/game/quarto-classic), which demonstrates Canvas Drag and Drop and Custom Shapes (`cylinder`, `cube`, and `message_box_panel`) in an MVC application.
+
+Code:
+
+[samples/elaborate/quarto.rb](/samples/elaborate/quarto.rb)
+
+Quarto
+
+![Quarto](/images/glimmer-quarto.png)
 
 ### External Samples
 

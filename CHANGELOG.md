@@ -1,23 +1,22 @@
 # Change Log
 
-## 4.22.0.1
+## 4.22.1.0
 
 - New Quarto game sample: https://en.gigamic.com/game/quarto-classic
-- Remove `logging` gem dependency making it optional (documented in [docs/reference/GLIMMER_CONFIG.md](/docs/reference/GLIMMER_CONFIG.md)).
+- Make Klondike Solitaire (sample) playing cards bigger to be more readable and make tableau slightly taller
+- Update Hello, Custom Widget! sample with a custom listener example
+- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
+- Remove `logging` gem dependency, improving startup time (still available as an option as per [docs/reference/GLIMMER_CONFIGURATION.md](/docs/reference/GLIMMER_CONFIGURATION.md)).
+- Ensure that setting both `Shape` `drag_source true` and `drag_and_move true` results in the last one winning (they are mutually exclusive)
 - Default `text` shape to flags: `[:draw_transparent, :draw_delimiter]` to handle newline delimiter correctly when sizing text extent automatically (e.g. when passing width/height 2nd/3rd args as `:default` or not passing at all)
 - Remove `" - App View"` from shell title in `desktopify` scaffolding mode
 - Remove SWT Chromium browser option since it is no longer supported by SWT.
-- Update Hello, Custom Widget! sample with a custom listener example
 - Support being able to hook listeners on a shape directly via Shape#on_event calls
 - Support Shape#on_shape_disposed listener
 - Automatic display listener disposal upon disposing a custom shape (for listeners defined in before_body/after_body of custom shape)
-- Made `logging` gem use optional (set `Glimmer::Config.logger_type = :logging` to activate)
 - Ensure deregistering drag & drop listeners from shapes with `drag_source=true`/`drag_and_move=true` when they are disposed
 - Support `Shape#transform_point(x, y)` by applying current `transform` to point (similar to existing opposite: `inverse_transform_point`)
-- Optimize performance of `glimmer` command to be exactly as fast as using `jruby` directly by avoiding calling `jgem` or loading `rake`/`Rakefile` when not needed
-- Look into forwarding options for `#dispose` on `CustomShape` to `body_root` `Shape` (e.g. `.dispose(dispose_images: true, dispose_patterns: true, redraw: true)`)
-- Ensure that setting both `drag_source true` and `drag_and_move true` results in the last one winning (they are mutually exclusive)
-- Make Klondike Solitaire (sample) playing cards bigger to be more readable and make tableau slightly taller
+- Look into forwarding options for `CustomShape#dispose(...)` to `body_root` `Shape#dispose(...)` (e.g. `.dispose(dispose_images: true, dispose_patterns: true, redraw: true)`)
 - Fix Linux-only issue with JRuby 9.3.1.0 where GC#drawPolyline requires passing array of values calling array.to_java(:int) manually (it automatically converts array on other platforms and other versions of JRuby)
 - Fix canvas drag and drop issue (edge case) with having multiple on drop handlers and one of them before the last one setting doit=false while a subsequent on_drop handler being able to handle the drop request but not getting a chance to
 - Fix canvas drag and drop issue (edge case) with failing when dragging a custom shape by one of its deep children
