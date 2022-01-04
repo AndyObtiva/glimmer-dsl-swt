@@ -997,7 +997,9 @@ module Glimmer
           @calculated_args ||= calculate_args!
           unless container?
             # paint unless parent's calculated args are not calculated yet, meaning it is about to get painted and trigger a paint on this child anyways
-            paint_event.gc.send(@method_name, *@calculated_args) unless (parent.is_a?(Shape) && !parent.calculated_args?)
+            passed_args = @calculated_args.dup
+            passed_args[0] = passed_args[0].to_java(:int) if @method_name == 'drawPolyline' # a weird fix needed for Linux JRuby 9.3.1.0 only (seems to lack a feature from Mac JRuby that automatically converts to appropriate java array type)
+            paint_event.gc.send(@method_name, *passed_args) unless (parent.is_a?(Shape) && !parent.calculated_args?)
             @original_gc_properties.each do |method_name, value|
               paint_event.gc.send(method_name, value)
             end
