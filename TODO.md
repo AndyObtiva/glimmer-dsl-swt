@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Finish all TODOs in Quarto
 - Test Quarto on Linux and Windows
 - Support restart button in Quarto
 - Handle draw in Quarto

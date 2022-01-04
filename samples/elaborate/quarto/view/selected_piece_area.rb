@@ -60,6 +60,10 @@ class Quarto
           end
         }
       }
+      
+      def reset_selected_piece
+        @selected_piece&.dispose
+      end
     end
   end
 end

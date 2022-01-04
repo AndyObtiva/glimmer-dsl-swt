@@ -41,6 +41,7 @@ class Quarto
         self.game_over = false
         self.board = ROW_COUNT.times.map {COLUMN_COUNT.times.map {nil}}
         self.available_pieces = Piece.all_pieces.dup
+        self.selected_piece = nil
         self.current_player_number = 1
         self.current_move = MOVES.first
       end

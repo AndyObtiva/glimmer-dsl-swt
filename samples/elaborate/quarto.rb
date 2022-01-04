@@ -68,9 +68,7 @@ class Quarto
             text_font: {height: 16}
           ) {
             on_closed do
-              @available_pieces_area.reset_pieces
-              @board.reset_cells
-              @game.restart
+              restart_game
             end
           }
         }
@@ -100,6 +98,25 @@ class Quarto
   
   def quarto_menu_bar
     menu_bar {
+      menu {
+        text 'Game'
+        
+        menu_item {
+          text 'Restart'
+          
+          on_widget_selected do
+            restart_game
+          end
+        }
+        
+        menu_item {
+          text 'Exit'
+          
+          on_widget_selected do
+            exit(0)
+          end
+        }
+      }
       menu {
         text 'Help'
         
@@ -157,6 +174,13 @@ class Quarto
         }
       end
     end
+  end
+  
+  def restart_game
+    @available_pieces_area.reset_pieces
+    @selected_piece_area.reset_selected_piece
+    @board.reset_cells
+    @game.restart
   end
 end
 
