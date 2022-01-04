@@ -58,6 +58,8 @@ class Quarto
           @board[row][column] = piece
           if win?
             self.game_over = current_player_number
+          elsif draw?
+            self.game_over = 0
           else
             next_move
           end
@@ -74,6 +76,10 @@ class Quarto
         last_player_number = current_player_number
         last_player_number_index = PLAYER_NUMBERS.index(current_player_number)
         self.current_player_number = PLAYER_NUMBERS[(last_player_number_index + 1)%PLAYER_NUMBERS.size]
+      end
+      
+      def draw?
+        !win? && board.flatten.compact.count == 12
       end
       
       def win?

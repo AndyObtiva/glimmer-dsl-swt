@@ -63,7 +63,7 @@ class Quarto
         body_root.content {
           @open_message_box_panel&.close
           @open_message_box_panel = message_box_panel(
-            message: "Game Over! Player #{@game.game_over} wins!",
+            message: "Game Over! " + (@game.game_over == 0 ? "Draw!" : "Player #{@game.game_over} wins!"),
             background_color: COLOR_LIGHT_WOOD,
             text_font: {height: 16}
           ) {
