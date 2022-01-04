@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.1.1
+
+- Fix minor issue with Shape listener disposal
+- Fix minor issue with Quarto not displaying help message box after game over
+
 ## 4.22.1.0
 
 - New Quarto game sample: https://en.gigamic.com/game/quarto-classic

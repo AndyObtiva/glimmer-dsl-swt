@@ -174,7 +174,7 @@ class Quarto
             text_font: {height: 16}
           )
         }
-        body_root.redraw if OS.windows?
+        body_root.redraw
       end
     end
   end

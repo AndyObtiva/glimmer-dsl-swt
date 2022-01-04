@@ -678,11 +678,11 @@ module Glimmer
               end
             end
           else
-            observer_registration = nil
+            widget_listener_proxy = nil
             shape_block = lambda do |event|
               if @disposed
-                observer_registration.deregister
-                @widget_listener_proxies.delete(observer_registration)
+                widget_listener_proxy.deregister
+                @widget_listener_proxies.delete(widget_listener_proxy)
               else
                 Shape.drop_shape_handling_count += 1 if source_observation_request == 'on_drop' && event.x == Shape.dragging_x && event.y == Shape.dragging_y
                 if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
