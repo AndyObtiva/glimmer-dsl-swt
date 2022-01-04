@@ -83,10 +83,10 @@ class Quarto
   end
   
   body {
-    shell((:double_buffered unless OS.mac?)) {
+    shell(:shell_trim, (:double_buffered unless OS.mac?)) {
       text 'Glimmer Quarto'
-      minimum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
-      maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
+      minimum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2 + (OS.linux? ? 52 : (OS.windows? ? 16 : 0)), BOARD_DIAMETER + 24 + SHELL_MARGIN*2 + (OS.linux? ? 96 : (OS.windows? ? 32 : 0))
+      maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2 + (OS.linux? ? 52 : (OS.windows? ? 16 : 0)), BOARD_DIAMETER + 24 + SHELL_MARGIN*2 + (OS.linux? ? 96 : (OS.windows? ? 32 : 0))
       background COLOR_WOOD
       
       quarto_menu_bar
@@ -174,6 +174,7 @@ class Quarto
             text_font: {height: 16}
           )
         }
+        body_root.redraw if OS.windows?
       end
     end
   end
