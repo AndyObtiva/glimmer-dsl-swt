@@ -10,7 +10,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Ensure Shape#on_drop returns a properly deregistrable object (removes from drawable#drop_shapes not just deregister listener directly)
 - Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
-- Improve performance of on_drag_detected listener in Shape by not performing include_with_children? if Shape.dragged is true
 
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
