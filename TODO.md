@@ -5,7 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Test Quarto on Linux and Windows
-- Disable logging by default
 - Remove `logging` gem dependency
 - Ensure Shape#on_shape_disposed returns a deregistrable object (not just a plain block)
 - Ensure Shape#on_drop returns a properly deregistrable object (removes from drawable#drop_shapes not just deregister listener directly)

@@ -31,19 +31,21 @@ class Quarto
       ROW_COUNT = 4
       COLUMN_COUNT = 4
     
-      attr_accessor :board, :available_pieces, :selected_piece, :current_move, :current_player_number, :game_over
+      attr_accessor :board, :available_pieces, :selected_piece, :current_move, :current_player_number, :over, :winner_player_number
+      alias over? over
       
       def initialize
         start
       end
       
       def start
-        self.game_over = false
+        self.over = false
         self.board = ROW_COUNT.times.map {COLUMN_COUNT.times.map {nil}}
         self.available_pieces = Piece.all_pieces.dup
         self.selected_piece = nil
         self.current_player_number = 1
         self.current_move = MOVES.first
+        self.winner_player_number = nil
       end
       alias restart start
       
@@ -57,9 +59,11 @@ class Quarto
         if @board[row][column].nil?
           @board[row][column] = piece
           if win?
-            self.game_over = current_player_number
+            self.winner_player_number = current_player_number # must set before updating observed over attribute
+            self.over = true
           elsif draw?
-            self.game_over = 0
+            self.winner_player_number = nil # must set before updating observed over attribute
+            self.over = true
           else
             next_move
           end

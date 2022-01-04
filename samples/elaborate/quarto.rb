@@ -58,12 +58,14 @@ class Quarto
       perform_current_move
     end
     
-    observe(@game, :game_over) do |game_over_winner|
-      if game_over_winner
+    observe(@game, :over) do |game_over_status|
+      if game_over_status
+        game_over_message = "Game Over! "
+        game_over_message += @game.winner_player_number.nil? ? "Draw!" : "Player #{@game.winner_player_number} wins!"
         body_root.content {
           @open_message_box_panel&.close
           @open_message_box_panel = message_box_panel(
-            message: "Game Over! " + (@game.game_over == 0 ? "Draw!" : "Player #{@game.game_over} wins!"),
+            message: game_over_message,
             background_color: COLOR_LIGHT_WOOD,
             text_font: {height: 16}
           ) {
