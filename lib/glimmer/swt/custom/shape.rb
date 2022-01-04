@@ -686,7 +686,7 @@ module Glimmer
                 @observer_registrations.delete(observer_registration)
               else
                 Shape.drop_shape_handling_count += 1 if source_observation_request == 'on_drop' && event.x == Shape.dragging_x && event.y == Shape.dragging_y
-                if !event.respond_to?(:x) || !event.respond_to?(:y) || (((observation_request != 'on_drag_detected') || !Shape.dragging) && include_with_children?(event.x, event.y))
+                if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
                   block.call(event)
                 elsif source_observation_request == 'on_drop' && Shape.drop_shape_handling_count.to_i >= drawable.drop_shapes.count
                   cancel_dragging!
