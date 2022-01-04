@@ -4,14 +4,18 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
+- Finish all TODOs in Quarto
 - Test Quarto on Linux and Windows
+- Support restart button in Quarto
+- Handle draw in Quarto
 - Disable logging by default
 - Remove `logging` gem dependency
 - Ensure Shape#on_shape_disposed returns a deregistrable object (not just a plain block)
 - Ensure Shape#on_drop returns a properly deregistrable object (removes from drawable#drop_shapes not just deregister listener directly)
 
+- Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 - Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
+
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
       options :message, :location_x, :location_y
@@ -353,6 +357,7 @@ composite {
 
 ## Issues
 
+- Fix issue with Quarto where dropped piece is exactly where OK button appears in message_box_panel and thus user closes dialog inadvertantly by dropping piece
 - Fix setting logo icon on app shell (though it seems to be a recent SWT issue, so consider reporting after proving in Java)
 - Fix issue with building images on the fly (with image nested DSL) on Windows
 - Fix issue with Hello, Canvas Drag and Drop refactoring to use data-binding for drop target text not reflecting changes upon dropping balls until it hits 10 (seems caused by caching until textExtent is changed which happens between a single digit number to double-digits)

@@ -54,8 +54,7 @@ class Quarto
     load_quarto_config
     @game = Model::Game.new
     
-    observe(@game, :current_move) do
-      # TODO consider async_exec to have perform_current_move show message box panel successfully after game over
+    observe(@game, :current_move) do |new_move|
       perform_current_move
     end
     
@@ -71,7 +70,6 @@ class Quarto
             on_closed do
               @available_pieces_area.reset_pieces
               @board.reset_cells
-              # TODO have board and available pieces area auto-reset themselves upon game restart instead of reseting from here manually
               @game.restart
             end
           }
@@ -106,7 +104,7 @@ class Quarto
         text 'Help'
         
         menu_item(:check) {
-          text 'Help Pop Ups Enabled'
+          text 'Help Pop-Ups Enabled'
           selection <=> [self, :help_pop_ups_enabled]
         }
       }
@@ -148,14 +146,16 @@ class Quarto
     end
     body_root.text = "Glimmer Quarto | Player #{@game.current_player_number} #{@game.current_move.to_s.split('_').map(&:capitalize).join(' ')}"
     if help_pop_ups_enabled?
-      body_root.content {
-        @open_message_box_panel&.close
-        @open_message_box_panel = message_box_panel(
-          message: verbiage,
-          background_color: COLOR_LIGHT_WOOD,
-          text_font: {height: 16}
-        )
-      }
+      async_exec do
+        body_root.content {
+          @open_message_box_panel&.close
+          @open_message_box_panel = message_box_panel(
+            message: verbiage,
+            background_color: COLOR_LIGHT_WOOD,
+            text_font: {height: 16}
+          )
+        }
+      end
     end
   end
 end
