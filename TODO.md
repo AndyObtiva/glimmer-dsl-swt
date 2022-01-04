@@ -4,12 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Test Quarto on Linux and Windows
-
-- Ensure Shape#on_shape_disposed returns a deregistrable object (not just a plain block)
-- Ensure Shape#on_drop returns a properly deregistrable object (removes from drawable#drop_shapes not just deregister listener directly)
-- Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
-- Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
+- Document Canvas Shape DSL with more examples, one per shape
 
 - `glimmer-cp-messageboxpanel` custom shape:
 ```ruby
@@ -94,7 +89,7 @@ end
 end
 ```
 
-- Document Canvas Shape DSL with more examples, one per shape
+- Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
@@ -349,6 +344,7 @@ composite {
 - Augment the Weather app elaborate sample with graphics like showing the sun, wind gusts, clouds, etc...
 - Quarto help pop up checkbox saying "do not show anymore"
 - Make ESCAPE key cancel a canvas drag and drop in the middle of dragging
+- Refactor Quarto to have each custom shape update itself instead of updates coming from quarto.rb
 
 ## Issues
 

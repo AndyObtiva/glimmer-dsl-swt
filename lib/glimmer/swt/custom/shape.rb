@@ -25,6 +25,7 @@ require 'glimmer/swt/display_proxy'
 require 'glimmer/swt/color_proxy'
 require 'glimmer/swt/font_proxy'
 require 'glimmer/swt/transform_proxy'
+require 'glimmer/swt/shape_listener_proxy'
 
 class Java::OrgEclipseSwtGraphics::GC
   def setLineDashOffset(value)
@@ -134,7 +135,7 @@ module Glimmer
           end
         end
         
-        attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties, :disposed
+        attr_reader :drawable, :parent, :name, :args, :options, :shapes, :properties, :disposed, :widget_listener_proxies
         attr_accessor :extent
         alias disposed? disposed
         alias is_disposed disposed # for SWT widget compatibility
@@ -641,13 +642,11 @@ module Glimmer
           if observation_request.to_s == 'on_shape_disposed'
             @on_shape_disposed_handlers ||= []
             @on_shape_disposed_handlers << block
-            # TODO return a listener object that can be deregistered
-            return block
+            return ShapeListenerProxy.new(shape: self, drawable: drawable, shape_listener_block: block, observation_request: 'on_shape_disposed')
           end
           if observation_request == 'on_drop'
             drawable.drop_shapes << self
             handle_observation_request('on_mouse_up', source_observation_request: 'on_drop') do |event|
-            # TODO consider doing a countdown from number of drop_shapes to 0
               if Shape.dragging && include_with_children?(event.x, event.y, except_shape: Shape.dragged_shape)
                 drop_event = DropEvent.new(
                   doit: true,
@@ -683,7 +682,7 @@ module Glimmer
             shape_block = lambda do |event|
               if @disposed
                 observer_registration.deregister
-                @observer_registrations.delete(observer_registration)
+                @widget_listener_proxies.delete(observer_registration)
               else
                 Shape.drop_shape_handling_count += 1 if source_observation_request == 'on_drop' && event.x == Shape.dragging_x && event.y == Shape.dragging_y
                 if !event.respond_to?(:x) || !event.respond_to?(:y) || include_with_children?(event.x, event.y)
@@ -693,11 +692,17 @@ module Glimmer
                 end
               end
             end
-            observer_registration = drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
-            @observer_registrations ||= []
-            @observer_registrations << observer_registration if observer_registration
-            observer_registration
+            widget_listener_proxy = drawable.respond_to?(:handle_observation_request) && drawable.handle_observation_request(observation_request, &shape_block)
+            @widget_listener_proxies ||= []
+            if widget_listener_proxy
+              @widget_listener_proxies << widget_listener_proxy
+              ShapeListenerProxy.new(shape: self, drawable: drawable, shape_listener_block: shape_block, observation_request: source_observation_request || observation_request, widget_listener_proxy: widget_listener_proxy)
+            end
           end
+        end
+        
+        def remove_shape_disposed_listener(listener_block)
+          @on_shape_disposed_handlers.delete(listener_block)
         end
         
         # Sets data just like SWT widgets
@@ -865,7 +870,7 @@ module Glimmer
           return if @disposed
           @disposed = true
           deregister_drag_listeners
-          @observer_registrations&.each(&:deregister)
+          @widget_listener_proxies&.each(&:deregister)
           if dispose_patterns
             @background_pattern&.dispose
             @background_pattern = nil
