@@ -83,7 +83,7 @@ class Quarto
   end
   
   body {
-    shell {
+    shell((:double_buffered unless OS.mac?)) {
       text 'Glimmer Quarto'
       minimum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
       maximum_size BOARD_DIAMETER + AREA_MARGIN + PIECES_AREA_WIDTH + SHELL_MARGIN*2, BOARD_DIAMETER + 24 + SHELL_MARGIN*2
