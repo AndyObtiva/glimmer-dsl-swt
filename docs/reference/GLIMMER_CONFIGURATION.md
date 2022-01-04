@@ -13,7 +13,7 @@ Example:
 ```ruby
 Glimmer::Config.logger.level = :debug
 ```
-This results in more verbose debug loggging to `STDOUT`, which is very helpful in troubleshooting Glimmer DSL syntax when needed.
+This results in more verbose debug logging to `STDOUT`, which is very helpful in troubleshooting Glimmer DSL syntax when needed.
 
 Example log:
 ```
@@ -37,11 +37,16 @@ To reset `logger` to the default instance, you may call `Glimmer::Config.reset_l
 
 All logging is done lazily via blocks (e.g. `logger.debug {message}`) to avoid affecting app performance with logging when below the configured logging level threshold.
 
-[Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer-dsl-swt) enhances Glimmer default logging support via the Ruby [`logging`](https://github.com/TwP/logging) gem, enabling buffered asynchronous logging in a separate thread, thus completely unhindering normal desktop app performance.
+Optionally, [Glimmer DSL for SWT](https://github.com/AndyObtiva/glimmer-dsl-swt) enhances Glimmer default logging support via the Ruby [`logging`](https://github.com/TwP/logging) gem, enabling buffered asynchronous logging in a separate thread, thus completely unhindering normal desktop app performance.
 
-You can alternatively use the [logging](https://github.com/TwP/logging) gem for asynchronous logging (note that it adds about 0.5 - 1.0 second to startup time) by updating the logger type:
-
+You can alternatively use the [logging](https://github.com/TwP/logging) gem for asynchronous logging (note that it adds about 0.5 - 1.0 second to startup time) by adding the gem:
 ```ruby
+gem 'logging', '>= 2.3.0', '< 3.0.0'
+```
+
+And, updating the logger type:
+```ruby
+require 'logging'
 Glimmer::Config.logger_type = :logging
 ```
 

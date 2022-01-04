@@ -12,7 +12,6 @@ gem 'rake-tui', '>= 0.2.3', '< 2.0.0'
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)
 gem 'concurrent-ruby', '>= 1.1.7', '< 2.0.0'
 gem 'jruby-win32ole', '>= 0.8.5', '< 2.0.0'
-gem 'logging', '>= 2.3.0', '< 3.0.0'
 gem 'os', '>= 1.0.0', '< 2.0.0'
 gem 'rake', '>= 13.0.0'
 gem 'text-table', '>= 1.2.4', '< 2.0.0'

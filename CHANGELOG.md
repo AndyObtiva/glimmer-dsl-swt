@@ -3,6 +3,7 @@
 ## 4.22.0.1
 
 - New Quarto game sample: https://en.gigamic.com/game/quarto-classic
+- Remove `logging` gem dependency making it optional (documented in [docs/reference/GLIMMER_CONFIG.md](/docs/reference/GLIMMER_CONFIG.md)).
 - Default `text` shape to flags: `[:draw_transparent, :draw_delimiter]` to handle newline delimiter correctly when sizing text extent automatically (e.g. when passing width/height 2nd/3rd args as `:default` or not passing at all)
 - Remove `" - App View"` from shell title in `desktopify` scaffolding mode
 - Remove SWT Chromium browser option since it is no longer supported by SWT.
