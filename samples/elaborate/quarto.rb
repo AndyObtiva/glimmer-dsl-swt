@@ -46,8 +46,6 @@ class Quarto
   COLOR_AREA = rgb(206, 188, 170)
   COLOR_LIGHT_WOOD = rgb(254, 187, 120)
   COLOR_DARK_WOOD = rgb(204, 108, 58)
-  MESSAGE_BOX_PANEL_WIDTH = 300
-  MESSAGE_BOX_PANEL_HEIGHT = 100
   FILE_QUARTO_CONFIG = File.join(Dir.home, '.quarto')
   
   before_body do

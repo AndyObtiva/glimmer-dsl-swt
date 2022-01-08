@@ -99,6 +99,7 @@ module Glimmer
           
           # Gladiator (Glimmer Editor)
           .gladiator
+          .gladiator-scratchpad
           
           # Glimmer
           /dist/
@@ -116,12 +117,12 @@ module Glimmer
         GEMFILE_APP_MIDFIX = <<~MULTI_LINE_STRING
         
           gem 'glimmer-dsl-swt', '~> #{VERSION}'
-          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16 was causing issues
+          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16+ was causing issues
         MULTI_LINE_STRING
         GEMFILE_GEM_MIDFIX = <<~MULTI_LINE_STRING
         
           gem 'glimmer-dsl-swt', '~> #{VERSION.split('.')[0...2].join('.')}'
-          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16 was causing issues
+          gem 'psych', '3.3.2' # Fixed temporarily because installing latest on JDK16+ was causing issues
         MULTI_LINE_STRING
         GEMFILE_SUFFIX = <<~MULTI_LINE_STRING
         

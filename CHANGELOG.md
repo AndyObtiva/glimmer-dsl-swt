@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.22.1.2
+
+- Include .gladiator-scratchpad in scaffolded app/gem .gitignore
+
 ## 4.22.1.1
 
 - Fix minor issue with Shape listener disposal

@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Support being able to nest child shapes under a CustomShape parent
 - Support configuration of global widget default properties to quickly affect the style of an entire app globally without the complexity of CSS expressions.
 
 - Document Canvas Shape DSL with more examples, one per shape

@@ -32,6 +32,7 @@ module Glimmer
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)
+          # TODO support CustomShape parent as well
           (parent.is_a?(Glimmer::SWT::Custom::Drawable) or parent.is_a?(Glimmer::SWT::Custom::Shape)) and
             Glimmer::SWT::Custom::Shape.valid?(parent, keyword, *args, &block)
         end
