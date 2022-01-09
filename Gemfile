@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 ruby '>= 2.6.0', :engine => 'jruby', engine_version: '>= 9.3.0.0'
 
 # Glimmer project owner gems
-gem 'glimmer', '~> 2.5.4'
+gem 'glimmer', '~> 2.5.5'
 gem 'super_module', '>= 1.4.1', '< 2.0.0'
 gem 'nested_inherited_jruby_include_package', '>= 0.3.0', '< 2.0.0'
 gem 'puts_debuggerer', '>= 0.13.0', '< 2.0.0', require: false

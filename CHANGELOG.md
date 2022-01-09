@@ -2,6 +2,7 @@
 
 ## 4.22.1.2
 
+- Upgrade to glimmer v2.5.5, reusing newly added Glimmer::DSL::ShineDataBindingExpression
 - Include .gladiator-scratchpad in scaffolded app/gem .gitignore
 
 ## 4.22.1.1

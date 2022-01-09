@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/dsl/expression'
+require 'glimmer/dsl/shine_data_binding_expression'
 require 'glimmer/data_binding/model_binding'
 require 'glimmer/data_binding/widget_binding'
 require 'glimmer/swt/display_proxy'
@@ -28,21 +28,16 @@ require 'glimmer/data_binding/shine'
 module Glimmer
   module DSL
     module SWT
-      class ShineDataBindingExpression < Expression
+      class ShineDataBindingExpression < Glimmer::DSL::ShineDataBindingExpression
         include_package 'org.eclipse.swt.widgets'
         
         def can_interpret?(parent, keyword, *args, &block)
-          args.size == 0 and
-            block.nil? and
+          super and
             (
               (parent.respond_to?(:has_attribute?) and parent.has_attribute?(keyword)) or
               (parent.respond_to?(:swt_widget) and (parent.swt_widget.is_a?(Table) or parent.swt_widget.is_a?(Tree)))
             ) and
             !(parent.respond_to?(:swt_widget) && parent.swt_widget.class == org.eclipse.swt.widgets.Canvas && keyword == 'image')
-        end
-  
-        def interpret(parent, keyword, *args, &block)
-          Glimmer::DataBinding::Shine.new(parent, keyword)
         end
       end
     end
