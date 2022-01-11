@@ -84,6 +84,7 @@
     - [Gladiator](#gladiator)
     - [Timer](#timer)
     - [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire)
+    - [Glimmer Metronome](#glimmer-metronome)
 - [License](#license)
 
 ## Samples
@@ -1412,6 +1413,14 @@ This is a souped up version of the Klondike Solitaire elaborate sample, which is
 [<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/package/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
 
 ![Glimmer Klondike Solitaire](https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/images/glimmer-klondike-solitaire.png)
+
+#### Glimmer Metronome
+
+This is an external enhanced version of [Metronome](#metronome) that can be packaged as an independent native executable.
+
+[<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/icons/linux/Glimmer%20Metronome.png" height=40 /> Glimmer Metronome](https://github.com/AndyObtiva/glimmer_metronome)
+
+![Metronome](https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/screenshots/glimmer-metronome.png)
 
 ## License
 

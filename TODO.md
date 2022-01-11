@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Look into issue with unidirectional databinding of image
+- Add the Gladiator-style about dialog to the scaffolded app
+- require app view after declaring app body in scaffolded app
 - Support being able to nest child shapes under a CustomShape parent
 - Support configuration of global widget default properties to quickly affect the style of an entire app globally without the complexity of CSS expressions.
 
