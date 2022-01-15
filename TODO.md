@@ -392,6 +392,7 @@ shell do
 end.open
 ```
 - Fix issue with `glimmer samples` (meta-sample) having an issue with using margin_width and margin_height inside root inside code_text (perhaps it's a styled_text issue only because it stops rerendering when typing)
+- It seems that disposing a composite containing canvases with shapes that have data-bindings on properties (like background) does not deregister the observers properly
 - Fix date/time Table editor visual/usability glitches on Windows if not issues in SWT itself
 - Fix issue with not being able to data-bind layout data like exclude (often done along with visiblity on the widget)
 - Investigate why widget.layout does not return layout but widget.getLayout or widget.get_layout does (probably a JRuby issue)

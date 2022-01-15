@@ -4,6 +4,7 @@
 
 - Upgrade to glimmer v2.5.5, reusing newly added Glimmer::DSL::ShineDataBindingExpression
 - Include .gladiator-scratchpad in scaffolded app/gem .gitignore
+- `ShellProxy#center_in_display` as alias to `#center_within_display`
 
 ## 4.22.1.1
 

@@ -105,6 +105,7 @@ module Glimmer
           @swt_widget.setLocation(location_x, location_y)
         end
       end
+      alias center_in_display center_within_display
 
       # Opens shell and starts SWT's UI thread event loop
       def open
