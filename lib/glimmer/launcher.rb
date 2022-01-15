@@ -79,7 +79,7 @@ module Glimmer
       end
 
       def swt_jar_file
-        @swt_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'swt', platform_os, 'swt.jar'))
+        @swt_jar_file ||= File.expand_path(File.join(__FILE__, '..', '..', '..', 'vendor', 'swt', platform_os + special_cpu_architecture_suffix, 'swt.jar'))
       end
  
       def jruby_os_specific_options

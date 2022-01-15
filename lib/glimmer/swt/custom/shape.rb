@@ -268,6 +268,7 @@ module Glimmer
             inverse_transform = TransformProxy.new(DisplayProxy.instance.swt_display, *transform_array.to_a)
             inverse_transform_array = [1,2,3,4,5,6].to_java(:float) # just placeholder data that gets overwritten with getElements
             inverse_transform.getElements(inverse_transform_array)
+            # TODO avoid Matrix usage directly by relying on SWT Transform#invert method instead (much simpler)
             matrix = Matrix[[inverse_transform_array[0], inverse_transform_array[1]], [inverse_transform_array[2], inverse_transform_array[3]]]
             result = matrix * Matrix.column_vector([x, y])
             x, y = result.to_a.flatten
