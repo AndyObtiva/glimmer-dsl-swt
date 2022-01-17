@@ -57,3 +57,4 @@ pkg
 tmp
 log
 Thumbs.db*
+/*.dylib

@@ -126,7 +126,7 @@ This brings up the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 Glimmer borrows from Rails the idea of Scaffolding, that is generating a structure for your app files that
 helps you get started just like true building scaffolding helps construction workers, civil engineers, and architects.
 
-Glimmer scaffolding goes beyond just scaffolding the app files that Rails does. It also packages it and launches it,
+Glimmer scaffolding goes beyond just scaffolding the app files. It also packages it and launches it,
 getting you to a running and delivered state of an advanced "Hello, World!" Glimmer application right off the bat.
 
 This should greatly facilitate building a new Glimmer app by helping you be productive and focus on app details while
