@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '>= 2.6.0', :engine => 'jruby', engine_version: '>= 9.3.0.0'
+ruby '>= 2.6.0', :engine => 'jruby', engine_version: '>= 9.3.3.0'
 
 # Glimmer project owner gems
 gem 'glimmer', '~> 2.5.5'

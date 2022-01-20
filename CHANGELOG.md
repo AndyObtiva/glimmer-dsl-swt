@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.22.2.0
+
+- Upgrade to JRuby 9.3.3.0 (supporting ARM64/AARCH64)
+
 ## 4.22.1.2
 
 - Fix support for ARM64 on Mac

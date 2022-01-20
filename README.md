@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.22.1.2
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.22.2.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -17,7 +17,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.22.1.2 includes [SWT 4.22](https://download.eclipse.org/eclipse/downloads/drops4/R-4.22-202111241800/), which was released on November 24, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64/ARM64 on Mac and Linux!
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.22.2.0 includes [SWT 4.22](https://download.eclipse.org/eclipse/downloads/drops4/R-4.22-202111241800/), which was released on November 24, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT. Note that SWT now supports AARCH64/ARM64 on Mac and Linux!
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword.
 
@@ -295,7 +295,7 @@ https://www.eclipse.org/swt/faq.php
 
 - JDK 17 (17.0.1) (find at https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html / Ensure PATH includes Java bin directory for `jpackage` command to work when packaging Glimmer applications)
 - [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
-- JRuby 9.3.1.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.1.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
+- JRuby 9.3.3.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.3.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
 - SWT 4.22 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT now supports AARCH64/ARM64 on Mac and Linux!
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
@@ -325,7 +325,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.22.1.2
+jgem install glimmer-dsl-swt -v 4.22.2.0
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -353,7 +353,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.22.1.2'
+gem 'glimmer-dsl-swt', '~> 4.22.2.0'
 ```
 
 And, then run:
@@ -376,7 +376,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.22.1.2
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.22.2.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
