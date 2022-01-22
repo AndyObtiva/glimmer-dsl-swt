@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Update Hello, Menu Bar! to work like it does in Glimer DSL for Tk (showing dialogs)
+- Stop thread in Hello, Custom Widget! on widget disposed
+- Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
 - Finally spend some time officially adding ARM64/AARCH64 support (no more untested alpha)
 - Look into issue with unidirectional databinding of widget image property (and hot_image on menu_item)
 - Add the Gladiator-style about dialog to the scaffolded app
