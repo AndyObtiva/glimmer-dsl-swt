@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Update copy to 2022
 - Update Hello, Menu Bar! to work like it does in Glimer DSL for Tk (showing dialogs)
 - Stop thread in Hello, Custom Widget! on widget disposed
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample

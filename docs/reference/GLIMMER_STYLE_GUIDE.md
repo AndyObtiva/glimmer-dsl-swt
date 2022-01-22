@@ -13,3 +13,9 @@
 - Custom widget/shell/shape `before_body` and `after_body` blocks are declared as `do; end` blocks.
 - Custom widgets receive additional keyword arguments called options, which come after the SWT styles.
 - Pure logic multi-line blocks that do not constitute GUI DSL view elements (such as `Thread.new`, `loop`, `each` and `observe` blocks) rely on the `do; end` style to clearly separate logic code from view code.
+
+## License
+
+[MIT](LICENSE.txt)
+
+Copyright (c) 2007-2022 - Andy Maleh.

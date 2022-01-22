@@ -242,7 +242,7 @@ file_path = file_path.sub(/^uri\:classloader\:/, '').sub(/^\/+/, '')
 jcl = JRuby.runtime.jruby_class_loader
 resource = jcl.get_resource_as_stream(file_path)
 file_input_stream = resource.to_io.to_input_stream
-``` 
+```
 
 The `image` keyword in Glimmer automatically does that work when passing an image path produced from inside a JAR file.
 
@@ -255,3 +255,9 @@ If you package an app for the Mac and an end-user gets the error message above u
 If you get the above message when running a packaged Mac app for the first time, choose cancel and then immediately go to System Preferences -> Security & Privacy -> General Tab -> Choose Open Anyway at the bottom where the app name should be showing.
 
 This would not be an issue if the app was [signed by Apple as per Mac Application Distribution instructions](#mac-application-distribution)
+
+## License
+
+[MIT](LICENSE.txt)
+
+Copyright (c) 2007-2022 - Andy Maleh.

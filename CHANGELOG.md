@@ -1,9 +1,12 @@
 # Change Log
 
+## 4.22.2.1
+
+- Upgrade to glimmer 2.6.0
+
 ## 4.22.2.0
 
 - Upgrade to JRuby 9.3.3.0 (supporting ARM64/AARCH64)
-- Upgrade to glimmer 2.6.0
 
 ## 4.22.1.2
 
