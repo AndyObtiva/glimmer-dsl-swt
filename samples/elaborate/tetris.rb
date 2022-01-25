@@ -54,7 +54,7 @@ class Tetris
     Display.app_name = 'Glimmer Tetris'
 
     display {
-      on_swt_keydown { |key_event|
+      on_swt_keydown do |key_event|
         case key_event.keyCode
         when swt(:arrow_down), 's'.bytes.first
           if OS.mac?
@@ -88,16 +88,16 @@ class Tetris
             game.rotate!(:left)
           end
         end
-      }
+      end
 
       # if running in app mode, set the Mac app about dialog (ignored in platforms)
-      on_about {
+      on_about do
         show_about_dialog
-      }
+      end
       
-      on_quit {
+      on_quit do
         exit(0)
-      }
+      end
     }
   end
   

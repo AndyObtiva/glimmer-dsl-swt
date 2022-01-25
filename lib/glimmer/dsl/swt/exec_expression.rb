@@ -36,8 +36,7 @@ module Glimmer
   
         def can_interpret?(parent, keyword, *args, &block)
           keyword == exec_operation and
-            block_given? and
-            args.empty?
+            block_given?
         end
   
         def interpret(parent, keyword, *args, &block)

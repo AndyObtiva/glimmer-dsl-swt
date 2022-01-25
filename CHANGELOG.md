@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.2.2
+
+- Snake elaborate sample
+- Fixed `timer_exec(time_in_millis) {}` expresion
+
 ## 4.22.2.1
 
 - Upgrade to glimmer 2.6.0

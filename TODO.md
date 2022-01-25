@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update copy to 2022
+- Fix display of icon in shells
 - Update Hello, Menu Bar! to work like it does in Glimer DSL for Tk (showing dialogs)
 - Stop thread in Hello, Custom Widget! on widget disposed
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
@@ -36,6 +36,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Future Consideration
 
+- Look into supporting adding automated form validation features
 - Look into using Tracepoint to do automatic computed data-binding
 - Extract Metronome sample into an external sample and enhance further (like click-based tempo calculation)
 - Demo drag and drop sample reordering a list or faux-list of labels
@@ -248,6 +249,7 @@ composite {
   }
 }
 ```
+- Consider updating Mandelbrot Fractical sample to optionally utilize GPU cores instead of CPU cores (consider Java OpenCL)
 - Look into clipping drawing area when doing drag and drop to improve performance
 - Make it an option to close app fast or execute dispose listeners when exiting app (closing the last shell)
 - Introduce a backdoor to amend code while a Glimmer app is running for troubleshooting purposes
@@ -524,7 +526,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
-- Snake elaborate sample
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
 - Music playing app

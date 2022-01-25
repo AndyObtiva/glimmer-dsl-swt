@@ -79,6 +79,7 @@
     - [Metronome](#metronome)
     - [Weather](#weather)
     - [Quarto](#quarto)
+    - [Snake](#snake)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
@@ -1374,6 +1375,20 @@ Code:
 Quarto
 
 ![Quarto](/images/glimmer-quarto.png)
+
+#### Snake
+
+This is the classic Snake game, which demonstrates MVP (Model-View-Presenter) and data-binding written [test-first](/spec/samples/elaborate/snake/model/game_spec.rb).
+
+Code:
+
+[samples/elaborate/snake.rb](/samples/elaborate/snake.rb)
+
+Snake
+
+![Snake](/images/glimmer-snake.png)
+
+![Snake Video](/images/glimmer-snake.gif)
 
 ### External Samples
 
