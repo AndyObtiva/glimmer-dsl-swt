@@ -3,6 +3,7 @@
 ## 4.22.2.1
 
 - Upgrade to glimmer 2.6.0
+- Fixed issue of `"unsupported Java version "17", defaulting to 1.7"` when scaffolding an application
 
 ## 4.22.2.0
 
