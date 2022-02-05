@@ -1495,6 +1495,13 @@ Glimmer composites always come with `grid_layout` by default, but you can still 
 
 Glimmer shell always comes with `fill_layout` having `:horizontal` type.
 
+If you ever want to force a re-layout on a `composite` or `shell`, you can call the following:
+
+```ruby
+composite_or_shell.layout(true, true)
+composite_or_shell.pack(true)
+```
+
 This is a great guide for learning more about SWT layouts:
 
 https://www.eclipse.org/articles/Article-Understanding-Layouts/Understanding-Layouts.htm
@@ -1578,6 +1585,144 @@ composite {
 ```
 
 If you data-bind any layout data properties, when they change, the shell containing their widget re-packs its children (calls `#pack` method automatically) to ensure proper relayout of all widgets.
+
+Also, if you ever want a widget to be excluded from layout entirely (in addition to having `visible false` on the widget), you can set `layout_data { exclude true }` or data-bind `exclude` property of `layout_data` to have a widget included/excluded automatically based on a condition.
+
+Here is a re-implementation of the [Login sample](/docs/reference/GLIMMER_SAMPLES.md#login) that hides/shows login/logout buttons upon login/logout (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class LoginPresenter
+
+  attr_accessor :user_name
+  attr_accessor :password
+  attr_accessor :status
+
+  def initialize
+    @user_name = ""
+    @password = ""
+    @status = "Logged Out"
+  end
+
+  def status=(status)
+    @status = status
+  end
+  
+  def valid?
+    !@user_name.to_s.strip.empty? && !@password.to_s.strip.empty?
+  end
+
+  def logged_in?
+    self.status == "Logged In"
+  end
+
+  def logged_out?
+    !self.logged_in?
+  end
+
+  def login!
+    return unless valid?
+    self.status = "Logged In"
+  end
+
+  def logout!
+    self.user_name = ""
+    self.password = ""
+    self.status = "Logged Out"
+  end
+
+end
+
+class Login
+  include Glimmer::UI::CustomShell
+
+  before_body do
+    @presenter = LoginPresenter.new
+  end
+
+  body {
+    shell {
+      text "Login"
+      
+      composite {
+        grid_layout(2, false) #two columns with differing widths
+
+        label { text "Username:" } # goes in column 1
+        @user_name_text = text {   # goes in column 2
+          layout_data :fill, :center, true, false
+          text <=> [@presenter, :user_name]
+          enabled <= [@presenter, :logged_out?, computed_by: :status]
+          
+          on_key_pressed { |event|
+            @password_text.set_focus if event.keyCode == swt(:cr)
+          }
+        }
+
+        label { text "Password:" }
+        @password_text = text(:password, :border) {
+          layout_data :fill, :center, true, false
+          text <=> [@presenter, :password]
+          enabled <= [@presenter, :logged_out?, computed_by: :status]
+          
+          on_key_pressed { |event|
+            @presenter.login! if event.keyCode == swt(:cr)
+          }
+        }
+
+        label { text "Status:" }
+        label {
+          layout_data :fill, :center, true, false
+          text <= [@presenter, :status]
+        }
+
+        button {
+          layout_data {
+            exclude <= [@presenter, :logged_in?, computed_by: :status]
+          }
+          
+          text "Login"
+          visible <= [@presenter, :logged_out?, computed_by: :status]
+          
+          on_widget_selected { @presenter.login! }
+          on_key_pressed { |event|
+            if event.keyCode == swt(:cr)
+              @presenter.login!
+            end
+          }
+        }
+
+        button {
+          layout_data {
+            exclude <= [@presenter, :logged_out?, computed_by: :status]
+          }
+          
+          text "Logout"
+          visible <= [@presenter, :logged_in?, computed_by: :status]
+          
+          on_widget_selected { @presenter.logout! }
+          on_key_pressed { |event|
+            if event.keyCode == swt(:cr)
+              @presenter.logout!
+              @user_name_text.set_focus
+            end
+          }
+        }
+      }
+    }
+  }
+end
+
+Login.launch
+```
+
+Login (with `exclude` data-binding) - Logged Out
+
+![Login Exclude Logged Out](/images/glimmer-login-exclude-logged-out.png)
+
+Login (with `exclude` data-binding) - Logged In
+
+![Login Exclude Logged In](/images/glimmer-login-exclude-logged-in.png)
 
 **NOTE**: Layout data must never be reused between widgets. Always specify or clone again for every widget.
 

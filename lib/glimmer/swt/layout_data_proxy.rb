@@ -106,6 +106,10 @@ module Glimmer
       def attribute_getter(attribute_name)
         "#{attribute_name.to_s.camelcase(:lower)}"
       end
+      
+      def content(&block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::SWT::LayoutDataExpression.new, 'layout_data', &block)
+      end
     end
   end
 end

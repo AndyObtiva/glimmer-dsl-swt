@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.2.3
+
+- Support `#content { }` on `layout_data`
+- Fix issue with data-binding `layout_data {exclude}` property using Shine `<=>` syntax
+
 ## 4.22.2.2
 
 - Snake elaborate sample
