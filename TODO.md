@@ -5,10 +5,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Fix display of icon in shells
-- Update Hello, Menu Bar! to work like it does in Glimer DSL for Tk (showing dialogs)
 - Stop thread in Hello, Custom Widget! on widget disposed
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
-- Finally spend some time officially adding ARM64/AARCH64 support (no more untested alpha)
+- Fix issue with code_text syntax highlighting not taking into account multi-line colored blocks (e.g. using /* */ in JavaScript syntax)
 - Look into issue with unidirectional databinding of widget image property (and hot_image on menu_item)
 - Add the Gladiator-style about dialog to the scaffolded app
 - require app view after declaring app body in scaffolded app
@@ -130,7 +129,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Document Heroku pre-requisite as optional for webready/webify modes.
 - Document use of jruby in rails and ability to switch manually to CRuby with RVM
 
-- Automatic disposing of listeners in any widget or display by auto-registering on_widget_disposed listeners
+- Update Hello, Menu Bar! to have Language and Country just like the same sample in Glimer DSL for Tk (showing dialogs upon selection)
 - Make code_text custom widget auto-detect current programming language
 - Accept :read_only alternative to :readonly SWT style
 - Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)

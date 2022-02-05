@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.2.4
+
+- Address the warning regarding using Ruby singletons on Java objects (shows up when running `glimmer samples`)
+- Fix order of calling `require 'app_name/view/app_view'` in scaffolded app (must be last)
+
 ## 4.22.2.3
 
 - Support `#content { }` on `layout_data`
