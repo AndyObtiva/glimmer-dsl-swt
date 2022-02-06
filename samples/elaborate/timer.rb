@@ -24,12 +24,13 @@ class Timer
     Display.setAppName('Glimmer Timer')
     
     @display = display {
-      on_about {
+      on_about do
         display_about_dialog
-      }
-      on_preferences {
+      end
+      
+      on_preferences do
         display_about_dialog
-      }
+      end
     }
 
     @min = 0
@@ -43,7 +44,7 @@ class Timer
       loop do
         sleep(1)
         if @countdown
-          sync_exec {
+          sync_exec do
             @countdown_time = Time.new(1, 1, 1, 0, min, sec)
             @countdown_time -= 1
             self.min = @countdown_time.min
@@ -52,7 +53,7 @@ class Timer
               stop_countdown
               play_countdown_done_sound
             end
-          }
+          end
         end
       end
     end
@@ -85,31 +86,34 @@ class Timer
           accelerator COMMAND_KEY, 's'
           enabled <= [self, :countdown, on_read: :!]
           
-          on_widget_selected {
+          on_widget_selected do
             start_countdown
-          }
+          end
         }
+        
         menu_item {
           text 'St&op'
           enabled <= [self, :countdown]
           accelerator COMMAND_KEY, 'o'
           
-          on_widget_selected {
+          on_widget_selected do
             stop_countdown
-          }
+          end
         }
+        
         unless OS.mac?
           menu_item(:separator)
           menu_item {
             text 'E&xit'
             accelerator :alt, :f4
             
-            on_widget_selected {
+            on_widget_selected do
               exit(0)
-            }
+            end
           }
         end
       }
+      
       menu {
         text '&Help'
                     
@@ -117,9 +121,9 @@ class Timer
           text '&About'
           accelerator COMMAND_KEY, :shift, 'a'
           
-          on_widget_selected {
+          on_widget_selected do
             display_about_dialog
-          }
+          end
         }
       }
     }
@@ -149,9 +153,10 @@ class Timer
         maximum 59
         selection <=> [self, :min]
         enabled <= [self, :countdown, on_read: :!]
-        on_widget_default_selected {
+        
+        on_widget_default_selected do
           start_countdown
-        }
+        end
       }
       label {
         text ':'
@@ -163,9 +168,10 @@ class Timer
         maximum 59
         selection <=> [self, :sec]
         enabled <= [self, :countdown, on_read: :!]
-        on_widget_default_selected {
+        
+        on_widget_default_selected do
           start_countdown
-        }
+        end
       }
     }
   end
@@ -179,22 +185,26 @@ class Timer
       @start_button = button {
         text '&Start'
         enabled <= [self, :countdown, on_read: :!]
-        on_widget_selected {
+        
+        on_widget_selected do
           start_countdown
-        }
-        on_key_pressed { |event|
+        end
+        
+        on_key_pressed do |event|
           start_countdown if event.keyCode == swt(:cr)
-        }
+        end
       }
       @stop_button = button {
         text 'St&op'
         enabled <= [self, :countdown]
-        on_widget_selected {
+        
+        on_widget_selected do
           stop_countdown
-        }
-        on_key_pressed { |event|
+        end
+        
+        on_key_pressed do |event|
           stop_countdown if event.keyCode == swt(:cr)
-        }
+        end
       }
     }
   end

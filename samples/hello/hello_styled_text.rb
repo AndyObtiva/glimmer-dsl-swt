@@ -76,7 +76,7 @@ shell {
       top_pixel <=> [@presenter, :top_pixel]
       
       # This demonstrates how to set styles via a listener
-      on_line_get_style { |line_style_event|
+      on_line_get_style do |line_style_event|
         line_offset = line_style_event.lineOffset
         if @presenter.line_index_for_offset(line_offset) % 52 < 13
           line_size = line_style_event.lineText.size
@@ -99,7 +99,7 @@ shell {
           style_range.strikeout = true
           line_style_event.styles = [style_range].to_java(StyleRange)
         end
-      }
+      end
     }
     
     composite {

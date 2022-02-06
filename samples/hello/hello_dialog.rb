@@ -38,7 +38,7 @@ shell { |shell_proxy|
       }
       text "Dialog #{dialog_number}"
       
-      on_widget_selected {
+      on_widget_selected do
         # pass the shell proxy as a parent to make the dialog support hitting the escape button for closing alone without closing app
         dialog(shell_proxy) { |dialog_proxy|
           row_layout(:vertical) {
@@ -70,12 +70,12 @@ shell { |shell_proxy|
           button {
             text 'Close'
             
-            on_widget_selected {
+            on_widget_selected do
               dialog_proxy.close
-            }
+            end
           }
         }.open
-      }
+      end
     }
   }
 }.open

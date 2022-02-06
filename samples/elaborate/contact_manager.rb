@@ -40,6 +40,7 @@ class ContactManager
             margin_width 0
             margin_height 0
           }
+          
           layout_data :fill, :center, true, false
           text 'Lookup Contacts'
           font height: 24
@@ -52,9 +53,10 @@ class ContactManager
           text {
             layout_data :fill, :center, true, false
             text <=> [@contact_manager_presenter, :first_name]
-            on_key_pressed {|key_event|
+            
+            on_key_pressed do |key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
+            end
           }
           
           label {
@@ -65,9 +67,10 @@ class ContactManager
           text {
             layout_data :fill, :center, true, false
             text <=> [@contact_manager_presenter, :last_name]
-            on_key_pressed {|key_event|
+            
+            on_key_pressed do |key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
+            end
           }
           
           label {
@@ -78,9 +81,10 @@ class ContactManager
           text {
             layout_data :fill, :center, true, false
             text <=> [@contact_manager_presenter, :email]
-            on_key_pressed {|key_event|
+            
+            on_key_pressed do |key_event|
               @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-            }
+            end
           }
           
           composite {
@@ -94,18 +98,26 @@ class ContactManager
             
             button {
               text "&Find"
-              on_widget_selected { @contact_manager_presenter.find }
-              on_key_pressed {|key_event|
+              
+              on_widget_selected do
+                @contact_manager_presenter.find
+              end
+              
+              on_key_pressed do |key_event|
                 @contact_manager_presenter.find if key_event.keyCode == swt(:cr)
-              }
+              end
             }
             
             button {
               text "&List All"
-              on_widget_selected { @contact_manager_presenter.list }
-              on_key_pressed {|key_event|
+              
+              on_widget_selected do
+                @contact_manager_presenter.list
+              end
+              
+              on_key_pressed do |key_event|
                 @contact_manager_presenter.list if key_event.keyCode == swt(:cr)
-              }
+              end
             }
           }
         }
@@ -134,9 +146,9 @@ class ContactManager
           
           items <=> [@contact_manager_presenter, :results, column_properties: [:first_name, :last_name, :email]]
           
-          on_mouse_up { |event|
+          on_mouse_up do |event|
             table_proxy.edit_table_item(event.table_item, event.column_index)
-          }
+          end
         }
       }
     }

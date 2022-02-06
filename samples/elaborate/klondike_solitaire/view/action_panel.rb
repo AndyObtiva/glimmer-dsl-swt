@@ -19,9 +19,9 @@ class KlondikeSolitaire
             
             text 'Restart Game'
             
-            on_widget_selected {
+            on_widget_selected do
               game.restart!
-            }
+            end
           }
         }
       }

@@ -27,7 +27,7 @@ class HelloButton
   attr_accessor :count
   
   before_body do
-    @count = 0
+    self.count = 0
   end
   
   body {
@@ -37,9 +37,9 @@ class HelloButton
       button {
         text <= [self, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         
-        on_widget_selected {
+        on_widget_selected do
           self.count += 1
-        }
+        end
       }
     }
   }

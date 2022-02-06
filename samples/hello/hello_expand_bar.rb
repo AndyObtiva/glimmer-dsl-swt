@@ -96,14 +96,13 @@ class HelloExpandBar
           composite # just filler
         }
         
-        on_item_expanded { |expand_event|
+        on_item_expanded do |expand_event|
           @status_label.text = "#{expand_event.item.text} Expanded!"
-        }
+        end
         
-        on_item_collapsed { |expand_event|
+        on_item_collapsed do |expand_event|
           @status_label.text = "#{expand_event.item.text} Collapsed!"
-        }
-        
+        end
       }
     }
   }

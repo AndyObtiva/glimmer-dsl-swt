@@ -140,7 +140,7 @@ class HelloCustomShell
         
         items <=> [@email_system, :emails, column_properties: [:date, :subject, :from]]
         
-        on_mouse_up { |event|
+        on_mouse_up do |event|
           email = event.table_item.get_data
           
           # open a custom email shell
@@ -151,7 +151,7 @@ class HelloCustomShell
             from: email.from,
             message: email.message
           ).open
-        }
+        end
       }
     }.open
   end

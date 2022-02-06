@@ -51,9 +51,9 @@ class HelloDirectoryDialog
       button {
         text "Browse..."
         
-        on_widget_selected {
+        on_widget_selected do
           self.selected_directory = directory_dialog.open
-        }
+        end
       }
     }
   }

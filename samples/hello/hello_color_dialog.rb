@@ -47,18 +47,18 @@ class HelloColorDialog
         layout_data :center, :center, true, false
         background <=> [self, :selected_color]
         
-        on_mouse_up {
+        on_mouse_up do
           self.selected_color = color_dialog.open
-        }
+        end
       }
       
       button {
         layout_data :center, :center, true, false
         text "Choose Color..."
         
-        on_widget_selected {
+        on_widget_selected do
           self.selected_color = color_dialog.open
-        }
+        end
       }
       
     }

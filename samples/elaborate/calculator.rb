@@ -21,14 +21,14 @@ class Calculator
     Display.setAppName('Glimmer Calculator')
     
     display {
-      on_swt_keydown { |key_event|
+      on_swt_keydown do |key_event|
         char = key_event.character.chr rescue nil
         @presenter.press(char)
-      }
+      end
       
-      on_about {
+      on_about do
         display_about_dialog
-      }
+      end
     }
   end
 
@@ -59,16 +59,16 @@ class Calculator
       operation_button('÷')
       operation_button('×')
       operation_button('−')
-      (7..9).each { |number|
+      (7..9).each do |number|
         number_button(number)
-      }
+      end
       operation_button('+', font: BUTTON_FONT_BIG, vertical_span: 2)
-      (4..6).each { |number|
+      (4..6).each do |number|
         number_button(number)
-      }
-      (1..3).each { |number|
+      end
+      (1..3).each do |number|
         number_button(number)
-      }
+      end
       command_button('=', font: BUTTON_FONT_BIG, vertical_span: 2)
       number_button(0, horizontal_span: 2)
       operation_button('.')
@@ -98,9 +98,9 @@ class Calculator
         vertical_span options[:vertical_span]
       }
       
-      on_widget_selected {
+      on_widget_selected do
         @presenter.press(command)
-      }
+      end
     }
   end
 

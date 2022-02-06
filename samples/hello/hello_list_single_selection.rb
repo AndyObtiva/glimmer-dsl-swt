@@ -54,7 +54,9 @@ class HelloListSingleSelection
       button {
         text 'Reset Selection To Default Value'
         
-        on_widget_selected { @person.reset_country! }
+        on_widget_selected do
+          @person.reset_country!
+        end
       }
     }
   }

@@ -85,7 +85,6 @@
     - [Gladiator](#gladiator)
     - [Timer](#timer)
     - [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire)
-    - [Glimmer Metronome](#glimmer-metronome)
 - [License](#license)
 
 ## Samples
@@ -1336,6 +1335,8 @@ This sample demonstrates a Metronome that accepts a beat count and bpm rate, tic
 
 It takes advantage of the Canvas Shape DSL, data-binding, and the Java Sound library. It employs a hybrid approach of relying on standard widget layouts (grid layout) and canvas shape x,y placement.
 
+An external more full-fledged version exists too as [Glimmer Metronome](https://github.com/AndyObtiva/glimmer_metronome).
+
 Code:
 
 [samples/elaborate/metronome.rb](/samples/elaborate/metronome.rb)
@@ -1428,14 +1429,6 @@ This is a souped up version of the Klondike Solitaire elaborate sample, which is
 [<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/package/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
 
 ![Glimmer Klondike Solitaire](https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/images/glimmer-klondike-solitaire.png)
-
-#### Glimmer Metronome
-
-This is an external enhanced version of [Metronome](#metronome) that can be packaged as an independent native executable.
-
-[<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/icons/linux/Glimmer%20Metronome.png" height=40 /> Glimmer Metronome](https://github.com/AndyObtiva/glimmer_metronome)
-
-![Metronome](https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/screenshots/glimmer-metronome.png)
 
 ## License
 

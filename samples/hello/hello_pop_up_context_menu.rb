@@ -38,46 +38,56 @@ shell {
     menu {
       menu {
         text '&History'
+        
         menu {
           text '&Recent'
+          
           menu_item {
             text 'File 1'
-            on_widget_selected {
+            
+            on_widget_selected do
               message_box {
                 text 'File 1'
                 message 'File 1 Contents'
               }.open
-            }
+            end
           }
+          
           menu_item {
             text 'File 2'
-            on_widget_selected {
+            
+            on_widget_selected do
               message_box {
                 text 'File 2'
                 message 'File 2 Contents'
               }.open
-            }
+            end
           }
         }
+        
         menu {
           text '&Archived'
+          
           menu_item {
             text 'File 3'
-            on_widget_selected {
+            
+            on_widget_selected do
               message_box {
                 text 'File 3'
                 message 'File 3 Contents'
               }.open
-            }
+            end
           }
+          
           menu_item {
             text 'File 4'
-            on_widget_selected {
+            
+            on_widget_selected do
               message_box {
                 text 'File 4'
                 message 'File 4 Contents'
               }.open
-            }
+            end
           }
         }
       }

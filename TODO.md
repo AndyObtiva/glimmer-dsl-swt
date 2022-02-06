@@ -4,6 +4,11 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+
+- Hello, Listener!
+
+- Note the need to set Display.app_name = before app launch (not inside before_body) to work
+- Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 - Fix display of icon in shells
 - Stop thread in Hello, Custom Widget! on widget disposed
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
@@ -252,7 +257,6 @@ composite {
 - Look into clipping drawing area when doing drag and drop to improve performance
 - Make it an option to close app fast or execute dispose listeners when exiting app (closing the last shell)
 - Introduce a backdoor to amend code while a Glimmer app is running for troubleshooting purposes
-- Use custom widgets for the menu bar and dialogs in scaffolded apps
 - Canvas Transform DSL property data-binding
 - Look into the idea of supporting zooming on any desktop application for accessibility reasons
 - Scroll bar listener support

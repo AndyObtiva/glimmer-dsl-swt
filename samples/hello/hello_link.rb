@@ -47,11 +47,12 @@ class HelloLink
           Just keep clicking <a href="all links">links</a> to find out!
         MULTI_LINE_STRING
             
-        on_widget_selected { |selection_event|
+        on_widget_selected do |selection_event|
           # This retrieves the clicked link href (or contained text if no href is set)
           @selected_link = selection_event.text
-        }
-        on_mouse_up { |mouse_event|
+        end
+        
+        on_mouse_up do |mouse_event|
           unless @selected_link.nil?
             @help_shell.close unless @help_shell.nil? || @help_shell.disposed?
             @help_shell = shell(:no_trim) {
@@ -79,7 +80,7 @@ class HelloLink
             }
             @help_shell.open
           end
-        }
+        end
       }
     }
   }

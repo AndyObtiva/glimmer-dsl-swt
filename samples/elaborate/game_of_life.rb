@@ -50,9 +50,9 @@ class GameOfLife
             rectangle(column_index*CELL_WIDTH, row_index*CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT) {
               background <= [@grid.cell_rows[row_index][column_index], "alive", on_read: ->(a) {a ? :black : :white}]
               
-              on_mouse_down {
+              on_mouse_down do
                 @grid.cell_rows[row_index][column_index].toggle_aliveness!
-              }
+              end
             }
           end
         end
@@ -67,26 +67,26 @@ class GameOfLife
           text 'Step'
           enabled <= [@grid, :playing, on_read: :! ]
           
-          on_widget_selected {
+          on_widget_selected do
             @grid.step!
-          }
+          end
         }
         
         button {
           text 'Clear'
           enabled <= [@grid, :playing, on_read: :! ]
           
-          on_widget_selected {
+          on_widget_selected do
             @grid.clear!
-          }
+          end
         }
                 
         button {
           text <= [@grid, :playing, on_read: ->(p) { p ? 'Stop' : 'Play' }]
           
-          on_widget_selected {
+          on_widget_selected do
             @grid.toggle_playback!
-          }
+          end
         }
   
         label {

@@ -186,10 +186,10 @@ class MandelbrotFractal
       minimum_size mandelbrot.width + 29, mandelbrot.height + 77
       image @mandelbrot_image
             
-      on_shell_closed {
+      on_shell_closed do
         @thread.kill # should not be dangerous in this case
         puts "Mandelbrot background calculation stopped!"
-      }
+      end
       
       progress_bar {
         layout_data :fill, :center, true, false
@@ -205,27 +205,27 @@ class MandelbrotFractal
           image @mandelbrot_image
           cursor :no
           
-          on_mouse_down {
+          on_mouse_down do
             @drag_detected = false
             @canvas.cursor = :hand
-          }
+          end
           
-          on_drag_detected { |drag_detect_event|
+          on_drag_detected do |drag_detect_event|
             @drag_detected = true
             @drag_start_x = drag_detect_event.x
             @drag_start_y = drag_detect_event.y
-          }
+          end
           
-          on_mouse_move { |mouse_event|
+          on_mouse_move do |mouse_event|
             if @drag_detected
               origin = @scrolled_composite.origin
               new_x = origin.x - (mouse_event.x - @drag_start_x)
               new_y = origin.y - (mouse_event.y - @drag_start_y)
               @scrolled_composite.set_origin(new_x, new_y)
             end
-          }
+          end
           
-          on_mouse_up { |mouse_event|
+          on_mouse_up do |mouse_event|
             if !@drag_detected
               origin = @scrolled_composite.origin
               @location_x = mouse_event.x
@@ -238,7 +238,7 @@ class MandelbrotFractal
             end
             @canvas.cursor = can_zoom_in? ? :cross : :no
             @drag_detected = false
-          }
+          end
           
         }
       }
@@ -251,27 +251,33 @@ class MandelbrotFractal
             text 'Zoom &In'
             accelerator COMMAND, '+'
             
-            on_widget_selected { zoom_in }
+            on_widget_selected do
+              zoom_in
+            end
           }
           
           menu_item {
             text 'Zoom &Out'
             accelerator COMMAND, '-'
             
-            on_widget_selected { zoom_out }
+            on_widget_selected do
+              zoom_out
+            end
           }
           
           menu_item {
             text '&Reset Zoom'
             accelerator COMMAND, '0'
             
-            on_widget_selected { perform_zoom(mandelbrot_zoom: 1.0) }
+            on_widget_selected do
+              perform_zoom(mandelbrot_zoom: 1.0)
+            end
           }
         }
         menu {
           text '&Cores'
           
-          Concurrent.physical_processor_count.times {|n|
+          Concurrent.physical_processor_count.times do |n|
             processor_number = n + 1
             menu_item(:radio) {
               text "&#{processor_number}"
@@ -287,11 +293,11 @@ class MandelbrotFractal
               
               selection true if processor_number == Concurrent.physical_processor_count
               
-              on_widget_selected {
+              on_widget_selected do
                 Mandelbrot.processor_count = processor_number
-              }
+              end
             }
-          }
+          end
         }
         menu {
           text '&Help'
@@ -300,9 +306,9 @@ class MandelbrotFractal
             text '&Instructions'
             accelerator COMMAND, :shift, :i
             
-            on_widget_selected {
+            on_widget_selected do
               display_help_instructions
-            }
+            end
           }
         }
       }
@@ -352,7 +358,7 @@ class MandelbrotFractal
   def color_palette
     if @color_palette.nil?
       @color_palette = [[0, 0, 0]] + 40.times.map { |i| [255 - i*5, 255 - i*5, 55 + i*5] }
-      @color_palette = @color_palette.map {|color_data| rgb(*color_data).swt_color}
+      @color_palette = @color_palette.map { |color_data| rgb(*color_data).swt_color }
     end
     @color_palette
   end

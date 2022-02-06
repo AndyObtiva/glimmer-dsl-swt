@@ -170,42 +170,42 @@ class StockTicker
                   }
                 end
                 
-                on_mouse_down {
+                on_mouse_down do
                   @drag_detected = false
-                }
+                end
                 
-                on_drag_detected { |drag_detect_event|
+                on_drag_detected do |drag_detect_event|
                   @drag_detected = true
                   @drag_start_x = drag_detect_event.x
                   @drag_start_y = drag_detect_event.y
-                }
+                end
                 
-                on_mouse_move { |mouse_event|
+                on_mouse_move do |mouse_event|
                   if @drag_detected
                     origin = tab[:scrolled_composite].origin
                     new_x = origin.x - (mouse_event.x - @drag_start_x)
                     new_y = origin.y - (mouse_event.y - @drag_start_y)
                     tab[:scrolled_composite].set_origin(new_x, new_y)
                   end
-                }
+                end
                 
-                on_mouse_up { |mouse_event|
+                on_mouse_up do |mouse_event|
                   @drag_detected = false
-                }
+                end
               }
             }
           }
         end
       }
     
-      on_swt_show {
+      on_swt_show do
         Stock.price_min = 25
         Stock.price_max = @tabs.first[:canvas].bounds.height - 6
-      }
+      end
       
-      on_widget_disposed {
+      on_widget_disposed do
         @thread.kill # safe to kill as data is in memory only
-      }
+      end
     }
   }
 end

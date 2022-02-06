@@ -70,11 +70,11 @@ class HelloFontDialog
       button {
         text "Choose Font..."
         
-        on_widget_selected {
+        on_widget_selected do
           self.selected_font_data = font_dialog {
             font_list [@selected_font_data]
           }.open
-        }
+        end
       }
       
     }

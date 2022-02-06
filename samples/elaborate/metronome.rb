@@ -101,13 +101,13 @@ class Metronome
       
       @beat_container = beat_container
       
-      on_swt_show {
+      on_swt_show do
         start_metronome
-      }
+      end
       
-      on_widget_disposed {
+      on_widget_disposed do
         stop_metronome
-      }
+      end
     }
   }
   

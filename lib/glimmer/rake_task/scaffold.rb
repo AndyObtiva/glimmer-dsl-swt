@@ -597,12 +597,13 @@ module Glimmer
         Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
         Display.app_version = VERSION
         @display = display {
-          on_about {
+          on_about do
             display_about_dialog
-          }
-          on_preferences {
+          end
+          
+          on_preferences do
             #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
-          }
+          end
         }
       end
             MULTI_LINE_STRING
@@ -658,17 +659,21 @@ module Glimmer
           menu_bar {
             menu {
               text '&File'
+              
               menu_item {
                 text '&About...'
-                on_widget_selected {
+                
+                on_widget_selected do
                   display_about_dialog
-                }
+                end
               }
+              
               menu_item {
                 text '&Preferences...'
-                on_widget_selected {
+                
+                on_widget_selected do
                   #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
-                }
+                end
               }
             }
           }
@@ -697,31 +702,37 @@ module Glimmer
             custom_shell_file_content += <<-MULTI_LINE_STRING
       def display_preferences_dialog
         dialog(swt_widget) {
-          text 'Preferences'
           grid_layout {
             margin_height 5
             margin_width 5
           }
+          
+          text 'Preferences'
+          
           group {
             row_layout {
               type :vertical
               spacing 10
             }
+            
             text 'Greeting'
             font style: :bold
+            
             [
               'Hello, World!',
               'Howdy, Partner!'
             ].each do |greeting_text|
               button(:radio) {
-                text greeting_text
-                selection <= [self, :greeting, on_read: ->(g) { g == greeting_text }]
                 layout_data {
                   width 160
                 }
-                on_widget_selected { |event|
+                
+                text greeting_text
+                selection <= [self, :greeting, on_read: ->(g) { g == greeting_text }]
+                
+                on_widget_selected do |event|
                   self.greeting = event.widget.getText
-                }
+                end
               }
             end
           }
@@ -823,6 +834,7 @@ end
             background background_color
             cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*0.65 - size_width*0.66, 0 - size_height*0.33, size_width/2 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33
           }
+          
           path {
             background background_color
             cubic size_width - size_width*0.66, size_height/2 - size_height*0.33, size_width*1.35 - size_width*0.66, 0 - size_height*0.33, size_width*1.5 - size_width*0.66, size_height*0.75 - size_height*0.33, size_width - size_width*0.66, size_height - size_height*0.33

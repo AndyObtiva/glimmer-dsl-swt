@@ -150,15 +150,15 @@ class Tetris
     icon_size = 8
     icon_pixel_size = icon_block_size * icon_size
     image(icon_pixel_size, icon_pixel_size) {
-      icon_size.times { |row|
-        icon_size.times { |column|
+      icon_size.times do |row|
+        icon_size.times do |column|
           colored = row >= 1 && column.between?(1, 6)
           color = colored ? color(([:white] + Model::Tetromino::LETTER_COLORS.values).sample) : color(:white)
           x = column * icon_block_size
           y = row * icon_block_size
           bevel(x: x, y: y, base_color: color, size: icon_block_size)
-        }
-      }
+        end
+      end
     }
   end
 

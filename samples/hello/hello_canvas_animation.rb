@@ -123,12 +123,12 @@ class HelloCanvasAnimation
           started        <=> [self, :animation_started]
           finished       <=> [self, :animation_finished]
           
-          frame { |index|
+          frame do |index|
             background rgb(index%100, index%100 + 100, index%55 + 200)
             oval(index*3%300, index*3%300, 20, 20) {
               background :yellow
             }
-          }
+          end
         }
       }
     }

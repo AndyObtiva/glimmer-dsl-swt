@@ -10,6 +10,8 @@ glimmer
 
 On Mac and Linux, it additionally brings up a TUI (Text-based User Interface) for interactive navigation and execution of Glimmer tasks (courtesy of [rake-tui](https://github.com/AndyObtiva/rake-tui)).
 
+(note that in ARM64 machines, the TUI does not seem to work at the moment, so simply use glimmer commands directly without the TUI until this is fixed)
+
 On Windows, it simply lists the available Glimmer tasks at the end (courtsey of [rake](https://github.com/ruby/rake)).
 
 If you are new to Glimmer, you may read the Basic Usage section and skip the rest until you have gone through [Girb (Glimmer irb) Command](#girb-glimmer-irb-command), [Glimmer GUI DSL Syntax](#glimmer-gui-dsl-syntax), and [Samples](#samples).
@@ -107,7 +109,7 @@ glimmer samples/hello/hello_world.rb samples/hello/hello_tab.rb
 
 Launches samples/hello/hello_world.rb and samples/hello_tab.rb at the same time, each in a separate JRuby thread.
 
-Note: under Zsh (Z Shell), glimmer can only be used in its advanced TUI mode (e.g. `glimmer` and then selecting a task) not the primitive rake task mode (e.g. `glimmer scaffold[app]`)
+Note: under Zsh (Z Shell), glimmer can only be used in its advanced \ mode (e.g. `glimmer` and then selecting a task) not the primitive rake task mode (e.g. `glimmer scaffold[app]`)
 
 ### Glimmer Samples
 

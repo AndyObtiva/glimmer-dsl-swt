@@ -253,22 +253,22 @@ class MetaSampleApplication
               font height: 25
               enabled <= [SampleDirectory, 'selected_sample.launchable']
               
-              on_widget_selected {
+              on_widget_selected do
                 begin
                   SampleDirectory.selected_sample.launch(@code_text.text)
                 rescue LoadError, StandardError, SyntaxError => launch_error
                   error_dialog(message: launch_error.full_message).open
                 end
-              }
+              end
             }
             button {
               text 'Reset'
               font height: 25
               enabled <= [SampleDirectory, 'selected_sample.editable']
               
-              on_widget_selected {
+              on_widget_selected do
                 SampleDirectory.selected_sample.reset_code!
-              }
+              end
             }
           }
         }
@@ -319,9 +319,9 @@ class MetaSampleApplication
       button {
         text 'Close'
         
-        on_widget_selected {
+        on_widget_selected do
           dialog_proxy.close
-        }
+        end
       }
     }
   end

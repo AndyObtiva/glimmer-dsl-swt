@@ -72,10 +72,13 @@ module Glimmer
         OPERATING_SYSTEMS_SUPPORTED.detect {|os| OS.send("#{os}?")}
       end
       
-      def special_cpu_architecture_suffix
+      def is_arm64?
         host_cpu = OS.host_cpu.downcase
-        special = host_cpu.include?('aarch64') || host_cpu.include?('arm')
-        special ? "_aarch64" : ''
+        host_cpu.include?('aarch64') || host_cpu.include?('arm')
+      end
+      
+      def special_cpu_architecture_suffix
+        is_arm64? ? "_aarch64" : ''
       end
 
       def swt_jar_file
@@ -187,7 +190,7 @@ module Glimmer
     end
     
     def display_tasks
-      if OS.windows?
+      if OS.windows? || Launcher.is_arm64?
         require 'rake'
         Rake::TaskManager.record_task_metadata = true
         require_relative 'rake_task'

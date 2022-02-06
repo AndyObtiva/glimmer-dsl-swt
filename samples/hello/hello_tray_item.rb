@@ -98,9 +98,9 @@ class HelloTrayItem
           menu_item {
             text 'Exit'
 
-            on_widget_selected {
+            on_widget_selected do
               exit(0)
-            }
+            end
           }
         }
         

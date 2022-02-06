@@ -62,13 +62,13 @@ class Weather
         
         text <=> [self, :city]
         
-        on_key_pressed {|event|
+        on_key_pressed do |event|
           if event.keyCode == swt(:cr) # carriage return
             Thread.new do
               fetch_weather!
             end
           end
-        }
+        end
       }
             
       tab_folder {

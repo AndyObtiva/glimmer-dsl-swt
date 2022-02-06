@@ -81,9 +81,9 @@ class Login
           text <=> [@presenter, :user_name]
           enabled <= [@presenter, :logged_out?, computed_by: :status]
           
-          on_key_pressed { |event|
+          on_key_pressed do |event|
             @password_text.set_focus if event.keyCode == swt(:cr)
-          }
+          end
         }
 
         label { text "Password:" }
@@ -91,9 +91,9 @@ class Login
           text <=> [@presenter, :password]
           enabled <= [@presenter, :logged_out?, computed_by: :status]
           
-          on_key_pressed { |event|
+          on_key_pressed do |event|
             @presenter.login! if event.keyCode == swt(:cr)
-          }
+          end
         }
 
         label { text "Status:" }
@@ -103,25 +103,31 @@ class Login
           text "Login"
           enabled <= [@presenter, :logged_out?, computed_by: :status]
           
-          on_widget_selected { @presenter.login! }
-          on_key_pressed { |event|
+          on_widget_selected do
+            @presenter.login!
+          end
+          
+          on_key_pressed do |event|
             if event.keyCode == swt(:cr)
               @presenter.login!
             end
-          }
+          end
         }
 
         button {
           text "Logout"
           enabled <= [@presenter, :logged_in?, computed_by: :status]
           
-          on_widget_selected { @presenter.logout! }
-          on_key_pressed { |event|
+          on_widget_selected do
+            @presenter.logout!
+          end
+          
+          on_key_pressed do |event|
             if event.keyCode == swt(:cr)
               @presenter.logout!
               @user_name_text.set_focus
             end
-          }
+          end
         }
       }
     }

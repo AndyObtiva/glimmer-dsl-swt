@@ -7,12 +7,13 @@ class KlondikeSolitaire
       
       before_body do
         @display = display {
-          on_about {
+          on_about do
             display_about_dialog
-          }
-          on_preferences {
+          end
+          
+          on_preferences do
             display_about_dialog
-          }
+          end
         }
       end
   
@@ -20,30 +21,34 @@ class KlondikeSolitaire
         menu_bar {
           menu {
             text '&Game'
+            
             menu_item {
               text '&Restart'
               accelerator (OS.mac? ? :command : :ctrl), :r
               
-              on_widget_selected {
+              on_widget_selected do
                 game.restart!
-              }
+              end
             }
+            
             menu_item {
               text 'E&xit'
               accelerator :alt, :f4
               
-              on_widget_selected {
+              on_widget_selected do
                 exit(0)
-              }
+              end
             }
           }
           menu {
             text '&Help'
+            
             menu_item {
               text '&About...'
-              on_widget_selected {
+              
+              on_widget_selected do
                 display_about_dialog
-              }
+              end
             }
           }
         }

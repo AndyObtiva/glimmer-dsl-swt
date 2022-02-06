@@ -262,9 +262,9 @@ class HelloTable
           menu_item {
             text 'Book'
             
-            on_widget_selected {
+            on_widget_selected do
               book_selected_game
-            }
+            end
           }
         }
       }
@@ -275,9 +275,9 @@ class HelloTable
         font height: 14
         enabled <= [BaseballGame, :selected_game]
         
-        on_widget_selected {
+        on_widget_selected do
           book_selected_game
-        }
+        end
       }
     }
   }

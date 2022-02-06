@@ -37,7 +37,7 @@ class HelloShell
         }
         text "Nested Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -48,7 +48,7 @@ class HelloShell
               text "Since this shell is nested, \nyou can hit ESC to close"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -58,7 +58,7 @@ class HelloShell
         }
         text "Independent Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build an independent shell, meaning a shell that is independent of its parent
           shell {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -69,7 +69,7 @@ class HelloShell
               text "Since this shell is independent, \nyou cannot close by hitting ESC"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -79,7 +79,7 @@ class HelloShell
         }
         text "Close-Button Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           shell(:close) {
             # shell has fill_layout(:horizontal) by default with no margins
             text 'Nested Shell'
@@ -89,7 +89,7 @@ class HelloShell
               text "Shell with close button only\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -99,7 +99,7 @@ class HelloShell
         }
         text "Minimize-Button Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy, :min) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -110,7 +110,7 @@ class HelloShell
               text "Shell with minimize button only\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -120,7 +120,7 @@ class HelloShell
         }
         text "Maximize-Button Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy, :max) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -131,7 +131,7 @@ class HelloShell
               text "Shell with maximize button only\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -141,7 +141,7 @@ class HelloShell
         }
         text "Buttonless Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy, :title) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -152,7 +152,7 @@ class HelloShell
               text "Buttonless shell (title only)\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -162,7 +162,7 @@ class HelloShell
         }
         text "No Trim Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy, :no_trim) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -173,7 +173,7 @@ class HelloShell
               text "No trim shell, meaning no buttons or title bar.\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
       button {
@@ -183,7 +183,7 @@ class HelloShell
         }
         text "Always On Top Shell"
         
-        on_widget_selected {
+        on_widget_selected do
           # build a nested shell, meaning a shell that specifies its parent shell (root_shell_proxy)
           shell(root_shell_proxy, :on_top) {
             # shell has fill_layout(:horizontal) by default with no margins
@@ -194,7 +194,7 @@ class HelloShell
               text "Always on top shell.\n(varies per platform)"
             }
           }.open
-        }
+        end
       }
         
     }

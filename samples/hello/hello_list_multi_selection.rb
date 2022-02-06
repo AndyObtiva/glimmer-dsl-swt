@@ -69,7 +69,9 @@ class HelloListMultiSelection
       button {
         text 'Reset Selections To Default Values'
         
-        on_widget_selected { @person.reset_provinces! }
+        on_widget_selected do
+          @person.reset_provinces!
+        end
       }
     }
   }

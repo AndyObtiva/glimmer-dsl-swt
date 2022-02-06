@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.2.5
+
+- Update all samples to match the [GLIMMER_STYLE_GUIDE.md](/docs/reference/GLIMMER_STYLE_GUIDE.md)
+- Update scaffolding code to match the [GLIMMER_STYLE_GUIDE.md](/docs/reference/GLIMMER_STYLE_GUIDE.md)
+
 ## 4.22.2.4
 
 - Address the warning regarding using Ruby singletons on Java objects (shows up when running `glimmer samples`)

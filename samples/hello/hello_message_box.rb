@@ -29,11 +29,11 @@ shell {
   button {
     text 'Please Click To Win a Surprise'
     
-    on_widget_selected {
+    on_widget_selected do
       message_box {
         text 'Surprise'
         message "Congratulations!\n\nYou won $1,000,000!"
       }.open
-    }
+    end
   }
 }.open
