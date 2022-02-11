@@ -27,9 +27,9 @@ Please help make [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt
 DSL | Platforms | Native? | Vector Graphics? | Pros | Cons | Prereqs
 ----|-----------|---------|------------------|------|------|--------
 [Glimmer DSL for SWT (JRuby Desktop Development GUI Framework)](https://github.com/AndyObtiva/glimmer-dsl-swt) | Mac / Windows / Linux | Yes | Yes (Canvas Shape DSL) | Very Mature / Scaffolding / Native Executable Packaging / Custom Widgets | Slow JRuby Startup Time / Heavy Memory Footprint | Java / JRuby
-[Glimmer DSL for Opal (Pure Ruby Web GUI and Auto-Webifier of Desktop Apps)](https://github.com/AndyObtiva/glimmer-dsl-opal) | All Web Browsers | No | Yes (Canvas Shape DSL) | Simpler than All JavaScript Technologies / Auto-Webify Desktop Apps | Setup Process / Only Rails 5 Support for Now | Rails
+[Glimmer DSL for Opal (Pure Ruby Web GUI and Auto-Webifier of Desktop Apps)](https://github.com/AndyObtiva/glimmer-dsl-opal) | All Web Browsers | No | Yes (Canvas Shape DSL) | Simpler than All JavaScript Technologies / Auto-Webify Desktop Apps | Setup Process / Incomplete Alpha | Rails
 [Glimmer DSL for LibUI (Prerequisite-Free Ruby Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-libui) | Mac / Windows / Linux | Yes | Yes (Area API) | Fast Startup Time / Light Memory Footprint | LibUI is an Incomplete Mid-Alpha Only | None Other Than MRI Ruby
-[Glimmer DSL for Tk (MRI Ruby Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-tk) | Mac / Windows / Linux | Some Native-Themed Widgets (Not Truly Native) | Yes (Canvas) | Fast Startup Time / Light Memory Footprint | Widgets Do Not Look Truly Native, Espcially on Linux | ActiveTcl / MRI Ruby
+[Glimmer DSL for Tk (Ruby Tk Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-tk) | Mac / Windows / Linux | Some Native-Themed Widgets (Not Truly Native) | Yes (Canvas) | Fast Startup Time / Light Memory Footprint | Widgets Do Not Look Truly Native, Espcially on Linux | ActiveTcl / MRI Ruby
 [Glimmer DSL for GTK (Ruby-GNOME Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-gtk) | Mac / Windows / Linux | Only on Linux | Yes (Cairo) | Complete Access to GNOME Features on Linux (Forte) | Not Native on Mac and Windows | None Other Than MRI Ruby on Linux / Brew Packages on Mac / MSYS & MING Toolchains on Windows / MRI Ruby
 [Glimmer DSL for FX (FOX Toolkit Ruby Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-fx) | Mac (requires XQuartz) / Windows / Linux | No | Yes (Canvas) | No Prerequisites on Windows (Forte Since Binaries Are Included Out of The Box) | Widgets Do Not Look Native / Mac Usage Obtrusively Starts XQuartz | None Other Than MRI Ruby on Windows / XQuarts on Mac / MRI Ruby
 [Glimmer DSL for JFX (JRuby JavaFX Desktop Development GUI Library)](https://github.com/AndyObtiva/glimmer-dsl-jfx) | Mac / Windows / Linux | No | Yes (javafx.scene.shape and javafx.scene.canvas) | Rich in Custom Widgets | Slow JRuby Startup Time / Heavy Memory Footprint / Widgets Do Not Look Native | Java / JRuby / JavaFX SDK
@@ -459,13 +459,15 @@ In a nutshell, the Glimmer GUI DSL syntax consists mainly of:
 
 1. Keywords
 
+Widgets are declared with keywords denoting their name in underscored format.
+
 Example of a keyword representing a table widget:
 
 ```ruby
 table
 ```
 
-2. Style/Args
+Widgets may optionally receive symbol-style/args within parentheses (otherwise, when there are no style/args, the parentheses are left out).
 
 Example of a multi-line selection table widget:
 
@@ -473,7 +475,9 @@ Example of a multi-line selection table widget:
 table(:multi)
 ```
 
-3. Content/Properties
+2. Content/Properties
+
+Widget content is always housed within a curly-brace (`{}`) style block.
 
 Example of a multi-line selection table widget with a table column as content that has a header `text` property as 'Name'.
 
@@ -483,6 +487,37 @@ table(:multi) {
     text 'Name'
   }
 }
+```
+
+3. Listeners 
+
+Listeners embody the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) and always start with `on_` followed by an event name (e.g. `on_widget_selected`). Also, they are an exception to Glimmer's syntax that requires a `do; end` style block to clearly demarcate as logic as opposed to View syntax.
+
+Example of a button widget with a `text` property and an `on_widget_selected` listener.
+
+```ruby
+button {
+  text 'Click'
+  
+  on_widget_selected do
+    message_box {
+      text 'Clicked'
+      message 'Thank you for clicking!'
+    }.open
+  end
+}
+```
+
+4. Methods
+
+Widgets have methods that invoke operations on them. Sometimes, they are required to be called in order to display the widgets (like the `open` method on `shell` and `message_box`)
+
+Example of a shell with a `text` property and an invoked `open` method operation.
+
+```ruby
+shell {
+  text 'Hello, World!'
+}.open
 ```
 
 If you need more widgets, you can check out the [Nebula Project](https://github.com/AndyObtiva/glimmer-cw-nebula) (50+ enterprise-grade custom widgets)
@@ -530,9 +565,13 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ### Are We There Yet?
 
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a database using [ActiveRecord](https://rubygems.org/gems/activerecord).
+
 [<img alt="Are We There Yet Logo" src="https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-logo.svg" width="40" />Are We There Yet?](https://github.com/AndyObtiva/are-we-there-yet): A tool that helps you learn when your small projects will finish
 
 ### Garderie Rainbow Daily Agenda
+
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [Rails](https://rubyonrails.org/) server to submit an application.
 
 [<img alt="Garderie Rainbow Daily Agenda Logo" src="https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_logo.png" width="40" />Garderie Rainbow Daily Agenda](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda): A child nursery daily agenda reporting desktop app
 
@@ -597,6 +636,7 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 ## Resources
 
+* [Glimmer DSL for SWT Video Tutorials](https://andymaleh.blogspot.com/search/label/Tutorial+SWT)
 * [Code Master Blog](http://andymaleh.blogspot.com/search/label/Glimmer)
 * [JRuby Cookbook by Justin Edelson & Henry Liu](http://shop.oreilly.com/product/9780596519650.do)
 * [InfoQ Article](http://www.infoq.com/news/2008/02/glimmer-jruby-swt)

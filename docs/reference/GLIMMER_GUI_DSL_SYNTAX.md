@@ -1736,8 +1736,6 @@ https://help.eclipse.org/2019-12/nftopic/org.eclipse.platform.doc.isv/reference/
 
 ### Canvas Shape DSL
 
-**(BETA FEATURE)**
-
 While other GUI toolkits only offer a way to draw graphics imperatively (e.g. draw_arc, draw_rectangle, move_to, line_to, etc...), Glimmer DSL for SWT breaks away from the mold by enabling software engineers to draw graphics declaratively. Simply declare all the shapes you want to see with their attributes, like background/foreground colors, and Glimmer DSL for SWT takes care of the rest, painting graphics on a blank `canvas` widget or amending/decorating an existing widget. This is accomplished through the Canvas Shape DSL, a sub-DSL of the Glimmer GUI DSL, which makes it possible to draw graphics declaratively with very understandable and maintainable syntax. Still, for the rare cases where imperative logic is needed, Glimmer DSL for SWT supports imperative painting of graphics through direct usage of SWT.
 
 ![Canvas Shape DSL Line](/images/glimmer-canvas-shape-dsl-line.png)
@@ -2723,8 +2721,6 @@ Check [Hello, Canvas!](/docs/reference/GLIMMER_SAMPLES.md#hello-canvas) for an e
 
 #### Pixel Graphics
 
-**(BETA FEATURE)**
-
 If you need to paint pixel graphics, use the optimized `pixel` keyword alternative to `point`, which takes foreground as a hash argument and bypasses the [Glimmer DSL Engine chain of responsibility](https://github.com/AndyObtiva/glimmer#dsl-engine), thus rendering faster when having very large pixel counts.
 
 Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
@@ -2905,8 +2901,6 @@ As they say, there are many ways to skin a cat! This is in line with the Ruby wa
 
 ### Canvas Path DSL
 
-**(BETA FEATURE)**
-
 Unlike common imperative GUI graphing toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path { }` keyword and by nesting one of the following path segment keywords underneath:
 - `point(x1, y1)`: renders a Point (Dot) as part of a path.
 - `line(x1, y1, x2=nil, y2=nil)`: renders a Line as part of a path. If you drop x2, y2, it joins to the previous point automatically. You may repeat for a series of lines forming a curve.
@@ -2950,8 +2944,6 @@ Every path segment object (mixing in [`Glimmer::SWT::Custom::PathSegment`](/lib/
 - `#first_path_segment?`: indicates if the path segment is the first in the path
 
 ### Canvas Transform DSL
-
-**(BETA FEATURE)**
 
 The transform DSL builds [org.eclipse.swt.graphics.Transform](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/graphics/Transform.html) objects with a nice declarative syntax.
 
@@ -3811,7 +3803,7 @@ Custom widgets are brand new Glimmer DSL keywords that represent aggregates of e
 
 You can find out about [published Glimmer Custom Widgets](https://github.com/AndyObtiva/glimmer-dsl-swt#gem-listing) by running the `glimmer list:gems:customwidget` command
 
-Glimmer supports three ways of creating custom widgets with minimal code:
+Glimmer supports two ways of creating custom widgets with minimal code:
 1. Method-based Custom Widgets (for single-view-internal reuse): Extract a method containing Glimmer DSL widget syntax. Useful for quickly eliminating redundant code within a single view.
 2. Class-based Custom Widgets (for multiple-view-external reuse): Create a class that includes the `Glimmer::UI::CustomWidget` module and Glimmer DSL widget syntax in a `body {}` block. This will automatically extend Glimmer's DSL syntax with an underscored lowercase keyword matching the class name by convention. Useful in making a custom widget available in many views.
 
@@ -4429,9 +4421,11 @@ Also, you may check out [Hello, Custom Widget!](/docs/reference/GLIMMER_SAMPLES.
 
 ### Custom Shells
 
-Custom shells are a kind of custom widgets that have shells only as the body root. They can be self-contained applications that may be opened and hidden/closed independently of the main app.
+Custom shell is a kind of a [custom widget](#custom-widgets) that has `shell` (window) as the body root widget. It can be used to represent an application or a reusable window that may be opened/hidden/closed independently of the main application.
 
-They may also be chained in a wizard fashion.
+Except in the case of small demos, it is always recommended to build [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) applications as custom shells.
+
+Custom shells may also be chained in a wizard fashion in some cases.
 
 You can find out about [published Glimmer Custom Shells](https://github.com/AndyObtiva/glimmer-dsl-swt#gem-listing) by running the `glimmer list:gems:customshell` command
 
@@ -4468,33 +4462,41 @@ class WizardStep
   }
 end
 
-shell { |app_shell|
-  text "Wizard"
-  minimum_size 200, 100
-  @current_step_number = 1
-  @wizard_steps = 5.times.map { |n|
-    wizard_step(number: n+1, step_count: 5) {
-      on_swt_hide do
-        if @current_step_number < 5
-          @current_step_number += 1
+class Wizard
+  include Glimmer::UI::CustomShell
+
+  body {
+    shell { |app_shell|
+      text "Wizard"
+      minimum_size 200, 100
+      @current_step_number = 1
+      @wizard_steps = 5.times.map { |n|
+        wizard_step(number: n+1, step_count: 5) {
+          on_swt_hide do
+            if @current_step_number < 5
+              @current_step_number += 1
+              app_shell.hide
+              @wizard_steps[@current_step_number - 1].open
+            end
+          end
+        }
+      }
+      button {
+        text "Start"
+        font height: 40
+        on_widget_selected do
           app_shell.hide
           @wizard_steps[@current_step_number - 1].open
         end
-      end
+      }
     }
   }
-  button {
-    text "Start"
-    font height: 40
-    on_widget_selected do
-      app_shell.hide
-      @wizard_steps[@current_step_number - 1].open
-    end
-  }
-}.open
+end
+
+Wizard.launch
 ```
 
-If you use a Custom Shell as the top-level app shell, you may invoke the class method `.launch` instead to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
+If you use a Custom Shell as the top-level app shell, you may invoke the class method `.launch` instead of `open` to avoid building an app class yourself or including Glimmer into the top-level namespace (e.g. `Tetris.launch` instead of `include Glimmer; tetris.open`)
 
 You may check out [Hello, Custom Shell!](/docs/reference/GLIMMER_SAMPLES.md#hello-custom-shell) for another example.
 

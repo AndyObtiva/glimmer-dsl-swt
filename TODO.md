@@ -4,7 +4,52 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
+Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
+In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.
+```ruby
+composite {
+  generators(person, :addresses) {|address, index, addresses|
+    group {
+      text "Address #{index+1}"
+      
+      label {
+        text <= [address, :street]
+      }
+      label {
+        text <= [address, :city]
+      }
+      label {
+        text <= [address, :state]
+      }
+      label {
+        text <= [address, :zip]
+      }    
+    }
+  }
+}
 
+composite {
+  generator(person, :company) {|company|
+    if company # clears the label widget below if company is updated to nil
+      label {
+        text <= [person, :company]
+      }
+    end
+  }  
+}
+```
+- Refactor Glimmer Wordle to utilize the new Generator feature
+- Note that the Canvas Shape DSL feature graduated from a Beta to Final
+
+- Prototype the user of GraalVM Native Image
+- Prototype TruffleRuby support
+
+- Implement Tetris changes done in Glimmer DSL for LibUI: Show Next Preview checkbox menu item and Speeds menu
+- For samples that have Video Tutorials on Youtube, add a link with video emoji (📹) that can be clicked to bring up the Youtube Video
+- Look into eventually embedding Video Tutorials directly in the Meta-Sample for samples that have a tutorial. This includes bringing in the [Video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) into Glimmer DSL for SWT core (and retiring the custom widget unless there was a reason to keep it).
+
+- Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
 - Hello, Listener!
 
 - Note the need to set Display.app_name = before app launch (not inside before_body) to work
@@ -150,7 +195,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Move glimmer projects underneath glimmer organization
 
 - Add a right-click menu to code_text for undo/redo/cut/copy/paste/select-all
-- Support radio data-binding similar to combo (spawning radio buttons automatically based on options)
 - Support a clean way of specifying different widget properties per OS (e.g. taking a hash of OS mappings instead of raw property values or supporting mac, windows, linux Glimmer keywords that wrap blocks around platform specific logic, perhaps make a web equivalent in opal)
 - Add preferences dialog/menu-items to desktopify app
 - Remove default margins from composites/layouts. They are not as helpful as they seemed.
@@ -202,57 +246,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Feature Suggestions
 - Glimmer Wizard: provide a standard structure for building a Glimmer wizard (multi-step/multi-screen process)
-- bind_content: an iterator that enables spawning widgets based on a variable collection (e.g. `bind_content('user.addresses').each { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only). Needs further thought on naming and functionality.
-Another idea in which each is triggered upon every update to bind's content:
-```ruby
-composite {
-  content(model, 'addresses') {|address|
-    label {
-      bind(address, :street)
-    }
-    label {
-      bind(address, :zip)
-    }
-  }
-  # Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
-  # OR
-  foreach(model, :addresses) do |address|
-    label {
-      bind(address, :street)
-    }
-    label {
-      bind(address, :zip)
-    }
-  end
-  # OR
-  [model, :addresses].foreach do |address|
-    label {
-      bind(address, :street)
-    }
-    label {
-      bind(address, :zip)
-    }
-  end
-  # OR
-  model.addresses.binding.each do |address|
-    label {
-      bind(address, :street)
-    }
-    label {
-      bind(address, :zip)
-    }
-  end
-  # OR
-  [model, :addresses] >-> { |address|
-    label {
-      bind(address, :street)
-    }
-    label {
-      bind(address, :zip)
-    }
-  }
-}
-```
 - Consider updating Mandelbrot Fractical sample to optionally utilize GPU cores instead of CPU cores (consider Java OpenCL)
 - Look into clipping drawing area when doing drag and drop to improve performance
 - Make it an option to close app fast or execute dispose listeners when exiting app (closing the last shell)
@@ -525,6 +518,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Curve! redoes Hello, Canvas Path! in a single screen (no tabs) by providing a dropdown or radio to scale up to quad or cubic for a better visualization. Also, the option to flatten the data.
 - Support the idea of appending _widget to shape names to create self-contained independent canvas-drawn single shapes (e.g. rectangle_widget, or oval_widget, etc...). Their background is transparent or inherited from their parent (simulating transparency) by default. Their foreground is also inherited by default
 - Update Hello, Tree! to enable adding/removing nodes
+- code_text custom widget syntax highlighting for Glimmer DSL syntax (not just Ruby). It can be done by recognizing all the widgets, options, properties, listeners, and methods, and coloring them uniquely.
 - Optimize performance of startup time in requiring glimmer-dsl-swt
 
 ## Samples
