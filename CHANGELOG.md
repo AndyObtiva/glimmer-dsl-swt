@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.22.2.6
+
+- Fix issue whereby updating `string` property on the `text`/`string` shape does not trigger a redraw on the shape because the text dimensions remained the same despite the change of content (e.g. switching from `string` content of letter `A` to `S` results in the same dimensions)
+- Canvas Shape DSL graduated from Beta to Final
+
 ## 4.22.2.5
 
 - Update all samples to match the [GLIMMER_STYLE_GUIDE.md](/docs/reference/GLIMMER_STYLE_GUIDE.md)

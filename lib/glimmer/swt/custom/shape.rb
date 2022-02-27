@@ -1026,14 +1026,17 @@ module Glimmer
         
         def ensure_extent(paint_event)
           old_extent = @extent
+          old_extent_args = @extent_args
           if ['text', 'string'].include?(@name)
             extent_args = [string]
             extent_flags = SWTProxy[:draw_transparent, :draw_delimiter] if current_parameter_name?(:is_transparent) && is_transparent
             extent_flags = flags if current_parameter_name?(:flags)
             extent_args << extent_flags unless extent_flags.nil?
             self.extent = paint_event.gc.send("#{@name}Extent", *extent_args)
+            @extent_args = extent_args
           end
-          if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y) # TODO add a check to text content changing too
+          # comparing extent_args with old ones ensures that if content changes, calculated_args_changed! is called
+          if !@extent.nil? && (old_extent&.x != @extent&.x || old_extent&.y != @extent&.y || @extent_args != old_extent_args)
             calculated_args_changed!
             parent.calculated_args_changed_for_defaults! if parent.is_a?(Shape)
           end
@@ -1101,10 +1104,11 @@ module Glimmer
             default_x? && x_delta,
             default_y? && default_y,
             default_y? && y_delta,
+            (['text', 'string'].include?(@name) && string),
           ]
           if calculated_args_dependencies != @calculated_args_dependencies
             # avoid recalculating values again
-            x, y, parent_absolute_x, parent_absolute_y, default_width, default_width_delta, default_height, default_height_delta, max_width, max_width_delta, max_height, max_height_delta, default_x, default_x_delta, default_y, default_y_delta = @calculated_args_dependencies = calculated_args_dependencies
+            x, y, parent_absolute_x, parent_absolute_y, default_width, default_width_delta, default_height, default_height_delta, max_width, max_width_delta, max_height, max_height_delta, default_x, default_x_delta, default_y, default_y_delta, string = @calculated_args_dependencies = calculated_args_dependencies
             # Note: Must set x and move_by because not all shapes have a real x and some must translate all their points with move_by
             # TODO change that by setting a bounding box for all shapes with a calculated top-left x, y and
             # a setter that does the moving inside them instead so that I could rely on absolute_x and absolute_y

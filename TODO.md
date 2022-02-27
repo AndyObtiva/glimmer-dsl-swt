@@ -24,7 +24,7 @@ composite {
       }
       label {
         text <= [address, :zip]
-      }    
+      }
     }
   }
 }
@@ -36,14 +36,10 @@ composite {
         text <= [person, :company]
       }
     end
-  }  
+  }
 }
 ```
 - Refactor Glimmer Wordle to utilize the new Generator feature
-- Note that the Canvas Shape DSL feature graduated from a Beta to Final
-
-- Prototype the user of GraalVM Native Image
-- Prototype TruffleRuby support
 
 - Implement Tetris changes done in Glimmer DSL for LibUI: Show Next Preview checkbox menu item and Speeds menu
 - For samples that have Video Tutorials on Youtube, add a link with video emoji (📹) that can be clicked to bring up the Youtube Video
