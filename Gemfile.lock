@@ -6,7 +6,7 @@ GEM
     array_include_methods (1.4.0)
     awesome_print (1.9.2)
     builder (3.2.4)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
@@ -18,7 +18,7 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     facets (3.1.0)
-    faraday (1.9.3)
+    faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -79,10 +79,10 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.13.1-java)
+    nokogiri (1.13.3-java)
       racc (~> 1.4)
-    oauth2 (1.4.7)
-      faraday (>= 0.8, < 2.0)
+    oauth2 (1.4.9)
+      faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
@@ -93,7 +93,7 @@ GEM
     psych (4.0.3-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (4.0.6)
-    puts_debuggerer (0.13.2)
+    puts_debuggerer (0.13.4)
       awesome_print (~> 1.9.2)
     racc (1.6.0-java)
     rack (2.2.3)
@@ -101,21 +101,22 @@ GEM
     rake-tui (0.2.3)
       tty-prompt
     rchardet (1.8.0)
-    rdoc (6.3.3)
-    rouge (3.27.0)
-    rspec (3.10.0)
-      rspec-core (~> 3.10.0)
-      rspec-expectations (~> 3.10.0)
-      rspec-mocks (~> 3.10.0)
-    rspec-core (3.10.1)
-      rspec-support (~> 3.10.0)
-    rspec-expectations (3.10.2)
+    rdoc (6.4.0)
+      psych (>= 4.0.0)
+    rouge (3.28.0)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-mocks (3.10.2)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-support (3.10.3)
+      rspec-support (~> 3.11.0)
+    rspec-support (3.11.0)
     ruby2_keywords (0.0.5)
     rubyzip (1.3.0)
     semver2 (3.4.2)
@@ -156,6 +157,7 @@ PLATFORMS
   universal-java-1.8
   universal-java-16
   universal-java-17
+  universal-java-18
 
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
@@ -181,4 +183,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.3.0)
 
 BUNDLED WITH
-   2.3.5
+   2.3.9

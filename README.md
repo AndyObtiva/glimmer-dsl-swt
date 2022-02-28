@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.22.2.6
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.23.0.0
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -7,6 +7,8 @@
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
+
+[GLIMMER VIDEO TUTORIAL CHANNEL](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw)
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for [SWT](https://www.eclipse.org/swt/) is a native-GUI cross-platform desktop development library written in [JRuby](https://www.jruby.org/), an OS-threaded faster JVM version of [Ruby](https://www.ruby-lang.org/en/). [Glimmer](https://github.com/AndyObtiva/glimmer)'s main innovation is a declarative [Ruby DSL](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#glimmer-dsl-syntax) that enables productive and efficient authoring of desktop application user-interfaces by relying on the robust [Eclipse SWT library](https://www.eclipse.org/swt/). [Glimmer](https://rubygems.org/gems/glimmer) additionally innovates by having built-in [data-binding](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#data-binding) support, which greatly facilitates synchronizing the GUI with domain models, thus achieving true decoupling of object oriented components and enabling developers to solve business problems (test-first) without worrying about GUI concerns, or alternatively drive development GUI-first, and then write clean business models afterwards. Not only does Glimmer provide a large set of GUI [widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#widgets), but it also supports drawing Canvas Graphics like [Shapes](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-shape-dsl) and [Animations](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#canvas-animation-dsl). To get started quickly, [Glimmer](https://rubygems.org/gems/glimmer) offers [scaffolding](docs/reference/GLIMMER_COMMAND.md#scaffolding) options for [Apps](#in-production), [Gems](docs/reference/GLIMMER_COMMAND.md#custom-shell-gem), and [Custom Widgets](docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#custom-widgets). [Glimmer](https://rubygems.org/gems/glimmer) also includes native-executable [packaging](docs/reference/GLIMMER_PACKAGING_AND_DISTRIBUTION.md) support, sorely lacking in other libraries, thus enabling the delivery of desktop apps written in [Ruby](https://www.ruby-lang.org/en/) as truly native DMG/PKG/APP files on the [Mac](https://www.apple.com/ca/macos), MSI/EXE files on [Windows](https://www.microsoft.com/en-ca/windows), and DEB/RPM files on [Linux](https://www.linux.org/). [Glimmer](https://github.com/AndyObtiva/glimmer) was the [first Ruby gem](https://rubygems.org/gems/glimmer) to bring [SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) to [Ruby](https://www.ruby-lang.org/en/), thanks to creator [Andy Maleh](https://andymaleh.blogspot.com/), EclipseCon/EclipseWorld/RubyConf speaker.
 
@@ -17,7 +19,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.22.2.6 includes [SWT 4.22](https://download.eclipse.org/eclipse/downloads/drops4/R-4.22-202111241800/), which was released on November 24, 2021. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.23.0.0 includes [SWT 4.23](https://download.eclipse.org/eclipse/downloads/drops4/R-4.23-202203080310/), which was released on March 8, 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword.
 
@@ -240,7 +242,7 @@ Glimmer app:
   
 ## Background
 
-[Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its powerful expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that [Java](https://www.oracle.com/ca-en/java/) libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
+[Ruby](https://www.ruby-lang.org) is a dynamically-typed object-oriented language, which provides great productivity gains due to its expressive syntax and dynamic nature. While it is proven by the [Ruby](https://www.ruby-lang.org) on Rails framework for web development, it currently lacks a robust platform-independent framework for building desktop applications. Given that [Java](https://www.oracle.com/ca-en/java/) libraries can now be utilized in Ruby code through JRuby, Eclipse technologies, such as [SWT](https://www.eclipse.org/swt/), JFace, and RCP can help fill the gap of desktop application development with Ruby.
 
 ## Software Architecture
 
@@ -299,10 +301,10 @@ https://www.eclipse.org/swt/faq.php
 
 ## Pre-requisites
 
-- JDK 17 (17.0.1) (find at https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html / Ensure PATH includes Java bin directory for `jpackage` command to work when packaging Glimmer applications)
-- [RVM](http://rvm.io) on Mac & Linux (not available on Windows)
+- JDK 18 (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
+- [RVM](http://rvm.io) on Mac & Linux (not needed on Windows)
 - JRuby 9.3.3.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.3.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
-- SWT 4.22 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT supports ARM64/AARCH64 on Mac and Linux since version 4.20.
+- SWT 4.23 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT supports ARM64/AARCH64 on Mac and Linux since version 4.20
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.
@@ -331,7 +333,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.22.2.6
+jgem install glimmer-dsl-swt -v 4.23.0.0
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -359,7 +361,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.22.2.6'
+gem 'glimmer-dsl-swt', '~> 4.23.0.0'
 ```
 
 And, then run:
@@ -382,7 +384,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.22.2.6
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.23.0.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -489,7 +491,7 @@ table(:multi) {
 }
 ```
 
-3. Listeners 
+3. Listeners
 
 Listeners embody the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) and always start with `on_` followed by an event name (e.g. `on_widget_selected`). Also, they are an exception to Glimmer's syntax that requires a `do; end` style block to clearly demarcate as logic as opposed to View syntax.
 
@@ -591,6 +593,10 @@ This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) applicatio
 
 [Befunge 98 GUI](https://github.com/AndyObtiva/befunge98/tree/gui)
 
+### Glimmer Klondike Solitaire
+
+[<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/icons/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
+
 ### Glimmer Metronome
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/icons/linux/Glimmer%20Metronome.png" height=40 /> Glimmer Metronome](https://github.com/AndyObtiva/glimmer_metronome)
@@ -636,7 +642,7 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 ## Resources
 
-* [Glimmer DSL for SWT Video Tutorials](https://andymaleh.blogspot.com/search/label/Tutorial+SWT)
+* [Glimmer DSL for SWT Video Tutorials](https://andymaleh.blogspot.com/search/label/Tutorial+SWT) ([Video Tutorial Playlist](https://www.youtube.com/watch?v=Mi5phsSdNAA&list=PLSN9HhZ_0-n741vRa_dL-M81cLbqD_kem) and [Video Tutorial Channel](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw))
 * [Code Master Blog](http://andymaleh.blogspot.com/search/label/Glimmer)
 * [JRuby Cookbook by Justin Edelson & Henry Liu](http://shop.oreilly.com/product/9780596519650.do)
 * [InfoQ Article](http://www.infoq.com/news/2008/02/glimmer-jruby-swt)

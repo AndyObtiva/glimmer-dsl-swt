@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.23.0.0
+
+- Upgrade to SWT 4.23
+- Upgrade to JDK 18
+
 ## 4.22.2.6
 
 - Fix issue whereby updating `string` property on the `text`/`string` shape does not trigger a redraw on the shape because the text dimensions remained the same despite the change of content (e.g. switching from `string` content of letter `A` to `S` results in the same dimensions)

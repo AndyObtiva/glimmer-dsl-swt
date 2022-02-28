@@ -48,6 +48,8 @@ composite {
 - Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
 - Hello, Listener!
 
+- Try using bundler from within Warbler JAR file (test if it works if the Gemfile and Gemfile.lock are included)
+
 - Note the need to set Display.app_name = before app launch (not inside before_body) to work
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 - Fix display of icon in shells

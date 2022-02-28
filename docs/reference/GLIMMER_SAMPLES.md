@@ -84,7 +84,6 @@
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
     - [Timer](#timer)
-    - [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire)
 - [License](#license)
 
 ## Samples
@@ -114,6 +113,8 @@ bin/glimmer samples/hello/hello_canvas_transform.rb
 For hello-type simple samples, check the following.
 
 #### Hello, World!
+
+[Hello, World! Video Tutorial](https://www.youtube.com/watch?v=Mi5phsSdNAA&list=PLSN9HhZ_0-n741vRa_dL-M81cLbqD_kem&index=1)
 
 Code:
 
@@ -195,6 +196,8 @@ Code:
 
 #### Hello, Layout!
 
+[Hello, Layout! Video Tutorial](https://www.youtube.com/watch?v=dAVFR9Y_thY&list=PLSN9HhZ_0-n741vRa_dL-M81cLbqD_kem&index=4)
+
 This sample demonstrates the standard 3 layouts in SWT (though one can write their own for very advanced applications): `fill_layout`, `row_layout`, and `grid_layout`
 
 Code:
@@ -260,6 +263,8 @@ Always On Top Shell
 ![Always On Top Shell](/images/glimmer-hello-shell-always-on-top-shell.png)
 
 #### Hello, Tab!
+
+[Hello, Tab! Video Tutorial](https://www.youtube.com/watch?v=cMwlYZ78uaQ&list=PLSN9HhZ_0-n741vRa_dL-M81cLbqD_kem&index=3)
 
 Code:
 
@@ -359,6 +364,8 @@ Code:
 ![Hello Toggle Red Green Blue](/images/glimmer-hello-toggle-red-green-blue.png)
 
 #### Hello, Message Box!
+
+[Hello, Message Box! Video Tutorial](https://www.youtube.com/watch?v=N0sDcr0xp40&list=PLSN9HhZ_0-n741vRa_dL-M81cLbqD_kem&index=2)
 
 This sample demonstrates a `message_box` dialog.
 
@@ -1251,7 +1258,7 @@ Code:
 
 ![Klondike Solitaire Played](/images/glimmer-klondike-solitaire-played.png)
 
-Check out a souped up large-card-size packaged version of the game in the [Glimmer Klondike Solitaire](#glimmer-klondike-solitaire) external sample.
+Check out a souped up large-card-size packaged version of the game in the [Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire) application.
 
 #### Battleship
 
@@ -1421,14 +1428,6 @@ Gladiator is a good demonstration of:
 [<img alt="Glimmer Timer Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/images/glimmer-timer-logo.png" height=40 /> Timer](https://github.com/AndyObtiva/glimmer-cs-timer) is a sample app demonstrating data-binding, multi-threading, and JSound (Java Sound) library integration in a desktop application.
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/glimmer-timer-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-timer)
-
-#### Glimmer Klondike Solitaire
-
-This is a souped up version of the Klondike Solitaire elaborate sample, which is built as an external application to enable packaging as a native executable installer. Enjoy!
-
-[<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/package/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
-
-![Glimmer Klondike Solitaire](https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/images/glimmer-klondike-solitaire.png)
 
 ## License
 

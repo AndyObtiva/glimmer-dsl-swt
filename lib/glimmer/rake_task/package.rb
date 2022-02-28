@@ -25,7 +25,7 @@ require 'os'
 module Glimmer
   module RakeTask
     module Package
-      JDK_VERSION = '17.0.1'
+      JDK_VERSION = ' 18'
       
       class << self
         attr_accessor :jpackage_extra_args
