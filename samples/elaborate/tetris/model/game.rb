@@ -37,15 +37,18 @@ class Tetris
       PREVIEW_PLAYFIELD_HEIGHT = 2
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
       UP_ARROW_ACTIONS = %i[instant_down rotate_right rotate_left]
+      SPEEDS = %i[snail sloth turtle rabbit gorilla bear horse gazelle cheetah falcon]
+      SPEED_INITIAL_DELAYS = SPEEDS.each_with_index.inject({}) {|hash, speed_index_pair| hash.merge(speed_index_pair.first => 1.1 - speed_index_pair.last*(0.1)) }
       
       attr_reader :playfield_width, :playfield_height
-      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores, :up_arrow_action
+      attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores, :up_arrow_action, :initial_delay
       alias game_over? game_over
       alias paused? paused
       alias beeping? beeping
       alias added_high_score? added_high_score
       
       def initialize(playfield_width = PLAYFIELD_WIDTH, playfield_height = PLAYFIELD_HEIGHT)
+        @initial_delay = SPEED_INITIAL_DELAYS[:snail]
         @playfield_width = playfield_width
         @playfield_height = playfield_height
         @high_scores = []
@@ -199,13 +202,23 @@ class Tetris
       end
       
       def delay
-        [1.1 - (level.to_i * 0.1), 0.001].max
+        [@initial_delay - (level.to_i * 0.1), 0.001].max
       end
       
       def beep
         @beeper&.call if beeping
       end
-      
+
+      SPEED_INITIAL_DELAYS.each do |speed, speed_initial_day|
+        define_method("speed_#{speed}=") do |is_true|
+          self.initial_delay = speed_initial_day if is_true
+        end
+        
+        define_method("speed_#{speed}") do
+          self.initial_delay == speed_initial_day
+        end
+      end
+                  
       UP_ARROW_ACTIONS.each do |up_arrow_action_symbol|
         define_method("#{up_arrow_action_symbol}_on_up=") do |is_true|
           self.up_arrow_action = up_arrow_action_symbol if is_true

@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.23.0.1
+
+- Add Speed menu to the Tetris sample
+- Document Glimmer::UI::Application alias for Glimmer::UI::CustomShell
+
 ## 4.23.0.0
 
 - Upgrade to SWT 4.23

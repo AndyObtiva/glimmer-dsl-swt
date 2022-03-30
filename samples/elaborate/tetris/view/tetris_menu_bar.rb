@@ -90,6 +90,17 @@ class Tetris
           } # end of menu
           
           menu {
+            text '&Speed'
+            
+            Model::Game::SPEEDS.each do |speed|
+              menu_item(:radio) {
+                text speed.to_s.capitalize
+                selection <=> [game, "speed_#{speed}", computed_by: :initial_delay]
+              }
+            end
+          }
+          
+          menu {
             text '&Options'
             menu_item(:check) {
               text '&Beeping'
