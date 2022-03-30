@@ -36,6 +36,7 @@ class Tetris
       PREVIEW_PLAYFIELD_WIDTH = 4
       PREVIEW_PLAYFIELD_HEIGHT = 2
       SCORE_MULTIPLIER = {1 => 40, 2 => 100, 3 => 300, 4 => 1200}
+      UP_ARROW_ACTIONS = %i[instant_down rotate_right rotate_left]
       
       attr_reader :playfield_width, :playfield_height
       attr_accessor :game_over, :paused, :preview_tetromino, :lines, :score, :level, :high_scores, :beeping, :added_high_score, :show_high_scores, :up_arrow_action
@@ -205,28 +206,14 @@ class Tetris
         @beeper&.call if beeping
       end
       
-      def instant_down_on_up=(value)
-        self.up_arrow_action = :instant_down if value
-      end
-      
-      def instant_down_on_up
-        self.up_arrow_action == :instant_down
-      end
-      
-      def rotate_right_on_up=(value)
-        self.up_arrow_action = :rotate_right if value
-      end
-      
-      def rotate_right_on_up
-        self.up_arrow_action == :rotate_right
-      end
-      
-      def rotate_left_on_up=(value)
-        self.up_arrow_action = :rotate_left if value
-      end
-      
-      def rotate_left_on_up
-        self.up_arrow_action == :rotate_left
+      UP_ARROW_ACTIONS.each do |up_arrow_action_symbol|
+        define_method("#{up_arrow_action_symbol}_on_up=") do |is_true|
+          self.up_arrow_action = up_arrow_action_symbol if is_true
+        end
+        
+        define_method("#{up_arrow_action_symbol}_on_up") do
+          self.up_arrow_action == up_arrow_action_symbol
+        end
       end
       
       def reset_tetrominoes
