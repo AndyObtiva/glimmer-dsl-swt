@@ -71,6 +71,14 @@ class Tetris
           menu {
             text '&View'
             
+            menu_item(:check) {
+              text 'Show Next Block Preview'
+              accelerator COMMAND_KEY, :shift, :p
+              selection <=> [game, :show_preview_tetromino]
+            }
+            
+            menu_item(:separator)
+            
             menu {
               text '&High Scores'
               menu_item(:check) {

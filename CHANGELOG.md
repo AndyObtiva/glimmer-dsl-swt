@@ -2,7 +2,8 @@
 
 ## 4.23.0.1
 
-- Add Speed menu to the Tetris sample
+- Add "Speed" menu to the Tetris sample
+- Add "Show Next Block Preview" View menu item to the Tetris sample
 - Document Glimmer::UI::Application alias for Glimmer::UI::CustomShell
 
 ## 4.23.0.0

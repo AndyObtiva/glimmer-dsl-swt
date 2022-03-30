@@ -41,7 +41,7 @@ composite {
 ```
 - Refactor Glimmer Wordle to utilize the new Generator feature
 
-- Implement Tetris changes done in Glimmer DSL for LibUI: Show Next Preview checkbox menu item and Speeds menu
+- Fix issue in Tetris with I tetromino when tilted horizontally near the right side where it does not fit anymore horizontally (3 blocks or less from the edge)
 - For samples that have Video Tutorials on Youtube, add a link with video emoji (📹) that can be clicked to bring up the Youtube Video
 - Look into eventually embedding Video Tutorials directly in the Meta-Sample for samples that have a tutorial. This includes bringing in the [Video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) into Glimmer DSL for SWT core (and retiring the custom widget unless there was a reason to keep it).
 

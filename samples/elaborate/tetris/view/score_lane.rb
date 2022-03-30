@@ -44,11 +44,15 @@ class Tetris
             margin_right block_size
             margin_height block_size
           }
+          
           label(:center) {
             text 'Next'
             font name: @font_name, height: @font_height, style: FONT_TITLE_STYLE
+            visible <= [game, :show_preview_tetromino]
           }
-          playfield(game_playfield: game.preview_playfield, playfield_width: Model::Game::PREVIEW_PLAYFIELD_WIDTH, playfield_height: Model::Game::PREVIEW_PLAYFIELD_HEIGHT, block_size: block_size)
+          playfield(game_playfield: game.preview_playfield, playfield_width: Model::Game::PREVIEW_PLAYFIELD_WIDTH, playfield_height: Model::Game::PREVIEW_PLAYFIELD_HEIGHT, block_size: block_size) {
+            visible <= [game, :show_preview_tetromino]
+          }
 
           label(:center) {
             text 'Score'
