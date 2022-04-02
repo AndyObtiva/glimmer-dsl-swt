@@ -940,6 +940,8 @@ The system tray allows showing icons for various apps that need to stay on for e
 
 In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray.
 
+Note that if you would like to display notifications, you can use the [Nebula Notifier custom widget](https://github.com/AndyObtiva/glimmer-cw-nebula#notifier). Alternatively, you can look into the [Two Slices](https://github.com/sshtools/two-slices) Java library.
+
 Note how the shell was declared with the `:on_top` style (in addition to the default, which is `:shell_trim`) to ensure it opens above all apps when the "Show Application" menu item is selected.
 
 Example code:
@@ -3574,8 +3576,8 @@ Example:
 ```ruby
 shell {
   @tree = tree {
-    items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
-    selection bind(company, :selected_coworker)
+    items <= [company, :owner, tree_properties: {children: :coworkers, text: :name}]
+    selection <=> [company, :selected_coworker]    
   }
 }
 ```

@@ -1082,7 +1082,7 @@ Hello, Cool Bar!
 
 #### Hello, Tray Item!
 
-This sample demonstrates the use of `tray_item`, which enables hiding an app (sending to background) and showing again on top of all other apps. It can also show an About Message Box and exit completely if needed.
+This sample demonstrates the use of [`tray_item`](https://github.com/AndyObtiva/glimmer-dsl-swt/blob/master/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#tray-item), which enables hiding an app (sending to background) and showing again on top of all other apps. It can also show an About Message Box and exit completely if needed.
 
 Code:
 

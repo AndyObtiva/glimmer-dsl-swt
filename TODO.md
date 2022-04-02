@@ -47,6 +47,7 @@ composite {
 
 - Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
 - Hello, Listener!
+- Hello, Tooltip!
 
 - Try using bundler from within Warbler JAR file (test if it works if the Gemfile and Gemfile.lock are included)
 
@@ -518,10 +519,12 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Update Hello, Tree! to enable adding/removing nodes
 - code_text custom widget syntax highlighting for Glimmer DSL syntax (not just Ruby). It can be done by recognizing all the widgets, options, properties, listeners, and methods, and coloring them uniquely.
 - Optimize performance of startup time in requiring glimmer-dsl-swt
-- Make dropping in canvas drag and drop work through testing overlap of dragged shape and drop target instead of containment of x,y in drop target to be more permissive, accurate, and user-friendly
+- Make dropping in canvas drag and drop work through testing overlap of dragged shape and drop target instead of containment of x,y in drop target to be more permissive, accurate, and user-friendly (this needs calculation of area of overlap to pick the biggest overlap for deciding where to drop)
 
 ## Samples
 
+- Hello, Listener!
+- Hello, Tooltip!
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
 - Music playing app
