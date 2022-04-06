@@ -82,22 +82,22 @@ shell {
           line_size = line_style_event.lineText.size
           style_range = StyleRange.new(line_offset, line_size, color(:blue).swt_color, nil, swt(:italic))
           style_range.font = Font.new(display.swt_display, 'Times New Roman', 18, swt(:normal))
-          line_style_event.styles = [style_range].to_java(StyleRange)
+          line_style_event.styles = [style_range]
         elsif @presenter.line_index_for_offset(line_offset) % 52 < 26
           line_size = line_style_event.lineText.size
           style_range = StyleRange.new(line_offset, line_size, color(:dark_green).swt_color, color(:yellow).swt_color, swt(:bold))
-          line_style_event.styles = [style_range].to_java(StyleRange)
+          line_style_event.styles = [style_range]
         elsif @presenter.line_index_for_offset(line_offset) % 52 < 39
           line_size = line_style_event.lineText.size
           style_range = StyleRange.new(line_offset, line_size, color(:red).swt_color, nil, swt(:normal))
           style_range.underline = true
           style_range.font = Font.new(display.swt_display, 'Arial', 16, swt(:normal))
-          line_style_event.styles = [style_range].to_java(StyleRange)
+          line_style_event.styles = [style_range]
         else
           line_size = line_style_event.lineText.size
           style_range = StyleRange.new(line_offset, line_size, color(:dark_magenta).swt_color, color(:cyan).swt_color, swt(:normal))
           style_range.strikeout = true
-          line_style_event.styles = [style_range].to_java(StyleRange)
+          line_style_event.styles = [style_range]
         end
       end
     }
