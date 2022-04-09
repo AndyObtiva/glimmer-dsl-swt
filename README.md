@@ -203,7 +203,7 @@ Glimmer app:
 
 ### Desktop Apps Built with Glimmer DSL for SWT
 
-[<img alt="Are We There Yet Logo" src="https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-logo.svg" width="40" />Are We There Yet?](https://github.com/AndyObtiva/are-we-there-yet) - Small Project Tracking App (leveraging ActiveRecord and SQLite)
+[<img alt="Are We There Yet Logo" src="https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-logo.svg" width="40" />Are We There Yet?](https://github.com/AndyObtiva/are-we-there-yet) - Small Project Tracking App (leveraging [ActiveRecord](https://rubygems.org/gems/activerecord) and [SQLite](https://www.sqlite.org/index.html))
 
 [![Are We There Yet? App Screenshot](https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-screenshot-windows.png)](https://github.com/AndyObtiva/are-we-there-yet)
 
@@ -567,13 +567,13 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 ### Are We There Yet?
 
-This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a SQLite database using [ActiveRecord](https://rubygems.org/gems/activerecord).
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [SQLite](https://www.sqlite.org/index.html) database using [ActiveRecord](https://rubygems.org/gems/activerecord).
 
 [<img alt="Are We There Yet Logo" src="https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-logo.svg" width="40" />Are We There Yet?](https://github.com/AndyObtiva/are-we-there-yet): A tool that helps you learn when your small projects will finish
 
 ### Garderie Rainbow Daily Agenda
 
-This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [Rails](https://rubyonrails.org/) server to submit a nursery child daily agenda via a REST API, storing data in PostgreSQL.
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [Rails](https://rubyonrails.org/) server to submit a nursery child daily agenda via a REST API, storing data in [PostgreSQL](https://www.postgresql.org/).
 
 [<img alt="Garderie Rainbow Daily Agenda Logo" src="https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_logo.png" width="40" />Garderie Rainbow Daily Agenda](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda): A child nursery daily agenda reporting desktop app
 
