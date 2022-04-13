@@ -83,30 +83,41 @@ class HelloCodeText
       tab_folder {
         tab_item {
           fill_layout
+          
           text 'Ruby (glimmer theme)'
+          
           code_text(language: 'ruby', theme: 'glimmer', lines: true) {
             text <=> [self, :ruby_code]
           }
         }
+        
         tab_item {
           fill_layout
+          
           text 'JavaScript (pastie theme)'
+          
           code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'pastie', lines: {width: 2}) {
             root {
               grid_layout(2, false) {
                 margin_width 2
               }
+              
               background :white
             }
+            
             line_numbers {
               background :white
             }
+            
             text <=> [self, :js_code]
           }
         }
+        
         tab_item {
           fill_layout
+          
           text 'HTML (github theme)'
+          
           code_text(language: 'html', theme: 'github') { # default is lines: false
             text <=> [self, :html_code]
           }
