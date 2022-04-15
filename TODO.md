@@ -47,6 +47,7 @@ composite {
 
 - Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
 - Hello, Listener!
+- Hello, Tooltip!
 
 - Try using bundler from within Warbler JAR file (test if it works if the Gemfile and Gemfile.lock are included)
 
@@ -522,6 +523,8 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 
 ## Samples
 
+- Hello, Listener!
+- Hello, Tooltip!
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
 - Music playing app
