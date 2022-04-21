@@ -3576,8 +3576,8 @@ Example:
 ```ruby
 shell {
   @tree = tree {
-    items bind(company, :owner), tree_properties(children: :coworkers, text: :name)
-    selection bind(company, :selected_coworker)
+    items <= [company, :owner, tree_properties: {children: :coworkers, text: :name}]
+    selection <=> [company, :selected_coworker]    
   }
 }
 ```
