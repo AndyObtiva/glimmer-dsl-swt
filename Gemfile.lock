@@ -41,7 +41,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    git (1.10.2)
+    git (1.11.0)
       rchardet (~> 1.8)
     github_api (0.19.0)
       addressable (~> 2.4)
@@ -58,6 +58,7 @@ GEM
     jruby-jars (9.3.3.0)
     jruby-rack (1.1.21)
     jruby-win32ole (0.8.5)
+    json (2.6.1)
     json (2.6.1-java)
     juwelier (2.4.9)
       builder
@@ -79,7 +80,9 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.13.3-java)
+    nokogiri (1.12.5-java)
+      racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.9)
       faraday (>= 0.17.3, < 3.0)
@@ -90,11 +93,14 @@ GEM
     os (1.1.4)
     pastel (0.8.0)
       tty-color (~> 0.5)
+    psych (4.0.3)
+      stringio
     psych (4.0.3-java)
       jar-dependencies (>= 0.1.7)
-    public_suffix (4.0.6)
+    public_suffix (4.0.7)
     puts_debuggerer (0.13.4)
       awesome_print (~> 1.9.2)
+    racc (1.6.0)
     racc (1.6.0-java)
     rack (2.2.3)
     rake (13.0.6)
@@ -126,6 +132,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     simplecov-lcov (0.7.0)
+    stringio (3.0.1)
     super_module (1.4.1)
       method_source (>= 0.8.2, < 1.1.0)
     sync (0.5.0)
@@ -133,6 +140,7 @@ GEM
       tins (~> 1.0)
     text-table (1.2.4)
     thor (1.2.1)
+    thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tins (1.31.0)
       sync
@@ -158,6 +166,7 @@ PLATFORMS
   universal-java-16
   universal-java-17
   universal-java-18
+  x86_64-linux
 
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
