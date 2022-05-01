@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Update Glimmer Meta-Sample screenshot
+- Make Glimmer Meta-Sample download list of video tutorials from GitHub to avoid requiring updates to glimmer-dsl-swt gem when new tutorials are added
+
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
 In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.

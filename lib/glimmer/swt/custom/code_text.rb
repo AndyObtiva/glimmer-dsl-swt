@@ -146,17 +146,11 @@ module Glimmer
               @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
 
-                text bind(self,
-                  :styled_text_proxy_text,
-                  read_only: true,
-                  on_read: lambda { |text_value|
-                    line_numbers_text_from(text_value)
-                  },
-                  after_read: lambda {
-                    @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel unless styled_text_proxy_top_pixel.nil?
-                  }
-                )
-                top_pixel bind(self, :styled_text_proxy_top_pixel, read_only: true)
+                text <= [self, :styled_text_proxy_text,
+                          on_read: lambda { |text_value| line_numbers_text_from(text_value) },
+                          after_read: lambda { @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel unless styled_text_proxy_top_pixel.nil? }
+                        ]
+                top_pixel <= [self, :styled_text_proxy_top_pixel]
                 font name: @font_name, height: OS.mac? ? 15 : 12
                 background color(:widget_background)
                 foreground :dark_blue
@@ -190,8 +184,8 @@ module Glimmer
 #             custom_widget_property_owner # TODO implement to route properties here without declaring method_missing
             layout_data :fill, :fill, true, true if lines
             
-            text bind(self, :styled_text_proxy_text) if lines
-            top_pixel bind(self, :styled_text_proxy_top_pixel) if lines
+            text <=> [self, :styled_text_proxy_text] if lines
+            top_pixel <=> [self, :styled_text_proxy_top_pixel] if lines
             font name: @font_name, height: OS.mac? ? 15 : 12
             foreground rgb(75, 75, 75)
             left_margin 5
@@ -223,10 +217,10 @@ module Glimmer
               }
             end
             
-            on_modify_text { |event|
+            on_modify_text do |event|
               # clear unnecessary syntax highlighting cache on text updates, and do it async to avoid affecting performance
               new_text = event.data
-              async_exec {
+              async_exec do
                 unless @syntax_highlighting.nil?
                   lines = new_text.to_s.split("\n")
                   line_diff = @syntax_highlighting.keys - lines
@@ -234,10 +228,10 @@ module Glimmer
                     @syntax_highlighting.delete(line)
                   end
                 end
-              }
-            }
+              end
+            end
                   
-            on_line_get_style { |line_style_event|
+            on_line_get_style do |line_style_event|
               begin
                 styles = []
                 style_data = nil
@@ -259,7 +253,7 @@ module Glimmer
                 Glimmer::Config.logger.error {e.message}
                 Glimmer::Config.logger.error {e.full_message}
               end
-            }
+            end
           }
         end
         
