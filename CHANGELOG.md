@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.23.1.0
+
+- Upgrade to JRuby 9.3.4.0
+- Upgrade to glimmer 2.7.3
+- Add "Tutorial" button to Hello, Meta Sample! to show Youtube Video Tutorial
+
 ## 4.23.0.1
 
 - Add "Speed" menu to the Tetris sample
