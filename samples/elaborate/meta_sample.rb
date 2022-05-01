@@ -44,6 +44,22 @@ class Sample
   include Glimmer::DataBinding::ObservableModel
   
   UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
+  
+  TEACHABLE = {
+    'Hello, World!'                  => 'Mi5phsSdNAA',
+    'Hello, Message Box!'            => 'N0sDcr0xp40',
+    'Hello, Tab!'                    => 'cMwlYZ78uaQ',
+    'Hello, Layout!'                 => 'dAVFR9Y_thY',
+    'Hello, File Dialog!'            => 'HwZRgdvKIDo',
+    'Hello, Label!'                  => 'i1PFHr-F8fQ',
+    'Hello, Text!'                   => 'pOaYB43G2pg',
+    'Login'                          => 'C_vSvXH9ISw',
+    'Hello, Canvas Shape Listeners!' => 'PV13YE-43M4',
+    'Hello, Styled Text!'            => 'ahs54DPmmso',
+    'Hello, Code Text!'              => 'y0rNzMURnHY',
+    'Hello, Tree!'                   => 'M-ZOFyzbEKo',
+    'Hello, Table!'                  => '3zyyXq7WJwc',
+  }
 
   attr_accessor :sample_directory, :file, :selected
   
@@ -82,6 +98,14 @@ class Sample
   
   def launchable
     File.basename(file) != 'meta_sample.rb'
+  end
+    
+  def teachable
+    !!tutorial
+  end
+  
+  def tutorial
+    TEACHABLE[name]
   end
     
   def file_relative_path
@@ -244,6 +268,7 @@ class MetaSampleApplication
           
           composite {
             fill_layout
+            
             layout_data(:fill, :center, true, false) {
               height_hint 96
             }
@@ -261,6 +286,23 @@ class MetaSampleApplication
                 end
               end
             }
+            
+            button {
+              text 'Tutorial'
+              font height: 25
+              enabled <= [SampleDirectory, 'selected_sample.teachable']
+              
+              on_widget_selected do
+                shell(:fill_screen) {
+                  text "Glimmer DSL for SWT Video Tutorial - #{SampleDirectory.selected_sample.name}"
+                  
+                  browser {
+                    text "<iframe src='https://www.youtube.com/embed/#{SampleDirectory.selected_sample.tutorial}?autoplay=1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen style='width: 100%; height: 100%;'></iframe>"
+                  }
+                }.open
+              end
+            }
+            
             button {
               text 'Reset'
               font height: 25
