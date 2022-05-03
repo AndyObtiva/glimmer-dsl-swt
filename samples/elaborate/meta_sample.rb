@@ -24,6 +24,10 @@ require 'fileutils'
 require 'yaml'
 
 class Sample
+  UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
+  FILE_TUTORIALS = File.expand_path(File.join('meta_sample', 'tutorials.yml'), __dir__)
+  TUTORIALS = YAML.load_file(FILE_TUTORIALS)
+  
   class << self
     def glimmer_directory
       File.expand_path('../../..', __FILE__)
@@ -40,15 +44,14 @@ class Sample
         @ensured_glimmer_directory = true
       end
     end
+    
+    def tutorials
+      TUTORIALS
+    end
   end
   
   include Glimmer::DataBinding::ObservableModel
-  
-  UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
-  
-  FILE_TUTORIALS = File.expand_path(File.join('meta_sample', 'tutorials.yml'), __dir__)
-  TUTORIALS = YAML.load_file(FILE_TUTORIALS)
-
+    
   attr_accessor :sample_directory, :file, :selected
   
   def initialize(file, sample_directory: )
@@ -93,7 +96,7 @@ class Sample
   end
   
   def tutorial
-    TUTORIALS[name]
+    Sample.tutorials[name]
   end
     
   def file_relative_path
