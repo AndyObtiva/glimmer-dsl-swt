@@ -274,20 +274,6 @@ class MetaSampleApplication
             }
             
             button {
-              text 'Launch'
-              font height: 25
-              enabled <= [SampleDirectory, 'selected_sample.launchable']
-              
-              on_widget_selected do
-                begin
-                  SampleDirectory.selected_sample.launch(@code_text.text)
-                rescue LoadError, StandardError, SyntaxError => launch_error
-                  error_dialog(message: launch_error.full_message).open
-                end
-              end
-            }
-            
-            button {
               text 'Tutorial'
               font height: 25
               enabled <= [SampleDirectory, 'selected_sample.teachable']
@@ -300,6 +286,20 @@ class MetaSampleApplication
                     text "<iframe src='https://www.youtube.com/embed/#{SampleDirectory.selected_sample.tutorial}?autoplay=1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen style='width: 100%; height: 100%;'></iframe>"
                   }
                 }.open
+              end
+            }
+            
+            button {
+              text 'Launch'
+              font height: 25
+              enabled <= [SampleDirectory, 'selected_sample.launchable']
+              
+              on_widget_selected do
+                begin
+                  SampleDirectory.selected_sample.launch(@code_text.text)
+                rescue LoadError, StandardError, SyntaxError => launch_error
+                  error_dialog(message: launch_error.full_message).open
+                end
               end
             }
             

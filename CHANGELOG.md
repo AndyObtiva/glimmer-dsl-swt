@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.23.1.1
+
+- Switch order of buttons in Glimmer Meta-Sample to put Tutorial first
+
 ## 4.23.1.0
 
 - Upgrade to JRuby 9.3.4.0
