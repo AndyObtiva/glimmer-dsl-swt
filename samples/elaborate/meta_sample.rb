@@ -22,9 +22,11 @@
 require 'glimmer-dsl-swt'
 require 'fileutils'
 require 'yaml'
+require 'net/http'
 
 class Sample
   UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
+  URL_TUTORIALS = 'https://raw.githubusercontent.com/AndyObtiva/glimmer-dsl-swt/master/samples/elaborate/meta_sample/tutorials.yml'
   FILE_TUTORIALS = File.expand_path(File.join('meta_sample', 'tutorials.yml'), __dir__)
   TUTORIALS = YAML.load_file(FILE_TUTORIALS)
   
@@ -46,6 +48,27 @@ class Sample
     end
     
     def tutorials
+      if remote_tutorials && !remote_tutorials.empty? && remote_tutorials != local_tutorials
+        remote_tutorials
+      else
+        local_tutorials
+      end
+    end
+    
+    def remote_tutorials
+      if @remote_tutorials.nil?
+        remote_tutorials_response = Net::HTTP.get_response(URI(URL_TUTORIALS))
+        raise "Error downloading remote tutorial list from #{URL_TUTORIALS} (defaulting to local list): HTTP status #{remote_tutorials_response.code} #{remote_tutorials_response.message}!" unless remote_tutorials_response.code.to_i.between?(200, 299)
+        remote_tutorials_yaml = remote_tutorials_response.body
+        @remote_tutorials = YAML.load(remote_tutorials_yaml)
+      end
+      @remote_tutorials
+    rescue => e
+      Glimmer::Config.logger.error e.full_message
+      nil
+    end
+    
+    def local_tutorials
       TUTORIALS
     end
   end
