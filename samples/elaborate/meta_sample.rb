@@ -21,6 +21,7 @@
 
 require 'glimmer-dsl-swt'
 require 'fileutils'
+require 'yaml'
 
 class Sample
   class << self
@@ -45,21 +46,8 @@ class Sample
   
   UNEDITABLE = ['meta_sample.rb'] + (OS.windows? ? ['calculator.rb', 'weather.rb'] : [])  # Windows StyledText does not support unicode characters found in certain samples
   
-  TEACHABLE = {
-    'Hello, World!'                  => 'Mi5phsSdNAA',
-    'Hello, Message Box!'            => 'N0sDcr0xp40',
-    'Hello, Tab!'                    => 'cMwlYZ78uaQ',
-    'Hello, Layout!'                 => 'dAVFR9Y_thY',
-    'Hello, File Dialog!'            => 'HwZRgdvKIDo',
-    'Hello, Label!'                  => 'i1PFHr-F8fQ',
-    'Hello, Text!'                   => 'pOaYB43G2pg',
-    'Login'                          => 'C_vSvXH9ISw',
-    'Hello, Canvas Shape Listeners!' => 'PV13YE-43M4',
-    'Hello, Styled Text!'            => 'ahs54DPmmso',
-    'Hello, Code Text!'              => 'y0rNzMURnHY',
-    'Hello, Tree!'                   => 'M-ZOFyzbEKo',
-    'Hello, Table!'                  => '3zyyXq7WJwc',
-  }
+  FILE_TUTORIALS = File.expand_path(File.join('meta_sample', 'tutorials.yml'), __dir__)
+  TUTORIALS = YAML.load_file(FILE_TUTORIALS)
 
   attr_accessor :sample_directory, :file, :selected
   
@@ -105,7 +93,7 @@ class Sample
   end
   
   def tutorial
-    TEACHABLE[name]
+    TUTORIALS[name]
   end
     
   def file_relative_path
