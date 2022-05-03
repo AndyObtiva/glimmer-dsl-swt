@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Update Glimmer Meta-Sample screenshot
-- Make Glimmer Meta-Sample download list of video tutorials from GitHub to avoid requiring updates to glimmer-dsl-swt gem when new tutorials are added
-
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
 In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.
@@ -45,8 +42,6 @@ composite {
 - Refactor Glimmer Wordle to utilize the new Generator feature
 
 - Fix issue in Tetris with I tetromino when tilted horizontally near the right side where it does not fit anymore horizontally (3 blocks or less from the edge)
-- For samples that have Video Tutorials on Youtube, add a link with video emoji (📹) that can be clicked to bring up the Youtube Video
-- Look into eventually embedding Video Tutorials directly in the Meta-Sample for samples that have a tutorial. This includes bringing in the [Video custom widget](https://github.com/AndyObtiva/glimmer-cw-video) into Glimmer DSL for SWT core (and retiring the custom widget unless there was a reason to keep it).
 
 - Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
 - Hello, Listener!

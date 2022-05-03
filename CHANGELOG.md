@@ -3,6 +3,7 @@
 ## 4.23.1.1
 
 - Switch order of buttons in Glimmer Meta-Sample to put Tutorial first
+- Make Glimmer Meta-Sample pull list of tutorials from GitHub to avoid needing to update gem when adding new tutorials
 
 ## 4.23.1.0
 
