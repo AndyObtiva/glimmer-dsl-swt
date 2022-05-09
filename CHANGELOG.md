@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.23.1.2 (unreleased)
+
+- Fix "Last Name" label in Hello, Tree! (was a duplicate "First Name" by mistake)
+
 ## 4.23.1.1
 
 - Switch order of buttons in Glimmer Meta-Sample to put Tutorial first
