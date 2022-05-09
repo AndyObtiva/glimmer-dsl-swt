@@ -335,7 +335,7 @@ class HelloTree
                   
           label {
             layout_data(:fill, :center, false, false)
-            text 'First Name:'
+            text 'Last Name:'
             font height: 16, style: :bold
           }
           text {
