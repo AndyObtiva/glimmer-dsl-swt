@@ -41,6 +41,7 @@ shell {
   menu_bar {
     menu {
       text '&File'
+
       menu_item {
         text '&New'
         accelerator :command, :N
@@ -52,6 +53,7 @@ shell {
           }.open
         end
       }
+
       menu_item {
         text '&Open...'
         accelerator :command, :O
@@ -63,8 +65,10 @@ shell {
           }.open
         end
       }
+
       menu {
         text 'Open &Recent'
+
         menu_item {
           text 'File 1'
           on_widget_selected do
@@ -74,6 +78,7 @@ shell {
             }.open
           end
         }
+
         menu_item {
           text 'File 2'
           on_widget_selected do
@@ -84,7 +89,9 @@ shell {
           end
         }
       }
+
       menu_item(:separator)
+
       menu_item {
         text 'E&xit'
         
@@ -93,21 +100,26 @@ shell {
         end
       }
     }
+
     menu {
       text '&Edit'
+
       menu_item {
         text 'Cut'
         accelerator :command, :X
       }
+
       menu_item {
         text 'Copy'
         accelerator :command, :C
       }
+
       menu_item {
         text 'Paste'
         accelerator :command, :V
       }
     }
+
     menu {
       text '&Options'
       
@@ -119,6 +131,7 @@ shell {
           @select_multiple_menu.enabled = true
         end
       }
+
       @select_one_menu = menu {
         text '&Select One'
         enabled false
@@ -126,13 +139,16 @@ shell {
         menu_item(:radio) {
           text 'Option 1'
         }
+
         menu_item(:radio) {
           text 'Option 2'
         }
+
         menu_item(:radio) {
           text 'Option 3'
         }
       }
+
       @select_multiple_menu = menu {
         text '&Select Multiple'
         enabled false
@@ -140,18 +156,64 @@ shell {
         menu_item(:check) {
           text 'Option 4'
         }
+
         menu_item(:check) {
           text 'Option 5'
         }
+
         menu_item(:check) {
           text 'Option 6'
         }
       }
     }
+
+    menu {
+      text '&Language'
+
+      ['denmark', 'finland', 'france', 'germany', 'italy', 'mexico', 'netherlands', 'norway', 'usa'].each do |image_name|
+        menu_item(:radio) { |a_menu_item|
+          image File.expand_path("images/#{image_name}.png", __dir__)
+          selection image_name == 'usa'
+
+          on_widget_selected do
+            if a_menu_item.selection
+              message_box {
+                text 'Language Selection'
+                message "You selected the language of #{image_name.capitalize}!"
+              }.open
+            end
+          end
+        }
+      end
+    }
+
+    menu {
+      text '&Country'
+
+      ['denmark', 'finland', 'france', 'germany', 'italy', 'mexico', 'netherlands', 'norway', 'usa'].each do |image_name|
+        menu_item(:radio) { |a_menu_item|
+          text image_name.capitalize
+          image File.expand_path("images/#{image_name}.png", __dir__)
+          selection image_name == 'usa'
+
+          on_widget_selected do
+            if a_menu_item.selection
+              message_box {
+                text 'Country Selection'
+                message "You selected the country of #{image_name.capitalize}!"
+              }.open
+            end
+          end
+        }
+      end
+    }
+
     menu {
       text '&Format'
+
       menu {
         text '&Background Color'
+
         COLORS.each { |color_style|
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
@@ -162,8 +224,10 @@ shell {
           }
         }
       }
+
       menu {
         text 'Foreground &Color'
+
         COLORS.each { |color_style|
           menu_item(:radio) {
             text color_style.to_s.split('_').map(&:capitalize).join(' ')
@@ -175,8 +239,10 @@ shell {
         }
       }
     }
+
     menu {
       text '&View'
+
       menu_item(:radio) {
         text 'Small'
         
@@ -185,6 +251,7 @@ shell {
           @label.parent.pack
         end
       }
+
       menu_item(:radio) {
         text 'Medium'
         selection true
@@ -194,6 +261,7 @@ shell {
           @label.parent.pack
         end
       }
+
       menu_item(:radio) {
         text 'Large'
         
@@ -203,8 +271,10 @@ shell {
         end
       }
     }
+
     menu {
       text '&Help'
+
       menu_item {
         text '&Manual'
         accelerator :command, :shift, :M
@@ -216,6 +286,7 @@ shell {
           }.open
         end
       }
+
       menu_item {
         text '&Tutorial'
         accelerator :command, :shift, :T
@@ -227,7 +298,9 @@ shell {
           }.open
         end
       }
+
       menu_item(:separator)
+
       menu_item {
         text '&Report an Issue...'
         
