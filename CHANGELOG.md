@@ -1,7 +1,10 @@
 # Change Log
 
-## 4.23.1.2 (unreleased)
+## 4.23.1.2
 
+- Add Hello, Pop Up Context Menu! video tutorial to Glimmer Meta-Sample
+- Add Hello, Menu Bar! video tutorial to Glimmer Meta-Sample
+- Add Language & Country menus to Hello, Menu Bar!
 - Fix "Last Name" label in Hello, Tree! (was a duplicate "First Name" by mistake)
 
 ## 4.23.1.1

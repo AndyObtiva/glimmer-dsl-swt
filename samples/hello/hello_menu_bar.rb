@@ -71,6 +71,7 @@ shell {
 
         menu_item {
           text 'File 1'
+
           on_widget_selected do
             message_box {
               text 'File 1'
@@ -81,6 +82,7 @@ shell {
 
         menu_item {
           text 'File 2'
+
           on_widget_selected do
             message_box {
               text 'File 2'
