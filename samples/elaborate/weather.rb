@@ -72,7 +72,9 @@ class Weather
       }
             
       tab_folder {
-        layout_data(:center, :center, true, true)
+        layout_data(:center, :center, true, true) {
+          width_hint 250
+        }
         
         ['℃', '℉'].each do |temp_unit|
           tab_item {
