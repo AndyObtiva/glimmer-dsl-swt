@@ -682,7 +682,7 @@ Hello, Print!
 
 #### Hello, Date Time!
 
-This sample demonstrates the use of [date_time](#datetime) widget keywords in Glimmer: `date`, `date_drop_down`, `time`, and `calendar`
+This sample demonstrates the use of [date_time](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#datetime) widget keywords in Glimmer: `date`, `date_drop_down`, `time`, and `calendar`
 
 Code:
 

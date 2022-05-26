@@ -938,11 +938,9 @@ shell {
 
 The system tray allows showing icons for various apps that need to stay on for extended periods of time and provide quick access.
 
-In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray.
+In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray. It is recommended that the related shell is declared with the `:on_top` style (in addition to the default style `:shell_trim`) to ensure it opens above all apps when shown.
 
 Note that if you would like to display notifications, you can use the [Nebula Notifier custom widget](https://github.com/AndyObtiva/glimmer-cw-nebula#notifier). Alternatively, you can look into the [Two Slices](https://github.com/sshtools/two-slices) Java library.
-
-Note how the shell was declared with the `:on_top` style (in addition to the default, which is `:shell_trim`) to ensure it opens above all apps when the "Show Application" menu item is selected.
 
 Example code:
 
@@ -3606,7 +3604,7 @@ Learn more at the [Hello, Tree!](/docs/reference/GLIMMER_SAMPLES.md#hello-tree) 
 
 #### DateTime
 
-`date_time` represents the SWT DateTime widget.
+`date_time` represents the SWT [DateTime](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/DateTime.html) widget.
 
 Glimmer s the following alias keywords for it for convenience:
 - `date`: `date_time(:date)`
@@ -3615,15 +3613,15 @@ Glimmer s the following alias keywords for it for convenience:
 - `calendar`: `date_time(:calendar)`
 
 You can data-bind any of these properties:
-- `date_time bind(model, :property)`: produces a Ruby DateTime object
-- `date bind(model, :property)`: produces a Ruby Date object
-- `time bind(model, :property)`: produces a Ruby Time object
-- `year bind(model, :property)`: produces an integer
-- `month bind(model, :property)`: produces an integer
-- `day bind(model, :property)`: produces an integer
-- `hours bind(model, :property)`: produces an integer
-- `minutes bind(model, :property)`: produces an integer
-- `seconds bind(model, :property)`: produces an integer
+- `date_time <=> [model, :property]`: produces a Ruby DateTime object
+- `date <=> [model, :property]`: produces a Ruby Date object
+- `time <=> [model, :property]`: produces a Ruby Time object
+- `year <=> [model, :property]`: produces an integer
+- `month <=> [model, :property]`: produces an integer
+- `day <=> [model, :property]`: produces an integer
+- `hours <=> [model, :property]`: produces an integer
+- `minutes <=> [model, :property]`: produces an integer
+- `seconds <=> [model, :property]`: produces an integer
 
 Learn more at the [Hello, Date Time!](/docs/reference/GLIMMER_SAMPLES.md#hello-date-time) sample.
 

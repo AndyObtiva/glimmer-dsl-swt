@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.23.1.3 (unreleased)
+
+- Fix issue with shell not packing layout correctly on initial open (might be caused by the latest version of SWT under certain scenarios)
+
 ## 4.23.1.2
 
 - Add Hello, Pop Up Context Menu! video tutorial to Glimmer Meta-Sample

@@ -121,7 +121,8 @@ module Glimmer
             @swt_widget.setVisible(true)
           else
             @opened_before = true
-            @swt_widget.pack
+            @swt_widget.layout(true, true)
+            @swt_widget.pack(true)
             center_within_display
             @swt_widget.open
           end

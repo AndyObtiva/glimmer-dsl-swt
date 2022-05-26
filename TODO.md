@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
+
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
 In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.
@@ -50,7 +52,6 @@ composite {
 - Try using bundler from within Warbler JAR file (test if it works if the Gemfile and Gemfile.lock are included)
 
 - Note the need to set Display.app_name = before app launch (not inside before_body) to work
-- Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 - Fix display of icon in shells
 - Stop thread in Hello, Custom Widget! on widget disposed
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
