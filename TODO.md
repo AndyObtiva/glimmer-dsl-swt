@@ -6,6 +6,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
+- Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
+- Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
+- Support column_attributes alias to column_properties for table data-binding
+
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
 In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.
@@ -67,8 +71,6 @@ composite {
 - Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
-- Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
-- Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)
 - Fix issue with jpackage_extra_args not overriding main args when packaging (add extra logic to fix this) [if still needed, might not be a true issue]
 - Hello, Tooltip!

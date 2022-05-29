@@ -3,6 +3,7 @@
 ## 4.23.1.3 (unreleased)
 
 - Fix issue with shell not packing layout correctly on initial open (might be caused by the latest version of SWT under certain scenarios)
+- Fix setting of Display app_name and app_version in scaffolded apps and custom shells
 
 ## 4.23.1.2
 

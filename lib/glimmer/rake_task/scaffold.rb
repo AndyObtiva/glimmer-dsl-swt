@@ -445,9 +445,13 @@ module Glimmer
             end
             
             class #{class_name(app_name)}
+              include Glimmer
+              
               APP_ROOT = File.expand_path('../..', __FILE__)
               VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
               LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
+              Display.app_name = '#{human_name(app_name)}'
+              Display.app_version = VERSION
             end
     
             require '#{file_name(app_name)}/view/app_view'
@@ -574,6 +578,8 @@ module Glimmer
       APP_ROOT = File.expand_path('../../../..', __FILE__)
       VERSION = File.read(File.join(APP_ROOT, 'VERSION'))
       LICENSE = File.read(File.join(APP_ROOT, 'LICENSE.txt'))
+      Display.app_name = '#{human_name(custom_shell_name)}'
+      Display.app_version = VERSION
           
             MULTI_LINE_STRING
           end
@@ -594,8 +600,6 @@ module Glimmer
           if %i[gem app desktopify].include?(shell_type)
             custom_shell_file_content += <<-MULTI_LINE_STRING
       before_body do
-        Display.app_name = '#{shell_type == :gem ? human_name(custom_shell_name) : human_name(namespace)}'
-        Display.app_version = VERSION
         @display = display {
           on_about do
             display_about_dialog
