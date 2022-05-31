@@ -1429,6 +1429,12 @@ Gladiator is a good demonstration of:
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/glimmer-timer-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-timer)
 
+#### Contact Manager
+
+[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/icons/linux/Contact%20Manager.png" height=40 /> Contact Manager](https://github.com/AndyObtiva/contact_manager) is an enhanced version of the included Contact Manager elaborate sample, which demonstrates how to connect to a [SQLite database](https://www.sqlite.org/index.html) with [ActiveRecord](https://rubygems.org/gems/activerecord).
+
+[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/screenshots/contact-manager.png" /> ](https://github.com/AndyObtiva/contact_manager)
+
 ## License
 
 [MIT](LICENSE.txt)

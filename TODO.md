@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Make `sash_form` accept `orientation` with SWT style symbols directly (`:horizontal` directly instead of `swt(:horizontal)`)
+- Make `sash_form` accept `maximized_control` as Glimmer DSL for SWT wrapper for widget instead of low-level SWT widget (`@label1` instead of `@label1.swt_widget`)
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI

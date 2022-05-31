@@ -1042,6 +1042,10 @@ It can be customized with the `weights` attribute by setting initial weights to 
 
 One noteworthy thing about the Glimmer implementation is that, unlike behavior in SWT, it allows declaring `weights` before the content of the `sash_form`, thus providing more natural and convenient syntax (Glimmer automatically takes care of sending that declaration to SWT at the end of declaring `sash_form` content as per the SWT requirements)
 
+You can customize the color of the sash by setting the `background` attribute.
+
+Also, you can customize the `sash_width` (`Integer`) and `orientation` properties (`swt(:horizontal)` or `swt(:vertical)`).
+
 Example (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
 ```ruby
