@@ -5,9 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Drop packaging from the scaffolding steps as there is no point in packaging an unfinished product
-
-- Make `sash_form` accept `orientation` with SWT style symbols directly (`:horizontal` directly instead of `swt(:horizontal)`)
-- Make `sash_form` accept `maximized_control` as Glimmer DSL for SWT wrapper for widget instead of low-level SWT widget (`@label1` instead of `@label1.swt_widget`)
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
@@ -51,6 +48,7 @@ composite {
 ```
 - Refactor Glimmer Wordle to utilize the new Generator feature
 
+- Allow a custom widget to override where children are nested underneath it instead of them getting instead below the body_root by default
 - Fix issue in Tetris with I tetromino when tilted horizontally near the right side where it does not fit anymore horizontally (3 blocks or less from the edge)
 
 - Support a parent_widget_proxy method on Shape to get to parent widget in a hierarchy immediately
@@ -532,6 +530,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Tooltip!
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
+- Sliding Puzzle Sample
 - Music playing app
 - Medical Patient Management app
 - Business Accounting app

@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.23.1.4
+
+- Improve convenience by making `sash_form` accept `orientation` with SWT style symbols directly (`:horizontal` directly instead of `swt(:horizontal)`)
+- Improve convenience by making `sash_form` accept `maximized_control` as Glimmer DSL for SWT widget proxy instead of low-level SWT widget (`@label` instead of `@label.swt_widget`)
+- Update Hello, Sash Form! to add Sash Color and simplify with new `sash_form` improvements
+
 ## 4.23.1.3
 
 - Update initial tab folder width in Weather sample

@@ -1141,6 +1141,14 @@ module Glimmer
           items: lambda do |value|
             value.to_java :string
           end,
+          maximized_control: lambda do |value|
+            value = (value.respond_to?(:swt_widget) ? value.swt_widget : value) if swt_widget.is_a?(SashForm)
+            value
+          end,
+          orientation: lambda do |value|
+            value = SWTProxy[value] if swt_widget.is_a?(SashForm)
+            value
+          end,
           selection: lambda do |value|
             value = value.to_f if swt_widget.is_a?(Spinner)
             value

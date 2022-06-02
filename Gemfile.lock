@@ -58,7 +58,7 @@ GEM
     jruby-jars (9.3.4.0)
     jruby-rack (1.1.21)
     jruby-win32ole (0.8.5)
-    json (2.6.1-java)
+    json (2.6.2-java)
     juwelier (2.4.9)
       builder
       bundler
@@ -77,9 +77,9 @@ GEM
     method_source (1.0.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.1.1)
+    multipart-post (2.2.0)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.13.4-java)
+    nokogiri (1.13.6-java)
       racc (~> 1.4)
     oauth2 (1.4.9)
       faraday (>= 0.17.3, < 3.0)
@@ -90,20 +90,20 @@ GEM
     os (1.1.4)
     pastel (0.8.0)
       tty-color (~> 0.5)
-    psych (4.0.3-java)
+    psych (4.0.4-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (4.0.7)
     puts_debuggerer (0.13.5)
       awesome_print (~> 1.9.2)
     racc (1.6.0-java)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rake (13.0.6)
     rake-tui (0.2.3)
       tty-prompt
     rchardet (1.8.0)
     rdoc (6.4.0)
       psych (>= 4.0.0)
-    rouge (3.28.0)
+    rouge (3.29.0)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
       rspec-expectations (~> 3.11.0)
@@ -134,7 +134,7 @@ GEM
     text-table (1.2.4)
     thor (1.2.1)
     thread_safe (0.3.6-java)
-    tins (1.31.0)
+    tins (1.31.1)
       sync
     tty-color (0.6.0)
     tty-cursor (0.7.1)
@@ -183,4 +183,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.3.0)
 
 BUNDLED WITH
-   2.3.12
+   2.3.15

@@ -22,22 +22,15 @@
 require 'glimmer-dsl-swt'
 
 class SashFormPresenter
-  include Glimmer
-  
-  attr_accessor :sash_width, :orientation, :orientation_style
+  attr_accessor :sash_width, :sash_color, :orientation
   
   def initialize
-    @sash_width = 10
-    self.orientation = 'horizontal'
+    self.sash_width = 10
+    self.orientation = :horizontal
   end
   
   def orientation_options
-    ['horizontal', 'vertical']
-  end
-  
-  def orientation=(value)
-    @orientation = value
-    self.orientation_style = swt(@orientation)
+    [:horizontal, :vertical]
   end
 end
 
@@ -55,7 +48,8 @@ shell {
       height_hint 200
     }
     sash_width <=> [@presenter, :sash_width]
-    orientation <=> [@presenter, :orientation_style]
+    background <=> [@presenter, :sash_color]
+    orientation <=> [@presenter, :orientation]
     weights 1, 2
     
     @green_label = label {
@@ -92,6 +86,20 @@ shell {
     
     label {
       layout_data(:right, :center, true, false)
+      text 'Sash Color:'
+      font height: 16
+    }
+    button {
+      layout_data :fill, :center, true, false
+      text "Choose Color..."
+      
+      on_widget_selected do
+        @presenter.sash_color = color_dialog.open
+      end
+    }
+    
+    label {
+      layout_data(:right, :center, true, false)
       text 'Orientation:'
       font height: 16
     }
@@ -110,7 +118,7 @@ shell {
       font height: 16
       
       on_widget_selected do
-        @sash_form.maximized_control = @green_label.swt_widget
+        @sash_form.maximized_control = @green_label
       end
     }
     button {
@@ -120,7 +128,7 @@ shell {
       font height: 16
       
       on_widget_selected do
-        @sash_form.maximized_control = @red_label.swt_widget
+        @sash_form.maximized_control = @red_label
       end
     }
     
