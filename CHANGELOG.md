@@ -1,7 +1,10 @@
 # Change Log
 
-## 4.23.1.3 (unreleased)
+## 4.23.1.3
 
+- Update initial tab folder width in Weather sample
+- Add Help menu to scaffolded apps/gems with About menu item that used to be in the scaffolded File menu
+- Fix names of icons generated for custom shell gems to get them picked up by the `glimmer package` command
 - Fix issue with shell not packing layout correctly on initial open (might be caused by the latest version of SWT under certain scenarios)
 - Fix setting of Display app_name and app_version in scaffolded apps and custom shells
 

@@ -280,17 +280,17 @@ module Glimmer
           write 'spec/spec_helper.rb', spec_helper_file
     
           mkdir_p 'icons/windows'
-          icon_file = "icons/windows/#{human_name(custom_shell_name)}.ico"
+          icon_file = "icons/windows/#{human_name(gem_name)}.ico"
           cp File.expand_path('../../../../icons/scaffold_app.ico', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
             
           mkdir_p 'icons/macosx'
-          icon_file = "icons/macosx/#{human_name(custom_shell_name)}.icns"
+          icon_file = "icons/macosx/#{human_name(gem_name)}.icns"
           cp File.expand_path('../../../../icons/scaffold_app.icns', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
           mkdir_p 'icons/linux'
-          icon_file = "icons/linux/#{human_name(custom_shell_name)}.png"
+          icon_file = "icons/linux/#{human_name(gem_name)}.png"
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
@@ -634,8 +634,8 @@ module Glimmer
         shell#{'(:fill_screen)' if shell_type == :desktopify} {
           # Replace example content below with custom shell content
           minimum_size #{shell_type == :desktopify ? '768, 432' : '420, 240'}
-          image File.join(APP_ROOT, 'icons', 'windows', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.ico") if OS.windows?
-          image File.join(APP_ROOT, 'icons', 'linux', "#{human_name(shell_type == :gem ? custom_shell_name : current_dir_name)}.png") unless OS.windows?
+          image File.join(APP_ROOT, 'icons', 'windows', "#{human_name(current_dir_name)}.ico") if OS.windows?
+          image File.join(APP_ROOT, 'icons', 'linux', "#{human_name(current_dir_name)}.png") unless OS.windows?
           text "#{human_name(namespace)}#{' - ' + human_name(custom_shell_name) if shell_type != :desktopify}"
         
           MULTI_LINE_STRING
@@ -665,18 +665,21 @@ module Glimmer
               text '&File'
               
               menu_item {
-                text '&About...'
-                
-                on_widget_selected do
-                  display_about_dialog
-                end
-              }
-              
-              menu_item {
                 text '&Preferences...'
                 
                 on_widget_selected do
                   #{shell_type == :desktopify ? 'display_about_dialog' : 'display_preferences_dialog'}
+                end
+              }
+            }
+            menu {
+              text '&Help'
+              
+              menu_item {
+                text '&About...'
+                
+                on_widget_selected do
+                  display_about_dialog
                 end
               }
             }
