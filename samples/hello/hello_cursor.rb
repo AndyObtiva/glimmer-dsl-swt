@@ -23,27 +23,25 @@ require 'glimmer-dsl-swt'
 
 class HelloCursor
   include Glimmer::UI::CustomShell
-  
+
   attr_accessor :selected_cursor
-  
+
   # This method matches the name of the :selected_cursor property by convention
   def selected_cursor_options
     Glimmer::SWT::SWTProxy.cursor_options
   end
-  
-  after_body do
-    observe(self, :selected_cursor) {
-      body_root.cursor = selected_cursor
-    }
+
+  before_body do
+    self.selected_cursor = :arrow
   end
-  
+
   body {
     shell {
       grid_layout
-      
+
       text 'Hello, Cursor!'
-      cursor :wait
-      
+      cursor <= [self, :selected_cursor]
+
       label {
         text 'Please select a cursor style and see it change the mouse cursor (varies per platform):'
         font style: :bold

@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.23.1.5 (unreleased)
+
+- Refactor/Improve Hello, Cursor! sample
+
 ## 4.23.1.4
 
 - Improve convenience by making `sash_form` accept `orientation` with SWT style symbols directly (`:horizontal` directly instead of `swt(:horizontal)`)

@@ -11,6 +11,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support column_attributes alias to column_properties for table data-binding
 
+- Include flat file database support into all Glimmer scaffolded apps in a passive state by default that users can activate by calling the FlatfileDatabase.store(hash)/FlatfileDatabase.load(hash) methods for example
+- Include ActiveRecord/SQLite DB support into all Glimmer scaffolded apps in a passive state by default that users can activate by adding a migration and an ActiveRecord model.
+
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
 In the future, it can be optimized where new addresses are compared to old addresses, and if any are the same, their widgets are retained.
@@ -80,7 +83,7 @@ composite {
 
 ## Soon
 
-- Upgrade to jruby-9.3.3.0
+- Ruby 3.1.0 removed the `matrix` gem from inside Ruby. Note when JRuby supports Ruby 3.1.0 and removes the `matrix` gem from itself as well to bundle it manually in Gemfile.
 - Support SWT CSS styling (org.eclipse.e4.ui.css.core.elementProvider and org.eclipse.e4.ui.css.core.propertyHandler in https://www.vogella.com/tutorials/Eclipse4CSS/article.html#css-support-for-custom-widgets) (and https://www.eclipse.org/forums/index.php/t/1102568/)
 - Support canvas drag & drop `on_drag_start` event to enable running logic upon dragging to determine whether to allow dragging or not conditionally (refactor Quarto with it when implemented)
 - Document support for Edge browser on Windows: https://www.eclipse.org/swt/faq.php#howuseedge

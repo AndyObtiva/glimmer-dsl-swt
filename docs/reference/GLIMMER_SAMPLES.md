@@ -84,6 +84,7 @@
     - [Glimmer Calculator](#glimmer-calculator)
     - [Gladiator](#gladiator)
     - [Timer](#timer)
+    - [Contact Manager App](#contact-manager-app)
 - [License](#license)
 
 ## Samples
@@ -1429,11 +1430,11 @@ Gladiator is a good demonstration of:
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-timer/master/glimmer-timer-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-timer)
 
-#### Contact Manager
+#### Contact Manager App
 
-[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/icons/linux/Contact%20Manager.png" height=40 /> Contact Manager](https://github.com/AndyObtiva/contact_manager) is an enhanced version of the included Contact Manager elaborate sample, which demonstrates how to connect to a [SQLite database](https://www.sqlite.org/index.html) with [ActiveRecord](https://rubygems.org/gems/activerecord).
+[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/icons/linux/Contact%20Manager.png" height=40 /> Contact Manager](https://github.com/AndyObtiva/contact_manager) is an enhanced version of the included Contact Manager elaborate sample, which demonstrates how to connect to a [SQLite database](https://www.sqlite.org/index.html) with [ActiveRecord](https://rubygems.org/gems/activerecord) and how to implement a [Master-Detail Interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface) following the [Model-View-Presenter Pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter). This version can also be packaged as a native executable (DMG/MSI/DEB/RPM).
 
-[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/screenshots/contact-manager.png" /> ](https://github.com/AndyObtiva/contact_manager)
+[<img src="https://raw.githubusercontent.com/AndyObtiva/contact_manager/master/screenshots/contact-manager.gif" /> ](https://github.com/AndyObtiva/contact_manager)
 
 ## License
 
