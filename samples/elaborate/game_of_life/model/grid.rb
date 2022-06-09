@@ -35,7 +35,7 @@ class GameOfLife
       def initialize(row_count=DEFAULT_ROW_COUNT, column_count=DEFAULT_COLUMN_COUNT)
         @row_count = row_count
         @column_count = column_count
-        @speed = 1.0
+        @speed = 10.0
         build_cells
       end
       

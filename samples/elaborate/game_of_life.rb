@@ -53,6 +53,18 @@ class GameOfLife
               on_mouse_down do
                 @grid.cell_rows[row_index][column_index].toggle_aliveness!
               end
+              
+              on_drag_detected do
+                @drag_detected = true
+              end
+
+              on_mouse_move do
+                @grid.cell_rows[row_index][column_index].alive = true if @drag_detected
+              end
+
+              on_mouse_up do
+                @drag_detected = false
+              end
             }
           end
         end

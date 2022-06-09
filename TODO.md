@@ -70,6 +70,7 @@ composite {
 - require app view after declaring app body in scaffolded app
 - Support being able to nest child shapes under a CustomShape parent
 - Support configuration of global widget default properties to quickly affect the style of an entire app globally without the complexity of CSS expressions.
+- Provide a simple DSL way of supporting image cursors (e.g. being able to pass image path directly as a cursor value)
 
 - Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
