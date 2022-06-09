@@ -1,8 +1,9 @@
 # Change Log
 
-## 4.23.1.5 (unreleased)
+## 4.23.1.5
 
-- Refactor/Improve Hello, Cursor! sample
+- Refactor/Improve the Hello, Cursor! sample
+- Add Hello, Cursor! video tutorial to Glimmer Meta-Sample
 
 ## 4.23.1.4
 

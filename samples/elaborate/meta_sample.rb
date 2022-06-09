@@ -48,7 +48,7 @@ class Sample
     end
     
     def tutorials
-      if remote_tutorials && !remote_tutorials.empty? && remote_tutorials != local_tutorials
+      if remote_tutorials && !remote_tutorials.empty? && remote_tutorials.size >= local_tutorials.size
         remote_tutorials
       else
         local_tutorials
