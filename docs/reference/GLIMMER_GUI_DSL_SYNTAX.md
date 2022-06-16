@@ -940,7 +940,7 @@ The system tray allows showing icons for various apps that need to stay on for e
 
 In Glimmer DSL for SWT, generating tray items is automated via the `tray_item` keyword, which can be nested under `shell` and then have a child `menu` underneath that pops up when the user clicks on its icon in the system tray. It is recommended that the related shell is declared with the `:on_top` style (in addition to the default style `:shell_trim`) to ensure it opens above all apps when shown.
 
-Note that if you would like to display notifications, you can use the [Nebula Notifier custom widget](https://github.com/AndyObtiva/glimmer-cw-nebula#notifier). Alternatively, you can look into the [Two Slices](https://github.com/sshtools/two-slices) Java library.
+Note that if you would like to display notifications, you can use the [JFace Notification API](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/jface/notifications/NotificationPopup.html) and new [JFace Notification builder](https://www.eclipse.org/eclipse/news/4.23/platform_isv.php#notification-api), the [Nebula Notifier custom widget](https://github.com/AndyObtiva/glimmer-cw-nebula#notifier), or the [Two Slices](https://github.com/sshtools/two-slices) Java library.
 
 Example code:
 

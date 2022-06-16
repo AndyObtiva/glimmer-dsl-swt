@@ -11,12 +11,16 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Refactor all samples to include Glimmer::UI::Application instead of CustomShell
 
+- Update Hello, File Dialog! to demonstrate both :Open and :Save SWT styles
+
 - Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support column_attributes alias to column_properties for table data-binding
 
 - Include flat file database support into all Glimmer scaffolded apps in a passive state by default that users can activate by calling the FlatfileDatabase.store(hash)/FlatfileDatabase.load(hash) methods for example
 - Include ActiveRecord/SQLite DB support into all Glimmer scaffolded apps in a passive state by default that users can activate by adding a migration and an ActiveRecord model.
+
+- Add JFace to Glimmer DSL for SWT to use some of the JFace facilities like the Notification API and Notification Builder. Demonstrate the Notification API in Hello, Tray Item!
 
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)
