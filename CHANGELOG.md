@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.0.0
+
+- Upgrade to SWT 4.24
+
 ## 4.23.1.5
 
 - Refactor/Improve the Hello, Cursor! sample
