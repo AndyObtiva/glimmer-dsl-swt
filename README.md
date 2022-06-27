@@ -301,7 +301,7 @@ https://www.eclipse.org/swt/faq.php
 
 ## Pre-requisites
 
-- JDK 18 is recommended / JDK 16 is the minimum needed (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
+- JDK 18 is recommended / Minimum is JDK 16 on x64 platforms and Linux AARCH64, and JDK 17 on Mac ARM64 (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
 - [RVM](http://rvm.io) on Mac & Linux (not needed on Windows)
 - JRuby 9.3.4.0 (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.4.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
 - SWT 4.24 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT supports ARM64/AARCH64 on Mac and Linux since version 4.20

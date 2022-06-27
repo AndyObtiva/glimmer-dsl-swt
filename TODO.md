@@ -5,6 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Test tray_item in Windows after having removed on_widget_selected from its menu
+- Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time
+- Support setting widget/shape data via data property declaratively
 
 - Drop packaging from the scaffolding steps as there is no point in packaging an unfinished product
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default

@@ -1,4 +1,23 @@
-require 'glimmer-dsl-swt'
+# Copyright (c) 2007-2022 Andy Maleh
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class HelloCanvasDragAndDrop
   include Glimmer::UI::CustomShell
@@ -27,6 +46,7 @@ class HelloCanvasDragAndDrop
         background :white
         
         10.times do |n|
+          value = rand(10) 
           an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
             background rgb(255, 165, 0)
             
@@ -38,7 +58,14 @@ class HelloCanvasDragAndDrop
             oval(0, 0) {
               foreground :black
             }
+            
+            text {
+              x :default
+              y :default
+              string value.to_s
+            }
           }
+          an_oval.set_data('value', value)
         end
                                                           
         @drop_square = rectangle(150, 260, 50, 50) {
@@ -70,7 +97,7 @@ class HelloCanvasDragAndDrop
               @number_shape = text {
                 x :default
                 y :default
-                string (ball_count + 1).to_s
+                string (ball_count + drop_event.dragged_shape.get_data('value')).to_s
               }
             }
             drop_event.dragged_shape.dispose
