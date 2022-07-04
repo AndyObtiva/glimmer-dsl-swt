@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.24.0.1
+
+- Support declaratively setting shape data via `data` property
+- Update Hello, Canvas Drag and Drop! sample to set data in draggable shapes for a more sophisticated drag and drop example
+- Refactor Game of Life sample
+- Hello, Drag and Drop!, Hello, Canvas Drag and Drop!, and Game of Life Video Tutorials added to Glimmer Meta-Sample
+
 ## 4.24.0.0
 
 - Upgrade to SWT 4.24

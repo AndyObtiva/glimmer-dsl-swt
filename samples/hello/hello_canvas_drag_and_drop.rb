@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer-dsl-swt'
+
 class HelloCanvasDragAndDrop
   include Glimmer::UI::CustomShell
             
@@ -46,8 +48,9 @@ class HelloCanvasDragAndDrop
         background :white
         
         10.times do |n|
-          value = rand(10) 
-          an_oval = oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
+          value = rand(10)
+          oval((rand*300).to_i, (rand*200).to_i, 50, 50) {
+            data 'value', value
             background rgb(255, 165, 0)
             
             # declare shape as a drag source, which unlike `drag_and_move true`, it means the shape now
@@ -65,7 +68,6 @@ class HelloCanvasDragAndDrop
               string value.to_s
             }
           }
-          an_oval.set_data('value', value)
         end
                                                           
         @drop_square = rectangle(150, 260, 50, 50) {

@@ -562,7 +562,8 @@ module Glimmer
         end
         
         def has_attribute?(attribute_name, *args)
-          self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) or
+          attribute_name == 'data' or
+            self.class.gc_instance_methods.include?(attribute_setter(attribute_name)) or
             parameter_name?(attribute_name) or
             (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter(attribute_name), super: true))
         end
@@ -577,7 +578,9 @@ module Glimmer
           property_change = nil
           ruby_attribute_getter_name = ruby_attribute_getter(attribute_name)
           ruby_attribute_setter_name = ruby_attribute_setter(attribute_name)
-          if parameter_name?(attribute_name)
+          if attribute_name == 'data'
+            set_data(*args)
+          elsif parameter_name?(attribute_name)
             return if ruby_attribute_getter_name == (args.size == 1 ? args.first : args)
             set_parameter_attribute(ruby_attribute_getter_name, *args)
           elsif (respond_to?(attribute_name, super: true) and respond_to?(ruby_attribute_setter_name, super: true))
