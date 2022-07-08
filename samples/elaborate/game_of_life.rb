@@ -59,7 +59,7 @@ class GameOfLife
               end
 
               on_mouse_move do
-                @grid.cell_rows[row_index][column_index].alive = true if @drag_detected
+                @grid.cell_rows[row_index][column_index].live! if @drag_detected
               end
 
               on_mouse_up do
