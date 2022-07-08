@@ -48,7 +48,7 @@ class GameOfLife
         (0...HEIGHT).each do |row_index|
           (0...WIDTH).each do |column_index|
             rectangle(column_index*CELL_WIDTH, row_index*CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT) {
-              background <= [@grid.cell_rows[row_index][column_index], "alive", on_read: ->(a) {a ? :black : :white}]
+              background <= [@grid.cell_rows[row_index][column_index], :alive, on_read: ->(a) {a ? :black : :white}]
               
               on_mouse_down do
                 @grid.cell_rows[row_index][column_index].toggle_aliveness!
