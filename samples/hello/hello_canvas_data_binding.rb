@@ -22,31 +22,34 @@
 require 'glimmer-dsl-swt'
 
 class HelloCanvasDataBinding
-  include Glimmer::GUI::CustomWindow # alias for Glimmer::UI::CustomShell
+  class LinePathShape
+    attr_accessor :x1_value, :y1_value, :x2_value, :y2_value, :foreground_red, :foreground_green, :foreground_blue, :line_width_value, :line_style_value
+    
+    def foreground_value
+      [foreground_red, foreground_green, foreground_blue]
+    end
+    
+    def line_style_value_options
+      [:solid, :dash, :dot, :dashdot, :dashdotdot]
+    end
+  end
+  
+  include Glimmer::GUI::Application # alias for Glimmer::UI::CustomShell / Glimmer::UI::CustomWindow
   
   CANVAS_WIDTH  = 300
   CANVAS_HEIGHT = 300
   
-  attr_accessor :x1_value, :y1_value, :x2_value, :y2_value, :foreground_red, :foreground_green, :foreground_blue, :line_width_value, :line_style_value
-  
-  def foreground_value
-    rgb(foreground_red, foreground_green, foreground_blue)
-  end
-  
-  def line_style_value_options
-    [:solid, :dash, :dot, :dashdot, :dashdotdot]
-  end
-  
   before_body do
-    self.x1_value = 0
-    self.y1_value = 0
-    self.x2_value = CANVAS_WIDTH
-    self.y2_value = CANVAS_HEIGHT
-    self.foreground_red = 28
-    self.foreground_green = 128
-    self.foreground_blue = 228
-    self.line_width_value = 3
-    self.line_style_value = :dot
+    @line = LinePathShape.new
+    @line.x1_value = 0
+    @line.y1_value = 0
+    @line.x2_value = CANVAS_WIDTH
+    @line.y2_value = CANVAS_HEIGHT
+    @line.foreground_red = 28
+    @line.foreground_green = 128
+    @line.foreground_blue = 228
+    @line.line_width_value = 3
+    @line.line_style_value = :dot
   end
   
   body {
@@ -81,7 +84,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_WIDTH
             increment 3
-            selection <=> [self, :x1_value]
+            selection <=> [@line, :x1_value]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -89,7 +92,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_HEIGHT
             increment 3
-            selection <=> [self, :y1_value]
+            selection <=> [@line, :y1_value]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -109,7 +112,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_WIDTH
             increment 3
-            selection <=> [self, :x2_value]
+            selection <=> [@line, :x2_value]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -117,7 +120,7 @@ class HelloCanvasDataBinding
             }
             maximum CANVAS_HEIGHT
             increment 3
-            selection <=> [self, :y2_value]
+            selection <=> [@line, :y2_value]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -143,7 +146,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection <=> [self, :foreground_red]
+            selection <=> [@line, :foreground_red]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -151,7 +154,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection <=> [self, :foreground_green]
+            selection <=> [@line, :foreground_green]
           }
           spinner {
             layout_data(:fill, :center, false, false) {
@@ -159,7 +162,7 @@ class HelloCanvasDataBinding
             }
             maximum 255
             increment 10
-            selection <=> [self, :foreground_blue]
+            selection <=> [@line, :foreground_blue]
           }
           label {
             layout_data(:fill, :center, false, false) {
@@ -178,13 +181,13 @@ class HelloCanvasDataBinding
               horizontal_span 3
             }
             maximum 255
-            selection <=> [self, :line_width_value]
+            selection <=> [@line, :line_width_value]
           }
           combo(:read_only) {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
             }
-            selection <=> [self, :line_style_value]
+            selection <=> [@line, :line_style_value]
           }
           canvas {
             layout_data(:center, :center, false, false) {
@@ -195,20 +198,19 @@ class HelloCanvasDataBinding
             background :white
             
             line {
-              x1 <= [self, :x1_value]
-              y1 <= [self, :y1_value]
-              x2 <= [self, :x2_value]
-              y2 <= [self, :y2_value]
-              foreground <= [self, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
-              line_width <= [self, :line_width_value]
-              line_style <= [self, :line_style_value]
+              x1 <= [@line, :x1_value]
+              y1 <= [@line, :y1_value]
+              x2 <= [@line, :x2_value]
+              y2 <= [@line, :y2_value]
+              foreground <= [@line, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
+              line_width <= [@line, :line_width_value]
+              line_style <= [@line, :line_style_value]
             }
           }
         }
       }
     }
   }
-  
 end
 
 HelloCanvasDataBinding.launch

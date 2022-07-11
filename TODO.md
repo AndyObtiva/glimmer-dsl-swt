@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Extend Hello, Canvas Data-Binding! to support quadratic bezier curves, cubic bezier curves, and drag-and-drop of points and control points
+
 - Test tray_item in Windows after having removed on_widget_selected from its menu
 - Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time
 
@@ -73,7 +75,7 @@ composite {
 - Autoconvert file drag and drop event data to a Ruby array for dropped files
 
 - Try using bundler from within Warbler JAR file (test if it works if the Gemfile and Gemfile.lock are included)
-
+- Support specifying code_text custom theme via hash of color values, and make it data-bindable.
 - Note the need to set Display.app_name = before app launch (not inside before_body) to work
 - Fix display of icon in shells
 - Stop thread in Hello, Custom Widget! on widget disposed
