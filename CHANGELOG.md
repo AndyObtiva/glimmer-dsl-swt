@@ -2,8 +2,8 @@
 
 ## 4.24.0.2
 
+- Extend Hello, Canvas Data-Binding! to support quadratic bezier curves, cubic bezier curves, and Drag & Drop of endpoints / control points
 - Fix issue with data-binding `quad` & `cubic` path shape `point_array`
-- Update Hello, Canvas Data-Binding! to support drag & drop of endpoints, and add 2 tabs for quadratic and cubic bezier curves
 
 ## 4.24.0.1
 

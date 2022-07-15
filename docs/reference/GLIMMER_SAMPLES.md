@@ -82,7 +82,6 @@
     - [Snake](#snake)
   - [External Samples](#external-samples)
     - [Glimmer Calculator](#glimmer-calculator)
-    - [Gladiator](#gladiator)
     - [Timer](#timer)
     - [Contact Manager App](#contact-manager-app)
 - [License](#license)
@@ -863,7 +862,7 @@ Hello, Canvas! Colors Changed
 
 Hello, Canvas! Data-Binding (changing a `text` shape `string` via data-binding changes from another thread)
 
-![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.gif)
+![Hello Canvas Text Data Binding](/images/glimmer-hello-canvas-text-data-binding.gif)
 
 #### Hello, Canvas Animation!
 
@@ -923,9 +922,7 @@ Code:
 
 Hello, Canvas Data Binding!
 
-![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.png)
-
-![Hello Canvas Data Binding Line Changed](/images/glimmer-hello-canvas-data-binding-line-changed.png)
+![Hello Canvas Data Binding](/images/glimmer-hello-canvas-data-binding.gif)
 
 #### Hello, Canvas Shape Listeners!
 
@@ -1406,23 +1403,6 @@ Snake
 [<img alt="Glimmer Calculator Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-calculator/master/glimmer-cs-calculator-icon.png" height=40 /> Glimmer Calculator](https://github.com/AndyObtiva/glimmer-cs-calculator) is a basic calculator sample app demonstrating data-binding and TDD (test-driven-development) with Glimmer following the MVP pattern (Model-View-Presenter).
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-calculator/master/glimmer-cs-calculator-screenshot.png" />](https://github.com/AndyObtiva/glimmer-cs-calculator)
-
-#### Gladiator
-
-[<img src='https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-gladiator/master/images/glimmer-cs-gladiator-logo.png' height=40 /> Gladiator](https://github.com/AndyObtiva/glimmer-cs-gladiator) (short for Glimmer Editor) is a Glimmer sample project under on-going development.
-You may check it out to learn how to build a Glimmer Custom Shell gem.
-
-[<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-gladiator/master/images/glimmer-gladiator.png" />](https://github.com/AndyObtiva/glimmer-cs-gladiator)
-
-Gladiator is a good demonstration of:
-- MVP Pattern
-- Tree data-binding
-- List data-binding
-- Text selection data-binding
-- Tabs
-- Context menus
-- Custom Shell
-- Custom widget
 
 #### Timer
 

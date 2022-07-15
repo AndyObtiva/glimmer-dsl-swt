@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.24.0.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.24.0.2
 ## JRuby Desktop Development GUI Framework
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
 [![Travis CI](https://travis-ci.com/AndyObtiva/glimmer-dsl-swt.svg?branch=master)](https://travis-ci.com/github/AndyObtiva/glimmer-dsl-swt)
@@ -19,7 +19,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.24.0.1 includes [SWT 4.24](https://download.eclipse.org/eclipse/downloads/drops4/R-4.24-202206070700/), which was released on June 7, 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.24.0.2 includes [SWT 4.24](https://download.eclipse.org/eclipse/downloads/drops4/R-4.24-202206070700/), which was released on June 7, 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword. That was [originally conceived back in 2007](https://andymaleh.blogspot.com/2007/12/data-shining-in-glimmer.html).
 
@@ -200,6 +200,7 @@ Glimmer app:
 
 ![Tetris](images/glimmer-tetris.png)
 
+[Check out many more samples over here.](/docs/reference/GLIMMER_SAMPLES.md)
 
 ### Desktop Apps Built with Glimmer DSL for SWT
 
@@ -210,6 +211,8 @@ Glimmer app:
 [<img alt="Math Bowling Logo" src="https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/images/math-bowling-logo.png" width="40" />Math Bowling](https://github.com/AndyObtiva/MathBowling) - Elementary Level Math Game Featuring Bowling Rules
 
 [![Math Bowling App Screenshot](https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/Math-Bowling-Screenshot.png)](https://github.com/AndyObtiva/MathBowling)
+
+[Check out other apps in production.](#in-production)
 
 ## Table of contents
 
@@ -333,7 +336,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.24.0.1
+jgem install glimmer-dsl-swt -v 4.24.0.2
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -361,7 +364,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.24.0.1'
+gem 'glimmer-dsl-swt', '~> 4.24.0.2'
 ```
 
 And, then run:
@@ -384,7 +387,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.24.0.1
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.24.0.2
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 
@@ -565,45 +568,81 @@ If you have a Glimmer app you would like referenced here, please mention in a Pu
 
 [<img alt="Math Bowling Logo" src="https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/images/math-bowling-logo.png" width="40" />Math Bowling](https://github.com/AndyObtiva/MathBowling): an educational math game for elementary level kids
 
-### Are We There Yet?
+[![Math Bowling App Screenshot](https://raw.githubusercontent.com/AndyObtiva/MathBowling/master/Math-Bowling-Screenshot.png)](https://github.com/AndyObtiva/MathBowling)
 
-This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [SQLite](https://www.sqlite.org/index.html) database using [ActiveRecord](https://rubygems.org/gems/activerecord).
+### Gladiator
+
+[<img src='https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-gladiator/master/images/glimmer-cs-gladiator-logo.png' height=40 /> Gladiator](https://github.com/AndyObtiva/glimmer-cs-gladiator) (short for Glimmer Editor) is a code editor built with Ruby.
+
+[<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer-cs-gladiator/master/images/glimmer-gladiator.png" />](https://github.com/AndyObtiva/glimmer-cs-gladiator)
+
+Gladiator is a good demonstration of:
+- MVP Pattern
+- Tree data-binding
+- List data-binding
+- Text selection data-binding
+- Tabs
+- Context menus
+- Custom Shell
+- Custom widget
+
+### Are We There Yet?
 
 [<img alt="Are We There Yet Logo" src="https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-logo.svg" width="40" />Are We There Yet?](https://github.com/AndyObtiva/are-we-there-yet): A tool that helps you learn when your small projects will finish
 
+[![Are We There Yet? App Screenshot](https://raw.githubusercontent.com/AndyObtiva/are-we-there-yet/master/are-we-there-yet-screenshot-windows.png)](https://github.com/AndyObtiva/are-we-there-yet)
+
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [SQLite](https://www.sqlite.org/index.html) database using [ActiveRecord](https://rubygems.org/gems/activerecord).
+
 ### Garderie Rainbow Daily Agenda
 
-This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [Rails](https://rubyonrails.org/) server to submit a nursery child daily agenda via a REST API, storing data in [PostgreSQL](https://www.postgresql.org/).
-
 [<img alt="Garderie Rainbow Daily Agenda Logo" src="https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_logo.png" width="40" />Garderie Rainbow Daily Agenda](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda): A child nursery daily agenda reporting desktop app
+
+[![Garderie Rainbow Daily Agenda App Screenshot](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda/raw/master/images/garderie_rainbow_daily_agenda_screenshot.png)](https://github.com/AndyObtiva/garderie_rainbow_daily_agenda)
+
+This [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) application connects to a [Rails](https://rubyonrails.org/) server to submit a nursery child daily agenda via a REST API, storing data in [PostgreSQL](https://www.postgresql.org/).
 
 ### Glimmer Gab
 
 [<img alt="Glimmer Gab Logo" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_gab/master/package/linux/Glimmer%20Gab.png" height=40 /> Glimmer Gab](https://github.com/AndyObtiva/glimmer_gab): Desktop App for Gab.com
 
+[![Glimmer Gab App Screenshot](https://github.com/AndyObtiva/glimmer_gab/raw/master/screenshots/glimmer-gab-mac.png)](https://github.com/AndyObtiva/glimmer_gab)
+
 ### Connector
 
 [<img alt="Connector Logo" src="https://raw.githubusercontent.com/AndyObtiva/connector/master/package/linux/Connector.png" height=40 /> Connector](https://github.com/AndyObtiva/connector): A minimalist open-source multi-engine web browser
+
+[![Connector App Screenshot](https://github.com/AndyObtiva/connector/raw/master/images/connector-mac.png)](https://github.com/AndyObtiva/connector)
 
 ### The DCR Programming Language
 
 [<img alt="Connector Logo" src="https://raw.githubusercontent.com/AndyObtiva/dcr/f31cd45a8503051e899ed8e831fd03654d38e418/package/linux/Draw%20Color%20Repeat.png" height=40 /> Draw Color Repeat](https://github.com/AndyObtiva/dcr): A young boy programming language for Drawing and Coloring with Repetition
 
+[![DCR App Screenshot](https://github.com/AndyObtiva/dcr/raw/master/images/dcr-screenshot.png)](https://github.com/AndyObtiva/dcr)
+
 ### Befunge 98 Programming Language
 
 [Befunge 98 GUI](https://github.com/AndyObtiva/befunge98/tree/gui)
+
+[![Befunge 98 App Screenshot](https://github.com/AndyObtiva/befunge98/raw/gui/gui/glimmer-dsl-swt/befunge98_gui_glimmer_dsl_swt/screenshots/befunge98_gui_glimmer_dsl_swt_example_output.png)](https://github.com/AndyObtiva/befunge98/tree/gui)
 
 ### Glimmer Klondike Solitaire
 
 [<img alt="Glimmer Klondike Solitaire Icon" src="https://raw.githubusercontent.com/AndyObtiva/glimmer_klondike_solitaire/master/icons/linux/Glimmer%20Klondike%20Solitaire.png" height=40 /> Glimmer Klondike Solitaire](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
 
+[![Glimmer Klondike Solitaire App Screenshot](https://github.com/AndyObtiva/glimmer_klondike_solitaire/raw/master/images/glimmer-klondike-solitaire.png)](https://github.com/AndyObtiva/glimmer_klondike_solitaire)
+
 ### Glimmer Metronome
 
 [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/icons/linux/Glimmer%20Metronome.png" height=40 /> Glimmer Metronome](https://github.com/AndyObtiva/glimmer_metronome)
 
+[![Glimmer Metronome App Screenshot](https://raw.githubusercontent.com/AndyObtiva/glimmer_metronome/master/screenshots/glimmer-metronome.gif)](https://github.com/AndyObtiva/glimmer_metronome)
+
 ### Glimmer Wordle
 
 [<img src='https://raw.githubusercontent.com/AndyObtiva/glimmer_wordle/master/icons/linux/Glimmer Wordle.png' height=40 /> Glimmer Wordle - Word Game](https://github.com/AndyObtiva/glimmer_wordle)
+
+[![Glimmer Wordle App Screenshot](https://github.com/AndyObtiva/glimmer_wordle/raw/master/screenshots/glimmer-wordle.png)](https://github.com/AndyObtiva/glimmer_wordle)
 
 ## Packaging & Distribution
 
