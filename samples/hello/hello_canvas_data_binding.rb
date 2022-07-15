@@ -41,10 +41,10 @@ class HelloCanvasDataBinding
   
   before_body do
     @line = LinePathShape.new
-    @line.x1_value = 0
-    @line.y1_value = 0
-    @line.x2_value = CANVAS_WIDTH
-    @line.y2_value = CANVAS_HEIGHT
+    @line.x1_value = 5
+    @line.y1_value = 5
+    @line.x2_value = CANVAS_WIDTH - 5
+    @line.y2_value = CANVAS_HEIGHT - 5
     @line.foreground_red = 28
     @line.foreground_green = 128
     @line.foreground_blue = 228
@@ -198,13 +198,29 @@ class HelloCanvasDataBinding
             background :white
             
             line {
-              x1 <= [@line, :x1_value]
-              y1 <= [@line, :y1_value]
-              x2 <= [@line, :x2_value]
-              y2 <= [@line, :y2_value]
+              x1         <= [@line, :x1_value]
+              y1         <= [@line, :y1_value]
+              x2         <= [@line, :x2_value]
+              y2         <= [@line, :y2_value]
               foreground <= [@line, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
               line_width <= [@line, :line_width_value]
               line_style <= [@line, :line_style_value]
+            }
+            
+            oval {
+              x          <= [@line, :x1_value, on_read: ->(val) {val - 5}]
+              y          <= [@line, :y1_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :black
+            }
+            
+            oval {
+              x          <= [@line, :x2_value, on_read: ->(val) {val - 5}]
+              y          <= [@line, :y2_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :black
             }
           }
         }
