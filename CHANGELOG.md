@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.0.2
+
+- Fix issue with data-binding `quad` & `cubic` path shape `point_array`
+- Update Hello, Canvas Data-Binding! to support drag & drop of endpoints, and add 2 tabs for quadratic and cubic bezier curves
+
 ## 4.24.0.1
 
 - Support declaratively setting shape data via `data` property

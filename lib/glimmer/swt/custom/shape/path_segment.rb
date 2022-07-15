@@ -98,6 +98,7 @@ module Glimmer
           
           def add_to_swt_path(swt_path)
             the_path_segment_args = path_segment_args.dup
+            the_path_segment_args = the_path_segment_args.first if the_path_segment_args.size == 1 && the_path_segment_args.first.is_a?(Array)
             if !is_a?(Point) && self.class != Path
               if !previous_point_connected?
                 if the_path_segment_args.count == default_path_segment_arg_count
