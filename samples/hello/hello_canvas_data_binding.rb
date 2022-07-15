@@ -78,6 +78,7 @@ class HelloCanvasDataBinding
             }
             text 'y1'
           }
+          
           spinner {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
@@ -94,6 +95,7 @@ class HelloCanvasDataBinding
             increment 3
             selection <=> [@line, :y1_value]
           }
+          
           label {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
@@ -106,6 +108,7 @@ class HelloCanvasDataBinding
             }
             text 'y2'
           }
+          
           spinner {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
@@ -122,6 +125,7 @@ class HelloCanvasDataBinding
             increment 3
             selection <=> [@line, :y2_value]
           }
+          
           label {
             layout_data(:fill, :center, false, false) {
               horizontal_span 2
@@ -140,6 +144,7 @@ class HelloCanvasDataBinding
             }
             text 'foreground blue'
           }
+          
           spinner {
             layout_data(:fill, :center, false, false) {
               horizontal_span 2
@@ -164,6 +169,7 @@ class HelloCanvasDataBinding
             increment 10
             selection <=> [@line, :foreground_blue]
           }
+          
           label {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
@@ -176,6 +182,7 @@ class HelloCanvasDataBinding
             }
             text 'line style'
           }
+          
           spinner {
             layout_data(:fill, :center, false, false) {
               horizontal_span 3
@@ -189,12 +196,14 @@ class HelloCanvasDataBinding
             }
             selection <=> [@line, :line_style_value]
           }
-          canvas {
+          
+          @canvas = canvas {
             layout_data(:center, :center, false, false) {
               horizontal_span 6
               width_hint CANVAS_WIDTH
               height_hint CANVAS_WIDTH
             }
+            
             background :white
             
             line {
@@ -207,7 +216,7 @@ class HelloCanvasDataBinding
               line_style <= [@line, :line_style_value]
             }
             
-            oval {
+            @oval1 = oval {
               x          <= [@line, :x1_value, on_read: ->(val) {val - 5}]
               y          <= [@line, :y1_value, on_read: ->(val) {val - 5}]
               width 10
@@ -215,13 +224,48 @@ class HelloCanvasDataBinding
               background :black
             }
             
-            oval {
+            @oval2 = oval {
               x          <= [@line, :x2_value, on_read: ->(val) {val - 5}]
               y          <= [@line, :y2_value, on_read: ->(val) {val - 5}]
               width 10
               height 10
               background :black
             }
+            
+            on_mouse_down do |mouse_event|
+              @selected_shape = @canvas.shape_at_location(mouse_event.x, mouse_event.y)
+              @selected_shape = nil unless @selected_shape.is_a?(Glimmer::SWT::Custom::Shape::Oval)
+              @canvas.cursor = :hand if @selected_shape
+            end
+            
+            on_drag_detected do |drag_detect_event|
+              @drag_detected = true
+              @drag_current_x = drag_detect_event.x
+              @drag_current_y = drag_detect_event.y
+            end
+            
+            on_mouse_move do |mouse_event|
+              if @drag_detected && @selected_shape
+                delta_x = mouse_event.x - @drag_current_x
+                delta_y = mouse_event.y - @drag_current_y
+                case @selected_shape
+                when @oval1
+                  @line.x1_value += delta_x
+                  @line.y1_value += delta_y
+                when @oval2
+                  @line.x2_value += delta_x
+                  @line.y2_value += delta_y
+                end
+                @drag_current_x = mouse_event.x
+                @drag_current_y = mouse_event.y
+              end
+            end
+            
+            on_mouse_up do |mouse_event|
+              @canvas.cursor = :arrow
+              @drag_detected = false
+              @selected_shape = nil
+            end
           }
         }
       }
