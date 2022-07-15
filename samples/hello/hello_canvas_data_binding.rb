@@ -46,6 +46,14 @@ class HelloCanvasDataBinding
     end
   end
   
+  class CubicPathShape < PathShape
+    attr_accessor :x1_value, :y1_value, :cx1_value, :cy1_value, :cx2_value, :cy2_value, :x2_value, :y2_value
+    
+    def point_array
+      [x1_value, y1_value, cx1_value, cy1_value, cx2_value, cy2_value, x2_value, y2_value]
+    end
+  end
+  
   include Glimmer::GUI::Application # alias for Glimmer::UI::CustomShell / Glimmer::UI::CustomWindow
   
   CANVAS_WIDTH  = 300
@@ -61,7 +69,7 @@ class HelloCanvasDataBinding
     @line.foreground_green = 128
     @line.foreground_blue = 228
     @line.line_width_value = 3
-    @line.line_style_value = :dot
+    @line.line_style_value = :dash
     
     @quad = QuadPathShape.new
     @quad.x1_value = 5
@@ -75,6 +83,21 @@ class HelloCanvasDataBinding
     @quad.foreground_blue = 228
     @quad.line_width_value = 3
     @quad.line_style_value = :dot
+    
+    @cubic = CubicPathShape.new
+    @cubic.x1_value = 5
+    @cubic.y1_value = (CANVAS_WIDTH - 10)/2.0
+    @cubic.cx1_value = (CANVAS_WIDTH - 10)*0.25
+    @cubic.cy1_value = (CANVAS_WIDTH - 10)*0.25
+    @cubic.cx2_value = (CANVAS_WIDTH - 10)*0.75
+    @cubic.cy2_value = (CANVAS_WIDTH - 10)*0.75
+    @cubic.x2_value = CANVAS_WIDTH - 5
+    @cubic.y2_value = (CANVAS_WIDTH - 10)/2.0
+    @cubic.foreground_red = 28
+    @cubic.foreground_green = 128
+    @cubic.foreground_blue = 228
+    @cubic.line_width_value = 3
+    @cubic.line_style_value = :dashdot
   end
   
   body {
@@ -541,6 +564,300 @@ class HelloCanvasDataBinding
             
             on_mouse_up do |mouse_event|
               @quad_canvas.cursor = :arrow
+              @drag_detected = false
+              @selected_shape = nil
+            end
+          }
+        }
+        
+        tab_item {
+          grid_layout(6, true) {
+            margin_width 0
+            margin_height 0
+            horizontal_spacing 0
+            vertical_spacing 0
+          }
+          text 'Cubic Bezier Curve'
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'x1'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'y1'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [@cubic, :x1_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [@cubic, :y1_value]
+          }
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'control 1 x'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'control 1 y'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [@cubic, :cx1_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [@cubic, :cy1_value]
+          }
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'control 2 x'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'control 2 y'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [@cubic, :cx2_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [@cubic, :cy2_value]
+          }
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'x2'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'y2'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_WIDTH
+            increment 3
+            selection <=> [@cubic, :x2_value]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum CANVAS_HEIGHT
+            increment 3
+            selection <=> [@cubic, :y2_value]
+          }
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground red'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground green'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            text 'foreground blue'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [@cubic, :foreground_red]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [@cubic, :foreground_green]
+          }
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 2
+            }
+            maximum 255
+            increment 10
+            selection <=> [@cubic, :foreground_blue]
+          }
+          
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'line width'
+          }
+          label {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            text 'line style'
+          }
+          
+          spinner {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            maximum 255
+            selection <=> [@cubic, :line_width_value]
+          }
+          combo(:read_only) {
+            layout_data(:fill, :center, false, false) {
+              horizontal_span 3
+            }
+            selection <=> [@cubic, :line_style_value]
+          }
+          
+          @cubic_canvas = canvas {
+            layout_data(:center, :center, false, false) {
+              horizontal_span 6
+              width_hint CANVAS_WIDTH
+              height_hint CANVAS_WIDTH
+            }
+            
+            background :white
+            
+            path {
+              foreground  <= [@cubic, :foreground_value, computed_by: [:foreground_red, :foreground_green, :foreground_blue]]
+              line_width  <= [@cubic, :line_width_value]
+              line_style  <= [@cubic, :line_style_value]
+              
+              cubic {
+                point_array <= [@cubic, :point_array, computed_by: [:x1_value, :y1_value, :cx1_value, :cy1_value, :cx2_value, :cy2_value, :x2_value, :y2_value]]
+              }
+            }
+            
+            @cubic_oval1 = oval {
+              x          <= [@cubic, :x1_value, on_read: ->(val) {val - 5}]
+              y          <= [@cubic, :y1_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :black
+            }
+            
+            @cubic_oval2 = oval {
+              x          <= [@cubic, :cx1_value, on_read: ->(val) {val - 5}]
+              y          <= [@cubic, :cy1_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :dark_gray
+            }
+            
+            @cubic_oval3 = oval {
+              x          <= [@cubic, :cx2_value, on_read: ->(val) {val - 5}]
+              y          <= [@cubic, :cy2_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :dark_gray
+            }
+            
+            @cubic_oval4 = oval {
+              x          <= [@cubic, :x2_value, on_read: ->(val) {val - 5}]
+              y          <= [@cubic, :y2_value, on_read: ->(val) {val - 5}]
+              width 10
+              height 10
+              background :black
+            }
+            
+            on_mouse_down do |mouse_event|
+              @selected_shape = @cubic_canvas.shape_at_location(mouse_event.x, mouse_event.y)
+              @selected_shape = nil unless @selected_shape.is_a?(Glimmer::SWT::Custom::Shape::Oval)
+              @cubic_canvas.cursor = :hand if @selected_shape
+            end
+            
+            on_drag_detected do |drag_detect_event|
+              @drag_detected = true
+              @drag_current_x = drag_detect_event.x
+              @drag_current_y = drag_detect_event.y
+            end
+            
+            on_mouse_move do |mouse_event|
+              if @drag_detected && @selected_shape
+                delta_x = mouse_event.x - @drag_current_x
+                delta_y = mouse_event.y - @drag_current_y
+                case @selected_shape
+                when @cubic_oval1
+                  @cubic.x1_value += delta_x
+                  @cubic.y1_value += delta_y
+                when @cubic_oval2
+                  @cubic.cx1_value += delta_x
+                  @cubic.cy1_value += delta_y
+                when @cubic_oval3
+                  @cubic.cx2_value += delta_x
+                  @cubic.cy2_value += delta_y
+                when @cubic_oval4
+                  @cubic.x2_value += delta_x
+                  @cubic.y2_value += delta_y
+                end
+                @drag_current_x = mouse_event.x
+                @drag_current_y = mouse_event.y
+              end
+            end
+            
+            on_mouse_up do |mouse_event|
+              @cubic_canvas.cursor = :arrow
               @drag_detected = false
               @selected_shape = nil
             end
