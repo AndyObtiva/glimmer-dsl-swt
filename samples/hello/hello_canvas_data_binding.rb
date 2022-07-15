@@ -101,7 +101,7 @@ class HelloCanvasDataBinding
   end
   
   body {
-    shell {
+    shell(:no_resize) {
       text 'Hello, Canvas Data-Binding!'
       
       tab_folder {
@@ -324,7 +324,7 @@ class HelloCanvasDataBinding
             horizontal_spacing 0
             vertical_spacing 0
           }
-          text 'Quadratic Bezier Curve'
+          text 'Quad'
           
           label {
             layout_data(:fill, :center, false, false) {
@@ -577,7 +577,7 @@ class HelloCanvasDataBinding
             horizontal_spacing 0
             vertical_spacing 0
           }
-          text 'Cubic Bezier Curve'
+          text 'Cubic'
           
           label {
             layout_data(:fill, :center, false, false) {
