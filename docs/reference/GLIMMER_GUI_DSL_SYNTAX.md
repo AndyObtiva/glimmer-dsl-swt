@@ -1077,7 +1077,7 @@ You may check out a more full-fledged example in [Hello, Sash Form!](/docs/refer
 
 ![Hello Browser](/images/glimmer-hello-browser.png)
 
-Glimmer supports the [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html), which can load URLs or render HTML. It can even be instrumented with JavaScript when needed (though highly discouraged since it defeats the purpose of using Ruby except in very rare cases like leveraging a pre-existing web codebase in a desktop app).
+Glimmer DSL for SWT includes a basic [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html), which can load URLs or render HTML. It supports WebKit, IE, and Edge browsers out of the box. Its JavaScript engine can even be instrumented with Ruby code if needed.
 
 Example loading a URL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 
@@ -1114,7 +1114,11 @@ shell {
 
 This relies on Glimmer's [Multi-DSL Support](#multi-dsl-support) for building the HTML text using [Glimmer XML DSL](https://github.com/AndyObtiva/glimmer-dsl-xml).
 
-Learn more at the [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html) API.
+Learn more at: 
+- [SWT Browser API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html)
+- [SWT Browser FAQ](https://www.eclipse.org/swt/faq.php#whatisbrowser).
+
+The built-in basic SWT `browser` widget might not satisfy all your needs. If so, consider the advanced 3rd-party browser widget [JxBrowser](https://www.teamdev.com/jxbrowser), which utilizes Google Chromium.
 
 ### Widget Styles
 
@@ -3562,7 +3566,7 @@ As they say, there are many ways to skin a cat! This is in line with the Ruby wa
 
 ### Canvas Path DSL
 
-Unlike common imperative GUI graphing toolkits, Glimmer enables declarative rendering of paths with the new Canvas Path DSL (Early Alpha) via the new `path { }` keyword and by nesting one of the following path segment keywords underneath:
+Unlike common imperative GUI graphing toolkits, Glimmer enables declarative rendering of paths with the Canvas Path DSL via the new `path { }` keyword and by nesting one of the following path segment keywords underneath:
 - `point(x1, y1)`: renders a Point (Dot) as part of a path.
 - `line(x1, y1, x2=nil, y2=nil)`: renders a Line as part of a path. If you drop x2, y2, it joins to the previous point automatically. You may repeat for a series of lines forming a curve.
 - `quad(x1, y1, x2, y2, x3=nil, y3=nil)`: renders a Quadratic Bezier Curve. If you drop x3 and y3, it joins to the previous point automatically.

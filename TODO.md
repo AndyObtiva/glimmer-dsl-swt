@@ -4,12 +4,14 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Drop packaging from the scaffolding steps as there is no point in packaging an unfinished product
+- Fix issue where you cannot call `tab_item_proxy.text` or `tab_item_proxy.text = 'new text'` because its swt_widget is the contained composite
+
 - Test tray_item in Windows after having removed on_widget_selected from its menu
 - Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time
 
 - Look into why line_style_value reverts back to original value in Hello, Canvas Data-Binding! after dragging/dropping endpoints
 
-- Drop packaging from the scaffolding steps as there is no point in packaging an unfinished product
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
 - Refactor all samples to include Glimmer::UI::Application instead of CustomShell
