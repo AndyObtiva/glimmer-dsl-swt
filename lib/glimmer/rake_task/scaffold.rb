@@ -195,16 +195,12 @@ module Glimmer
             system "bash -c '#{RVM_FUNCTION}\n cd .\n bundle\n rspec --init\n'"
           end
           write 'spec/spec_helper.rb', spec_helper_file
-          if OS.windows?
-            system "glimmer package" # TODO handle Windows with batch file
-            system "\"packages/bundles/#{human_name(app_name)}/#{human_name(app_name)}.exe\""
+          if OS.mac?
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
+          elsif OS.linux?
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
-            if OS.mac?
-              system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
-            else
-              system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
-            end
+            system "glimmer run"
           end
         end
     
@@ -294,16 +290,12 @@ module Glimmer
           cp File.expand_path('../../../../icons/scaffold_app.png', __FILE__), icon_file
           puts "Created #{current_dir_name}/#{icon_file}"
           
-          if OS.windows?
-            system "glimmer package" # TODO handle windows properly with batch file
-            system "\"packages/bundles/#{human_name(custom_shell_name)}/#{human_name(custom_shell_name)}.exe\""
+          if OS.mac?
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
+          elsif OS.linux?
+            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
           else
-            system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer package\n'"
-            if OS.mac?
-              system "bash -c '#{RVM_FUNCTION}\n cd .\n JRUBY_OPTS=\"$JRUBY_OPTS -J-XstartOnFirstThread\" glimmer run\n'"
-            else
-              system "bash -c '#{RVM_FUNCTION}\n cd .\n glimmer run\n'"
-            end
+            system "glimmer run"
           end
           puts "Finished creating #{gem_name} Ruby gem."
           puts 'Edit Rakefile to configure gem details.'

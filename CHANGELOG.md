@@ -1,8 +1,14 @@
 # Change Log
 
+## 4.24.1.0
+
+- Upgrade to JRuby 9.3.6.0
+- Speed up app scaffolding by dropping packaging from the scaffolding steps as there is no point in packaging an unfinished product
+- Refactor/simplify Hello, Canvas Path!
+
 ## 4.24.0.2
 
-- Extend Hello, Canvas Data-Binding! to support quadratic bezier curves, cubic bezier curves, and Drag & Drop of endpoints / control points
+- Update Hello, Canvas Data-Binding! to support quadratic bezier curves, cubic bezier curves, and Drag & Drop of endpoints / control points
 - Fix issue with data-binding `quad` & `cubic` path shape `point_array`
 
 ## 4.24.0.1
