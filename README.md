@@ -281,7 +281,7 @@ Audio is supported via the Java Sound library in a cross-platform approach and v
 
 ### Remaining Challenges
 
-JRuby startup time is longer than that of CRuby, but has gotten a lot faster with newer CPUs, especially the latest Mac ARM64 processors. Thankfully, [there are work-arounds](https://andymaleh.blogspot.com/2021/03/glimmer-dsl-for-swt-41900-halved.html) that could make apps start as fast as instantly when needed.
+JRuby startup time is longer than that of CRuby, but has gotten a lot faster with newer CPUs, especially the latest Mac ARM64 processors (it is now about 2.5 seconds on Mac ARM64 processors like the M1 chip). Thankfully, [there are work-arounds](https://andymaleh.blogspot.com/2021/03/glimmer-dsl-for-swt-41900-halved.html) that could make apps start as fast as instantly when needed.
 
 Contributors who appreciate Glimmer's ultra-high productivity, maintainability, and extensibility might want to help report and resolve remaining challenges in its software architecture.
 

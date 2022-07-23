@@ -281,7 +281,7 @@ composite {
 - Support Cygwin with glimmer command
 - Build a debug console widget to inspect Glimmer GUI objects
 - Desktopify web apps with a single command or click
-- Provide a Glimmer App Store for Windows and Linux with Automatic Update support given that Glimmer only supports Mac App Store. Consider expanding to the Mac too with the selling point over the Mac store being that it does not require notarization (approval) though any apps that violate Glimmer's policy (no profane language or evil purposes) might be taken down permanently after distribution without warning.
+- Provide a Glimmer App Store for Windows and Linux with Automatic Update support given that Glimmer only supports Mac App Store. Consider expanding to the Mac too with the selling point over the Mac store being that it does not require notarization.
 - Support a Glimmer DSL for TUI that can convert any desktop app into a textual user interface without needing a change of code just like the Glimmer DSL for Opal
 - Provide a performance troubleshooting option that automatically logs all method activities if any GUI action takes more than a few seconds to complete (i.e. hung temporarily while showing a spinning wheel)
 - code_text support method switcher of language that automatically updates the lexer redrawing styled_text completely
