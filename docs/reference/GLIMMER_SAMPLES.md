@@ -100,7 +100,7 @@ This brings up the [Glimmer Meta-Sample (The Sample of Samples)](/samples/elabor
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
 
-You may edit the code of any sample before launching it by clicking on the "Launch" button. This helps you learn by experimenting with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button.
+You may edit the code of any sample before launching it by clicking on the "Launch" button. This helps you learn by experimenting with Glimmer GUI DSL syntax. To go back to original code, simply hit the "Reset" button. Also, for some samples, you can click the "Tutorial" button, and a YouTube video is played to guide you through learning the sample. The YouTube videos are played from the [Glimmer YouTube Channel](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw).
 
 Note that if you fail to run any sample through the Glimmer Meta-Sample for whatever reason, you could always run directly by cloning the project, running `bundle`, and then this command (drop the "bin" if you install the glimmer-dsl-swt gem instead):
 
