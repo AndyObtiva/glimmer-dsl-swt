@@ -52,6 +52,7 @@ class HelloCanvasPath
       
       canvas {
         layout_data :fill, :fill, true, true
+        
         background :white
         
         text('line', 15, 200) {

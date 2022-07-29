@@ -19,12 +19,14 @@ shell {
         # also supports inversion, identity, shear, and multiplication {transform properties}
       }
     }
+    
     image(glimmer_logo, 0, 0) {
       transform {
         translation 110, 220
         scale 0.21, 0.21
       }
     }
+    
     image(glimmer_logo, 0, 0) {
       transform {
         translation 220, 220
@@ -32,6 +34,7 @@ shell {
         scale 0.21, 0.21
       }
     }
+    
     image(glimmer_logo, 0, 0) {
       transform {
         translation 220, 110
