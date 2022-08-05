@@ -5,7 +5,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
-- Fix issue where you cannot call `tab_item_proxy.text` or `tab_item_proxy.text = 'new text'` because its swt_widget is the contained composite
 
 - Test tray_item in Windows after having removed on_widget_selected from its menu
 - Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time

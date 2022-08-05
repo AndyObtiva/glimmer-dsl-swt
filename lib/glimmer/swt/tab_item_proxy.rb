@@ -78,6 +78,23 @@ module Glimmer
         end
       end
       
+      ATTRIBUTES.each do |attribute|
+        define_method(attribute) do
+          auto_exec do
+            widget_proxy.send(attribute)
+          end
+        end
+        
+        define_method("#{attribute}=") do |value|
+          value.tap do
+            auto_exec do
+              widget_proxy.send("#{attribute}=", value)
+              shell_proxy.pack_same_size
+            end
+          end
+        end
+      end
+      
       def dispose
         auto_exec do
           swt_tab_item.setControl(nil)

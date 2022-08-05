@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.1.2
+
+- Fix issue where you cannot call `tab_item_proxy.text` or `tab_item_proxy.text = 'new text'` because its `swt_widget` is the contained `composite`
+- Refactor Parking sample to clarify rotation details
+
 ## 4.24.1.1
 
 - Fix `jar-dependencies` gem version to v0.4.1 in scaffolded applications to avoid issue encountered in newly released v0.4.2
