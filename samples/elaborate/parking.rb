@@ -26,10 +26,10 @@ require_relative 'parking/model/parking_presenter'
 class Parking
   include Glimmer::UI::CustomShell
     
+  CANVAS_LENGTH = 600
   FLOOR_COUNT = 4
   
   before_body do
-    @parking_spots = Model::ParkingSpot::LETTERS.clone
     @parking_presenter = Model::ParkingPresenter.new(FLOOR_COUNT)
   end
 
@@ -56,7 +56,6 @@ class Parking
         selection <=> [@parking_presenter, :selected_floor]
         
         on_widget_selected do
-          @parking_spots = Model::ParkingSpot::LETTERS.clone
           @canvas.dispose_shapes
           @canvas.content {
             parking_floor
@@ -65,8 +64,8 @@ class Parking
       }
       @canvas = canvas {
         layout_data {
-          width 600
-          height 600
+          width CANVAS_LENGTH
+          height CANVAS_LENGTH
         }
         
         background :dark_gray
@@ -77,42 +76,33 @@ class Parking
   }
   
   def parking_floor
-    parking_quad(67.5, 0, 125)
-    parking_quad(67.5, 0, 125) { |shp|
-      shp.rotate(90)
-    }
-    parking_quad(67.5, 0, 125) { |shp|
-      shp.rotate(180)
-    }
-    parking_quad(67.5, 0, 125) { |shp|
-      shp.rotate(270)
-    }
+    parking_quad(67.5, 0, 125, 0)
+    parking_quad(67.5, 0, 125, 90)
+    parking_quad(67.5, 0, 125, 180)
+    parking_quad(67.5, 0, 125, 270)
   end
         
-  def parking_quad(location_x, location_y, length, &block)
+  def parking_quad(location_x, location_y, length, angle)
     distance = (1.0/3)*length
-    parking_spot(location_x, location_y, length, &block)
-    parking_spot(location_x + distance, location_y, length, &block)
-    parking_spot(location_x + 2*distance, location_y, length, &block)
-    parking_spot(location_x + 3*distance, location_y, length, &block)
+    parking_spot(location_x, location_y, length, angle)
+    parking_spot(location_x + distance, location_y, length, angle)
+    parking_spot(location_x + 2*distance, location_y, length, angle)
+    parking_spot(location_x + 3*distance, location_y, length, angle)
   end
       
-  def parking_spot(location_x, location_y, length, &block)
-    parking_spot_letter = @parking_spots.shift
+  def parking_spot(location_x, location_y, length, angle)
+    parking_spot_letter = next_parking_spot_letter
     height = length
     width = (2.0/3)*length
-    shape(location_x, location_y) { |the_shape|
+    
+    shape(location_x, location_y) {
       line_width (1.0/15)*length
       foreground :white
   
-      block&.call(the_shape)
-    
       rectangle(location_x, location_y, width, height) {
-        background <= [
-          @parking_presenter.floors[@parking_presenter.selected_floor - 1].parking_spots[parking_spot_letter],
-          :booked,
-          on_read: ->(b) {b ? :red : :dark_gray}
-        ]
+        background <= [parking_spot_for(parking_spot_letter), :booked,
+                        on_read: ->(value) {value ? :red : :dark_gray}
+                      ]
         
         text {
           x :default
@@ -123,7 +113,8 @@ class Parking
         
         on_mouse_up do
           begin
-            @parking_presenter.floors[@parking_presenter.selected_floor - 1].book!(parking_spot_letter)
+            selected_parking_floor.book!(parking_spot_letter)
+            
             message_box {
               text 'Parking Booked!'
               message "Floor #{@parking_presenter.selected_floor} Parking Spot #{parking_spot_letter} Is Booked!"
@@ -138,7 +129,28 @@ class Parking
       line(location_x, location_y, location_x + width, location_y)
       line(location_x + width, location_y, location_x + width, location_y + height)
       
+      # Rotate around the canvas center point
+      transform {
+        translation CANVAS_LENGTH/2.0, CANVAS_LENGTH/2.0
+        rotation angle
+        translation -CANVAS_LENGTH/2.0, -CANVAS_LENGTH/2.0
+      }
     }
+  end
+  
+  def parking_spot_for(parking_spot_letter)
+    selected_parking_floor.parking_spots[parking_spot_letter]
+  end
+  
+  def selected_parking_floor
+    @parking_presenter.floors[@parking_presenter.selected_floor - 1]
+  end
+  
+  private
+  
+  def next_parking_spot_letter
+    @parking_spot_letters = Model::ParkingSpot::LETTERS.clone if @parking_spot_letters.nil? || @parking_spot_letters.empty?
+    @parking_spot_letters.shift
   end
 end
   
