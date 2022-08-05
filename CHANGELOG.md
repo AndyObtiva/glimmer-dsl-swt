@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.1.1
+
+- Fix `jar-dependencies` gem version to v0.4.1 in scaffolded applications to avoid issue encountered in newly released v0.4.2
+
 ## 4.24.1.0
 
 - Upgrade to JRuby 9.3.6.0
