@@ -2,6 +2,7 @@
 
 ## 4.24.1.2
 
+- Fix issue with using warbler on Windows caused by newer versions of `bundler` (freeze `bundler` at `2.2.29` in scaffolded applications)
 - Fix issue where you cannot call `tab_item_proxy.text` or `tab_item_proxy.text = 'new text'` because its `swt_widget` is the contained `composite`
 - Refactor Parking sample to clarify rotation details
 

@@ -125,6 +125,7 @@ module Glimmer
         GEMFILE_SUFFIX = <<~MULTI_LINE_STRING
         
           group :development do
+            gem 'bundler', '2.2.29'
             gem 'jar-dependencies', '0.4.1'
             gem 'rspec', '~> 3.5.0'
             gem 'juwelier', '2.4.9'
