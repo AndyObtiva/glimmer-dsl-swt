@@ -147,6 +147,7 @@ module Glimmer
           gem_name = file_name(app_name)
           gem_summary = human_name(app_name)
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
+          system "jruby -S gem install bundler --no-document" if OS.windows? # resolves freezing issue with warbler and bundler 2.2.29 included in JRuby
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
@@ -250,6 +251,7 @@ module Glimmer
             namespace = 'glimmer'
           end
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
+          system "jruby -S gem install bundler --no-document" if OS.windows? # resolves freezing issue with warbler and bundler 2.2.29 included in JRuby
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
@@ -317,6 +319,7 @@ module Glimmer
           end
           
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
+          system "jruby -S gem install bundler --no-document" if OS.windows? # resolves freezing issue with warbler and bundler 2.2.29 included in JRuby
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?
@@ -355,6 +358,7 @@ module Glimmer
           end
           
           return puts("The directory '#{gem_name}' already exists. Please either remove or pick a different name.") if Dir.exist?(gem_name)
+          system "jruby -S gem install bundler --no-document" if OS.windows? # resolves freezing issue with warbler and bundler 2.2.29 included in JRuby
           system "jruby -S gem install juwelier -v2.4.9 --no-document" unless juwelier_exists?
           system "jruby -S juwelier --markdown --rspec --summary '#{gem_summary}' --description '#{gem_summary}' #{gem_name}"
           return puts('Your Git user.name and/or github.user are missing! Please add in for Juwelier to help Glimmer with Scaffolding.') if `git config --get github.user`.strip.empty? && `git config --get user.name`.strip.empty?

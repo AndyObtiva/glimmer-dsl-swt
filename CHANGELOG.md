@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.1.3
+
+- Fix Windows freezing issue with warbler during packaging with the `glimmer package` command (caused by bundler included in JRuby on JDK18, fixed by installing latest bundler)
+
 ## 4.24.1.2
 
 - Fix issue where you cannot call `tab_item_proxy.text` or `tab_item_proxy.text = 'new text'` because its `swt_widget` is the contained `composite`
