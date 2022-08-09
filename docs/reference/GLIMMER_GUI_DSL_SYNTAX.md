@@ -162,7 +162,7 @@ Glimmer DSL syntax consists mainly of:
 
 Glimmer supports a new and radical Ruby DSL concept called DSL Auto-Expansion. To explain, let's first mention the two types of Glimmer GUI DSL keywords: static and dynamic.
 
-Static keywords are pre-identified keywords in the Glimmer DSL, such as `shell`, `display`, `message_box`, `async_exec`, `sync_exec`, and `bind`.
+Static keywords are pre-identified keywords in the Glimmer DSL, such as `shell` (alias: `window`), `display`, `message_box`, `async_exec`, `sync_exec`, and `bind`.
 
 Dynamic keywords are dynamically figured out from currently imported (aka required/loaded) SWT widgets and custom widgets. Examples are: `label`, `combo`, and `list` for SWT widgets and `c_date_time`, `video`, and `gantt_chart` for custom widgets.
 
@@ -191,7 +191,7 @@ This screenshot taken from the link above should give a glimpse of how SWT widge
 In Glimmer DSL, widgets are declared with lowercase underscored names mirroring their SWT names minus the package name.
 
 For example, here are some Glimmer widgets and their SWT counterparts:
-- `shell` instantiates `org.eclipse.swt.widgets.Shell`
+- `shell` (alias: `window`) instantiates `org.eclipse.swt.widgets.Shell`, which represents a window
 - `text` instantiates `org.eclipse.swt.widgets.Text`
 - `button` instantiates `org.eclipse.swt.widgets.Button`
 - `label` instantiates `org.eclipse.swt.widgets.Label`
@@ -220,7 +220,7 @@ shell {
 }.open
 ```
 
-Note that `shell` instantiates the outer shell **widget**, in other words, the window that houses all of the desktop graphical user interface.
+Note that `shell` (alias: `window`) instantiates the outer shell **widget**, in other words, the window that houses all of the desktop graphical user interface.
 
 `shell` is then followed by a ***block*** that contains
 
@@ -248,7 +248,7 @@ shell {|shell_proxy|
 }
 ```
 
-Remember that The `shell` widget is always the outermost widget containing all others in a Glimmer desktop windowed application.
+Remember that The `shell` (alias: `window`) widget is always the outermost widget containing all others in a Glimmer desktop windowed application.
 
 After it is declared, a `shell` must be opened with the `#open` method, which can be called on the block directly as in the example above, or by capturing `shell` in a `@shell` variable (shown in example below), and calling `#open` on it independently (recommended in actual apps)
 
