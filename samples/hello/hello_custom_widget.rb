@@ -55,13 +55,13 @@ class GreetingLabel
   after_body do
     return if colors.nil?
     
-    Thread.new {
-      colors.cycle { |color|
+    @thread = Thread.new do
+      colors.cycle do |color|
         self.label_color = color
         @color_changed_handlers&.each {|handler| handler.call(color)}
         sleep(1)
-      }
-    }
+      end
+    end
   end
   
   body {
@@ -70,6 +70,10 @@ class GreetingLabel
       text "#{greeting}, #{name}!"
       font @font
       foreground <=> [self, :label_color]
+      
+      on_widget_disposed do
+        @thread&.kill # safe since it does not involve data
+      end
     }
   }
   

@@ -22,6 +22,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support column_attributes alias to column_properties for table data-binding
 
+- Support being able to declare extra listeners on custom widgets declaratively instead of by overriding handle_observation_request
+
 - Include flat file database support into all Glimmer scaffolded apps in a passive state by default that users can activate by calling the FlatfileDatabase.store(hash)/FlatfileDatabase.load(hash) methods for example
 - Include ActiveRecord/SQLite DB support into all Glimmer scaffolded apps in a passive state by default that users can activate by adding a migration and an ActiveRecord model.
 
