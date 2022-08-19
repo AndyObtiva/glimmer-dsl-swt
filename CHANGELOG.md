@@ -1,5 +1,10 @@
 # Change Log
 
+## Upcoming
+
+- Refactor Hello, Custom Widget! with on_widget_disposed thread cleanup code
+- Refactor Hello, Custom Shell! to support keyboard display of emails by hitting ENTER/SPACE after selecting a table row
+
 ## 4.24.1.3
 
 - Fix Windows freezing issue with warbler during packaging with the `glimmer package` command (caused by bundler included in JRuby on JDK18, fixed by installing latest bundler)
