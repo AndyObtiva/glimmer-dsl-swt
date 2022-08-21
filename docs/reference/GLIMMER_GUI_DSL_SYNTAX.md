@@ -4852,6 +4852,8 @@ Changes syntax color highlighting theme. Can be one of the following:
 - github
 - pastie
 
+Or you can simply implement a new [Rouge](https://github.com/rouge-ruby/rouge) theme just like the [github](https://github.com/rouge-ruby/rouge/blob/master/lib/rouge/themes/github.rb) theme or the glimmer theme: [lib/ext/rouge/themes/glimmer.rb](/lib/ext/rouge/themes/glimmer.rb)
+
 **language**
 (default: `'ruby'`)
 

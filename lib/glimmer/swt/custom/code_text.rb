@@ -41,6 +41,7 @@ module Glimmer
         end
         
         REGEX_COLOR_HEX6 = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/
+        FONT_NAMES_PREFERRED = ['Consolas', 'Courier', 'Monospace', 'Liberation Mono']
         
         # TODO support auto language detection
               
@@ -325,8 +326,9 @@ module Glimmer
         
         def select_best_font_name
           all_font_names = display.get_font_list(nil, true).map(&:name)
-          @font_name ||= 'Consolas' if all_font_names.include?('Consolas')
-          @font_name ||= 'Courier' if all_font_names.include?('Courier')
+          FONT_NAMES_PREFERRED.each do |font_name|
+            @font_name ||= font_name if all_font_names.include?(font_name)
+          end
           @font_name ||= all_font_names.find {|font_name| font_name.downcase.include?('mono')}
           @font_name
         end

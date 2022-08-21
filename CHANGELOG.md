@@ -3,6 +3,7 @@
 ## 4.24.2.2
 
 - Upgrade to jruby-9.3.7.0
+- Look for 'Monospace' and 'Liberation Mono' fonts on Linux if 'Courier' is not available
 - Fix issue discovered in Red Hat Linux related to ImageExpression getting loaded before others and missing `require 'glimmer/dsl/parent_expression'` statement (issue does not happen in other operating systems that load classes in a different order)
 
 ## 4.24.2.1
