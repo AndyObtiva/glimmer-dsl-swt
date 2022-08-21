@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- Fix issue with `code_text` showing gibberish on Linux when Courier & Consolas fonts are not available. It will attempt to use the first Monospace font it finds now or otherwise stick to the default font.
 - Refactor Hello, Custom Widget! with on_widget_disposed thread cleanup code
 - Refactor Hello, Custom Shell! to support keyboard display of emails by hitting ENTER/SPACE after selecting a table row
 

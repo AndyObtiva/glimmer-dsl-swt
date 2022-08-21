@@ -125,7 +125,7 @@ module Glimmer
           require 'rouge'
           require 'ext/rouge/themes/glimmer'
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
-          @font_name = display.get_font_list(nil, true).map(&:name).include?('Consolas') ? 'Consolas' : 'Courier'
+          select_best_font
           if lines == true
             @lines_width = 4
           elsif lines.is_a?(Hash)
@@ -151,7 +151,7 @@ module Glimmer
                           after_read: lambda { @line_numbers_styled_text_proxy&.top_pixel = styled_text_proxy_top_pixel unless styled_text_proxy_top_pixel.nil? }
                         ]
                 top_pixel <= [self, :styled_text_proxy_top_pixel]
-                font name: @font_name, height: OS.mac? ? 15 : 12
+                font @font_options
                 background color(:widget_background)
                 foreground :dark_blue
                 top_margin 5
@@ -186,7 +186,7 @@ module Glimmer
             
             text <=> [self, :styled_text_proxy_text] if lines
             top_pixel <=> [self, :styled_text_proxy_top_pixel] if lines
-            font name: @font_name, height: OS.mac? ? 15 : 12
+            font @font_options
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5
@@ -309,6 +309,21 @@ module Glimmer
           lines_text_size = [line_count.to_s.size, @lines_width].max
           @lines_width = lines_text_size if lines_text_size > @lines_width
           line_count.times.map {|n| (' ' * (lines_text_size - (n+1).to_s.size)) + (n+1).to_s }.join("\n") + "\n"
+        end
+        
+        def select_best_font
+          select_best_font_name
+          @font_options = {height: OS.mac? ? 15 : 12}
+          @font_options.merge!(name: @font_name) if @font_name
+          @font_options
+        end
+        
+        def select_best_font_name
+          all_font_names = display.get_font_list(nil, true).map(&:name)
+          @font_name ||= 'Consolas' if all_font_names.include?('Consolas')
+          @font_name ||= 'Courier' if all_font_names.include?('Courier')
+          @font_name ||= all_font_names.find {|font_name| font_name.downcase.include?('mono')}
+          @font_name
         end
       end
     end
