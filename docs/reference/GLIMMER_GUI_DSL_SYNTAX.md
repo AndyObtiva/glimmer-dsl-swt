@@ -4847,12 +4847,12 @@ Keep in mind that if the text grows and required a wider line numbers area, it g
 (default: `'glimmer'`)
 
 Changes syntax color highlighting theme. Can be one of the following:
-- glimmer
-- glimmer_dark (always applied when OS is in dark mode)
-- github
-- pastie
+- `'glimmer'`
+- `'glimmer_dark'` (always applied when OS is in Dark Mode unless you set another custom theme that has the word `dark` in its name, see more details below)
+- `'github'`
+- `'pastie'`
 
-Or you can simply implement a new [Rouge](https://github.com/rouge-ruby/rouge) theme just like the [github](https://github.com/rouge-ruby/rouge/blob/master/lib/rouge/themes/github.rb) theme or the glimmer theme: [lib/ext/rouge/themes/glimmer.rb](/lib/ext/rouge/themes/glimmer.rb)
+Or you can simply implement a new [Rouge](https://github.com/rouge-ruby/rouge) **custom theme** just like the [github](https://github.com/rouge-ruby/rouge/blob/master/lib/rouge/themes/github.rb) theme or the glimmer theme: [lib/ext/rouge/themes/glimmer.rb](/lib/ext/rouge/themes/glimmer.rb)
 
 **language**
 (default: `'ruby'`)

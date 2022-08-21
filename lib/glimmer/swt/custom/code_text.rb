@@ -127,7 +127,7 @@ module Glimmer
           require 'ext/rouge/themes/glimmer'
           require 'ext/rouge/themes/glimmer_dark'
           @dark_mode = Java::OrgEclipseSwtWidgets::Display.system_dark_theme?
-          self.theme = 'glimmer_dark' if @dark_mode
+          self.theme = 'glimmer_dark' if @dark_mode && !theme.downcase.include?('dark')
           @dark_theme = theme.include?('dark')
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
           select_best_font
