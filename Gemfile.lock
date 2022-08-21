@@ -1,8 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     array_include_methods (1.4.0)
     awesome_print (1.9.2)
     builder (3.2.4)
@@ -18,7 +18,7 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     facets (3.1.0)
-    faraday (1.10.0)
+    faraday (1.10.1)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -41,7 +41,8 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    git (1.11.0)
+    git (1.12.0)
+      addressable (~> 2.8)
       rchardet (~> 1.8)
     github_api (0.19.0)
       addressable (~> 2.4)
@@ -55,9 +56,9 @@ GEM
     hashie (3.6.0)
     highline (2.0.3)
     jar-dependencies (0.4.1)
-    jruby-jars (9.3.6.0)
+    jruby-jars (9.3.7.0)
     jruby-openssl (0.14.1.cr2-java)
-    jruby-rack (1.1.21)
+    jruby-rack (1.1.22)
     jruby-win32ole (0.8.5)
     json (2.6.2-java)
     juwelier (2.4.9)
@@ -80,7 +81,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.2.3)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.13.7-java)
+    nokogiri (1.13.8-java)
       racc (~> 1.4)
     oauth2 (1.4.10)
       faraday (>= 0.17.3, < 3.0)
@@ -93,7 +94,7 @@ GEM
       tty-color (~> 0.5)
     psych (4.0.4-java)
       jar-dependencies (>= 0.1.7)
-    public_suffix (4.0.7)
+    public_suffix (5.0.0)
     puts_debuggerer (0.13.5)
       awesome_print (~> 1.9.2)
     racc (1.6.0-java)
@@ -104,7 +105,7 @@ GEM
     rchardet (1.8.0)
     rdoc (6.4.0)
       psych (>= 4.0.0)
-    rouge (3.29.0)
+    rouge (3.30.0)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
       rspec-expectations (~> 3.11.0)
@@ -185,4 +186,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.3.0)
 
 BUNDLED WITH
-   2.3.18
+   2.3.20

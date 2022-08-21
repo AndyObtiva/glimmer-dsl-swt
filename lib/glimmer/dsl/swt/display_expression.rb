@@ -20,8 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'glimmer/dsl/static_expression'
-require 'glimmer/dsl/parent_expression'
 require 'glimmer/dsl/top_level_expression'
+require 'glimmer/dsl/parent_expression'
 require 'glimmer/swt/display_proxy'
 
 module Glimmer

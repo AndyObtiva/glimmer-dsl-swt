@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.2.2
+
+- Upgrade to jruby-9.3.7.0
+- Fix issue discovered in Red Hat Linux related to ImageExpression getting loaded before others and missing `require 'glimmer/dsl/parent_expression'` statement (issue does not happen in other operating systems that load classes in a different order)
+
 ## 4.24.2.1
 
 - Fix mistake of changing all themes to dark themes in Hello, Code Text! (not it works just like before)

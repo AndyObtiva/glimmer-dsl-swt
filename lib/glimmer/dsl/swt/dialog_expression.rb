@@ -19,9 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/dsl/static_expression'
-require 'glimmer/dsl/parent_expression'
+require 'glimmer/dsl/expression'
 require 'glimmer/dsl/top_level_expression'
+require 'glimmer/dsl/parent_expression'
 require 'glimmer/swt/shell_proxy'
 require 'glimmer/swt/dialog_proxy'
 
