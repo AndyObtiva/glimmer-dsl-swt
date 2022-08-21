@@ -1114,7 +1114,7 @@ shell {
 
 This relies on Glimmer's [Multi-DSL Support](#multi-dsl-support) for building the HTML text using [Glimmer XML DSL](https://github.com/AndyObtiva/glimmer-dsl-xml).
 
-Learn more at: 
+Learn more at:
 - [SWT Browser API](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html)
 - [SWT Browser FAQ](https://www.eclipse.org/swt/faq.php#whatisbrowser).
 
@@ -4809,6 +4809,12 @@ You may see another example at the [Hello, Radio Group!](/docs/reference/GLIMMER
 
 `code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
+It attempts to use a monospace font if available, seeking fonts in the following order:
+1. Consolas
+2. Courier
+3. Any font that contains the word "Mono"
+4. Default system font (if no other font is found)
+
 It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
@@ -4842,6 +4848,7 @@ Keep in mind that if the text grows and required a wider line numbers area, it g
 
 Changes syntax color highlighting theme. Can be one of the following:
 - glimmer
+- glimmer_dark (always applied when OS is in dark mode)
 - github
 - pastie
 
