@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.2.1
+
+- Fix mistake of changing all themes to dark themes in Hello, Code Text! (not it works just like before)
+
 ## 4.24.2.0
 
 - Update `code_text` to support Dark Mode with `glimmer_dark` theme, which is applied by default when app is run with OS in dark mode
