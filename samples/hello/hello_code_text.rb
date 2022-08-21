@@ -86,7 +86,8 @@ class HelloCodeText
           
           text 'Ruby (glimmer theme)'
           
-          code_text(language: 'ruby', theme: 'glimmer', lines: true) {
+          # Note: code_text theme is currently ignored in dark mode
+          code_text(language: 'ruby', theme: 'glimmer_dark', lines: true) { # theme is currently ignored in dark mode
             text <=> [self, :ruby_code]
           }
         }
@@ -96,17 +97,18 @@ class HelloCodeText
           
           text 'JavaScript (pastie theme)'
           
-          code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'pastie', lines: {width: 2}) {
+          # Note: code_text theme is currently ignored in dark mode
+          code_text(:multi, :h_scroll, :v_scroll, language: 'javascript', theme: 'glimmer_dark', lines: {width: 2}) {
             root {
               grid_layout(2, false) {
                 margin_width 2
               }
               
-              background :white
+              background Display.system_dark_theme? ? :black : :white
             }
             
             line_numbers {
-              background :white
+              background Display.system_dark_theme? ? :black : :white
             }
             
             text <=> [self, :js_code]
@@ -118,7 +120,8 @@ class HelloCodeText
           
           text 'HTML (github theme)'
           
-          code_text(language: 'html', theme: 'github') { # default is lines: false
+          # Note: code_text theme is currently ignored in dark mode
+          code_text(language: 'html', theme: 'glimmer_dark') { # default is lines: false
             text <=> [self, :html_code]
           }
         }

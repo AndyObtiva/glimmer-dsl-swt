@@ -340,7 +340,7 @@ class MetaSampleApplication
             }
           }
           line_numbers {
-            background :white
+            background Display.system_dark_theme? ? :black : :white
           }
           text <=> [SampleDirectory, 'selected_sample.code']
           editable <= [SampleDirectory, 'selected_sample.editable']

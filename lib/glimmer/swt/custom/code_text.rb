@@ -124,6 +124,10 @@ module Glimmer
         before_body do
           require 'rouge'
           require 'ext/rouge/themes/glimmer'
+          require 'ext/rouge/themes/glimmer_dark'
+          @dark_mode = Java::OrgEclipseSwtWidgets::Display.system_dark_theme?
+          self.theme = 'glimmer_dark' if @dark_mode
+          @dark_theme = theme.include?('dark')
           @swt_style = swt_style == 0 ? [:border, :multi, :v_scroll, :h_scroll] : swt_style
           select_best_font
           if lines == true
@@ -153,7 +157,7 @@ module Glimmer
                 top_pixel <= [self, :styled_text_proxy_top_pixel]
                 font @font_options
                 background color(:widget_background)
-                foreground :dark_blue
+                foreground @dark_mode ? rgb(255, 255, 127) : :dark_blue
                 top_margin 5
                 right_margin 5
                 bottom_margin 5
@@ -187,6 +191,7 @@ module Glimmer
             text <=> [self, :styled_text_proxy_text] if lines
             top_pixel <=> [self, :styled_text_proxy_top_pixel] if lines
             font @font_options
+            background :black if @dark_mode
             foreground rgb(75, 75, 75)
             left_margin 5
             top_margin 5
@@ -239,8 +244,8 @@ module Glimmer
                   start_index = token_hash[:token_index]
                   size = token_hash[:token_text].size
                   style_data = Rouge::Theme.find(theme).new.style_for(token_hash[:token_type])
-                  foreground_color = hex_color_to_swt_color(style_data[:fg], [:black])
-                  background_color = hex_color_to_swt_color(style_data[:bg], [:white])
+                  foreground_color = hex_color_to_swt_color(style_data[:fg], [@dark_mode ? :white : :black])
+                  background_color = hex_color_to_swt_color(style_data[:bg], [@dark_mode ? :black : :white])
                   font_styles = []
                   font_styles << :bold if style_data[:bold]
                   font_styles << :italic if style_data[:italic]
