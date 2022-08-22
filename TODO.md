@@ -30,6 +30,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Add JFace to Glimmer DSL for SWT to use some of the JFace facilities like the Notification API and Notification Builder. Demonstrate the Notification API in Hello, Tray Item!
 
 -Update Canvas Data Binding sample to include all shapes
+- Add Zoom feature with CMD/+ CMD/- and CMD/0 to `code_text` (CTRL instead of CMD on Win/Linux)
 
 - `generator`/`generators`: enables spawning a widget or a collection of widgets based on a data-bound variable depending on whether using `generator` or `generators` (e.g. `generators(user, :addresses) { |address| address_widget {...} }` spawns 3 `AddressWidget`s if `user.addresses` is set with 3 addresses; and replaces with 2 `AddressWidget`s if `user.addresses` is reset with 2 addresses only).
 Consider replacing all children of parent as simplest implementation (or otherwise, remembering last sibling and spawning widgets next to it)

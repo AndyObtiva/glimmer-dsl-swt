@@ -810,7 +810,7 @@ Hello, Dialog! Open Dialog
 
 #### Hello, Code Text!
 
-This sample demonstrates the Glimmer Built-In [Code Text Custom Widget](#code-text-custom-widget).
+This sample demonstrates the Glimmer Built-In [Code Text Custom Widget](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#code-text-custom-widget).
 
 Code:
 

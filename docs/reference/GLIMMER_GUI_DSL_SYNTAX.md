@@ -4807,32 +4807,93 @@ You may see another example at the [Hello, Radio Group!](/docs/reference/GLIMMER
 
 ##### Code Text Custom Widget
 
-`code_text` is a Glimmer built-in custom widget that displays syntax highlighted Ruby code in a customized SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
+`code_text` is a Glimmer built-in custom widget that displays syntax highlighted code (e.g. Ruby/JavaScript/HTML code) for 204 languages (see [options](#code-text-options) for the full list) by automating customizations for the SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
 
-It attempts to use a monospace font if available, seeking fonts in the following order:
-1. Consolas
-2. Courier
-3. Any font that contains the word "Mono"
-4. Default system font (if no other font is found)
+To utilize, simply use `code_text` in place of the multi-line `text` and `styled_text` widgets. If you set the `code_text` `text` property value to multi-line code content (e.g. Ruby/JavaScript/HTML code), it automatically styles it with syntax highlighting.
+
+`code_text` attempts to use a monospace font if available, seeking font names in the following order (specified in `Glimmer::SWT::Custom::CodeText::FONT_NAMES_PREFERRED`):
+1. `'Consolas'`
+2. `'Courier'`
+3. `'Monospace'`
+4. `'Liberation Mono'`
+5. First available font that contains the word `mono` (case-insensitive)
+6. Default system font (if no other font in the list is found)
 
 It is used in the [Glimmer Meta-Sample (The Sample of Samples)](#samples):
 
 ![Glimmer Meta-Sample](/images/glimmer-meta-sample.png)
 
-Glimmer Meta-Sample Code Example:
+Dark Mode:
+
+![Glimmer Meta-Sample](/images/glimmer-meta-sample-dark-mode.png)
+
+Code Text Simple Example (default language is Ruby):
 
 ```ruby
-# ...
-@code_text = code_text {
+code_text {
   text bind(SampleDirectory, 'selected_sample.code', read_only: true)
   editable bind(SampleDirectory, 'selected_sample.editable')
 }
-# ...
 ```
 
-To use, simply use `code_text` in place of the `text` or `styled_text` widget. If you set its `text` value to Ruby code, it automatically styles it with syntax highlighting.
+Code Text Specified Language Example:
 
-###### Options
+```ruby
+code_text(language: 'html') {
+  text bind(SampleDirectory, 'selected_sample.code', read_only: true)
+  editable bind(SampleDirectory, 'selected_sample.editable')
+}
+```
+
+Code Text Lines and Margins Example:
+
+```ruby
+code_text(lines: true) {
+  text <=> [SampleDirectory, 'selected_sample.code']
+  editable <= [SampleDirectory, 'selected_sample.editable']
+  left_margin 7
+  right_margin 7
+}
+```
+
+Code Text Customized Lines Width and Background Example:
+
+```ruby
+code_text(lines: {width: 3}) {
+  line_numbers {
+    background Display.system_dark_theme? ? :black : :white
+  }
+  text <=> [SampleDirectory, 'selected_sample.code']
+  editable <= [SampleDirectory, 'selected_sample.editable']
+  left_margin 7
+  right_margin 7
+}
+```
+
+Code Text Customized Root Composite Margins/Spacing Background Example:
+
+```ruby
+code_text(lines: true) {
+  root {
+    grid_layout(2, false) {
+      horizontal_spacing 0
+      margin_left 0
+      margin_right 0
+      margin_top 0
+      margin_bottom 0
+    }
+  }
+  line_numbers {
+    background Display.system_dark_theme? ? :black : :white
+  }
+  text <=> [SampleDirectory, 'selected_sample.code']
+  editable <= [SampleDirectory, 'selected_sample.editable']
+  left_margin 7
+  right_margin 7
+}
+```
+
+###### Code Text Options
 
 **lines**
 (default: `false`)
