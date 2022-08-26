@@ -47,7 +47,7 @@ class StickFigure
 end
 
 class HelloCustomShape
-  include Glimmer::UI::CustomShell
+  include Glimmer::UI::Application
   
   WIDTH = 220
   HEIGHT = 235
@@ -60,7 +60,7 @@ class HelloCustomShape
       @canvas = canvas {
         background :white
         
-        15.times { |n|
+        15.times do |n|
           x_location = (rand*WIDTH/2).to_i%WIDTH + (rand*15).to_i
           y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*15).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
@@ -74,7 +74,7 @@ class HelloCustomShape
               a_stick_figure.foreground = rgb(rand*255, rand*255, rand*255)
             end
           }
-        }
+        end
       }
     }
   }
