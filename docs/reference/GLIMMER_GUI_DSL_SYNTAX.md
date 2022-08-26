@@ -4019,8 +4019,8 @@ shell {
       text "Adult"
       width 120
     }
-    items bind(group, :people), column_properties(:name, :age, :adult)
-    selection bind(group, :selected_person)
+    items <=> [group, :people, column_properties: [:name, :age, :adult]]
+    selection <=> [group, :selected_person]
     on_mouse_up do |event|
       @table.edit_table_item(event.table_item, event.column_index)
     end
@@ -4050,6 +4050,24 @@ To edit a table, you must invoke `TableProxy#edit_selected_table_item(column_ind
 This automatically leverages the SWT TableEditor custom class behind the scenes, displaying a text widget to the user to change the selected or
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
+
+##### Table Item Properties
+
+When data-binding a `table`'s `items`, extra [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are data-bound automatically by convention for `background` color, `foreground` color, `font`, and `image` if corresponding properties (attributes) are available on the model.
+
+That means that if `column_properties` were `[:name, :age, :adult]`, then the following [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are also data-bound by convention:
+- `background` to `:name_background, :age_background, :adult_background` model attributes
+- `foreground` to `:name_foreground, :age_foreground, :adult_foreground` model attributes
+- `font` to `:name_font, :age_font, :adult_font` model attributes
+- `image` to `:name_image, :age_image, :adult_image` model attributes
+
+Here are the expected values for each [`TableItem` property](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html):
+- `background`: Standard color symbol/string (e.g. `:red`), rgb array (e.g. `[24, 21, 239]`), or rgba array (e.g. `[128, 0, 128, 50]`)
+- `foreground`: Standard color symbol/string (e.g. `:red`), rgb array (e.g. `[24, 21, 239]`), or rgba array (e.g. `[128, 0, 128, 50]`)
+- `font`: font data hash having `:name`, `:height`, and/or `:style` keys (e.g. `{name: 'Courier New', height: 25, style: [:bold, :italic]}`)
+- `image`: image URL with or without image options (e.g. `'/usr/image1.png'` or `['/usr/image1.png', width: 20, height: 20]`)
+
+![Hello Table game booked rows](/images/glimmer-hello-table-game-booked-rows.png)
 
 ##### Table Selection
 

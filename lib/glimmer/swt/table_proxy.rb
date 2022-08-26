@@ -419,8 +419,14 @@ module Glimmer
         @editor = args
       end
       
-      def cells_for(model)
-        column_properties.map {|property| model.send(property)}
+      def cells_for(model, table_item_property: :text)
+        if table_item_property.to_s == 'text'
+          column_properties.map {|column_property| model.send(column_property)}
+        else
+          column_properties.map do |column_property|
+            model.send("#{column_property}_#{table_item_property}") if model.respond_to?("#{column_property}_#{table_item_property}")
+          end
+        end
       end
       
       def cells

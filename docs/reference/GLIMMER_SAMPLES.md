@@ -768,13 +768,17 @@ Hello, Table! Playoff Type Changed
 
 ![Hello Table](/images/glimmer-hello-table-playoff-type-changed.png)
 
+Hello, Table! Context Menu
+
+![Hello Table](/images/glimmer-hello-table-context-menu.png)
+
 Hello, Table! Game Booked
 
 ![Hello Table](/images/glimmer-hello-table-game-booked.png)
 
-Hello, Table! Context Menu
+Hello, Table! Game Booked Rows
 
-![Hello Table](/images/glimmer-hello-table-context-menu.png)
+![Hello Table game booked rows](/images/glimmer-hello-table-game-booked-rows.png)
 
 #### Hello, Link!
 

@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Have `table` data-binding infer model attribute names from column names by convention
+- Allow `table` data-binding map model attribute names to column names via a hash
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 
@@ -71,6 +73,7 @@ composite {
 - Refactor Glimmer Wordle to utilize the new Generator feature
 - Nested generator support
 
+- Support data-binding `table` `checked`, `grayed` properties
 - Allow a custom widget to override where children are nested underneath it instead of them getting instead below the body_root by default
 - Fix issue in Tetris with I tetromino when tilted horizontally near the right side where it does not fit anymore horizontally (3 blocks or less from the edge)
 

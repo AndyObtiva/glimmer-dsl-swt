@@ -118,15 +118,22 @@ class HelloTable
       'St Louis Cardinals' => 'Busch Stadium',
     }
     
-    attr_accessor :date_time, :home_team, :away_team, :ballpark, :promotion
+    ATTRIBUTES = [:game_date, :game_time, :home_team, :away_team, :ballpark, :promotion]
+    ATTRIBUTES_BACKGROUND = ATTRIBUTES.map {|attribute| "#{attribute}_background"}
+    ATTRIBUTES_FOREGROUND = ATTRIBUTES.map {|attribute| "#{attribute}_foreground"}
+    ATTRIBUTES_FONT = ATTRIBUTES.map {|attribute| "#{attribute}_font"}
+    ATTRIBUTES_IMAGE = ATTRIBUTES.map {|attribute| "#{attribute}_image"}
+    
+    attr_accessor *([:date_time] + ATTRIBUTES + ATTRIBUTES_BACKGROUND + ATTRIBUTES_FOREGROUND + ATTRIBUTES_FONT + ATTRIBUTES_IMAGE)
+                  
     
     def initialize(date_time, home_team, away_team, promotion = 'N/A')
       self.date_time = date_time
       self.home_team = home_team
       self.away_team = away_team
       self.promotion = promotion
+      self.ballpark_image = [File.expand_path('hello_table/baseball_park.png', __dir__), width: 20, height: 20]
       observe(self, :date_time) do |new_value|
-        notify_observers(:game_date)
         notify_observers(:game_time)
       end
     end
@@ -177,6 +184,15 @@ class HelloTable
     end
     
     def book!
+      ATTRIBUTES_BACKGROUND.each do |attribute|
+        self.send("#{attribute}=", :dark_green)
+      end
+      ATTRIBUTES_FOREGROUND.each do |attribute|
+        self.send("#{attribute}=", :white)
+      end
+      ATTRIBUTES_FONT.each do |attribute|
+        self.send("#{attribute}=", {style: :italic})
+      end
       "Thank you for booking #{to_s}"
     end
   end
@@ -246,8 +262,11 @@ class HelloTable
           # default text editor is used here
         }
         
-        # Data-bind table items (rows) to a model collection property, specifying column properties ordering per nested model
-        items <=> [BaseballGame, :schedule, column_properties: [:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion]]
+        # Data-bind table items (rows) to a model collection property,
+        # mapping columns in their declaration order to row model properties (attributes)
+        items <=> [BaseballGame, :schedule,
+                    column_properties: [:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion]
+                  ]
         
         # Data-bind table selection
         selection <=> [BaseballGame, :selected_game]

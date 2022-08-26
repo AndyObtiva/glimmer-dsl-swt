@@ -33,6 +33,8 @@ module Glimmer
       include DataBinding::Observer
       include_package 'org.eclipse.swt'
       include_package 'org.eclipse.swt.widgets'
+      
+      TABLE_ITEM_PROPERTIES = %w[background foreground font image]
 
       def initialize(parent, model_binding, column_properties = nil)
         @table = parent
@@ -56,16 +58,26 @@ module Glimmer
         end
       end
 
-      def call(new_model_collection=nil, internal_sort: false)
+      def call(*args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        internal_sort = options[:internal_sort] || false
+        new_model_collection = args.first
         Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
           new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
-          table_cells = @table.swt_widget.items.map {|item| @table.column_properties.size.times.map {|i| item.get_text(i)} }
-          model_cells = new_model_collection.to_a.map {|m| @table.cells_for(m)}
-          return if table_cells == model_cells
+          return if same_table_data?(new_model_collection)
           if new_model_collection and new_model_collection.is_a?(Array)
+            remove_dependent(@table_observer_registration => @table_items_observer_registration) if @table_items_observer_registration
             @table_items_observer_registration&.unobserve
             @table_items_observer_registration = observe(new_model_collection, @column_properties)
             add_dependent(@table_observer_registration => @table_items_observer_registration)
+            @table_items_property_observer_registration ||= {}
+            TABLE_ITEM_PROPERTIES.each do |table_item_property|
+              remove_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property]) if @table_items_property_observer_registration[table_item_property]
+              @table_items_property_observer_registration[table_item_property]&.unobserve
+              property_properties = @column_properties.map {|property| "#{property}_#{table_item_property}" }
+              @table_items_property_observer_registration[table_item_property] = observe(new_model_collection, property_properties)
+              add_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property])
+            end
             @model_collection = new_model_collection
           end
           populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)
@@ -80,7 +92,19 @@ module Glimmer
         model_collection.each do |model|
           table_item = TableItem.new(parent.swt_widget, SWT::SWTProxy[:none])
           for index in 0..(column_properties.size-1)
-            table_item.setText(index, model.send(column_properties[index]).to_s)
+            model_attribute = column_properties[index]
+            table_item.setText(index, model.send(model_attribute).to_s)
+            TABLE_ITEM_PROPERTIES.each do |table_item_property|
+              if model.respond_to?("#{model_attribute}_#{table_item_property}")
+                table_item_value = model.send("#{model_attribute}_#{table_item_property}")
+                if table_item_value
+                  table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if %w[background foreground].include?(table_item_property.to_s)
+                  table_item_value = Glimmer::SWT::FontProxy.new(table_item_value).swt_font if table_item_property.to_s == 'font'
+                  table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_property.to_s == 'image'
+                  table_item.send("set_#{table_item_property}", index, table_item_value)
+                end
+              end
+            end
           end
           table_item.set_data(model)
         end
@@ -89,6 +113,38 @@ module Glimmer
         sorted_model_collection = parent.sort!(internal_sort: internal_sort)
         call(sorted_model_collection, internal_sort: true) if @read_only_sort && !internal_sort && !sorted_model_collection.nil?
         parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
+      end
+      
+      def same_table_data?(new_model_collection)
+        (["text"] + TABLE_ITEM_PROPERTIES).all? do |table_item_property|
+          table_cells = @table.swt_widget.items.map do |item|
+            model = item.get_data
+            @table.column_properties.each_with_index.map do |column_property, i|
+              model_attribute = "#{column_property}"
+              model_attribute = "#{model_attribute}_#{table_item_property}" if TABLE_ITEM_PROPERTIES.include?(table_item_property)
+              item.send("get_#{table_item_property}", i) if model.respond_to?(model_attribute)
+            end
+          end
+          model_cells = new_model_collection.to_a.map do |m|
+            @table.cells_for(m, table_item_property: table_item_property)
+          end
+          model_cells = model_cells.map do |row|
+            row.map do |model_cell|
+              if model_cell
+                if %w[background foreground].include?(table_item_property.to_s)
+                  Glimmer::SWT::ColorProxy.create(*model_cell).swt_color
+                elsif table_item_property.to_s == 'font'
+                  Glimmer::SWT::FontProxy.new(model_cell).swt_image
+                elsif table_item_property.to_s == 'image'
+                  Glimmer::SWT::ImageProxy.create(*model_cell).swt_image
+                else
+                  model_cell
+                end
+              end
+            end
+          end
+          table_cells == model_cells
+        end
       end
     end
   end
