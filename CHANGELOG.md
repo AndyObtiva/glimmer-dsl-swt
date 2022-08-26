@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.2.3
+
+- Default `code_text` font name in Mac is changed back to `'Courier'`
+
 ## 4.24.2.2
 
 - Upgrade to jruby-9.3.7.0

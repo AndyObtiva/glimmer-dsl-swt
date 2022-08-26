@@ -18,7 +18,7 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     facets (3.1.0)
-    faraday (1.10.1)
+    faraday (1.10.2)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -73,7 +73,7 @@ GEM
       rake
       rdoc
       semver2
-    jwt (2.4.1)
+    jwt (2.5.0)
     kamelcase (0.0.2)
       semver2 (~> 3)
     method_source (1.0.0)
@@ -186,4 +186,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.3.0)
 
 BUNDLED WITH
-   2.3.20
+   2.3.21

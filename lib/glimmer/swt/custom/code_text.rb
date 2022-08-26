@@ -326,6 +326,7 @@ module Glimmer
         
         def select_best_font_name
           all_font_names = display.get_font_list(nil, true).map(&:name)
+          @font_name = 'Courier' if OS.mac?
           FONT_NAMES_PREFERRED.each do |font_name|
             @font_name ||= font_name if all_font_names.include?(font_name)
           end
