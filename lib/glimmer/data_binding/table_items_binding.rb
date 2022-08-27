@@ -138,8 +138,7 @@ module Glimmer
           model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], column_index)
         text_value = model.send(model_attribute).to_s
         old_table_item_value = old_table_item_values && old_table_item_values[0]
-        table_item.set_text(column_index, text_value) if old_table_item_value.nil? ||
-                                                          text_value != old_table_item_value
+        table_item.set_text(column_index, text_value) if old_table_item_value.nil? || text_value != old_table_item_value
         TABLE_ITEM_PROPERTIES.each do |table_item_property|
           if model.respond_to?("#{model_attribute}_#{table_item_property}")
             table_item_value = model.send("#{model_attribute}_#{table_item_property}")

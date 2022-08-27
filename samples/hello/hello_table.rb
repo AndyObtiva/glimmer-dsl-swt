@@ -89,6 +89,7 @@ class HelloTable
       def playoff_type=(new_playoff_type)
         @playoff_type = new_playoff_type
         self.schedule=(all_playoff_games[@playoff_type])
+        self.selected_game = schedule.first unless selected_game.nil?
       end
       
       def playoff_type_options
@@ -124,15 +125,16 @@ class HelloTable
     ATTRIBUTES_FONT = ATTRIBUTES.map {|attribute| "#{attribute}_font"}
     ATTRIBUTES_IMAGE = ATTRIBUTES.map {|attribute| "#{attribute}_image"}
     
-    attr_accessor *([:date_time] + ATTRIBUTES + ATTRIBUTES_BACKGROUND + ATTRIBUTES_FOREGROUND + ATTRIBUTES_FONT + ATTRIBUTES_IMAGE)
+    attr_accessor *([:booked, :date_time] + ATTRIBUTES + ATTRIBUTES_BACKGROUND + ATTRIBUTES_FOREGROUND + ATTRIBUTES_FONT + ATTRIBUTES_IMAGE)
+    alias booked? booked
                   
-    
     def initialize(date_time, home_team, away_team, promotion = 'N/A')
       self.date_time = date_time
       self.home_team = home_team
       self.away_team = away_team
       self.promotion = promotion
       self.ballpark_image = [File.expand_path('hello_table/baseball_park.png', __dir__), width: 20, height: 20]
+      self.booked = false
       observe(self, :date_time) do |new_value|
         notify_observers(:game_time)
       end
@@ -184,16 +186,32 @@ class HelloTable
     end
     
     def book!
-      ATTRIBUTES_BACKGROUND.each do |attribute|
-        self.send("#{attribute}=", :dark_green)
-      end
-      ATTRIBUTES_FOREGROUND.each do |attribute|
-        self.send("#{attribute}=", :white)
-      end
-      ATTRIBUTES_FONT.each do |attribute|
-        self.send("#{attribute}=", {style: :italic})
-      end
+      self.booked = true
+      self.background = :dark_green
+      self.foreground = :white
+      self.font = {style: :italic}
       "Thank you for booking #{to_s}"
+    end
+    
+    # Sets background for all attributes
+    def background=(color)
+      ATTRIBUTES_BACKGROUND.each do |attribute|
+        self.send("#{attribute}=", color)
+      end
+    end
+    
+    # Sets foreground for all attributes
+    def foreground=(color)
+      ATTRIBUTES_FOREGROUND.each do |attribute|
+        self.send("#{attribute}=", color)
+      end
+    end
+    
+    # Sets font for all attributes
+    def font=(a_font)
+      ATTRIBUTES_FONT.each do |attribute|
+        self.send("#{attribute}=", a_font)
+      end
     end
   end
 
@@ -297,7 +315,7 @@ class HelloTable
         text 'Book Selected Game'
         layout_data :center, :center, true, false
         font height: 14
-        enabled <= [BaseballGame, :selected_game]
+        enabled <= [BaseballGame, 'selected_game.booked', on_read: ->(value) { value == false }]
         
         on_widget_selected do
           book_selected_game
