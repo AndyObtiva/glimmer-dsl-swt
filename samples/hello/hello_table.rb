@@ -262,8 +262,13 @@ class HelloTable
           # default text editor is used here
         }
         
-        # Data-bind table items (rows) to a model collection property,
-        # mapping columns in their declaration order to row model properties (attributes)
+        # Data-bind table items (rows) to a model collection (BaseballGame.schedule),
+        # mapping columns in declaration order to row model properties (attributes)
+        # By convention, every column property can be accompanied by extra properties
+        # with the following suffixes: `_background`, `_foreground`, `_font`, and `_image`
+        # For example, for `game_date`, model could also implement these related properties:
+        # `game_date_background`, `game_date_foreground`, `game_date_font`, `game_date_image`
+        # That is done in order to let the table widget set extra properties if needed.
         items <=> [BaseballGame, :schedule,
                     column_properties: [:game_date, :game_time, :ballpark, :home_team, :away_team, :promotion]
                   ]

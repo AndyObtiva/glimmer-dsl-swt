@@ -66,6 +66,7 @@ module Glimmer
           new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
           return if same_table_data?(new_model_collection)
           if same_model_collection?(new_model_collection)
+            # TODO if it's the same model collection, you should be updating table item cells piecemeal
             new_model_collection_attribute_values = model_collection_attribute_values(new_model_collection)
             @table.swt_widget.items.each_with_index do |table_item, i|
               next if @last_model_collection_attribute_values[i] == new_model_collection_attribute_values[i]
@@ -75,10 +76,13 @@ module Glimmer
                 update_table_item_properties_from_model(table_item, index, model, model_attribute)
               end
             end
+            @last_model_collection_attribute_values = new_model_collection_attribute_values
           else
             if new_model_collection and new_model_collection.is_a?(Array)
               remove_dependent(@table_observer_registration => @table_items_observer_registration) if @table_items_observer_registration
               @table_items_observer_registration&.unobserve
+              # TODO observe and update table items piecemeal per model
+              # TODO ensure unobserving models when they are no longer data-bound to table
               @table_items_observer_registration = observe(new_model_collection, @column_properties)
               add_dependent(@table_observer_registration => @table_items_observer_registration)
               @table_items_property_observer_registration ||= {}
@@ -118,7 +122,8 @@ module Glimmer
       end
       
       def update_table_item_properties_from_model(table_item, index, model, model_attribute)
-        table_item.setText(index, model.send(model_attribute).to_s)
+        text_value = model.send(model_attribute).to_s
+        table_item.set_text(index, text_value) unless table_item.get_text(index) == text_value
         TABLE_ITEM_PROPERTIES.each do |table_item_property|
           if model.respond_to?("#{model_attribute}_#{table_item_property}")
             table_item_value = model.send("#{model_attribute}_#{table_item_property}")
@@ -126,7 +131,7 @@ module Glimmer
               table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if %w[background foreground].include?(table_item_property.to_s)
               table_item_value = Glimmer::SWT::FontProxy.new(table_item_value).swt_font if table_item_property.to_s == 'font'
               table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_property.to_s == 'image'
-              table_item.send("set_#{table_item_property}", index, table_item_value)
+              table_item.send("set_#{table_item_property}", index, table_item_value) unless table_item.send("get_#{table_item_property}", index) == table_item_value
             end
           end
         end

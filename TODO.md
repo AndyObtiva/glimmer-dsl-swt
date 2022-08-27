@@ -4,6 +4,10 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Optimize `table` data-binding performance for single-model update scenarios
+- Optimize `table` data-binding performance for sorting scenarios
+- Optimize `table` data-binding performance for scenarios where some models remain, some models are removed, and some models are added
+- Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
 - Have `table` data-binding infer model attribute names from column names by convention
 - Allow `table` data-binding map model attribute names to column names via a hash
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.

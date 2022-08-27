@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.24.3.0
+## 4.24.3.0 (unreleased)
 
 - Support `table` `items` data-binding of table row cell `background`, `foreground`, `font`, `image` to model attributes by convention based on specified `column_properties` (e.g. for `column_properties` model `name` attribute, automatically assume model `name_background` provides `[r, g, b]` array of color)
 - Update Hello, Table! sample to demonstrate data-binding `table` `items` `background`, `foreground`, `font`, `image` to model attributes by convention
