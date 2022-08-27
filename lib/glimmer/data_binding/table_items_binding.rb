@@ -70,12 +70,12 @@ module Glimmer
             @table.swt_widget.items.each_with_index do |table_item, row_index|
               next if new_model_collection_attribute_values[row_index] == @last_model_collection_attribute_values[row_index]
               model = table_item.get_data
-              (0..(@column_properties.size-1)).each do |index|
-                new_model_attribute_values_for_index = model_attribute_values_for_index(new_model_collection_attribute_values[row_index], index)
-                last_model_attribute_values_for_index = model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], index)
+              (0..(@column_properties.size-1)).each do |column_index|
+                new_model_attribute_values_for_index = model_attribute_values_for_index(new_model_collection_attribute_values[row_index], column_index)
+                last_model_attribute_values_for_index = model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], column_index)
                 next if new_model_attribute_values_for_index == last_model_attribute_values_for_index
-                model_attribute = @column_properties[index]
-                update_table_item_properties_from_model(table_item, index, model, model_attribute)
+                model_attribute = @column_properties[column_index]
+                update_table_item_properties_from_model(table_item, row_index, column_index, model, model_attribute)
               end
             end
             @last_model_collection_attribute_values = new_model_collection_attribute_values
@@ -105,13 +105,22 @@ module Glimmer
       def populate_table(model_collection, parent, column_properties, internal_sort: false)
         selected_table_item_models = parent.swt_widget.getSelection.map(&:get_data)
         parent.finish_edit!
-        parent.swt_widget.items.each(&:dispose)
-        parent.swt_widget.removeAll
-        model_collection.each do |model|
-          table_item = TableItem.new(parent.swt_widget, SWT::SWTProxy[:none])
-          for index in 0..(column_properties.size-1)
-            model_attribute = column_properties[index]
-            update_table_item_properties_from_model(table_item, index, model, model_attribute)
+        dispose_start_index = @last_model_collection_attribute_values &&
+                              (model_collection.count < @last_model_collection_attribute_values.count) &&
+                              (@last_model_collection_attribute_values.count - (@last_model_collection_attribute_values.count - model_collection.count))
+        if dispose_start_index
+          table_items_to_dispose = parent.swt_widget.items[dispose_start_index..-1]
+          parent.swt_widget.remove(dispose_start_index, (@last_model_collection_attribute_values.count-1))
+          table_items_to_dispose.each(&:dispose)
+        end
+        model_collection.each_with_index do |model, row_index|
+          table_item_exists = @last_model_collection_attribute_values &&
+                              @last_model_collection_attribute_values.count > 0 &&
+                              row_index < @last_model_collection_attribute_values.count
+          table_item = table_item_exists ? parent.swt_widget.items[row_index] : TableItem.new(parent.swt_widget, SWT::SWTProxy[:none])
+          (0..(column_properties.size-1)).each do |column_index|
+            model_attribute = column_properties[column_index]
+            update_table_item_properties_from_model(table_item, row_index, column_index, model, model_attribute)
           end
           table_item.set_data(model)
         end
@@ -123,17 +132,23 @@ module Glimmer
         parent.swt_widget.redraw if parent&.swt_widget&.respond_to?(:redraw)
       end
       
-      def update_table_item_properties_from_model(table_item, index, model, model_attribute)
+      def update_table_item_properties_from_model(table_item, row_index, column_index, model, model_attribute)
+        old_table_item_values = @last_model_collection_attribute_values &&
+          @last_model_collection_attribute_values[row_index] &&
+          model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], column_index)
         text_value = model.send(model_attribute).to_s
-        table_item.set_text(index, text_value) unless table_item.get_text(index) == text_value
+        old_table_item_value = old_table_item_values && old_table_item_values[0]
+        table_item.set_text(column_index, text_value) if old_table_item_value.nil? ||
+                                                          text_value != old_table_item_value
         TABLE_ITEM_PROPERTIES.each do |table_item_property|
           if model.respond_to?("#{model_attribute}_#{table_item_property}")
             table_item_value = model.send("#{model_attribute}_#{table_item_property}")
-            if table_item_value
-              table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if %w[background foreground].include?(table_item_property.to_s)
-              table_item_value = Glimmer::SWT::FontProxy.new(table_item_value).swt_font if table_item_property.to_s == 'font'
-              table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_property.to_s == 'image'
-              table_item.send("set_#{table_item_property}", index, table_item_value) unless table_item.send("get_#{table_item_property}", index) == table_item_value
+            old_table_item_value = old_table_item_values && old_table_item_values[1 + TABLE_ITEM_PROPERTIES.index(table_item_property)]
+            if old_table_item_value.nil? || (table_item_value != old_table_item_value)
+              table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if table_item_value && %w[background foreground].include?(table_item_property.to_s)
+              table_item_value = Glimmer::SWT::FontProxy.create(table_item_value).swt_font if table_item_value && table_item_property.to_s == 'font'
+              table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_value && table_item_property.to_s == 'image'
+              table_item.send("set_#{table_item_property}", column_index, table_item_value)
             end
           end
         end
@@ -158,7 +173,7 @@ module Glimmer
                 if %w[background foreground].include?(table_item_property.to_s)
                   Glimmer::SWT::ColorProxy.create(*model_cell).swt_color
                 elsif table_item_property.to_s == 'font'
-                  Glimmer::SWT::FontProxy.new(model_cell).swt_font
+                  Glimmer::SWT::FontProxy.create(model_cell).swt_font
                 elsif table_item_property.to_s == 'image'
                   Glimmer::SWT::ImageProxy.create(*model_cell).swt_image
                 else

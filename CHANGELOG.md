@@ -4,6 +4,8 @@
 
 - Support `table` `items` data-binding of table row cell `background`, `foreground`, `font`, `image` to model attributes by convention based on specified `column_properties` (e.g. for `column_properties` model `name` attribute, automatically assume model `name_background` provides `[r, g, b]` array of color)
 - Update Hello, Table! sample to demonstrate data-binding `table` `items` `background`, `foreground`, `font`, `image` to model attributes by convention
+- Optimize `table` data-binding to avoid recreating table-items when the table grows or stays at the same size, and to avoid updating table items through diffing when no changes have occurred
+- Update `font` keyword and `FontProxy` to support lightweight creation/caching/sharing following Flyweight Design Pattern
 
 ## 4.24.2.3
 
