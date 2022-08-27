@@ -730,7 +730,7 @@ Hello, Spinner!
 
 #### Hello, Table!
 
-This sample demonstrates the use of [table](#table) widget in Glimmer, including data-binding, multi-type editing, sorting, and filtering.
+This sample demonstrates the use of [table](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#table) widget in Glimmer, including data-binding, multi-type editing, sorting, and filtering.
 
 Code:
 
