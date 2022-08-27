@@ -36,13 +36,23 @@ module Glimmer
     #
     # Follows the Proxy Design Pattern
     class FontProxy
+      class << self
+        def create(*args)
+          flyweight_font_proxies[args] ||= new(*args)
+        end
+        
+        # Flyweight Design Pattern memoization cache. Can be cleared if memory is needed.
+        def flyweight_font_proxies
+          @flyweight_font_proxies ||= {}
+        end
+      end
+
+      include_package 'org.eclipse.swt.graphics'
+      
       ERROR_INVALID_FONT_STYLE = " is an invalid font style! Valid values are :normal, :bold, and :italic"
       FONT_STYLES = [:normal, :bold, :italic]
 
-      include_package 'org.eclipse.swt.graphics'
-
       attr_reader :widget_proxy, :swt_font, :font_properties
-
 
       # Builds a new font proxy from passed in widget_proxy and font_properties hash,
       #

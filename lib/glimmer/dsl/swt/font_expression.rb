@@ -41,7 +41,7 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          Glimmer::SWT::FontProxy.new(*args)
+          Glimmer::SWT::FontProxy.create(*args)
         end
       end
     end
