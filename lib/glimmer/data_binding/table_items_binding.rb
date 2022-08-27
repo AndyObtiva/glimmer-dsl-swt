@@ -66,12 +66,14 @@ module Glimmer
           new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
           return if same_table_data?(new_model_collection)
           if same_model_collection?(new_model_collection)
-            # TODO if it's the same model collection, you should be updating table item cells piecemeal
             new_model_collection_attribute_values = model_collection_attribute_values(new_model_collection)
-            @table.swt_widget.items.each_with_index do |table_item, i|
-              next if @last_model_collection_attribute_values[i] == new_model_collection_attribute_values[i]
+            @table.swt_widget.items.each_with_index do |table_item, row_index|
+              next if new_model_collection_attribute_values[row_index] == @last_model_collection_attribute_values[row_index]
               model = table_item.get_data
-              for index in 0..(@column_properties.size-1)
+              (0..(@column_properties.size-1)).each do |index|
+                new_model_attribute_values_for_index = model_attribute_values_for_index(new_model_collection_attribute_values[row_index], index)
+                last_model_attribute_values_for_index = model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], index)
+                next if new_model_attribute_values_for_index == last_model_attribute_values_for_index
                 model_attribute = @column_properties[index]
                 update_table_item_properties_from_model(table_item, index, model, model_attribute)
               end
@@ -82,7 +84,7 @@ module Glimmer
               remove_dependent(@table_observer_registration => @table_items_observer_registration) if @table_items_observer_registration
               @table_items_observer_registration&.unobserve
               # TODO observe and update table items piecemeal per model
-              # TODO ensure unobserving models when they are no longer data-bound to table
+              # TODO ensure unobserving models when they are no longer part of the table
               @table_items_observer_registration = observe(new_model_collection, @column_properties)
               add_dependent(@table_observer_registration => @table_items_observer_registration)
               @table_items_property_observer_registration ||= {}
@@ -156,7 +158,7 @@ module Glimmer
                 if %w[background foreground].include?(table_item_property.to_s)
                   Glimmer::SWT::ColorProxy.create(*model_cell).swt_color
                 elsif table_item_property.to_s == 'font'
-                  Glimmer::SWT::FontProxy.new(model_cell).swt_image
+                  Glimmer::SWT::FontProxy.new(model_cell).swt_font
                 elsif table_item_property.to_s == 'image'
                   Glimmer::SWT::ImageProxy.create(*model_cell).swt_image
                 else
@@ -181,8 +183,12 @@ module Glimmer
         model_collection.map do |model|
           (["text"] + TABLE_ITEM_PROPERTIES).map do |table_item_property|
             @table.cells_for(model, table_item_property: table_item_property)
-          end.reduce(:+)
+          end
         end
+      end
+      
+      def model_attribute_values_for_index(model_attribute_values, index)
+        model_attribute_values.map {|attribute_values| attribute_values[index]}
       end
       
     end
