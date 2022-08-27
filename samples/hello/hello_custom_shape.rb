@@ -25,17 +25,17 @@ require 'glimmer-dsl-swt'
 class StickFigure
   include Glimmer::UI::CustomShape
   
-  options :x, :y, :width, :height
+  options :figure_x, :figure_y, :figure_width, :figure_height
   
   before_body do
-    @head_width = width*0.2
-    @head_height = height*0.2
-    @trunk_height = height*0.4
-    @extremity_length = height*0.4
+    @head_width = figure_width*0.2
+    @head_height = figure_height*0.2
+    @trunk_height = figure_height*0.4
+    @extremity_length = figure_height*0.4
   end
   
   body {
-    shape(x + @head_width/2.0 + @extremity_length, y) {
+    shape(figure_x + @head_width/2.0 + @extremity_length, figure_y) {
       oval(0, 0, @head_width, @head_height)
       line(@head_width/2.0, @head_height, @head_width/2.0, @head_height + @trunk_height)
       line(@head_width/2.0, @head_height + @trunk_height, @head_width/2.0 + @extremity_length, @head_height + @trunk_height + @extremity_length)
@@ -65,7 +65,7 @@ class HelloCustomShape
           y_location = (rand*HEIGHT/2).to_i%HEIGHT + (rand*15).to_i
           foreground_color = rgb(rand*255, rand*255, rand*255)
           
-          a_stick_figure = stick_figure(x: x_location, y: y_location, width: 35+n*2, height: 35+n*2) {
+          a_stick_figure = stick_figure(figure_x: x_location, figure_y: y_location, figure_width: 35+n*2, figure_height: 35+n*2) {
             foreground foreground_color
             drag_and_move true
             
