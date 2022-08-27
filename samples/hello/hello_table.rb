@@ -135,6 +135,7 @@ class HelloTable
       self.promotion = promotion
       self.ballpark_image = [File.expand_path('hello_table/baseball_park.png', __dir__), width: 20, height: 20]
       self.booked = false
+      
       observe(self, :date_time) do |new_value|
         notify_observers(:game_time)
       end
@@ -195,23 +196,32 @@ class HelloTable
     
     # Sets background for all attributes
     def background=(color)
-      ATTRIBUTES_BACKGROUND.each do |attribute|
-        self.send("#{attribute}=", color)
-      end
+      self.game_date_background = color
+      self.game_time_background = color
+      self.home_team_background = color
+      self.away_team_background = color
+      self.ballpark_background = color
+      self.promotion_background = color
     end
     
     # Sets foreground for all attributes
     def foreground=(color)
-      ATTRIBUTES_FOREGROUND.each do |attribute|
-        self.send("#{attribute}=", color)
-      end
+      self.game_date_foreground = color
+      self.game_time_foreground = color
+      self.home_team_foreground = color
+      self.away_team_foreground = color
+      self.ballpark_foreground = color
+      self.promotion_foreground = color
     end
     
     # Sets font for all attributes
-    def font=(a_font)
-      ATTRIBUTES_FONT.each do |attribute|
-        self.send("#{attribute}=", a_font)
-      end
+    def font=(font_properties)
+      self.game_date_font = font_properties
+      self.game_time_font = font_properties
+      self.home_team_font = font_properties
+      self.away_team_font = font_properties
+      self.ballpark_font = font_properties
+      self.promotion_font = font_properties
     end
   end
 
@@ -280,6 +290,17 @@ class HelloTable
           # default text editor is used here
         }
         
+        # This is a contextual pop up menu that shows up when right-clicking table rows
+        menu {
+          menu_item {
+            text 'Book'
+            
+            on_widget_selected do
+              book_selected_game
+            end
+          }
+        }
+        
         # Data-bind table items (rows) to a model collection (BaseballGame.schedule),
         # mapping columns in declaration order to row model properties (attributes)
         # By convention, every column property can be accompanied by extra properties
@@ -300,15 +321,9 @@ class HelloTable
         # Sort by these additional properties after handling sort by the column the user clicked
         additional_sort_properties :date, :time, :home_team, :away_team, :ballpark, :promotion
         
-        menu {
-          menu_item {
-            text 'Book'
-            
-            on_widget_selected do
-              book_selected_game
-            end
-          }
-        }
+        on_key_pressed do |key_event|
+          book_selected_game if key_event.keyCode == swt(:cr)
+        end
       }
       
       button {
@@ -325,6 +340,8 @@ class HelloTable
   }
   
   def book_selected_game
+    return if BaseballGame.selected_game.booked?
+    
     message_box {
       text 'Baseball Game Booked!'
       message BaseballGame.selected_game.book!
