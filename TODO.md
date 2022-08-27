@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Optimize `table` data-binding performance for single-model update scenarios
-- Optimize `table` data-binding performance for sorting scenarios
-- Optimize `table` data-binding performance for scenarios where some models remain, some models are removed, and some models are added
 - Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
 - Have `table` data-binding infer model attribute names from column names by convention
 - Allow `table` data-binding map model attribute names to column names via a hash
@@ -556,6 +553,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - code_text custom widget syntax highlighting for Glimmer DSL syntax (not just Ruby). It can be done by recognizing all the widgets, options, properties, listeners, and methods, and coloring them uniquely.
 - Optimize performance of startup time in requiring glimmer-dsl-swt
 - Make dropping in canvas drag and drop work through testing overlap of dragged shape and drop target instead of containment of x,y in drop target to be more permissive, accurate, and user-friendly (this needs calculation of area of overlap to pick the biggest overlap for deciding where to drop)
+- Optimize `table` data-binding performance for single-model update scenarios
 
 ## Samples
 

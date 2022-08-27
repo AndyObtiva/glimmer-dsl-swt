@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'set'
+
 require 'glimmer/data_binding/observable_array'
 require 'glimmer/data_binding/observable_model'
 require 'glimmer/data_binding/observable'
@@ -83,17 +85,19 @@ module Glimmer
             if new_model_collection and new_model_collection.is_a?(Array)
               remove_dependent(@table_observer_registration => @table_items_observer_registration) if @table_items_observer_registration
               @table_items_observer_registration&.unobserve
-              # TODO observe and update table items piecemeal per model
+              # TODO observe and update table items piecemeal per model instead of passing @column_properties
               # TODO ensure unobserving models when they are no longer part of the table
               @table_items_observer_registration = observe(new_model_collection, @column_properties)
               add_dependent(@table_observer_registration => @table_items_observer_registration)
               @table_items_property_observer_registration ||= {}
-              TABLE_ITEM_PROPERTIES.each do |table_item_property|
-                remove_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property]) if @table_items_property_observer_registration[table_item_property]
-                @table_items_property_observer_registration[table_item_property]&.unobserve
-                property_properties = @column_properties.map {|property| "#{property}_#{table_item_property}" }
-                @table_items_property_observer_registration[table_item_property] = observe(new_model_collection, property_properties)
-                add_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property])
+              if !same_model_collection_with_different_sort?(new_model_collection)
+                TABLE_ITEM_PROPERTIES.each do |table_item_property|
+                  remove_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property]) if @table_items_property_observer_registration[table_item_property]
+                  @table_items_property_observer_registration[table_item_property]&.unobserve
+                  property_properties = @column_properties.map {|property| "#{property}_#{table_item_property}" }
+                  @table_items_property_observer_registration[table_item_property] = observe(new_model_collection, property_properties)
+                  add_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property])
+                end
               end
               @model_collection = new_model_collection
             end
@@ -133,21 +137,23 @@ module Glimmer
       end
       
       def update_table_item_properties_from_model(table_item, row_index, column_index, model, model_attribute)
-        old_table_item_values = @last_model_collection_attribute_values &&
-          @last_model_collection_attribute_values[row_index] &&
-          model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], column_index)
-        text_value = model.send(model_attribute).to_s
-        old_table_item_value = old_table_item_values && old_table_item_values[0]
-        table_item.set_text(column_index, text_value) if old_table_item_value.nil? || text_value != old_table_item_value
-        TABLE_ITEM_PROPERTIES.each do |table_item_property|
-          if model.respond_to?("#{model_attribute}_#{table_item_property}")
-            table_item_value = model.send("#{model_attribute}_#{table_item_property}")
-            old_table_item_value = old_table_item_values && old_table_item_values[1 + TABLE_ITEM_PROPERTIES.index(table_item_property)]
-            if old_table_item_value.nil? || (table_item_value != old_table_item_value)
-              table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if table_item_value && %w[background foreground].include?(table_item_property.to_s)
-              table_item_value = Glimmer::SWT::FontProxy.create(table_item_value).swt_font if table_item_value && table_item_property.to_s == 'font'
-              table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_value && table_item_property.to_s == 'image'
-              table_item.send("set_#{table_item_property}", column_index, table_item_value)
+        Glimmer::SWT::DisplayProxy.instance.sync_exec do
+          old_table_item_values = @last_model_collection_attribute_values &&
+            @last_model_collection_attribute_values[row_index] &&
+            model_attribute_values_for_index(@last_model_collection_attribute_values[row_index], column_index)
+          text_value = model.send(model_attribute).to_s
+          old_table_item_value = old_table_item_values && old_table_item_values[0]
+          table_item.set_text(column_index, text_value) if old_table_item_value.nil? || text_value != old_table_item_value
+          TABLE_ITEM_PROPERTIES.each do |table_item_property|
+            if model.respond_to?("#{model_attribute}_#{table_item_property}")
+              table_item_value = model.send("#{model_attribute}_#{table_item_property}")
+              old_table_item_value = old_table_item_values && old_table_item_values[1 + TABLE_ITEM_PROPERTIES.index(table_item_property)]
+              if old_table_item_value.nil? || (table_item_value != old_table_item_value)
+                table_item_value = Glimmer::SWT::ColorProxy.create(*table_item_value).swt_color if table_item_value && %w[background foreground].include?(table_item_property.to_s)
+                table_item_value = Glimmer::SWT::FontProxy.create(table_item_value).swt_font if table_item_value && table_item_property.to_s == 'font'
+                table_item_value = Glimmer::SWT::ImageProxy.create(*table_item_value).swt_image if table_item_value && table_item_property.to_s == 'image'
+                table_item.send("set_#{table_item_property}", column_index, table_item_value)
+              end
             end
           end
         end
@@ -187,6 +193,10 @@ module Glimmer
       
       def same_model_collection?(new_model_collection)
         new_model_collection == table_item_model_collection
+      end
+      
+      def same_model_collection_with_different_sort?(new_model_collection)
+        Set.new(new_model_collection) == Set.new(table_item_model_collection)
       end
       
       def table_item_model_collection
