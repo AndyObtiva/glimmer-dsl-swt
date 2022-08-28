@@ -3998,9 +3998,9 @@ The SWT Tree widget renders a multi-column data table, such as a contact listing
 
 To data-bind a Table, you need the main model, the collection property, and the text display attribute for each table column.
 
-This involves using the `bind` keyword mentioned above in addition to a special `column_properties` keyword that takes the table column text attribute methods.
+This involves using the `<=>` operator in addition to a special `column_properties` kwarg that takes an array that maps table columns to model attributes.
 
-It assumes you have defined the table columns via `table_column` widget.
+It assumes you have already defined table columns via the `table_column` `table`-nested widget.
 
 Example:
 
@@ -4029,11 +4029,11 @@ shell {
 ```
 
 The code above includes two data-bindings:
-- Table `items`, which first bind to the model collection property (group.people), and then maps each column property (name, age, adult) for displaying each table item column.
-- Table `selection`, which binds the single table item selected by the user to the attribute denoted by the `bind` keyword (or binds multiple table items selected for a table with `:multi` SWT style)
+- Table `items`, which first data-binds to the model collection property (group.people), and then maps each column property (name, age, adult) for displaying each table item column.
+- Table `selection`, which data-binds the single table item (row) selected by the user to the model attribute denoted by `<=>` (or data-binds multiple table items to a model attribute array value for a table with `:multi` SWT style)
 - The `on_mouse_up` event handler invokes `@table.edit_table_item(event.table_item, event.column_index)` to start edit mode on the clicked table item cell, and then saves or cancel depending on whether the user hits ENTER or ESC once done editing (or focus-out after either making a change or not making any changes.)
 
-Additionally, Table `items` data-binding automatically stores each node model unto the SWT TableItem object via `setData` method. This enables things like searchability.
+Additionally, Table `items` data-binding automatically stores each row model in the SWT `TableItem` object representing it, by using the `set_data` method. This enables things like searchability.
 
 The table widget in Glimmer is represented by a subclass of `WidgetProxy` called `TableProxy`.
 TableProxy includes a `search` method that takes a block to look for a table item.
