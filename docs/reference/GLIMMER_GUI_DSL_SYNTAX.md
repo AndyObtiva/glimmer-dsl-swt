@@ -4033,7 +4033,7 @@ The code above includes two data-bindings:
 - Table `selection`, which data-binds the single table item (row) selected by the user to the model attribute denoted by `<=>` (or data-binds multiple table items to a model attribute array value for a table with `:multi` SWT style)
 - The `on_mouse_up` event handler invokes `@table.edit_table_item(event.table_item, event.column_index)` to start edit mode on the clicked table item cell, and then saves or cancel depending on whether the user hits ENTER or ESC once done editing (or focus-out after either making a change or not making any changes.)
 
-Additionally, Table `items` data-binding automatically stores each row model in the SWT `TableItem` object representing it, by using the `set_data` method. This enables things like searchability.
+Additionally, Table `items` data-binding automatically stores each row model in the [SWT `TableItem`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) object representing it, by using the `set_data` method. This enables things like searchability.
 
 The table widget in Glimmer is represented by a subclass of `WidgetProxy` called `TableProxy`.
 TableProxy includes a `search` method that takes a block to look for a table item.
@@ -4044,7 +4044,7 @@ Example:
 found_array = @table.search { |table_item| table_item.getData == company.owner }
 ```
 
-This finds a person. The array is a Java array. This enables easy passing of it to SWT `Table#setSelection` method, which expects a Java array of `TableItem` objects.
+This finds a person. The array is a Java array. This enables easy passing of it to SWT `Table#setSelection` method, which expects a Java array of [`TableItem`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) objects.
 
 To edit a table, you must invoke `TableProxy#edit_selected_table_item(column_index, before_write: nil, after_write: nil, after_cancel: nil)` or `TableProxy#edit_table_item(table_item, column_index, before_write: nil, after_write: nil, after_cancel: nil)`.
 This automatically leverages the SWT TableEditor custom class behind the scenes, displaying a text widget to the user to change the selected or
