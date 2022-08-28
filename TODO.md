@@ -5,6 +5,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
+- Handle boundary condition of font height 0 in zoom support for `code_text`
 - Have `table` data-binding infer model attribute names from column names by convention
 - Allow `table` data-binding map model attribute names to column names via a hash
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
@@ -14,6 +15,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Test tray_item in Windows after having removed on_widget_selected from its menu
 - Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time
 
+- Enable select-all/zooming `code_text` with right-click contextual pop up menu
+- Enable cut/copy/paste in `code_text` with right-click contextual pop up menu
+- Enable undo/redo in `code_text` with right-click contextual pop up menu
 - Look into why line_style_value reverts back to original value in Hello, Canvas Data-Binding! after dragging/dropping endpoints
 
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
@@ -29,7 +33,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support being able to declare extra listeners on custom widgets declaratively instead of by overriding handle_observation_request
 - Fix issue with Hello, Custom Shape! where if user clicks inside head, it changes color despite not being filled. It must not do so even if listener is attached to containing shape.
 
-- Include flat file database support into all Glimmer scaffolded apps in a passive state by default that users can activate by calling the FlatfileDatabase.store(hash)/FlatfileDatabase.load(hash) methods for example
+- Include flat file database (e.g. YAML, JSON, or CSV) support into all Glimmer scaffolded apps in a passive state by default that users can activate by calling the FlatfileDatabase.store(hash)/FlatfileDatabase.load(hash) methods for example
+- Include auto-synchronizing flat file database support across all app instances (it auto-propogates local hash changes persisted as JSON/YAML to the cloud by diffing and it listens to changes coming from the cloud). Explore different schema-less solutions to help with implementing this faster (like Reddis or Firebase).
 - Include ActiveRecord/SQLite DB support into all Glimmer scaffolded apps in a passive state by default that users can activate by adding a migration and an ActiveRecord model.
 
 - Add JFace to Glimmer DSL for SWT to use some of the JFace facilities like the Notification API and Notification Builder. Demonstrate the Notification API in Hello, Tray Item!
