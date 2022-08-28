@@ -820,17 +820,29 @@ Code:
 
 [samples/hello/hello_code_text.rb](/samples/hello/hello_code_text.rb)
 
-Hello, Code Text! Ruby Language / Glimmer Theme / Show Line Numbers (default width of 4)
+Hello, Code Text! HTML Language / GitHub Theme / No Line Numbers
 
-![Hello Code Text Ruby](/images/glimmer-hello-code-text-ruby.png)
+![Hello Code Text HTML](/images/glimmer-hello-code-text-html.png)
 
 Hello, Code Text! JavaScript Language / Pastie Theme / Show Line Numbers (custom width of 2)
 
 ![Hello Code Text JavaScript](/images/glimmer-hello-code-text-javascript.png)
 
-Hello, Code Text! HTML Language / GitHub Theme / No Line Numbers
+Hello, Code Text! Ruby Language / Glimmer Theme / Show Line Numbers (default width of 4)
 
-![Hello Code Text HTML](/images/glimmer-hello-code-text-html.png)
+![Hello Code Text Ruby](/images/glimmer-hello-code-text-ruby.png)
+
+Hello, Code Text! Zoom In (via keyboard shortcut CMD+= on Mac, CTRL+= on Win/Linux)
+
+![Hello Code Text Zoom In](/images/glimmer-hello-code-text-zoom-in.png)
+
+Hello, Code Text! Zoom Out (via keyboard shortcut CMD+- on Mac, CTRL+- on Win/Linux)
+
+![Hello Code Text Zoom Out](/images/glimmer-hello-code-text-zoom-out.png)
+
+Hello, Code Text! Restore Original Font Height (via keyboard shortcut CMD+0 on Mac, CTRL+0 on Win/Linux)
+
+![Hello Code Text Restore Original Font Height](/images/glimmer-hello-code-text-ruby.png)
 
 #### Hello, Canvas!
 

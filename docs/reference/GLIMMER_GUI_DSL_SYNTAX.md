@@ -4825,7 +4825,7 @@ You may see another example at the [Hello, Radio Group!](/docs/reference/GLIMMER
 
 ##### Code Text Custom Widget
 
-`code_text` is a Glimmer built-in custom widget that displays syntax highlighted code (e.g. Ruby/JavaScript/HTML code) for 204 languages (see [options](#code-text-options) for the full list) by automating customizations for the SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget.
+`code_text` is a Glimmer built-in custom widget that displays syntax highlighted code (e.g. Ruby/JavaScript/HTML code) for 204 languages (see [options](#code-text-options) for the full list) by automating customizations for the SWT [StyledText](https://help.eclipse.org/2020-09/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/custom/StyledText.html) widget, including ability to zoom font in and out, or restore original font height (more details below).
 
 To utilize, simply use `code_text` in place of the multi-line `text` and `styled_text` widgets. If you set the `code_text` `text` property value to multi-line code content (e.g. Ruby/JavaScript/HTML code), it automatically styles it with syntax highlighting.
 
@@ -5151,6 +5151,9 @@ This adds some default keyboard shortcuts:
 - CMD+A (CTRL+A on Windows/Linux) to select all
 - CTRL+A on Mac to jump to beginning of line
 - CTRL+E on Mac to jump to end of line
+- CMD+= (CTRL+= on Windows/Linux) to zoom in (bump font height up by 1)
+- CMD+- (CTRL+- on Windows/Linux) to zoom out (bump font height down by 1)
+- CMD+0 (CTRL+0 on Windows/Linux) to restore to original font height
 - Attempts to add proper indentation upon adding a new line when hitting ENTER (currently supporting Ruby only)
 
 If you prefer it to be vanilla with no default key event listeners, then pass the `default_behavior: false` option.

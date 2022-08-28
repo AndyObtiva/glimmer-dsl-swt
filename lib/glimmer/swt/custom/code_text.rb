@@ -42,6 +42,7 @@ module Glimmer
         
         REGEX_COLOR_HEX6 = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/
         FONT_NAMES_PREFERRED = ['Consolas', 'Courier', 'Monospace', 'Liberation Mono']
+        SHORTCUT_KEY_COMMAND = OS.mac? ? :command : :ctrl
         
         # TODO support auto language detection
               
@@ -145,7 +146,7 @@ module Glimmer
         
         body {
           if lines
-            composite {
+            @composite = composite {
               grid_layout(2, false)
               
               @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
@@ -204,12 +205,18 @@ module Glimmer
               on_key_pressed { |event|
                 character = event.keyCode.chr rescue nil
                 case [event.stateMask, character]
-                when [(OS.mac? ? swt(:command) : swt(:ctrl)), 'a']
+                when [swt(SHORTCUT_KEY_COMMAND), 'a']
                   @styled_text_proxy.selectAll
                 when [(swt(:ctrl) if OS.mac?), 'a']
                   jump_to_beginning_of_line
                 when [(swt(:ctrl) if OS.mac?), 'e']
                   jump_to_end_of_line
+                when [swt(SHORTCUT_KEY_COMMAND), '=']
+                  bump_font_height_up
+                when [swt(SHORTCUT_KEY_COMMAND), '-']
+                  bump_font_height_down
+                when [swt(SHORTCUT_KEY_COMMAND), '0']
+                  restore_font_height
                 end
               }
               on_verify_text { |verify_event|
@@ -332,6 +339,36 @@ module Glimmer
           end
           @font_name ||= all_font_names.find {|font_name| font_name.downcase.include?('mono')}
           @font_name
+        end
+        
+        def bump_font_height_up
+          @original_font_height ||= font_datum.height
+          new_font_height = font_datum.height + 1
+          update_font_height(new_font_height)
+        end
+        
+        def bump_font_height_down
+          @original_font_height ||= font_datum.height
+          new_font_height = font_datum.height - 1
+          update_font_height(new_font_height)
+        end
+        
+        def restore_font_height
+          return if @original_font_height.nil?
+          update_font_height(@original_font_height)
+          @original_font_height = nil
+        end
+        
+        def update_font_height(new_font_height)
+          return if new_font_height.nil?
+          @styled_text_proxy.font = {name: font_datum.name, height: new_font_height, style: font_datum.style}
+          @line_numbers_styled_text_proxy&.font = {name: font_datum.name, height: new_font_height, style: font_datum.style}
+          @body_root.shell_proxy.layout(true, true)
+          @body_root.shell_proxy.pack_same_size
+        end
+        
+        def font_datum
+          @styled_text_proxy.font.font_data.first
         end
       end
     end

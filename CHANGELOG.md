@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.3.1
+
+- `code_text` default behavior support of zoom in (CMD+= on Mac, CTRL+= on Win/Linux), zoom out (CMD+- on Mac, CTRL+- on Win/Linux), and restore original font height (CMD+0 on Mac, CTRL+0 on Win/Linux).
+
 ## 4.24.3.0
 
 - Support `table` `items` data-binding of table row cell `background`, `foreground`, `font`, `image` to model attributes by convention based on specified `column_properties` (e.g. for `column_properties` model `name` attribute, automatically assume model `name_background` provides `[r, g, b]` array of color)
