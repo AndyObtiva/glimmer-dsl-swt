@@ -246,7 +246,8 @@ module Glimmer
       end
       
       attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
-      attr_accessor :column_properties
+      attr_writer :column_properties
+      alias column_attributes= column_properties=
       alias editable? editable
       
       def initialize(underscored_widget_name, parent, args)
@@ -258,6 +259,19 @@ module Glimmer
         @table_editor.minimumHeight = 20
         self.editable = editable_style
       end
+      
+      def column_properties
+        if @column_properties.nil?
+          swt_widget.columns.to_a.map(&:text).map(&:underscore)
+        elsif @column_properties.is_a?(Hash)
+          @column_properties = swt_widget.columns.to_a.map(&:text).map do |column_name|
+            @column_properties[column_name] || column_name.underscore
+          end
+        else
+          @column_properties
+        end
+      end
+      alias column_attributes column_properties
 
       def items
         auto_exec do

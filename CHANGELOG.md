@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.24.3.2
+
+- Have `table` data-binding infer model attribute names from column names by convention (no need to specify `column_properties`)
+- Support `table` data-binding `column_properties` mapping of column names to model attribute names via a `Hash`
+- Support `table` data-binding alias of `column_attributes` in place of `column_properties` because the word 'attribute' is more Ruby-idiomatic than 'property' in the Ruby world
+
 ## 4.24.3.1
 
 - `code_text` default behavior support of zoom in (CMD+= on Mac, CTRL+= on Win/Linux), zoom out (CMD+- on Mac, CTRL+- on Win/Linux), and restore original font height (CMD+0 on Mac, CTRL+0 on Win/Linux).

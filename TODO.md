@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
 - Handle boundary condition of font height 0 in zoom support for `code_text`
-- Have `table` data-binding infer model attribute names from column names by convention
-- Allow `table` data-binding map model attribute names to column names via a hash
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 

@@ -42,12 +42,14 @@ module Glimmer
         @table = parent
         @model_binding = model_binding
         @read_only_sort = @model_binding.binding_options[:read_only_sort]
-        @column_properties = @model_binding.binding_options[:column_properties] || @model_binding.binding_options[:column_attributes] || column_properties
         @table.editable = false if @model_binding.binding_options[:read_only]
-        if @table.respond_to?(:column_properties=)
-          @table.column_properties = @column_properties
+        column_properties = @model_binding.binding_options[:column_properties] || @model_binding.binding_options[:column_attributes] || column_properties
+        if @table.is_a?(Glimmer::SWT::TableProxy)
+          @table.column_properties = column_properties
+          @column_properties = @table.column_properties # normalized column properties
         else # assume custom widget
           @table.body_root.column_properties = @column_properties
+          @column_properties = @table.body_root.column_properties # normalized column properties
         end
         Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
           @table.swt_widget.data = @model_binding

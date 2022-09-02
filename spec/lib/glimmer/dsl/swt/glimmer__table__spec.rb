@@ -129,7 +129,7 @@ module GlimmerSpec
     
     context 'data-binding' do
       context 'read' do
-        it "data binds table items" do
+        it 'data binds table items with inferred column properties by convention (no column_properties specified)' do
           @target = shell {
             @table = table {
               table_column {
@@ -144,7 +144,7 @@ module GlimmerSpec
                 text "Adult"
                 width 120
               }
-              items bind(group, :people), column_properties(:name, :age, :adult)
+              items <= [group, :people]
             }
             @table_nested_indexed = table {
               table_column {
@@ -159,7 +159,7 @@ module GlimmerSpec
                 text "Adult"
                 width 120
               }
-              items bind(community, "groups[0].people"), column_properties(:name, :age, :adult)
+              items <= [community, "groups[0].people"]
             }
           }
     
@@ -238,6 +238,99 @@ module GlimmerSpec
           person1.name = "Bruce Flee"
     
           expect(@table.swt_widget.getItems[1].getText(0)).to eq("Bruce Flee")
+        end
+        
+        it 'data binds table items with column_properties array value' do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items <= [group, :people, column_properties: [:name, :age, :adult]]
+            }
+          }
+    
+          expect(@table.swt_widget.getColumnCount).to eq(3)
+          expect(@table.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+        end
+        
+        it "data binds table items with column_properties hash value" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Full Name"
+                width 120
+              }
+              table_column {
+                text "Age in Years"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items <= [group, :people, column_properties: {'Full Name' => :name, 'Age in Years' => 'age'}]
+            }
+          }
+    
+          expect(@table.swt_widget.getColumnCount).to eq(3)
+          expect(@table.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
+        end
+        
+        it "data binds table items with column_attributes alias for column_properties" do
+          @target = shell {
+            @table = table {
+              table_column {
+                text "Name"
+                width 120
+              }
+              table_column {
+                text "Age"
+                width 120
+              }
+              table_column {
+                text "Adult"
+                width 120
+              }
+              items <= [group, :people, column_properties: [:name, :age, :adult]]
+            }
+          }
+    
+          expect(@table.swt_widget.getColumnCount).to eq(3)
+          expect(@table.swt_widget.getItems.size).to eq(2)
+    
+          expect(@table.swt_widget.getItems[0].getText(0)).to eq("Bruce Ting")
+          expect(@table.swt_widget.getItems[0].getText(1)).to eq("45")
+          expect(@table.swt_widget.getItems[0].getText(2)).to eq("true")
+    
+          expect(@table.swt_widget.getItems[1].getText(0)).to eq("Julia Fang")
+          expect(@table.swt_widget.getItems[1].getText(1)).to eq("17")
+          expect(@table.swt_widget.getItems[1].getText(2)).to eq("false")
         end
       end
     
