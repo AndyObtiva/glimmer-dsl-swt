@@ -41,9 +41,11 @@ class Sample
     
     def ensure_user_glimmer_directory
       unless @ensured_glimmer_directory
-        FileUtils.rm_rf(user_glimmer_directory)
-        FileUtils.cp_r(glimmer_directory, user_glimmer_directory)
-        @ensured_glimmer_directory = true
+        Thread.new do
+          FileUtils.rm_rf(user_glimmer_directory)
+          FileUtils.cp_r(glimmer_directory, user_glimmer_directory)
+          @ensured_glimmer_directory = true
+        end
       end
     end
     
@@ -123,11 +125,11 @@ class Sample
   end
     
   def file_relative_path
-    file.sub(self.class.glimmer_directory, '')
+    file.sub(Sample.glimmer_directory, '')
   end
   
   def user_file
-    File.join(self.class.user_glimmer_directory, file_relative_path)
+    File.join(Sample.user_glimmer_directory, file_relative_path)
   end
     
   def user_file_parent_directory
@@ -209,10 +211,10 @@ class SampleDirectory
       @samples.each do |sample|
         observe(sample, :selected) do |new_selected_value|
           if new_selected_value
-            self.class.all_samples.reject {|a_sample| a_sample.name == sample.name}.each do |other_sample|
+            SampleDirectory.all_samples.reject {|a_sample| a_sample.name == sample.name}.each do |other_sample|
               other_sample.selected = false
             end
-            self.class.selected_sample = sample
+            SampleDirectory.selected_sample = sample
           end
         end
       end
@@ -227,8 +229,8 @@ class SampleDirectory
   def selected_sample_name=(selected_name)
     @selected_sample_name = selected_name
     unless selected_name.nil?
-      (self.class.sample_directories - [self]).each { |sample_dir| sample_dir.selected_sample_name = nil }
-      self.class.selected_sample = samples.detect { |sample| sample.name == @selected_sample_name }
+      (SampleDirectory.sample_directories - [self]).each { |sample_dir| sample_dir.selected_sample_name = nil }
+      SampleDirectory.selected_sample = samples.detect { |sample| sample.name == @selected_sample_name }
     end
   end
   
