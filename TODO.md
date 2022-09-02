@@ -24,9 +24,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Update Hello, File Dialog! to demonstrate both :Open and :Save SWT styles
 
-- Support passing `table` data-binding `column_attributes` as a Hash just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
-- Support column_attributes alias to column_properties for table data-binding
+- Support `table` data-binding to row data Array of Hashes (do so in Glimmer DSL for LibUI too)
 
 - Support being able to declare extra listeners on custom widgets declaratively instead of by overriding handle_observation_request
 - Fix issue with Hello, Custom Shape! where if user clicks inside head, it changes color despite not being filled. It must not do so even if listener is attached to containing shape.
@@ -191,13 +190,11 @@ composite {
 - Update Hello, Message Box! Sample to include more options
 
 - Make display detect if an on_about dialog is already setup before adding one (like in Tetris)
-- Have `table` support "attribute(s)" terminology in addition to "property(ies)"
-- Have `table` optionally receive sort_attribute and additional_sort_attributes as options to bind items keyword since they are related
+- Refactor `table` to optionally receive sort_attribute and additional_sort_attributes as options to bind items keyword since they are related
 - Ensure a `table`'s columns cannot be clicked for sorting when it is bound as one-way datainbinding with `items <= ...` for example.
 
 - Use flyweight pattern with fonts
 - Use flyweight pattern with cursors
-- Allow data-binding table column_properties via table_column {} elements instead, just like how they specify editors for themselves
 - Update Hello, Drag and Drop! sample to change mouse cursor while dragging and dropping (like drag a flag of the country)
 - Provide a way to customize display in its own file in scaffolded app (just like configuration) instead of embedding in custom shell which custom shells invoke automatically behind the scenes instead of having to add to before_block
 - add a config file during scaffolding that lists glimmer options (consider using a config dsl)
@@ -220,8 +217,8 @@ composite {
 - Accept :read_only alternative to :readonly SWT style
 - Use upcoming Glimmer support for observing properties on all array elements (not just a specific index as currently supported)
 - Improve `link` widget support to make it work just like `button` by not requiring HTML (auto-generated) and auto-aligning with labels around the link (improving upon the original SWT widget API design)
-- Highlight table selection after changing table collection out and back in again to the model collection that had the selection
-- Support passing spinner table editor properties
+- Highlight `table` selection after changing `table` collection out and back in again to the model collection that had the selection
+- Support passing spinner `table` editor properties
 - Add checkbox column editor to Hello, Table! Sample
 - insert/delete contact in Contact Manager Sample
 - insert employee and delete employee in Hello, Tree! Sample
@@ -388,7 +385,6 @@ items <=> {model: model, property: :property, on_read: ->(v) {}, on_write: ->(v)
 items <= {model: model, property: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
 items <=> {model: model, attribute: :property, on_read: ->(v) {}, on_write: ->(v) {}} # bidirectional
 items <= {model: model, attribute: property, on_read: ->(v) {}, on_write: ->(v) {}} # ready-only
-- Change table editing support to rely on data-binding
 - Improve tree databinding so that replacing content array value updates the tree (instead of clearing and rereading elements)
 - Consider need for a startup progress dialog (with Glimmer branding)
 - Externalize constants to make easily configurable
@@ -526,7 +522,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Consider the idea of non-square bound widgets
 - Implement a variation on puts_debuggerer that shows logging in a Glimmer window for Glimmer apps (perhaps pd with glimmer: true which can be configured globally)
 - Add [SWT OpenGL support](https://www.eclipse.org/swt/opengl/) (JOGL)
-- Make table bind column_properties a hash option of bind statement
 - Consider supporting auto-relayout by detecting changes to data on widgets (as an option or global option)
 - Tetris Immediate Drop playfield collision shake animation effect on impact
 - Support spriting of images using standard SWT layout techniques like GridLayout (i.e. building an image of multiple images or canvases containing shapes while obeying applied layout rules if a canvas contains other canvases)

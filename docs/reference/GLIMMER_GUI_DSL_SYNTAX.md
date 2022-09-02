@@ -3996,13 +3996,13 @@ You may learn more about Glimmer's data-binding syntax by reading the code under
 
 The SWT Tree widget renders a multi-column data table, such as a contact listing or a sales report.
 
-To data-bind a Table, you need the main model, the collection property, and the text display attribute for each table column.
+To data-bind a Table, you need the main model and the collection property. The text for each row cell will be inferred from column names as underscored model attributes. For example, for a column named "Full Name", it is assumed by convention that the model has a `full_name` attribute.
 
-This involves using the `<=>` operator in addition to a special `column_properties` kwarg that takes an array that maps table columns to model attributes.
+Data-binding involves using the `<=` operator (one-way data-binding) or `<=>` operator (two-way data-binding), and an optional `column_attributes` kwarg (alias: `column_properties`) that takes an array that maps table columns to model attributes or a hash that maps column name strings to model attributes.
 
 It assumes you have already defined table columns via the `table_column` `table`-nested widget.
 
-Example:
+Example (automatically inferring table items' [rows'] model attributes by convention from column names):
 
 ```ruby
 shell {
@@ -4019,8 +4019,10 @@ shell {
       text "Adult"
       width 120
     }
-    items <=> [group, :people, column_properties: [:name, :age, :adult]]
+    
+    items <=> [group, :people]
     selection <=> [group, :selected_person]
+    
     on_mouse_up do |event|
       @table.edit_table_item(event.table_item, event.column_index)
     end
@@ -4028,15 +4030,71 @@ shell {
 }
 ```
 
-The code above includes two data-bindings:
-- Table `items`, which first data-binds to the model collection property (group.people), and then maps each column property (name, age, adult) for displaying each table item column.
+The code above includes two data-bindings and a listener:
+- Table `items`, which first data-binds to the model collection property (group.people), and then maps each column to a model attribute (name, age, adult) for displaying each table item column.
 - Table `selection`, which data-binds the single table item (row) selected by the user to the model attribute denoted by `<=>` (or data-binds multiple table items to a model attribute array value for a table with `:multi` SWT style)
 - The `on_mouse_up` event handler invokes `@table.edit_table_item(event.table_item, event.column_index)` to start edit mode on the clicked table item cell, and then saves or cancel depending on whether the user hits ENTER or ESC once done editing (or focus-out after either making a change or not making any changes.)
 
+Example (specifying `column_attributes` explicitly because some diverge from column names):
+
+```ruby
+shell {
+  @table = table {
+    table_column {
+      text "Full Name"
+      width 120
+    }
+    table_column {
+      text "Age in Years"
+      width 120
+    }
+    table_column {
+      text "Adult"
+      width 120
+    }
+    
+    items <=> [group, :people, column_attributes: {'Full Name' => :name, 'Age in Years' => :age}]
+    selection <=> [group, :selected_person]
+    
+    on_mouse_up do |event|
+      @table.edit_table_item(event.table_item, event.column_index)
+    end
+  }
+}
+```
+
+Example (specifying `column_attributes` explicitly because all diverge from column names):
+
+```ruby
+shell {
+  @table = table {
+    table_column {
+      text "Full Name"
+      width 120
+    }
+    table_column {
+      text "Age in Years"
+      width 120
+    }
+    table_column {
+      text "Is Adult"
+      width 120
+    }
+    
+    items <=> [group, :people, column_attributes: [:name, :age, :adult]]
+    selection <=> [group, :selected_person]
+    
+    on_mouse_up do |event|
+      @table.edit_table_item(event.table_item, event.column_index)
+    end
+  }
+}
+```
+
 Additionally, Table `items` data-binding automatically stores each row model in the [SWT `TableItem`](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) object representing it, by using the `set_data` method. This enables things like searchability.
 
-The table widget in Glimmer is represented by a subclass of `WidgetProxy` called `TableProxy`.
-TableProxy includes a `search` method that takes a block to look for a table item.
+The table widget in Glimmer is represented by a subclass of `Glimmer::SWT::WidgetProxy` called `Glimmer::SWT::TableProxy`.
+`Glimmer::SWT::TableProxy` includes a `search` method that takes a block to look for a table item.
 
 Example:
 
@@ -4055,7 +4113,7 @@ It automatically persists the change to `items` data-bound model on ENTER/FOCUS-
 
 When data-binding a `table`'s `items`, extra [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are data-bound automatically by convention for `background` color, `foreground` color, `font`, and `image` if corresponding properties (attributes) are available on the model.
 
-That means that if `column_properties` were `[:name, :age, :adult]`, then the following [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are also data-bound by convention:
+That means that if `column_attributes` were `[:name, :age, :adult]`, then the following [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are also data-bound by convention:
 - `background` to `:name_background, :age_background, :adult_background` model attributes
 - `foreground` to `:name_foreground, :age_foreground, :adult_foreground` model attributes
 - `font` to `:name_font, :age_font, :adult_font` model attributes
@@ -4104,7 +4162,7 @@ shell {
       text "Adult"
       width 120
     }
-    items bind(group, :people), column_properties(:name, :age, :adult)
+    items <=> [group, :people]
     selection bind(group, :selected_person)
   }
 }
@@ -4131,7 +4189,7 @@ shell {
       width 120
       editor :checkbox
     }
-    items bind(group, :people), column_properties(:name, :age, :adult)
+    items <=> [group, :people]
     selection bind(group, :selected_person)
   }
 }
@@ -4170,7 +4228,7 @@ shell {
       # assume there is a `Person#industry_options` property method on the model to provide items to the `combo`
       editor :combo, :read_only # passes :ready_only SWT style to `combo` widget
     }
-    items bind(group, :people), column_properties(:formatted_date, :industry)
+    items <=> [group, :people, column_attributes: {'Date of Birth' => :formatted_date}]
     selection bind(group, :selected_person)
   }
 }
@@ -4229,7 +4287,7 @@ Example:
       sort { |d1, d2| d1.to_date <=> d2.to_date }
     }
     additional_sort_properties :project_name, :duration_in_hours, :name
-    items bind(Task, :list), column_properties(:name, :project_name, :duration, :priority, :start_date)
+    items <=> [Task, :list, column_attributes: [:name, :project_name, :duration, :priority, :start_date]]
     # ...
   }
 # ...
@@ -4242,7 +4300,7 @@ Here is an explanation of the example above:
 - Task Start Date table column has a custom sort comparator block
 - Additional (secondary) sort properties are applied when sorting by Task, Project, or Duration in the order specified
 
-`bind(model, :property, read_only_sort: true)` could be used with items to make sorting not propagate sorting changes to model.
+`<= [model, :property, read_only_sort: true]` could be used with items to make sorting not propagate sorting changes to model.
 
 #### Tree
 
