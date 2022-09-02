@@ -5,6 +5,7 @@
 - Have `table` data-binding infer model attribute names from column names by convention (no need to specify `column_properties`)
 - Support `table` data-binding `column_properties` mapping of column names to model attribute names via a `Hash`
 - Support `table` data-binding alias of `column_attributes` in place of `column_properties` because the word 'attribute' is more Ruby-idiomatic than 'property' in the Ruby world
+- Handle boundary condition of font height reaching 0 on repeated zoom out of `code_text`
 
 ## 4.24.3.1
 

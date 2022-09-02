@@ -4,8 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
-- Handle boundary condition of font height 0 in zoom support for `code_text`
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 
@@ -20,6 +18,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
+- Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
 - Refactor all samples to include Glimmer::UI::Application instead of CustomShell
 
 - Update Hello, File Dialog! to demonstrate both :Open and :Save SWT styles

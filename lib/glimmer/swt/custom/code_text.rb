@@ -349,7 +349,7 @@ module Glimmer
         
         def bump_font_height_down
           @original_font_height ||= font_datum.height
-          new_font_height = font_datum.height - 1
+          new_font_height = (font_datum.height - 1) == 0 ? font_datum.height : (font_datum.height - 1)
           update_font_height(new_font_height)
         end
         
