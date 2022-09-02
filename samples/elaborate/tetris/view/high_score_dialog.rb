@@ -66,7 +66,7 @@ class Tetris
               text 'Level'
             }
             
-            items <=> [game, :high_scores, read_only_sort: true, column_properties: [:name, :score, :lines, :level]]
+            items <=> [game, :high_scores, read_only_sort: true]
           }
           composite {
             row_layout :horizontal

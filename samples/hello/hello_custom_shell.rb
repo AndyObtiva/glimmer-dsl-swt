@@ -157,19 +157,19 @@ class HelloCustomShell
         layout_data :fill, :fill, true, true
       
         table_column {
-          text 'Date:'
+          text 'Date'
           width 180
         }
         table_column {
-          text 'Subject:'
+          text 'Subject'
           width 180
         }
         table_column {
-          text 'From:'
+          text 'From'
           width 360
         }
         
-        items <=> [@email_system, :emails, column_properties: [:date, :subject, :from]]
+        items <=> [@email_system, :emails]
         selection <=> [@email_system, :selected_email]
         
         on_mouse_up do |event|
