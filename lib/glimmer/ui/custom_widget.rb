@@ -271,6 +271,10 @@ module Glimmer
         "#{attribute_name}="
       end
       
+      def shell_proxy
+        @body_root.shell_proxy
+      end
+      
       def disposed?
         swt_widget.isDisposed
       end

@@ -26,6 +26,7 @@ require 'glimmer/dsl/top_level_expression'
 require 'glimmer/ui/custom_widget'
 require 'glimmer/ui/custom_shell'
 require 'glimmer/swt/custom/code_text'
+require 'glimmer/swt/custom/refined_table'
 require 'glimmer/swt/custom/radio_group'
 require 'glimmer/swt/custom/checkbox_group'
 

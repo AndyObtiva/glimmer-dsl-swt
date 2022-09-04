@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.24.4.0
+
+- Save `WidgetBinding` instances on `WidgetProxy` objects via `widget_bindings` attribute
+- Add explicit `shell_proxy` method to `Glimmer::UI::CustomWidget` that delegates to `body_root` to avoid annoying false negative error every time that method is called
+- Fix issue with data-binding a table as the body root of a custom widget when customizing column_attributes
+
 ## 4.24.3.2
 
 - Have `table` data-binding infer model attribute names from column names by convention (no need to specify `column_properties`)

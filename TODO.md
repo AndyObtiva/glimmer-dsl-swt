@@ -16,6 +16,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Enable undo/redo in `code_text` with right-click contextual pop up menu
 - Look into why line_style_value reverts back to original value in Hello, Canvas Data-Binding! after dragging/dropping endpoints
 
+- Rails-style Scaffolding of MVC structure + Database (flat file or relational db)
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
 
 - Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
@@ -26,6 +27,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Hashes (do so in Glimmer DSL for LibUI too)
 
+- Support setting properties to true by simply declaring property name (e.g. `drag_source` instead of `drag_source true`)
 - Support being able to declare extra listeners on custom widgets declaratively instead of by overriding handle_observation_request
 - Fix issue with Hello, Custom Shape! where if user clicks inside head, it changes color despite not being filled. It must not do so even if listener is attached to containing shape.
 

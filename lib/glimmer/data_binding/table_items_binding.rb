@@ -39,18 +39,12 @@ module Glimmer
       TABLE_ITEM_PROPERTIES = %w[background foreground font image]
 
       def initialize(parent, model_binding, column_properties = nil)
-        @table = parent
+        @table = parent.is_a?(Glimmer::SWT::TableProxy) ? parent : parent.body_root # assume custom widget in latter case
         @model_binding = model_binding
         @read_only_sort = @model_binding.binding_options[:read_only_sort]
         @table.editable = false if @model_binding.binding_options[:read_only]
-        column_properties = @model_binding.binding_options[:column_properties] || @model_binding.binding_options[:column_attributes] || column_properties
-        if @table.is_a?(Glimmer::SWT::TableProxy)
-          @table.column_properties = column_properties
-          @column_properties = @table.column_properties # normalized column properties
-        else # assume custom widget
-          @table.body_root.column_properties = @column_properties
-          @column_properties = @table.body_root.column_properties # normalized column properties
-        end
+        @table.column_properties = @model_binding.binding_options[:column_properties] || @model_binding.binding_options[:column_attributes] || column_properties
+        @column_properties = @table.column_properties # normalized column properties
         Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
           @table.swt_widget.data = @model_binding
           @table.swt_widget.set_data('table_items_binding', self)

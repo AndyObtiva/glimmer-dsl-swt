@@ -31,7 +31,8 @@ module Glimmer
       include Observable
       include Observer
 
-      attr_reader :widget, :property
+      attr_reader :widget, :property, :model_binding
+      
       def initialize(widget, property, sync_exec: nil, async_exec: nil)
         @widget = widget
         @property = property
@@ -40,17 +41,31 @@ module Glimmer
         SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @sync_exec, override_async_exec: @async_exec) do
           if @widget.is_a?(Glimmer::SWT::WidgetProxy) && @widget.respond_to?(:on_widget_disposed)
             @widget.on_widget_disposed do |dispose_event|
-              deregister_all_observables unless @widget.shell_proxy.last_shell_closing?
+              unless @widget.shell_proxy.last_shell_closing?
+                @widget_proxy.widget_bindings.delete(self)
+                deregister_all_observables
+              end
             end
           end
           # TODO look into hooking on_shape_disposed without slowing down shapes in samples like Tetris
         end
+        @widget_proxy = widget.is_a?(Glimmer::SWT::WidgetProxy) ? widget : widget.body_root
+      end
+      
+      def observe(*args)
+        # assumes only one observation
+        @model_binding = args.first if args.size == 1
+        @widget_proxy.widget_bindings << self
+        super
       end
       
       def call(value)
         SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @sync_exec, override_async_exec: @async_exec) do
           if @widget.respond_to?(:disposed?) && @widget.disposed?
-            deregister_all_observables unless @widget.shell_proxy.last_shell_closing?
+            unless @widget.shell_proxy.last_shell_closing?
+              @widget_proxy.widget_bindings.delete(self)
+              deregister_all_observables
+            end
             return
           end
           # need the rescue false for a scenario with tree items not being equal to model objects raising an exception
@@ -62,7 +77,10 @@ module Glimmer
       
       def evaluate_property
         if @widget.respond_to?(:disposed?) && @widget.disposed?
-          deregister_all_observables unless @widget.shell_proxy.last_shell_closing?
+          unless @widget.shell_proxy.last_shell_closing?
+            @widget_proxy.widget_bindings.delete(self)
+            deregister_all_observables
+          end
           return
         end
         @widget.get_attribute(@property)

@@ -769,6 +769,10 @@ module Glimmer
           end
         end
       end
+      
+      def widget_bindings
+        @widget_bindings ||= []
+      end
 
       def content(&block)
         auto_exec do
