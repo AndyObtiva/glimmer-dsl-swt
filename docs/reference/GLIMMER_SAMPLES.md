@@ -41,6 +41,7 @@
     - [Hello, Slider!](#hello-slider)
     - [Hello, Spinner!](#hello-spinner)
     - [Hello, Table!](#hello-table)
+    - [Hello, Refined Table!](#hello-refined-table)
     - [Hello, Link!](#hello-link)
     - [Hello, Dialog!](#hello-dialog)
     - [Hello, Code Text!](#hello-code-text)
@@ -779,6 +780,18 @@ Hello, Table! Game Booked
 Hello, Table! Game Booked Rows
 
 ![Hello Table game booked rows](/images/glimmer-hello-table-game-booked-rows.png)
+
+#### Hello, Refined Table!
+
+This sample demonstrates the use of the [`refined_table` widget](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#refined-table-with-pagination), which provides a paginated `table` that can handle very large amounts of data.
+
+Code:
+
+[samples/hello/hello_refined_table.rb](/samples/hello/hello_refined_table.rb)
+
+Hello, Refined Table!
+
+![Hello Refined Table](/images/glimmer-hello-refined-table.png)
 
 #### Hello, Link!
 

@@ -49,13 +49,17 @@ module Glimmer
           end
           # TODO look into hooking on_shape_disposed without slowing down shapes in samples like Tetris
         end
-        @widget_proxy = widget.is_a?(Glimmer::SWT::WidgetProxy) ? widget : widget.body_root
+        # TODO try to come up with a more comprehensive and cleaner solution to miscallenous objects like MessageBoxProxy with regards to @widget_proxy
+        @widget_proxy = widget.is_a?(Glimmer::SWT::WidgetProxy) ? widget : (widget.respond_to?(:body_root) ? widget.body_root : widget)
       end
       
       def observe(*args)
-        # assumes only one observation
-        @model_binding = args.first if args.size == 1
-        @widget_proxy.widget_bindings << self
+        if @widget_proxy.respond_to?(:widget_bindings)
+          # TODO try to come up with a more comprehensive and cleaner solution to miscallenous objects like MessageBoxProxy with regards to the following code
+          # assumes only one observation
+          @model_binding = args.first if args.size == 1
+          @widget_proxy.widget_bindings << self
+        end
         super
       end
       

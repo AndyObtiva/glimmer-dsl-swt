@@ -131,7 +131,7 @@ class HelloRefinedTable
     shell {
       text 'Hello, Refined Table!'
     
-      refined_table(per_page: 30) {
+      refined_table(per_page: 20) { # also `page: 1` by default
         table_column {
           width 100
           text 'Date'

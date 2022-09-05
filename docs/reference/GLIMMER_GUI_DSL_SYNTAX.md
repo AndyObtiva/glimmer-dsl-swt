@@ -54,9 +54,11 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Combo](#combo)
     - [List](#list)
     - [Table](#table)
+      - [Table Item Properties](#table-item-properties)
       - [Table Selection](#table-selection)
       - [Table Editing](#table-editing)
       - [Table Sorting](#table-sorting)
+      - [Refined Table with Pagination](#refined-table-with-pagination)
     - [Tree](#tree)
     - [DateTime](#datetime)
   - [Observer](#observer)
@@ -4109,6 +4111,9 @@ This automatically leverages the SWT TableEditor custom class behind the scenes,
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
+Note that `table` is designed to expect about 100 rows only, not more than that, or otherwise it will not offer a user-friendly experience due to requiring users to scroll through a lot of data.
+If you need to display a table with more than 100 rows, then you need to employ pagination. That is already supported in the [Refined Table (`refined_table`)](#refined-table-with-pagination) custom widget documented below.
+
 ##### Table Item Properties
 
 When data-binding a `table`'s `items`, extra [`TableItem` properties](https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/widgets/TableItem.html) are data-bound automatically by convention for `background` color, `foreground` color, `font`, and `image` if corresponding properties (attributes) are available on the model.
@@ -4301,6 +4306,51 @@ Here is an explanation of the example above:
 - Additional (secondary) sort properties are applied when sorting by Task, Project, or Duration in the order specified
 
 `<= [model, :property, read_only_sort: true]` could be used with items to make sorting not propagate sorting changes to model.
+
+##### Refined Table with Pagination
+
+**(ALPHA FEATURE)**
+
+`refined_table` is a custom widget that can handle very large amounts of data by applying pagination.
+
+Just use like a standard `table`, but data-bind models to a `model_array` property instead of `items`. `refined_table` will take care of the rest.
+
+Options:
+- `per_page` (default: `10`): specifies how many rows to display per page
+- `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
+
+Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through table editing cells).
+
+Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
+
+![hello refined table](/images/glimmer-hello-refined-table.png)
+
+```ruby
+      #... more code precedes
+      
+      refined_table(per_page: 20) {
+        table_column {
+          width 100
+          text 'Date'
+        }
+        table_column {
+          width 200
+          text 'Ballpark'
+        }
+        table_column {
+          width 150
+          text 'Home Team'
+        }
+        table_column {
+          width 150
+          text 'Away Team'
+        }
+        
+        model_array <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+      }
+      
+      #...more code follows
+```
 
 #### Tree
 

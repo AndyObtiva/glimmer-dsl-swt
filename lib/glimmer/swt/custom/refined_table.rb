@@ -90,6 +90,11 @@ module Glimmer
                   @page_text_proxy.select_all
                 end
                 
+                on_focus_lost do
+                  self.page = @page_text_proxy.text.to_i
+                  paginate
+                end
+                
                 on_key_pressed do |key_event|
                   if key_event.keyCode == swt(:cr)
                     self.page = @page_text_proxy.text.to_i
