@@ -50,7 +50,7 @@ module Glimmer
                   paginate
                 end
                 @table_proxy.content {
-                  items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options]
+                  items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options.merge(read_only: true)]
                 }
                 paginate
               end
