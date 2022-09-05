@@ -4,6 +4,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Optimize `table` data-binding performance for single-model update scenarios
+- `refined_table` filtering
+- Make sorting work with `refined_table`
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 
@@ -554,7 +557,6 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - code_text custom widget syntax highlighting for Glimmer DSL syntax (not just Ruby). It can be done by recognizing all the widgets, options, properties, listeners, and methods, and coloring them uniquely.
 - Optimize performance of startup time in requiring glimmer-dsl-swt
 - Make dropping in canvas drag and drop work through testing overlap of dragged shape and drop target instead of containment of x,y in drop target to be more permissive, accurate, and user-friendly (this needs calculation of area of overlap to pick the biggest overlap for deciding where to drop)
-- Optimize `table` data-binding performance for single-model update scenarios
 
 ## Samples
 

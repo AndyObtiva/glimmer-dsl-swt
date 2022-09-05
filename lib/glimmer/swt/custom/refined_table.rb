@@ -33,6 +33,7 @@ module Glimmer
         option :model_array
         
         attr_accessor :refined_model_array
+        attr_reader :table_proxy
         
         before_body do
           self.model_array ||= []
@@ -48,7 +49,7 @@ module Glimmer
                 observe(self, :model_array) do
                   paginate
                 end
-                @table.content {
+                @table_proxy.content {
                   items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options]
                 }
                 paginate
@@ -105,17 +106,21 @@ module Glimmer
               }
             }
             
-            @children_owner = @table = table(swt_style)
+            @children_owner = @table_proxy = table(swt_style)
           }
         }
+        
+        def table_block=(block)
+          @table_proxy.content(&block)
+        end
         
         def method_missing(method_name, *args, &block)
           dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
           if dsl_mode
             args.pop if args.last.is_a?(Hash) && args.last[:dsl]
             super(method_name, *args, &block)
-          elsif @table&.respond_to?(method_name, *args, &block)
-            @table&.send(method_name, *args, &block)
+          elsif @table_proxy&.respond_to?(method_name, *args, &block)
+            @table_proxy&.send(method_name, *args, &block)
           else
             super
           end
@@ -127,7 +132,7 @@ module Glimmer
             args = args[0...-1] if args.last.is_a?(Hash) && args.last[:dsl]
             super(method_name, *args, &block)
           else
-            super || @table&.respond_to?(method_name, *args, &block)
+            super || @table_proxy&.respond_to?(method_name, *args, &block)
           end
         end
         

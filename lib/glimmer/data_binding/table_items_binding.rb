@@ -91,6 +91,7 @@ module Glimmer
                   remove_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property]) if @table_items_property_observer_registration[table_item_property]
                   @table_items_property_observer_registration[table_item_property]&.unobserve
                   property_properties = @column_properties.map {|property| "#{property}_#{table_item_property}" }
+                  # TODO optimize performance of this observation by updating table items piecemeal per model instead of passing @column_properties
                   @table_items_property_observer_registration[table_item_property] = observe(new_model_collection, property_properties)
                   add_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property])
                 end
