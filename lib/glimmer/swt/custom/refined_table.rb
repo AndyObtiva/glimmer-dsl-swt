@@ -29,6 +29,7 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         option :per_page, default: 10
+        option :page, default: 1
         option :model_array
         
         attr_accessor :refined_model_array
@@ -47,8 +48,8 @@ module Glimmer
                 observe(self, :model_array) do
                   paginate
                 end
-                body_root.content {
-                  items <=> [self, :refined_model_array, model_binding.binding_options]
+                @table.content {
+                  items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options]
                 }
                 paginate
               end
@@ -57,11 +58,102 @@ module Glimmer
         end
         
         body {
-          table(swt_style)
+          composite {
+            composite {
+              layout_data(:fill, :center, true, false)
+              
+              fill_layout(:horizontal)
+              
+              button {
+                text '<<'
+                
+                on_widget_selected do
+                  self.page = first_page
+                  paginate
+                end
+              }
+              
+              button {
+                text '<'
+                
+                on_widget_selected do
+                  self.page -= 1
+                  paginate
+                end
+              }
+              
+              text {
+                text <=> [self, :page, on_read: :to_s, on_write: :to_i]
+              }
+              
+              button {
+                text '>'
+                
+                on_widget_selected do
+                  self.page += 1
+                  paginate
+                end
+              }
+              
+              button {
+                text '>>'
+                
+                on_widget_selected do
+                  self.page = last_page
+                  paginate
+                end
+              }
+            }
+            
+            @children_owner = @table = table(swt_style)
+          }
         }
         
+        def method_missing(method_name, *args, &block)
+          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
+          if dsl_mode
+            args.pop if args.last.is_a?(Hash) && args.last[:dsl]
+            super(method_name, *args, &block)
+          elsif @table&.respond_to?(method_name, *args, &block)
+            @table&.send(method_name, *args, &block)
+          else
+            super
+          end
+        end
+        
+        def respond_to?(method_name, *args, &block)
+          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
+          if dsl_mode
+            args = args[0...-1] if args.last.is_a?(Hash) && args.last[:dsl]
+            super(method_name, *args, &block)
+          else
+            super || @table&.respond_to?(method_name, *args, &block)
+          end
+        end
+        
+        def page_count
+          (model_array && (model_array.count / per_page.to_f).ceil) || 0
+        end
+        
+        def corrected_page(initial_page_value = nil)
+          correct_page = initial_page_value || page
+          correct_page = [correct_page, page_count].min
+          correct_page = [correct_page, 1].max
+          correct_page = (model_array&.count.to_i > 0) ? (correct_page > 0 ? correct_page : 1) : 0
+          correct_page
+        end
+        
+        def first_page
+          (model_array&.count.to_i > 0) ? 1 : 0
+        end
+        
+        def last_page
+          page_count
+        end
+        
         def paginate
-          self.refined_model_array = model_array[0, per_page]
+          self.page = corrected_page(page)
+          self.refined_model_array = model_array[(page - 1) * per_page, per_page]
         end
       end
     end

@@ -275,6 +275,10 @@ module Glimmer
         @body_root.shell_proxy
       end
       
+      def children_owner
+        @children_owner || @body_root
+      end
+      
       def disposed?
         swt_widget.isDisposed
       end

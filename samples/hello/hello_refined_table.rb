@@ -124,14 +124,14 @@ class HelloRefinedTable
   include Glimmer::UI::Application
   
   before_body do
-    @baseball_season = BaseballSeason.new(2022)
+    @baseball_season = BaseballSeason.new(Time.now.year)
   end
 
   body {
     shell {
       text 'Hello, Refined Table!'
     
-      refined_table(per_page: 30) {
+      refined_table(per_page: 10) {
         table_column {
           width 100
           text 'Date'
