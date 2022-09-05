@@ -783,7 +783,7 @@ Hello, Table! Game Booked Rows
 
 #### Hello, Refined Table!
 
-This sample demonstrates the use of the [`refined_table` widget](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#refined-table-with-pagination), which provides a paginated `table` that can handle very large amounts of data.
+This sample demonstrates the use of the [`refined_table` widget](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#refined-table), which provides a paginated `table` that can handle very large amounts of data.
 
 Code:
 

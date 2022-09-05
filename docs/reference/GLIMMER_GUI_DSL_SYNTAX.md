@@ -58,7 +58,7 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
       - [Table Selection](#table-selection)
       - [Table Editing](#table-editing)
       - [Table Sorting](#table-sorting)
-      - [Refined Table with Pagination](#refined-table-with-pagination)
+      - [Refined Table](#refined-table)
     - [Tree](#tree)
     - [DateTime](#datetime)
   - [Observer](#observer)
@@ -4111,8 +4111,8 @@ This automatically leverages the SWT TableEditor custom class behind the scenes,
 passed table item text into something else.
 It automatically persists the change to `items` data-bound model on ENTER/FOCUS-OUT or cancels on ESC/NO-CHANGE.
 
-Note that `table` is designed to expect about 100 rows only, not more than that, or otherwise it will not offer a user-friendly experience due to requiring users to scroll through a lot of data.
-If you need to display a table with more than 100 rows, then you need to employ pagination. That is already supported in the [Refined Table (`refined_table`)](#refined-table-with-pagination) custom widget documented below.
+Note that `table` is useful with a maximum of about 100 rows only, not more than that, or otherwise it will not offer a user-friendly experience due to requiring users to scroll through a lot of data.
+If you need to display a table with more than 100 rows, then you need to employ pagination. That is already supported in the [Refined Table (`refined_table`)](#refined-table) custom widget documented below.
 
 ##### Table Item Properties
 
@@ -4241,7 +4241,7 @@ shell {
 
 Check out [Hello, Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-table) for an actual example including table editors.
 
-[Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database.
+[Are We There Yet?](#are-we-there-yet) is an actual production Glimmer application that takes full advantage of table capabilities, storing model data in a database via ActiveRecord and SQLite DB. As such, it's an excellent demonstration of how to use Glimmer DSL for SWT with a database. [Contact Manager](https://github.com/AndyObtiva/contact_manager) is an external sample application that also utilizes a table with ActiveRecord and SQLite DB. It comes with a [blog post](https://andymaleh.blogspot.com/2022/06/using-activerecord-with-sqlite-db-in.html?m=0) that provides a step by step guide on how to build such an application.
 
 ##### Table Sorting
 
@@ -4307,19 +4307,19 @@ Here is an explanation of the example above:
 
 `<= [model, :property, read_only_sort: true]` could be used with items to make sorting not propagate sorting changes to model.
 
-##### Refined Table with Pagination
+##### Refined Table
 
 **(ALPHA FEATURE)**
 
 `refined_table` is a custom widget that can handle very large amounts of data by applying pagination.
 
-Just use like a standard `table`, but data-bind models to a `model_array` property instead of `items`. `refined_table` will take care of the rest.
+Just use like a standard `table`, but data-bind models to the `model_array` property instead of `items`. `refined_table` will take care of the rest.
 
 Options:
 - `per_page` (default: `10`): specifies how many rows to display per page
 - `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
 
-Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through table editing cells).
+Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through `TableEditor` cells).
 
 Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
 

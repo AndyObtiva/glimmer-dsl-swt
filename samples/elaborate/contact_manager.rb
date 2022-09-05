@@ -122,7 +122,7 @@ class ContactManager
           }
         }
 
-        table(:editable, :multi) { |table_proxy|
+        table(:editable, :border) { |table_proxy|
           layout_data {
             horizontal_alignment :fill
             vertical_alignment :fill
