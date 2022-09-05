@@ -29,7 +29,7 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         option :per_page, default: 10
-        option :page, default: 1
+        option :page, default: 0
         option :model_array
         
         attr_accessor :refined_model_array

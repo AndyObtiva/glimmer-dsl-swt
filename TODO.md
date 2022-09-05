@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Optimize `table` data-binding performance for single-model update scenarios
 - `refined_table` filtering
+- Support `refined_table` nested elements like `previous_button {}` for customizing every widget in it
 - Make sorting work with `refined_table`
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
