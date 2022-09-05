@@ -88,32 +88,28 @@ class HelloRefinedTable
         current_day = first_day
         day_offset = 0
         begin
-          if (day_offset % 5 != 4)
-            begin
-              day_games = []
-              half_teams_count = BaseballTeam.all.count / 2
-              while day_games.uniq.count < half_teams_count
-                baseball_team_pair = baseball_team_combinations.next
-                teams_played_so_far = day_games.map {|game| [game.home_team, game.away_team]}.flatten
-                unless teams_played_so_far.include?(baseball_team_pair.first) || teams_played_so_far.include?(baseball_team_pair.last)
-                  baseball_game = BaseballGame.new(
-                    date: current_day,
-                    home_team: baseball_team_pair.first,
-                    away_team: baseball_team_pair.last,
-                  )
-                  day_games << baseball_game
-                  @games << baseball_game
-                end
+          if (day_offset % 7 != 6)
+            day_games = []
+            half_teams_count = BaseballTeam.all.count / 2
+            while day_games.uniq.count < half_teams_count
+              baseball_team_pair = baseball_team_combinations.next
+              teams_played_so_far = day_games.map {|game| [game.home_team, game.away_team]}.flatten
+              unless teams_played_so_far.include?(baseball_team_pair.first) || teams_played_so_far.include?(baseball_team_pair.last)
+                baseball_game = BaseballGame.new(
+                  date: current_day,
+                  home_team: baseball_team_pair.first,
+                  away_team: baseball_team_pair.last,
+                )
+                day_games << baseball_game
+                @games << baseball_game
               end
-            rescue StopIteration
-              # no op
             end
           end
           day_offset += 1
           current_day += 1
         end while current_day != first_day_of_playoffs
       end
-      @games[0, 60]
+      @games
     end
     
     def first_day
@@ -153,7 +149,7 @@ class HelloRefinedTable
           text 'Away Team'
         }
         
-        all_items <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+        model_array <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
       }
     }
   }

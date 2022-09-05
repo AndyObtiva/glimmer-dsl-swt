@@ -29,26 +29,28 @@ module Glimmer
         include Glimmer::UI::CustomWidget
         
         option :per_page, default: 10
+        option :model_array
         
-        attr_accessor :model_array
+        attr_accessor :refined_model_array
         
         before_body do
-          self.model_array = []
+          self.model_array ||= []
+          self.refined_model_array = []
         end
         
         after_body do
           Glimmer::DataBinding::Observer.proc do |new_widget_bindings|
             new_widget_bindings.each do |new_widget_binding|
-              if new_widget_binding.property.to_s == 'all_items' && !@data_bound
+              if new_widget_binding.property.to_s == 'model_array' && !@data_bound
                 @data_bound = true
                 model_binding = new_widget_binding.model_binding
                 observe(model_binding.base_model, model_binding.property_name_expression) do |all_models|
-                  self.model_array = all_models[0, per_page]
+                  self.refined_model_array = all_models[0, per_page]
                 end
                 body_root.content {
-                  items <=> [self, :model_array, model_binding.binding_options]
+                  items <=> [self, :refined_model_array, model_binding.binding_options]
                 }
-                self.model_array = model_binding.evaluate_property[0, per_page]
+                self.refined_model_array = model_binding.evaluate_property[0, per_page]
               end
             end
           end.observe(body_root.widget_bindings)
