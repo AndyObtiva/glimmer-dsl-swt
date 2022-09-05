@@ -24,6 +24,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Update Hello, File Dialog! to demonstrate both :Open and :Save SWT styles
 
+- Custom Widget `after_body` hook fires after its own internal body is called. What about the externally added body by passing custom widget keyword a block?
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Hashes (do so in Glimmer DSL for LibUI too)
 

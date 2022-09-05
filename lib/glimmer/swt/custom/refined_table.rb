@@ -44,22 +44,25 @@ module Glimmer
               if new_widget_binding.property.to_s == 'model_array' && !@data_bound
                 @data_bound = true
                 model_binding = new_widget_binding.model_binding
-                observe(model_binding.base_model, model_binding.property_name_expression) do |all_models|
-                  self.refined_model_array = all_models[0, per_page]
+                observe(self, :model_array) do
+                  paginate
                 end
                 body_root.content {
                   items <=> [self, :refined_model_array, model_binding.binding_options]
                 }
-                self.refined_model_array = model_binding.evaluate_property[0, per_page]
+                paginate
               end
             end
           end.observe(body_root.widget_bindings)
         end
         
         body {
-          table(swt_style) {
-          }
+          table(swt_style)
         }
+        
+        def paginate
+          self.refined_model_array = model_array[0, per_page]
+        end
       end
     end
   end
