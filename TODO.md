@@ -4,7 +4,6 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Optimize `table` data-binding performance for single-model update scenarios
 - `refined_table` filtering
 - Support `refined_table` nested elements like `previous_button {}` for customizing every widget in it
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)

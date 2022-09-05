@@ -63,6 +63,7 @@ module Glimmer
         Glimmer::SWT::DisplayProxy.instance.auto_exec(override_sync_exec: @model_binding.binding_options[:sync_exec], override_async_exec: @model_binding.binding_options[:async_exec]) do
           new_model_collection = model_binding_evaluated_property = @model_binding.evaluate_property unless internal_sort # this ensures applying converters (e.g. :on_read)
           return if same_table_data?(new_model_collection)
+          
           if same_model_collection?(new_model_collection)
             new_model_collection_attribute_values = model_collection_attribute_values(new_model_collection)
             @table.swt_widget.items.each_with_index do |table_item, row_index|
@@ -79,25 +80,38 @@ module Glimmer
             @last_model_collection_attribute_values = new_model_collection_attribute_values
           else
             if new_model_collection and new_model_collection.is_a?(Array)
-              remove_dependent(@table_observer_registration => @table_items_observer_registration) if @table_items_observer_registration
-              @table_items_observer_registration&.unobserve
-              # TODO observe and update table items piecemeal per model instead of passing @column_properties
-              # TODO ensure unobserving models when they are no longer part of the table
-              @table_items_observer_registration = observe(new_model_collection, @column_properties)
-              add_dependent(@table_observer_registration => @table_items_observer_registration)
-              @table_items_property_observer_registration ||= {}
-              if !same_model_collection_with_different_sort?(new_model_collection)
-                TABLE_ITEM_PROPERTIES.each do |table_item_property|
-                  remove_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property]) if @table_items_property_observer_registration[table_item_property]
-                  @table_items_property_observer_registration[table_item_property]&.unobserve
-                  property_properties = @column_properties.map {|property| "#{property}_#{table_item_property}" }
-                  # TODO optimize performance of this observation by updating table items piecemeal per model instead of passing @column_properties
-                  @table_items_property_observer_registration[table_item_property] = observe(new_model_collection, property_properties)
-                  add_dependent(@table_observer_registration => @table_items_property_observer_registration[table_item_property])
+              @model_observer_registrations ||= {}
+              new_model_collection.each do |model|
+                @model_observer_registrations[model] ||= {}
+                @column_properties.each do |column_property|
+                  old_model_observer_registration = @model_observer_registrations[model][column_property]
+                  remove_dependent(@table_observer_registration => old_model_observer_registration) if old_model_observer_registration
+                  old_model_observer_registration&.unobserve
+                  model_observer_registration = observe(model, column_property)
+                  @model_observer_registrations[model][column_property] = model_observer_registration
+                  add_dependent(@table_observer_registration => model_observer_registration)
                 end
               end
+
+              if !same_model_collection_with_different_sort?(new_model_collection)
+                new_model_collection.each do |model|
+                  TABLE_ITEM_PROPERTIES.each do |table_item_property|
+                    @column_properties.each do |column_property|
+                      column_property = "#{column_property}_#{table_item_property}"
+                      old_model_observer_registration = @model_observer_registrations[model][column_property]
+                      remove_dependent(@table_observer_registration => old_model_observer_registration) if old_model_observer_registration
+                      old_model_observer_registration&.unobserve
+                      model_observer_registration = observe(model, column_property)
+                      @model_observer_registrations[model][column_property] = model_observer_registration
+                      add_dependent(@table_observer_registration => model_observer_registration)
+                    end
+                  end
+                end
+              end
+              
               @model_collection = new_model_collection
             end
+            
             populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)
           end
         end

@@ -5,6 +5,7 @@
 - Save `WidgetBinding` instances on `WidgetProxy` objects via `widget_bindings` attribute
 - Support specifying `@children_owner` in any custom widget for which adding children will not add them under the `body_root` (e.g. a composite wrapping a table will designate the table as the `@children_owner` for adding `table_column`s)
 - Add explicit `shell_proxy` method to `Glimmer::UI::CustomWidget` that delegates to `body_root` to avoid annoying false negative error every time that method is called
+- Optimize `table` data-binding performance for single-model update scenarios
 - Fix issue with data-binding a table as the body root of a custom widget when customizing column_attributes
 
 ## 4.24.3.2
