@@ -33,7 +33,7 @@ module Glimmer
         option :model_array
         
         attr_accessor :refined_model_array
-        attr_reader :table_proxy
+        attr_reader :table_proxy, :page_text_proxy
         
         before_body do
           self.model_array ||= []
@@ -83,8 +83,19 @@ module Glimmer
                 end
               }
               
-              text {
-                text <=> [self, :page, on_read: :to_s, on_write: :to_i]
+              @page_text_proxy = text(:border, :center) {
+                text <= [self, :page, on_read: ->(value) { "#{value} of #{page_count}" }]
+                
+                on_focus_gained do
+                  @page_text_proxy.select_all
+                end
+                
+                on_key_pressed do |key_event|
+                  if key_event.keyCode == swt(:cr)
+                    self.page = @page_text_proxy.text.to_i
+                    paginate
+                  end
+                end
               }
               
               button {
