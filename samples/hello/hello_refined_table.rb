@@ -84,7 +84,7 @@ class HelloRefinedTable
     def games
       if @games.nil?
         @games = []
-        baseball_team_combinations = BaseballTeam.all.combination(2).cycle
+        baseball_team_combinations = BaseballTeam.all.combination(2).to_a
         current_day = first_day
         day_offset = 0
         begin
@@ -92,7 +92,7 @@ class HelloRefinedTable
             day_games = []
             half_teams_count = BaseballTeam.all.count / 2
             while day_games.uniq.count < half_teams_count
-              baseball_team_pair = baseball_team_combinations.next
+              baseball_team_pair = baseball_team_combinations.sample
               teams_played_so_far = day_games.map {|game| [game.home_team, game.away_team]}.flatten
               unless teams_played_so_far.include?(baseball_team_pair.first) || teams_played_so_far.include?(baseball_team_pair.last)
                 baseball_game = BaseballGame.new(
