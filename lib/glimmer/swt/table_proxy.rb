@@ -247,6 +247,7 @@ module Glimmer
       
       attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
       attr_writer :column_properties
+      attr_accessor :table_items_binding
       alias column_attributes= column_properties=
       alias editable? editable
       

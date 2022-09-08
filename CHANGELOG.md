@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.24.4.1
+
+- Optimize `table` data-binding performance (improving paging performance in `refined_table`) by making observer registrations run asynchronously in a separate thread
+- Fix cleaning of old `table` data-binding observers (it was retaining some old observers after table updates)
+- Fix issue with ActiveSupport overriding Facets String `underscore`/`snakecase`/`titlecase`/`camelcase` methods with different incompatible implementations when loaded by a project (now, that is repaired automatically)
+
 ## 4.24.4.0
 
 - Save `WidgetBinding` instances on `WidgetProxy` objects via `widget_bindings` attribute

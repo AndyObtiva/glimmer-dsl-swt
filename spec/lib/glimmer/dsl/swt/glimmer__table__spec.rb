@@ -68,6 +68,10 @@ module GlimmerSpec
         Object.send(:remove_const, constant) if Object.const_defined?(constant)
       end
     end
+    
+    before do
+      @process_event_loop_before_target_dispose = true
+    end
 
     let(:person1) do
       Person.new.tap do |person|
@@ -162,7 +166,10 @@ module GlimmerSpec
               items <= [community, "groups[0].people"]
             }
           }
-    
+          
+          wait_until_table_data_binding_done(@table)
+          wait_until_table_data_binding_done(@table_nested_indexed)
+          
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)
     
@@ -258,6 +265,8 @@ module GlimmerSpec
               items <= [group, :people, column_properties: [:name, :age, :adult]]
             }
           }
+          
+          wait_until_table_data_binding_done(@table)
     
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)
@@ -289,6 +298,8 @@ module GlimmerSpec
               items <= [group, :people, column_properties: {'Full Name' => :name, 'Age in Years' => 'age'}]
             }
           }
+          
+          wait_until_table_data_binding_done(@table)
     
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)
@@ -320,6 +331,8 @@ module GlimmerSpec
               items <= [group, :people, column_properties: [:name, :age, :adult]]
             }
           }
+          
+          wait_until_table_data_binding_done(@table)
     
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)
@@ -368,6 +381,9 @@ module GlimmerSpec
               items bind(community, "groups[0].people", column_attributes: [:name, :age, :adult])
             }
           }
+          
+          wait_until_table_data_binding_done(@table)
+          wait_until_table_data_binding_done(@table_nested_indexed)
     
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)
@@ -481,6 +497,9 @@ module GlimmerSpec
               items <= [community, "groups[0].people", column_attributes: [:name, :age, :adult]]
             }
           }
+          
+          wait_until_table_data_binding_done(@table)
+          wait_until_table_data_binding_done(@table_nested_indexed)
     
           expect(@table.swt_widget.getColumnCount).to eq(3)
           expect(@table.swt_widget.getItems.size).to eq(2)

@@ -73,6 +73,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.after do
+    process_event_loop if @process_event_loop_before_target_dispose
     @target.dispose if @target && @target.respond_to?(:dispose)
     Glimmer::DSL::Engine.reset
   end
@@ -148,3 +149,12 @@ end
 # Enable when testing logging manually
 # Glimmer::Config.logging_devices = [:stdout, :file, :syslog]
 # Glimmer::Config.logger.level = :debug
+      
+def wait_until_table_data_binding_done(table)
+  process_event_loop
+  sleep(0.001) until table.table_items_binding.data_binding_done
+end
+
+def process_event_loop
+  sleep(0.01) while Glimmer::SWT::DisplayProxy.instance.swt_display.readAndDispatch
+end

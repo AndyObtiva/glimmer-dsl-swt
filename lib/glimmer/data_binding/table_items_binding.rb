@@ -37,9 +37,12 @@ module Glimmer
       include_package 'org.eclipse.swt.widgets'
       
       TABLE_ITEM_PROPERTIES = %w[background foreground font image]
+      
+      attr_reader :data_binding_done
 
       def initialize(parent, model_binding, column_properties = nil)
         @table = parent.is_a?(Glimmer::SWT::TableProxy) ? parent : parent.body_root # assume custom widget in latter case
+        @table.table_items_binding = self
         @model_binding = model_binding
         @read_only_sort = @model_binding.binding_options[:read_only_sort]
         @table.editable = false if @model_binding.binding_options[:read_only]
@@ -81,31 +84,35 @@ module Glimmer
           else
             if new_model_collection and new_model_collection.is_a?(Array)
               @model_observer_registrations ||= {}
-              new_model_collection.each do |model|
-                @model_observer_registrations[model] ||= {}
-                @column_properties.each do |column_property|
-                  old_model_observer_registration = @model_observer_registrations[model][column_property]
-                  remove_dependent(@table_observer_registration => old_model_observer_registration) if old_model_observer_registration
-                  old_model_observer_registration&.unobserve
-                  model_observer_registration = observe(model, column_property)
-                  @model_observer_registrations[model][column_property] = model_observer_registration
-                  add_dependent(@table_observer_registration => model_observer_registration)
-                end
-              end
-
-              if !same_model_collection_with_different_sort?(new_model_collection)
-                new_model_collection.each do |model|
-                  TABLE_ITEM_PROPERTIES.each do |table_item_property|
+              @table_item_property_observation_mutex ||= Mutex.new
+              
+              Thread.new do
+                @data_binding_done = false
+                @table_item_property_observation_mutex.synchronize do
+                  deregister_model_observer_registrations
+                
+                  new_model_collection.each_with_index do |model, model_index|
+                    @model_observer_registrations[model_index] ||= {}
                     @column_properties.each do |column_property|
-                      column_property = "#{column_property}_#{table_item_property}"
-                      old_model_observer_registration = @model_observer_registrations[model][column_property]
-                      remove_dependent(@table_observer_registration => old_model_observer_registration) if old_model_observer_registration
-                      old_model_observer_registration&.unobserve
                       model_observer_registration = observe(model, column_property)
-                      @model_observer_registrations[model][column_property] = model_observer_registration
+                      @model_observer_registrations[model_index][column_property] = model_observer_registration
                       add_dependent(@table_observer_registration => model_observer_registration)
                     end
                   end
+    
+                  if !same_model_collection_with_different_sort?(new_model_collection)
+                    new_model_collection.each_with_index do |model, model_index|
+                      TABLE_ITEM_PROPERTIES.each do |table_item_property|
+                        @column_properties.each do |column_property|
+                          column_property = "#{column_property}_#{table_item_property}"
+                          model_observer_registration = observe(model, column_property)
+                          @model_observer_registrations[model_index][column_property] = model_observer_registration
+                          add_dependent(@table_observer_registration => model_observer_registration)
+                        end
+                      end
+                    end
+                  end
+                  @data_binding_done = true
                 end
               end
               
@@ -211,7 +218,24 @@ module Glimmer
       end
       
       def table_item_model_collection
-        @table.swt_widget.items.map(&:get_data)
+        Glimmer::SWT::DisplayProxy.instance.auto_exec do
+          if @table.disposed?
+            []
+          else
+            @table.swt_widget.items.map(&:get_data)
+          end
+        end
+      end
+      
+      def deregister_model_observer_registrations
+        @model_observer_registrations&.dup&.each do |model_index, model_column_properties|
+          model_column_properties.dup.each do |column_property, model_observer_registration|
+            remove_dependent(@table_observer_registration => model_observer_registration) if model_observer_registration
+            model_observer_registration&.unobserve
+            model_column_properties.delete(column_property)
+          end
+          @model_observer_registrations.delete(model_index)
+        end
       end
       
       def model_collection_attribute_values(model_collection)

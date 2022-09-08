@@ -16,7 +16,11 @@ module GlimmerSpec
       ].each do |constant|
         Object.send(:remove_const, constant) if Object.const_defined?(constant)
       end
-    end    
+    end
+    
+    before do
+      @process_event_loop_before_target_dispose = true
+    end
 
     it "data-binds styled_text caret_offset" do
       @styled_text_presenter = StyledTextPresenter.new

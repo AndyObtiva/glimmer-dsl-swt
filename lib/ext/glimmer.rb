@@ -27,6 +27,11 @@ module Glimmer
       if Object.const_defined?(:ActiveSupport) && ActiveSupport.const_defined?(:Dependencies)
         begin
           ActiveSupport::Dependencies.unhook!
+          # override activesupport string method implementations if already loaded
+          gem 'facets'
+          load 'facets/string/snakecase.rb'
+          load 'facets/string/titlecase.rb'
+          load 'facets/string/camelcase.rb'
         rescue => e
           # noop TODO support logging unimportant details below debug level
         end

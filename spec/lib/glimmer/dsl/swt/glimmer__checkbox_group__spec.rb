@@ -53,7 +53,7 @@ module GlimmerSpec
       @checkbox_group.checks.each do |checkbox|
         expect(checkbox.swt_widget).to be_a(Button)
         expect(checkbox).to have_style(:check)
-      end      
+      end
       expect(@checkbox_group.checkboxes[0].selection).to be_falsey
       expect(@checkbox_group.checkboxes[1].selection).to be_truthy
       expect(@checkbox_group.checkboxes[2].selection).to be_truthy
@@ -155,7 +155,7 @@ module GlimmerSpec
       }
     end
 
-    it 'data-binds selection property' do      
+    it 'data-binds selection property' do
       @target = shell {
         @checkbox_group = checkbox_group {
           selection bind(person, :countries)
@@ -207,7 +207,7 @@ module GlimmerSpec
       expect(@checkbox_group.checkboxes[2].selection).to be_truthy
       (@checkbox_group.checkboxes - [@checkbox_group.checkboxes[2]]).each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(@checkbox_group.selection).to eq(['Mexico'])
       expect(@checkbox_group.selection_indices).to eq([2])
 
@@ -222,7 +222,7 @@ module GlimmerSpec
       expect(@checkbox_group.checkboxes[2].selection).to be_truthy
       (@checkbox_group.checkboxes[0..1] + @checkbox_group.checkboxes[3..-1]).each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(person.countries).to eq(["Mexico"])
 
       person.countries = ["Russia"]
@@ -230,7 +230,7 @@ module GlimmerSpec
       expect(@checkbox_group.checkboxes[3].selection).to be_truthy
       (@checkbox_group.checkboxes[0..2] + @checkbox_group.checkboxes[4..-1]).each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(@checkbox_group.selection).to eq(["Russia"])
       expect(@checkbox_group.selection_indices).to eq([3])
 
@@ -238,7 +238,7 @@ module GlimmerSpec
 
       @checkbox_group.checkboxes.each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(@checkbox_group.selection).to eq([])
       expect(@checkbox_group.selection_indices).to eq([])
 
@@ -246,7 +246,7 @@ module GlimmerSpec
 
       @checkbox_group.checkboxes.each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(@checkbox_group.selection).to eq([])
       expect(@checkbox_group.selection_indices).to eq([])
 
@@ -254,7 +254,7 @@ module GlimmerSpec
 
       @checkbox_group.checkboxes.each do |checkbox|
         expect(checkbox.selection).to be_falsey
-      end      
+      end
       expect(@checkbox_group.selection).to eq([])
       expect(@checkbox_group.selection_indices).to eq([])
     end
