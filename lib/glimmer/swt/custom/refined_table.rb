@@ -35,7 +35,7 @@ module Glimmer
         
         attr_accessor :filtered_model_array
         attr_accessor :refined_model_array
-        attr_reader :table_proxy, :page_text_proxy
+        attr_reader :table_proxy, :page_text_proxy, :first_button_proxy, :previous_button_proxy, :next_button_proxy, :last_button_proxy
         
         before_body do
           self.model_array ||= []
@@ -83,7 +83,7 @@ module Glimmer
             
             fill_layout(:horizontal)
             
-            button {
+            @first_button_proxy = button {
               text '<<'
               # TODO enabled
               
@@ -93,7 +93,7 @@ module Glimmer
               end
             }
             
-            button {
+            @previous_button_proxy = button {
               text '<'
               # TODO enabled
               
@@ -123,7 +123,7 @@ module Glimmer
               end
             }
             
-            button {
+            @next_button_proxy = button {
               text '>'
               # TODO enabled
               
@@ -133,7 +133,7 @@ module Glimmer
               end
             }
             
-            button {
+            @last_button_proxy = button {
               text '>>'
               # TODO enabled
               
@@ -147,6 +147,26 @@ module Glimmer
         
         def table_block=(block)
           @table_proxy.content(&block)
+        end
+        
+        def page_text_block=(block)
+          @page_text_proxy.content(&block)
+        end
+        
+        def first_button_block=(block)
+          @first_button_proxy.content(&block)
+        end
+        
+        def previous_button_block=(block)
+          @previous_button_proxy.content(&block)
+        end
+        
+        def next_button_block=(block)
+          @next_button_proxy.content(&block)
+        end
+        
+        def last_button_block=(block)
+          @last_button_proxy.content(&block)
         end
         
         def method_missing(method_name, *args, &block)
