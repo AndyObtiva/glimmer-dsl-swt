@@ -117,6 +117,8 @@ module Glimmer
               end
               
               @model_collection = new_model_collection
+            else
+              @model_collection = []
             end
             
             populate_table(@model_collection, @table, @column_properties, internal_sort: internal_sort)

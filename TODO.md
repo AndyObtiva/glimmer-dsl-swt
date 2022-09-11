@@ -5,6 +5,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 ## Next
 
 - Support editing a `refined_table` with bidirectional data-binding (as opposed to unidirectional)
+- When filtering a `refined_table`, have it remember what page the user was on before every extra filter character and cache results to reply them when backspacing the filter query term
+- Support selecting a row in a `refined_table`
 - Make sorting work with `refined_table`
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
