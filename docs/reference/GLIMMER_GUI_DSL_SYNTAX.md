@@ -4311,13 +4311,14 @@ Here is an explanation of the example above:
 
 **(ALPHA FEATURE)**
 
-`refined_table` is a custom widget that can handle very large amounts of data by applying pagination.
+`refined_table` is a custom widget that can handle very large amounts of data by applying pagination and filtering.
 
 Just use like a standard `table`, but data-bind models to the `model_array` property instead of `items`. `refined_table` will take care of the rest.
 
 Options:
 - `per_page` (default: `10`): specifies how many rows to display per page
 - `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
+- `query` (default: `''`): specifies filter query term (empty shows all results)
 
 Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through `TableEditor` cells).
 

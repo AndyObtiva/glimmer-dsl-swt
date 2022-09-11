@@ -38,6 +38,7 @@ module Glimmer
         attr_reader :table_proxy, :page_text_proxy, :first_button_proxy, :previous_button_proxy, :next_button_proxy, :last_button_proxy
         
         before_body do
+          self.query ||= ''
           self.model_array ||= []
           self.filtered_model_array = []
           self.refined_model_array = []

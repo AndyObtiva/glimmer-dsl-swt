@@ -2,11 +2,11 @@
 
 ## 4.24.4.2
 
-- `refined_table` filtering
-- Display vertical scroll bar when setting `refined_table` `per_page` to a hight value that results in table exceeding screen height
+- `refined_table` filtering support
+- Ensure correct `refined_table` enablement of pagination buttons based on whether on first/last page or not
+- Display vertical scroll bar when setting `refined_table` `per_page` to a height value that results in table exceeding screen height
 - Support `refined_table` nested elements `first_button {}`, `previous_button {}`, `page_text {}`, `next_button {}`, `last_button {}` to customize every widget within.
 - Support `refined_table` attributes for accessing nested elements: `table_proxy`, `first_button_proxy`, `previous_button_proxy`, `page_text_proxy`, `next_button_proxy`, `last_button_proxy` to customize every widget within.
-- Ensure correct `refined_table` enablement of pagination buttons based on whether on first/last page or not
 
 ## 4.24.4.1
 
@@ -16,6 +16,8 @@
 
 ## 4.24.4.0
 
+- `refined_table` custom widget with pagination support (and future filtering support)
+- Hello, Refined Table! sample demonstrating `refined_table`
 - Save `WidgetBinding` instances on `WidgetProxy` objects via `widget_bindings` attribute
 - Support specifying `@children_owner` in any custom widget for which adding children will not add them under the `body_root` (e.g. a composite wrapping a table will designate the table as the `@children_owner` for adding `table_column`s)
 - Add explicit `shell_proxy` method to `Glimmer::UI::CustomWidget` that delegates to `body_root` to avoid annoying false negative error every time that method is called
