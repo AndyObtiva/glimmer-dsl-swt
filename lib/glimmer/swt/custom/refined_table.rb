@@ -31,12 +31,15 @@ module Glimmer
         option :per_page, default: 10
         option :page, default: 0
         option :model_array
+        option :query, default: ''
         
+        attr_accessor :filtered_model_array
         attr_accessor :refined_model_array
         attr_reader :table_proxy, :page_text_proxy
         
         before_body do
           self.model_array ||= []
+          self.filtered_model_array = []
           self.refined_model_array = []
         end
         
@@ -47,12 +50,12 @@ module Glimmer
                 @data_bound = true
                 model_binding = new_widget_binding.model_binding
                 observe(self, :model_array) do
-                  paginate
+                  filter_and_paginate
                 end
                 @table_proxy.content {
                   items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options.merge(read_only: true)]
                 }
-                paginate
+                filter_and_paginate
               end
             end
           end.observe(body_root.widget_bindings)
@@ -60,71 +63,87 @@ module Glimmer
         
         body {
           composite {
-            composite {
+            text(:search, :border) {
               layout_data(:fill, :center, true, false)
               
-              fill_layout(:horizontal)
-              
-              button {
-                text '<<'
-                
-                on_widget_selected do
-                  self.page = first_page
-                  paginate
-                end
-              }
-              
-              button {
-                text '<'
-                
-                on_widget_selected do
-                  self.page -= 1
-                  paginate
-                end
-              }
-              
-              @page_text_proxy = text(:border, :center) {
-                text <= [self, :page, on_read: ->(value) { "#{value} of #{page_count}" }]
-                
-                on_focus_gained do
-                  @page_text_proxy.select_all
-                end
-                
-                on_focus_lost do
-                  self.page = @page_text_proxy.text.to_i
-                  paginate
-                end
-                
-                on_key_pressed do |key_event|
-                  if key_event.keyCode == swt(:cr)
-                    self.page = @page_text_proxy.text.to_i
-                    paginate
-                  end
-                end
-              }
-              
-              button {
-                text '>'
-                
-                on_widget_selected do
-                  self.page += 1
-                  paginate
-                end
-              }
-              
-              button {
-                text '>>'
-                
-                on_widget_selected do
-                  self.page = last_page
-                  paginate
-                end
-              }
+              text <=> [self, :query, after_write: -> { filter_and_paginate }]
             }
             
-            @children_owner = @table_proxy = table(swt_style)
+            pagination
+            
+            @children_owner = @table_proxy = table(swt_style) {
+              layout_data(:fill, :fill, true, true)
+            }
           }
         }
+        
+        def pagination
+          composite {
+            layout_data(:fill, :center, true, false)
+            
+            fill_layout(:horizontal)
+            
+            button {
+              text '<<'
+              # TODO enabled
+              
+              on_widget_selected do
+                self.page = first_page
+                filter_and_paginate
+              end
+            }
+            
+            button {
+              text '<'
+              # TODO enabled
+              
+              on_widget_selected do
+                self.page -= 1
+                filter_and_paginate
+              end
+            }
+            
+            @page_text_proxy = text(:border, :center) {
+              text <= [self, :page, on_read: ->(value) { "#{value} of #{page_count}" }]
+              
+              on_focus_gained do
+                @page_text_proxy.select_all
+              end
+              
+              on_focus_lost do
+                self.page = @page_text_proxy.text.to_i
+                filter_and_paginate
+              end
+              
+              on_key_pressed do |key_event|
+                if key_event.keyCode == swt(:cr)
+                  self.page = @page_text_proxy.text.to_i
+                  filter_and_paginate
+                end
+              end
+            }
+            
+            button {
+              text '>'
+              # TODO enabled
+              
+              on_widget_selected do
+                self.page += 1
+                filter_and_paginate
+              end
+            }
+            
+            button {
+              text '>>'
+              # TODO enabled
+              
+              on_widget_selected do
+                self.page = last_page
+                filter_and_paginate
+              end
+            }
+          }
+        end
         
         def table_block=(block)
           @table_proxy.content(&block)
@@ -153,28 +172,41 @@ module Glimmer
         end
         
         def page_count
-          (model_array && (model_array.count / per_page.to_f).ceil) || 0
+          (filtered_model_array && (filtered_model_array.count / per_page.to_f).ceil) || 0
         end
         
         def corrected_page(initial_page_value = nil)
           correct_page = initial_page_value || page
           correct_page = [correct_page, page_count].min
           correct_page = [correct_page, 1].max
-          correct_page = (model_array&.count.to_i > 0) ? (correct_page > 0 ? correct_page : 1) : 0
+          correct_page = (filtered_model_array&.count.to_i > 0) ? (correct_page > 0 ? correct_page : 1) : 0
           correct_page
         end
         
         def first_page
-          (model_array&.count.to_i > 0) ? 1 : 0
+          (filtered_model_array&.count.to_i > 0) ? 1 : 0
         end
         
         def last_page
           page_count
         end
         
+        def filter_and_paginate
+          filter
+          paginate
+        end
+        
+        def filter
+          self.filtered_model_array = model_array.select do |model|
+            @table_proxy.cells_for(model).any? do |cell_text|
+              cell_text.to_s.downcase.include?(query.to_s.downcase)
+            end
+          end
+        end
+        
         def paginate
           self.page = corrected_page(page)
-          self.refined_model_array = model_array[(page - 1) * per_page, per_page]
+          self.refined_model_array = filtered_model_array[(page - 1) * per_page, per_page]
         end
       end
     end

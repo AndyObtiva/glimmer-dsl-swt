@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.4.2
+
+- `refined_table` filtering
+- Display vertical scroll bar when setting `refined_table` `per_page` to a hight value that results in table exceeding screen height
+
 ## 4.24.4.1
 
 - Optimize `table` data-binding performance (improving paging performance in `refined_table`) by making observer registrations run asynchronously in a separate thread
