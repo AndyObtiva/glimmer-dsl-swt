@@ -6,6 +6,7 @@
 - Display vertical scroll bar when setting `refined_table` `per_page` to a hight value that results in table exceeding screen height
 - Support `refined_table` nested elements `first_button {}`, `previous_button {}`, `page_text {}`, `next_button {}`, `last_button {}` to customize every widget within.
 - Support `refined_table` attributes for accessing nested elements: `table_proxy`, `first_button_proxy`, `previous_button_proxy`, `page_text_proxy`, `next_button_proxy`, `last_button_proxy` to customize every widget within.
+- Ensure correct `refined_table` enablement of pagination buttons based on whether on first/last page or not
 
 ## 4.24.4.1
 

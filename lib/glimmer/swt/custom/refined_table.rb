@@ -85,7 +85,7 @@ module Glimmer
             
             @first_button_proxy = button {
               text '<<'
-              # TODO enabled
+              enabled <= [self, :page, on_read: ->(value) {value > first_page}]
               
               on_widget_selected do
                 self.page = first_page
@@ -95,7 +95,7 @@ module Glimmer
             
             @previous_button_proxy = button {
               text '<'
-              # TODO enabled
+              enabled <= [self, :page, on_read: ->(value) {value > first_page}]
               
               on_widget_selected do
                 self.page -= 1
@@ -125,7 +125,7 @@ module Glimmer
             
             @next_button_proxy = button {
               text '>'
-              # TODO enabled
+              enabled <= [self, :page, on_read: ->(value) {value < last_page}]
               
               on_widget_selected do
                 self.page += 1
@@ -135,7 +135,7 @@ module Glimmer
             
             @last_button_proxy = button {
               text '>>'
-              # TODO enabled
+              enabled <= [self, :page, on_read: ->(value) {value < last_page}]
               
               on_widget_selected do
                 self.page = last_page
