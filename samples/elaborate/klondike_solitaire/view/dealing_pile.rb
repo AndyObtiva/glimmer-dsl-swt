@@ -28,6 +28,10 @@ class KlondikeSolitaire
       body {
         shape(pile_x, pile_y) {
           hidden_playing_card
+          
+          on_mouse_up do |event|
+            model.deal!
+          end
         }
       }
   

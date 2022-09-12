@@ -23,7 +23,7 @@ class KlondikeSolitaire
         else
           @game.dealt_pile.push!(playing_card)
         end
-    end
+      end
       
       def playing_cards
         @playing_cards ||= []

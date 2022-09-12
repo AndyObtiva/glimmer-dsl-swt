@@ -18,11 +18,9 @@ class KlondikeSolitaire
               empty_playing_card
             }
           else
-            body_root.shapes.each { |shape| shape.drag_source = false }
             before_last_shape = body_root.shapes[-2] && body_root.shapes[-2].get_data('custom_shape').respond_to?(:model) && body_root.shapes[-2].get_data('custom_shape').model
             if model.playing_cards.last == before_last_shape # happens when dragging card out
               body_root.shapes.last.dispose
-              body_root.shapes.last.drag_source = true
             else
               body_root.content {
                 playing_card(model: model.playing_cards.last, parent_pile: self) {
