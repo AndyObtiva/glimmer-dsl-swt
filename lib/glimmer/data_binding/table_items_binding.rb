@@ -86,6 +86,8 @@ module Glimmer
               @model_observer_registrations ||= {}
               @table_item_property_observation_mutex ||= Mutex.new
               
+              brand_new_model_collection = !same_model_collection_with_different_sort?(new_model_collection)
+              
               Thread.new do
                 @data_binding_done = false
                 @table_item_property_observation_mutex.synchronize do
@@ -100,7 +102,7 @@ module Glimmer
                     end
                   end
     
-                  if !same_model_collection_with_different_sort?(new_model_collection)
+                  if brand_new_model_collection
                     new_model_collection.each_with_index do |model, model_index|
                       TABLE_ITEM_PROPERTIES.each do |table_item_property|
                         @column_properties.each do |column_property|
@@ -220,13 +222,7 @@ module Glimmer
       end
       
       def table_item_model_collection
-        Glimmer::SWT::DisplayProxy.instance.auto_exec do
-          if @table.disposed?
-            []
-          else
-            @table.swt_widget.items.map(&:get_data)
-          end
-        end
+        @table.swt_widget.items.map(&:get_data)
       end
       
       def deregister_model_observer_registrations

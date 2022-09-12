@@ -4320,7 +4320,7 @@ Options:
 - `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
 - `query` (default: `''`): specifies filter query term (empty shows all results)
 
-Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through `TableEditor` cells).
+Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through `TableEditor` cells). Also, it does not support selection or sorting by clicking columns yet.
 
 Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
 

@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.4.3
+
+- Fix issue with failed `table` extra property data-binding (e.g. foreground color, background color) due to asynchronous multi-threading optimization (now it works).
+
 ## 4.24.4.2
 
 - `refined_table` filtering support
