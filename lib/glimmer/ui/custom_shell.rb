@@ -40,11 +40,19 @@ module Glimmer
       
       def initialize(parent, *swt_constants, options, &content)
         super
-        auto_exec do
-          @swt_widget.set_data('custom_shell', self)
-          @swt_widget.set_data('custom_window', self)
-        end
         raise Error, 'Invalid custom shell (window) body root! Must be a shell (window) or another custom shell (window).' unless body_root.swt_widget.is_a?(org.eclipse.swt.widgets.Shell)
+      end
+      
+      def swt_widget
+        if @swt_widget.nil? && children_owner
+          @swt_widget = children_owner.swt_widget
+          auto_exec do
+            @swt_widget.set_data('custom_widget', self)
+            @swt_widget.set_data('custom_shell', self)
+            @swt_widget.set_data('custom_window', self)
+          end
+        end
+        @swt_widget
       end
       
       # Classes may override

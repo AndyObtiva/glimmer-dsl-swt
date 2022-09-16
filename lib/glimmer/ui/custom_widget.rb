@@ -161,13 +161,13 @@ module Glimmer
         end
       end
 
-      attr_reader :body_root, :swt_widget, :parent, :parent_proxy, :swt_style, :options
+      attr_reader :body_root, :parent, :parent_proxy, :swt_style, :options
 
       def initialize(parent, *swt_constants, options, &content)
         SWT::DisplayProxy.current_custom_widgets_and_shapes << self
         @parent_proxy = @parent = parent
         @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
-        @swt_style = SWT::SWTProxy[*swt_constants]
+        @swt_style = SWT::SWTProxy[*swt_constants] # TODO support non-standard styles like :editable, perhaps by packing in an array instead of interpreting right away
         options ||= {}
         @options = self.class.options.merge(options)
         @content = Util::ProcTracker.new(content) if content
@@ -176,9 +176,8 @@ module Glimmer
         raise Glimmer::Error, 'Invalid custom widget for having no body! Please define body block!' if body_block.nil?
         @body_root = auto_exec { instance_exec(&body_block) }
         raise Glimmer::Error, 'Invalid custom widget for having an empty body! Please fill body block!' if @body_root.nil?
-        @swt_widget = @body_root.swt_widget
         auto_exec do
-          @swt_widget.set_data('custom_widget', self)
+          @body_root.set_data('custom_widget', self)
         end
         auto_exec { execute_hook('after_body') }
         auto_exec do
@@ -201,6 +200,16 @@ module Glimmer
         SWT::DisplayProxy.current_custom_widgets_and_shapes.delete(self)
       end
       
+      def swt_widget
+        if @swt_widget.nil? && children_owner
+          @swt_widget = children_owner.swt_widget
+          auto_exec do
+            @swt_widget.set_data('custom_widget', self)
+          end
+        end
+        @swt_widget
+      end
+      
       def observer_registrations
         @observer_registrations ||= []
       end
@@ -212,7 +221,9 @@ module Glimmer
           property = observation_request.sub(/^on_updated_/, '')
           result = can_add_observer?(property)
         end
-        result || body_root&.can_handle_observation_request?(observation_request)
+        result ||
+          (children_owner != body_root && children_owner&.can_handle_observation_request?(observation_request)) ||
+          body_root&.can_handle_observation_request?(observation_request)
       end
 
       def handle_observation_request(observation_request, &block)
@@ -220,18 +231,25 @@ module Glimmer
         if observation_request.start_with?('on_updated_')
           property = observation_request.sub(/^on_updated_/, '') # TODO look into eliminating duplication from above
           add_observer(DataBinding::Observer.proc(&block), property) if can_add_observer?(property)
+        elsif children_owner != body_root && children_owner&.can_handle_observation_request?(observation_request)
+          children_owner.handle_observation_request(observation_request, &block)
         else
           body_root.handle_observation_request(observation_request, &block)
         end
       end
 
       def can_add_observer?(attribute_name)
-        has_instance_method?(attribute_name) || has_instance_method?("#{attribute_name}?") || @body_root.can_add_observer?(attribute_name)
+        has_instance_method?(attribute_name) ||
+          has_instance_method?("#{attribute_name}?") ||
+          (children_owner != @body_root && children_owner.can_add_observer?(attribute_name)) ||
+          @body_root.can_add_observer?(attribute_name)
       end
 
       def add_observer(observer, attribute_name)
         if has_instance_method?(attribute_name)
           super
+        elsif children_owner != @body_root && children_owner.can_add_observer?(attribute_name)
+          children_owner.add_observer(observer, attribute_name)
         else
           @body_root.add_observer(observer, attribute_name)
         end
@@ -239,12 +257,15 @@ module Glimmer
 
       def has_attribute?(attribute_name, *args)
         has_instance_method?(attribute_setter(attribute_name)) ||
+          (children_owner != @body_root && children_owner.has_attribute?(attribute_name, *args)) ||
           @body_root.has_attribute?(attribute_name, *args)
       end
 
       def set_attribute(attribute_name, *args)
         if has_instance_method?(attribute_setter(attribute_name))
           send(attribute_setter(attribute_name), *args)
+        elsif (children_owner != @body_root && children_owner.has_attribute?(attribute_name, *args))
+          children_owner.set_attribute(attribute_name, *args)
         else
           @body_root.set_attribute(attribute_name, *args)
         end
@@ -262,6 +283,8 @@ module Glimmer
       def get_attribute(attribute_name)
         if has_instance_method?(attribute_name)
           send(attribute_name)
+        elsif children_owner != @body_root && children_owner.has_attribute?(attribute_name)
+          children_owner.get_attribute(attribute_name)
         else
           @body_root.get_attribute(attribute_name)
         end
@@ -317,6 +340,8 @@ module Glimmer
         # but fail the glimmer DSL for the right reason to avoid seeing noise in the log output
         if block && can_handle_observation_request?(method)
           handle_observation_request(method, &block)
+        elsif children_owner != @body_root && children_owner.respond_to?(method, *args, &block)
+          children_owner.send(method, *args, &block)
         else
           body_root.send(method, *args, &block)
         end
@@ -326,6 +351,7 @@ module Glimmer
       def respond_to?(method, *args, &block)
         super or
           can_handle_observation_request?(method) or
+          children_owner.respond_to?(method, *args, &block) or
           body_root.respond_to?(method, *args, &block)
       end
       

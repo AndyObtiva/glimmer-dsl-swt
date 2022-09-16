@@ -54,7 +54,7 @@ module Glimmer
                   filter_and_paginate
                 end
                 @table_proxy.content {
-                  items(dsl: true) <=> [self, :refined_model_array, model_binding.binding_options.merge(read_only: true)]
+                  items <=> [self, :refined_model_array, model_binding.binding_options.merge(read_only: true)]
                 }
                 filter_and_paginate
               end
@@ -82,7 +82,10 @@ module Glimmer
           composite {
             layout_data(:fill, :center, true, false)
             
-            fill_layout(:horizontal)
+            fill_layout(:horizontal) {
+              margin_width 0
+              margin_height 0
+            }
             
             @first_button_proxy = button {
               text '<<'
@@ -169,29 +172,7 @@ module Glimmer
         def last_button_block=(block)
           @last_button_proxy.content(&block)
         end
-        
-        def method_missing(method_name, *args, &block)
-          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
-          if dsl_mode
-            args.pop if args.last.is_a?(Hash) && args.last[:dsl]
-            super(method_name, *args, &block)
-          elsif @table_proxy&.respond_to?(method_name, *args, &block)
-            @table_proxy&.send(method_name, *args, &block)
-          else
-            super
-          end
-        end
-        
-        def respond_to?(method_name, *args, &block)
-          dsl_mode = @dsl_mode || args.last.is_a?(Hash) && args.last[:dsl]
-          if dsl_mode
-            args = args[0...-1] if args.last.is_a?(Hash) && args.last[:dsl]
-            super(method_name, *args, &block)
-          else
-            super || @table_proxy&.respond_to?(method_name, *args, &block)
-          end
-        end
-        
+                
         def page_count
           (filtered_model_array && (filtered_model_array.count / per_page.to_f).ceil) || 0
         end

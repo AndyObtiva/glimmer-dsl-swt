@@ -793,6 +793,14 @@ Hello, Refined Table!
 
 ![Hello Refined Table](/images/glimmer-hello-refined-table.png)
 
+Hello, Refined Table! Booking Menu
+
+![Hello Refined Table](/images/glimmer-hello-refined-table-booking-menu.png)
+
+Hello, Refined Table! Game Booked
+
+![Hello Refined Table](/images/glimmer-hello-refined-table-game-booked.png)
+
 #### Hello, Link!
 
 This sample demonstrates the use of the `link` widget in Glimmer, including identifying which link was clicked and performing an action (displaying help) based on its location.

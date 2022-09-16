@@ -159,8 +159,7 @@ module Glimmer
             @parent_proxy = parent
             styles, extra_options = extract_args(underscored_widget_name, args)
             swt_widget_class = self.class.swt_widget_class_for(underscored_widget_name)
-            swt_widget_producer = @parent_proxy.respond_to?(:children_owner) ? @parent_proxy.children_owner : @parent_proxy
-            @swt_widget = swt_widget_class.new(swt_widget_producer.swt_widget, style(underscored_widget_name, styles), *extra_options)
+            @swt_widget = swt_widget_class.new(@parent_proxy.swt_widget, style(underscored_widget_name, styles), *extra_options)
           else
             @swt_widget = swt_widget
             underscored_widget_name = self.class.underscored_widget_name(@swt_widget)

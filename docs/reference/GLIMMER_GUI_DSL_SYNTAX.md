@@ -3732,7 +3732,7 @@ shell {
 
 Screenshot:
 
-![Canvas Animation Example](/images/glimmer-example-canvas-animation.png)
+![Canvas Animation Example](/images/glimmer-example-canvas-animation.gif)
 
 Keywords:
 - `animation` declares an animation under a canvas, which renders frames using a frame block indefinitely or finitely depending on (cycle_count/frame_count) properties

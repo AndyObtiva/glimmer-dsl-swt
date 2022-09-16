@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Upgrade to SWT 4.25
 - Support editing a `refined_table` with bidirectional data-binding (as opposed to unidirectional)
 - When filtering a `refined_table`, have it remember what page the user was on before every extra filter character and cache results to reply them when backspacing the filter query term
 - Support selecting a row in a `refined_table`

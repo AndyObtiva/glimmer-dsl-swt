@@ -78,9 +78,15 @@ class HelloRefinedTable
     def ballpark
       home_team.ballpark
     end
+    
+    def to_s
+      "#{home_team_name} vs #{away_team_name} at #{ballpark}"
+    end
   end
   
   BaseballSeason = Struct.new(:year) do
+    attr_accessor :selected_game
+  
     def games
       if @games.nil?
         @games = []
@@ -149,7 +155,21 @@ class HelloRefinedTable
           text 'Away Team'
         }
         
+        menu {
+          menu_item {
+            text 'Book'
+            
+            on_widget_selected do
+              message_box {
+                text 'Game Booked!'
+                message "The game \"#{@baseball_season.selected_game}\" has been booked!"
+              }.open
+            end
+          }
+        }
+        
         model_array <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+        selection <=> [@baseball_season, :selected_game]
       }
     }
   }

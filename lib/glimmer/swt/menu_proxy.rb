@@ -57,6 +57,7 @@ module Glimmer
 
         swt_widget_class = self.class.swt_widget_class_for('menu')
         if parent.swt_widget.is_a?(Menu)
+          # TODO support CustomWidget children_owner
           @menu_item_proxy = SWT::WidgetProxy.new('menu_item', parent, [:cascade] + [index].compact)
           @swt_menu_item = @menu_item_proxy.swt_widget
           @swt_widget = swt_widget_class.new(@menu_item_proxy.swt_widget)
@@ -64,6 +65,7 @@ module Glimmer
         elsif parent.swt_widget.is_a?(Shell)
           @swt_widget = swt_widget_class.new(parent.swt_widget, style('menu', styles))
         elsif parent.swt_widget.is_a?(TrayItem)
+          # TODO support CustomWidget children_owner
           @swt_widget = swt_widget_class.new(parent.shell_proxy.swt_widget, style('menu', styles))
           parent.menu_proxy = self
         else

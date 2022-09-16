@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.24.4.4
+
+- Support `refined_table` `selection` data-binding
+- Remove extra horizontal/vertical margins in `refined_table` pagination area
+- Update Hello, Refined Table! to support booking a game with right-click pop up context menu
+- Have `Glimmer::UI::CustomWidget` better delegate listners and data-binding observers to `@children_owner` when set
+
 ## 4.24.4.3
 
 - Fix issue with failed `table` extra property data-binding (e.g. foreground color, background color) due to asynchronous multi-threading optimization (now it works).
