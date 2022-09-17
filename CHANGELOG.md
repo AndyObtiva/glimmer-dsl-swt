@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.24.4.5
+
+- Support `refined_table` `:editable` SWT style and `model_array` bidirectional data-binding
+- Update Hello, Refined Table! to allow editing the table
+- Support `Glimmer::UI::CustomWidget`/`Glimmer::UI::CustomShell` support for `swt_style_symbols` read-only attribute to access array of SWT style symbols (works better than `swt_style` because some widgets support custom Glimmer-only SWT style symbols not originally supported by SWT)
+
 ## 4.24.4.4
 
 - Support `refined_table` `selection` data-binding

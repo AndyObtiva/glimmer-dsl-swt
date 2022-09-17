@@ -161,13 +161,13 @@ module Glimmer
         end
       end
 
-      attr_reader :body_root, :parent, :parent_proxy, :swt_style, :options
+      attr_reader :body_root, :parent, :parent_proxy, :swt_style_symbols, :options
 
-      def initialize(parent, *swt_constants, options, &content)
+      def initialize(parent, *swt_style_symbols, options, &content)
         SWT::DisplayProxy.current_custom_widgets_and_shapes << self
         @parent_proxy = @parent = parent
         @parent_proxy = @parent&.get_data('proxy') if @parent.respond_to?(:get_data) && @parent.get_data('proxy')
-        @swt_style = SWT::SWTProxy[*swt_constants] # TODO support non-standard styles like :editable, perhaps by packing in an array instead of interpreting right away
+        @swt_style_symbols = swt_style_symbols
         options ||= {}
         @options = self.class.options.merge(options)
         @content = Util::ProcTracker.new(content) if content
@@ -191,9 +191,10 @@ module Glimmer
         post_add_content if content.nil?
       end
       
+      # Calls post_initialize_child on children_owner by default
       # Subclasses may override to perform post initialization work on an added child
       def post_initialize_child(child)
-        # No Op by default
+        children_owner.post_initialize_child(child)
       end
 
       def post_add_content
@@ -208,6 +209,14 @@ module Glimmer
           end
         end
         @swt_widget
+      end
+      
+      # returns calculated SWT style integer value from swt_style_symbols
+      # keep in mind that it would not work when using glimmer-only
+      # custom swt_style_symbols like :editable for table
+      # In that case, just reference swt_style_symbols array instead
+      def swt_style
+        @swt_style ||= SWT::SWTProxy[*@swt_style_symbols]
       end
       
       def observer_registrations

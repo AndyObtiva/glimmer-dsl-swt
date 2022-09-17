@@ -149,7 +149,7 @@ module Glimmer
             @composite = composite {
               grid_layout(2, false)
               
-              @line_numbers_styled_text_proxy = styled_text(swt(swt(swt_style), :h_scroll!, :v_scroll!)) {
+              @line_numbers_styled_text_proxy = styled_text(swt(swt(@swt_style), :h_scroll!, :v_scroll!)) {
                 layout_data(:right, :fill, false, true)
 
                 text <= [self, :styled_text_proxy_text,
@@ -186,7 +186,7 @@ module Glimmer
         }
         
         def code_text_widget
-          @styled_text_proxy = styled_text(swt_style) {
+          @styled_text_proxy = styled_text(@swt_style) {
 #             custom_widget_property_owner # TODO implement to route properties here without declaring method_missing
             layout_data :fill, :fill, true, true if lines
             

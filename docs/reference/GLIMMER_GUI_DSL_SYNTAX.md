@@ -4320,37 +4320,53 @@ Options:
 - `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
 - `query` (default: `''`): specifies filter query term (empty shows all results)
 
-Note that currently `refined_table` only supports displaying a **read-only** table (meaning it can read updates from the model, but it cannot write back to the model through `TableEditor` cells). Also, it does not support selection or sorting by clicking columns yet.
+Note that currently `refined_table` does not support sorting by clicking columns yet.
 
 Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
 
 ![hello refined table](/images/glimmer-hello-refined-table.png)
 
 ```ruby
-      #... more code precedes
-      
-      refined_table(per_page: 20) {
+      #...
+      refined_table(:editable, :border, per_page: 20) { # also `page: 1` by default
         table_column {
           width 100
           text 'Date'
+          editor :date_drop_down
         }
         table_column {
           width 200
           text 'Ballpark'
+          editor :none
         }
         table_column {
           width 150
           text 'Home Team'
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         table_column {
           width 150
           text 'Away Team'
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         
-        model_array <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+        menu {
+          menu_item {
+            text 'Book'
+            
+            on_widget_selected do
+              message_box {
+                text 'Game Booked!'
+                message "The game \"#{@baseball_season.selected_game}\" has been booked!"
+              }.open
+            end
+          }
+        }
+        
+        model_array <=> [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+        selection <=> [@baseball_season, :selected_game]
       }
-      
-      #...more code follows
+      #...
 ```
 
 #### Tree

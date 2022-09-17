@@ -59,6 +59,10 @@ class HelloRefinedTable
           {town: 'San Francisco', name: 'Giants', ballpark: 'Oracle Park'},
         ].map {|team_kwargs| new(team_kwargs)}
       end
+      
+      def all_team_names
+        @all_team_names ||= BaseballTeam.all.map {|t| t[:name]}
+      end
     end
     
     def complete_name
@@ -71,12 +75,34 @@ class HelloRefinedTable
       home_team.complete_name
     end
     
+    def home_team_name=(new_name)
+      new_home_team = BaseballTeam.all.find {|t| t[:name] == new_name}
+      self.home_team = new_home_team if new_home_team
+    end
+    
+    def home_team_name_options
+      BaseballTeam.all_team_names
+    end
+    
     def away_team_name
       away_team.complete_name
     end
     
+    def away_team_name=(new_name)
+      new_away_team = BaseballTeam.all.find {|t| t[:name] == new_name}
+      self.away_team = new_away_team if new_away_team
+    end
+    
+    def away_team_name_options
+      BaseballTeam.all_team_names
+    end
+    
     def ballpark
       home_team.ballpark
+    end
+    
+    def date=(new_date)
+      self['date'] = new_date.respond_to?(:to_date) ? new_date.to_date : new_date
     end
     
     def to_s
@@ -137,22 +163,26 @@ class HelloRefinedTable
     shell {
       text 'Hello, Refined Table!'
     
-      refined_table(per_page: 20) { # also `page: 1` by default
+      refined_table(:editable, :border, per_page: 20) { # also `page: 1` by default
         table_column {
           width 100
           text 'Date'
+          editor :date_drop_down
         }
         table_column {
           width 200
           text 'Ballpark'
+          editor :none
         }
         table_column {
           width 150
           text 'Home Team'
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         table_column {
           width 150
           text 'Away Team'
+          editor :combo, :read_only # read_only is simply an SWT style passed to combo widget
         }
         
         menu {
@@ -168,7 +198,7 @@ class HelloRefinedTable
           }
         }
         
-        model_array <= [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
+        model_array <=> [@baseball_season, :games, column_attributes: {'Home Team' => :home_team_name, 'Away Team' => :away_team_name}]
         selection <=> [@baseball_season, :selected_game]
       }
     }

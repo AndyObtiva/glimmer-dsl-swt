@@ -54,7 +54,7 @@ module Glimmer
                   filter_and_paginate
                 end
                 @table_proxy.content {
-                  items <=> [self, :refined_model_array, model_binding.binding_options.merge(read_only: true)]
+                  items <=> [self, :refined_model_array, model_binding.binding_options]
                 }
                 filter_and_paginate
               end
@@ -72,7 +72,7 @@ module Glimmer
             
             pagination
             
-            @children_owner = @table_proxy = table(swt_style) {
+            @children_owner = @table_proxy = table(*swt_style_symbols) {
               layout_data(:fill, :fill, true, true)
             }
           }

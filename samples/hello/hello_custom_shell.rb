@@ -36,12 +36,13 @@ class EmailShell
   option :to, default: '"John Irwin" <john.irwin@example.com>'
   
   before_body do
-    @swt_style |= swt(:shell_trim, :modeless)
+    # build a custom swt_style based on passed in swt style symbols (built-in CustomShell attribute)
+    @swt_style = swt(:shell_trim, :modeless, *swt_style_symbols)
   end
   
   body {
-    # pass received swt_style through to shell to customize it (e.g. :dialog_trim for a blocking shell)
-    shell(parent_shell, swt_style) {
+    # pass received @swt_style through to shell to customize it (e.g. :dialog_trim for a blocking shell)
+    shell(parent_shell, @swt_style) {
       grid_layout(2, false)
       
       text subject
