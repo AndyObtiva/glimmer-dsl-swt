@@ -167,6 +167,7 @@ module Glimmer
             parent = swt_widget.parent
             @parent_proxy = parent&.get_data('proxy') || parent_proxy_class.new(swt_widget: parent)
           end
+          shell_proxy # populates @shell_proxy attribute
           if @swt_widget&.get_data('proxy').nil?
             @swt_widget.set_data('proxy', self)
             DEFAULT_INITIALIZERS[underscored_widget_name.to_s.to_sym]&.call(@swt_widget)
@@ -201,10 +202,12 @@ module Glimmer
       end
       
       def shell_proxy
-        if @swt_widget.respond_to?(:shell)
-          @swt_widget.shell.get_data('proxy')
+        if @swt_widget.respond_to?(:shell) && !@swt_widget.is_disposed
+          @shell_proxy = @swt_widget.shell.get_data('proxy')
+        elsif @parent_proxy&.shell_proxy
+          @shell_proxy = @parent_proxy&.shell_proxy
         else
-          @parent_proxy&.shell_proxy
+          @shell_proxy
         end
       end
       

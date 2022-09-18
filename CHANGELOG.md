@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.24.4.6 (unreleased)
+
+- Fix issue with Tetris sample upon restart of game (WidgetProxy#shell_proxy method was failing for being disposed, now it retains a reference to parent that stays if disposed)
+
 ## 4.24.4.5
 
 - Support `refined_table` `:editable` SWT style and `model_array` bidirectional data-binding

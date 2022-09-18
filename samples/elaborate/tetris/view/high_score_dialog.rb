@@ -28,11 +28,11 @@ class Tetris
   
       options :parent_shell, :game
       
-      after_body {
+      after_body do
         @game_over_observer = observe(game, :game_over) do |game_over|
           close if !game_over
         end
-      }
+      end
       
       body {
         dialog(parent_shell) {
