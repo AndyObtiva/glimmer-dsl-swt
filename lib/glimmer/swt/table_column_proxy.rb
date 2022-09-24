@@ -27,15 +27,15 @@ module Glimmer
     # A proxy object representing SWT TableColumn
     # Accepts a :no_sort custom style to disable sorting on this column
     class TableColumnProxy < Glimmer::SWT::WidgetProxy
-      attr_reader :no_sort, :sort_property, :editor
+      attr_reader :sort_property, :editor
+      attr_accessor :no_sort, :sort_block, :sort_by_block
       alias no_sort? no_sort
-      attr_accessor :sort_block, :sort_by_block
       
       def initialize(underscored_widget_name, parent, args)
         @no_sort = args.delete(:no_sort)
         super
         on_widget_selected do |event|
-          parent.sort_by_column!(self)
+          parent.sort_by_column!(self) unless no_sort?
         end unless no_sort?
       end
       

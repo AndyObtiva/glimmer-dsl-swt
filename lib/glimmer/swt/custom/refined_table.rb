@@ -50,6 +50,7 @@ module Glimmer
               if new_widget_binding.property.to_s == 'model_array' && !@data_bound
                 @data_bound = true
                 model_binding = new_widget_binding.model_binding
+                configure_sorting
                 observe(self, :model_array) do
                   filter_and_paginate
                 end
@@ -209,6 +210,38 @@ module Glimmer
         def paginate
           self.page = corrected_page(page)
           self.refined_model_array = filtered_model_array[(page - 1) * per_page, per_page]
+        end
+        
+        private
+        
+        def configure_sorting
+          @table_proxy.sort_strategy = lambda do
+            array = model_array.dup
+            array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
+            # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
+            if @table_proxy.sort_block
+              sorted_array = array.sort(&@table_proxy.sort_block)
+            elsif @table_proxy.sort_by_block
+              sorted_array = array.sort_by(&@table_proxy.sort_by_block)
+            else
+              sorted_array = array.sort_by do |object|
+                @table_proxy.sort_property.each_with_index.map do |a_sort_property, i|
+                  value = object.send(a_sort_property)
+                  # handle nil and difficult to compare types gracefully
+                  if @table_proxy.sort_type[i] == Integer
+                    value = value.to_i
+                  elsif @table_proxy.sort_type[i] == Float
+                    value = value.to_f
+                  elsif @table_proxy.sort_type[i] == String
+                    value = value.to_s
+                  end
+                  value
+                end
+              end
+            end
+            sorted_array = sorted_array.reverse if @table_proxy.sort_direction == :descending
+            self.model_array = sorted_array
+          end
         end
       end
     end

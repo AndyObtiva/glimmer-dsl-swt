@@ -1,7 +1,9 @@
 # Change Log
 
-## 4.24.4.6 (unreleased)
+## 4.24.4.6
 
+- Support `refined_table` sorting (now clicking on headers sorts the entire `model_array` collection, not just the visible rows)
+- Support `table` `no_sort` attribute to disable sorting in general if needed
 - Fix issue with Tetris sample upon restart of game (WidgetProxy#shell_proxy method was failing for being disposed, now it retains a reference to parent that stays if disposed)
 
 ## 4.24.4.5

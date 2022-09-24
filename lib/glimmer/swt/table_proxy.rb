@@ -247,7 +247,7 @@ module Glimmer
       
       attr_reader :table_editor, :table_editor_widget_proxy, :sort_property, :sort_direction, :sort_block, :sort_type, :sort_by_block, :additional_sort_properties, :editor, :editable
       attr_writer :column_properties
-      attr_accessor :table_items_binding
+      attr_accessor :table_items_binding, :sort_strategy
       alias column_attributes= column_properties=
       alias editable? editable
       
@@ -398,36 +398,46 @@ module Glimmer
       
       def sort!(internal_sort: false)
         return unless sort_property && (sort_type || sort_block || sort_by_block)
-        original_array = array = model_binding.evaluate_property
-        array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
-        # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
-        if sort_block
-          sorted_array = array.sort(&sort_block)
-        elsif sort_by_block
-          sorted_array = array.sort_by(&sort_by_block)
+        if sort_strategy
+          sort_strategy.call
         else
-          sorted_array = array.sort_by do |object|
-            sort_property.each_with_index.map do |a_sort_property, i|
-              value = object.send(a_sort_property)
-              # handle nil and difficult to compare types gracefully
-              if sort_type[i] == Integer
-                value = value.to_i
-              elsif sort_type[i] == Float
-                value = value.to_f
-              elsif sort_type[i] == String
-                value = value.to_s
+          original_array = array = model_binding.evaluate_property
+          array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
+          # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
+          if sort_block
+            sorted_array = array.sort(&sort_block)
+          elsif sort_by_block
+            sorted_array = array.sort_by(&sort_by_block)
+          else
+            sorted_array = array.sort_by do |object|
+              sort_property.each_with_index.map do |a_sort_property, i|
+                value = object.send(a_sort_property)
+                # handle nil and difficult to compare types gracefully
+                if sort_type[i] == Integer
+                  value = value.to_i
+                elsif sort_type[i] == Float
+                  value = value.to_f
+                elsif sort_type[i] == String
+                  value = value.to_s
+                end
+                value
               end
-              value
             end
           end
+          sorted_array = sorted_array.reverse if sort_direction == :descending
+          if model_binding.binding_options.symbolize_keys[:read_only_sort]
+            table_items_binding.call(sorted_array, internal_sort: true) unless internal_sort
+          else
+            model_binding.call(sorted_array)
+          end
+          sorted_array
         end
-        sorted_array = sorted_array.reverse if sort_direction == :descending
-        if model_binding.binding_options.symbolize_keys[:read_only_sort]
-          table_items_binding.call(sorted_array, internal_sort: true) unless internal_sort
-        else
-          model_binding.call(sorted_array)
+      end
+      
+      def no_sort=(value)
+        table_column_proxies.each do |table_column_proxy|
+          table_column_proxy.no_sort = value
         end
-        sorted_array
       end
       
       def editor=(args)

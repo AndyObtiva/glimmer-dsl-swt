@@ -112,6 +112,7 @@ class HelloRefinedTable
   
   BaseballSeason = Struct.new(:year) do
     attr_accessor :selected_game
+    attr_writer :games
   
     def games
       if @games.nil?

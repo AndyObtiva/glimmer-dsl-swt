@@ -4,11 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
-- Upgrade to SWT 4.25
-- Support editing a `refined_table` with bidirectional data-binding (as opposed to unidirectional)
 - When filtering a `refined_table`, have it remember what page the user was on before every extra filter character and cache results to reply them when backspacing the filter query term
-- Support selecting a row in a `refined_table`
-- Make sorting work with `refined_table`
+- Upgrade to SWT 4.25
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
@@ -31,7 +28,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Update Hello, File Dialog! to demonstrate both :Open and :Save SWT styles
 
-- Custom Widget `after_body` hook fires after its own internal body is called. What about the externally added body by passing custom widget keyword a block?
+- Custom Widget `after_body` hook fires after its own internal body is called. What about the externally added body by passing custom widget keyword a block? Support `after_external_body` or something similar.
 - Support `table` data-binding to row data Array of Arrays just like Glimmer DSL for LibUI
 - Support `table` data-binding to row data Array of Hashes (do so in Glimmer DSL for LibUI too)
 
@@ -568,6 +565,7 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - Hello, Tooltip!
 - Hello, Task Bar! (bottom status bar) (support `task_bar` and `task_item` widgets under shell)
 - Hello, Popup List! (selectable items that appear in own shell positioned above parent shell; e.g. text autocomplete) (support `popup_list` widget and/or `autocomplete_text` custom widget)
+- Envelope printing app: modify app to do a form similar to Hello, Computed!, building an envelope with a personal address and target address
 - Sliding Puzzle Sample
 - Music playing app
 - Medical Patient Management app
