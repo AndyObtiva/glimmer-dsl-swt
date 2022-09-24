@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - When filtering a `refined_table`, have it remember what page the user was on before every extra filter character and cache results to reply them when backspacing the filter query term
 - Upgrade to SWT 4.25
+- Refactor Meta-Sample to pull in remote video tutorial data in a separate thread
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2

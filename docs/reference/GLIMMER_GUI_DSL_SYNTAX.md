@@ -4309,7 +4309,7 @@ Here is an explanation of the example above:
 
 ##### Refined Table
 
-**(ALPHA FEATURE)**
+**(BETA FEATURE)**
 
 `refined_table` is a custom widget that can handle very large amounts of data by applying pagination and filtering.
 
@@ -4320,7 +4320,7 @@ Options:
 - `page` (default: `1` if table is filled and `0` otherwise): specifies initial page
 - `query` (default: `''`): specifies filter query term (empty shows all results)
 
-Note that currently `refined_table` does not support sorting by clicking columns yet.
+When click columns (headers) in a `refined_table`, it sorts the entire `model_array`, not just the visible rows.
 
 Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
 
