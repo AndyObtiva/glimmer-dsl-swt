@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.25.0.0
+
+- Upgrade to SWT 4.25
+
 ## 4.24.4.8
 
 - Optimize `refined_table` sorting to avoid re-running upon navigating pages
