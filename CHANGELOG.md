@@ -3,6 +3,7 @@
 ## 4.25.0.0
 
 - Upgrade to SWT 4.25
+- Upgrade to JRuby 9.3.8.0
 
 ## 4.24.4.8
 
