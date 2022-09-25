@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.4.7
+
+- Optimize performance of `refined_table` in filtering (it now caches results and replays them) and pagination (it now remembers last query page and avoids refiltering when paginating on the same query value)
+- Improve `combo` `selection` data-binding by auto-converting `_options` values to `String` before setting as `Item`s on `combo` (e.g. in case `Integer` values were set like years)
+
 ## 4.24.4.6
 
 - Support `refined_table` sorting (now clicking on headers sorts the entire `model_array` collection, not just the visible rows)

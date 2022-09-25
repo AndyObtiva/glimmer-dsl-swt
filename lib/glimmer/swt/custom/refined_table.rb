@@ -39,6 +39,7 @@ module Glimmer
         
         before_body do
           self.query ||= ''
+          @last_query = self.query
           self.model_array ||= []
           self.filtered_model_array = []
           self.refined_model_array = []
@@ -52,6 +53,8 @@ module Glimmer
                 model_binding = new_widget_binding.model_binding
                 configure_sorting
                 observe(self, :model_array) do
+                  @query_to_filtered_model_array_hash = {}
+                  @query_to_page_hash = {}
                   filter_and_paginate
                 end
                 @table_proxy.content {
@@ -200,16 +203,50 @@ module Glimmer
         end
         
         def filter
-          self.filtered_model_array = model_array.select do |model|
-            @table_proxy.cells_for(model).any? do |cell_text|
-              cell_text.to_s.downcase.include?(query.to_s.downcase)
+          new_query = query.to_s.strip
+          new_filtered_model_array = query_to_filtered_model_array_hash[new_query]
+          if new_filtered_model_array.nil?
+            if new_query.empty?
+              query_to_filtered_model_array_hash[new_query] = new_filtered_model_array = model_array.dup
+            else
+              new_filtered_model_array = model_array.select do |model|
+                @table_proxy.cells_for(model).any? do |cell_text|
+                  cell_text.to_s.downcase.include?(new_query.downcase)
+                end
+              end
+              query_to_filtered_model_array_hash[new_query] = new_filtered_model_array
             end
           end
+          self.filtered_model_array = new_filtered_model_array
+          restore_query_page
+          @last_query = new_query
         end
         
         def paginate
           self.page = corrected_page(page)
           self.refined_model_array = filtered_model_array[(page - 1) * per_page, per_page]
+        end
+        
+        def restore_query_page
+          new_query = query.to_s.strip
+          last_query = @last_query.to_s.strip
+          if last_query != new_query
+            query_to_page_hash[last_query] = page
+          else
+            query_to_page_hash[new_query] = page
+          end
+          if last_query != new_query && last_query.include?(new_query)
+            new_page = query_to_page_hash[new_query]
+            self.page = corrected_page(new_page) if new_page
+          end
+        end
+        
+        def query_to_filtered_model_array_hash
+          @query_to_filtered_model_array_hash ||= {}
+        end
+        
+        def query_to_page_hash
+          @query_to_page_hash ||= {}
         end
         
         private

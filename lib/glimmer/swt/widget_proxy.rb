@@ -1146,7 +1146,7 @@ module Glimmer
             end.to_java(Image)
           end,
           items: lambda do |value|
-            value.to_java :string
+            value.map(&:to_s).to_java :string
           end,
           maximized_control: lambda do |value|
             value = (value.respond_to?(:swt_widget) ? value.swt_widget : value) if swt_widget.is_a?(SashForm)

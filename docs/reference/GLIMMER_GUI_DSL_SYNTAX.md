@@ -4322,6 +4322,8 @@ Options:
 
 When click columns (headers) in a `refined_table`, it sorts the entire `model_array`, not just the visible rows.
 
+Also, upon filtering with a query term, moving in pages, and then unfiltering (backspacing)/refiltering, it remembers the last query term's page and results (through caching) and goes back to them, thus ensuring better performance.
+
 Example taken from [Hello, Refined Table!](/docs/reference/GLIMMER_SAMPLES.md#hello-refined-table):
 
 ![hello refined table](/images/glimmer-hello-refined-table.png)

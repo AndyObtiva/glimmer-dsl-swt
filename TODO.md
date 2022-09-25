@@ -11,6 +11,9 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 
+- Support `refined_table` column-specific filtering using `:` (e.g. `name:Lisa`)
+- Support `refined_table` ANDing of query terms when including multiple terms separated by space
+- Support `refined_table` exact term filtering when using double-quotes around multiple words
 - Consider supporting `table` converters at the model attribute level (similar to general data-binding on_read and on_write converters)
 - Add indent/outdent keyboard shortcuts to `code_text` default behavior (with some refactoring to simplify modifications via a presenter model)
 - Test tray_item in Windows after having removed on_widget_selected from its menu
