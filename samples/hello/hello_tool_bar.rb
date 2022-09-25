@@ -36,7 +36,8 @@ class HelloToolBar
 
   body {
     shell {
-      fill_layout(:vertical) {
+      row_layout(:vertical) {
+        fill true
         margin_width 0
         margin_height 0
       }
