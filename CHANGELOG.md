@@ -4,6 +4,7 @@
 
 - Upgrade to SWT 4.25
 - Upgrade to JRuby 9.3.8.0
+- Make `:edge` the default SWT style for `browser` widget on Windows (Microsoft Edge Browser)
 
 ## 4.24.4.8
 

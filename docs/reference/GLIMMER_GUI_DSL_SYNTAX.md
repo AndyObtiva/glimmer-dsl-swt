@@ -1079,7 +1079,7 @@ You may check out a more full-fledged example in [Hello, Sash Form!](/docs/refer
 
 ![Hello Browser](/images/glimmer-hello-browser.png)
 
-Glimmer DSL for SWT includes a basic [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html), which can load URLs or render HTML. It supports WebKit, IE, and Edge browsers out of the box. Its JavaScript engine can even be instrumented with Ruby code if needed.
+Glimmer DSL for SWT includes a basic [SWT Browser widget](https://help.eclipse.org/2020-12/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/browser/Browser.html), which can load URLs or render HTML. It supports WebKit (default on Mac/Linux), Edge (default on Windows), and IE (pass SWT style `:none` to activate on Windows) browsers out of the box. Its JavaScript engine can even be instrumented with Ruby code if needed.
 
 Example loading a URL (you may copy/paste in [`girb`](GLIMMER_GIRB.md)):
 

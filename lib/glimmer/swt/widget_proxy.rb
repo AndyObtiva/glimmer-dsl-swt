@@ -49,6 +49,7 @@ module Glimmer
 
       DEFAULT_STYLES = {
         'arrow'               => [:arrow, :down],
+        'browser'              => ([:edge] if OS.windows?),
         'button'              => [:push],
         'canvas'              => ([:double_buffered] unless OS.mac?),
         'ccombo'              => [:border],
