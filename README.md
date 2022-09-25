@@ -21,7 +21,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.25.0.0 includes [SWT 4.24](https://download.eclipse.org/eclipse/downloads/drops4/R-4.24-202206070700/), which was released on June 7, 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.25.0.0 includes [SWT 4.25](https://download.eclipse.org/eclipse/downloads/drops4/R-4.25-202208311800/), which was released on 31 Aug 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword. That was [originally conceived back in 2007](https://andymaleh.blogspot.com/2007/12/data-shining-in-glimmer.html).
 
@@ -306,10 +306,10 @@ https://www.eclipse.org/swt/faq.php
 
 ## Pre-requisites
 
-- JDK 18 is required / JDK 16 is minimum except on Mac ARM64 where JDK 17 is minimum (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
+- JDK 19 is recommended / JDK 16 is the minimum except on Mac ARM64 where JDK 17 is the minimum (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
 - [RVM](http://rvm.io) on Mac & Linux (not needed on Windows)
-- JRuby 9.3.7.0 is required / JRuby 9.3.6.0 is minimum (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.7.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
-- SWT 4.24 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT supports ARM64/AARCH64 on Mac and Linux since version 4.20
+- JRuby 9.3.8.0 is recommended / JRuby 9.3.6.0 is the minimum (supporting Ruby 2.6.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.3.8.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
+- SWT 4.25 (already included in the [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem). Note that SWT supports ARM64/AARCH64 on Mac and Linux since version 4.20
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.

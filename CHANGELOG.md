@@ -4,6 +4,7 @@
 
 - Upgrade to SWT 4.25
 - Upgrade to JRuby 9.3.8.0
+- Upgrade to JDK 19
 - Make `:edge` the default SWT style for `browser` widget on Windows (Microsoft Edge Browser)
 - Fix Hello, Tool Bar! look in Linux
 
