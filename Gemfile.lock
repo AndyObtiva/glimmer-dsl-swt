@@ -160,6 +160,7 @@ PLATFORMS
   universal-java-16
   universal-java-17
   universal-java-18
+  universal-java-19
 
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
@@ -186,4 +187,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.3.0)
 
 BUNDLED WITH
-   2.3.21
+   2.3.20

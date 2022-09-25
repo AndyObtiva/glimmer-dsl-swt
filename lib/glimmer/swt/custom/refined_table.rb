@@ -53,8 +53,7 @@ module Glimmer
                 model_binding = new_widget_binding.model_binding
                 configure_sorting
                 observe(self, :model_array) do
-                  @query_to_filtered_model_array_hash = {}
-                  @query_to_page_hash = {}
+                  clear_query_cache
                   filter_and_paginate
                 end
                 @table_proxy.content {
@@ -241,6 +240,11 @@ module Glimmer
           end
         end
         
+        def clear_query_cache
+          @query_to_filtered_model_array_hash = {}
+          @query_to_page_hash = {}
+        end
+        
         def query_to_filtered_model_array_hash
           @query_to_filtered_model_array_hash ||= {}
         end
@@ -253,6 +257,9 @@ module Glimmer
         
         def configure_sorting
           @table_proxy.sort_strategy = lambda do
+            new_sort = @table_proxy.sort_block || @table_proxy.sort_by_block || @table_proxy.sort_property
+            new_sort_direction = @table_proxy.sort_direction
+            return if new_sort == @last_sort && new_sort_direction == @last_sort_direction
             array = model_array.dup
             array = array.sort_by(&:hash) # this ensures consistent subsequent sorting in case there are equivalent sorts to avoid an infinite loop
             # Converting value to_s first to handle nil cases. Should work with numeric, boolean, and date fields
@@ -278,6 +285,8 @@ module Glimmer
             end
             sorted_array = sorted_array.reverse if @table_proxy.sort_direction == :descending
             self.model_array = sorted_array
+            @last_sort = new_sort
+            @last_sort_direction = new_sort_direction
           end
         end
       end

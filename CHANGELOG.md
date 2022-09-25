@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.24.4.8
+
+- Optimize `refined_table` sorting to avoid re-running upon navigating pages
+- Fix issue with `refined_table` sorting breaking page remembering behavior upon entering a filter query
+
 ## 4.24.4.7
 
 - Optimize performance of `refined_table` in filtering (it now caches results and replays them) and pagination (it now remembers last query page and avoids refiltering when paginating on the same query value)
