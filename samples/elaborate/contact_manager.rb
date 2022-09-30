@@ -97,6 +97,24 @@ class ContactManager
             }
             
             button {
+              text "&Create"
+              
+              on_widget_selected do
+                old_items = @table.items.to_a
+                @contact_manager_presenter.create
+                new_item = (@table.items.to_a - old_items).first
+                @table.setSelection(new_item)
+                @table.showSelection
+              end
+              
+              on_key_pressed do |key_event|
+                if key_event.keyCode == swt(:cr)
+                  @contact_manager_presenter.create
+                end
+              end
+            }
+            
+            button {
               text "&Find"
               
               on_widget_selected do
@@ -122,7 +140,7 @@ class ContactManager
           }
         }
 
-        table(:editable, :border) { |table_proxy|
+        @table = table(:editable, :border) { |table_proxy|
           layout_data {
             horizontal_alignment :fill
             vertical_alignment :fill

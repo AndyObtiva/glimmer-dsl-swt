@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.25.0.1 (unreleased)
+
+- Support Contact Manager Create Button
+
 ## 4.25.0.0
 
 - Upgrade to SWT 4.25
