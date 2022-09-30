@@ -23,7 +23,7 @@ require_relative "contact_repository"
 
 class ContactManager
   class ContactManagerPresenter
-    attr_accessor :results
+    attr_accessor :results, :selected_contact
     @@contact_attributes = [:first_name, :last_name, :email]
     @@contact_attributes.each {|attribute_name| attr_accessor attribute_name}
   
@@ -64,6 +64,11 @@ class ContactManager
       @contact_repository.create(fields)
       filter
       clear_fields
+    end
+    
+    def delete
+      @contact_repository.delete(@selected_contact)
+      filter
     end
   end
 end

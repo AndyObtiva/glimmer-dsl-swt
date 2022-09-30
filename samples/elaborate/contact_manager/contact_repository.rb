@@ -169,5 +169,9 @@ class ContactManager
     def create(attributes)
       @contacts << Contact.new(attributes)
     end
+    
+    def delete(contact)
+      @contacts.delete(contact)
+    end
   end
 end

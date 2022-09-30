@@ -100,17 +100,11 @@ class ContactManager
               text "&Create"
               
               on_widget_selected do
-                old_items = @table.items.to_a
-                @contact_manager_presenter.create
-                new_item = (@table.items.to_a - old_items).first
-                @table.setSelection(new_item)
-                @table.showSelection
+                create_contact
               end
               
               on_key_pressed do |key_event|
-                if key_event.keyCode == swt(:cr)
-                  @contact_manager_presenter.create
-                end
+                create_contact if key_event.keyCode == swt(:cr)
               end
             }
             
@@ -162,7 +156,18 @@ class ContactManager
             width 200
           }
           
+          menu {
+            menu_item {
+              text '&Delete'
+              
+              on_widget_selected do
+                @contact_manager_presenter.delete
+              end
+            }
+          }
+          
           items <=> [@contact_manager_presenter, :results]
+          selection <=> [@contact_manager_presenter, :selected_contact]
           
           on_mouse_up do |event|
             table_proxy.edit_table_item(event.table_item, event.column_index)
@@ -171,6 +176,15 @@ class ContactManager
       }
     }
   }
+  
+  def create_contact
+    old_items = @table.items.to_a
+    @contact_manager_presenter.create
+    # TODO fix issue with sorted table not revealing new item correclty
+    new_item = (@table.items.to_a - old_items).first
+    @table.setSelection(new_item)
+    @table.showSelection
+  end
 end
 
 ContactManager.launch

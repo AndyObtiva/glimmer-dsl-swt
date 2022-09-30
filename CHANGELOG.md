@@ -2,7 +2,7 @@
 
 ## 4.25.0.1 (unreleased)
 
-- Support Contact Manager Create Button
+- Contact Manager Create Button and Table Delete Menu Item
 
 ## 4.25.0.0
 
