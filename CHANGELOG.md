@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.25.0.2
+
+- Fix issue with Hello, Label! crashing because image width is getting passed as 0 and the new SWT 4.25 ImageData API rejecting it as not a valid argument
+
 ## 4.25.0.1
 
 - Contact Manager Create Button and Table Delete Menu Item
