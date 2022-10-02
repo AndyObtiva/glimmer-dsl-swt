@@ -178,12 +178,13 @@ class ContactManager
   }
   
   def create_contact
-    old_items = @table.items.to_a
-    @contact_manager_presenter.create
-    # TODO fix issue with sorted table not revealing new item correclty
-    new_item = (@table.items.to_a - old_items).first
-    @table.setSelection(new_item)
-    @table.showSelection
+    created_contact = @contact_manager_presenter.create
+    new_item = @table.search do |table_item|
+      model = table_item.data # get model embodied by table item
+      created_contact == model
+    end.first
+    @table.setSelection(new_item) # set selection with Table SWT API
+    @table.showSelection # show selection with Table SWT API
   end
 end
 

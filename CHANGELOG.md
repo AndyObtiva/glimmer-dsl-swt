@@ -1,8 +1,9 @@
 # Change Log
 
-## 4.25.0.1 (unreleased)
+## 4.25.0.1
 
 - Contact Manager Create Button and Table Delete Menu Item
+- Make default table sorting behavior for strings case-insensitive
 
 ## 4.25.0.0
 

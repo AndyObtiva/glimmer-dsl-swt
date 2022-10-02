@@ -92,7 +92,7 @@ GEM
     os (1.1.4)
     pastel (0.8.0)
       tty-color (~> 0.5)
-    psych (4.0.5-java)
+    psych (4.0.6-java)
       jar-dependencies (>= 0.1.7)
     public_suffix (5.0.0)
     puts_debuggerer (0.13.5)

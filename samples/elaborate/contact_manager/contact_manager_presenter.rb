@@ -61,14 +61,17 @@ class ContactManager
     end
     
     def create
-      @contact_repository.create(fields)
+      created_contact = @contact_repository.create(fields)
       filter
       clear_fields
+      created_contact
     end
     
     def delete
-      @contact_repository.delete(@selected_contact)
+      deleted_contact = @contact_repository.delete(@selected_contact)
       filter
+      self.selected_contact = nil
+      deleted_contact
     end
   end
 end

@@ -418,7 +418,7 @@ module Glimmer
                 elsif sort_type[i] == Float
                   value = value.to_f
                 elsif sort_type[i] == String
-                  value = value.to_s
+                  value = value.to_s.downcase
                 end
                 value
               end
