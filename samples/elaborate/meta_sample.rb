@@ -254,7 +254,7 @@ class MetaSampleApplication
       image File.expand_path('../../icons/scaffold_app.png', __dir__)
       
       sash_form {
-        weights 1, 2
+        weights 1, 3
       
         composite {
           grid_layout(1, false) {
