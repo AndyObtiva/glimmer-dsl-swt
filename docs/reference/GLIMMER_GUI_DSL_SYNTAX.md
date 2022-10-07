@@ -65,6 +65,15 @@ This guide should help you get started with Glimmer DSL for SWT. For more advanc
     - [Observing Widgets](#observing-widgets)
       - [Alternative Syntax](#alternative-syntax)
     - [Observing Models](#observing-models)
+  - [Software Architecture](#software-architecture)
+    - [MVC](#mvc)
+    - [MVP](#mvp)
+    - [Software Architecture Examples](#software-architecture-examples)
+      - [MVC Example - Explicit Controller](#mvc-example---explicit-controller)
+      - [MVC Example - Implicit Controller](#mvc-example---implicit-controller)
+      - [MVP Example - Explicit Presenter](#mvp-example---explicit-presenter)
+      - [MVP Example - Implicit Presenter](#mvp-example---implicit-presenter)
+      - [MVP Example - Implicit Presenter with Bidirectional Data-Binding](#mvp-example---implicit-presenter-with-bidirectional-data-binding)
   - [Custom Widgets](#custom-widgets)
     - [Simple Example](#simple-example)
       - [Method-Based Custom Widget Example](#method-based-custom-widget-example)
@@ -4605,6 +4614,303 @@ class TicTacToe
   end
   # ...
 end
+```
+
+### Software Architecture
+
+Glimmer DSL for SWT supports both MVC (Model View Controller) and MVP (Model View Presenter) architectural patterns.
+
+#### MVC
+
+Model View Controller architectural pattern is embodied by this diagram.
+
+![model view controller](/images/glimmer-software-architecture-model-view-controller.png)
+
+#### MVP
+
+Model View Presenter architectural pattern is embodied by this diagram.
+
+![model view presenter](/images/glimmer-software-architecture-model-view-presenter.png)
+
+#### Software Architecture Examples
+
+Here are 4 different ways of implementing the [Hello, Button!](/docs/reference/GLIMMER_SAMPLES.md#hello-button) sample (other than the included default implementation).
+
+![Hello Button](/images/glimmer-hello-button.png)
+
+##### MVC Example - Explicit Controller
+
+(you may copy/paste in [`girb`](GLIMMER_GIRB.md))
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class Counter
+  attr_accessor :count
+  
+  def initialize
+    self.count = 0
+  end
+  
+  def increment
+    self.count += 1
+  end
+end
+
+class CounterController
+  def initialize(counter)
+    @counter = counter
+  end
+  
+  def increment_count
+    @counter.increment
+  end
+end
+
+class HelloButton
+  include Glimmer::UI::Application
+  
+  before_body do
+    @counter = Counter.new
+    @counter_controller = CounterController.new(@counter)
+  end
+  
+  after_body do
+    observe(@counter, :count) do |changed_count|
+      @button.text = "Click To Increment: #{changed_count}  "
+    end
+  end
+  
+  body {
+    shell {
+      text 'Hello, Button!'
+      
+      @button = button {
+        text "Click To Increment: 0  "
+        
+        on_widget_selected do
+          @counter_controller.increment_count
+        end
+      }
+    }
+  }
+end
+
+HelloButton.launch
+```
+
+##### MVC Example - Implicit Controller
+
+(you may copy/paste in [`girb`](GLIMMER_GIRB.md))
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class Counter
+  attr_accessor :count
+  
+  def initialize
+    self.count = 0
+  end
+  
+  def increment
+    self.count += 1
+  end
+end
+
+class HelloButton
+  include Glimmer::UI::Application
+  
+  before_body do
+    @counter = Counter.new
+  end
+  
+  after_body do
+    observe(@counter, :count) do |changed_count|
+      @button.text = "Click To Increment: #{changed_count}  "
+    end
+  end
+  
+  body {
+    shell {
+      text 'Hello, Button!'
+      
+      @button = button {
+        text "Click To Increment: 0  "
+        
+        on_widget_selected do
+          @counter.increment
+        end
+      }
+    }
+  }
+end
+
+HelloButton.launch
+```
+
+##### MVP Example - Explicit Presenter
+
+(you may copy/paste in [`girb`](GLIMMER_GIRB.md))
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class Counter
+  attr_accessor :count
+  
+  def initialize
+    self.count = 0
+  end
+  
+  def increment
+    self.count += 1
+  end
+end
+
+class CounterPresenter
+  include Glimmer::DataBinding::Observer
+  
+  def initialize
+    @counter = Counter.new
+    
+    Glimmer::DataBinding::Observer.proc do |changed_count|
+      notify_observers(:count)
+    end.observe(@counter, :count)
+  end
+  
+  def count
+    @counter.count
+  end
+  
+  def increment_count
+    @counter.increment
+  end
+end
+
+class HelloButton
+  include Glimmer::UI::Application
+  
+  before_body do
+    @counter_presenter = CounterPresenter.new
+  end
+  
+  body {
+    shell {
+      text 'Hello, Button!'
+      
+      button {
+        text <= [@counter_presenter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
+        
+        on_widget_selected do
+          @counter_presenter.increment_count
+        end
+      }
+      
+      
+    }
+  }
+end
+
+HelloButton.launch
+```
+
+##### MVP Example - Implicit Presenter
+
+(you may copy/paste in [`girb`](GLIMMER_GIRB.md))
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class Counter
+  attr_accessor :count
+  
+  def initialize
+    self.count = 0
+  end
+  
+  def increment
+    self.count += 1
+  end
+end
+
+class HelloButton
+  include Glimmer::UI::Application
+  
+  before_body do
+    @counter = Counter.new
+  end
+  
+  body {
+    shell {
+      text 'Hello, Button!'
+      
+      button {
+        text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
+        
+        on_widget_selected do
+          @counter.count += 1
+        end
+      }
+      
+      
+      
+    }
+  }
+end
+
+HelloButton.launch
+```
+
+##### MVP Example - Implicit Presenter with Bidirectional Data-Binding
+
+![Hello Button](/images/glimmer-hello-button-with-text-bidirectional-data-binding.png)
+
+This version diverges in behavior to demonstrate bidirectional data-binding through a text field that is data-bound bidirectionally to the same attribute that the button is data-bound to for the click count.
+
+```ruby
+require 'glimmer-dsl-swt'
+
+class Counter
+  attr_accessor :count
+  
+  def initialize
+    self.count = 0
+  end
+  
+  def increment
+    self.count += 1
+  end
+end
+
+class HelloButton
+  include Glimmer::UI::Application
+  
+  before_body do
+    @counter = Counter.new
+  end
+  
+  body {
+    shell {
+      fill_layout(:vertical)
+      text 'Hello, Button!'
+      
+      text {
+        text <=> [@counter, :count, on_read: :to_s, on_write: :to_i]
+      }
+      
+      button {
+        text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
+        
+        on_widget_selected do
+          @counter.count += 1
+        end
+      }
+    }
+  }
+end
+
+HelloButton.launch
 ```
 
 ### Custom Widgets
