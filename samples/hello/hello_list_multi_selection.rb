@@ -62,7 +62,7 @@ class HelloListMultiSelection
       
       text 'Hello, List Multi Selection!'
       
-      list(:multi) {
+      list(:multi, :border) {
         selection <=> [@person, :provinces] # also binds to provinces_options by convention
       }
       

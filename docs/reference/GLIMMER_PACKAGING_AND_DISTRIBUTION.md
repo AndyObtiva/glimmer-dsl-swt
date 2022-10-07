@@ -223,7 +223,7 @@ The `image` keyword in Glimmer automatically does that work when passing an imag
 
 5- NAME.app is damaged and can't be opened. You should move it to the trash
 
-If you package an app for the Mac and an end-user gets the error message above upon installing, note that you probably have a system incompatibility issue between your OS/CPU Architecture and the end-user's OS/CPU Architecture. To resolve the issue, make sure to repackage the app for the Mac on a system perfectly matching the end-user's OS/CPU Architecture (sometimes, packaging on a newer MacOS with the same CPU Architecture also works, but you would have to test that to confirm and ensure full compatibility).
+If you package an app for the Mac and an end-user gets the error message above upon installing, note that you either have a security-blocked-app or a system incompatibility issue between your OS/CPU Architecture and the end-user's OS/CPU Architecture. To resolve the issue, first try to go to "System Preferences -> Privacy & Security" and open the security-blocked-app anyways. If that does not work, then make sure to repackage the app for the Mac on a system perfectly matching the end-user's OS/CPU Architecture (sometimes, packaging on a newer MacOS with the same CPU Architecture also works, but you would have to test that to confirm and ensure full compatibility).
 
 6- Message about a Mac app for which the developer cannot be verified (Move To Trash or Cancel)
 

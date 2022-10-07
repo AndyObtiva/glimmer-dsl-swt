@@ -1145,7 +1145,7 @@ Example:
 
 ```ruby
 # ...
-list(:multi) { # SWT styles go inside ()
+list(:multi, :border) { # SWT styles go inside ()
   # ...
 }
 # ...
@@ -3980,7 +3980,7 @@ class HelloListMultiSelection
     person = Person.new
     shell {
       composite {
-        list(:multi) {
+        list(:multi, :border) {
           selection bind(person, :provinces)
         }
         button {

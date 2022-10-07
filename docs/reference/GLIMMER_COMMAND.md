@@ -146,7 +146,7 @@ You need to have your Git `user.name` and `github.user` configured before scaffo
 
 #### App
 
-Before you start, make sure you are in a JRuby environment with Glimmer gem installed as per "Direct Install" pre-requisites.
+Before you start, make sure you are in a JRuby environment with [glimmer-dsl-swt](https://rubygems.org/gems/glimmer-dsl-swt) gem installed as per "Direct Install" pre-requisites.
 
 To scaffold a Glimmer app from scratch, run the following command:
 
