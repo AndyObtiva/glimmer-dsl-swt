@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.26.0.0
+
+- Upgrade to SWT 4.26
+- Ensure that scaffolded custom widget (red label) uses SWT constants passed to custom widget
+- Update sash form weights in Meta Sample for bigger monitors (give more space to code)
+- Pass border to multi-line lists since it will not be included by default anymore given they are overridden with :multi SWT style
+
 ## 4.25.0.2
 
 - Fix issue with Hello, Label! crashing because image width is getting passed as 0 and the new SWT 4.25 ImageData API rejecting it as not a valid argument

@@ -787,7 +787,7 @@ end
       #
       body {
         # Replace example content below with custom widget content
-        label {
+        label(*swt_constants) {
           background :red
         }
       }
