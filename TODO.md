@@ -9,7 +9,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
 - Upgrade juwelier's/github_api's dependency on EOL'ed oauth2
 
-- support a splash screen in native executable packaging, leveraging the Java AWT splash screen feature: https://docs.oracle.com/en/java/javase/18/docs/api/java.desktop/java/awt/SplashScreen.html
+- support a splash screen in native executable packaging, leveraging the Java AWT splash screen feature: https://docs.oracle.com/en/java/javase/18/docs/api/java.desktop/java/awt/SplashScreen.html & https://docs.oracle.com/en/java/javase/17/jpackage/support-application-features.html#GUID-C7B49351-7258-4AE1-AA6F-D67859ED716A
 - Support `refined_table` column-specific filtering using `:` (e.g. `name:Lisa`)
 - Support `refined_table` ANDing of query terms when including multiple terms separated by space
 - Support `refined_table` exact term filtering when using double-quotes around multiple words
