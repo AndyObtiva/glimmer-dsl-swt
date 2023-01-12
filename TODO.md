@@ -561,6 +561,8 @@ il = ImageLoader.new(); il.data = [i.image_data]; il.save('icon.jpg', swt(:image
 - code_text custom widget syntax highlighting for Glimmer DSL syntax (not just Ruby). It can be done by recognizing all the widgets, options, properties, listeners, and methods, and coloring them uniquely.
 - Optimize performance of startup time in requiring glimmer-dsl-swt
 - Make dropping in canvas drag and drop work through testing overlap of dragged shape and drop target instead of containment of x,y in drop target to be more permissive, accurate, and user-friendly (this needs calculation of area of overlap to pick the biggest overlap for deciding where to drop)
+- Support `table` Lazy Loading via `Enumerator` or `Enumerator::Lazy`
+- Support `table` Live Loading via a block that takes each cell's row and column before it is rendered and generates/loads its data
 
 ## Samples
 
