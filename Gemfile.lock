@@ -18,7 +18,7 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     facets (3.1.0)
-    faraday (1.10.2)
+    faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -41,7 +41,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    git (1.13.0)
+    git (1.13.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     github_api (0.19.0)
@@ -54,12 +54,13 @@ GEM
       array_include_methods (~> 1.4.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (3.6.0)
-    highline (2.0.3)
+    highline (2.1.0)
     jar-dependencies (0.4.1)
     jruby-jars (9.4.0.0)
     jruby-openssl (0.14.1.cr2-java)
     jruby-rack (1.1.22)
     jruby-win32ole (0.8.5)
+    json (2.6.3)
     json (2.6.3-java)
     juwelier (2.4.9)
       builder
@@ -81,7 +82,9 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.2.3)
     nested_inherited_jruby_include_package (0.3.0)
-    nokogiri (1.13.10-java)
+    nokogiri (1.12.5-java)
+      racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.11)
       faraday (>= 0.17.3, < 3.0)
@@ -92,13 +95,16 @@ GEM
     os (1.1.4)
     pastel (0.8.0)
       tty-color (~> 0.5)
-    psych (5.0.1-java)
+    psych (5.0.2)
+      stringio
+    psych (5.0.2-java)
       jar-dependencies (>= 0.1.7)
-    public_suffix (5.0.1)
+    public_suffix (4.0.7)
     puts_debuggerer (0.13.5)
       awesome_print (~> 1.9.2)
+    racc (1.6.2)
     racc (1.6.2-java)
-    rack (3.0.2)
+    rack (3.0.4.1)
     rake (13.0.6)
     rake-tui (0.2.3)
       tty-prompt
@@ -115,7 +121,7 @@ GEM
     rspec-expectations (3.12.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.1)
+    rspec-mocks (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.0)
@@ -128,6 +134,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     simplecov-lcov (0.7.0)
+    stringio (3.0.4)
     super_module (1.4.1)
       method_source (>= 0.8.2, < 1.1.0)
     sync (0.5.0)
@@ -135,6 +142,7 @@ GEM
       tins (~> 1.0)
     text-table (1.2.4)
     thor (1.2.1)
+    thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tins (1.32.1)
       sync
@@ -161,6 +169,7 @@ PLATFORMS
   universal-java-17
   universal-java-18
   universal-java-19
+  x86_64-linux
 
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
