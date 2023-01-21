@@ -107,7 +107,7 @@ class Calculator
   def display_about_dialog
     message_box(body_root) {
       text 'About'
-      message "Glimmer - Calculator\n\nCopyright (c) 2007-2022 Andy Maleh"
+      message "Glimmer - Calculator\n\nCopyright (c) 2007-2023 Andy Maleh"
     }.open
   end
 

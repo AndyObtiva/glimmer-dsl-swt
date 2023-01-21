@@ -670,4 +670,4 @@ jruby -J-XstartOnFirstThread -J-classpath "path_to/swt.jar" -r glimmer-dsl-swt -
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2022 - Andy Maleh.
+Copyright (c) 2007-2023 - Andy Maleh.

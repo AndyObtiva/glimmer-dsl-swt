@@ -27,4 +27,4 @@ If you need a more GUI interactive option to experiment with Glimmer GUI DSL Syn
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2022 - Andy Maleh.
+Copyright (c) 2007-2023 - Andy Maleh.

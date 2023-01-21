@@ -6030,4 +6030,4 @@ Learn more at the [JRuby Performance Profile WIKI page](https://github.com/jruby
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2022 - Andy Maleh.
+Copyright (c) 2007-2023 - Andy Maleh.
