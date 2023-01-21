@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Provide a method on any custom widget to instantly access its parent custom widget without using `get_data` or `data` because it is obscure
+- Remove extra line after `body {}` in scaffolded custom widgets/shells/shapes
 - Refactor Meta-Sample to pull in remote video tutorial data in a separate thread
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
