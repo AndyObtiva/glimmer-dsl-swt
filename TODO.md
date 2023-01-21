@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Provide a method on any custom widget to instantly access its parent custom widget without using `get_data` or `data` because it is obscure
+- Remove extra line after `body {}` in scaffolded custom widgets/shells/shapes
 - Refactor Meta-Sample to pull in remote video tutorial data in a separate thread
 - Fix `moveable`/`resizable` attributes for `table_column` (they don't work as they should)
 - Support `-s`/`-S` `glimmer` command switch to enable running a glimmer script with `glimmer-dsl-swt` required and `Glimmer` module mixed into main object already.
@@ -113,6 +115,7 @@ composite {
 - Fix intermittent slowdown issue with closing Mandelbrot Fractal sample (only happens after keeping it open for a while, complains about threads)
 - Support `square` and `circle` shapes (as well as any other missing shapes like polybezier/polyquad)
 - Support setting both background and foreground on shapes causing a fill/draw of two shapes (one with background and one with foreground) (remove support of gradients via specifying both background/foreground in rectangles)
+- Support background_pattern gradiant data-binding
 - Improve Contact Manager elaborate sample to add/remove/clear contacts, add phone and address, and store contacts permanently on hard drive.
 - Auto-derive column properties from column names (by convention through dehumanize of each column name)
 - Support data-binding `_options` method items on list and combo (not just main value), thus making options update if `notify_observers(:some_attr_options)` is called)

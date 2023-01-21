@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.26.0.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.27.0.0
 ## JRuby Desktop Development GUI Framework
 ### The Quickest Way From Zero To GUI
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -9,7 +9,11 @@
 
 **(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-(**[Presenting ***"Building Native GUI Apps in Ruby"*** at RubyConf 2022](https://andymaleh.blogspot.com/2022/09/rubyconf-2022-building-native-gui-apps.html)**)
+(**[***RubyConf 2022 Talk - Building Native GUI Apps in Ruby***](https://andymaleh.blogspot.com/2023/02/rubyconf-2022-talk-video-for-building.html)**)
+
+(**[***Montreal.rb Talk - Glimmer DSL for SWT - Ruby Desktop Development GUI Framework***](https://andymaleh.blogspot.com/2022/10/montrealrb-talk-slides-for-glimmer-dsl.html)**)
+
+[**(Ruby Rogues Podcast Interview - Desktop Apps in Ruby ft. Andy)**](https://andymaleh.blogspot.com/2022/05/ruby-rogues-podcast-interview-desktop.html)
 
 [GLIMMER VIDEO TUTORIAL CHANNEL](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw)
 
@@ -24,7 +28,7 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.26.0.1 includes [SWT 4.26](https://download.eclipse.org/eclipse/downloads/drops4/R-4.26-202211231800/), which was released on 23 Nov 2022. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.27.0.0 includes [SWT 4.27](https://download.eclipse.org/eclipse/downloads/drops4/R-4.27-202303020300/), which was released on Mar 2, 2023. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword. That was [originally conceived back in 2007](https://andymaleh.blogspot.com/2007/12/data-shining-in-glimmer.html).
 
@@ -341,7 +345,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.26.0.1
+jgem install glimmer-dsl-swt -v 4.27.0.0
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -369,7 +373,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.26.0.1'
+gem 'glimmer-dsl-swt', '~> 4.27.0.0'
 ```
 
 And, then run:
@@ -392,7 +396,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.26.0.1
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.27.0.0
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 

@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.27.0.0
+
+- Upgrade to SWT 4.27
+- Upgrade to jruby-9.3.10.0
+
 ## 4.26.0.1
 
 - Fix an issue that prevented data-binding the `image` widget property using Shine syntax (e.g. `image <= [model, :attr]` inside `tool_item`)
