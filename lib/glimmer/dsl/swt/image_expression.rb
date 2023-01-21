@@ -37,6 +37,7 @@ module Glimmer
         def can_interpret?(parent, keyword, *args, &block)
           options = args.last.is_a?(Hash) ? args.last : {}
           (keyword == 'image') and
+            (!args.empty?) and
             (
               options.keys.include?(:top_level) or
               (
