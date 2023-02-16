@@ -13,6 +13,8 @@
 
 (**[***Montreal.rb Talk - Glimmer DSL for SWT - Ruby Desktop Development GUI Framework***](https://andymaleh.blogspot.com/2022/10/montrealrb-talk-slides-for-glimmer-dsl.html)**)
 
+[**(Ruby Rogues Podcast Interview - Desktop Apps in Ruby ft. Andy)**](https://andymaleh.blogspot.com/2022/05/ruby-rogues-podcast-interview-desktop.html)
+
 [GLIMMER VIDEO TUTORIAL CHANNEL](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw)
 
 ![Glimmer DSL for SWT Demo of Hello, World!](/images/glimmer-dsl-swt-demo-hello-world.gif)
