@@ -9,7 +9,9 @@
 
 **(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-(**[Presenting ***"Building Native GUI Apps in Ruby"*** at RubyConf 2022](https://andymaleh.blogspot.com/2022/09/rubyconf-2022-building-native-gui-apps.html)**)
+(**[***RubyConf 2022 Talk - Building Native GUI Apps in Ruby***](https://andymaleh.blogspot.com/2023/02/rubyconf-2022-talk-video-for-building.html)**)
+
+(**[***Montreal.rb Talk - Glimmer DSL for SWT - Ruby Desktop Development GUI Framework***](https://andymaleh.blogspot.com/2022/10/montrealrb-talk-slides-for-glimmer-dsl.html)**)
 
 [GLIMMER VIDEO TUTORIAL CHANNEL](https://www.youtube.com/channel/UC5hzDE23HZXsZLAxYk2UJEw)
 
