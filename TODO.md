@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Rename `ext` directory to `glimmer-dsl-swt-ext` to avoid conflict with other gems having `ext`
+- Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
 - Provide a method on any custom widget to instantly access its parent custom widget without using `get_data` or `data` because it is obscure
 - Remove extra line after `body {}` in scaffolded custom widgets/shells/shapes
 - Refactor Meta-Sample to pull in remote video tutorial data in a separate thread
@@ -27,6 +29,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 - Rails-style Scaffolding of MVC structure + Database (flat file or relational db)
 - Use custom widgets (method-based or class-based) for the app_menu_bar and dialogs in scaffolded apps (and improve code spacing of menu items) / and make File menu Help menu instead by default
+
+- Support a property_list custom widget on top of table or tree [tree-table] (similar to this https://www.codeproject.com/Articles/7282/Property-list-ActiveX-control or https://www.viksoe.dk/code/propertylist.htm )
 
 - Refactor Hello, Table! to utilize a presenter in place of `BallparkGame` singleton class
 - Refactor all samples to include Glimmer::UI::Application instead of CustomShell
@@ -103,7 +107,6 @@ composite {
 - Note the need to set Display.app_name = before app launch (not inside before_body) to work
 - Fix display of icon in shells
 - Stop thread in Hello, Custom Widget! on widget disposed
-- Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
 - Fix issue with code_text syntax highlighting not taking into account multi-line colored blocks (e.g. using /* */ in JavaScript syntax)
 - Look into issue with unidirectional databinding of widget image property (and hot_image on menu_item)
 - Add the Gladiator-style about dialog to the scaffolded app

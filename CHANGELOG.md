@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.28.0.0
+
+- Upgrade to SWT 4.28
+
 ## 4.27.0.1
 
 - Avoid displaying confusing "No such file or directory" message when scaffolding fails due to missing GitHub user configuration (by displaying a friendly message for when either GitHub user or Git user is missing)
