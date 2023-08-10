@@ -5344,6 +5344,23 @@ code_text(lines: true) {
 }
 ```
 
+Code Text Example with lines enabled, setting a property on main code body `styled_text` without also applying to outer `composite`, by nesting underneath `code` element:
+
+```ruby
+code_text(lines: true) {
+  line_numbers {
+    background Display.system_dark_theme? ? :black : :white
+  }
+  code {
+    background :yellow
+  }
+  text <=> [SampleDirectory, 'selected_sample.code']
+  editable <= [SampleDirectory, 'selected_sample.editable']
+  left_margin 7
+  right_margin 7
+}
+```
+
 ###### Code Text Options
 
 **lines**

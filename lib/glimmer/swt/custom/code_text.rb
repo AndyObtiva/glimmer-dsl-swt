@@ -123,6 +123,10 @@ module Glimmer
           @line_numbers_styled_text_proxy.content(&block)
         end
         
+        def code_block=(block)
+          @styled_text_proxy.content(&block)
+        end
+        
         before_body do
           require 'rouge'
           require 'ext/rouge/themes/glimmer'

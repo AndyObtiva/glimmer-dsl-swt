@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.28.0.0
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for SWT 4.28.0.1
 ## JRuby Desktop Development Cross-Platform Native GUI Framework
 ### The Quickest Way From Zero To GUI
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-swt.svg)](http://badge.fury.io/rb/glimmer-dsl-swt)
@@ -26,11 +26,11 @@
 [<img src="https://covers.oreillystatic.com/images/9780596519650/lrg.jpg" width=105 /><br />
 Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) and [Chalmers/Gothenburg University Software Engineering Master's Lecture Material](http://www.cse.chalmers.se/~bergert/slides/guest_lecture_DSLs.pdf)
 
-[SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) is a very robust GUI toolkit that is most famous for building the [Eclipse IDE](https://www.eclipse.org/ide/), a free and open-source general language Integrated Development Environment that was the first to provide a high-performance pause-free [Java](https://www.oracle.com/ca-en/java/) IDE (unlike earlier versions of NetBeans and other [Java](https://www.oracle.com/ca-en/java/) IDEs), thanks to its very smart software architecture. Additionally, [Eclipse RCP (Rich Client Platform, built on top of SWT) has been used by NASA to build Mars Rover operational software](https://www.eclipse.org/community/casestudies/NASAfinal.pdf). So, [Eclipse technologies](https://www.eclipse.org/) are not only very highly proven, but are also considered some of the best in the world. In fact, it took CSS decades before it finally caught up with one of [SWT](https://www.eclipse.org/swt/)'s very effective ideas, the [GridLayout](https://help.eclipse.org/latest/index.jsp?topic=/org.eclipse.platform.doc.isv/reference/api/org/eclipse/swt/layout/package-summary.html). [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) makes [Eclipse Technologies](https://www.eclipse.org/) available in [Ruby](https://www.ruby-lang.org) via [JRuby](https://www.jruby.org/).
+[SWT](https://www.eclipse.org/swt/) (Standard Widget Toolkit) is a very robust GUI toolkit that is most famous for building the [Eclipse IDE](https://www.eclipse.org/ide/), a free and open-source general language Integrated Development Environment that was the first to provide a high-performance pause-free [Java](https://www.oracle.com/ca-en/java/) IDE (unlike earlier versions of NetBeans and other [Java](https://www.oracle.com/ca-en/java/) IDEs), thanks to its very smart software architecture. Additionally, [Eclipse RCP (Rich Client Platform, built on top of SWT) has been used by NASA to build Mars Rover operational software](https://www.eclipse.org/community/casestudies/NASAfinal.pdf). So, [Eclipse technologies](https://www.eclipse.org/) are not only very highly proven, but are also considered some of the best in the world.
 
 ![Eclipse SWT RCP NASA Mars Rover](/images/glimmer-eclipse-swt-rcp-nasa-mars-rover.png)
 
-[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.28.0.0 includes [SWT 4.28](https://download.eclipse.org/eclipse/downloads/drops4/R-4.28-202306050440/), which was released on June 5, 2023. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
+[Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) 4.28.0.1 includes [SWT 4.28](https://download.eclipse.org/eclipse/downloads/drops4/R-4.28-202306050440/), which was released on June 5, 2023. Gem version numbers are in sync with the SWT library versions. The first two digits represent the SWT version number. The last two digits represent the minor and patch versions of Glimmer DSL for SWT.
 
 **Starting in version 4.20.0.0, [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) comes with the new [***Shine***](/docs/reference/GLIMMER_GUI_DSL_SYNTAX.md#shine) syntax** for highly intuitive and visually expressive View/Model Attribute Mapping, relying on `<=>` for bidirectional (two-way) data-binding and `<=` for unidirectional (one-way) data-binding, providing an alternative to the `bind` keyword. That was [originally conceived back in 2007](https://andymaleh.blogspot.com/2007/12/data-shining-in-glimmer.html).
 
@@ -335,7 +335,7 @@ jgem install glimmer-dsl-swt
 
 Or this command if you want a specific version:
 ```
-jgem install glimmer-dsl-swt -v 4.28.0.0
+jgem install glimmer-dsl-swt -v 4.28.0.1
 ```
 
 `jgem` is JRuby's version of `gem` command.
@@ -363,7 +363,7 @@ Note: if you're using activerecord or activesupport, keep in mind that Glimmer u
 
 Add the following to `Gemfile`:
 ```
-gem 'glimmer-dsl-swt', '~> 4.28.0.0'
+gem 'glimmer-dsl-swt', '~> 4.28.0.1'
 ```
 
 And, then run:
@@ -386,7 +386,7 @@ glimmer
 ```
 
 ```
-Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.28.0.0
+Glimmer (JRuby Desktop Development GUI Framework) - JRuby Gem: glimmer-dsl-swt v4.28.0.1
       
 Usage: glimmer [--bundler] [--pd] [--quiet] [--debug] [--log-level=VALUE] [[ENV_VAR=VALUE]...] [[-jruby-option]...] (application.rb or task[task_args]) [[application2.rb]...]
 

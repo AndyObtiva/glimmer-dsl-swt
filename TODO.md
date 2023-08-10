@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Upgrade to rouge 4.x (e.g. 4.1.3)
 - Rename `ext` directory to `glimmer-dsl-swt-ext` to avoid conflict with other gems having `ext`
 - Look into not having Klondike Solitaire conflict with Battleship when the latter is run first in Meta-Sample
 - Provide a method on any custom widget to instantly access its parent custom widget without using `get_data` or `data` because it is obscure
@@ -89,6 +90,7 @@ composite {
   }
 }
 ```
+- Consider the idea of not implementing `generator` in favor of actually supporting a property of `content` that could be set via data-binding like any other property, except the content set would be a Glimmer DSL hierarchy of widgets instead of a simple object like String as with normal properties. That said, maybe `generator` provides a more software engineer friendly syntax if the keyword is renamed to `content` as well.
 - Refactor Glimmer Wordle to utilize the new Generator feature
 - Nested generator support
 
