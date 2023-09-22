@@ -5372,6 +5372,13 @@ If set to a hash like `{width: 4}`, it sets the initial width of the line number
 
 Keep in mind that if the text grows and required a wider line numbers area, it grows automatically regardless of initial width.
 
+When lines are enabled, `code_text` ends up with multiple widgets underneath, which can be customized through these nested elements:
+- `root {...}` customizes the root `composite` widget
+- `line_numbers {...}` customizes the line numbers `styled_text` widget
+- `code {...}` customizes the code `styled_text` widget
+
+If you include properties directly under `code_text` while lines are enabled, then they are applied to both the root `composite` and code `styled_text` if applicable to each widget.
+
 **theme**
 (default: `'glimmer'`)
 

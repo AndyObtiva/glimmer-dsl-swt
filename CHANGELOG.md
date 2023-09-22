@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.29.0.0
+
+- Upgrade to SWT 4.29
+- Upgrade to JRuby 9.3.11.0
+- Enable setting properties direclty on main code body `styled_text` component of `code_text` by nesting properties underneath the `code` element (e.g. `code_text { code { font font_options } }`)
+
 ## 4.28.0.0
 
 - Upgrade to SWT 4.28
