@@ -9,7 +9,7 @@
 
 **[If You Liked Shoes, You'll Love Glimmer!](https://github.com/AndyObtiva/glimmer#faq)**
 
-**(The Original Glimmer Library Handling the World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
+**(Original Glimmer Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
 (**[***RubyConf 2022 Talk - Building Native GUI Apps in Ruby***](https://andymaleh.blogspot.com/2023/02/rubyconf-2022-talk-video-for-building.html)**)
 
