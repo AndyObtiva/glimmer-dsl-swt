@@ -6,6 +6,7 @@
 - Upgrade to JDK 21
 - Upgrade to JRuby 9.4.5.0 with Ruby 3.1 support
 - Upgrade to Glimmer 2.7.4
+- Avoid loading the entirety of facets when scaffolding or listing gems (speeding up performance of glimmer list and scaffold commands)
 
 ## 4.29.0.0
 
