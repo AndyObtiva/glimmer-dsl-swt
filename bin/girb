@@ -29,4 +29,5 @@ require_relative 'girb_runner'
 
 require 'irb'
 
+IRB.parse_opts(argv: ['--readline'])
 IRB.start('.')
