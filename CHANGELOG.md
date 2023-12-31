@@ -7,6 +7,8 @@
 - Upgrade to JRuby 9.4.5.0 with Ruby 3.1 support
 - Upgrade to Glimmer 2.7.4
 - Avoid loading the entirety of facets when scaffolding or listing gems (speeding up performance of glimmer list and scaffold commands)
+- Fix Mandelbrot Fractal sample on Windows as it crashes if run from within VirtualBox due to attempting to access Concurrent.physical_processor_count, which has been changed to Concurrent.processor_count
+- Fix dimensions of Weather sample on Linux
 
 ## 4.29.0.0
 

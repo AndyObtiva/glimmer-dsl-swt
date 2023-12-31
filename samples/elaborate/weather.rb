@@ -54,7 +54,7 @@ class Weather
       grid_layout
             
       text 'Glimmer Weather'
-      minimum_size 400, 300
+      minimum_size 400, (OS.linux? ? 330 : 300)
       background DEFAULT_BACKGROUND
       
       text {
@@ -73,7 +73,7 @@ class Weather
             
       tab_folder {
         layout_data(:center, :center, true, true) {
-          width_hint 250
+          width_hint OS.linux? ? 300 : 270
         }
         
         ['℃', '℉'].each do |temp_unit|
