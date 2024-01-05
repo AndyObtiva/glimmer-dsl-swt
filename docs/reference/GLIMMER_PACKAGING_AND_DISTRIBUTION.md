@@ -94,6 +94,10 @@ glimmer package:config
 
 This will generate `config/warble.rb`, which you may configure and then run `glimmer package` afterwards.
 
+For example, if you need to add extra files, like `.env` (using [`dotenv` Ruby gem](https://github.com/bkeepers/dotenv)), you would add `.env` to `config.includes` in `config/warble.rb`
+
+If you need extra directory to be packaged beyond the default ones generated for you, you can add them to `config.dirs` in `config/warble.rb`
+
 ### Packaging Configuration
 
 - Ensure you have a Ruby script under `bin` directory that launches the application, preferably matching your project directory name (e.g. `bin/math_bowling`) :
