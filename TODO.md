@@ -25,6 +25,7 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 - Test tray_item in Windows after having removed on_widget_selected from its menu
 - Offload Internet call to grab latest tutorials in Glimmer Meta-Sample to an asynchronous thread to avoid delaying startup time
 
+- Build `jirb_swt`, similar to the newly added `jirb_swing` in JRuby 9.4.5.0
 - Enable select-all/zooming `code_text` with right-click contextual pop up menu
 - Enable cut/copy/paste in `code_text` with right-click contextual pop up menu
 - Enable undo/redo in `code_text` with right-click contextual pop up menu
