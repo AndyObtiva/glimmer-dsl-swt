@@ -3,10 +3,10 @@ source 'http://rubygems.org'
 ruby '>= 2.6.0', :engine => 'jruby', engine_version: '>= 9.3.3.0'
 
 # Glimmer project owner gems
-gem 'glimmer', '~> 2.7.4'
+gem 'glimmer', '~> 2.7.7'
 gem 'super_module', '>= 1.4.1', '< 2.0.0'
 gem 'nested_inherited_jruby_include_package', '>= 0.3.0', '< 2.0.0'
-gem 'puts_debuggerer', '>= 0.13.0', '< 2.0.0', require: false
+gem 'puts_debuggerer', '>= 1.0.0', '< 2.0.0', require: false
 gem 'rake-tui', '>= 0.2.3', '< 2.0.0'
 
 # 3rd party gems (flexible versions to support other user gems that may share dependencies)

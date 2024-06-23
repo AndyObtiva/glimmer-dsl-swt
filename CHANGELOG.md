@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.32.0.0
+
+- Upgrade to SWT 4.32 
+- Upgrade to JDK 22 
+- Upgrade to JRuby 9.4.7.0 
+- Upgrade to puts_debuggerer 1.0.0 
+- Upgrade to glimmer 2.7.7
+
 ## 4.30.0.0
 
 - Upgrade to SWT 4.30
