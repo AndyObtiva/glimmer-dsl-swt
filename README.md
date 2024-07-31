@@ -36,6 +36,8 @@ Featured in JRuby Cookbook](http://shop.oreilly.com/product/9780596519650.do) an
 
 Please help make [Glimmer DSL for SWT](https://rubygems.org/gems/glimmer-dsl-swt) better by providing feedback and [contributing](#contributing) whenever possible. Any feature suggestions that are accepted could be implemented within weeks if not days.
 
+This is a [JRuby](https://www.jruby.org/) desktop GUI library. If you are looking for a standard [Ruby](https://www.ruby-lang.org/) (aka MRI/CRuby) desktop GUI library instead, check out [Glimmer DSL for LibUI](https://github.com/AndyObtiva/glimmer-dsl-libui) (Fukuoka Ruby 2022 Award Winning), [Glimmer DSL for WX](https://github.com/AndyObtiva/glimmer-dsl-wx), [Glimmer DSL for Tk](https://github.com/AndyObtiva/glimmer-dsl-tk), [Glimmer DSL for GTK](https://github.com/AndyObtiva/glimmer-dsl-gtk), or [Glimmer DSL for FX](https://github.com/AndyObtiva/glimmer-dsl-fx).
+
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at the **[Glimmer DSL Comparison Table](https://github.com/AndyObtiva/glimmer#glimmer-dsl-comparison-table)**.
 
 ## Examples
