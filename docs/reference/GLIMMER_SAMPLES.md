@@ -1395,18 +1395,6 @@ Code:
 
 [samples/elaborate/weather.rb](/samples/elaborate/weather.rb)
 
-Montreal - Celsius
-
-![Montreal C](/images/glimmer-weather-montreal-celsius.png)
-
-Montreal - Fahrenheit
-
-![Montreal F](/images/glimmer-weather-montreal-fahrenheit.png)
-
-Atlanta - Fahrenheit
-
-![Atlanta F](/images/glimmer-weather-atlanta-fahrenheit.png)
-
 #### Quarto
 
 This sample is a classic game called [Quarto](https://en.gigamic.com/game/quarto-classic), which demonstrates Canvas Drag and Drop and Custom Shapes (`cylinder`, `cube`, and `message_box_panel`) in an MVC application.
