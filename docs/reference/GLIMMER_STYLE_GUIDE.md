@@ -18,4 +18,4 @@
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2024 - Andy Maleh.
+Copyright (c) 2007-2025 - Andy Maleh.

@@ -791,7 +791,7 @@ You may apply for contributing to any of these Glimmer DSL gems whether you pref
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2024 - Andy Maleh.
+Copyright (c) 2007-2025 - Andy Maleh.
 
 --
 
