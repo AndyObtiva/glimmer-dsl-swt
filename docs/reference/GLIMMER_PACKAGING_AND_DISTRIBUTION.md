@@ -239,4 +239,4 @@ This would not be an issue if the app was [signed by Apple as per Mac Applicatio
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2024 - Andy Maleh.
+Copyright (c) 2007-2025 - Andy Maleh.

@@ -307,7 +307,7 @@ https://www.eclipse.org/swt/faq.php
 
 - JDK 21 is recommended / JDK 16 is the minimum except on Mac ARM64 where JDK 17 is the minimum (find at https://www.oracle.com/java/technologies/downloads / Ensure `PATH` env var includes Java bin directory for `jpackage` command to work when packaging Glimmer applications / Preferably setup `JAVA_HOME` env var too to point to JDK home directory before installing JRuby)
 - [RVM](http://rvm.io) on Mac & Linux (not needed on Windows)
-- JRuby 9.4.5.0 (supporting Ruby 3.1.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.4.5.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
+- JRuby 9.4.10.0 (supporting Ruby 3.1.x syntax) (get via [RVM](http://rvm.io) on Mac and Linux by running `rvm install jruby-9.4.10.0`; On Windows, find at [https://www.jruby.org/download](https://www.jruby.org/download))
 - Git (comes with Mac and Linux. Install on Windows: https://git-scm.com/download/win )
 
 Glimmer might still work on other versions of Java, JRuby and SWT, but there are no guarantees, so it is best to stick to the pre-requisites outlined above.
@@ -791,7 +791,7 @@ You may apply for contributing to any of these Glimmer DSL gems whether you pref
 
 [MIT](LICENSE.txt)
 
-Copyright (c) 2007-2024 - Andy Maleh.
+Copyright (c) 2007-2025 - Andy Maleh.
 
 --
 

@@ -212,7 +212,7 @@ class Timer
   def display_about_dialog
     message_box(body_root) {
       text 'About'
-      message "Glimmer Timer\n\nCopyright (c) 2007-2024 Andy Maleh"
+      message "Glimmer Timer\n\nCopyright (c) 2007-2025 Andy Maleh"
     }.open
   end
   
