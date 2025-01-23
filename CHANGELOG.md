@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.30.1.0
+
+- Upgrade to JRuby 9.4.10.0
+- Fix issue with native executable packaging by upgrading scaffolded app/gem configured jar-dependencies version to 0.5.3
+
 ## 4.30.0.0
 
 - Upgrade to SWT 4.30

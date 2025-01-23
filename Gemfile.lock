@@ -100,7 +100,7 @@ GEM
       awesome_print (~> 1.9.2)
     racc (1.7.3-java)
     rack (3.0.8)
-    rake (13.1.0)
+    rake (13.2.1)
     rake-tui (0.2.3)
       tty-prompt
     rchardet (1.8.0)
