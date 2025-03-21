@@ -4,6 +4,8 @@ Here is a list of tasks to do (moved to [CHANGELOG.md](CHANGELOG.md) once done).
 
 ## Next
 
+- Fix issue with bundler 2.6 needing gem system 3.6.3 (either fix bundler to an older version, or require updating gem system to install glimmer-dsl-swt)
+
 - Hello, Pixel! example demonstrating pixel graphics
 - Document how to translate from SWT API docs to Glimmer GUI DSL syntax
 - Upgrade to rouge 4.x (e.g. 4.1.3) after upgrading JRuby to a version compatible with Ruby 2.7+

@@ -3,7 +3,7 @@ GEM
   specs:
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
-    array_include_methods (1.4.0)
+    array_include_methods (1.5.1)
     awesome_print (1.9.2)
     builder (3.2.4)
     concurrent-ruby (1.2.2)
@@ -50,8 +50,8 @@ GEM
       faraday (>= 0.8, < 2)
       hashie (~> 3.5, >= 3.5.2)
       oauth2 (~> 1.0)
-    glimmer (2.7.4)
-      array_include_methods (~> 1.4.0)
+    glimmer (2.8.1)
+      array_include_methods (>= 1.4.0, < 1.6.0)
       facets (>= 3.1.0, < 4.0.0)
     hashie (3.6.0)
     highline (2.1.0)
@@ -167,7 +167,7 @@ PLATFORMS
 DEPENDENCIES
   concurrent-ruby (>= 1.1.7, < 2.0.0)
   coveralls (= 0.8.23)
-  glimmer (~> 2.7.4)
+  glimmer (~> 2.8.1)
   jruby-openssl (>= 0.14.1.cr2)
   jruby-win32ole (>= 0.8.5, < 2.0.0)
   juwelier (>= 2.4.9, < 3.0.0)

@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.30.1.1
+
+- Upgrade to glimmer 2.8.1 (fixes an issue for Linux)
+
 ## 4.30.1.0
 
 - Upgrade to JRuby 9.4.10.0
