@@ -92,7 +92,7 @@ module Glimmer
       def glimmer_lib
         unless @glimmer_lib
           @glimmer_lib = GLIMMER_LIB_GEM
-          if File.exists?(GLIMMER_LIB_LOCAL)
+          if File.exist?(GLIMMER_LIB_LOCAL)
             @glimmer_lib = GLIMMER_LIB_LOCAL
             puts "[DEVELOPMENT MODE] (detected #{@glimmer_lib})"
           end
